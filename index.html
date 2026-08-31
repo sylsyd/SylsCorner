@@ -11,36 +11,27 @@
 <body>
   <header>
     <a class="wordmark" href="#top" aria-label="Syl's Corner home">
-      <span class="mark">SC</span>
+      <img class="mark" src="assets/syl-corner-mark.png" alt="">
       <span>Syl's Corner</span>
     </a>
     <nav aria-label="Main navigation">
       <a href="#classes">Classes</a>
-      <span>•</span>
-      <span>Middle School English</span>
     </nav>
   </header>
 
   <main>
-    <section class="hero" id="top">
-      <div class="rule"></div>
+    <section class="hero" id="top" aria-labelledby="welcome-title">
       <div class="hero-copy">
-        <p class="kicker">Read deeply. Write clearly. Think freely.</p>
-        <h1>Welcome to<br><em>Syl's Corner.</em></h1>
-        <p class="intro">Your home for class updates, lesson resources, homework and the occasional English game worth arguing about.</p>
+        <h1 id="welcome-title">Welcome to <em>Syl's Corner.</em></h1>
       </div>
-      <a class="scroll" href="#classes">Find your class <span>↓</span></a>
-      <div class="monogram" aria-hidden="true">S</div>
+      <div class="hero-visual" aria-hidden="true">
+        <img src="assets/syl-corner-study.png" alt="">
+      </div>
+      <a class="scroll" href="#classes">Enter classroom <span>↓</span></a>
     </section>
 
     <section class="classes" id="classes">
-      <div class="classes-intro">
-        <p class="section-kicker">Classroom hub</p>
-        <h2>Choose your class.</h2>
-        <p>Everything you need should be two clicks away. Three is showing off.</p>
-      </div>
-
-      <div class="tabs">
+<div class="tabs">
         <div class="tab-list" role="tablist" aria-label="Choose your class">
           <button class="tab" role="tab" id="tab-6ABCD" aria-controls="panel-6ABCD" aria-selected="true" data-class="6ABCD">6ABCD</button>
           <button class="tab" role="tab" id="tab-6H" aria-controls="panel-6H" aria-selected="false" data-class="6H" tabindex="-1">6H</button>

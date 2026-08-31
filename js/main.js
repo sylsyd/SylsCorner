@@ -1,10 +1,10 @@
 const classes = ['6ABCD', '6H', '5EFG'];
 
 const sections = [
-  ['01', '◌', 'Noticeboard', 'Announcements', 'Class news, reminders and the important bits—without the paper chase.', 'Nothing new posted yet'],
-  ['02', '≋', 'Learning', 'Lessons & resources', 'Texts, slides, vocabulary and useful links from our English lessons.', 'Resources coming soon'],
-  ['03', '◇', 'Keep on track', 'Homework & deadlines', 'What to complete, when it is due and what you need to bring.', 'No deadlines posted'],
-  ['04', '✦', 'Practise', 'Class games', 'Quick challenges and games to sharpen your English—or settle a score.', 'Games coming soon']
+  ['01', '◌', 'noticeboard', 'Noticeboard', 'Announcements', 'Class news, reminders and the important bits - without the paper chase.', 'Clear waters: no new notices'],
+  ['02', '≋', 'learning', 'Learning', 'Lessons & resources', 'Texts, slides, vocabulary and useful links from our English lessons.', 'Resource shelf is waiting'],
+  ['03', '◇', 'homework', 'Keep on track', 'Homework & deadlines', 'What to complete, when it is due and what you need to bring.', 'Nothing due right now'],
+  ['04', '✦', 'games', 'Practise', 'Class games', 'Quick challenges and games to sharpen your English - or settle a score.', 'Games coming soon']
 ];
 
 const safe = value => value.replace(/[&<>"']/g, character => ({
@@ -18,6 +18,11 @@ const safe = value => value.replace(/[&<>"']/g, character => ({
 const panels = document.getElementById('panels');
 const tabs = [...document.querySelectorAll('.tab')];
 
+function destinationFor(className, slug) {
+  if (className === '6ABCD' && slug === 'games') return 'games/first-week-english-games.html';
+  return `classroom.html?class=${encodeURIComponent(className)}&section=${encodeURIComponent(slug)}`;
+}
+
 panels.innerHTML = classes.map((className, index) => `
   <section class="panel ${index ? '' : 'active'}" id="panel-${className}" role="tabpanel" aria-labelledby="tab-${className}" ${index ? 'hidden' : ''}>
     <div class="class-heading">
@@ -25,26 +30,37 @@ panels.innerHTML = classes.map((className, index) => `
         <p class="section-kicker">Your classroom</p>
         <h2>${safe(className)}</h2>
       </div>
-      <span class="stamp">English with Syl</span>
+      <p class="weekly-summary"><span>This week</span>${className === '6ABCD' ? 'One new activity is ready.' : 'No new notices or deadlines.'}</p>
     </div>
     <div class="grid">
-      ${sections.map(section => `
-        <article class="card">
-          <div class="topline">
-            <span>${section[0]}</span>
-            <span class="icon" aria-hidden="true">${section[1]}</span>
-          </div>
-          <p class="eyebrow">${section[2]}</p>
-          <h3>${section[3]}</h3>
-          <p class="copy">${section[4]}</p>
-          <div class="status"><span class="dot"></span>${section[5]}</div>
-        </article>
-      `).join('')}
+      ${sections.map((section, sectionIndex) => {
+        const [, icon, slug, label, title, defaultDescription, defaultStatus] = section;
+        const isFirstWeekGames = className === '6ABCD' && slug === 'games';
+        const description = isFirstWeekGames
+          ? 'Fifteen start-of-year activities for a mixed-ability room. Choose one, project it and begin.'
+          : defaultDescription;
+        const linkLabel = isFirstWeekGames ? 'Open First Week Games' : `Open ${label}`;
+        const status = isFirstWeekGames ? 'Ready to play' : defaultStatus;
+
+        return `
+          <article class="card card-${sectionIndex + 1}">
+            <div class="topline">
+              <span class="card-number">${section[0]}</span>
+              <span class="icon" aria-hidden="true">${icon}</span>
+            </div>
+            <p class="eyebrow">${label}</p>
+            <h3>${title}</h3>
+            <p class="copy">${description}</p>
+            <p class="status"><span class="dot"></span>${status}</p>
+            <a class="card-link" href="${destinationFor(className, slug)}">${linkLabel}<span aria-hidden="true">→</span></a>
+          </article>
+        `;
+      }).join('')}
     </div>
   </section>
 `).join('');
 
-function select(tab) {
+function select(tab, persist = true) {
   tabs.forEach(item => {
     const isSelected = item === tab;
     const panel = document.getElementById(`panel-${item.dataset.class}`);
@@ -54,28 +70,27 @@ function select(tab) {
     panel.hidden = !isSelected;
     panel.classList.toggle('active', isSelected);
   });
+
+  if (persist) {
+    try { localStorage.setItem('syls-corner-class', tab.dataset.class); } catch { /* Browser storage is optional. */ }
+  }
 }
 
 tabs.forEach((tab, index) => {
   tab.addEventListener('click', () => select(tab));
-
   tab.addEventListener('keydown', event => {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-
     event.preventDefault();
-
-    const nextIndex = event.key === 'Home'
-      ? 0
-      : event.key === 'End'
-        ? tabs.length - 1
-        : event.key === 'ArrowRight'
-          ? (index + 1) % tabs.length
-          : (index - 1 + tabs.length) % tabs.length;
-
+    const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : event.key === 'ArrowRight' ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
     select(tabs[nextIndex]);
     tabs[nextIndex].focus();
   });
 });
 
-document.getElementById('year').textContent = new Date().getFullYear();
+try {
+  const savedClass = localStorage.getItem('syls-corner-class');
+  const savedTab = tabs.find(tab => tab.dataset.class === savedClass);
+  if (savedTab) select(savedTab, false);
+} catch { /* The default tab remains selected. */ }
 
+document.getElementById('year').textContent = new Date().getFullYear();
