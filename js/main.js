@@ -1,10 +1,10 @@
 const classes = ['6ABCD', '6H', '5EFG'];
 
 const sections = [
-  ['01', '◉', 'Noticeboard', 'Announcements', 'Class news, reminders and the important bits—without the paper chase.', 'Nothing new posted yet'],
-  ['02', '▤', 'Learning', 'Lessons & resources', 'Texts, slides, vocabulary and useful links from our English lessons.', 'Resources coming soon'],
-  ['03', '□', 'Keep on track', 'Homework & deadlines', 'What to complete, when it is due and what you need to bring.', 'No deadlines posted'],
-  ['04', '◇', 'Practise', 'Class games', 'Quick challenges and games to sharpen your English—or settle a score.', 'Games coming soon']
+  ['01', '◌', 'Noticeboard', 'Announcements', 'Class news, reminders and the important bits—without the paper chase.', 'Nothing new posted yet'],
+  ['02', '≋', 'Learning', 'Lessons & resources', 'Texts, slides, vocabulary and useful links from our English lessons.', 'Resources coming soon'],
+  ['03', '◇', 'Keep on track', 'Homework & deadlines', 'What to complete, when it is due and what you need to bring.', 'No deadlines posted'],
+  ['04', '✦', 'Practise', 'Class games', 'Quick challenges and games to sharpen your English—or settle a score.', 'Games coming soon']
 ];
 
 const safe = value => value.replace(/[&<>"']/g, character => ({
@@ -78,3 +78,4 @@ tabs.forEach((tab, index) => {
 });
 
 document.getElementById('year').textContent = new Date().getFullYear();
+

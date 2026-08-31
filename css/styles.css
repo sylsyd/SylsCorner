@@ -1,10 +1,14 @@
 :root {
-  --navy: #0b1f3a;
+  --navy: #071b33;
+  --navy-2: #0d2742;
   --red: #8f1d2c;
-  --bright: #b52b3c;
-  --paper: #f8f6f1;
-  --muted: #5b6673;
-  --line: #d9dce0;
+  --bright: #bf3344;
+  --paper: #f7f3ea;
+  --paper-2: #fffaf0;
+  --muted: #607082;
+  --line: #d8d2c2;
+  --rope: #c6a865;
+  --sea: #1d5a73;
 }
 
 * {
@@ -34,12 +38,14 @@ button {
 
 header {
   align-items: center;
-  border-bottom: 1px solid #0b1f3a24;
+  background: rgba(247, 243, 234, .95);
+  border-bottom: 1px solid #0b1f3a18;
   display: flex;
-  height: 64px;
+  height: 56px;
   justify-content: space-between;
-  padding: 0 clamp(24px, 5vw, 76px);
-  position: relative;
+  padding: 0 clamp(18px, 4vw, 56px);
+  position: sticky;
+  top: 0;
   z-index: 10;
 }
 
@@ -47,8 +53,8 @@ header {
   align-items: center;
   display: flex;
   font-family: Georgia, serif;
-  font-size: 18px;
-  gap: 13px;
+  font-size: 17px;
+  gap: 10px;
 }
 
 .mark {
@@ -56,20 +62,20 @@ header {
   background: var(--navy);
   color: #fff;
   display: flex;
-  font: 700 10px system-ui;
-  height: 30px;
+  font: 700 9px system-ui;
+  height: 28px;
   justify-content: center;
   letter-spacing: .12em;
-  width: 30px;
+  width: 28px;
 }
 
 nav {
   align-items: center;
   color: var(--muted);
   display: flex;
-  font-size: 12px;
-  font-weight: 600;
-  gap: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  gap: 12px;
   letter-spacing: .08em;
   text-transform: uppercase;
 }
@@ -79,29 +85,31 @@ nav a:hover {
 }
 
 .hero {
-  background: var(--navy);
+  background:
+    linear-gradient(90deg, rgba(7, 27, 51, .98) 0%, rgba(7, 27, 51, .88) 46%, rgba(7, 27, 51, .68) 100%),
+    url("../assets/maritime-chart-bg.png") center / cover;
   color: #fff;
-  min-height: clamp(430px, 62vh, 620px);
+  min-height: clamp(280px, 34vh, 360px);
   overflow: hidden;
-  padding: clamp(42px, 6vw, 76px) clamp(24px, 8vw, 120px) 42px;
+  padding: clamp(34px, 5vw, 56px) clamp(20px, 7vw, 96px) 34px;
   position: relative;
 }
 
 .hero::after {
-  background: var(--red);
+  background: linear-gradient(90deg, var(--bright), transparent);
   bottom: 0;
   content: "";
-  height: 7px;
+  height: 5px;
   left: 0;
   position: absolute;
-  width: 32%;
+  width: 38%;
 }
 
 .rule {
-  background: var(--bright);
+  background: var(--rope);
   height: 2px;
-  margin-bottom: 38px;
-  width: 68px;
+  margin-bottom: 20px;
+  width: 56px;
 }
 
 .hero-copy {
@@ -112,59 +120,63 @@ nav a:hover {
 .kicker,
 .section-kicker,
 .eyebrow {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 750;
-  letter-spacing: .22em;
+  letter-spacing: .2em;
   text-transform: uppercase;
 }
 
 .kicker {
-  color: #d6b8bd;
-  margin: 0 0 22px;
+  color: #dfc9a2;
+  margin: 0 0 14px;
 }
 
 .hero h1 {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(46px, 6.4vw, 92px);
+  font-size: clamp(42px, 5.5vw, 74px);
   font-weight: 400;
-  letter-spacing: -.055em;
-  line-height: .91;
+  letter-spacing: -.045em;
+  line-height: .94;
   margin: 0;
-  max-width: 980px;
+  max-width: 760px;
 }
 
 .hero h1 em {
-  color: #f2e8e7;
+  color: #f4e7df;
   font-weight: 400;
 }
 
 .intro {
-  color: #c7d0dc;
-  font-size: clamp(16px, 1.7vw, 20px);
-  line-height: 1.65;
-  margin: 28px 0 0;
-  max-width: 600px;
+  color: #d4dfeb;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.55;
+  margin: 20px 0 0;
+  max-width: 650px;
 }
 
 .monogram {
-  bottom: -14vw;
-  color: #ffffff07;
-  font: normal min(46vw, 560px)/1 Georgia;
+  bottom: -8vw;
+  color: #ffffff06;
+  font: normal min(36vw, 440px)/1 Georgia;
   position: absolute;
-  right: -3vw;
+  right: -2vw;
   user-select: none;
 }
 
 .scroll {
   align-items: center;
-  bottom: 34px;
+  background: rgba(247, 243, 234, .08);
+  border: 1px solid rgba(223, 201, 162, .24);
+  bottom: 28px;
+  color: #fff;
   display: flex;
-  font-size: 11px;
-  font-weight: 700;
-  gap: 12px;
-  letter-spacing: .16em;
+  font-size: 10px;
+  font-weight: 800;
+  gap: 10px;
+  letter-spacing: .15em;
+  padding: 10px 12px;
   position: absolute;
-  right: clamp(24px, 7vw, 100px);
+  right: clamp(20px, 7vw, 96px);
   text-transform: uppercase;
   z-index: 2;
 }
@@ -174,63 +186,71 @@ nav a:hover {
 }
 
 .scroll:hover span {
-  transform: translateY(4px);
+  transform: translateY(3px);
 }
 
 .classes {
-  padding: clamp(72px, 9vw, 128px) clamp(20px, 6vw, 88px);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(198, 168, 101, .16), transparent 28%),
+    linear-gradient(180deg, var(--paper-2), var(--paper));
+  padding: clamp(28px, 4vw, 42px) clamp(16px, 5vw, 72px) clamp(32px, 4vw, 48px);
 }
 
 .classes-intro {
+  align-items: end;
   display: grid;
-  gap: 8px 36px;
-  grid-template-columns: 180px minmax(280px, 1fr) minmax(240px, 420px);
-  margin: 0 auto 60px;
-  max-width: 1240px;
+  gap: 12px 28px;
+  grid-template-columns: 150px minmax(260px, 1fr) minmax(230px, 380px);
+  margin: 0 auto 24px;
+  max-width: 1180px;
 }
 
 .section-kicker {
   color: var(--red);
-  margin: 13px 0 0;
+  margin: 0 0 8px;
 }
 
 .classes-intro h2,
 .class-heading h2 {
   font-family: Georgia, serif;
   font-weight: 400;
-  letter-spacing: -.04em;
+  letter-spacing: -.035em;
   margin: 0;
 }
 
 .classes-intro h2 {
-  font-size: clamp(42px, 5vw, 68px);
+  font-size: clamp(34px, 4vw, 54px);
 }
 
 .classes-intro > p:last-child {
   color: var(--muted);
-  line-height: 1.7;
-  margin: 11px 0 0;
+  line-height: 1.55;
+  margin: 0 0 4px;
 }
 
 .tabs {
   margin: auto;
-  max-width: 1240px;
+  max-width: 1180px;
 }
 
 .tab-list {
-  border-bottom: 1px solid var(--line);
+  border: 1px solid var(--line);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
 
 .tab {
-  background: transparent;
+  background: rgba(255, 250, 240, .72);
   border: 0;
-  color: #7a8490;
+  color: #687589;
   cursor: pointer;
   font-family: Georgia, serif;
-  font-size: clamp(24px, 3vw, 38px);
-  height: 84px;
+  font-size: clamp(21px, 2.4vw, 31px);
+  height: 58px;
+}
+
+.tab + .tab {
+  border-left: 1px solid var(--line);
 }
 
 .tab[aria-selected="true"] {
@@ -245,7 +265,7 @@ nav a:hover {
 
 .panel {
   display: none;
-  padding-top: 56px;
+  padding-top: 22px;
 }
 
 .panel.active {
@@ -257,24 +277,24 @@ nav a:hover {
   align-items: end;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 }
 
 .class-heading .section-kicker {
-  margin: 0 0 8px;
+  margin: 0 0 5px;
 }
 
 .class-heading h2 {
-  font-size: 46px;
+  font-size: clamp(30px, 3.2vw, 40px);
 }
 
 .stamp {
-  border: 1px solid var(--red);
+  border: 1px solid rgba(143, 29, 44, .45);
   color: var(--red);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .15em;
-  padding: 9px 12px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  padding: 8px 10px;
   text-transform: uppercase;
 }
 
@@ -287,63 +307,63 @@ nav a:hover {
 }
 
 .card {
-  background: #fff;
-  min-height: 340px;
-  padding: 30px 26px 26px;
+  background: rgba(255, 253, 248, .96);
+  min-height: 205px;
+  padding: 20px 20px 18px;
   transition: .2s;
 }
 
 .card:hover {
-  background: #fffdf9;
-  transform: translateY(-3px);
+  background: #fff;
+  transform: translateY(-2px);
 }
 
 .topline {
   align-items: center;
   color: #89919a;
   display: flex;
-  font-size: 11px;
+  font-size: 10px;
   justify-content: space-between;
 }
 
 .icon {
-  color: var(--red);
-  font-size: 20px;
+  color: var(--sea);
+  font-size: 19px;
 }
 
 .eyebrow {
   color: var(--red);
-  margin: 54px 0 11px;
+  margin: 28px 0 8px;
 }
 
 .card h3 {
   font-family: Georgia, serif;
-  font-size: 27px;
+  font-size: clamp(22px, 2vw, 25px);
   font-weight: 400;
-  letter-spacing: -.025em;
-  line-height: 1.1;
+  letter-spacing: -.02em;
+  line-height: 1.08;
   margin: 0;
 }
 
 .copy {
   color: var(--muted);
-  font-size: 14px;
-  line-height: 1.65;
-  margin: 18px 0 28px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 13px 0 18px;
 }
 
 .status {
   align-items: center;
-  border-top: 1px solid #ececee;
-  color: #858d96;
+  border-top: 1px solid #ece7dc;
+  color: #7f8994;
   display: flex;
-  font-size: 11px;
+  font-size: 10px;
   gap: 8px;
-  padding-top: 18px;
+  padding-top: 12px;
 }
 
 .dot {
-  background: #b6bdc5;
+  background: var(--rope);
   border-radius: 50%;
   height: 6px;
   width: 6px;
@@ -357,7 +377,7 @@ footer {
   font-size: 10px;
   justify-content: space-between;
   letter-spacing: .15em;
-  padding: 34px clamp(24px, 6vw, 88px);
+  padding: 24px clamp(20px, 5vw, 72px);
   text-transform: uppercase;
 }
 
@@ -374,7 +394,16 @@ footer {
 }
 
 @media (max-width: 900px) {
+  header {
+    height: 54px;
+  }
+
+  .hero {
+    min-height: 300px;
+  }
+
   .classes-intro {
+    align-items: start;
     grid-template-columns: 1fr;
   }
 
@@ -385,7 +414,12 @@ footer {
 
 @media (max-width: 620px) {
   header {
-    height: 58px;
+    height: 52px;
+    padding-inline: 14px;
+  }
+
+  .wordmark {
+    font-size: 16px;
   }
 
   nav span {
@@ -393,38 +427,45 @@ footer {
   }
 
   .hero {
-    min-height: 420px;
-    padding-top: 48px;
+    min-height: 310px;
+    padding: 34px 16px 30px;
   }
 
   .hero h1 {
-    font-size: clamp(42px, 14vw, 64px);
+    font-size: clamp(38px, 13vw, 56px);
   }
 
   .intro {
-    margin-top: 24px;
+    margin-top: 16px;
   }
 
   .scroll {
-    bottom: 30px;
-    left: 24px;
+    bottom: 18px;
+    left: 16px;
     right: auto;
   }
 
   .classes {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding: 24px 14px 30px;
+  }
+
+  .classes-intro {
+    margin-bottom: 18px;
   }
 
   .tab {
-    font-size: 20px;
-    height: 66px;
+    font-size: 18px;
+    height: 52px;
+  }
+
+  .panel {
+    padding-top: 18px;
   }
 
   .class-heading {
     align-items: start;
     flex-direction: column;
-    gap: 18px;
+    gap: 12px;
   }
 
   .grid {
@@ -432,7 +473,7 @@ footer {
   }
 
   .card {
-    min-height: 300px;
+    min-height: 185px;
   }
 
   footer {
@@ -454,6 +495,3 @@ footer {
     transition: none !important;
   }
 }
-
-
-
