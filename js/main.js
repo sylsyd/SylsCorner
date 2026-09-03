@@ -1,4 +1,4 @@
-const classes = ['6ABCD', '6H', '5EFG'];
+const classes = ['6LVA', '6H', '5EFG'];
 
 const sections = [
   ['01', '◌', 'noticeboard', 'Noticeboard', 'Announcements', 'Class news, reminders and the important bits - without the paper chase.', 'Clear waters: no new notices'],
@@ -19,7 +19,7 @@ const panels = document.getElementById('panels');
 const tabs = [...document.querySelectorAll('.tab')];
 
 function destinationFor(className, slug) {
-  if (className === '6ABCD' && slug === 'games') return 'games/first-week-english-games.html';
+  if (className === '6LVA' && slug === 'games') return 'games/first-week-english-games.html';
   return `classroom.html?class=${encodeURIComponent(className)}&section=${encodeURIComponent(slug)}`;
 }
 
@@ -30,12 +30,12 @@ panels.innerHTML = classes.map((className, index) => `
         <p class="section-kicker">Your classroom</p>
         <h2>${safe(className)}</h2>
       </div>
-      <p class="weekly-summary"><span>This week</span>${className === '6ABCD' ? 'One new activity is ready.' : 'No new notices or deadlines.'}</p>
+      <p class="weekly-summary"><span>This week</span>${className === '6LVA' ? 'One new activity is ready.' : 'No new notices or deadlines.'}</p>
     </div>
     <div class="grid">
       ${sections.map((section, sectionIndex) => {
         const [, icon, slug, label, title, defaultDescription, defaultStatus] = section;
-        const isFirstWeekGames = className === '6ABCD' && slug === 'games';
+        const isFirstWeekGames = className === '6LVA' && slug === 'games';
         const description = isFirstWeekGames
           ? 'Fifteen start-of-year activities for a mixed-ability room. Choose one, project it and begin.'
           : defaultDescription;
@@ -89,7 +89,8 @@ tabs.forEach((tab, index) => {
 
 try {
   const savedClass = localStorage.getItem('syls-corner-class');
-  const savedTab = tabs.find(tab => tab.dataset.class === savedClass);
+  const migratedClass = savedClass === '6ABCD' ? '6LVA' : savedClass;
+  const savedTab = tabs.find(tab => tab.dataset.class === migratedClass);
   if (savedTab) select(savedTab, false);
 } catch { /* The default tab remains selected. */ }
 
