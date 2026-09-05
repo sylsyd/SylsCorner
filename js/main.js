@@ -1,4 +1,4 @@
-const classes = ['6LVA', '6H', '5EFG'];
+const classes = ['6LVA', '6SI', '5SI'];
 
 const sections = [
   ['01', '◌', 'noticeboard', 'Noticeboard', 'Announcements', 'Class news, reminders and the important bits - without the paper chase.', 'Clear waters: no new notices'],
@@ -20,6 +20,7 @@ const tabs = [...document.querySelectorAll('.tab')];
 
 function destinationFor(className, slug) {
   if (className === '6LVA' && slug === 'games') return 'games/first-week-english-games.html';
+  if (className === '6SI' && slug === 'learning') return '6si-unit-1.html';
   return `classroom.html?class=${encodeURIComponent(className)}&section=${encodeURIComponent(slug)}`;
 }
 
@@ -30,17 +31,20 @@ panels.innerHTML = classes.map((className, index) => `
         <p class="section-kicker">Your classroom</p>
         <h2>${safe(className)}</h2>
       </div>
-      <p class="weekly-summary"><span>This week</span>${className === '6LVA' ? 'One new activity is ready.' : 'No new notices or deadlines.'}</p>
+      <p class="weekly-summary"><span>This week</span>${className === '6LVA' ? 'One new activity is ready.' : className === '6SI' ? 'Unit 1 resources are ready.' : 'No new notices or deadlines.'}</p>
     </div>
     <div class="grid">
       ${sections.map((section, sectionIndex) => {
         const [, icon, slug, label, title, defaultDescription, defaultStatus] = section;
         const isFirstWeekGames = className === '6LVA' && slug === 'games';
+        const isUnitOne = className === '6SI' && slug === 'learning';
         const description = isFirstWeekGames
           ? 'Fifteen start-of-year activities for a mixed-ability room. Choose one, project it and begin.'
-          : defaultDescription;
-        const linkLabel = isFirstWeekGames ? 'Open First Week Games' : `Open ${label}`;
-        const status = isFirstWeekGames ? 'Ready to play' : defaultStatus;
+          : isUnitOne
+            ? 'Unit 1: In Search of Adventure. Open the unit reader, resources and Lesson 1 activity from home.'
+            : defaultDescription;
+        const linkLabel = isFirstWeekGames ? 'Open First Week Games' : isUnitOne ? 'Open Unit 1' : `Open ${label}`;
+        const status = isFirstWeekGames ? 'Ready to play' : isUnitOne ? 'Unit 1 ready' : defaultStatus;
 
         return `
           <article class="card card-${sectionIndex + 1}">
@@ -89,8 +93,8 @@ tabs.forEach((tab, index) => {
 
 try {
   const savedClass = localStorage.getItem('syls-corner-class');
-  const migratedClass = savedClass === '6ABCD' ? '6LVA' : savedClass;
-  const savedTab = tabs.find(tab => tab.dataset.class === migratedClass);
+  const migrations = { '6ABCD': '6LVA', '6H': '6SI', '5EFG': '5SI' };
+  const savedTab = tabs.find(tab => tab.dataset.class === (migrations[savedClass] || savedClass));
   if (savedTab) select(savedTab, false);
 } catch { /* The default tab remains selected. */ }
 

@@ -1,4 +1,4 @@
-const validClasses = new Set(['6LVA', '6H', '5EFG']);
+const validClasses = new Set(['6LVA', '6SI', '5SI']);
 const destinations = {
   noticeboard: { label: 'Noticeboard', symbol: '◌', description: 'Class news, reminders and useful information.', emptyTitle: 'Clear waters.', emptyCopy: 'There are no new announcements here yet.' },
   learning: { label: 'Learning', symbol: '≋', description: 'Lesson resources, texts and useful English tools.', emptyTitle: 'The resource shelf is waiting.', emptyCopy: 'No resources have been posted for this class yet.' },
