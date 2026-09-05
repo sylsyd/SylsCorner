@@ -35,3 +35,10 @@ body { background: #f7f5ed url("../assets/watercolor-ink-paper.png") center/cove
 .resource-unit { background: rgba(255,239,230,.78); border-left-color: var(--red); }
 .resource-folder { background: rgba(7,29,53,.94); border-left-color: var(--gold); }
 @media (max-width: 620px) { .site-header { height: 58px; }.brand { font-size: 18px; }.brand img { height: 27px; width: 27px; }.unit-hero { min-height: 220px; padding: 0 20px; }.unit-hero > div { padding: 46px 0 37px; }.unit-hero > div::before { top: 24px; }.unit-hero h1 { font-size: 42px; }.resources { padding: 32px 16px; }.section-heading { gap: 10px; }.resource-card { border-radius: 9px; min-height: 218px; } }
+
+/* Consistency pass: shared navigation controls and quiet resource surfaces. */
+.back { align-items: center; border: 1px solid rgba(7,29,53,.18); border-radius: 6px; display: inline-flex; min-height: 34px; padding: 0 10px; }
+.back:hover { background: rgba(181,41,66,.06); }
+a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.resource-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.section-heading > p { max-width: 44ch; }

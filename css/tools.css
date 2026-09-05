@@ -25,3 +25,9 @@ body { background: #f7f5ed url("../assets/watercolor-ink-paper.png") center/cove
 .timer-card { border-left-color: var(--red); }.stopwatch-card { border-left-color: var(--sea); }.dice-card { border-left-color: var(--blue); }.names-card { border-left-color: var(--gold); }
 .tool-card button { border-radius: 6px; }.tool-input input,.dice-face,.name-result,.name-roller { border-radius: 7px; }
 @media(max-width:600px){.site-header{height:58px}.brand{font-size:18px}.brand img{height:27px;width:27px}.tools-hero{border-radius:0 0 14px 14px;min-height:185px;padding:42px 20px}.tools-grid{padding:28px 16px}.tool-card{border-radius:9px}}
+
+/* Consistency pass: shared navigation controls and control surfaces. */
+.back { align-items: center; border: 1px solid rgba(7,29,53,.18); border-radius: 6px; display: inline-flex; min-height: 34px; padding: 0 10px; }
+.back:hover { background: rgba(181,41,66,.06); }
+.tool-card button:focus-visible,.class-option:focus-visible,.mode-option:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.tool-card .secondary { border: 1px solid rgba(7,29,53,.16); }

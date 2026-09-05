@@ -9,3 +9,8 @@ body { background: #f7f5ed url("../assets/watercolor-ink-paper.png") center/cove
 .empty-state { background: rgba(255,253,248,.82); border-left: 4px solid var(--sea); border-radius: 10px; box-shadow: none; }
 .empty-state a { border-radius: 6px; }
 @media(max-width:600px){.site-header{height:58px}.brand{font-size:18px}.brand img{height:27px;width:27px}.class-hero{border-radius:0 0 14px 14px;min-height:205px;padding:44px 20px}.content{padding:28px 16px}.empty-state{border-radius:9px}}
+
+/* Consistency pass: shared navigation controls and focus treatment. */
+.back,.page-nav > a:first-child { align-items: center; border: 1px solid rgba(7,29,53,.18); border-radius: 6px; display: inline-flex; min-height: 34px; padding: 0 10px; }
+.back:hover,.page-nav > a:first-child:hover { background: rgba(181,41,66,.06); }
+a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
