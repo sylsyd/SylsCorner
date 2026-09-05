@@ -14,37 +14,32 @@
       <img class="mark" src="assets/syl-corner-mark.png" alt="">
       <span>Syl's Corner</span>
     </a>
-    <nav aria-label="Main navigation">
-      <a href="#classes">Classes</a><a href="tools.html">Tools</a>
-    </nav>
+    <nav aria-label="Main navigation"><a href="#classes">Classes</a><a href="tools.html">Tools</a></nav>
   </header>
 
   <main>
     <section class="hero" id="top" aria-labelledby="welcome-title">
       <div class="hero-copy">
+        <p class="hero-kicker">Middle School English</p>
         <h1 id="welcome-title">Welcome to <em>Syl's Corner.</em></h1>
+        <p class="hero-intro">Pick your class below. Notices, lesson resources, homework and games, all in one place.</p>
       </div>
-      <div class="hero-visual" aria-hidden="true">
-        <img src="assets/syl-corner-study.png" alt="">
-      </div>
-      <a class="scroll" href="#classes">Enter classroom <span>↓</span></a>
+      <div class="hero-visual" aria-hidden="true"><img src="assets/syl-corner-study.png" alt=""></div>
+      <a class="scroll" href="#classes">Choose your class <span aria-hidden="true">↓</span></a>
     </section>
 
     <section class="classes" id="classes">
-<div class="tabs">
+      <div class="tabs">
         <div class="tab-list" role="tablist" aria-label="Choose your class">
-          <button class="tab" role="tab" id="tab-6LVA" aria-controls="panel-6LVA" aria-selected="true" data-class="6LVA">6LVA</button>
-          <button class="tab" role="tab" id="tab-6SI" aria-controls="panel-6SI" aria-selected="false" data-class="6SI" tabindex="-1">6SI</button>
-          <button class="tab" role="tab" id="tab-5SI" aria-controls="panel-5SI" aria-selected="false" data-class="5SI" tabindex="-1">5SI</button>
+          <button class="tab" role="tab" id="tab-6LVA" aria-controls="panel-6LVA" aria-selected="true" data-class="6LVA"><span class="tab-name">6LVA</span><span class="tab-detail">One new activity is ready.</span></button>
+          <button class="tab" role="tab" id="tab-6SI" aria-controls="panel-6SI" aria-selected="false" data-class="6SI" tabindex="-1"><span class="tab-name">6SI</span><span class="tab-detail">Unit 1 resources are ready.</span></button>
+          <button class="tab" role="tab" id="tab-5SI" aria-controls="panel-5SI" aria-selected="false" data-class="5SI" tabindex="-1"><span class="tab-name">5SI</span><span class="tab-detail">Unit 1 resources are ready.</span></button>
         </div>
         <div id="panels"></div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <p>© <span id="year"></span> Syl's Corner</p>
-    <p>English · Curiosity · Better sentences</p>
-  </footer>
+  <footer><p>© <span id="year"></span> Syl's Corner</p></footer>
 </body>
 </html>
