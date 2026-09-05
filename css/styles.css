@@ -112,3 +112,10 @@ footer p { margin: 0; }
 .card .status { bottom: 51px; }
 @media (max-width: 840px) { .card { min-height: 214px; } }
 @media (max-width: 620px) { .card { min-height: 195px; } }
+/* Content-driven card flow prevents descriptions, status messages and actions colliding. */
+.card { display: flex; flex-direction: column; min-height: 258px; }
+.card .copy { margin-bottom: 14px; }
+.card .status { bottom: auto; margin: 0 0 11px; position: relative; }
+.card-link { bottom: auto; margin-top: auto; position: relative; }
+@media (max-width: 840px) { .card { min-height: 246px; } }
+@media (max-width: 620px) { .card { min-height: 228px; } }

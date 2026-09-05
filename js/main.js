@@ -21,6 +21,7 @@ const tabs = [...document.querySelectorAll('.tab')];
 function destinationFor(className, slug) {
   if (className === '6LVA' && slug === 'games') return 'games/first-week-english-games.html';
   if (className === '6SI' && slug === 'learning') return '6si-unit-1.html';
+  if (className === '5SI' && slug === 'learning') return '5si-unit-1.html';
   return `classroom.html?class=${encodeURIComponent(className)}&section=${encodeURIComponent(slug)}`;
 }
 
@@ -37,14 +38,24 @@ panels.innerHTML = classes.map((className, index) => `
       ${sections.map((section, sectionIndex) => {
         const [, icon, slug, label, title, defaultDescription, defaultStatus] = section;
         const isFirstWeekGames = className === '6LVA' && slug === 'games';
-        const isUnitOne = className === '6SI' && slug === 'learning';
+        const is6SIUnitOne = className === '6SI' && slug === 'learning';
+        const is5SIUnitOne = className === '5SI' && slug === 'learning';
+        const hasUnitAnnouncement = (className === '6SI' || className === '5SI') && slug === 'noticeboard';
+        const unitDescription = className === '6SI'
+          ? 'Unit 1: In Search of Adventure. Open the unit reader, resources and Lesson 1 activity from home.'
+          : 'Unit 1: Short Stories. Open the resources, Lesson 1 activity and worksheets from home.';
+        const announcement = className === '6SI'
+          ? 'Unit 1 is live: In Search of Adventure resources are ready in Lessons & resources.'
+          : 'Unit 1 is live: Short Stories resources are ready in Lessons & resources.';
         const description = isFirstWeekGames
           ? 'Fifteen start-of-year activities for a mixed-ability room. Choose one, project it and begin.'
-          : isUnitOne
-            ? 'Unit 1: In Search of Adventure. Open the unit reader, resources and Lesson 1 activity from home.'
-            : defaultDescription;
-        const linkLabel = isFirstWeekGames ? 'Open First Week Games' : isUnitOne ? 'Open Unit 1' : `Open ${label}`;
-        const status = isFirstWeekGames ? 'Ready to play' : isUnitOne ? 'Unit 1 ready' : defaultStatus;
+          : (is6SIUnitOne || is5SIUnitOne)
+            ? unitDescription
+            : hasUnitAnnouncement
+              ? announcement
+              : defaultDescription;
+        const linkLabel = isFirstWeekGames ? 'Open First Week Games' : (is6SIUnitOne || is5SIUnitOne) ? 'Open Unit 1' : `Open ${label}`;
+        const status = isFirstWeekGames ? 'Ready to play' : (is6SIUnitOne || is5SIUnitOne) ? 'Unit 1 ready' : hasUnitAnnouncement ? 'New announcement' : defaultStatus;
 
         return `
           <article class="card card-${sectionIndex + 1}">
