@@ -12,3 +12,16 @@
 .names-card .roster-status { margin-top: 10px; }
 @keyframes name-flicker { 50% { opacity: .38; transform: translateY(-2px); } }
 @media (max-width: 800px) { .names-card { min-height: 365px; } .names-card .tool-ui { min-height: 255px; } }
+/* Shared ink-and-watercolour tools interface. */
+body { background: #f7f5ed url("../assets/watercolor-ink-paper.png") center/cover fixed; }
+.site-header { background: rgba(255,253,248,.93); border-bottom-color: rgba(7,29,53,.16); height: 66px; }
+.brand { font-size: 21px; gap: 10px; }.brand img { height: 32px; width: 32px; }
+.tools-hero { background: var(--ink) url("../assets/internal-ink-hero.png") right center/cover; border-radius: 0 0 16px 16px; margin: 0; max-width: none; min-height: 220px; padding: 54px clamp(22px,8vw,132px); }
+.tools-hero > span { display: none; }
+.tools-hero h1 { font-size: clamp(42px,5vw,68px); }
+.tools-grid { gap: 16px; max-width: 1320px; }
+.tool-card { background: rgba(255,253,248,.78); border: 1px solid rgba(7,29,53,.16); border-left: 4px solid var(--ink); border-radius: 10px; box-shadow: none; min-height: 300px; }
+.tool-card:hover { box-shadow: 0 12px 26px rgba(7,29,53,.11); }
+.timer-card { border-left-color: var(--red); }.stopwatch-card { border-left-color: var(--sea); }.dice-card { border-left-color: var(--blue); }.names-card { border-left-color: var(--gold); }
+.tool-card button { border-radius: 6px; }.tool-input input,.dice-face,.name-result,.name-roller { border-radius: 7px; }
+@media(max-width:600px){.site-header{height:58px}.brand{font-size:18px}.brand img{height:27px;width:27px}.tools-hero{border-radius:0 0 14px 14px;min-height:185px;padding:42px 20px}.tools-grid{padding:28px 16px}.tool-card{border-radius:9px}}
