@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Venus Walk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+<style>
+:root{
+  --void:#06090b;
+  --slate:#101619;
+  --steel:#1b2428;
+  --rain:#8ba3ab;
+  --rain-dim:#5a6f77;
+  --bone:#e6e9e4;
+  --lamp:#e8a64f;
+  --lamp-deep:#b9762a;
+  --sun:#ffe4a3;
+  --ash:#b4b8ae;
+  --line:rgba(139,163,171,.22);
+  --slab:rgba(8,12,14,.82);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--void); color:var(--rain);
+  font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  overflow:hidden; -webkit-font-smoothing:antialiased;
+  overscroll-behavior:none; touch-action:none;
+}
+canvas{display:block; position:fixed; inset:0; width:100%; height:100%}
+
+/* ---------- shared bits ---------- */
+.eyebrow{
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--lamp); font-weight:500;
+}
+.serif{font-family:Spectral,Georgia,"Times New Roman",serif}
+.hair{height:1px;background:var(--line);border:0;margin:0}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:1px solid var(--lamp); outline-offset:3px}
+
+/* ---------- overlays ---------- */
+.veil{
+  position:fixed; inset:0; z-index:40; display:grid; place-items:center;
+  background:radial-gradient(120% 90% at 50% 30%, rgba(20,28,32,.72), rgba(4,6,8,.96) 70%);
+  backdrop-filter:blur(3px); padding:24px;
+}
+.veil[hidden]{display:none}
+.panel{
+  width:min(680px,100%); max-height:88vh; overflow:auto;
+  border:1px solid var(--line); background:var(--slab);
+  padding:34px 34px 28px; position:relative;
+}
+.panel::before{
+  content:""; position:absolute; left:0; top:0; width:56px; height:2px; background:var(--lamp);
+}
+h1{
+  font-family:Spectral,Georgia,serif; font-weight:300; font-style:normal;
+  font-size:clamp(38px,7vw,62px); line-height:.98; letter-spacing:-.015em;
+  color:var(--bone); margin:14px 0 6px;
+}
+h1 em{font-style:italic; color:var(--lamp)}
+.sub{
+  font-size:12px; letter-spacing:.06em; color:var(--rain-dim); margin:0 0 22px; line-height:1.7;
+}
+.lede{
+  font-family:Spectral,Georgia,serif; font-size:17px; line-height:1.62;
+  color:var(--rain); max-width:56ch; margin:0 0 24px;
+}
+.lede strong{color:var(--bone); font-weight:400}
+.grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:18px 26px; margin:22px 0}
+.keyrow{display:flex; gap:10px; align-items:baseline; font-size:12px; line-height:1.9}
+kbd{
+  border:1px solid var(--line); padding:1px 7px; font-size:11px; color:var(--bone);
+  background:rgba(139,163,171,.07); min-width:26px; text-align:center; display:inline-block;
+}
+.start{
+  margin-top:8px; display:inline-flex; align-items:center; gap:14px;
+  border:1px solid var(--lamp); color:var(--lamp); padding:13px 26px;
+  font-size:12px; letter-spacing:.2em; text-transform:uppercase;
+  transition:background .25s, color .25s;
+}
+.start:hover{background:var(--lamp); color:#0b0705}
+.ghost{
+  border:1px solid var(--line); color:var(--rain-dim); padding:12px 20px;
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+}
+.ghost:hover{color:var(--bone); border-color:var(--rain-dim)}
+.foot{font-size:11px; color:var(--rain-dim); line-height:1.75; margin-top:26px}
+
+/* ---------- HUD ---------- */
+#hud{position:fixed; inset:0; z-index:20; pointer-events:none;
+  font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  opacity:0; transition:opacity .9s ease .3s}
+#hud.on{opacity:1}
+.corner{position:absolute; padding:18px 20px; display:flex; flex-direction:column; gap:6px}
+.tl{top:0;left:0} .tr{top:0;right:0;align-items:flex-end;text-align:right}
+.bl{bottom:0;left:0} .br{bottom:0;right:0;align-items:flex-end;text-align:right}
+.val{color:var(--bone); font-size:12px; font-variant-numeric:tabular-nums}
+.dim{color:var(--rain-dim); font-size:10px}
+#counter{display:flex;align-items:baseline;gap:8px}
+#bar{width:96px;height:2px;background:rgba(139,163,171,.2); position:relative; margin-top:4px}
+#bar i{position:absolute;inset:0 auto 0 0;width:0%;background:var(--lamp);transition:width .5s}
+
+#cross{position:fixed; left:50%; top:50%; z-index:21; pointer-events:none;
+  width:22px; height:22px; margin:-11px 0 0 -11px; opacity:.55; transition:opacity .2s, transform .2s}
+#cross::before,#cross::after{content:"";position:absolute;background:var(--rain)}
+#cross::before{left:50%;top:0;width:1px;height:100%;transform:translateX(-.5px)}
+#cross::after{top:50%;left:0;height:1px;width:100%;transform:translateY(-.5px)}
+#cross.hot{opacity:1; transform:scale(1.35) rotate(45deg)}
+#cross.hot::before,#cross.hot::after{background:var(--lamp)}
+
+#prompt{
+  position:fixed; left:50%; top:calc(50% + 34px); transform:translateX(-50%);
+  z-index:21; pointer-events:none; font-size:10px; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--lamp); opacity:0; transition:opacity .2s; white-space:nowrap;
+}
+#prompt.on{opacity:1}
+
+/* ---------- caption slab ---------- */
+#cap{
+  position:fixed; left:0; bottom:0; z-index:25; width:min(520px,92vw);
+  margin:0 0 106px 34px; border-left:2px solid var(--lamp);
+  background:linear-gradient(90deg, var(--slab), rgba(8,12,14,.55));
+  padding:18px 26px 22px; pointer-events:none;
+  opacity:0; transform:translateX(-18px); transition:opacity .5s, transform .5s;
+}
+#cap.on{opacity:1; transform:none}
+#cap h2{margin:0 0 10px; font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:var(--lamp); font-weight:500}
+#cap p{margin:0; font-family:Spectral,Georgia,serif; font-size:16.5px; line-height:1.62; color:var(--bone); font-weight:300}
+
+/* ---------- sun banner ---------- */
+#sunbar{
+  position:fixed; top:0; left:0; right:0; z-index:24; pointer-events:none;
+  display:flex; justify-content:center; padding:22px;
+  opacity:0; transition:opacity .8s;
+}
+#sunbar.on{opacity:1}
+#sunbar div{
+  border:1px solid rgba(255,228,163,.45); color:var(--sun);
+  background:rgba(20,14,4,.5); padding:9px 22px;
+  font-size:11px; letter-spacing:.26em; text-transform:uppercase; font-variant-numeric:tabular-nums;
+}
+
+/* ---------- notes ---------- */
+#notes{width:min(760px,100%)}
+.noteitem{display:grid; grid-template-columns:26px 1fr; gap:14px; padding:14px 0; border-top:1px solid var(--line)}
+.noteitem .n{font-size:10px; color:var(--lamp); padding-top:5px; font-variant-numeric:tabular-nums}
+.noteitem h3{margin:0 0 6px; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--rain); font-weight:500}
+.noteitem p{margin:0; font-family:Spectral,Georgia,serif; font-size:15px; line-height:1.6; color:var(--bone); font-weight:300}
+.pending{opacity:.35}
+.pending p{font-style:italic}
+.qs{font-family:Spectral,Georgia,serif; font-size:16px; line-height:1.65; color:var(--bone); font-weight:300; padding-left:18px; margin:12px 0 0}
+.qs li{margin-bottom:10px}
+.rowbtns{display:flex; gap:12px; flex-wrap:wrap; margin-top:26px; align-items:center}
+
+/* ---------- touch ---------- */
+#touch{position:fixed; inset:0; z-index:22; display:none}
+#touch.on{display:block}
+#stick{position:absolute; width:112px; height:112px; border:1px solid var(--line); border-radius:50%;
+  left:28px; bottom:28px; opacity:.5}
+#stick i{position:absolute; left:50%; top:50%; width:44px; height:44px; margin:-22px 0 0 -22px;
+  border-radius:50%; background:rgba(232,166,79,.35)}
+#tact{position:absolute; right:28px; bottom:48px; border:1px solid var(--lamp); color:var(--lamp);
+  padding:14px 20px; font-size:10px; letter-spacing:.2em; text-transform:uppercase; pointer-events:auto}
+
+#loading{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:var(--void);
+  color:var(--rain-dim);font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+#loading[hidden]{display:none}
+
+@media (max-width:640px){
+  .panel{padding:26px 20px 22px}
+  #cap{margin:0 0 96px 14px; padding:14px 18px 18px}
+  #cap p{font-size:15px}
+  .corner{padding:12px 14px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:.001s !important}
+}
+</style>
+</head>
+<body>
+
+<div id="loading">Descending</div>
+
+<div id="hud">
+  <div class="corner tl">
+    <span class="eyebrow">Colony 7 · Venus</span>
+    <span class="val" id="zonename">Access tunnel, level −7</span>
+    <span class="dim" id="weather">Precipitation: continuous</span>
+  </div>
+  <div class="corner tr">
+    <span class="eyebrow">Solar interval</span>
+    <span class="val" id="daycount">Day 2,555 of 2,555</span>
+    <span class="dim">Last sun: 7 years ago</span>
+  </div>
+  <div class="corner bl">
+    <span class="eyebrow">Field notes</span>
+    <div id="counter"><span class="val"><span id="found">0</span>/<span id="total">18</span></span><span class="dim">observations</span></div>
+    <div id="bar"><i></i></div>
+  </div>
+  <div class="corner br">
+    <span class="dim">J · notes &nbsp; H · help &nbsp; M · sound</span>
+  </div>
+</div>
+
+<div id="cross"></div>
+<div id="prompt">E · examine</div>
+
+<div id="cap"><h2></h2><p></p></div>
+
+<div id="sunbar"><div>Sun · <span id="suntime">60:00</span> remaining</div></div>
+
+<div id="touch">
+  <div id="stick"><i></i></div>
+  <button id="tact">Examine</button>
+</div>
+
+<!-- TITLE -->
+<div class="veil" id="title">
+  <div class="panel">
+    <span class="eyebrow">A first-person walk · after Ray Bradbury</span>
+    <h1>Venus <em>Walk</em></h1>
+    <p class="sub">All Summer in a Day · Year 7–8 · 10–15 minutes</p>
+    <p class="lede">It has rained for seven years. You have lived your whole life underground, in tunnels that never dry, under a sky nobody in your class has ever seen. <strong>Walk. Look at things. Today the rain is going to stop for one hour.</strong></p>
+    <div class="grid2">
+      <div>
+        <div class="keyrow"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>move</span></div>
+        <div class="keyrow"><kbd>Mouse</kbd><span>look around</span></div>
+        <div class="keyrow"><kbd>Shift</kbd><span>hurry</span></div>
+      </div>
+      <div>
+        <div class="keyrow"><kbd>E</kbd><span>examine what you are looking at</span></div>
+        <div class="keyrow"><kbd>J</kbd><span>field notes</span></div>
+        <div class="keyrow"><kbd>Esc</kbd><span>pause</span></div>
+      </div>
+    </div>
+    <button class="start" id="go">Enter the tunnels</button>
+    <p class="foot">Eighteen things down here can be examined. Every description was written for this walk — the story itself is not reproduced, so read Bradbury alongside it. Headphones recommended.</p>
+  </div>
+</div>
+
+<!-- PAUSE -->
+<div class="veil" id="pause" hidden>
+  <div class="panel">
+    <span class="eyebrow">Paused</span>
+    <h1 style="font-size:clamp(30px,5vw,44px)">Still raining.</h1>
+    <p class="sub">Colony 7 · the pumps are running</p>
+    <div class="rowbtns">
+      <button class="start" id="resume">Resume</button>
+      <button class="ghost" id="opennotes">Field notes</button>
+      <button class="ghost" id="openhelp">Help</button>
+    </div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div class="veil" id="help" hidden>
+  <div class="panel">
+    <span class="eyebrow">How to use this in class</span>
+    <h1 style="font-size:clamp(28px,5vw,40px)">Setting &amp; atmosphere</h1>
+    <p class="lede">Send students in <strong>before</strong> they read, or after a first read and before the discussion. The job is not to find everything — it is to notice how the place feels, and to collect the details they can point at later.</p>
+    <p class="eyebrow" style="display:block;margin-bottom:8px">Task</p>
+    <ol class="qs">
+      <li>Collect at least eight observations. Stay outside for the whole hour of sun.</li>
+      <li>Pick the one detail that made the world feel most closed in. Be ready to say why that one.</li>
+      <li>After the sun goes, walk back to the schoolroom and look at the closet door again.</li>
+    </ol>
+    <div class="grid2">
+      <div>
+        <div class="keyrow"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>move</span></div>
+        <div class="keyrow"><kbd>E</kbd><span>examine</span></div>
+        <div class="keyrow"><kbd>J</kbd><span>notes</span></div>
+      </div>
+      <div>
+        <div class="keyrow"><kbd>M</kbd><span>mute rain</span></div>
+        <div class="keyrow"><kbd>Esc</kbd><span>pause</span></div>
+        <div class="keyrow"><kbd>Touch</kbd><span>left side moves, right side looks</span></div>
+      </div>
+    </div>
+    <p class="foot">If the mouse does not lock to the screen, hold the left button and drag to look — the walk works either way. All prose here is original writing about Bradbury's setting; no part of the story is quoted.</p>
+    <div class="rowbtns"><button class="ghost" id="closehelp">Back</button></div>
+  </div>
+</div>
+
+<!-- NOTES -->
+<div class="veil" id="notesveil" hidden>
+  <div class="panel" id="notes">
+    <span class="eyebrow">Field notes · Colony 7</span>
+    <h1 style="font-size:clamp(28px,5vw,42px)">What you noticed</h1>
+    <p class="sub"><span id="notesprog">0 of 18</span> · unfound entries stay blank</p>
+    <div id="notelist"></div>
+    <p class="eyebrow" style="display:block;margin:28px 0 0">Talk about</p>
+    <ol class="qs">
+      <li>Which single detail made the world feel most trapped? Why that one and not a bigger one?</li>
+      <li>The sun lasts an hour. What does the story gain by making it short instead of a whole day?</li>
+      <li>The closet is described in plain, flat words. Why is plain the right choice there?</li>
+    </ol>
+    <div class="rowbtns"><button class="ghost" id="closenotes">Back to the tunnels</button></div>
+  </div>
+</div>
+
+<!-- END -->
+<div class="veil" id="end" hidden>
+  <div class="panel">
+    <span class="eyebrow">The hour is over</span>
+    <h1>The rain <em>returned</em></h1>
+    <p class="lede">It came back the way it always does: not a shower building up, but a lid closing. The forest went grey again inside a minute. <strong>Seven years until the next one.</strong> You were outside for all of it. Somebody was not.</p>
+    <p class="sub" id="endstat">You collected 0 of 18 observations.</p>
+    <div class="rowbtns">
+      <button class="start" id="endnotes">Read your field notes</button>
+      <button class="ghost" id="endback">Keep walking</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+"use strict";
+if (typeof THREE === "undefined"){
+  document.getElementById("loading").textContent = "Could not load the 3D library — check the connection.";
+  return;
+}
+var RM = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ===================== TEXTURES ===================== */
+function cv(w,h){ var c=document.createElement("canvas"); c.width=w; c.height=h; return c; }
+function tex(canvas, rx, ry){
+  var t = new THREE.CanvasTexture(canvas);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(rx||1, ry||1);
+  t.anisotropy = 4;
+  t.encoding = THREE.sRGBEncoding;
+  return t;
+}
+function grain(ctx,w,h,amt,alpha){
+  var img = ctx.getImageData(0,0,w,h), d = img.data;
+  for (var i=0;i<d.length;i+=4){
+    var n = (Math.random()-.5)*amt;
+    d[i] = Math.max(0,Math.min(255,d[i]+n));
+    d[i+1] = Math.max(0,Math.min(255,d[i+1]+n));
+    d[i+2] = Math.max(0,Math.min(255,d[i+2]+n));
+  }
+  ctx.putImageData(img,0,0);
+  if (alpha){
+    for (var k=0;k<alpha;k++){
+      ctx.fillStyle = "rgba(0,0,0,"+(Math.random()*.05).toFixed(3)+")";
+      var bx=Math.random()*w, by=Math.random()*h;
+      ctx.fillRect(bx,by,Math.random()*w*.4, Math.random()*h*.12);
+    }
+  }
+}
+function concreteCanvas(base, dark){
+  var s=512, c=cv(s,s), x=c.getContext("2d");
+  x.fillStyle=base; x.fillRect(0,0,s,s);
+  grain(x,s,s,26,26);
+  // vertical damp streaks
+  for (var i=0;i<70;i++){
+    var w = 2+Math.random()*22, px = Math.random()*s, top = Math.random()*s*.5;
+    var g = x.createLinearGradient(0,top,0,top+s*(.3+Math.random()*.7));
+    g.addColorStop(0,"rgba(0,0,0,0)");
+    g.addColorStop(.35,"rgba(0,0,0,"+(.05+Math.random()*.12).toFixed(3)+")");
+    g.addColorStop(1,"rgba(0,0,0,0)");
+    x.fillStyle=g; x.fillRect(px,top,w,s);
+  }
+  // form-work seams
+  x.strokeStyle="rgba(0,0,0,.30)"; x.lineWidth=2;
+  for (var j=0;j<4;j++){ var yy=Math.floor(s/4*j)+.5; x.beginPath(); x.moveTo(0,yy); x.lineTo(s,yy); x.stroke(); }
+  x.strokeStyle="rgba(255,255,255,.035)"; x.lineWidth=1;
+  for (var j2=0;j2<4;j2++){ var yy2=Math.floor(s/4*j2)+2.5; x.beginPath(); x.moveTo(0,yy2); x.lineTo(s,yy2); x.stroke(); }
+  // pinholes
+  for (var p=0;p<420;p++){
+    x.fillStyle = Math.random()>.5 ? "rgba(0,0,0,.35)" : "rgba(255,255,255,.05)";
+    x.fillRect(Math.random()*s, Math.random()*s, 1+Math.random()*2, 1+Math.random()*2);
+  }
+  if (dark){ x.fillStyle="rgba(0,0,0,.25)"; x.fillRect(0,0,s,s); }
+  return c;
+}
+function floorCanvas(){
+  var s=512,c=cv(s,s),x=c.getContext("2d");
+  x.fillStyle="#20272a"; x.fillRect(0,0,s,s);
+  grain(x,s,s,18,18);
+  x.strokeStyle="rgba(0,0,0,.55)"; x.lineWidth=3;
+  for (var i=0;i<=2;i++){
+    var p=Math.floor(s/2*i)+.5;
+    x.beginPath(); x.moveTo(p,0); x.lineTo(p,s); x.stroke();
+    x.beginPath(); x.moveTo(0,p); x.lineTo(s,p); x.stroke();
+  }
+  // wet patches
+  for (var w=0;w<28;w++){
+    var r=20+Math.random()*90, gx=Math.random()*s, gy=Math.random()*s;
+    var g=x.createRadialGradient(gx,gy,0,gx,gy,r);
+    g.addColorStop(0,"rgba(10,16,20,.5)"); g.addColorStop(1,"rgba(10,16,20,0)");
+    x.fillStyle=g; x.beginPath(); x.arc(gx,gy,r,0,6.3); x.fill();
+  }
+  return c;
+}
+function mudCanvas(){
+  var s=512,c=cv(s,s),x=c.getContext("2d");
+  x.fillStyle="#4c4d43"; x.fillRect(0,0,s,s);
+  grain(x,s,s,34,40);
+  for (var i=0;i<160;i++){
+    var r=6+Math.random()*60, gx=Math.random()*s, gy=Math.random()*s;
+    var g=x.createRadialGradient(gx,gy,0,gx,gy,r);
+    var dark = Math.random()>.45;
+    g.addColorStop(0, dark? "rgba(12,14,13,.55)" : "rgba(120,124,112,.16)");
+    g.addColorStop(1,"rgba(0,0,0,0)");
+    x.fillStyle=g; x.beginPath(); x.arc(gx,gy,r,0,6.3); x.fill();
+  }
+  return c;
+}
+function woodCanvas(){
+  var s=256,c=cv(s,s),x=c.getContext("2d");
+  x.fillStyle="#4a3a2c"; x.fillRect(0,0,s,s);
+  for (var i=0;i<180;i++){
+    x.strokeStyle="rgba(0,0,0,"+(Math.random()*.14).toFixed(3)+")";
+    x.lineWidth=Math.random()*3;
+    x.beginPath(); var y=Math.random()*s; x.moveTo(0,y);
+    x.bezierCurveTo(s*.3,y+(Math.random()-.5)*10,s*.6,y+(Math.random()-.5)*10,s,y+(Math.random()-.5)*6);
+    x.stroke();
+  }
+  grain(x,s,s,14,10);
+  return c;
+}
+function metalCanvas(){
+  var s=256,c=cv(s,s),x=c.getContext("2d");
+  x.fillStyle="#2f3a3e"; x.fillRect(0,0,s,s);
+  for (var i=0;i<600;i++){
+    x.strokeStyle="rgba(255,255,255,"+(Math.random()*.05).toFixed(3)+")";
+    x.beginPath(); var y=Math.random()*s; x.moveTo(0,y); x.lineTo(s,y+(Math.random()-.5)*4); x.stroke();
+  }
+  for (var r2=0;r2<40;r2++){
+    var g=x.createRadialGradient(Math.random()*s,Math.random()*s,0,Math.random()*s,Math.random()*s,30);
+    g.addColorStop(0,"rgba(120,70,30,.18)"); g.addColorStop(1,"rgba(120,70,30,0)");
+    x.fillStyle=g; x.fillRect(0,0,s,s);
+  }
+  grain(x,s,s,16,8);
+  return c;
+}
+function chalkCanvas(){
+  var s=512,c=cv(s,s),x=c.getContext("2d");
+  x.fillStyle="#1d2b26"; x.fillRect(0,0,s,s);
+  grain(x,s,s,10,14);
+  x.strokeStyle="rgba(230,233,228,.55)"; x.lineWidth=2; x.lineCap="round";
+  x.font="600 40px monospace"; x.fillStyle="rgba(230,233,228,.6)";
+  x.fillText("SOLAR INTERVAL", 34, 78);
+  x.font="300 118px serif"; x.fillStyle="rgba(232,166,79,.75)";
+  x.fillText("2555", 40, 220);
+  x.font="500 30px monospace"; x.fillStyle="rgba(230,233,228,.45)";
+  x.fillText("DAYS SINCE LAST SUN", 40, 268);
+  x.beginPath(); x.ellipse(150,190,132,72,0,0,6.3); x.strokeStyle="rgba(232,166,79,.5)"; x.lineWidth=4; x.stroke();
+  // tally marks
+  x.strokeStyle="rgba(230,233,228,.28)"; x.lineWidth=3;
+  for (var i=0;i<44;i++){
+    var bx=40+(i%22)*20, by=340+Math.floor(i/22)*54;
+    x.beginPath(); x.moveTo(bx,by); x.lineTo(bx+4,by+38); x.stroke();
+  }
+  return c;
+}
+function drawingsCanvas(){
+  var s=512,c=cv(s,s),x=c.getContext("2d");
+  x.fillStyle="#d9d4c6"; x.fillRect(0,0,s,s);
+  grain(x,s,s,12,6);
+  var cols=["#e8a64f","#e0c14a","#d98b3a","#c9b04b"];
+  for (var i=0;i<6;i++){
+    var cx=70+(i%3)*180, cy=120+Math.floor(i/3)*230, r=28+Math.random()*22;
+    x.strokeStyle=cols[i%cols.length]; x.lineWidth=5+Math.random()*4; x.lineCap="round";
+    x.beginPath(); x.arc(cx,cy,r,0,6.3); x.stroke();
+    for (var k=0;k<9;k++){
+      var a=k/9*6.283+Math.random()*.2;
+      x.beginPath();
+      x.moveTo(cx+Math.cos(a)*(r+7), cy+Math.sin(a)*(r+7));
+      x.lineTo(cx+Math.cos(a)*(r+22+Math.random()*14), cy+Math.sin(a)*(r+22+Math.random()*14));
+      x.stroke();
+    }
+    x.strokeStyle="rgba(70,80,70,.5)"; x.lineWidth=3;
+    x.beginPath(); x.moveTo(cx-60, cy+r+52); x.lineTo(cx+60, cy+r+52); x.stroke();
+  }
+  return c;
+}
+function plaqueCanvas(){
+  var s=512,h=256,c=cv(s,h),x=c.getContext("2d");
+  x.fillStyle="#3b4348"; x.fillRect(0,0,s,h);
+  grain(x,s,h,18,8);
+  x.fillStyle="rgba(232,166,79,.8)"; x.font="500 26px monospace";
+  x.fillText("COLONY 7 · VENUS", 34, 62);
+  x.fillStyle="rgba(230,233,228,.72)"; x.font="300 22px serif";
+  x.fillText("Established by the rocket men and women", 34, 108);
+  x.fillText("who came from Earth to make a life here.", 34, 140);
+  x.fillStyle="rgba(230,233,228,.4)"; x.font="400 18px monospace";
+  x.fillText("SUNLIGHT: 1 HOUR EVERY 7 YEARS", 34, 196);
+  x.strokeStyle="rgba(232,166,79,.5)"; x.lineWidth=2; x.strokeRect(16,16,s-32,h-32);
+  return c;
+}
+function glowCanvas(){
+  var s=128,c=cv(s,s),x=c.getContext("2d");
+  var g=x.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
+  g.addColorStop(0,"rgba(255,255,255,1)");
+  g.addColorStop(.25,"rgba(255,240,200,.72)");
+  g.addColorStop(.55,"rgba(255,200,120,.18)");
+  g.addColorStop(1,"rgba(255,180,90,0)");
+  x.fillStyle=g; x.fillRect(0,0,s,s);
+  return c;
+}
+function dropCanvas(){
+  var s=32,c=cv(s,s),x=c.getContext("2d");
+  var g=x.createLinearGradient(0,0,0,s);
+  g.addColorStop(0,"rgba(180,205,215,0)");
+  g.addColorStop(.5,"rgba(190,215,225,.55)");
+  g.addColorStop(1,"rgba(210,232,240,.9)");
+  x.fillStyle=g; x.fillRect(s/2-2,0,4,s);
+  return c;
+}
+
+/* wet glass: animated canvas */
+var glassC = cv(256,512), glassX = glassC.getContext("2d");
+glassX.fillStyle="#0d1417"; glassX.fillRect(0,0,256,512);
+var glassTex = tex(glassC,1,1);
+glassTex.wrapS = glassTex.wrapT = THREE.ClampToEdgeWrapping;
+var drops = [];
+for (var gi=0; gi<70; gi++) drops.push({x:Math.random()*256, y:Math.random()*512, r:1+Math.random()*3.4, v:.2+Math.random()*1.6});
+function updateGlass(){
+  glassX.globalCompositeOperation="source-over";
+  glassX.fillStyle="rgba(13,20,23,.16)";
+  glassX.fillRect(0,0,256,512);
+  for (var i=0;i<drops.length;i++){
+    var d=drops[i];
+    d.y += d.v*(RM?.6:1.6);
+    if (d.y>512){ d.y=-10; d.x=Math.random()*256; d.v=.2+Math.random()*1.6; d.r=1+Math.random()*3.4; }
+    var g=glassX.createRadialGradient(d.x,d.y,0,d.x,d.y,d.r*2.4);
+    g.addColorStop(0,"rgba(186,210,222,.30)");
+    g.addColorStop(1,"rgba(190,214,224,0)");
+    glassX.fillStyle=g;
+    glassX.beginPath(); glassX.arc(d.x,d.y,d.r*2.4,0,6.3); glassX.fill();
+    glassX.fillStyle="rgba(168,194,206,.12)";
+    glassX.fillRect(d.x-d.r*.3, d.y-d.r*11, d.r*.6, d.r*11);
+  }
+  glassTex.needsUpdate = true;
+}
+
+/* ===================== SCENE ===================== */
+var scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x0a1013, 0.048);
+
+var camera = new THREE.PerspectiveCamera(70, 1, 0.1, 900);
+var renderer = new THREE.WebGLRenderer({antialias:true, powerPreference:"high-performance"});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.95;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+function onResize(){
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+window.addEventListener("resize", onResize); onResize();
+
+/* materials */
+var concreteT = tex(concreteCanvas("#2b3236"), 2, 1.2);
+var concreteDarkT = tex(concreteCanvas("#232a2e", true), 2, 1.2);
+var floorT = tex(floorCanvas(), 6, 6);
+var mudT = tex(mudCanvas(), 26, 26);
+var woodT = tex(woodCanvas(), 1, 1);
+var metalT = tex(metalCanvas(), 2, 2);
+
+var M = {
+  wall: new THREE.MeshStandardMaterial({map:concreteT, color:0x8b979b, roughness:.93, metalness:.02, side:THREE.DoubleSide}),
+  rock: new THREE.MeshStandardMaterial({map:concreteDarkT, color:0x6d787c, roughness:.98, metalness:.02, side:THREE.DoubleSide}),
+  floor: new THREE.MeshStandardMaterial({map:floorT, color:0x9aa5a8, roughness:.42, metalness:.06}),
+  ceil: new THREE.MeshStandardMaterial({map:concreteDarkT, color:0x6d7880, roughness:.96, side:THREE.DoubleSide}),
+  mud: new THREE.MeshStandardMaterial({map:mudT, color:0xd2d6c2, roughness:.72, metalness:.04}),
+  metal: new THREE.MeshStandardMaterial({map:metalT, color:0x8f9ba0, roughness:.62, metalness:.35}),
+  darkmetal: new THREE.MeshStandardMaterial({color:0x1c2429, roughness:.8, metalness:.18}),
+  wood: new THREE.MeshStandardMaterial({map:woodT, color:0x9c9285, roughness:.78}),
+  lampOn: new THREE.MeshStandardMaterial({color:0x201a12, emissive:0xffb45a, emissiveIntensity:1.5}),
+  strip: new THREE.MeshStandardMaterial({color:0x1a2126, emissive:0xbcd6e2, emissiveIntensity:1.5}),
+  glass: new THREE.MeshStandardMaterial({map:glassTex, color:0xbdd2dc, roughness:.12, metalness:.0,
+          transparent:true, opacity:.20, side:THREE.DoubleSide, emissive:0x16222a, emissiveIntensity:.35}),
+  veg: new THREE.MeshStandardMaterial({color:0x9aa096, roughness:.62, metalness:.02}),
+  bloom: new THREE.MeshStandardMaterial({color:0xc7c2b4, roughness:.5, emissive:0x000000}),
+  hot: new THREE.MeshBasicMaterial({visible:false})
+};
+
+/* helpers */
+function planeMesh(w,h,mat){ var m = new THREE.Mesh(new THREE.PlaneGeometry(w,h,1,1), mat); return m; }
+function addFloor(x0,z0,x1,z1,y,mat){
+  var w=Math.abs(x1-x0), d=Math.abs(z1-z0);
+  var m = planeMesh(w,d,mat||M.floor);
+  m.rotation.x = -Math.PI/2;
+  m.position.set((x0+x1)/2, y, (z0+z1)/2);
+  m.receiveShadow = true; scene.add(m); return m;
+}
+function addCeil(x0,z0,x1,z1,y,mat){
+  var w=Math.abs(x1-x0), d=Math.abs(z1-z0);
+  var m = planeMesh(w,d,mat||M.ceil);
+  m.rotation.x = Math.PI/2;
+  m.position.set((x0+x1)/2, y, (z0+z1)/2);
+  scene.add(m); return m;
+}
+// wall from A to B, height h, base yb; gap = {s,e,top} measured along the run
+function addWall(ax,az,bx,bz,yb,h,mat,gap){
+  var dx=bx-ax, dz=bz-az, run=Math.hypot(dx,dz), ang=Math.atan2(dx,dz);
+  function seg(s,e,y0,y1){
+    if (e-s < .02 || y1-y0 < .02) return;
+    var m = planeMesh(e-s, y1-y0, mat||M.wall);
+    var t = (s+e)/2/run;
+    m.position.set(ax+dx*t, (y0+y1)/2, az+dz*t);
+    m.rotation.y = ang + Math.PI/2;
+    m.receiveShadow = true;
+    scene.add(m);
+    if (m.material.map){
+      // keep texel density roughly even
+    }
+  }
+  if (!gap){ seg(0,run,yb,yb+h); return; }
+  seg(0, gap.s, yb, yb+h);
+  seg(gap.e, run, yb, yb+h);
+  seg(gap.s, gap.e, yb+gap.top, yb+h);
+}
+function box(w,h,d,mat,x,y,z){
+  var m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), mat);
+  m.position.set(x,y,z); m.castShadow=true; m.receiveShadow=true;
+  scene.add(m); return m;
+}
+
+/* ===================== LAYOUT ===================== */
+/* walkable zones: rect + floor height rule */
+var ZONES = [
+  {n:"Access tunnel, level −7", x0:-3, x1:3, z0:16, z1:47, y:-7},
+  {n:"Ascent ramp",             x0:-3, x1:3, z0:4,  z1:16, y:"ramp"},
+  {n:"Junction, level 0",       x0:-6, x1:6, z0:-4, z1:4,  y:0},
+  {n:"Schoolroom",              x0:-11,x1:11,z0:-26,z1:-4, y:0},
+  {n:"Airlock corridor",        x0:6,  x1:22.0, z0:-2.6, z1:2.6, y:0},
+  {n:"Surface · the forest",    x0:22.0, x1:86, z0:-56, z1:44, y:0, out:true},
+  {n:"Surface · the forest",    x0:-42, x1:86, z0:-56, z1:-30, y:0, out:true},
+  /* doorways: rectangles that overlap two rooms so you can walk between them */
+  {n:"", x0:-2.5, x1:2.5,  z0:-6.0, z1:-2.0, y:0, quiet:true},   // schoolroom <-> junction
+  {n:"", x0:4.0,  x1:8.0,  z0:-2.6, z1:2.6,  y:0, quiet:true},   // junction <-> corridor
+  {n:"", x0:-2.9, x1:2.9,  z0:2.0,  z1:6.0,  y:0, quiet:true},   // junction <-> ramp
+  {n:"", x0:-2.9, x1:2.9,  z0:14,   z1:18,   y:"ramp", quiet:true}, // ramp <-> tunnel
+  {n:"", x0:20.5, x1:24.0, z0:-2.5, z1:2.5,  y:0, quiet:true, out:true} // hatch
+];
+function lockOutside(v){ for (var i=0;i<ZONES.length;i++) if (ZONES[i].out) ZONES[i].locked = v; }
+function floorAt(x,z){
+  if (z>16) return -7;
+  if (z>4 && z<=16) return -7 + (16-z)/12*7;
+  return 0;
+}
+function zoneAt(x,z,pad){
+  pad = pad||0;
+  for (var i=0;i<ZONES.length;i++){
+    var Z=ZONES[i];
+    if (Z.locked) continue;
+    if (x>Z.x0+pad && x<Z.x1-pad && z>Z.z0+pad && z<Z.z1-pad) return Z;
+  }
+  return null;
+}
+var BLOCKERS = [];
+function blocker(x0,z0,x1,z1){ BLOCKERS.push({x0:Math.min(x0,x1),x1:Math.max(x0,x1),z0:Math.min(z0,z1),z1:Math.max(z0,z1)}); }
+function blocked(x,z,pad){
+  for (var i=0;i<BLOCKERS.length;i++){
+    var B=BLOCKERS[i];
+    if (x>B.x0-pad && x<B.x1+pad && z>B.z0-pad && z<B.z1+pad) return true;
+  }
+  return false;
+}
+
+/* ---- TUNNEL (deep) ---- */
+addFloor(-3,16,3,47,-7);
+addCeil(-3,16,3,47,-7+3.2);
+addWall(-3,47,-3,16,-7,3.2,M.rock);
+addWall(3,16,3,47,-7,3.2,M.rock);
+addWall(-3,47,3,47,-7,3.2,M.rock);
+
+/* ramp */
+(function(){
+  var len = Math.hypot(12,7);
+  var m = planeMesh(6, len, M.floor);
+  m.rotation.x = -Math.PI/2;
+  m.rotation.order = "YXZ";
+  var mesh = new THREE.Mesh(new THREE.PlaneGeometry(6,len), M.floor);
+  scene.remove(m);
+  mesh.position.set(0,-3.5,10);
+  mesh.rotation.x = -Math.PI/2 + Math.atan2(7,12);
+  mesh.receiveShadow = true;
+  scene.add(mesh);
+  addWall(-3,16,-3,4,-7,10.5,M.rock);
+  addWall(3,4,3,16,-7,10.5,M.rock);
+  var c = new THREE.Mesh(new THREE.PlaneGeometry(6,len), M.ceil);
+  c.position.set(0,-.3,10);
+  c.rotation.x = Math.PI/2 - Math.atan2(7,12);
+  scene.add(c);
+})();
+
+/* ---- JUNCTION ---- */
+addFloor(-6,-4,6,4,0);
+addCeil(-6,-4,6,4,3.4);
+addWall(-6,4,-6,-4,0,3.4,M.wall);
+addWall(6,-4,6,4,0,3.4,M.wall, {s:1.4,e:6.6,top:2.5});     // to airlock corridor (east)
+addWall(-6,4,6,4,0,3.4,M.wall, {s:3,e:9,top:2.5});          // south -> ramp
+addWall(-6,-4,6,-4,0,3.4,M.wall, {s:3.5,e:8.5,top:2.6});    // north -> schoolroom
+
+/* ---- SCHOOLROOM ---- */
+addFloor(-11,-26,11,-4,0);
+addCeil(-11,-26,11,-4,3.6);
+addWall(-11,-4,-11,-26,0,3.6,M.wall,{s:14,e:17,top:2.4});   // west wall with closet doorway
+addWall(11,-26,11,-4,0,3.6,M.wall);
+addWall(-11,-4,11,-4,0,3.6,M.wall,{s:8.5,e:13.5,top:2.6});  // south wall, doorway to junction
+// north wall: window band (three openings)
+(function(){
+  var y=0,h=3.6, sill=.95, head=2.9;
+  var xs = [[-11,-8.4],[-6.4,-3.4],[-1.4,1.6],[3.6,6.6],[8.6,11]];
+  // solid piers
+  addWall(11,-26,8.6,-26,y,h,M.wall);
+  addWall(6.6,-26,3.6,-26,y,h,M.wall);
+  addWall(1.6,-26,-1.4,-26,y,h,M.wall);
+  addWall(-3.4,-26,-6.4,-26,y,h,M.wall);
+  addWall(-8.4,-26,-11,-26,y,h,M.wall);
+  // sills and lintels across the openings
+  var gaps=[[8.6,6.6],[3.6,1.6],[-1.4,-3.4],[-6.4,-8.4]];
+  for (var i=0;i<gaps.length;i++){
+    var a=gaps[i][0], b=gaps[i][1];
+    addWall(a,-26,b,-26,y,sill,M.wall);
+    addWall(a,-26,b,-26,head,h-head,M.wall);
+    // glass
+    var g = new THREE.Mesh(new THREE.PlaneGeometry(Math.abs(a-b), head-sill), M.glass);
+    g.position.set((a+b)/2,(sill+head)/2,-25.94);
+    g.rotation.y = Math.PI;
+    scene.add(g);
+    // frame
+    var fr = new THREE.Mesh(new THREE.BoxGeometry(Math.abs(a-b)+.16, head-sill+.16, .18), M.darkmetal);
+    fr.position.set((a+b)/2,(sill+head)/2,-26.03);
+    scene.add(fr);
+    var mull = new THREE.Mesh(new THREE.BoxGeometry(.10, head-sill, .22), M.darkmetal);
+    mull.position.set((a+b)/2,(sill+head)/2,-26.0);
+    scene.add(mull);
+    var rail = new THREE.Mesh(new THREE.BoxGeometry(Math.abs(a-b), .09, .22), M.darkmetal);
+    rail.position.set((a+b)/2,(sill+head)/2+.35,-26.0);
+    scene.add(rail);
+  }
+})();
+
+/* ---- AIRLOCK CORRIDOR ---- */
+addFloor(6,-2.6,22.4,2.6,0);
+addCeil(6,-2.6,22.4,2.6,3);
+addWall(6,-2.6,22.4,-2.6,0,3,M.wall);
+addWall(22.4,2.6,6,2.6,0,3,M.wall);
+
+/* ---- OUTSIDE GROUND & BUILDING SHELL ---- */
+(function(){
+  var g = new THREE.Mesh(new THREE.PlaneGeometry(420,420,1,1), M.mud);
+  g.rotation.x=-Math.PI/2; g.position.set(30,-0.02,-10);
+  g.receiveShadow = true;
+  scene.add(g);
+  // roof over school + corridor (seen from outside)
+  var roof = new THREE.Mesh(new THREE.BoxGeometry(23,.5,23), M.wall);
+  roof.position.set(0,3.75,-15); roof.castShadow=true; scene.add(roof);
+  var roof2 = new THREE.Mesh(new THREE.BoxGeometry(17,.5,6), M.wall);
+  roof2.position.set(14,3.15,0); roof2.castShadow=true; scene.add(roof2);
+  var roof3 = new THREE.Mesh(new THREE.BoxGeometry(13,.5,9), M.wall);
+  roof3.position.set(0,3.55,0); roof3.castShadow=true; scene.add(roof3);
+  // exterior ribs on the north face, seen from the forest
+  var ribX = [-9.7,-4.9,0.1,5.1,9.8];
+  for (var i=0;i<ribX.length;i++) box(.55,3.8,.55, M.wall, ribX[i], 1.9, -26.5);
+})();
+
+/* ===================== PROPS ===================== */
+var interactables = [];
+function hotspot(x,y,z,w,h,d,id){
+  var m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), M.hot);
+  m.position.set(x,y,z);
+  m.userData.id = id;
+  scene.add(m); interactables.push(m); return m;
+}
+
+/* tunnel dressing: pipes, lamps, seep */
+var lamps = [];
+(function(){
+  for (var z=20; z<=45; z+=6.2){
+    var can = box(.5,.16,.9, M.lampOn, 2.72, -7+2.55, z);
+    var cage = box(.56,.3,1.0, M.darkmetal, 2.78, -7+2.55, z);
+    lamps.push({mesh:can, base:1.5, z:z});
+    var pl = null;
+  }
+  // pipes along the ceiling
+  for (var p=0;p<3;p++){
+    var pipe = new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,31,10), M.metal);
+    pipe.rotation.x = Math.PI/2;
+    pipe.position.set(-2.3+p*.45, -7+2.85, 31.5);
+    scene.add(pipe);
+  }
+  for (var b=18;b<46;b+=4.4){
+    var br = box(1.6,.1,.12, M.darkmetal, -1.9, -7+3.0, b);
+  }
+  // pump housing
+  var pump = box(1.5,1.9,2.6, M.metal, -2.1, -7+.95, 24);
+  blocker(-3,22.7,-1.3,25.3);
+  var wheel = new THREE.Mesh(new THREE.TorusGeometry(.42,.07,8,20), M.darkmetal);
+  wheel.position.set(-1.3,-7+1.3,24); wheel.rotation.y=Math.PI/2; scene.add(wheel);
+  hotspot(-1.45,-7+1.2,24, .5,2.2,3, "pumps");
+  // seep line
+  var seep = new THREE.Mesh(new THREE.PlaneGeometry(1.1,3.2), new THREE.MeshStandardMaterial({
+    color:0x141b1f, transparent:true, opacity:.75, roughness:.15, metalness:.2
+  }));
+  seep.position.set(2.96,-7+1.6,31); seep.rotation.y=-Math.PI/2; scene.add(seep);
+  hotspot(2.88,-7+1.5,31, .45,2.6,2.4, "seep");
+  // plaque
+  var pq = new THREE.Mesh(new THREE.PlaneGeometry(2.0,1.0), new THREE.MeshStandardMaterial({map:tex(plaqueCanvas(),1,1), roughness:.6, metalness:.3}));
+  pq.position.set(-2.96,-7+1.8,38); pq.rotation.y=Math.PI/2; scene.add(pq);
+  hotspot(-2.88,-7+1.8,38, .45,1.6,2.4, "plaque");
+  // sun-lamp alcove
+  var alc = box(1.8,1.4,.3, new THREE.MeshStandardMaterial({color:0x2a2118, emissive:0xff9a3c, emissiveIntensity:1.9}), 2.9,-7+1.7,42.4);
+  var alcFrame = box(2.1,1.7,.22, M.darkmetal, 2.96,-7+1.7,42.4);
+  alcFrame.position.z = 42.4;
+  var bench = box(.7,.4,2.2, M.wood, 2.5,-7+.2,42.4);
+  blocker(2.1,41.2,2.95,43.6);
+  hotspot(2.72,-7+1.5,42.4, .5,2.4,2.6, "lamps");
+  // the drum overhead (ceiling hotspot near start)
+  hotspot(0,-7+3.0,44, 5,.7,4, "drum");
+})();
+
+/* schoolroom props */
+(function(){
+  // desks 4x3
+  for (var r=0;r<3;r++){
+    for (var c=0;c<4;c++){
+      var dx = -6.6 + c*4.4, dz = -20.5 + r*4.6;
+      var top = box(1.7,.09,1.05, M.wood, dx, .78, dz);
+      box(.08,.78,.08, M.darkmetal, dx-.7,.39,dz-.4);
+      box(.08,.78,.08, M.darkmetal, dx+.7,.39,dz-.4);
+      box(.08,.78,.08, M.darkmetal, dx-.7,.39,dz+.4);
+      box(.08,.78,.08, M.darkmetal, dx+.7,.39,dz+.4);
+      box(.86,.07,.86, M.wood, dx, .46, dz+1.5);
+      box(.8,.62,.08, M.wood, dx, .78, dz+1.88);
+      box(.07,.46,.07, M.darkmetal, dx-.36,.23,dz+1.18);
+      box(.07,.46,.07, M.darkmetal, dx+.36,.23,dz+1.18);
+      box(.07,.78,.07, M.darkmetal, dx-.36,.39,dz+1.85);
+      box(.07,.78,.07, M.darkmetal, dx+.36,.39,dz+1.85);
+      blocker(dx-.95,dz-.7,dx+.95,dz+2.0);
+      if (r===0 && c===1){
+        // paper on a desk
+        var pap = new THREE.Mesh(new THREE.PlaneGeometry(.62,.86), new THREE.MeshStandardMaterial({color:0xd8d3c4, roughness:.9}));
+        pap.rotation.x=-Math.PI/2; pap.rotation.z=.12; pap.position.set(dx,.835,dz);
+        scene.add(pap);
+        hotspot(dx,1.05,dz, 2.0,1.1,1.6, "desks");
+      }
+    }
+  }
+  // the empty desk, back left, chair pushed in
+  var ex=-8.0, ez=-7.6;
+  box(1.7,.09,1.05, M.wood, ex,.78,ez);
+  box(.08,.78,.08,M.darkmetal, ex-.7,.39,ez-.4); box(.08,.78,.08,M.darkmetal, ex+.7,.39,ez-.4);
+  box(.08,.78,.08,M.darkmetal, ex-.7,.39,ez+.4); box(.08,.78,.08,M.darkmetal, ex+.7,.39,ez+.4);
+  blocker(ex-.95,ez-.7,ex+.95,ez+.8);
+  hotspot(ex,1.1,ez, 2.1,1.5,1.6, "empty");
+
+  // teacher desk
+  box(3.2,.14,1.4, M.wood, 0,.86,-24.2);
+  box(3.0,.8,1.2, M.wood, 0,.43,-24.2);
+  blocker(-1.7,-25.0,1.7,-23.4);
+
+  // chalk board on the east wall
+  var ch = new THREE.Mesh(new THREE.PlaneGeometry(5.4,2.7), new THREE.MeshStandardMaterial({map:tex(chalkCanvas(),1,1), roughness:.95}));
+  ch.position.set(10.94,1.95,-16); ch.rotation.y=-Math.PI/2; scene.add(ch);
+  hotspot(10.86,1.95,-16, .4,3,5.6, "chart");
+
+  // children's drawings pinned on the south wall
+  var dr = new THREE.Mesh(new THREE.PlaneGeometry(4.6,2.3), new THREE.MeshStandardMaterial({map:tex(drawingsCanvas(),1,1), roughness:.95}));
+  dr.position.set(4.5,1.9,-4.06); dr.rotation.y=Math.PI; scene.add(dr);
+  hotspot(4.5,1.9,-4.15, 4.8,2.6,.4, "drawings");
+
+  // window hotspot
+  hotspot(0,1.9,-25.86, 20,2.2,.4, "windows");
+
+  // ceiling strips
+  for (var s=0;s<3;s++){
+    box(6.4,.1,.34, M.strip, 0, 3.5, -21+s*7.4);
+  }
+
+  // CLOSET: doorway in the west wall at z ~ -18..-21 -> a shallow recess room
+  addFloor(-13.6,-21.2,-11,-18.2,0);
+  addCeil(-13.6,-21.2,-11,-18.2,2.4);
+  addWall(-13.6,-18.2,-13.6,-21.2,0,2.4,M.wall);
+  addWall(-13.6,-21.2,-11,-21.2,0,2.4,M.wall);
+  addWall(-11,-18.2,-13.6,-18.2,0,2.4,M.wall);
+  var door = box(.12,2.25,1.55, M.metal, -11.02,1.13,-19.7);
+  var bolt = box(.16,.1,.5, M.lampOn, -10.9,1.35,-18.98);
+  bolt.material = new THREE.MeshStandardMaterial({color:0x6d5a3a, metalness:.7, roughness:.4});
+  blocker(-11.2,-20.6,-10.9,-18.8);
+  hotspot(-10.94,1.2,-19.7, .38,2.4,1.9, "closet");
+})();
+
+/* airlock */
+var hatch, hatchOpen=false;
+(function(){
+  for (var i=0;i<3;i++) box(.28,3,.28, M.darkmetal, 9+i*4.2, 1.5, -2.45);
+  // coats
+  for (var c=0;c<4;c++){
+    var coat = box(.5,1.3,.28, new THREE.MeshStandardMaterial({color:0x3d4a3f, roughness:.95}), 8+c*.75, 1.5, 2.2);
+  }
+  box(4,.08,.1, M.darkmetal, 9.5, 2.25, 2.3);
+  hatch = box(.3,3.0,5.0, M.metal, 22.3, 1.5, 0);
+  var wheel = new THREE.Mesh(new THREE.TorusGeometry(.55,.09,8,22), M.darkmetal);
+  wheel.position.set(22.1,1.5,0); wheel.rotation.y=Math.PI/2; scene.add(wheel);
+  hotspot(22.05,1.5,0, 0.3,3,5, "hatch");
+  lockOutside(true);
+})();
+
+/* ===================== SKY ===================== */
+var skyUni = {
+  top:    {value:new THREE.Color(0x2b3439)},
+  bottom: {value:new THREE.Color(0x505c60)},
+  sunCol: {value:new THREE.Color(0xffe6b0)},
+  sunDir: {value:new THREE.Vector3(0.55,0.5,-0.45).normalize()},
+  sunAmt: {value:0.0}
+};
+var sky = new THREE.Mesh(
+  new THREE.SphereGeometry(500, 24, 16),
+  new THREE.ShaderMaterial({
+    uniforms: skyUni, side:THREE.BackSide, depthWrite:false, fog:false,
+    vertexShader:"varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+    fragmentShader:[
+      "uniform vec3 top; uniform vec3 bottom; uniform vec3 sunCol; uniform vec3 sunDir; uniform float sunAmt;",
+      "varying vec3 vP;",
+      "void main(){",
+      "  float h = clamp(vP.y*1.9+0.06, 0.0, 1.0);",
+      "  vec3 c = mix(bottom, top, pow(h,0.75));",
+      "  float d = max(dot(normalize(vP), normalize(sunDir)), 0.0);",
+      "  c += sunCol * pow(d, 22.0) * sunAmt * 2.4;",
+      "  c += sunCol * pow(d, 4.0) * sunAmt * 0.28;",
+      "  gl_FragColor = vec4(c, 1.0);",
+      "}"
+    ].join("\n")
+  })
+);
+sky.renderOrder = -10;
+scene.add(sky);
+
+var sunSprite = new THREE.Sprite(new THREE.SpriteMaterial({
+  map: tex(glowCanvas(),1,1), color:0xfff0cc, transparent:true, opacity:0,
+  blending:THREE.AdditiveBlending, depthWrite:false, fog:false
+}));
+sunSprite.scale.set(90,90,1);
+sunSprite.position.copy(skyUni.sunDir.value.clone().multiplyScalar(330));
+scene.add(sunSprite);
+
+/* ===================== LIGHTS (fixed count) ===================== */
+var hemiRain = new THREE.Color(0x7f9cad), hemiSun = new THREE.Color(0xbfd8f5);
+var hemi = new THREE.HemisphereLight(0x7f9cad, 0x22282a, 0.60);
+scene.add(hemi);
+var sun = new THREE.DirectionalLight(0xfff1d6, 0.0);
+sun.position.copy(skyUni.sunDir.value.clone().multiplyScalar(90));
+sun.target.position.set(30,0,-6);
+sun.castShadow = true;
+sun.shadow.mapSize.set(1024,1024);
+sun.shadow.camera.left=-60; sun.shadow.camera.right=60;
+sun.shadow.camera.top=60; sun.shadow.camera.bottom=-60;
+sun.shadow.camera.far=260; sun.shadow.bias=-0.0008; sun.shadow.normalBias=0.035;
+scene.add(sun); scene.add(sun.target);
+
+var pts = [];
+function pl(color,intensity,dist,x,y,z){
+  var l = new THREE.PointLight(color,intensity,dist,1.6);
+  l.position.set(x,y,z); scene.add(l); pts.push(l); return l;
+}
+var tl1 = pl(0xffab54, 1.5, 16, 2.2,-7+2.5, 20.2);
+var tl2 = pl(0xffab54, 1.4, 16, 2.2,-7+2.5, 32.6);
+var tl3 = pl(0xffab54, 1.6, 16, 2.2,-7+2.5, 42.4);
+var jl  = pl(0xf3c98a, 1.8, 20, 0, 3.0, 0);
+var sl1 = pl(0xcfe3ee, 2.5, 30, 0, 3.35, -13.6);
+var sl2 = pl(0xcfe3ee, 2.3, 30, 0, 3.35, -21);
+var al  = pl(0xf3c98a, 1.5, 20, 15, 2.6, 0);
+var cl  = pl(0xffab54, 0.35, 7, -12.2, 2.0, -19.7);
+
+/* ===================== JUNGLE ===================== */
+var bloomMesh, bloomCount = 0, bloomBase = [];
+(function(){
+  /* a tapered, leaning tentacle of a stem */
+  function tendril(lean, h, twist){
+    var pts2 = [];
+    for (var i=0;i<=6;i++){
+      var t=i/6, bend = Math.pow(t,1.9)*lean;
+      pts2.push(new THREE.Vector3(
+        Math.cos(twist)*bend + Math.sin(t*5.4)*0.12,
+        t*h,
+        Math.sin(twist)*bend + Math.cos(t*4.1)*0.12
+      ));
+    }
+    var curve = new THREE.CatmullRomCurve3(pts2);
+    var TUB = 12, RAD = 5;
+    var g = new THREE.TubeGeometry(curve, TUB, 0.24, RAD, false);
+    var pos = g.attributes.position;
+    for (var r=0;r<=TUB;r++){
+      var tt = r/TUB, c = curve.getPointAt(tt);
+      var f = Math.pow(1-tt, .8)*.93 + .07;
+      for (var j=0;j<=RAD;j++){
+        var idx = r*(RAD+1)+j;
+        pos.setXYZ(idx,
+          c.x + (pos.getX(idx)-c.x)*f,
+          c.y + (pos.getY(idx)-c.y)*f,
+          c.z + (pos.getZ(idx)-c.z)*f);
+      }
+    }
+    pos.needsUpdate = true;
+    g.computeVertexNormals();
+    return g;
+  }
+  var variants = [
+    tendril(1.15, 4.6, 0.4),
+    tendril(-0.75, 3.2, 2.1),
+    tendril(1.9, 2.4, 4.3),
+    tendril(0.35, 5.6, 5.5)
+  ];
+  var TOTAL = RM ? 420 : 900;
+  var per = Math.ceil(TOTAL/variants.length);
+  var meshes = [], counts = [];
+  for (var v=0; v<variants.length; v++){
+    var m = new THREE.InstancedMesh(variants[v], M.veg, per);
+    m.castShadow = true; m.receiveShadow = true;
+    m.frustumCulled = false;
+    meshes.push(m); counts.push(0); scene.add(m);
+  }
+  var d = new THREE.Object3D(), color = new THREE.Color();
+  var placed = 0, guard = 0;
+  while (placed < TOTAL && guard < TOTAL*16){
+    guard++;
+    var x = -34 + Math.random()*140;
+    var z = -78 + Math.random()*136;
+    if (x > -14 && x < 25 && z > -30 && z < 6) continue;          // building
+    if (x > 21 && x < 42 && Math.abs(z) < 5.0) continue;          // the path from the hatch
+    if (Math.hypot(x-30, z+8) > 108) continue;
+    var vi = placed % variants.length;
+    if (counts[vi] >= per) { placed++; continue; }
+    d.position.set(x, -.2, z);
+    d.rotation.set(0, Math.random()*6.28, 0);
+    var s = .55 + Math.random()*1.25;
+    var sy = s*(.75+Math.random()*.8);
+    d.scale.set(s, sy, s);
+    d.updateMatrix();
+    meshes[vi].setMatrixAt(counts[vi], d.matrix);
+    var g = .58 + Math.random()*.42;
+    color.setRGB(g*1.03, g, g*.93);
+    meshes[vi].setColorAt(counts[vi], color);
+    counts[vi]++;
+    bloomBase.push({x:x, y:1.1 + Math.random()*2.6*sy*.5, z:z, s:.07+Math.random()*.11});
+    placed++;
+  }
+  for (var q=0;q<meshes.length;q++){
+    meshes[q].count = counts[q];
+    meshes[q].instanceMatrix.needsUpdate = true;
+    if (meshes[q].instanceColor) meshes[q].instanceColor.needsUpdate = true;
+  }
+
+  /* low clumps so the mud is not a bare sheet */
+  var clumpGeo = new THREE.SphereGeometry(1, 8, 6);
+  var clumps = new THREE.InstancedMesh(clumpGeo, M.veg, RM?120:280);
+  clumps.receiveShadow = true; clumps.castShadow = true; clumps.frustumCulled = false;
+  var cc = 0, cguard = 0;
+  while (cc < clumps.count && cguard++ < 20000){
+    var cx = -30 + Math.random()*130, cz = -74 + Math.random()*130;
+    if (cx > -14 && cx < 25 && cz > -30 && cz < 6) continue;
+    if (Math.hypot(cx-30, cz+8) > 100) continue;
+    d.position.set(cx, -.15, cz);
+    d.rotation.set(0, Math.random()*6.28, 0);
+    var cs = .5 + Math.random()*1.5;
+    d.scale.set(cs, cs*(.22+Math.random()*.22), cs*(.8+Math.random()*.5));
+    d.updateMatrix(); clumps.setMatrixAt(cc, d.matrix);
+    var cg = .20 + Math.random()*.16;
+    color.setRGB(cg*1.02, cg, cg*.92);
+    clumps.setColorAt(cc, color);
+    cc++;
+  }
+  clumps.instanceMatrix.needsUpdate = true;
+  if (clumps.instanceColor) clumps.instanceColor.needsUpdate = true;
+  scene.add(clumps);
+
+  /* blooms, closed until the sun */
+  bloomCount = bloomBase.length;
+  bloomMesh = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 8, 6), M.bloom, bloomCount);
+  bloomMesh.frustumCulled = false;
+  var bc = new THREE.Color();
+  for (var i=0;i<bloomCount;i++){
+    var b = bloomBase[i];
+    d.position.set(b.x,b.y,b.z); d.scale.set(.001,.001,.001); d.rotation.set(0,0,0);
+    d.updateMatrix(); bloomMesh.setMatrixAt(i, d.matrix);
+    bc.setHSL(.06 + Math.random()*.11, .78, .60);
+    bloomMesh.setColorAt(i, bc);
+  }
+  bloomMesh.instanceMatrix.needsUpdate = true;
+  if (bloomMesh.instanceColor) bloomMesh.instanceColor.needsUpdate = true;
+  bloomMesh.visible = false;
+  scene.add(bloomMesh);
+
+  // one deliberate stem near the path out, so there is something to examine
+  var hero = new THREE.Mesh(variants[0], M.veg);
+  hero.position.set(36.4,-.2,-17.2); hero.scale.set(1.9,2.1,1.9); hero.rotation.y = 2.2;
+  hero.castShadow = true; scene.add(hero);
+  var hero2 = new THREE.Mesh(variants[2], M.veg);
+  hero2.position.set(34.6,-.2,-18.6); hero2.scale.set(1.6,1.9,1.6); hero2.rotation.y = -1.1;
+  hero2.castShadow = true; scene.add(hero2);
+
+  // outdoor hotspots
+  hotspot(36, 2.4, -17, 1.5,5,1.5, "jungle");
+  hotspot(31, -0.18, 4, 12,.3,12, "ground");
+  hotspot(34, 6.1, -6, 46,.5,46, "sky");
+})();
+
+/* ===================== RAIN ===================== */
+function makeRain(count, area, height, depth){
+  depth = depth || area;
+  var g = new THREE.BufferGeometry();
+  var pos = new Float32Array(count*3);
+  var vel = new Float32Array(count);
+  for (var i=0;i<count;i++){
+    pos[i*3]   = (Math.random()-.5)*area;
+    pos[i*3+1] = Math.random()*height;
+    pos[i*3+2] = (Math.random()-.5)*depth;
+    vel[i] = 22 + Math.random()*26;
+  }
+  g.setAttribute("position", new THREE.BufferAttribute(pos,3));
+  var m = new THREE.PointsMaterial({
+    map: tex(dropCanvas(),1,1), color:0xbcd6e2, size:.42, transparent:true,
+    opacity:.5, depthWrite:false, sizeAttenuation:true, fog:true
+  });
+  var p = new THREE.Points(g,m);
+  p.userData = {vel:vel, area:area, depth:depth, height:height, count:count};
+  scene.add(p);
+  return p;
+}
+var rainA = makeRain(RM?900:2600, 70, 26);   // follows the player outdoors
+var rainB = makeRain(RM?600:1500, 44, 22, 26);  // fixed block just beyond the windows
+rainB.position.set(0,0,-40);
+function stepRain(p, dt, follow){
+  var arr = p.geometry.attributes.position.array, ud = p.userData;
+  for (var i=0;i<ud.count;i++){
+    arr[i*3+1] -= ud.vel[i]*dt;
+    if (arr[i*3+1] < -1){
+      arr[i*3+1] = ud.height;
+      arr[i*3]   = (Math.random()-.5)*ud.area;
+      arr[i*3+2] = (Math.random()-.5)*ud.depth;
+    }
+  }
+  p.geometry.attributes.position.needsUpdate = true;
+  if (follow){ p.position.x = camera.position.x; p.position.z = camera.position.z; }
+}
+
+/* ===================== AUDIO ===================== */
+var AC = null, rainGain=null, rainFilter=null, muted=false, audioReady=false;
+function initAudio(){
+  if (audioReady) return;
+  try{
+    var Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    AC = new Ctx();
+    var len = AC.sampleRate*2, buf = AC.createBuffer(1,len,AC.sampleRate), d = buf.getChannelData(0);
+    var last=0;
+    for (var i=0;i<len;i++){
+      var w = Math.random()*2-1;
+      last = (last + .04*w)/1.04;
+      d[i] = last*2.6 + w*.35;
+    }
+    var src = AC.createBufferSource(); src.buffer=buf; src.loop=true;
+    rainFilter = AC.createBiquadFilter(); rainFilter.type="lowpass"; rainFilter.frequency.value=520; rainFilter.Q.value=.5;
+    var hp = AC.createBiquadFilter(); hp.type="highpass"; hp.frequency.value=140;
+    rainGain = AC.createGain(); rainGain.gain.value=0.0;
+    src.connect(rainFilter); rainFilter.connect(hp); hp.connect(rainGain); rainGain.connect(AC.destination);
+    src.start(0);
+    audioReady = true;
+    setTimeout(dripLoop, 2500);
+  }catch(e){}
+}
+function drip(){
+  if (!audioReady || muted || AC.state!=="running") return;
+  var o = AC.createOscillator(), g = AC.createGain();
+  o.type="sine"; o.frequency.setValueAtTime(760+Math.random()*700, AC.currentTime);
+  o.frequency.exponentialRampToValueAtTime(180, AC.currentTime+.14);
+  g.gain.setValueAtTime(.0001, AC.currentTime);
+  g.gain.exponentialRampToValueAtTime(.06, AC.currentTime+.006);
+  g.gain.exponentialRampToValueAtTime(.0001, AC.currentTime+.30);
+  o.connect(g); g.connect(AC.destination); o.start(); o.stop(AC.currentTime+.34);
+}
+function dripLoop(){
+  if (!indoors() || state==="sun") { }
+  else drip();
+  setTimeout(dripLoop, 1600+Math.random()*4200);
+}
+function setAudio(gain, cutoff){
+  if (!audioReady) return;
+  var t = AC.currentTime;
+  rainGain.gain.setTargetAtTime(muted?0:gain, t, .6);
+  rainFilter.frequency.setTargetAtTime(cutoff, t, .8);
+}
+
+/* ===================== OBSERVATIONS ===================== */
+var OBS = {
+  seep:   {t:"The seep line", z:"tunnel", p:"Water finds its way down through a hundred metres of rock and arrives here one bead at a time, running the same grey line it has run since before you were born. The concrete never dries. Nothing on this world ever dries."},
+  pumps:  {t:"Pump housing", z:"tunnel", p:"Under the floor the pumps push the rain back out again, all day, all night. You stopped hearing that sound when you were four. You only notice it when you try to imagine what silence would be."},
+  lamps:  {t:"Sun lamps", z:"tunnel", p:"Amber, warm on the backs of your hands for three minutes at a time, then a click, and it is over. The teachers call it sunlight. You have never had anything to compare it with."},
+  plaque: {t:"Colony plaque", z:"tunnel", p:"The rocket people came from Earth to make a life here. They remember. They talk about a yellow light that filled a whole sky, and you nod, the way you would nod at a story about the sea if you had only ever seen a bath."},
+  drum:   {t:"The drum overhead", z:"tunnel", p:"Rain on the roof of the world. A thousand fingers on a thousand drums, so steady for so long that it stopped being a sound and became the shape of the air."},
+  windows:{t:"The thick windows", z:"school", p:"Glass as thick as your wrist, and behind it the grey going on and on with nothing in it to look at. Press your forehead against it and the cold comes straight through into your skull."},
+  desks:  {t:"The desks", z:"school", p:"Scarred wood, warm where forty hands have rested. Today you were all asked to write about the sun. Everyone wrote something. Nobody in the room has seen one."},
+  empty:  {t:"The empty desk", z:"school", p:"One desk at the back is clear. The girl who sits there came from Earth when she was four, so she remembers, and remembering is the thing the rest of you cannot forgive her for."},
+  chart:  {t:"Solar interval board", z:"school", p:"Day two thousand five hundred and fifty-five, kept in chalk by teachers who wanted the number to mean something to you. Today the last figure is circled. Today is the day."},
+  drawings:{t:"Crayon suns", z:"school", p:"Every child in this room draws it the same way: a yellow circle with legs of light coming off it. None of you has seen one. You are all copying the same rumour."},
+  closet: {t:"The closet door", z:"school", p:"A door at the end of the room, no bigger than a cupboard, with a bolt fitted on the outside of it. It is the kind of door nobody in the class looks at directly."},
+  hatch:  {t:"Surface hatch", z:"airlock", p:"Steel, cold, wet along the seam where it meets the frame. On the other side of it is the only weather this planet has ever had."},
+  jungle: {t:"Rubber and ash", z:"out", p:"The forest grows in the rain and dies in it, over and over, so fast that it never has time to become wood. It is the colour of rubber and ash, and it moves a little when nothing at all is touching it."},
+  ground: {t:"The ground", z:"out", p:"Nothing here is dry enough to keep a footprint. The mud takes your weight and gives it back slowly, the way something breathes under a sheet."},
+  sky:    {t:"The grey lid", z:"out", p:"A ceiling of cloud with no seam anywhere in it. Somewhere behind that there is a star, and everything you have ever eaten grew because of it. You have been told so."},
+  thesun: {t:"The sun", z:"sun", p:"It is not yellow. It is white, and it is enormous, and it hurts, and you cannot make yourself stop looking. The air goes hot across your face for the first time in your life and your skin does not know what to do about it."},
+  flowers:{t:"The flowers", z:"sun", p:"The forest opens all at once, colour rushing up the stems like something poured, and every one of them carries a bloom the size of your fist. They get an hour too. They spend all of it."},
+  after:  {t:"The closet door", z:"after", p:"You are inside again and your hair is wet and the sun has gone for seven years, and there is still a bolt on the outside of a small door at the end of the room. Somebody has to walk down there and open it."}
+};
+var ORDER = ["drum","seep","pumps","lamps","plaque","chart","desks","drawings","empty","windows","closet","hatch","ground","jungle","sky","thesun","flowers","after"];
+var found = {};
+var foundCount = 0;
+document.getElementById("total").textContent = ORDER.length;
+
+/* ===================== UI ===================== */
+var $ = function(id){ return document.getElementById(id); };
+var capEl=$("cap"), capH=capEl.querySelector("h2"), capP=capEl.querySelector("p");
+var capTimer=null;
+function showCap(title, text){
+  capH.textContent = title; capP.textContent = text;
+  capEl.classList.add("on");
+  clearTimeout(capTimer);
+  capTimer = setTimeout(function(){ capEl.classList.remove("on"); }, 9500);
+}
+function record(id){
+  var o = OBS[id]; if (!o) return;
+  if (!found[id]){
+    found[id]=true; foundCount++;
+    $("found").textContent = foundCount;
+    $("bar").firstElementChild.style.width = (foundCount/ORDER.length*100)+"%";
+  }
+  showCap(o.t, o.p);
+}
+function buildNotes(){
+  var list = $("notelist"); list.innerHTML="";
+  for (var i=0;i<ORDER.length;i++){
+    var id=ORDER[i], o=OBS[id];
+    var div=document.createElement("div");
+    div.className = "noteitem" + (found[id]?"":" pending");
+    div.innerHTML = '<div class="n">'+(i+1<10?"0":"")+(i+1)+'</div><div><h3>'+
+      (found[id]?o.t:"Not yet found")+'</h3><p>'+(found[id]?o.p:"Something down here you have not stopped to look at.")+'</p></div>';
+    list.appendChild(div);
+  }
+  $("notesprog").textContent = foundCount+" of "+ORDER.length;
+}
+
+/* ===================== PLAYER ===================== */
+var player = {x:0, z:44, y:-7, yaw:0, pitch:0, vx:0, vz:0, bob:0};
+var keys = {};
+var running = false;
+var pointerLocked = false, dragLook = false, dragging = false;
+
+function indoors(){ return player.x < 22.2; }
+
+function startGame(){
+  $("title").hidden = true;
+  $("hud").classList.add("on");
+  running = true;
+  initAudio();
+  if (AC && AC.state === "suspended") AC.resume();
+  setAudio(indoors()?0.16:0.5, indoors()?420:2600);
+  tryLock();
+}
+function tryLock(){
+  var el = renderer.domElement;
+  if (el.requestPointerLock){
+    try{ el.requestPointerLock(); }catch(e){ dragLook = true; }
+    setTimeout(function(){
+      if (document.pointerLockElement !== el) dragLook = true;
+    }, 500);
+  } else dragLook = true;
+}
+document.addEventListener("pointerlockchange", function(){
+  pointerLocked = (document.pointerLockElement === renderer.domElement);
+  if (pointerLocked) dragLook = false;
+  else if (running && !anyVeil()) { /* keep going in drag mode */ dragLook = true; }
+});
+document.addEventListener("pointerlockerror", function(){ dragLook = true; });
+
+function anyVeil(){
+  return !$("title").hidden || !$("pause").hidden || !$("help").hidden || !$("notesveil").hidden || !$("end").hidden;
+}
+function pause(){
+  if (!running) return;
+  running = false;
+  $("pause").hidden = false;
+  if (document.exitPointerLock) document.exitPointerLock();
+}
+function unpause(){
+  $("pause").hidden = true; $("help").hidden = true; $("notesveil").hidden = true; $("end").hidden = true;
+  running = true;
+  tryLock();
+}
+
+document.addEventListener("mousemove", function(e){
+  if (!running) return;
+  if (pointerLocked || (dragLook && dragging)){
+    player.yaw   -= e.movementX * 0.0022;
+    player.pitch -= e.movementY * 0.0022;
+    player.pitch = Math.max(-1.35, Math.min(1.35, player.pitch));
+  }
+});
+renderer.domElement.addEventListener("mousedown", function(e){
+  if (!running) return;
+  if (!pointerLocked && !dragLook) tryLock();
+  dragging = true;
+});
+window.addEventListener("mouseup", function(){ dragging=false; });
+
+window.addEventListener("keydown", function(e){
+  var k = e.key.toLowerCase();
+  keys[k] = true;
+  if (k === "escape"){ if (running) pause(); }
+  if (!running) return;
+  if (k === "e" || k === " ") { e.preventDefault(); interact(); }
+  if (k === "j"){ buildNotes(); $("notesveil").hidden=false; running=false; if(document.exitPointerLock) document.exitPointerLock(); }
+  if (k === "h"){ $("help").hidden=false; running=false; if(document.exitPointerLock) document.exitPointerLock(); }
+  if (k === "m"){ muted = !muted; setAudio(indoors()?0.16:0.5, indoors()?420:2600); }
+});
+window.addEventListener("keyup", function(e){ keys[e.key.toLowerCase()] = false; });
+window.addEventListener("blur", function(){ keys = {}; });
+
+/* touch */
+var touchMove = {active:false, id:null, cx:0, cy:0, dx:0, dy:0};
+var touchLook = {id:null, x:0, y:0};
+if ("ontouchstart" in window){
+  $("touch").classList.add("on");
+  var stickI = $("stick").firstElementChild;
+  window.addEventListener("touchstart", function(e){
+    if (!running) return;
+    for (var i=0;i<e.changedTouches.length;i++){
+      var t=e.changedTouches[i];
+      if (t.clientX < window.innerWidth*0.45 && touchMove.id===null){
+        touchMove.id=t.identifier; touchMove.active=true; touchMove.cx=t.clientX; touchMove.cy=t.clientY;
+      } else if (touchLook.id===null){
+        touchLook.id=t.identifier; touchLook.x=t.clientX; touchLook.y=t.clientY;
+      }
+    }
+  }, {passive:true});
+  window.addEventListener("touchmove", function(e){
+    for (var i=0;i<e.changedTouches.length;i++){
+      var t=e.changedTouches[i];
+      if (t.identifier===touchMove.id){
+        touchMove.dx = Math.max(-1,Math.min(1,(t.clientX-touchMove.cx)/54));
+        touchMove.dy = Math.max(-1,Math.min(1,(t.clientY-touchMove.cy)/54));
+        stickI.style.transform = "translate("+(touchMove.dx*30)+"px,"+(touchMove.dy*30)+"px)";
+      } else if (t.identifier===touchLook.id){
+        player.yaw -= (t.clientX-touchLook.x)*0.005;
+        player.pitch -= (t.clientY-touchLook.y)*0.005;
+        player.pitch = Math.max(-1.35,Math.min(1.35,player.pitch));
+        touchLook.x=t.clientX; touchLook.y=t.clientY;
+      }
+    }
+  }, {passive:true});
+  window.addEventListener("touchend", function(e){
+    for (var i=0;i<e.changedTouches.length;i++){
+      var t=e.changedTouches[i];
+      if (t.identifier===touchMove.id){ touchMove.id=null; touchMove.active=false; touchMove.dx=0; touchMove.dy=0; stickI.style.transform=""; }
+      if (t.identifier===touchLook.id){ touchLook.id=null; }
+    }
+  }, {passive:true});
+  $("tact").addEventListener("click", function(ev){ ev.stopPropagation(); interact(); });
+}
+
+/* ===================== INTERACTION ===================== */
+var ray = new THREE.Raycaster();
+ray.far = 6.2;
+var centre = new THREE.Vector2(0,0);
+var lookingAt = null, rayTick = 0;
+
+function updateLook(){
+  ray.setFromCamera(centre, camera);
+  var hits = ray.intersectObjects(interactables, false);
+  var id = hits.length ? hits[0].object.userData.id : null;
+  if (id === "closet" && state === "after") id = "after";
+  if (id === "sky" && state === "sun") id = "thesun";
+  if (id === "jungle" && state === "sun") id = "flowers";
+  lookingAt = id;
+  var cross = $("cross"), pr = $("prompt");
+  if (id){
+    cross.classList.add("hot"); pr.classList.add("on");
+    pr.textContent = (id==="hatch" && !hatchOpen) ? "E · open the hatch" : (found[id] ? "E · look again" : "E · examine");
+  } else {
+    cross.classList.remove("hot"); pr.classList.remove("on");
+  }
+}
+function interact(){
+  if (!lookingAt) return;
+  if (lookingAt === "hatch" && !hatchOpen){
+    hatchOpen = true;
+    lockOutside(false);
+    record("hatch");
+    return;
+  }
+  record(lookingAt);
+}
+
+/* ===================== SUN SEQUENCE ===================== */
+var state = "rain";           // rain -> break -> sun -> close -> after
+var stateT = 0;
+var outsideT = -1;
+var SUN_LEN = RM ? 40 : 62;   // the "hour", compressed
+var BREAK = 6, CLOSE = 7;
+var sunAmt = 0;               // 0..1 grade
+
+var col = {
+  skyTopRain: new THREE.Color(0x2b3439), skyBotRain: new THREE.Color(0x545f62),
+  skyTopSun: new THREE.Color(0x1d6fc4),  skyBotSun: new THREE.Color(0xa9cfe4),
+  fogRain: new THREE.Color(0x59666b),    fogSun: new THREE.Color(0xdde6e0),
+  fogIn: new THREE.Color(0x090f12),
+  vegAsh: new THREE.Color(0x9aa096),     vegSun: new THREE.Color(0xa8c06a)
+};
+var tmpC = new THREE.Color();
+var dObj = new THREE.Object3D();
+
+function setSunGrade(a){
+  sunAmt = a;
+  skyUni.sunAmt.value = a;
+  skyUni.top.value.copy(col.skyTopRain).lerp(col.skyTopSun, a);
+  skyUni.bottom.value.copy(col.skyBotRain).lerp(col.skyBotSun, a);
+  sunSprite.material.opacity = Math.pow(a,1.4);
+  sunSprite.scale.setScalar(70 + a*46);
+  sun.intensity = a*2.5;
+  hemi.intensity = 0.60 + a*0.25;
+  hemi.color.copy(hemiRain).lerp(hemiSun, a);
+  renderer.toneMappingExposure = 0.95 + a*0.3;
+  M.veg.color.copy(col.vegAsh).lerp(col.vegSun, a*0.85);
+  M.bloom.emissive.setRGB(a*0.32, a*0.22, 0.0);
+  var rainOp = (1-a);
+  rainA.material.opacity = .5*rainOp;
+  rainB.material.opacity = .5*rainOp;
+  // blooms
+  for (var i=0;i<bloomCount;i++){
+    var b = bloomBase[i];
+    var s = b.s * Math.max(0, Math.min(1, a*1.25 - (i%7)*0.02));
+    dObj.position.set(b.x,b.y,b.z);
+    dObj.scale.set(s, s*1.25, s);
+    dObj.updateMatrix();
+    bloomMesh.setMatrixAt(i, dObj.matrix);
+  }
+  bloomMesh.instanceMatrix.needsUpdate = true;
+  bloomMesh.visible = a > 0.02;
+  $("weather").textContent = a > .5 ? "Precipitation: none" : "Precipitation: continuous";
+}
+setSunGrade(0);
+
+function fmtTime(sec){
+  var total = Math.max(0, Math.round(sec / SUN_LEN * 3600));
+  var m = Math.floor(total/60), s = total%60;
+  return (m<10?"0":"")+m+":"+(s<10?"0":"")+s;
+}
+
+function updateState(dt){
+  stateT += dt;
+  if (state === "rain"){
+    if (!indoors()){
+      if (outsideT < 0){ outsideT = 0; showCap("Outside", "You are standing in it. Seven years of rain, falling on the back of your neck, and the forest going on for as far as the grey lets you see."); }
+      outsideT += dt;
+      if (outsideT > 16){ state="break"; stateT=0; $("sunbar").classList.add("on"); showCap("Something stops", "The noise goes out of the world. Not quieter. Off."); }
+    }
+  } else if (state === "break"){
+    setSunGrade(Math.min(1, stateT/BREAK));
+    setAudio(0.5*(1-stateT/BREAK), 2600);
+    if (stateT >= BREAK){ state="sun"; stateT=0; record("thesun"); }
+  } else if (state === "sun"){
+    setSunGrade(1);
+    $("suntime").textContent = fmtTime(SUN_LEN - stateT);
+    if (stateT >= SUN_LEN){ state="close"; stateT=0; showCap("A drop", "One, cold, on the back of a hand. Then another, and the light going out of the forest like a hand closing over it."); }
+  } else if (state === "close"){
+    setSunGrade(Math.max(0, 1 - stateT/CLOSE));
+    setAudio(indoors()?0.16:0.62, indoors()?420:2600);
+    $("suntime").textContent = "00:00";
+    if (stateT >= CLOSE){
+      state="after"; stateT=0;
+      $("sunbar").classList.remove("on");
+      $("endstat").textContent = "You collected "+foundCount+" of "+ORDER.length+" observations.";
+      $("end").hidden = false; running=false;
+      if (document.exitPointerLock) document.exitPointerLock();
+    }
+  }
+}
+
+/* ===================== LOOP ===================== */
+var clock = new THREE.Clock();
+var lastZone = "";
+var glassTick = 0;
+
+function frame(){
+  requestAnimationFrame(frame);
+  var dt = Math.min(clock.getDelta(), 0.05);
+  var t = clock.elapsedTime;
+
+  if (running){
+    /* movement */
+    var f=0, s=0;
+    if (keys.w || keys.arrowup) f+=1;
+    if (keys.s || keys.arrowdown) f-=1;
+    if (keys.a || keys.arrowleft) s-=1;
+    if (keys.d || keys.arrowright) s+=1;
+    if (touchMove.active){ f -= touchMove.dy; s += touchMove.dx; }
+    var len = Math.hypot(f,s);
+    if (len > 1){ f/=len; s/=len; }
+    var speed = (keys.shift ? 5.4 : 2.9);
+    var sinY = Math.sin(player.yaw), cosY = Math.cos(player.yaw);
+    var wx = (-sinY*f + cosY*s) * speed;
+    var wz = (-cosY*f - sinY*s) * speed;
+    player.vx += (wx - player.vx) * Math.min(1, dt*11);
+    player.vz += (wz - player.vz) * Math.min(1, dt*11);
+
+    var nx = player.x + player.vx*dt, nz = player.z + player.vz*dt;
+    var pad = 0.42;
+    if (zoneAt(nx,nz,pad) && !blocked(nx,nz,pad)){ player.x=nx; player.z=nz; }
+    else if (zoneAt(nx,player.z,pad) && !blocked(nx,player.z,pad)){ player.x=nx; player.vz*=.4; }
+    else if (zoneAt(player.x,nz,pad) && !blocked(player.x,nz,pad)){ player.z=nz; player.vx*=.4; }
+    else { player.vx*=.2; player.vz*=.2; }
+
+    var moving = Math.hypot(player.vx,player.vz);
+    player.bob += dt * moving * 2.1;
+    var bobY = RM ? 0 : Math.sin(player.bob*2.4)*0.035*Math.min(1,moving/3);
+    var bobX = RM ? 0 : Math.cos(player.bob*1.2)*0.02*Math.min(1,moving/3);
+
+    player.y = floorAt(player.x, player.z);
+    camera.position.set(player.x + bobX, player.y + 1.66 + bobY, player.z);
+    camera.rotation.order = "YXZ";
+    camera.rotation.y = player.yaw;
+    camera.rotation.x = player.pitch;
+    camera.rotation.z = bobX*0.25;
+
+    /* zone label + audio + fog */
+    var Z = zoneAt(player.x, player.z, 0);
+    if (Z && !Z.quiet && Z.n !== lastZone){
+      lastZone = Z.n;
+      $("zonename").textContent = Z.n;
+      setAudio(indoors()?0.17:0.55, indoors()?430:2600);
+    }
+    var inside = indoors();
+    var inSchool = (player.z < -3 && player.z > -27 && Math.abs(player.x) < 12);
+    var targetDens = inSchool ? 0.026 : (inside ? 0.05 : (0.032 - sunAmt*0.025));
+    scene.fog.density += (targetDens - scene.fog.density) * Math.min(1, dt*1.6);
+    tmpC.copy(col.fogRain).lerp(col.fogSun, sunAmt);
+    if (inside) tmpC.lerp(col.fogIn, inSchool ? 0.34 : 0.78);
+    scene.fog.color.lerp(tmpC, Math.min(1, dt*1.6));
+
+    updateState(dt);
+
+    rayTick++;
+    if (rayTick % 3 === 0) updateLook();
+  }
+
+  /* always-on atmosphere */
+  var outside = !indoors();
+  rainA.visible = outside && sunAmt < .96;
+  if (rainA.visible) stepRain(rainA, dt, true);
+  rainB.visible = sunAmt < .96 && camera.position.z < 6;
+  if (rainB.visible) stepRain(rainB, dt, false);
+  glassTick++;
+  if (glassTick % 2 === 0 && camera.position.z < -2) updateGlass();
+
+  // lamp flicker
+  var fl = 1 + Math.sin(t*13.1)*0.05 + Math.sin(t*3.7)*0.04;
+  tl1.intensity = 1.5*fl; tl3.intensity = 1.6*(1 + Math.sin(t*21.3+1.4)*0.09);
+  M.lampOn.emissiveIntensity = 1.5*fl;
+  // hatch slide
+  if (hatchOpen && hatch.position.z > -4.6) hatch.position.z -= dt*1.4;
+
+  renderer.render(scene, camera);
+}
+
+/* ===================== BUTTONS ===================== */
+$("go").addEventListener("click", startGame);
+$("resume").addEventListener("click", unpause);
+$("opennotes").addEventListener("click", function(){ buildNotes(); $("pause").hidden=true; $("notesveil").hidden=false; });
+$("openhelp").addEventListener("click", function(){ $("pause").hidden=true; $("help").hidden=false; });
+$("closehelp").addEventListener("click", unpause);
+$("closenotes").addEventListener("click", unpause);
+$("endnotes").addEventListener("click", function(){ buildNotes(); $("end").hidden=true; $("notesveil").hidden=false; });
+$("endback").addEventListener("click", unpause);
+document.addEventListener("visibilitychange", function(){ if (document.hidden && running) pause(); });
+
+$("loading").hidden = true;
+buildNotes();
+frame();
+})();
+</script>
+</body>
+</html>
