@@ -35,8 +35,8 @@ panels.innerHTML = classes.map((className, index) => `
         const isUnit = slug === 'lessons' && (className === '6SI' || className === '5SI');
         const description = isUnit
           ? className === '6SI'
-            ? 'Unit 1: In Search of Adventure. Lessons, activities and student materials are ready to open.'
-            : 'Unit 1: Short Stories. Lessons, activities and student materials are ready to open.'
+            ? 'Unit 1: In Search of Adventure. Lessons 1–6, activities and student materials are ready to open.'
+            : 'Unit 1: Short Stories. Lessons 1–6, activities and student materials are ready to open.'
           : className === '6LVA' && slug === 'resources'
             ? 'Find the First Week English Games collection under the Games tab.'
             : defaultDescription;
