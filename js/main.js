@@ -1,4 +1,5 @@
 const classes = ['6LVA', '6SI', '5SI'];
+const classSummary = { '6LVA': '1 game ready.', '6SI': '6 lessons available.', '5SI': '7 lessons available.' };
 
 const sections = [
   ['01', '≋', 'lessons', 'Lessons', 'Lessons', 'Lesson activities, unit materials and classroom learning in one place.', 'Unit 1 ready'],
@@ -27,20 +28,23 @@ panels.innerHTML = classes.map((className, index) => `
   <section class="panel ${index ? '' : 'active'}" id="panel-${className}" role="tabpanel" aria-labelledby="tab-${className}" ${index ? 'hidden' : ''}>
     <div class="class-heading">
       <h2>${safe(className)} <span>— this week</span></h2>
-      <p class="weekly-summary">Two places to go</p>
+      <p class="weekly-summary">${classSummary[className]} · two places to go</p>
     </div>
     <div class="grid">
       ${sections.map((section, sectionIndex) => {
         const [number, icon, slug, label, title, defaultDescription, defaultStatus] = section;
         const isUnit = slug === 'lessons' && (className === '6SI' || className === '5SI');
+        const hasGames = slug === 'resources' && (className === '6LVA' || className === '5SI');
         const description = isUnit
           ? className === '6SI'
             ? 'Unit 1: In Search of Adventure. Lessons 1–6, activities and student materials are ready to open.'
-            : 'Unit 1: Short Stories. Lessons 1–6, activities and student materials are ready to open.'
-          : className === '6LVA' && slug === 'resources'
-            ? 'Find the First Week English Games collection under the Games tab.'
+            : 'Unit 1: Short Stories. Lessons 1–7, activities and student materials are ready to open.'
+          : hasGames
+            ? className === '5SI'
+              ? 'Find Venus Walk under the Games tab.'
+              : 'Find the First Week English Games collection under the Games tab.'
             : defaultDescription;
-        const status = className === '6LVA' && slug === 'resources' ? 'Games ready' : isUnit ? 'Unit 1 ready' : defaultStatus;
+        const status = hasGames ? classSummary[className] : isUnit ? classSummary[className] : defaultStatus;
         return `
           <article class="card card-${sectionIndex + 1}">
             <div class="topline"><span class="card-number">${number}</span><span class="icon" aria-hidden="true">${icon}</span></div>
@@ -54,6 +58,13 @@ panels.innerHTML = classes.map((className, index) => `
   </section>
 `).join('');
 
+function updateMobileTabOrder(selectedTab) {
+  let order = 1;
+  tabs.forEach(tab => {
+    tab.style.setProperty('--mobile-order', tab === selectedTab ? '0' : String(order++));
+  });
+}
+
 function select(tab, persist = true) {
   tabs.forEach(item => {
     const isSelected = item === tab;
@@ -63,6 +74,7 @@ function select(tab, persist = true) {
     panel.hidden = !isSelected;
     panel.classList.toggle('active', isSelected);
   });
+  updateMobileTabOrder(tab);
   if (persist) {
     try { localStorage.setItem('syls-corner-class', tab.dataset.class); } catch { /* Browser storage is optional. */ }
   }
@@ -83,7 +95,7 @@ try {
   const savedClass = localStorage.getItem('syls-corner-class');
   const migrations = { '6ABCD': '6LVA', '6H': '6SI', '5EFG': '5SI' };
   const savedTab = tabs.find(tab => tab.dataset.class === (migrations[savedClass] || savedClass));
-  if (savedTab) select(savedTab, false);
-} catch { /* The default tab remains selected. */ }
+  select(savedTab || tabs[0], false);
+} catch { select(tabs[0], false); }
 
 document.getElementById('year').textContent = new Date().getFullYear();

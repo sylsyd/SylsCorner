@@ -42,3 +42,10 @@ body { background: #f7f5ed url("../assets/watercolor-ink-paper.png") center/cove
 a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 .resource-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 .section-heading > p { max-width: 44ch; }
+
+/* Resource types use the same semantic colour and action language on every lesson page. */
+.breadcrumb { gap: 7px; white-space: nowrap; }
+.fullscreen-indicator { color: var(--sea); display: inline-block; font-size: 14px; line-height: 1; margin-left: 7px; vertical-align: -1px; }
+.resource-iwb .action { color: var(--sea); }
+.resource-iwb .action b { margin-left: 7px; }
+@media (max-width: 620px) { .breadcrumb span:first-child { font-size: 8px; letter-spacing: .07em; } }

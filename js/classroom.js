@@ -4,8 +4,8 @@ const destinations = {
   resources: { label: 'Resources', symbol: '◇', description: 'Extra materials, useful links and class activities.', emptyTitle: 'Resources are on their way.', emptyCopy: 'This class does not have extra resources posted yet.' }
 };
 const games = {
-  '6LVA': { title: 'First Week English Games', copy: 'Fifteen ready-to-run English activities for the classroom.', href: 'games/first-week-english-games.html' },
-  '5SI': { title: 'Venus Walk', copy: 'A ready-to-play classroom game for practising English.', href: 'games/venus-walk.html' }
+  '6LVA': { title: 'First Week English Games', copy: 'Fifteen ready-to-run English activities for the classroom.', href: 'games/first-week-english-games.html', theme: 'first-week' },
+  '5SI': { title: 'Venus Walk', copy: 'A ready-to-play classroom game for practising English.', href: 'games/venus-walk.html', theme: 'venus-walk' }
 };
 const params = new URLSearchParams(window.location.search);
 const className = validClasses.has(params.get('class')) ? params.get('class') : '6LVA';
@@ -30,4 +30,8 @@ if (game) {
   document.getElementById('games-title').textContent = game.title;
   document.getElementById('games-copy').textContent = game.copy;
   document.getElementById('games-link').href = game.href;
+  document.getElementById('games-link').target = '_blank';
+  document.getElementById('games-link').rel = 'noopener';
+  document.getElementById('games-link-title').textContent = game.title;
+  document.getElementById('game-preview').classList.add(`game-preview--${game.theme}`);
 }
