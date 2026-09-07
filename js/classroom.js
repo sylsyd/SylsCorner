@@ -13,7 +13,7 @@ const section = destinations[params.get('section')] ? params.get('section') : 'l
 const page = destinations[section];
 const game = section === 'resources' ? games[className] : null;
 
-document.title = `${page.label} | ${className} | Syl's Corner`;
+document.title = `${page.label} | ${className} | The Learning Deck`;
 document.getElementById('eyebrow').textContent = `${className} classroom`;
 document.getElementById('title').textContent = page.label;
 document.getElementById('description').textContent = page.description;
