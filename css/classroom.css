@@ -50,3 +50,6 @@ a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 .footer-class-switcher a { background: rgba(255,253,248,.10); border: 1px solid rgba(255,255,255,.26); border-radius: 5px; color: #fffdf8; font: 400 18px/1 Georgia,serif; padding: 8px 15px; }
 .footer-class-switcher a:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
 @media (max-width: 620px) { .footer-class-switcher { gap: 7px; padding: 17px 12px; }.footer-class-switcher > span { flex-basis: 100%; margin: 0 0 2px; text-align: center; }.footer-class-switcher a { font-size: 16px; padding: 8px 13px; } }
+
+.games-list { display: grid; gap: 12px; }
+.game-preview--between-lines { background-color: #fff7df; background-image: url("../assets/watercolor-ink-paper.png"); color: var(--red); }
