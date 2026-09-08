@@ -35,6 +35,13 @@ body{background:#f7f5ed url("../assets/watercolor-ink-paper.png") center/cover f
 .class-switcher-menu a:hover { background: rgba(215,175,98,.16); }.class-switcher-menu span { color: #607182; font: 800 8px/1 system-ui; letter-spacing: .09em; text-transform: uppercase; }
 .class-switcher summary:focus-visible,.class-switcher-menu a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 @media (max-width: 620px) { .class-switcher summary { font-size: 8px; min-height: 31px; padding: 0 8px; }.class-switcher-menu { min-width: 150px; }.class-switcher-menu a { font-size: 16px; padding: 10px 11px; } }
+
+/* A direct class switcher is also available after the page content. */
+.footer-class-switcher { align-items: center; background: rgba(7,29,53,.96); border-top: 3px solid var(--gold); display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 20px clamp(16px,4vw,48px); }
+.footer-class-switcher > span { color: #dce6e9; font-size: 9px; font-weight: 800; letter-spacing: .15em; margin-right: 7px; text-transform: uppercase; }
+.footer-class-switcher a { background: rgba(255,253,248,.10); border: 1px solid rgba(255,255,255,.26); border-radius: 5px; color: #fffdf8; font: 400 18px/1 Georgia,serif; padding: 8px 15px; }
+.footer-class-switcher a:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+@media (max-width: 620px) { .footer-class-switcher { gap: 7px; padding: 17px 12px; }.footer-class-switcher > span { flex-basis: 100%; margin: 0 0 2px; text-align: center; }.footer-class-switcher a { font-size: 16px; padding: 8px 13px; } }
 </style>
 </head>
 <body>
@@ -77,4 +84,4 @@ function tick(){if(seconds>0){seconds--;$('time').textContent=Math.floor(seconds
 function resetTimer(){clearInterval(interval);running=false;seconds=60;$('time').textContent='1:00';$('timerToggle').textContent='Start'}
 $('timerToggle').onclick=()=>{running=!running;$('timerToggle').textContent=running?'Pause':'Start';clearInterval(interval);if(running)interval=setInterval(tick,1000)};$('search').oninput=e=>drawMenu(e.target.value);drawMenu();
 </script>
-</body></html>
+<nav class="footer-class-switcher" aria-label="Switch class"><span>Switch class</span><a href="../classroom.html?class=6LVA&amp;section=resources">6LVA</a><a href="../6si-unit-1.html">6SI</a><a href="../5si-unit-1.html">5SI</a></nav></body></html>

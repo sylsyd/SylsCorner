@@ -71,3 +71,10 @@ footer { background: var(--ink); color: #b9cad0; font-size: 10px; letter-spacing
   .tab[aria-selected="false"] .tab-detail { display: none; }
   .tab[aria-selected="true"] { box-shadow: inset 0 -4px 0 var(--gold), inset 0 0 0 1px rgba(7,29,53,.12); }
 }
+
+/* A direct class switcher is also available after the page content. */
+.footer-class-switcher { align-items: center; background: rgba(7,29,53,.96); border-top: 3px solid var(--gold); display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 20px clamp(16px,4vw,48px); }
+.footer-class-switcher > span { color: #dce6e9; font-size: 9px; font-weight: 800; letter-spacing: .15em; margin-right: 7px; text-transform: uppercase; }
+.footer-class-switcher a { background: rgba(255,253,248,.10); border: 1px solid rgba(255,255,255,.26); border-radius: 5px; color: #fffdf8; font: 400 18px/1 Georgia,serif; padding: 8px 15px; }
+.footer-class-switcher a:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+@media (max-width: 620px) { .footer-class-switcher { gap: 7px; padding: 17px 12px; }.footer-class-switcher > span { flex-basis: 100%; margin: 0 0 2px; text-align: center; }.footer-class-switcher a { font-size: 16px; padding: 8px 13px; } }
