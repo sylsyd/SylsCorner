@@ -1,13 +1,15 @@
-const validClasses = new Set(['6LVA', '6SI', '5SI']);
+﻿const validClasses = new Set(['6LVA', '6SI', '5SI']);
 const destinations = {
   lessons: { label: 'Lessons', symbol: '≋', description: 'Lesson activities and learning materials will appear here.', emptyTitle: 'Lessons are on their way.', emptyCopy: 'This class does not have lesson materials posted yet.' },
   resources: { label: 'Resources', symbol: '◇', description: 'Extra materials, useful links and class activities.', emptyTitle: 'Resources are on their way.', emptyCopy: 'This class does not have extra resources posted yet.' }
 };
 const games = {
   '6LVA': [{ title: 'First Week English Games', copy: 'Fifteen ready-to-run English activities for the classroom.', href: 'games/first-week-english-games.html', theme: 'first-week' }],
+  '6SI': [{ title: 'Twelve Trials', copy: 'A classroom adventure game built around the twelve stages of a hero\'s journey.', href: 'games/twelve-trials.html', theme: 'twelve-trials' }],
   '5SI': [
     { title: 'Venus Walk', copy: 'A ready-to-play classroom game for practising English.', href: 'games/venus-walk.html', theme: 'venus-walk' },
-    { title: 'Between the Lines', copy: 'Practise spotting clues, making inferences and reading between the lines.', href: 'games/between-the-lines.html', theme: 'between-lines' }
+    { title: 'Between the Lines', copy: 'Practise spotting clues, making inferences and reading between the lines.', href: 'games/between-the-lines.html', theme: 'between-lines' },
+    { title: 'Annotator', copy: 'Read closely, annotate key details and build stronger interpretations.', href: 'games/annotator.html', theme: 'annotator' }
   ]
 };
 const params = new URLSearchParams(window.location.search);

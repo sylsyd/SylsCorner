@@ -1,0 +1,2195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>ANNOTATOR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E4E2DA;
+  --paper-dark:#CFCCC2;
+  --ink:#16181C;
+  --ink-soft:#5A5C60;
+  --hi:#F5E33A;
+  --hi-pink:#FF4FA3;
+  --red:#D6202B;
+  --grid:rgba(22,24,28,.07);
+}
+/* one highlighter colour per story, so the sheet looks different per text */
+body.s-missbrill{--hi:#F5E33A;--hi-pink:#FF4FA3}
+body.s-telltale{--hi:#E9E24A;--hi-pink:#FF6B4A;--red:#B3121C}
+body.s-monkeyspaw{--hi:#7FE0B0;--hi-pink:#FFB03A;--red:#C2331F}
+body.s-ladytiger{--hi:#FFAE3B;--hi-pink:#E85CC8;--red:#C41E3A}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'EB Garamond',Georgia,serif;
+  overflow:hidden;position:fixed;width:100%;
+  background-image:repeating-linear-gradient(0deg,transparent 0 27px,var(--grid) 27px 28px);
+  transition:background-color .6s ease;
+}
+body.act3{--paper:#CFCCC2;--grid:rgba(22,24,28,.11);background-color:var(--paper)}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:60;
+  opacity:.5;mix-blend-mode:multiply;
+  background-image:radial-gradient(circle at 20% 30%,rgba(0,0,0,.05) 0 1px,transparent 1px),
+                   radial-gradient(circle at 70% 80%,rgba(0,0,0,.04) 0 1px,transparent 1px);
+  background-size:7px 7px,11px 11px;
+}
+#app{height:100%;display:flex;flex-direction:column;position:relative;z-index:2}
+
+#bar{
+  flex:0 0 auto;padding:8px 12px 6px;
+  font-family:'Courier Prime',monospace;font-size:12px;
+  display:flex;gap:10px;align-items:baseline;
+  border-bottom:1.5px solid var(--ink);letter-spacing:.02em;
+}
+#bar .slot{white-space:nowrap}
+#bar .grow{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+#bar b{font-weight:700}
+#chain{color:var(--red);font-weight:700}
+#chain.on{background:var(--hi);padding:0 4px}
+.btns{display:flex;gap:6px}
+.mini{
+  font-family:'Courier Prime',monospace;font-size:11px;
+  border:1.5px solid var(--ink);background:transparent;color:var(--ink);
+  padding:1px 6px;cursor:pointer;
+}
+.mini:hover,.mini:focus-visible{background:var(--ink);color:var(--paper);outline:none}
+
+#timerwrap{flex:0 0 auto;height:12px;border-bottom:1.5px solid var(--ink);position:relative;overflow:hidden}
+#timer{position:absolute;inset:0;width:100%;background:var(--hi);transform-origin:left center}
+#timer.pink{background:var(--hi-pink)}
+#timer.hot{background:var(--red)}
+
+#stage{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;justify-content:center;padding:16px 16px 24px}
+.sheet,.card{width:100%;max-width:640px;margin:0 auto}
+
+.instruction{font-family:'Anton',Impact,sans-serif;font-size:clamp(20px,6.2vw,30px);line-height:1.05;margin:0 0 4px}
+.instruction em{font-style:normal;background:var(--hi);padding:0 3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.sub{font-family:'Courier Prime',monospace;font-size:12px;color:var(--ink-soft);margin:0 0 14px}
+.lead{font-size:15px;font-style:italic;color:var(--ink-soft);margin:0 0 10px;line-height:1.45}
+
+.passage{font-size:clamp(19px,5.1vw,25px);line-height:1.85;margin:0}
+.w{padding:1px 1px;border-radius:2px;cursor:pointer;transition:background .12s}
+.w:hover{background:rgba(0,0,0,.08)}
+.w.lit{background:var(--hi);box-shadow:0 0 0 1px rgba(0,0,0,.06)}
+.w.bad{background:var(--red);color:var(--paper)}
+.w.struck{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px;opacity:.55}
+.passage.locked .w{cursor:default}
+.passage.locked .w:hover{background:none}
+.passage.locked .w.lit:hover{background:var(--hi)}
+
+.opts{display:grid;gap:8px;margin-top:18px}
+.opt{
+  font-family:'Courier Prime',monospace;font-size:15px;text-align:left;
+  padding:11px 12px;border:2px solid var(--ink);background:var(--paper);
+  color:var(--ink);cursor:pointer;line-height:1.35;
+}
+.opt:hover,.opt:focus-visible{background:var(--ink);color:var(--paper);outline:none}
+.opt .k{font-weight:700;margin-right:8px}
+.opt.right{background:var(--hi);border-color:var(--ink);color:var(--ink)}
+.opt.wrong{background:var(--red);color:var(--paper);border-color:var(--red)}
+.opt.mute{opacity:.35}
+.opt:disabled{cursor:default}
+
+.pen{margin-top:16px;border-left:5px solid var(--red);padding:10px 0 10px 12px;animation:penin .22s ease-out}
+@keyframes penin{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.pen .who{font-family:'Anton',sans-serif;font-size:15px;color:var(--red);letter-spacing:.02em;margin-bottom:6px}
+.pen .mutated{font-size:19px;line-height:1.55;color:var(--red);font-style:italic}
+.pen .why{font-family:'Courier Prime',monospace;font-size:13px;line-height:1.5;margin-top:9px;color:var(--ink)}
+.correct-note{margin-top:16px;border-left:5px solid var(--ink);padding:10px 0 10px 12px}
+.correct-note .why{font-family:'Courier Prime',monospace;font-size:13px;line-height:1.5}
+.callback{margin-top:14px;background:var(--ink);color:var(--paper);padding:10px 12px;font-family:'Courier Prime',monospace;font-size:13px;line-height:1.5}
+.callback b{color:var(--hi)}
+
+body.freeze{background-color:#F2F0E9}
+body.freeze #timerwrap{opacity:.25}
+.freezetag{font-family:'Anton',sans-serif;font-size:13px;letter-spacing:.16em;color:var(--ink-soft);margin-bottom:10px}
+.builder{font-size:clamp(18px,4.8vw,23px);line-height:1.7;margin:0 0 16px;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.slot{background:var(--hi);padding:0 5px}
+.slot.empty{background:none;border-bottom:3px solid var(--red);padding:0 26px;color:transparent}
+
+#stamp{
+  position:fixed;left:50%;top:34%;transform:translate(-50%,-50%) rotate(-6deg);
+  font-family:'Anton',sans-serif;font-size:clamp(38px,13vw,84px);line-height:.9;
+  color:var(--ink);pointer-events:none;z-index:50;opacity:0;text-align:center;
+  padding:6px 16px;border:5px solid var(--ink);background:var(--hi);max-width:92vw;
+}
+#stamp.red{background:var(--red);color:var(--paper);border-color:var(--paper);box-shadow:0 0 0 5px var(--red)}
+#stamp.go{animation:stampin .5s cubic-bezier(.2,1.6,.4,1) forwards}
+@keyframes stampin{
+  0%{opacity:0;transform:translate(-50%,-50%) rotate(-6deg) scale(2.4)}
+  22%,78%{opacity:1;transform:translate(-50%,-50%) rotate(-6deg) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-50%) rotate(-6deg) scale(1.05)}
+}
+body.shake #app{animation:shake .3s}
+@keyframes shake{0%,100%{transform:none}20%{transform:translate(-6px,2px)}40%{transform:translate(5px,-3px)}60%{transform:translate(-4px,-2px)}80%{transform:translate(3px,3px)}}
+
+.title-big{font-family:'Anton',sans-serif;font-size:clamp(48px,15vw,100px);line-height:.82;margin:0 0 2px;letter-spacing:-.01em}
+.title-big span{background:var(--hi);padding:0 4px}
+.tagline{font-family:'Courier Prime',monospace;font-size:13px;line-height:1.6;margin:14px 0 0;max-width:46ch}
+.rule{border:0;border-top:2px solid var(--ink);margin:18px 0}
+.big-btn{
+  font-family:'Anton',sans-serif;font-size:26px;letter-spacing:.02em;
+  padding:12px 20px;border:3px solid var(--ink);background:var(--hi);color:var(--ink);
+  cursor:pointer;width:100%;margin-top:6px;display:block;text-align:center;text-decoration:none;
+}
+.big-btn:hover,.big-btn:focus-visible{background:var(--ink);color:var(--hi);outline:none}
+.big-btn.ghost{background:var(--paper)}
+.big-btn.ghost:hover,.big-btn.ghost:focus-visible{background:var(--ink);color:var(--paper)}
+.actnum{font-family:'Courier Prime',monospace;font-size:13px;letter-spacing:.2em;color:var(--ink-soft)}
+.acttitle{font-family:'Anton',sans-serif;font-size:clamp(32px,9vw,56px);line-height:.95;margin:4px 0 12px}
+.blurb{font-size:17px;line-height:1.6;max-width:46ch}
+.blurb + .blurb{margin-top:10px}
+
+/* --- story picker --- */
+.pick{display:grid;gap:10px;margin-top:16px}
+.storybtn{
+  display:block;width:100%;text-align:left;cursor:pointer;
+  border:2.5px solid var(--ink);background:var(--paper);color:var(--ink);
+  padding:12px 14px;
+}
+.storybtn:hover,.storybtn:focus-visible{background:var(--ink);color:var(--paper);outline:none}
+.storybtn:hover .sname,.storybtn:focus-visible .sname{background:none;color:var(--paper)}
+.storybtn:hover .smeta,.storybtn:focus-visible .smeta{color:var(--paper-dark)}
+.sname{font-family:'Anton',sans-serif;font-size:clamp(21px,5.6vw,28px);line-height:1.05;display:inline-block;background:var(--hi);padding:0 4px}
+.smeta{font-family:'Courier Prime',monospace;font-size:11.5px;color:var(--ink-soft);margin-top:6px;letter-spacing:.04em}
+.shook{font-size:15.5px;line-height:1.45;margin-top:6px}
+.p1 .sname{background:#F5E33A}
+.p2 .sname{background:#E9E24A}
+.p3 .sname{background:#7FE0B0}
+.p4 .sname{background:#FFAE3B}
+
+#overlay{position:fixed;inset:0;background:var(--paper);z-index:70;display:none;overflow-y:auto;padding:20px 16px 40px}
+#overlay.on{display:block}
+#overlay h2{font-family:'Anton',sans-serif;font-size:32px;margin:0 0 10px}
+#overlay h3{font-family:'Anton',sans-serif;font-size:19px;margin:22px 0 6px}
+#overlay p,#overlay li{font-family:'Courier Prime',monospace;font-size:13.5px;line-height:1.65}
+#overlay ul{padding-left:18px;margin:6px 0}
+#overlay a{color:var(--ink)}
+kbd{font-family:'Courier Prime',monospace;border:1.5px solid var(--ink);padding:0 5px;font-size:12px;background:var(--paper-dark)}
+
+.report-line{border-top:1.5px solid var(--ink);padding:12px 0}
+.report-line .num{font-family:'Courier Prime',monospace;font-size:11px;color:var(--ink-soft);letter-spacing:.12em}
+.report-line .quote{font-size:17px;line-height:1.6;margin:4px 0 6px}
+.report-line .quote mark{background:var(--hi);color:var(--ink);padding:0 3px}
+.report-line .lab{font-family:'Courier Prime',monospace;font-size:12.5px;color:var(--red);font-weight:700}
+.report-line .eff{font-family:'Courier Prime',monospace;font-size:12.5px;line-height:1.55;margin-top:3px}
+.report-line.missed{opacity:.55}
+.scoreblock{display:flex;gap:22px;flex-wrap:wrap;font-family:'Courier Prime',monospace;font-size:13px;margin:10px 0 4px}
+.scoreblock b{display:block;font-family:'Anton',sans-serif;font-size:30px;line-height:1.1;color:var(--ink)}
+.qs li{margin-bottom:10px}
+.h3a{font-family:'Anton',sans-serif;font-size:20px;margin:0 0 6px}
+
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="bar">
+    <span class="slot">NAME: <b>YEAR 8</b></span>
+    <span class="slot grow">TEXT: <b id="htext">—</b></span>
+    <span class="slot">SCORE: <b id="hscore">0</b></span>
+    <span class="slot" id="chain">CHAIN x1</span>
+    <span class="btns">
+      <button class="mini" id="bhelp" title="Help">?</button>
+      <button class="mini" id="bmute" title="Sound">&#9834;</button>
+    </span>
+  </div>
+  <div id="timerwrap"><div id="timer"></div></div>
+  <div id="stage"></div>
+</div>
+<div id="stamp"></div>
+<div id="overlay"></div>
+<script>
+/* ============================================================
+   ANNOTATOR
+   Four public-domain short stories. Every quoted line is from
+   the original text, lightly trimmed for screen width and with
+   spacing added around dashes so words can be tapped
+   individually. No words are changed or added.
+   Every instruction, roast, rewrite and effect option is
+   original writing for this game.
+
+   TO SWAP A READING LINK: each story's `read:{url:...}` is at
+   the top of its block below.
+   TO CHANGE THE ANNOUNCER VOICE: edit ANNOUNCER, just here.
+   ============================================================ */
+
+const ANNOUNCER = {
+  spotGood:["SPOTTED","THAT'S THE ONE","LOCKED IN","EYES"],
+  nameGood:["NAMED","CORRECT","YOU KNOW IT"],
+  effGood:["COOKED","FULL CHAIN","NO NOTES","ANNOTATED"],
+  bad:["RED PEN","NOPE","MARKED DOWN","OOF"],
+  chain:["CHAIN x2","CHAIN x3","ON FIRE"]
+};
+
+const STORIES = {};
+STORIES.missbrill = {
+  title:"MISS<br>BRILL",
+  short:"Miss Brill",
+  author:"Katherine Mansfield",
+  year:"1920",
+  hook:"A lonely woman goes to the park and decides she is in a play.",
+  pitch:"The gentlest story here and the cruellest ending. Mansfield builds a beautiful afternoon out of similes and then lets two strangers use the same techniques as weapons. Two words you annotate in Act Two come back in Act Three.",
+  read:{url:"https://www.gutenberg.org/cache/epub/1429/pg1429-images.html",kind:"web page \u2014 find \u201cMiss Brill\u201d in the collection"},
+  words:"about 2,000 words",
+  pd:"Mansfield died in 1923. Public domain worldwide.",
+  acts:{
+    1:{sub:"ACT ONE",title:"THE SUNDAY",blurb:[
+      "Miss Brill goes to the park. The world is beautiful and she is looking very carefully at it.",
+      "Four annotations. Spot it, name it, then say what it does. A full chain is worth nine times a lucky tap."]},
+    2:{sub:"ACT TWO",title:"THE COMPANY",blurb:[
+      "She works out what the park is, and what she is in it.",
+      "Faster now. Two of these four come back in Act Three, so annotate like you will be asked about them. You will."]},
+    3:{sub:"ACT THREE",title:"THE FRIED WHITING",blurb:[
+      "Two young people sit down on her bench.",
+      "Everything from Acts One and Two is about to be used against her. Same techniques. Different hands."]}
+  },
+  end:{
+    lines:["FUNNY \u2014 her fond word in Act Two, the girl\u2019s weapon in Act Three.",
+      "EXACTLY LIKE \u2014 her phrase for the play, the girl\u2019s phrase for the fish.",
+      "THE EYES \u2014 she rubbed life into them on page one; the lid goes on at the end."],
+    qs:["In Act Two Miss Brill uses \u201cfunny\u201d to mean odd, and a little lovable. In Act Three the girl uses the same word to wound her. What changed \u2014 the word, or who was holding it?",
+      "Miss Brill decides the park is \u201cexactly like a play\u201d and that she has a part in it. Is she wrong? What does the story gain by letting her be right for four pages before it takes it away?",
+      "The last line says she thought she heard something crying. Mansfield never says who. Why refuse to tell us, and what would be lost if she did?"],
+    verdicts:["You annotated this story properly. Take it to the exam.",
+      "Solid. The gaps are all in the same place: saying what it DOES.",
+      "You can spot. You can name. The third move is the one worth marks.",
+      "Spotting is not annotating. Run it again and go slower on the freezes."]
+  },
+  items:[
+/* ---------------- ACT I ---------------- */
+{
+  act:1,
+  lead:"Sunday. Miss Brill has come to the Jardins Publiques, as she does every week.",
+  text:"The blue sky powdered with gold and great spots of light like white wine splashed over the Jardins Publiques.",
+  target:[[3,5]],
+  decoy:{range:[11,14],msg:"That's an image too — but it's wearing a \"like\". Different animal. Find the one that just states it."},
+  spot:"Two images here. Tap the one that <em>doesn't</em> use \"like\".",
+  tech:"metaphor",
+  opts:["metaphor","simile","alliteration","onomatopoeia"],
+  mut:{
+    simile:"The blue sky was fairly similar to some gold powder, in a way, if you thought about it.",
+    alliteration:"The bright blue sky bore beautiful bits of blondish bling.",
+    onomatopoeia:"The blue sky went POWD! POWD! and gold fell out of it."
+  },
+  roast:{
+    simile:"A simile says one thing is LIKE another. This line says the sky IS powdered. No like, no as. So here's the simile you ordered.",
+    alliteration:"Alliteration is repeated opening sounds. You've turned a sky into a shampoo advert.",
+    onomatopoeia:"Onomatopoeia is a word that makes the noise. The sky is silent. Enjoy."
+  },
+  slotA:{q:"Powdered makes the reader see the sky as",opts:[
+    {t:"something soft and expensive, dusted on by hand",ok:true},
+    {t:"a really nice colour",ok:false,why:"True of any sky ever written. Say what THIS word does."},
+    {t:"the most beautiful sky in literature",ok:false,why:"Overclaiming. Stay inside the sentence."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"Miss Brill is treating a public park as a luxury",ok:true},
+    {t:"weather is important in stories",ok:false,why:"Vague. That sentence would fit any story."},
+    {t:"gold is worth a lot of money",ok:false,why:"You've annotated the object, not the effect."}
+  ]}
+},
+{
+  act:1,
+  lead:"She notices the cold before she can name it.",
+  text:"The air was motionless, but when you opened your mouth there was just a faint chill, like a chill from a glass of iced water before you sip.",
+  target:[[16,27]],
+  spot:"Tap where the cold turns into a <em>taste</em>.",
+  tech:"simile",
+  opts:["simile","metaphor","personification","alliteration"],
+  mut:{
+    metaphor:"The air was a glass of iced water and everyone in the park drank it.",
+    personification:"The air opened its own mouth, sipped, and shivered.",
+    alliteration:"The chilly chill chilled the chatty chill-seekers."
+  },
+  roast:{
+    metaphor:"Metaphor drops the \"like\". Watch what happens when you do — the comparison stops being delicate and starts being a claim.",
+    personification:"Personification gives it a body. Now the air has a mouth. Congratulations.",
+    alliteration:"You heard sounds. Mansfield wrote a sensation. Here's your version."
+  },
+  slotA:{q:"Comparing cold air to iced water makes the reader",opts:[
+    {t:"feel the cold in the mouth rather than on the skin",ok:true},
+    {t:"understand that it was a cold day",ok:false,why:"The word \"chill\" already did that. What does the SIMILE add?"},
+    {t:"think about drinks",ok:false,why:"You've followed the image out of the story."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"Miss Brill notices tiny physical detail — she has time, and nobody to talk to",ok:true},
+    {t:"it shows the writer is good at description",ok:false,why:"Never say this. It's true of every line and it explains nothing."},
+    {t:"cold weather is sad",ok:false,why:"Too big a leap from too small a detail."}
+  ]}
+},
+{
+  act:1,
+  lead:"Her fur necklet has been in a box since last winter.",
+  text:"She had taken it out of its box that afternoon, shaken out the moth-powder, given it a good brush, and rubbed the life back into the dim little eyes.",
+  target:[[20,28]],
+  spot:"Tap the moment a dead fur gets a <em>heartbeat</em>.",
+  tech:"personification",
+  opts:["personification","metaphor","simile","hyperbole"],
+  mut:{
+    metaphor:"She had taken out her box of small dead friendship and given it a brush.",
+    simile:"She rubbed at the eyes, which were rather like eyes that had once been alive.",
+    hyperbole:"She rubbed the eyes for nine hours until they blazed like headlamps."
+  },
+  roast:{
+    metaphor:"Metaphor renames it. Personification gives it a life. Mansfield wanted the second one — the fur has to be a companion, not a symbol.",
+    simile:"A simile would hold the fur at arm's length. She isn't holding it at arm's length.",
+    hyperbole:"Hyperbole exaggerates. This line is quiet on purpose. Here it is loud."
+  },
+  slotA:{q:"\"Rubbed the life back into\" makes the reader treat the fur as",opts:[
+    {t:"a small creature she is caring for, not an object she owns",ok:true},
+    {t:"an old and dusty item",ok:false,why:"That's what it IS. What has the verb done to it?"},
+    {t:"a symbol of death",ok:false,why:"Too fast. She's bringing it TO life. Read the verb."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"it is the closest thing to company she has, and she is talking to it",ok:true},
+    {t:"she likes animals",ok:false,why:"You've annotated a hobby, not a loneliness."},
+    {t:"fur was fashionable in the 1920s",ok:false,why:"Context, not effect. Save it for a different question."}
+  ]}
+},
+{
+  act:1,
+  lead:"She tells it so, out loud, in her head.",
+  text:"Little rogue! Yes, she really felt like that about it. Little rogue biting its tail just by her left ear.",
+  target:[[0,1],[10,11]],
+  spot:"Tap the <em>name</em> she gives it.",
+  tech:"personification",
+  opts:["personification","simile","hyperbole","alliteration"],
+  mut:{
+    simile:"The fur was rather like a rogue, she thought, in the way that furs sometimes are.",
+    hyperbole:"The greatest rogue in the history of all rogues! An absolute legend of a rogue!",
+    alliteration:"Rakish rascal! Rogueish rogue! Really rather roguish!"
+  },
+  roast:{
+    simile:"You've made her compare it to something. She isn't comparing. She's naming it, the way you'd name a pet.",
+    hyperbole:"Hyperbole shouts. \"Little rogue\" is said fondly, under the breath. Volume changes everything.",
+    alliteration:"Sounds are there, but they're not the point. The point is that she gave it a NAME."
+  },
+  slotA:{q:"Calling the fur \"little rogue\" makes the reader hear",opts:[
+    {t:"the affectionate voice she'd use with a person, aimed at a scarf",ok:true},
+    {t:"that the fur is naughty",ok:false,why:"The fur is not doing anything. She is."},
+    {t:"a strange and creepy tone",ok:false,why:"Not yet. It's warm here. The story turns it later — don't spoil your own reading."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"we are watching someone build a companion out of an object, and we're allowed to find it sweet",ok:true},
+    {t:"it makes her seem mad",ok:false,why:"Harsh, and it flattens the story. Mansfield is not laughing at her yet."},
+    {t:"the fur will be important later",ok:false,why:"That's a plot note, not an annotation. What does the LANGUAGE do here?"}
+  ]}
+},
+/* ---------------- ACT II ---------------- */
+{
+  act:2,
+  lead:"The band strikes up. The Season has begun.",
+  text:"The conductor flapped his arms like a rooster about to crow, and the bandsmen blew out their cheeks and glared at the music.",
+  target:[[5,10]],
+  spot:"Tap the <em>bird</em>.",
+  tech:"simile",
+  opts:["simile","metaphor","personification","onomatopoeia"],
+  mut:{
+    metaphor:"The conductor was a rooster. He had feathers, a comb and enormous claws.",
+    personification:"The conductor's arms decided, independently, that they had had enough.",
+    onomatopoeia:"The conductor went FLAP FLAP COCK-A-DOODLE and the band went PARP."
+  },
+  roast:{
+    metaphor:"Drop the \"like\" and the joke turns into a hallucination. Similes are how you make fun of someone gently.",
+    personification:"Nothing lifeless comes alive here. A man is being compared to an animal. That's a simile.",
+    onomatopoeia:"You've written the sound effects. Mansfield wrote the picture."
+  },
+  slotA:{q:"The rooster simile makes the reader see the conductor as",opts:[
+    {t:"self-important and slightly ridiculous, without anyone saying so",ok:true},
+    {t:"a very energetic man",ok:false,why:"Energetic isn't funny. Rooster is funny. Why?"},
+    {t:"an animal lover",ok:false,why:"Read who is being compared to what."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"Miss Brill is amused by everyone in the park — she thinks she's the audience",ok:true},
+    {t:"the band is bad at music",ok:false,why:"Plot detail, and not even true."},
+    {t:"roosters wake people up",ok:false,why:"You've walked out of the story again."}
+  ]}
+},
+{
+  act:2,
+  lead:"She studies the other regulars on the benches. Remember this word.",
+  text:"There was something funny about nearly all of them.",
+  target:[[3,3]],
+  spot:"Tap Miss Brill's word for <em>strange</em>.",
+  tech:"word choice",
+  opts:["word choice","simile","punctuation","hyperbole"],
+  mut:{
+    simile:"They were rather like a set of people with something not quite right about them.",
+    punctuation:"There was something — funny? — about nearly. All. Of them.",
+    hyperbole:"There was something catastrophically, world-endingly funny about every last one of them."
+  },
+  roast:{
+    simile:"There's no comparison here. There's one ordinary word doing quiet work. That's word choice.",
+    punctuation:"Punctuation shapes the pace. Here the marks are plain and the WORD is the event.",
+    hyperbole:"Turn it up and the fondness dies. She means it mildly. That's the whole point."
+  },
+  flag:"REMEMBER THE WORD <b>FUNNY</b>. IT COMES BACK.",
+  slotA:{q:"\"Funny\" here makes the reader hear a tone that is",opts:[
+    {t:"gentle and a bit fond — odd, not wrong",ok:true},
+    {t:"cruel and mocking",ok:false,why:"Not from her. Hold that reading — you'll need it in Act III."},
+    {t:"comedic, as in jokes",ok:false,why:"The other meaning of the word. She means peculiar."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"she is describing people she has quietly decided she is not one of",ok:true},
+    {t:"she finds the park entertaining",ok:false,why:"Close, but softer than the line deserves. She's sorting people."},
+    {t:"old people are strange",ok:false,why:"That's the character's view stated as fact. Annotate her view AS a view."}
+  ]}
+},
+{
+  act:2,
+  lead:"She keeps looking. The sentence stumbles.",
+  text:"They were odd, silent, nearly all old, and they looked as though they'd just come from dark little rooms or even—even cupboards!",
+  target:[[19,21]],
+  spot:"She hesitates. Tap the <em>stumble</em>.",
+  tech:"punctuation",
+  opts:["punctuation","alliteration","metaphor","simile"],
+  mut:{
+    alliteration:"They came from cramped cupboards, cold cupboards, curious cupboards, certainly.",
+    metaphor:"They were cupboards. Each one a cupboard, walking about in a coat.",
+    simile:"They looked rather like people who might live in cupboards, possibly."
+  },
+  roast:{
+    alliteration:"You went for the sound. The event is the DASH — the second where she surprises herself.",
+    metaphor:"Making it a metaphor deletes the hesitation. She's not confident enough for a metaphor here.",
+    simile:"\"As though\" is already doing the comparing. The thing you were asked for is the mark that breaks the sentence."
+  },
+  slotA:{q:"The dash and the repeated \"even\" make the reader hear",opts:[
+    {t:"her thought arriving mid-sentence and shocking her a little",ok:true},
+    {t:"that she is confused",ok:false,why:"Not confused. She's just thought of something worse."},
+    {t:"a dramatic pause for tension",ok:false,why:"Generic. What EXACTLY is happening in the gap?"}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"she is describing lives shut in small dark boxes, and she goes home to one",ok:true},
+    {t:"cupboards are small",ok:false,why:"You've defined a cupboard. Keep going."},
+    {t:"she doesn't like the other people",ok:false,why:"She rather does, actually. Read the tone again."}
+  ]}
+},
+{
+  act:2,
+  lead:"Then the idea of her life arrives.",
+  text:"It was like a play. It was exactly like a play.",
+  target:[[5,10]],
+  spot:"She says it twice. Tap the <em>second</em> time.",
+  tech:"repetition",
+  opts:["repetition","simile","metaphor","rhetorical question"],
+  mut:{
+    simile:"It was like a play, in the sense that plays and parks are both things that exist.",
+    metaphor:"It was a play. The trees were scenery and the sky was a painted flat.",
+    "rhetorical question":"Was it like a play? Wasn't it? Who could say? Could anyone?"
+  },
+  roast:{
+    simile:"There IS a simile here. But you were asked why she says it a second time. One sentence would have been enough. She needed two.",
+    metaphor:"Delete the \"like\" and she's certain. She isn't certain — she's convincing herself. That's why it repeats.",
+    "rhetorical question":"A question doubts. She isn't doubting. She's confirming, out loud, to nobody."
+  },
+  flag:"REMEMBER <b>EXACTLY LIKE</b>. IT COMES BACK TOO.",
+  slotA:{q:"Saying it twice, with \"exactly\" added, makes the reader hear",opts:[
+    {t:"someone pressing down on an idea to make it feel true",ok:true},
+    {t:"that the park really is like a play",ok:false,why:"You've agreed with her. Annotate the fact that she needs to repeat it."},
+    {t:"emphasis",ok:false,why:"\"Emphasis\" is what you write when you haven't decided yet. Emphasis of WHAT?"}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"if the park is a play then she has a part in it, and she is not alone",ok:true},
+    {t:"she likes the theatre",ok:false,why:"Biography, not effect."},
+    {t:"the story is about acting",ok:false,why:"Too general. Bring it back to her."}
+  ]}
+},
+/* ---------------- ACT III ---------------- */
+{
+  act:3,
+  lead:"A boy and a girl sit down on her bench. They do not lower their voices.",
+  text:"\"But why? Because of that stupid old thing at the end there?\" asked the boy.",
+  target:[[4,7]],
+  spot:"Tap what the boy <em>calls</em> her.",
+  tech:"word choice",
+  opts:["word choice","personification","repetition","simile"],
+  mut:{
+    personification:"\"Because of that bench, which is glaring at us with terrible intent?\"",
+    repetition:"\"Because of that thing? That thing? That thing at the end there?\"",
+    simile:"\"Because of that woman, who is rather like an old thing at the end there?\""
+  },
+  roast:{
+    personification:"Personification gives life to something lifeless. He's doing the exact opposite — read the noun again.",
+    repetition:"Once is enough to do the damage. The damage is in WHICH word he picked.",
+    simile:"A simile would leave her a person and compare her to a thing. He doesn't bother."
+  },
+  flag:"HE CALLED HER A <b>THING</b>. SHE SPENT ACT I MAKING A THING INTO A PERSON.",
+  slotA:{q:"\"That stupid old thing\" makes the reader",opts:[
+    {t:"hear a person turned into an object in four words",ok:true},
+    {t:"dislike the boy",ok:false,why:"Reaction, not effect. What has the LANGUAGE done to her?"},
+    {t:"know that Miss Brill is old",ok:false,why:"We knew. What's new is the noun."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"in Act I she rubbed life into an object; here an object is made of her",ok:true},
+    {t:"young people can be rude",ok:false,why:"A moral, not an annotation."},
+    {t:"it is the climax of the story",ok:false,why:"Structure label. Say what the words do."}
+  ]}
+},
+{
+  act:3,
+  lead:"The girl answers him.",
+  text:"\"It's her fu-ur which is so funny,\" said the girl.",
+  target:[[6,6]],
+  spot:"You annotated this word in Act II. Tap it <em>again</em>.",
+  tech:"word choice",
+  alsoOk:{k:"repetition",msg:"Not wrong — the word does come back. But the exam mark is in WHICH word returned, and who is holding it now. Taking it."},
+  opts:["word choice","repetition","onomatopoeia","metaphor"],
+  mut:{
+    onomatopoeia:"\"It's her fu-ur which goes SQUEAK SQUEAK SQUEAK,\" said the girl.",
+    metaphor:"\"Her fur is a comedy,\" said the girl, unhelpfully.",
+    repetition:"\"It's her fu-ur, her fu-ur, her fu-ur which is so funny,\" said the girl."
+  },
+  roast:{
+    onomatopoeia:"The drawn-out \"fu-ur\" is mockery, not a noise. She's stretching the word to laugh at it.",
+    metaphor:"You've made it clever. It isn't clever. It's a word borrowed from Miss Brill and turned around.",
+    repetition:"Repetition is here too — but the mark is in which word came back, and whose mouth it is in now."
+  },
+  flag:"SAME WORD AS ACT II. <b>FUNNY.</b> DIFFERENT MOUTH.",
+  slotA:{q:"The word \"funny\" returning makes the reader",opts:[
+    {t:"hear her own gentle word used as a weapon against her",ok:true},
+    {t:"notice the writer repeating herself",ok:false,why:"Never annotate the writer's memory. Annotate the effect."},
+    {t:"find the moment amusing",ok:false,why:"Read who is laughing."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"she has been watching and judging all afternoon, and now it happens to her",ok:true},
+    {t:"the girl is unkind",ok:false,why:"True and small. Reach for the pattern."},
+    {t:"words can have two meanings",ok:false,why:"A dictionary fact. Put it back in the story."}
+  ]}
+},
+{
+  act:3,
+  lead:"And then the simile.",
+  text:"\"It's her fu-ur which is so funny,\" said the girl. \"It's exactly like a fried whiting.\"",
+  target:[[11,15]],
+  spot:"Tap the comparison. Look at how it <em>opens</em>.",
+  tech:"simile",
+  opts:["simile","metaphor","personification","alliteration"],
+  mut:{
+    metaphor:"\"Her fur is a fried whiting,\" said the girl, and everyone nodded seriously.",
+    personification:"\"Her fur is having a truly dreadful afternoon,\" said the girl.",
+    alliteration:"\"Her fur is a fine fried fish,\" said the girl, fairly foully."
+  },
+  roast:{
+    metaphor:"Close. But the two words you needed were \"exactly like\" — and you've just deleted them. Look at what they echo.",
+    personification:"The fur was alive in Act I. Here it's a dead fish on a plate. That reversal is the point.",
+    alliteration:"You heard the f's. You missed that this sentence is wearing Miss Brill's own phrase."
+  },
+  flag:"\"<b>EXACTLY LIKE</b>\" — HER PHRASE FROM ACT II. IT WAS A PLAY. NOW IT'S A FRIED FISH.",
+  slotA:{q:"\"Exactly like a fried whiting\" makes the reader",opts:[
+    {t:"see her companion reduced to something dead, greasy and cheap",ok:true},
+    {t:"picture a fish",ok:false,why:"You stopped at the image. Keep going to what it does to HER."},
+    {t:"realise the girl is funny",ok:false,why:"Whose side is the story on?"}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the same simile-making that built her afternoon is now being used to take it apart",ok:true},
+    {t:"similes can be mean",ok:false,why:"Nearly. Say WHOSE technique it was first."},
+    {t:"fish smell bad",ok:false,why:"No."}
+  ]}
+},
+{
+  act:3,
+  lead:"No timer for this one. She goes home. She does not buy the honey-cake.",
+  text:"She unclasped the necklet quickly; quickly, without looking, laid it inside. But when she put the lid on she thought she heard something crying.",
+  target:[[19,23]],
+  spot:"Tap the <em>last four words that Mansfield refuses to explain</em>.",
+  tech:"ambiguity",
+  opts:["ambiguity","metaphor","hyperbole","alliteration"],
+  notimer:true,
+  mut:{
+    metaphor:"But when she put the lid on, her heart was a small closed box, crying.",
+    hyperbole:"But when she put the lid on, she heard the most terrible wailing ever heard by anyone.",
+    alliteration:"But when she closed the case she caught a curious crying."
+  },
+  roast:{
+    metaphor:"A metaphor would tell us it's her. Mansfield will not tell us it's her. That refusal is the whole ending.",
+    hyperbole:"Turn the volume up and you lose it. \"Something\" is quiet, and quiet is what breaks you.",
+    alliteration:"Sound-spotting on the last line of the story. Read what the word \"something\" is hiding."
+  },
+  flag:"IN ACT I SHE RUBBED THE LIFE BACK INTO ITS EYES. THE BOX IS SHUT NOW.",
+  slotA:{q:"\"She thought she heard something crying\" makes the reader",opts:[
+    {t:"decide for themselves whether it's the fur or Miss Brill",ok:true},
+    {t:"know that the fur is alive",ok:false,why:"Then the story is a ghost story. Read \"thought\" again."},
+    {t:"feel sad",ok:false,why:"Everyone feels sad. Say what the SENTENCE did to make that happen."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"she cannot admit it is her, so the story won't admit it either",ok:true},
+    {t:"the ending is mysterious",ok:false,why:"\"Mysterious\" is a shrug. Name what's being avoided."},
+    {t:"it makes you want to read it again",ok:false,why:"A review, not an annotation."}
+  ]}
+}
+]};
+
+STORIES.telltale = {
+  title:"THE TELL-TALE<br>HEART",
+  short:"The Tell-Tale Heart",
+  author:"Edgar Allan Poe",
+  year:"1843",
+  hook:"A murderer explains, very calmly, that he is not mad.",
+  pitch:"Poe writes in dashes and repetitions. Every technique in this story is doing one job: making a voice sound like it is coming apart while it insists it is fine. One simile appears twice, word for word. Find it both times.",
+  read:{url:"https://www.ibiblio.org/ebooks/Poe/Tell-Tale_Heart.htm",kind:"full story, web page"},
+  words:"about 2,100 words",
+  pd:"Poe died in 1849. Public domain worldwide.",
+  acts:{
+    1:{sub:"ACT ONE",title:"THE EYE",blurb:[
+      "He opens by arguing with you. You have not said anything yet.",
+      "Four annotations. Spot it, name it, then say what it does. Watch the word he uses about himself."]},
+    2:{sub:"ACT TWO",title:"THE SENSES",blurb:[
+      "Seven nights at the door. On the eighth he hears something.",
+      "Poe is a simile machine and this act is where he runs hottest. Three of these four compare one thing to another. Getting good at telling them apart is the point."]},
+    3:{sub:"ACT THREE",title:"THE FLOOR",blurb:[
+      "The police are sitting in the room. He has put chairs over the body.",
+      "Everything from Act Two comes back, louder. One thing comes back word for word."]}
+  },
+  end:{
+    lines:["MAD — his word in the first sentence, his word again once the body is under the floor.",
+      "THE WATCH — a watch's minute hand, then a watch in cotton, then a watch in cotton again.",
+      "THE DASH — he breaks his own sentences from the first line to the last."],
+    qs:["He asks 'why will you say that I am mad?' before anyone has called him mad. Who is he talking to, and what does that tell you about when he is telling this story?",
+      "The simile about a watch wrapped in cotton appears twice, identically. The first time it is the old man's heart. What is it the second time, and how do you know?",
+      "The story ends on a confession, not a discovery. Nobody catches him. Why does Poe refuse to let the police be clever?"],
+    verdicts:["You can hear the voice cracking. That is the whole story.",
+      "Solid. The gaps are in the effect round, where the marks are.",
+      "You can spot and name. Now do the third move.",
+      "Spotting is not annotating. Go slower on the freezes."]
+  },
+  items:[
+/* ---- ACT I ---- */
+{
+  act:1,
+  lead:"The first sentence of the story. Nobody has accused him of anything.",
+  text:"True! — nervous — very, very dreadfully nervous I had been and am; but why will you say that I am mad?",
+  target:[[13,21]],
+  spot:"Tap the question. He is answering an accusation <em>nobody made</em>.",
+  tech:"rhetorical question",
+  opts:["rhetorical question","hyperbole","simile","onomatopoeia"],
+  mut:{
+    hyperbole:"True! I was the single most nervous man who has ever lived on this or any other planet, ever.",
+    simile:"True! I was nervous, rather like a person who is nervous, which is a thing some people are.",
+    onomatopoeia:"True! — jitter jitter — my nerves went RATTLE RATTLE all night long."
+  },
+  roast:{
+    hyperbole:"He does exaggerate. But the event in this line is that he asks you something and does not wait for an answer.",
+    simile:"Nothing is being compared. Something is being demanded. Look at the punctuation mark at the end.",
+    onomatopoeia:"You wrote the sound effects. Poe wrote a man interrogating a reader who has not spoken."
+  },
+  flag:"REMEMBER THE WORD <b>MAD</b>. HE IS NOT FINISHED WITH IT.",
+  slotA:{q:"Asking a question nobody prompted makes the reader",opts:[
+    {t:"realise he has had this argument before, in his head, many times",ok:true},
+    {t:"wonder whether he is mad",ok:false,why:"You've answered his question. Annotate the fact that he ASKED it."},
+    {t:"feel involved in the story",ok:false,why:"Vague. Involved in what, exactly?"}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the defence starts before the accusation, so the guilt is already there",ok:true},
+    {t:"first-person narration is engaging",ok:false,why:"A technique label wearing a compliment. Say what THIS opening does."},
+    {t:"he is unreliable",ok:false,why:"True, and stated too early. Show the evidence before the verdict."}
+  ]}
+},
+{
+  act:1,
+  lead:"He corrects himself twice in one sentence.",
+  text:"The disease had sharpened my senses — not destroyed — not dulled them.",
+  target:[[6,12]],
+  spot:"Tap the two <em>corrections</em> he interrupts himself to make.",
+  tech:"punctuation",
+  opts:["punctuation","repetition","metaphor","alliteration"],
+  mut:{
+    repetition:"The disease had sharpened my senses, sharpened my senses, sharpened my senses.",
+    metaphor:"The disease was a whetstone and my senses were a row of knives upon it.",
+    alliteration:"The disease had sharpened my senses — not slaughtered, not softened, not silenced."
+  },
+  roast:{
+    repetition:"He does repeat. But he repeats a correction, and the corrections are held apart by dashes. The marks are the event.",
+    metaphor:"A metaphor would be confident and finished. This sentence keeps stopping to fix itself.",
+    alliteration:"You heard the letters. The point is that he cannot get through one sentence without interrupting it."
+  },
+  slotA:{q:"The dashes make the reader hear",opts:[
+    {t:"a man correcting himself in real time, unable to let a sentence stand",ok:true},
+    {t:"a dramatic pause",ok:false,why:"Generic. What is happening inside the pause?"},
+    {t:"that his senses are sharp",ok:false,why:"That's what the sentence says. What does the punctuation add?"}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"he claims to be calm while his sentences fall apart on the page",ok:true},
+    {t:"Poe liked using dashes",ok:false,why:"Never annotate the writer's habits. Annotate this sentence."},
+    {t:"illness affects the mind",ok:false,why:"A general truth. Bring it back to the voice."}
+  ]}
+},
+{
+  act:1,
+  lead:"He explains why he did it. It was not the man.",
+  text:"It was not the old man who vexed me, but his Evil Eye.",
+  target:[[10,12]],
+  spot:"Tap the <em>capital letters</em>. They turn a body part into a monster.",
+  tech:"word choice",
+  opts:["word choice","simile","personification","hyperbole"],
+  mut:{
+    simile:"It was not the old man who vexed me, but his eye, which was rather like an evil one.",
+    personification:"It was not the old man who vexed me, but his eye, which followed me about the house and made remarks.",
+    hyperbole:"It was not the old man who vexed me, but his eye, the most evil eye in the entire history of eyes."
+  },
+  roast:{
+    simile:"A simile would keep it an eye and compare it to something. He does not compare. He renames, and he capitalises.",
+    personification:"Give the eye a will of its own and the murder starts to sound reasonable. Poe wants you to notice him doing that, not to help.",
+    hyperbole:"Volume is not the trick here. Two capital letters are."
+  },
+  slotA:{q:"Capitalising \"Evil Eye\" makes the reader see it as",opts:[
+    {t:"a named thing with a will, separate from the harmless old man",ok:true},
+    {t:"something scary",ok:false,why:"Say what the capitals specifically do to it."},
+    {t:"a superstition from folklore",ok:false,why:"Context. What is it doing in HIS sentence?"}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"he has invented an enemy so that killing a kind old man is not murder",ok:true},
+    {t:"eyes are important in the story",ok:false,why:"A plot note. Say what the language does."},
+    {t:"he is obsessed",ok:false,why:"Nearly. Say how the WORD builds the obsession."}
+  ]}
+},
+{
+  act:1,
+  lead:"He decides. Watch which words he uses to say so.",
+  text:"By degrees — very gradually — I made up my mind to take the life of the old man.",
+  target:[[11,14]],
+  spot:"He will not say <em>kill</em>. Tap what he says instead.",
+  tech:"word choice",
+  opts:["word choice","metaphor","punctuation","repetition"],
+  mut:{
+    metaphor:"By degrees, I resolved to blow out the small candle that was the old man.",
+    punctuation:"By degrees — very gradually — I made up my mind — to kill him — yes — kill.",
+    repetition:"I made up my mind, made up my mind, made up my mind to kill the old man."
+  },
+  roast:{
+    metaphor:"Prettier, and wrong. He is not making an image. He is choosing a soft phrase so the hard word never appears.",
+    punctuation:"There are dashes here, but you have just put the word KILL in the sentence, which is the one word he is avoiding.",
+    repetition:"Repeating it would make it a decision. Softening it makes it a chore. He chose softening."
+  },
+  slotA:{q:"\"Take the life\" instead of \"kill\" makes the reader",opts:[
+    {t:"notice him handling the murder with a polite phrase, like an errand",ok:true},
+    {t:"understand that he plans to kill the old man",ok:false,why:"You understood the plot. What did the WORDING do?"},
+    {t:"think he feels guilty",ok:false,why:"Maybe later. Right now he thinks he is being reasonable."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"he is presenting a murder as a sensible decision reached slowly",ok:true},
+    {t:"euphemisms are common in Victorian writing",ok:false,why:"Context essay, not annotation."},
+    {t:"he does not want to be caught",ok:false,why:"He confesses at the end. Try again."}
+  ]}
+},
+/* ---- ACT II ---- */
+{
+  act:2,
+  lead:"The eighth night. He opens the door.",
+  text:"Upon the eighth night I was more than usually cautious in opening the door. A watch's minute hand moves more quickly than did mine.",
+  target:[[14,23]],
+  spot:"Tap the sentence that <em>measures</em> his patience.",
+  tech:"simile",
+  opts:["simile","metaphor","hyperbole","personification"],
+  mut:{
+    metaphor:"My hand was the minute hand of a watch, ticking around the face of the door.",
+    hyperbole:"I opened that door so slowly that entire civilisations rose and fell outside.",
+    personification:"The door watched me approach and decided, generously, to stay quiet."
+  },
+  roast:{
+    metaphor:"Metaphor would say his hand IS the watch hand. He says his was slower. The comparison is the whole point.",
+    hyperbole:"Exaggeration is loud and obvious. This comparison is quiet and exact, which is far creepier.",
+    personification:"Nothing lifeless comes alive. A speed is being compared to a speed."
+  },
+  flag:"A WATCH. COUNT THEM.",
+  slotA:{q:"Comparing his hand to a watch's minute hand makes the reader",opts:[
+    {t:"see a movement too slow to watch, controlled the whole way",ok:true},
+    {t:"know he was being careful",ok:false,why:"\"Careful\" is the plot. The comparison gives you a speed."},
+    {t:"think about time passing",ok:false,why:"You followed the image out of the room."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"he offers his patience as proof of sanity, and it proves the opposite",ok:true},
+    {t:"the story is suspenseful",ok:false,why:"Say what this sentence contributes to that."},
+    {t:"watches are precise",ok:false,why:"A fact about watches. Put it back in the story."}
+  ]}
+},
+{
+  act:2,
+  lead:"He opens the lantern a crack.",
+  text:"So I opened it — you cannot imagine how stealthily, stealthily — until a single dim ray, like the thread of the spider, shot out upon the vulture eye.",
+  target:[[17,22]],
+  spot:"Two techniques here. Tap the one that <em>compares</em>.",
+  decoy:{range:[9,10],msg:"That's the doubling, and it's real. But you were asked for the comparison. Find the word \"like\"."},
+  tech:"simile",
+  opts:["simile","repetition","metaphor","alliteration"],
+  mut:{
+    repetition:"So I opened it, opened it, opened it, until a ray shot out, shot out, shot out.",
+    metaphor:"So I opened it, and a spider's thread of light crawled out across the room to the eye.",
+    alliteration:"So I opened it: a slender, silent, single, sneaking shaft of shine."
+  },
+  roast:{
+    repetition:"Repetition IS in this line — \"stealthily, stealthily\". You were asked for the other one.",
+    metaphor:"Take away the \"like\" and the light becomes an actual spider. Poe wants the thinness, not the animal.",
+    alliteration:"You collected letters. The image is a single thread of light on an eyeball. Keep it."
+  },
+  slotA:{q:"\"Like the thread of the spider\" makes the reader see the light as",opts:[
+    {t:"almost nothing, so fine it barely counts, and reaching straight for him",ok:true},
+    {t:"creepy and spider-like",ok:false,why:"Nearly. What specifically about a spider's thread?"},
+    {t:"bright and dramatic",ok:false,why:"Read the word \"dim\" again."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the smallest possible amount of light is enough to set the whole murder going",ok:true},
+    {t:"spiders are frightening",ok:false,why:"You've annotated the animal, not the thread."},
+    {t:"it builds tension",ok:false,why:"Everything builds tension. Say how THIS does."}
+  ]}
+},
+{
+  act:2,
+  lead:"And then he hears it. Read this line twice before you answer.",
+  text:"There came to my ears a low, dull, quick sound, such as a watch makes when enveloped in cotton.",
+  target:[[10,18]],
+  spot:"Tap the sound of the old man's heart. <em>All</em> of it.",
+  tech:"simile",
+  opts:["simile","onomatopoeia","personification","hyperbole"],
+  mut:{
+    onomatopoeia:"There came to my ears a THUD THUD THUD, muffled, like this: thd. thd. thd.",
+    personification:"There came to my ears a sound, and the sound crept up the bed and sat on my chest.",
+    hyperbole:"There came to my ears the loudest heartbeat in recorded history, audible from three towns away."
+  },
+  roast:{
+    onomatopoeia:"You wrote the noise. Poe refused to. He gives you a comparison instead, and it is much worse.",
+    personification:"The sound does nothing on its own here. It is being described by comparing it to an object.",
+    hyperbole:"It is a LOW, DULL sound. Quiet is the horror. You turned it up and lost it."
+  },
+  flag:"MEMORISE THIS SIMILE. WORD FOR WORD. YOU WILL SEE IT AGAIN.",
+  slotA:{q:"A watch wrapped in cotton makes the reader hear a sound that is",opts:[
+    {t:"muffled, mechanical and absolutely regular — and coming from under something",ok:true},
+    {t:"loud and frightening",ok:false,why:"Read \"low, dull\" again. The horror is that it is quiet."},
+    {t:"like a heartbeat",ok:false,why:"Circular. The line already tells you it's a heartbeat."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"a watch keeps going whatever you do to it, and so does this sound",ok:true},
+    {t:"he has very good hearing",ok:false,why:"That's his claim. Do you believe him?"},
+    {t:"cotton is soft",ok:false,why:"No."}
+  ]}
+},
+{
+  act:2,
+  lead:"The old man is dead and under the floorboards. He starts the paragraph like this.",
+  text:"If still you think me mad, you will think so no longer when I describe the wise precautions I took.",
+  target:[[4,5]],
+  spot:"You annotated this word in Act One. Tap it <em>again</em>.",
+  tech:"word choice",
+  alsoOk:{k:"repetition",msg:"Fair. The word does come back, and that IS repetition. The mark, though, is in which word he keeps reaching for and what he thinks will disprove it. Taking it."},
+  opts:["word choice","repetition","simile","punctuation"],
+  mut:{
+    simile:"If still you think me rather like a mad person, you will think so no longer.",
+    punctuation:"If still — still! — you think me — mad? — you will think so no longer."
+  },
+  roast:{
+    simile:"He is not comparing himself to a madman. He is naming the charge again, unprompted, for the second time.",
+    punctuation:"Dashes are everywhere in this story. The event here is that one particular word has come back."
+  },
+  flag:"<b>MAD</b> IS BACK. HIS PROOF OF SANITY IS HOW WELL HE HID A BODY.",
+  slotA:{q:"The word \"mad\" returning makes the reader",opts:[
+    {t:"see that he has been carrying the accusation the whole time",ok:true},
+    {t:"realise he is repeating himself",ok:false,why:"Annotate the effect, not the mechanism."},
+    {t:"believe he is sane",ok:false,why:"Read what he offers as evidence."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"he answers the charge with a description of dismembering a body, and cannot see the problem",ok:true},
+    {t:"repetition is used for emphasis",ok:false,why:"Emphasis of what? Finish the thought."},
+    {t:"he is worried about being caught",ok:false,why:"He is worried about being thought mad. Different fear."}
+  ]}
+},
+/* ---- ACT III ---- */
+{
+  act:3,
+  lead:"The police are chatting. He begins to hear something.",
+  text:"It was a low, dull, quick sound — much such a sound as a watch makes when enveloped in cotton.",
+  target:[[8,19]],
+  spot:"You annotated this <em>exact simile</em> in Act Two. Tap it again.",
+  tech:"repetition",
+  alsoOk:{k:"simile",msg:"It is a simile, yes — the same one. The mark is that it has returned unchanged, and that the thing it described is now under the floor. Taking it."},
+  opts:["repetition","simile","onomatopoeia","metaphor"],
+  mut:{
+    onomatopoeia:"It was a TICK TICK TICK, then a THUMP, then a TICK again.",
+    metaphor:"It was a watch in cotton. There was a watch under my floor, in cotton, ticking."
+  },
+  roast:{
+    onomatopoeia:"You wrote noises. Poe wrote the same nine words he used in Act Two, deliberately, to show you nothing has changed.",
+    metaphor:"Delete the \"such as\" and it becomes real. Poe needs it to stay a comparison, because there is no heart down there."
+  },
+  flag:"WORD FOR WORD, THE SAME SIMILE. IN ACT TWO IT WAS A LIVING MAN'S HEART. THAT MAN IS NOW IN PIECES UNDER THE FLOOR.",
+  slotA:{q:"Repeating the simile exactly makes the reader",opts:[
+    {t:"know the sound is in his head, because the heart it described has stopped",ok:true},
+    {t:"remember the earlier scene",ok:false,why:"Yes, and then what? Finish it."},
+    {t:"think the old man is alive",ok:false,why:"Poe checked the pulse for you. Twice."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"his one piece of evidence for sharp senses has become the proof he is unwell",ok:true},
+    {t:"the story is about guilt",ok:false,why:"True of the whole story. What does this repeat do?"},
+    {t:"Poe wanted to remind us",ok:false,why:"Never annotate the writer's intentions like this. Annotate the effect."}
+  ]}
+},
+{
+  act:3,
+  lead:"He cannot sit still.",
+  text:"Oh God! what could I do? I foamed — I raved — I swore!",
+  target:[[6,13]],
+  spot:"Three verbs, no linking words. Tap the <em>run</em>.",
+  tech:"punctuation",
+  opts:["punctuation","repetition","metaphor","hyperbole"],
+  mut:{
+    repetition:"I foamed. I foamed. I foamed. I raved and raved and raved.",
+    metaphor:"I was a kettle at full boil, a horse in a burning stable, a broken bell.",
+    hyperbole:"I foamed so violently that the walls of the house began to come apart."
+  },
+  roast:{
+    repetition:"Three different verbs, not one verb three times. What links them is what ISN'T there: no \"and\", no commas, just dashes.",
+    metaphor:"Images would slow it down. The point is that the sentence is going too fast to make images.",
+    hyperbole:"He is already at maximum. Adding size does nothing; the speed is the effect."
+  },
+  slotA:{q:"Dashes instead of \"and\" make the reader",opts:[
+    {t:"take the three actions at once, with no room to breathe between them",ok:true},
+    {t:"see that he is angry",ok:false,why:"The verbs did that. What did the PUNCTUATION do?"},
+    {t:"notice the exclamation marks",ok:false,why:"Different mark. Look at what separates the verbs."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the sentence loses control at exactly the moment he does",ok:true},
+    {t:"it is the climax of the story",ok:false,why:"A structure label. Say what the words do."},
+    {t:"he is very stressed",ok:false,why:"Plainly. Now say how the page shows it."}
+  ]}
+},
+{
+  act:3,
+  lead:"The officers keep smiling. He is certain they are pretending.",
+  text:"And still the men chatted pleasantly, and smiled. It grew louder — louder — louder!",
+  target:[[10,14]],
+  spot:"Tap the word <em>three times over</em>.",
+  tech:"repetition",
+  opts:["repetition","onomatopoeia","contrast","alliteration"],
+  mut:{
+    onomatopoeia:"And still the men chatted. It went BOOM, then BOOM-BOOM, then BOOOOOM!",
+    contrast:"And still the men chatted pleasantly, whereas by contrast I did not, being loud.",
+    alliteration:"It grew louder, longer, lower, lurching, looming, luridly!"
+  },
+  roast:{
+    onomatopoeia:"You wrote the drum. Poe wrote one word, three times, getting no bigger and no smaller.",
+    contrast:"There IS a contrast in this line — the smiling men against the noise. But you were asked about the last five words.",
+    alliteration:"Six different words is not repetition. One word, three times, is."
+  },
+  slotA:{q:"Saying \"louder\" three times, unchanged, makes the reader",opts:[
+    {t:"hear the same sound arriving again and again without ever resolving",ok:true},
+    {t:"understand the noise got loud",ok:false,why:"One \"louder\" would have done that. Why three?"},
+    {t:"feel emphasis",ok:false,why:"\"Emphasis\" is a shrug. Emphasis of what, and how?"}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"he cannot escape it and neither can the sentence, so both break",ok:true},
+    {t:"repetition creates rhythm",ok:false,why:"A definition. Put it back in this story."},
+    {t:"the police are about to find out",ok:false,why:"They aren't. He tells them."}
+  ]}
+},
+{
+  act:3,
+  lead:"No timer. The last line of the story. Nobody has suspected him.",
+  text:"\"Villains!\" I shrieked, \"dissemble no more! I admit the deed! — tear up the planks! — here, here! — it is the beating of his hideous heart!\"",
+  target:[[19,26]],
+  spot:"Tap the thing he says he can hear. <em>There is nothing there.</em>",
+  tech:"ambiguity",
+  opts:["ambiguity","onomatopoeia","simile","hyperbole"],
+  notimer:true,
+  mut:{
+    onomatopoeia:"\"Villains! Tear up the planks! Listen — BA-DUM, BA-DUM, BA-DUM!\"",
+    simile:"\"Tear up the planks! Something down there sounds rather like a heart!\"",
+    hyperbole:"\"Tear up the planks! It is the loudest heart that has ever beaten anywhere!\""
+  },
+  roast:{
+    onomatopoeia:"Write the noise and you've decided the sound is real. Poe never decides. That refusal is the ending.",
+    simile:"A simile would keep a gap between the sound and the heart. He has closed the gap. He believes it completely.",
+    hyperbole:"Size is not the question. Existence is."
+  },
+  flag:"HE OPENED BY ASKING WHY YOU WOULD CALL HIM MAD. HE CLOSES BY CONFESSING TO A MURDER NOBODY HAD SOLVED, BECAUSE OF A SOUND THAT IS NOT THERE.",
+  slotA:{q:"\"It is the beating of his hideous heart\" makes the reader",opts:[
+    {t:"decide for themselves whether the sound is guilt, illness, or his own pulse",ok:true},
+    {t:"know the old man's heart is still beating",ok:false,why:"He checked it himself and told you it had stopped."},
+    {t:"feel the tension release",ok:false,why:"Say what the SENTENCE does, not how you felt after it."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"nobody catches him — the only thing that convicts him is a noise he made himself",ok:true},
+    {t:"crime does not pay",ok:false,why:"A moral. Not an annotation."},
+    {t:"the ending is shocking",ok:false,why:"Name what is actually being withheld."}
+  ]}
+}
+]};
+
+STORIES.monkeyspaw = {
+  title:"THE MONKEY'S<br>PAW",
+  short:"The Monkey's Paw",
+  author:"W. W. Jacobs",
+  year:"1902",
+  hook:"A family is given three wishes. They use one on money.",
+  pitch:"Jacobs builds a warm room and then takes it apart object by object. Almost nothing in this story is described twice without changing. Annotate Act One carefully, because Act Three is made entirely out of it.",
+  read:{url:"https://iblog.dearbornschools.org/issa/wp-content/uploads/sites/1187/2015/10/The-Monkeys-Paw_FULL-TEXT.pdf",kind:"full story, PDF"},
+  words:"about 4,000 words",
+  pd:"Jacobs died in 1943. Public domain in the UK, EU, Singapore and the US.",
+  acts:{
+    1:{sub:"ACT ONE",title:"THE FIRE",blurb:[
+      "A wet night outside, chess and a bright fire inside, and a visitor with something in his pocket.",
+      "Four annotations. Two of these four objects come back in Act Three, changed. The game will tell you when."]},
+    2:{sub:"ACT TWO",title:"THE PAW MOVES",blurb:[
+      "The wish is made. Nothing happens. Then something does.",
+      "Watch the number, and watch what the fire is doing now."]},
+    3:{sub:"ACT THREE",title:"THE KNOCKING",blurb:[
+      "A week after the funeral. Two wishes left.",
+      "The last item has no timer. Jacobs ends by showing you something instead of telling you something, and you have to say what."]}
+  },
+  end:{
+    lines:["THE FIRE — burning brightly in the first sentence, dying by Act Two, a flickering streetlamp at the end.",
+      "TWO HUNDRED POUNDS — the sum he wishes for, and the sum the firm pays for his son.",
+      "SENSIBLE — Morris's word of warning, used about a wish that turns out to be the least sensible thing in the story."],
+    qs:["The compensation is exactly two hundred pounds. Is that the paw granting the wish, or a coincidence? Does the story let you decide, and does it matter which you choose?",
+      "Jacobs describes the fire three times and never says what it means. What has he done instead of telling you?",
+      "The story ends with an empty road. Mrs White has just wailed. What did Mr White wish for, and why does Jacobs refuse to write it down?"],
+    verdicts:["You tracked the objects. That is exactly how this story works.",
+      "Solid. Your gaps are in the effect round, where the marks live.",
+      "You can spot and name. The third move is the one examiners pay for.",
+      "Spotting is not annotating. Run it again and slow down on the freezes."]
+  },
+  items:[
+/* ---- ACT I ---- */
+{
+  act:1,
+  lead:"The first sentence of the story.",
+  text:"Without, the night was cold and wet, but in the small parlour the blinds were drawn and the fire burned brightly.",
+  target:[[17,20]],
+  spot:"Outside is cold and wet. Tap the <em>four words that answer it</em>.",
+  tech:"contrast",
+  opts:["contrast","personification","onomatopoeia","hyperbole"],
+  mut:{
+    personification:"Without, the night pressed its wet face to the glass and asked to be let in.",
+    onomatopoeia:"Without, the night went drip, drip, splat, while inside the fire went crackle-pop.",
+    hyperbole:"Without, it was the coldest and wettest night in the entire history of weather."
+  },
+  roast:{
+    personification:"Nothing is being brought to life. Two places are being set against each other in one sentence.",
+    onomatopoeia:"You wrote the sound effects. Jacobs built a wall: wet dark on one side, warm light on the other.",
+    hyperbole:"Turn it up and the room stops feeling safe, which ruins the trick. It has to be cosy first."
+  },
+  flag:"REMEMBER THE FIRE. IT IS THE FIRST THING IN THE STORY AND YOU WILL SEE IT TWICE MORE.",
+  slotA:{q:"Setting the wet night against the bright fire makes the reader",opts:[
+    {t:"feel how safe the room is, and how thin the wall around it is",ok:true},
+    {t:"know that it is a rainy evening",ok:false,why:"That's the weather report. What is the sentence DOING with it?"},
+    {t:"feel scared",ok:false,why:"Not yet. Jacobs is making you comfortable on purpose."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"everything that happens later comes in from outside, through that door",ok:true},
+    {t:"the setting is important",ok:false,why:"True of every story ever written."},
+    {t:"fires are warm",ok:false,why:"You've annotated a fire, not a sentence."}
+  ]}
+},
+{
+  act:1,
+  lead:"Mr White complains about where they live.",
+  text:"Of all the beastly, slushy, out-of-the-way places to live in, this is the worst. Pathway's a bog, and the road's a torrent.",
+  target:[[14,21]],
+  spot:"Tap where the path <em>stops being a path</em>.",
+  tech:"metaphor",
+  opts:["metaphor","simile","alliteration","repetition"],
+  mut:{
+    simile:"The pathway is rather like a bog, and the road is somewhat similar to a torrent.",
+    alliteration:"The path is a puddled, plashy, perfectly putrid passage.",
+    repetition:"Pathway's a bog. Pathway's a bog. The road's a torrent, a torrent, a torrent."
+  },
+  roast:{
+    simile:"Add \"like\" and he sounds reasonable. He is furious. Furious people do not say \"rather like\".",
+    alliteration:"You collected letters. He turned his front garden into a swamp and his road into a river.",
+    repetition:"He says it once each, hard. Repeating it makes him sound patient, and he isn't."
+  },
+  slotA:{q:"Calling the path a bog and the road a torrent makes the reader",opts:[
+    {t:"see the house as cut off, with water between it and everyone else",ok:true},
+    {t:"know the weather is bad",ok:false,why:"He already said beastly and slushy. What do the metaphors ADD?"},
+    {t:"think Mr White is grumpy",ok:false,why:"He is. Now say what his words do to the setting."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"nobody is coming to help this family, and by Act Three that is the whole problem",ok:true},
+    {t:"it shows he does not like his house",ok:false,why:"Character note. Reach for what it does to the story."},
+    {t:"bogs are dangerous",ok:false,why:"You've walked out of the story into a geography lesson."}
+  ]}
+},
+{
+  act:1,
+  lead:"Sergeant-Major Morris has been trying to get rid of the paw all evening.",
+  text:"\"If you must wish,\" he said gruffly, \"wish for something sensible.\"",
+  target:[[10,10]],
+  spot:"Tap Morris's one-word warning.",
+  tech:"word choice",
+  opts:["word choice","metaphor","punctuation","rhetorical question"],
+  mut:{
+    metaphor:"\"If you must wish,\" he said, \"wish for a coin and not a crown.\"",
+    punctuation:"\"If you must wish — and you must not — wish... for... something... sensible.\"",
+    "rhetorical question":"\"If you must wish, then why not wish for something sensible? Why not indeed?\""
+  },
+  roast:{
+    metaphor:"An image would make it advice. One flat ordinary word makes it a warning, and warnings work better plain.",
+    punctuation:"You've made him hesitate. He does not hesitate. He says one word, gruffly, and it lands like a stone.",
+    "rhetorical question":"A question invites discussion. Morris is not inviting anything. He wants this over with."
+  },
+  flag:"REMEMBER <b>SENSIBLE</b>.",
+  slotA:{q:"Choosing the word \"sensible\" makes the reader",opts:[
+    {t:"hear a warning dressed as ordinary practical advice",ok:true},
+    {t:"know that Morris is worried",ok:false,why:"He is. What does the WORD do that a worried face wouldn't?"},
+    {t:"think the paw is dangerous",ok:false,why:"Skip ahead and you lose the effect of the understatement."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the wish they make sounds completely sensible, and is the reason their son dies",ok:true},
+    {t:"you should be careful what you wish for",ok:false,why:"The moral, not the annotation. How do the WORDS get you there?"},
+    {t:"Morris has used the paw before",ok:false,why:"Plot. Say what the language does."}
+  ]}
+},
+{
+  act:1,
+  lead:"Herbert suggests the amount as a joke. His father says it out loud.",
+  text:"\"I wish for two hundred pounds,\" said the old man distinctly.",
+  target:[[10,10]],
+  spot:"Tap <em>how</em> he says it.",
+  tech:"word choice",
+  opts:["word choice","onomatopoeia","simile","contrast"],
+  mut:{
+    onomatopoeia:"\"I wish for two hundred pounds,\" said the old man, and the paw went WUB.",
+    simile:"\"I wish for two hundred pounds,\" said the old man, sounding like a man making a wish.",
+    contrast:"\"I wish for two hundred pounds,\" said the old man loudly, though his wife said it quietly."
+  },
+  roast:{
+    onomatopoeia:"Sound effects turn it into a cartoon. Jacobs gives you one adverb and it does more work than any noise.",
+    simile:"Nothing is compared. One word tells you exactly how a sentence was spoken, and it closes a door.",
+    contrast:"No two things are set against each other. There is one man and one adverb."
+  },
+  flag:"WRITE THE NUMBER DOWN: <b>TWO HUNDRED POUNDS</b>.",
+  slotA:{q:"\"Distinctly\" makes the reader",opts:[
+    {t:"know the wish was clear, deliberate and impossible to take back",ok:true},
+    {t:"hear that he spoke loudly",ok:false,why:"Distinct is not loud. It is unmistakable. Different thing."},
+    {t:"understand he wants money",ok:false,why:"The wish told you that. The adverb did something else."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the story removes every excuse — he was not tricked, misheard or joking",ok:true},
+    {t:"two hundred pounds is not very much",ok:false,why:"True, and it becomes devastating later. But that's not what the adverb does."},
+    {t:"he believes in the paw",ok:false,why:"He is smiling at his own credulity. Read again."}
+  ]}
+},
+/* ---- ACT II ---- */
+{
+  act:2,
+  lead:"The paw is in his hand as he wishes.",
+  text:"\"It moved,\" he cried, with a glance of disgust at the object as it lay on the floor. \"As I wished, it twisted in my hand like a snake.\"",
+  target:[[26,28]],
+  spot:"Tap the <em>animal</em>.",
+  tech:"simile",
+  opts:["simile","metaphor","personification","word choice"],
+  mut:{
+    metaphor:"\"As I wished, a snake turned over in my hand and looked at me.\"",
+    personification:"\"As I wished, it stretched, yawned, and made itself comfortable in my palm.\"",
+    "word choice":"\"As I wished, it writhed, squirmed, wriggled and slithered in my hand.\""
+  },
+  roast:{
+    metaphor:"Drop the \"like\" and there is an actual snake in the parlour. Jacobs needs it to stay a dead paw that felt alive.",
+    personification:"Personification would make it comfortable. A snake in your hand is not comfortable, which is the point.",
+    "word choice":"Piling up verbs is not the technique. One comparison, to one animal, is."
+  },
+  slotA:{q:"\"Like a snake\" makes the reader feel the paw as",opts:[
+    {t:"alive, muscular and untrustworthy, all in three words",ok:true},
+    {t:"scary",ok:false,why:"Why a snake, though? Why not a rat or a spider?"},
+    {t:"like a piece of rope",ok:false,why:"You've swapped the image for a duller one. Ask why Jacobs picked this one."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"it was an ordinary dried object two pages ago, and the family laughed at it",ok:true},
+    {t:"snakes are associated with evil",ok:false,why:"Symbol-hunting. Stay with what the reader feels in the hand."},
+    {t:"the wish is coming true",ok:false,why:"Plot prediction. What does the simile DO?"}
+  ]}
+},
+{
+  act:2,
+  lead:"Everyone else has gone up to bed. He sits on alone.",
+  text:"He sat alone in the darkness, gazing at the dying fire, and seeing faces in it.",
+  target:[[8,10]],
+  spot:"In Act One this fire burned brightly. Tap what it is doing <em>now</em>.",
+  tech:"word choice",
+  opts:["word choice","simile","onomatopoeia","rhetorical question"],
+  mut:{
+    simile:"He sat alone, gazing at the fire, which was rather like a fire that was going out.",
+    onomatopoeia:"He sat alone, and the fire went fzzz, pop, hisssss, and then nothing.",
+    "rhetorical question":"He sat alone. Was the fire dying? Was it? Who could possibly say?"
+  },
+  roast:{
+    simile:"Nothing is compared. One adjective has been swapped since Act One, and that swap is the event.",
+    onomatopoeia:"Noises fill the silence. Jacobs wants the silence. He changes one word instead.",
+    "rhetorical question":"No question is asked. A fact is stated, quietly, and it contradicts page one."
+  },
+  flag:"THE FIRE IS DYING. IT WAS THE FIRST THING YOU ANNOTATED IN THIS STORY.",
+  slotA:{q:"Changing \"burned brightly\" to \"dying\" makes the reader",opts:[
+    {t:"feel the safe room going out, without being told anything has gone wrong",ok:true},
+    {t:"know it is late at night",ok:false,why:"True and small. Why THIS word, in THIS story?"},
+    {t:"think someone is going to die",ok:false,why:"Too fast. Say what the word does before you say what it predicts."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the fire has been the family's protection since the first line, and it is being withdrawn",ok:true},
+    {t:"fire symbolises life",ok:false,why:"A symbol dictionary. Use the story's own version instead."},
+    {t:"he is tired",ok:false,why:"He is terrified. Read the faces."}
+  ]}
+},
+{
+  act:2,
+  lead:"A man from Maw and Meggins has come to the door.",
+  text:"\"He was caught in the machinery,\" said the visitor at length in a low voice. \"Caught in the machinery,\" repeated Mr. White, in a dazed fashion, \"yes.\"",
+  target:[[15,18]],
+  spot:"The father says the visitor's words back. Tap the <em>echo</em>.",
+  tech:"repetition",
+  opts:["repetition","metaphor","contrast","punctuation"],
+  mut:{
+    metaphor:"\"The machine ate him,\" said the visitor. \"The machine ate my son,\" said Mr. White.",
+    contrast:"\"He was caught in the machinery,\" said the visitor loudly. Mr. White said nothing at all, quietly.",
+    punctuation:"\"He was — caught — in the — machinery,\" said the visitor, at length."
+  },
+  roast:{
+    metaphor:"An image would give him something to feel. He has nothing. He has only the other man's phrase.",
+    contrast:"Two things are not being set against each other. The same four words are being said twice by two different men.",
+    punctuation:"Break the sentence and the father sounds emotional. He is not emotional yet. He is empty, and he borrows."
+  },
+  slotA:{q:"Mr. White repeating the visitor's exact phrase makes the reader",opts:[
+    {t:"hear a man with no words of his own left, handing the sentence back",ok:true},
+    {t:"know he did not understand",ok:false,why:"He understood perfectly. That's why he can't say anything new."},
+    {t:"feel the emphasis",ok:false,why:"Emphasis of what? Finish it."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"Jacobs shows the shock by taking his language away instead of describing his grief",ok:true},
+    {t:"repetition builds tension",ok:false,why:"A definition. Put it back in this room."},
+    {t:"factory work was dangerous",ok:false,why:"Context essay. Not an annotation."}
+  ]}
+},
+{
+  act:2,
+  lead:"The firm admits no liability, but wishes to present a certain sum.",
+  text:"His dry lips shaped the words, \"How much?\" \"Two hundred pounds,\" was the answer.",
+  target:[[8,10]],
+  spot:"You wrote this number down in Act One. Tap it <em>again</em>.",
+  tech:"repetition",
+  alsoOk:{k:"contrast",msg:"There is a contrast in it — a wish against a payout. But the technique is that the identical sum has come back, and the contrast is what the return creates. Taking it."},
+  opts:["repetition","contrast","hyperbole","metaphor"],
+  mut:{
+    hyperbole:"\"Two hundred pounds,\" was the answer, \"the largest sum ever paid to anyone for anything.\"",
+    metaphor:"\"Two hundred pounds,\" was the answer. \"A boy's weight in coins.\""
+  },
+  roast:{
+    hyperbole:"Making it enormous would let the family be angry. It is a small, exact, ordinary sum, and that is what destroys them.",
+    metaphor:"An image would let Jacobs comment. He refuses to comment. He simply says the same number again."
+  },
+  flag:"THE SAME NUMBER. HE ASKED FOR IT. THEY ARE PAYING IT FOR HIS SON.",
+  slotA:{q:"The sum returning unchanged makes the reader",opts:[
+    {t:"work out the price of the wish for themselves, before the parents do",ok:true},
+    {t:"realise the paw is magic",ok:false,why:"Maybe. The story never confirms it — and it doesn't need to."},
+    {t:"feel sorry for the family",ok:false,why:"You will. Say what the REPEATED NUMBER does to produce that."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"nobody in the story says the connection out loud, so the reader has to make it",ok:true},
+    {t:"money cannot buy happiness",ok:false,why:"A greetings card. Try again."},
+    {t:"it is a shocking twist",ok:false,why:"Name the mechanism, not the genre."}
+  ]}
+},
+/* ---- ACT III ---- */
+{
+  act:3,
+  lead:"After the funeral.",
+  text:"The old people buried their dead, and came back to a house steeped in shadow and silence.",
+  target:[[12,16]],
+  spot:"Tap where the house is <em>soaked</em> in something.",
+  tech:"metaphor",
+  opts:["metaphor","simile","personification","alliteration"],
+  mut:{
+    simile:"They came back to a house that was rather like a house with shadows and silence in it.",
+    personification:"They came back to a house that had drawn its curtains and folded its arms.",
+    alliteration:"They came back to a silent, shadowed, sombre, sunless, sorrowing house."
+  },
+  roast:{
+    simile:"Add \"like\" and the shadow is only a resemblance. \"Steeped\" says the house has been soaking in it.",
+    personification:"The house does nothing. Something has been done to it, the way tea is done to water.",
+    alliteration:"Five adjectives is a pile. One verb doing the work of five is a metaphor."
+  },
+  slotA:{q:"\"Steeped\" makes the reader imagine the house as",opts:[
+    {t:"soaked through, saturated — the grief is in the walls, not the furniture",ok:true},
+    {t:"dark and quiet",ok:false,why:"Shadow and silence already said that. What does STEEPED add?"},
+    {t:"empty",ok:false,why:"Two people are in it. That's the problem."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the same room that was warm and lit in Act One is now soaking in the opposite",ok:true},
+    {t:"grief is difficult",ok:false,why:"True of everything. Bring it back to the sentence."},
+    {t:"houses can feel sad",ok:false,why:"Houses can't. Say what Jacobs has done to this one."}
+  ]}
+},
+{
+  act:3,
+  lead:"He lies awake. The house makes small noises.",
+  text:"Neither spoke, but lay silently listening to the ticking of the clock. A stair creaked, and a squeaky mouse scurried noisily through the wall.",
+  target:[[14,14]],
+  spot:"Three words in this line imitate sounds. Tap the one the <em>stair</em> makes.",
+  tech:"onomatopoeia",
+  opts:["onomatopoeia","personification","simile","contrast"],
+  mut:{
+    personification:"A stair complained bitterly about being stepped on all these years.",
+    simile:"A stair made a noise like a stair does when someone stands on it.",
+    contrast:"A stair creaked, but the other stairs remained completely silent, unlike that one."
+  },
+  roast:{
+    personification:"The stair is not doing anything on purpose. The word simply sounds like the noise.",
+    simile:"You compared a creak to a creak. There is a word that IS the creak. Use it.",
+    contrast:"Nothing is set against anything. One word makes one sound."
+  },
+  slotA:{q:"\"Creaked\", \"ticking\" and \"squeaky\" together make the reader",opts:[
+    {t:"hear the house the way two people awake in the dark hear it: too clearly",ok:true},
+    {t:"know the house is old",ok:false,why:"Surface. What is the effect of hearing all three at once?"},
+    {t:"feel scared of mice",ok:false,why:"No."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"every ordinary noise now has to be checked, so the real knock arrives into a room already listening",ok:true},
+    {t:"sound effects make writing vivid",ok:false,why:"A rule from a worksheet. Apply it to this scene."},
+    {t:"the mouse is a symbol",ok:false,why:"It is a mouse."}
+  ]}
+},
+{
+  act:3,
+  lead:"Mrs White has run downstairs to the door.",
+  text:"A perfect fusillade of knocks reverberated through the house.",
+  target:[[0,2]],
+  spot:"Tap where the knocking becomes <em>gunfire</em>.",
+  tech:"metaphor",
+  opts:["metaphor","simile","onomatopoeia","hyperbole"],
+  mut:{
+    simile:"A series of knocks, rather like gunfire in some ways, went through the house.",
+    onomatopoeia:"KNOCK KNOCK KNOCK BANG BANG BANG went the door, loudly.",
+    hyperbole:"A billion knocks, more knocks than have ever been knocked, shook the entire county."
+  },
+  roast:{
+    simile:"\"Rather like gunfire\" gives the reader time to think. A fusillade does not give anyone time.",
+    onomatopoeia:"You wrote the noise. Jacobs wrote one military word and made the door into a firing line.",
+    hyperbole:"You can't out-loud this. \"Fusillade\" is precise: rapid, continuous, and aimed at someone."
+  },
+  slotA:{q:"\"Fusillade\" makes the reader hear the knocking as",opts:[
+    {t:"rapid, continuous and aimed — an attack rather than a request",ok:true},
+    {t:"very loud",ok:false,why:"Loud is easy. What KIND of loud is a fusillade?"},
+    {t:"like someone in a hurry",ok:false,why:"Too polite. Read the word again."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"whatever is outside is no longer their son asking to come in",ok:true},
+    {t:"it is exciting",ok:false,why:"Say what makes it so."},
+    {t:"guns are frightening",ok:false,why:"There is no gun. That's rather the point of a metaphor."}
+  ]}
+},
+{
+  act:3,
+  lead:"No timer. The last two sentences. He has made the third wish.",
+  text:"A cold wind rushed up the staircase, and a long loud wail of misery from his wife gave him courage to run down to her side. The streetlamp flickering opposite shone on a quiet and deserted road.",
+  target:[[32,36]],
+  spot:"Tap what Jacobs shows you <em>instead of an answer</em>.",
+  tech:"ambiguity",
+  opts:["ambiguity","metaphor","personification","repetition"],
+  notimer:true,
+  mut:{
+    metaphor:"The streetlamp shone on a road that was a long grey throat, swallowing nothing.",
+    personification:"The streetlamp peered anxiously up and down the road and found nobody there.",
+    repetition:"The road was empty. The road was empty. The road was completely and utterly empty."
+  },
+  roast:{
+    metaphor:"An image tells you how to feel. Jacobs hands you a lit, empty road and stops writing.",
+    personification:"Give the lamp feelings and the ending has an opinion. It must not have one.",
+    repetition:"Saying it three times insists. This ending refuses to insist on anything at all."
+  },
+  flag:"ACT ONE OPENED ON A FIRE BURNING BRIGHTLY IN A WARM ROOM. IT CLOSES ON A FLICKERING LAMP AND AN EMPTY ROAD.",
+  slotA:{q:"Ending on an empty road makes the reader",opts:[
+    {t:"decide for themselves what was outside and what the third wish was",ok:true},
+    {t:"know that nothing was there",ok:false,why:"Nothing is there NOW. He wished a second before the door opened."},
+    {t:"feel relieved",ok:false,why:"Read the wail again, and who is making it."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the story never confirms the paw worked, so the horror survives after the reading stops",ok:true},
+    {t:"the ending is sad",ok:false,why:"Name what is being withheld, not how it feels."},
+    {t:"they wasted their wishes",ok:false,why:"A summary of the plot. Say what the last line does."}
+  ]}
+}
+]};
+
+STORIES.ladytiger = {
+  title:"THE LADY,<br>OR THE TIGER?",
+  short:"The Lady, or the Tiger?",
+  author:"Frank R. Stockton",
+  year:"1882",
+  hook:"A king puts the accused in an arena with two identical doors.",
+  pitch:"The narrator sounds amused for four pages and then refuses to finish the story. One word travels from the king to his daughter across the whole thing. Find it at both ends and you have the story.",
+  read:{url:"https://www.gutenberg.org/cache/epub/396/pg396-images.html",kind:"full story, web page"},
+  words:"about 2,700 words",
+  pd:"Stockton died in 1902. Public domain worldwide.",
+  acts:{
+    1:{sub:"ACT ONE",title:"THE KING",blurb:[
+      "A ruler with an arena, two doors, and a very high opinion of his own fairness.",
+      "The narrator never says the king is monstrous. Annotate how he says it anyway."]},
+    2:{sub:"ACT TWO",title:"THE PRINCESS",blurb:[
+      "She loves a courtier. Her father finds out. She buys the secret of the doors.",
+      "Watch how the story keeps quietly making her into her father."]},
+    3:{sub:"ACT THREE",title:"THE DOOR",blurb:[
+      "He goes to the door on the right and opens it.",
+      "Stockton now stops telling the story and starts talking to you. The last item has no timer."]}
+  },
+  end:{
+    lines:["SEMI-BARBARIC — the king's word in the first sentence, and the princess's word by the end.",
+      "THE DOORS — identical, silent, and described as terrible for exactly that reason.",
+      "THE NARRATOR — amused for four pages, then he hands the ending to you and leaves."],
+    qs:["The word \"semi-barbaric\" is used of the king at the start and of the princess at the end. Track everything in between that moves it from him to her. Is she becoming him, or was she always?",
+      "Stockton spends a long time explaining that the king's system is perfectly fair. Do you believe the narrator? What in his wording tells you what he actually thinks?",
+      "The story has no ending. Is that a trick, or is it the point? What would be lost if Stockton told you which door it was?"],
+    verdicts:["You followed one word across a whole story. That is close reading.",
+      "Solid. The gaps are in the effect round, which is where the marks are.",
+      "You can spot and name. Now do the move that earns the marks.",
+      "Spotting is not annotating. Run it again and take the freezes slowly."]
+  },
+  items:[
+/* ---- ACT I ---- */
+{
+  act:1,
+  lead:"The first sentence of the story.",
+  text:"In the very olden time there lived a semi-barbaric king, whose ideas were still large, florid, and untrammeled, as became the half of him which was barbaric.",
+  target:[[8,8]],
+  spot:"Tap the word. It is the whole story.",
+  tech:"word choice",
+  opts:["word choice","simile","hyperbole","alliteration"],
+  mut:{
+    simile:"There lived a king who was rather like a barbarian, about half of the time.",
+    hyperbole:"There lived the single most barbaric king in the history of every kingdom ever.",
+    alliteration:"There lived a bold, brutal, blustering, barely-civilised barbarian king."
+  },
+  roast:{
+    simile:"A comparison keeps him at a distance. This word puts the barbarism inside him and cuts him in half with a hyphen.",
+    hyperbole:"Turn it up and he becomes a cartoon villain you can dismiss. Half-civilised is far more disturbing.",
+    alliteration:"Four words hammering the same letter is a chant. Stockton uses one precise word instead."
+  },
+  flag:"<b>SEMI-BARBARIC</b>. IT BELONGS TO THE KING. WATCH WHO ELSE ENDS UP WITH IT.",
+  slotA:{q:"\"Semi-barbaric\" makes the reader see the king as",opts:[
+    {t:"civilised enough to build a system, savage enough to enjoy it",ok:true},
+    {t:"a violent man",ok:false,why:"The word has two halves. You only used one."},
+    {t:"from a long time ago",ok:false,why:"That's \"olden time\". This word does something else."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the arena is not a relic of savagery, it is a savage idea with polished manners on top",ok:true},
+    {t:"kings had a lot of power",ok:false,why:"History note, not annotation."},
+    {t:"he is the villain of the story",ok:false,why:"Is he? By the end, the reader is worrying about someone else."}
+  ]}
+},
+{
+  act:1,
+  lead:"He is describing what the king is like when things go wrong.",
+  text:"Whenever there was a little hitch, and some of his orbs got out of their orbits, he was blander and more genial still.",
+  target:[[18,21]],
+  spot:"Someone is about to be fed to a tiger. Tap <em>how the king feels</em>.",
+  tech:"irony",
+  opts:["irony","personification","simile","onomatopoeia"],
+  mut:{
+    personification:"Whenever there was a hitch, the palace itself frowned and the throne shifted uneasily.",
+    simile:"Whenever there was a hitch, the king became like a man who was rather pleased about it.",
+    onomatopoeia:"Whenever there was a hitch, the king went hmmm, aha, tut, and smiled."
+  },
+  roast:{
+    personification:"Nothing lifeless comes alive. A pleasant word is being used about an unpleasant thing on purpose.",
+    simile:"A simile explains. Irony refuses to explain, and lets you notice the gap yourself.",
+    onomatopoeia:"You wrote noises. Stockton wrote two mild, friendly words about a man arranging an execution."
+  },
+  slotA:{q:"Calling him \"blander and more genial\" at that moment makes the reader",opts:[
+    {t:"hear the narrator saying the opposite of what he means, without flagging it",ok:true},
+    {t:"think the king is a nice man",ok:false,why:"Then the joke has worked on you. Read what he is genial ABOUT."},
+    {t:"know the king stays calm under pressure",ok:false,why:"He isn't calm. He is enjoying himself."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the narrator never condemns the king out loud, so the reader has to do it",ok:true},
+    {t:"irony is used for humour",ok:false,why:"A definition. What is this particular irony for?"},
+    {t:"the king is unpredictable",ok:false,why:"He is entirely predictable. That is the horror."}
+  ]}
+},
+{
+  act:1,
+  lead:"He explains the purpose of the arena.",
+  text:"This vast amphitheater was an agent of poetic justice, in which crime was punished, or virtue rewarded, by the decrees of an impartial and incorruptible chance.",
+  target:[[21,25]],
+  spot:"Tap the flattering name the narrator gives to a <em>coin toss</em>.",
+  tech:"personification",
+  opts:["personification","simile","repetition","hyperbole"],
+  mut:{
+    simile:"crime was punished, or virtue rewarded, by something rather like flipping a coin.",
+    repetition:"by chance, by chance, by chance, and nothing at all but chance.",
+    hyperbole:"by the most impartial and most incorruptible chance in the whole of creation."
+  },
+  roast:{
+    simile:"A comparison would admit it's random. Giving chance a character pretends it has judgement.",
+    repetition:"Saying it three times insists. Giving it two moral virtues is a different and sneakier move.",
+    hyperbole:"Size is not the trick. Chance has been handed two qualities that only a judge can have."
+  },
+  slotA:{q:"Giving chance the qualities of a judge makes the reader",opts:[
+    {t:"see randomness dressed up in the language of fairness",ok:true},
+    {t:"think the system is fair",ok:false,why:"Then it worked on you. Who chose those two adjectives?"},
+    {t:"understand how the arena works",ok:false,why:"The rest of the paragraph did that. What do THESE words add?"}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the whole kingdom has agreed to call a coin toss justice, and so has the narrator",ok:true},
+    {t:"the king is unfair",ok:false,why:"Stated. Show how the language proves it instead."},
+    {t:"chance decides everything in life",ok:false,why:"A philosophy essay. Come back to the arena."}
+  ]}
+},
+{
+  act:1,
+  lead:"The day of the trial. The crowd is in.",
+  text:"The king and his court were in their places, opposite the twin doors, those fateful portals, so terrible in their similarity.",
+  target:[[16,20]],
+  spot:"Tap what makes the doors frightening. It is <em>not</em> what is behind them.",
+  tech:"word choice",
+  opts:["word choice","contrast","onomatopoeia","metaphor"],
+  mut:{
+    contrast:"one door was terrible, but the other door was, by contrast, entirely lovely.",
+    onomatopoeia:"the twin doors, which went creak, thud, creak in the silence.",
+    metaphor:"the twin doors, two closed mouths waiting to be asked a question."
+  },
+  roast:{
+    contrast:"Contrast needs difference. The horror here is that there is no difference at all.",
+    onomatopoeia:"Sound would give something away. These doors are described as heavily curtained precisely so that nothing does.",
+    metaphor:"An image is tempting, and it would be less frightening. Sameness is the whole cruelty."
+  },
+  slotA:{q:"\"Terrible in their similarity\" makes the reader",opts:[
+    {t:"understand that the fear comes from having nothing to go on",ok:true},
+    {t:"know the doors look the same",ok:false,why:"\"Twin\" already said that. What does TERRIBLE add to it?"},
+    {t:"feel sorry for the accused man",ok:false,why:"You will. Say how the phrase produces that."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the system offers a choice while removing every reason for choosing",ok:true},
+    {t:"the doors are important to the plot",ok:false,why:"Plot note. Say what the words do."},
+    {t:"symmetry is unsettling",ok:false,why:"Nearly, but general. Tie it to the man in the arena."}
+  ]}
+},
+/* ---- ACT II ---- */
+{
+  act:2,
+  lead:"The king has a daughter. Two comparisons in one sentence.",
+  text:"This semi-barbaric king had a daughter as blooming as his most florid fancies, and with a soul as fervent and imperious as his own.",
+  target:[[6,12],[17,23]],
+  spot:"Two comparisons here, both to <em>her father</em>. Tap either.",
+  tech:"simile",
+  opts:["simile","metaphor","repetition","irony"],
+  mut:{
+    metaphor:"The king had a daughter who was his florid fancy, and whose soul was his soul.",
+    repetition:"The king had a daughter, a daughter, a daughter with a soul, a soul, a soul.",
+    irony:"The king had a daughter who was, of course, nothing whatsoever like him in any way."
+  },
+  roast:{
+    metaphor:"Metaphor makes her identical to him immediately. Stockton keeps a thin \"as\" between them so he can close the gap slowly.",
+    repetition:"Nothing is said twice. Two different comparisons are made, and both point at the same man.",
+    irony:"There is no gap between what is said and what is meant here. He means it exactly."
+  },
+  flag:"HER SOUL IS \"AS FERVENT AND IMPERIOUS AS HIS OWN\". THE WORD FROM ITEM ONE IS COMING FOR HER.",
+  slotA:{q:"Comparing her twice to her father makes the reader",opts:[
+    {t:"read her as made from him, before she has done anything at all",ok:true},
+    {t:"know that she is beautiful",ok:false,why:"That's one half of one comparison. What are BOTH doing?"},
+    {t:"like her",ok:false,why:"Do you? Look at what she has been compared to."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"whatever she does in the arena, the story has already told you whose daughter she is",ok:true},
+    {t:"she takes after her dad",ok:false,why:"Right idea, no analysis. Say what the SIMILES do."},
+    {t:"royal families were close",ok:false,why:"History. Return to the sentence."}
+  ]}
+},
+{
+  act:2,
+  lead:"Nobody has ever done what she does next.",
+  text:"She had done what no other person had done — she had possessed herself of the secret of the doors.",
+  target:[[9,19]],
+  spot:"Tap the dash <em>and everything after it</em>.",
+  tech:"punctuation",
+  opts:["punctuation","repetition","simile","word choice"],
+  mut:{
+    repetition:"She had done what no other person had done. No other person. No other person at all.",
+    simile:"She had done what no other person had done, rather like a spy or a thief might.",
+    "word choice":"She had discovered, learned, uncovered, obtained and acquired the secret of the doors."
+  },
+  roast:{
+    repetition:"Repeating the boast delays the news. The dash does the opposite: it holds you for one beat and then delivers.",
+    simile:"A comparison would soften it. The sentence needs the fact to land bare, straight after the pause.",
+    "word choice":"Five verbs is a thesaurus. One mark of punctuation, splitting the sentence in two, is the technique."
+  },
+  slotA:{q:"The dash makes the reader",opts:[
+    {t:"wait one beat for what she did, which makes the answer land harder",ok:true},
+    {t:"pause dramatically",ok:false,why:"Every dash pauses. What arrives after THIS one?"},
+    {t:"know she is clever",ok:false,why:"The content told you. What did the MARK do?"}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"she now holds a power nobody in the kingdom has ever held, including her father",ok:true},
+    {t:"punctuation adds variety",ok:false,why:"A worksheet rule. Apply it to her."},
+    {t:"she loves him",ok:false,why:"She does. That is not what the dash does."}
+  ]}
+},
+{
+  act:2,
+  lead:"She knows which door holds the lady. She also knows who the lady is.",
+  text:"The girl was lovely, but she had dared to raise her eyes to the loved one of the princess; and she hated the woman who blushed and trembled behind that silent door.",
+  target:[[21,21]],
+  spot:"A long, decorated sentence with one <em>blunt verb</em> in it. Tap the verb.",
+  tech:"word choice",
+  opts:["word choice","personification","punctuation","simile"],
+  mut:{
+    personification:"and the silent door itself began to resent the woman standing behind it.",
+    punctuation:"and she — hated — the woman — who blushed — and trembled — behind that door.",
+    simile:"and she felt towards the woman rather as one feels towards a rival, somewhat."
+  },
+  roast:{
+    personification:"The door is silent, not alive. A princess is doing the feeling, and the story names it in one syllable.",
+    punctuation:"Break it up and she sounds hesitant. She is not hesitant. Hesitation is not what \"hated\" means.",
+    simile:"\"Rather as one feels\" is polite. Stockton gives you the shortest, ugliest available word instead."
+  },
+  slotA:{q:"Choosing \"hated\" in a sentence this ornate makes the reader",opts:[
+    {t:"feel the decoration drop away for one word, so the feeling arrives undressed",ok:true},
+    {t:"know the princess is jealous",ok:false,why:"Jealous is mild. She chose a harder word than that."},
+    {t:"dislike the princess",ok:false,why:"Reaction. What did the WORD do to produce it?"}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the woman behind the door has done nothing, and the princess controls which door opens",ok:true},
+    {t:"love makes people jealous",ok:false,why:"A greetings card. Back to the sentence."},
+    {t:"she is a bad person",ok:false,why:"A verdict, not an annotation. Show the evidence instead."}
+  ]}
+},
+{
+  act:2,
+  lead:"He looks up at her. She answers.",
+  text:"Her right arm lay on the cushioned parapet before her. She raised her hand, and made a slight, quick movement toward the right.",
+  target:[[16,19]],
+  spot:"A man's life turns on this. Tap <em>how big it is</em>.",
+  tech:"contrast",
+  opts:["contrast","hyperbole","metaphor","onomatopoeia"],
+  mut:{
+    hyperbole:"She flung her arm out in an enormous, sweeping, unmistakable gesture visible from space.",
+    metaphor:"Her hand was a compass needle, swinging north, and the whole arena turned with it.",
+    onomatopoeia:"She raised her hand and it went swish, toward the right."
+  },
+  roast:{
+    hyperbole:"Make it big and everyone sees it. The story says nobody but her lover saw. It has to be tiny.",
+    metaphor:"An image would make the moment grand. Stockton keeps it domestic and small, against everything at stake.",
+    onomatopoeia:"There is no sound. There is barely a movement. That is the point."
+  },
+  slotA:{q:"Describing it as \"slight, quick\" makes the reader",opts:[
+    {t:"weigh a tiny gesture against a man's death, and feel the size of the gap",ok:true},
+    {t:"know she moved her hand",ok:false,why:"She did. Why does Stockton insist it was small?"},
+    {t:"see that she is nervous",ok:false,why:"She decided days ago. Read the next paragraph."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the enormous decision has already been made in private, and this is only the receipt",ok:true},
+    {t:"small details matter in stories",ok:false,why:"A rule. Apply it to this hand."},
+    {t:"she is helping him",ok:false,why:"That's the question the story refuses to answer."}
+  ]}
+},
+/* ---- ACT III ---- */
+{
+  act:3,
+  lead:"He opens the door on the right. And the narrator stops the story.",
+  text:"Now, the point of the story is this: Did the tiger come out of that door, or did the lady?",
+  target:[[8,19]],
+  spot:"Tap the question the narrator <em>refuses to answer</em>.",
+  tech:"rhetorical question",
+  opts:["rhetorical question","repetition","contrast","metaphor"],
+  mut:{
+    repetition:"The tiger, or the lady. The tiger, or the lady. The tiger, or the lady.",
+    contrast:"The tiger was fierce, whereas the lady, by contrast, was not fierce at all.",
+    metaphor:"Behind that door stood the whole of human nature, wearing either fur or a wedding dress."
+  },
+  roast:{
+    repetition:"Chanting the options is a drum roll. Asking you is something else: it makes it your problem.",
+    contrast:"The two outcomes are indeed opposite. But the technique is that the narrator turns and asks you.",
+    metaphor:"An image would answer it, sort of. Stockton has just refused to answer anything."
+  },
+  slotA:{q:"Asking the question instead of answering it makes the reader",opts:[
+    {t:"realise the story has stopped and been handed over",ok:true},
+    {t:"want to know what happens",ok:false,why:"You do. But the question is not a tease. Look at what follows it."},
+    {t:"think about tigers",ok:false,why:"No."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"the answer depends on what you believe about the princess, so the reader is now the judge",ok:true},
+    {t:"cliffhangers keep you reading",ok:false,why:"There is nothing left to read. That's what makes it different."},
+    {t:"the narrator does not know",ok:false,why:"He invented her. Try again."}
+  ]}
+},
+{
+  act:3,
+  lead:"He tells you where to look for the answer.",
+  text:"Think of it, fair reader, not as if the decision depended upon yourself, but upon that hot-blooded, semi-barbaric princess.",
+  target:[[17,17]],
+  spot:"You annotated this word in Act One. It belonged to the king. Tap <em>who has it now</em>.",
+  tech:"repetition",
+  alsoOk:{k:"word choice",msg:"Fair — it is a chosen word. But it is a word chosen twice, and the mark is in the distance it has travelled between the two uses. Taking it."},
+  opts:["repetition","word choice","simile","irony"],
+  mut:{
+    simile:"but upon that princess, who was rather like her father in certain respects.",
+    irony:"but upon that gentle, mild, entirely civilised princess, ha ha."
+  },
+  roast:{
+    simile:"A comparison would keep her separate from him. The story does not compare her to the king. It gives her his adjective.",
+    irony:"Irony would wink at you. This is not a wink. It is the same word, moved."
+  },
+  flag:"THE KING'S WORD IS NOW HERS. THE STORY HAS BEEN CARRYING IT ACROSS TO HER SINCE THE FIRST SENTENCE.",
+  slotA:{q:"Giving the princess her father's adjective makes the reader",opts:[
+    {t:"see the inheritance completed at the exact moment she has to choose",ok:true},
+    {t:"remember the beginning of the story",ok:false,why:"Yes, and then what? Finish the thought."},
+    {t:"know she is from a barbaric country",ok:false,why:"Half the word again. Read both halves."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"if she is half-savage like him, the question of which door becomes genuinely open",ok:true},
+    {t:"she is a bad person",ok:false,why:"Semi. That's the word, and that's the difficulty."},
+    {t:"repetition creates unity",ok:false,why:"A worksheet phrase. What does THIS repeat do to the ending?"}
+  ]}
+},
+{
+  act:3,
+  lead:"He describes what she thought about, night after night.",
+  text:"She had lost him, but who should have him?",
+  target:[[7,7]],
+  spot:"Tap the verb. She does <em>not</em> say \"love\".",
+  decoy:{range:[4,6],msg:"That's the question, and it is a real technique. But you were asked for one verb inside it."},
+  tech:"word choice",
+  opts:["word choice","rhetorical question","personification","alliteration"],
+  mut:{
+    "rhetorical question":"She had lost him. Had she? Truly? And who among us has not lost someone?",
+    personification:"She had lost him, and Jealousy took a seat beside her and put its arm around her shoulders.",
+    alliteration:"She had lost her love, her lord, her long-belovèd lad."
+  },
+  roast:{
+    "rhetorical question":"It IS a question, and you were told so. The mark is the single word she uses for what love has become.",
+    personification:"Naming the feeling as a character explains it. The story never explains it. It just picks a verb.",
+    alliteration:"You collected letters and lost the verb. \"Have\" is the ugliest word in the sentence."
+  },
+  slotA:{q:"Choosing \"have\" rather than \"love\" makes the reader",opts:[
+    {t:"hear the man turn into property in the middle of her grief",ok:true},
+    {t:"know she is sad",ok:false,why:"She is. The verb is doing something less sympathetic than that."},
+    {t:"understand she wants him back",ok:false,why:"Read it again. She is thinking about who else gets him."}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"if he cannot be hers, the tiger starts to look like an option to her",ok:true},
+    {t:"jealousy is a strong emotion",ok:false,why:"General. Bring it back to this verb and this door."},
+    {t:"she is possessive",ok:false,why:"Right word, no working. Show how the sentence proves it."}
+  ]}
+},
+{
+  act:3,
+  lead:"No timer. The last sentence of the story, and of the game.",
+  text:"And so I leave it with all of you: Which came out of the opened door — the lady, or the tiger?",
+  target:[[2,8]],
+  spot:"Tap where the narrator <em>hands you the story and walks off</em>.",
+  tech:"direct address",
+  alsoOk:{k:"ambiguity",msg:"Correct in substance — the ending is deliberately unresolved. The technique in these seven words, though, is that he speaks straight to you to do it. Taking it."},
+  opts:["direct address","ambiguity","metaphor","repetition"],
+  notimer:true,
+  mut:{
+    metaphor:"And so I set the question down on the table between us like a covered dish.",
+    repetition:"And so I leave it with you. I leave it with you. I leave it with you."
+  },
+  roast:{
+    metaphor:"An image would be a flourish. He wants no flourish. He wants to be looking at you when he stops.",
+    repetition:"Saying it three times is a performance. Saying it once, to your face, is an exit."
+  },
+  flag:"THE TITLE IS A QUESTION. THE LAST LINE IS THE SAME QUESTION. NOTHING BETWEEN THEM ANSWERS IT.",
+  slotA:{q:"Speaking straight to \"all of you\" makes the reader",opts:[
+    {t:"take responsibility for the ending, because there is nobody else left to decide it",ok:true},
+    {t:"feel included in the story",ok:false,why:"Included in what? Say what you have been handed."},
+    {t:"realise the narrator is a character",ok:false,why:"He has been talking to you since Act One. What is different NOW?"}
+  ]},
+  slotB:{q:"which matters because",opts:[
+    {t:"your answer says more about what you think of the princess than about the door",ok:true},
+    {t:"open endings are interesting",ok:false,why:"A review. Say what this one asks of you."},
+    {t:"the story is unfinished",ok:false,why:"It is finished. It just isn't resolved. Different things."}
+  ]}
+}
+]};
+
+const ORDER = ["missbrill","telltale","monkeyspaw","ladytiger"];
+</script>
+<script>
+/* ================= engine ================= */
+const $=s=>document.querySelector(s);
+const stage=$('#stage'),timer=$('#timer'),timerwrap=$('#timerwrap'),stamp=$('#stamp'),overlay=$('#overlay');
+
+let ST=null, KEY=null;
+let S={i:0,score:0,chain:0,mult:1,muted:false,paused:false,results:[],res:null};
+let tEnd=0,tDur=0,tRaf=null,onTimeout=null;
+
+let AC=null;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}return AC}
+function beep(f,d,type,vol){
+  if(S.muted)return; const c=ac(); if(!c)return;
+  const o=c.createOscillator(),g=c.createGain();
+  o.type=type||'square';o.frequency.value=f;
+  g.gain.setValueAtTime(vol||.06,c.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+(d||.1));
+  o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+(d||.1));
+}
+function sGood(){beep(660,.07);setTimeout(()=>beep(990,.09),70)}
+function sChain(){beep(660,.06);setTimeout(()=>beep(880,.06),60);setTimeout(()=>beep(1320,.14),120)}
+function sBad(){beep(150,.22,'sawtooth',.09);setTimeout(()=>beep(110,.28,'sawtooth',.08),90)}
+function sTick(){beep(1400,.02,'sine',.03)}
+function sFreeze(){beep(420,.5,'sine',.05)}
+
+function say(txt,red){
+  stamp.textContent=txt;stamp.className=red?'red':'';
+  void stamp.offsetWidth; stamp.classList.add('go');
+  if(red){document.body.classList.add('shake');setTimeout(()=>document.body.classList.remove('shake'),320)}
+}
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function startTimer(ms,cb){
+  stopTimer(); tDur=ms; tEnd=performance.now()+ms; onTimeout=cb;
+  timerwrap.style.opacity='1';
+  let lastTick=6;
+  (function loop(){
+    if(S.paused){tRaf=requestAnimationFrame(loop);return}
+    const left=tEnd-performance.now(), r=Math.max(0,left/tDur);
+    timer.style.transform='scaleX('+r+')';
+    timer.className = r<.28?'hot':(r<.55?'pink':'');
+    const secs=Math.ceil(left/1000);
+    if(secs<=3&&secs!==lastTick&&secs>0){lastTick=secs;sTick()}
+    if(left<=0){timer.style.transform='scaleX(0)';const f=onTimeout;onTimeout=null;if(f)f();return}
+    tRaf=requestAnimationFrame(loop);
+  })();
+}
+function stopTimer(){if(tRaf)cancelAnimationFrame(tRaf);tRaf=null;onTimeout=null;timer.style.transform='scaleX(0)';timer.className=''}
+function hideTimer(){stopTimer();timerwrap.style.opacity='.15'}
+
+function hud(){
+  $('#hscore').textContent=S.score.toLocaleString();
+  $('#htext').textContent=ST?ST.short.toUpperCase():'—';
+  const c=$('#chain');
+  c.textContent='CHAIN x'+(S.mult%1?S.mult.toFixed(1):S.mult);
+  c.classList.toggle('on',S.mult>1);
+}
+function addScore(n){S.score+=Math.round(n*S.mult);hud()}
+function bumpChain(){S.chain++;S.mult=Math.min(3,1+Math.min(S.chain,4)*.5);hud();if(S.chain===2||S.chain===4)say(pick(ANNOUNCER.chain))}
+function breakChain(){S.chain=0;S.mult=1;hud()}
+
+function tokens(t){return t.split(' ')}
+function inTarget(it,i){return it.target.some(r=>i>=r[0]&&i<=r[1])}
+function renderPassage(it,o){
+  o=o||{};
+  const ws=tokens(it.text).map((w,i)=>{
+    const cls=['w']; if(o.lit&&inTarget(it,i))cls.push('lit');
+    return '<span class="'+cls.join(' ')+'" data-i="'+i+'">'+esc(w)+'</span>';
+  }).join(' ');
+  return '<p class="passage'+(o.locked?' locked':'')+'" id="psg">'+ws+'</p>';
+}
+function litTarget(it){document.querySelectorAll('#psg .w').forEach(el=>{if(inTarget(it,+el.dataset.i))el.classList.add('lit')})}
+function setStoryClass(){
+  document.body.className=document.body.className.replace(/\bs-\w+/g,'').trim();
+  if(KEY)document.body.classList.add('s-'+KEY);
+}
+
+/* ============ 1 : SPOT ============ */
+function roundSpot(){
+  stage._keys=null;
+  const it=ST.items[S.i];
+  document.body.classList.toggle('act3',it.act===3);
+  document.body.classList.remove('freeze');
+  stage.innerHTML='<div class="sheet">'+
+    '<p class="sub">ACT '+it.act+' &middot; '+(S.i+1)+' OF 12 &middot; SPOT</p>'+
+    '<h1 class="instruction">'+it.spot+'</h1>'+
+    '<p class="lead">'+it.lead+'</p>'+
+    renderPassage(it)+'</div>';
+  stage.scrollTop=0;
+  let settled=false;
+  const done=(ok,el,msg)=>{
+    if(settled)return; settled=true;
+    stopTimer();
+    document.querySelectorAll('#psg .w').forEach(w=>{w.onclick=null});
+    document.getElementById('psg').classList.add('locked');
+    litTarget(it);
+    if(ok){sGood();say(pick(ANNOUNCER.spotGood));addScore(100);S.res.spot=true;setTimeout(roundName,620);return}
+    if(el)el.classList.add('bad');
+    sBad();say('MISSED',true);breakChain();
+    const p=document.createElement('div');p.className='pen';
+    p.innerHTML='<div class="who">RED PEN</div><div class="why">'+(msg||'The highlighted words were the ones. Look at them before you name them.')+'</div>';
+    stage.querySelector('.sheet').appendChild(p);
+    const b=document.createElement('button');b.className='big-btn';b.textContent='NAME IT ANYWAY';
+    b.onclick=roundName;p.appendChild(b);b.focus();
+  };
+  document.querySelectorAll('#psg .w').forEach(el=>{
+    el.onclick=()=>{
+      const i=+el.dataset.i;
+      if(inTarget(it,i))return done(true,el);
+      if(it.decoy&&i>=it.decoy.range[0]&&i<=it.decoy.range[1])return done(false,el,it.decoy.msg);
+      done(false,el);
+    };
+  });
+  if(it.notimer)hideTimer();
+  else startTimer(it.act===1?7000:it.act===2?6000:5000,()=>done(false,null,'Out of time. The highlighted words were the ones.'));
+}
+
+/* ============ 2 : NAME ============ */
+function roundName(){
+  const it=ST.items[S.i];
+  const opts=shuffle(it.opts);
+  stage.innerHTML='<div class="sheet">'+
+    '<p class="sub">ACT '+it.act+' &middot; '+(S.i+1)+' OF 12 &middot; NAME</p>'+
+    '<h1 class="instruction">You found it. Now <em>name</em> it.</h1>'+
+    renderPassage(it,{locked:true,lit:true})+
+    '<div class="opts" id="opts">'+opts.map((o,n)=>
+      '<button class="opt" data-o="'+esc(o)+'"><span class="k">'+(n+1)+'</span>'+esc(o)+'</button>').join('')+'</div></div>';
+  stage.scrollTop=0;
+  const buttons=[].slice.call(document.querySelectorAll('#opts .opt'));
+  const finish=()=>{const b=document.createElement('button');b.className='big-btn';b.textContent='CONTINUE';
+    b.onclick=roundEffect;stage.querySelector('.sheet').appendChild(b);b.focus();};
+  let answered=false;
+  const answer=(choice,el)=>{
+    if(answered)return; answered=true;
+    stopTimer(); buttons.forEach(b=>{b.disabled=true;if(b!==el)b.classList.add('mute')});
+    const half = it.alsoOk && choice===it.alsoOk.k;
+    if(choice===it.tech||half){
+      if(el)el.classList.add('right'); sGood(); say(pick(ANNOUNCER.nameGood)); addScore(200); S.res.name=true;
+      if(half){
+        const d=document.createElement('div');d.className='correct-note';
+        d.innerHTML='<div class="why">'+it.alsoOk.msg+'</div>';
+        stage.querySelector('.sheet').appendChild(d); finish();
+      } else setTimeout(roundEffect,560);
+      return;
+    }
+    if(el)el.classList.add('wrong'); sBad(); say(pick(ANNOUNCER.bad),true); breakChain();
+    const right=buttons.filter(b=>b.dataset.o===it.tech)[0]; if(right)right.classList.add('right');
+    document.querySelectorAll('#psg .w').forEach(w=>{if(inTarget(it,+w.dataset.i)){w.classList.remove('lit');w.classList.add('struck')}});
+    const timedout = choice==='__timeout__';
+    const mutated = timedout ? it.text : (it.mut[choice]||it.text);
+    const why = timedout
+      ? 'Clock ran out, so the page marked it for you. It was <b>'+it.tech+'</b>. Say that word to yourself before you move on.'
+      : (it.roast[choice]||'');
+    const p=document.createElement('div');p.className='pen';
+    p.innerHTML='<div class="who">'+(timedout?'TOO SLOW':'SO THE STORY OBEYS YOU:')+'</div>'+
+      '<div class="mutated">'+mutated+'</div><div class="why">'+why+'</div>';
+    stage.querySelector('.sheet').insertBefore(p,$('#opts'));
+    finish();
+  };
+  buttons.forEach(b=>b.onclick=()=>answer(b.dataset.o,b));
+  stage._keys=n=>{if(buttons[n]&&!buttons[n].disabled)buttons[n].click()};
+  if(it.notimer)hideTimer();
+  else startTimer(it.act===1?6000:it.act===2?5000:4500,()=>answer('__timeout__',null));
+}
+
+/* ============ 3 : EFFECT (the freeze) ============ */
+function roundEffect(){
+  const it=ST.items[S.i];
+  hideTimer(); document.body.classList.add('freeze'); sFreeze();
+  let A=null,B=null,clean=true;
+  const draw=()=>{
+    const aTxt=A?'<span class="slot">'+esc(A.t)+'</span>':'<span class="slot empty">xxxxxx</span>';
+    const bTxt=B?'<span class="slot">'+esc(B.t)+'</span>':'<span class="slot empty">xxxxxx</span>';
+    const active = A? it.slotB : it.slotA;
+    const opts = shuffle(active.opts);
+    stage.innerHTML='<div class="sheet">'+
+      '<p class="freezetag">EVERYTHING STOPS. NO CLOCK.</p>'+
+      '<h1 class="instruction">Say what it <em>does</em>.</h1>'+
+      '<p class="sub">'+it.tech.toUpperCase()+' &middot; BUILD THE SENTENCE &middot; FIRST TRY IS WORTH 600</p>'+
+      '<p class="builder">'+it.slotA.q+' '+aTxt+', '+it.slotB.q+' '+bTxt+'.</p>'+
+      '<div class="opts" id="opts">'+opts.map((o,n)=>
+        '<button class="opt" data-n="'+n+'"><span class="k">'+(n+1)+'</span>'+esc(o.t)+'</button>').join('')+'</div></div>';
+    stage.scrollTop=0;
+    const buttons=[].slice.call(document.querySelectorAll('#opts .opt'));
+    buttons.forEach(b=>b.onclick=()=>{
+      const o=opts[+b.dataset.n];
+      if(o.ok){
+        b.classList.add('right');buttons.forEach(x=>x.disabled=true);sGood();
+        if(!A){A=o;setTimeout(draw,340)}else{B=o;setTimeout(settle,420)}
+      }else{
+        clean=false;b.classList.add('wrong');b.disabled=true;sBad();breakChain();
+        const old=stage.querySelector('.pen'); if(old)old.remove();
+        const d=document.createElement('div');d.className='pen';
+        d.innerHTML='<div class="who">NOT THAT ONE</div><div class="why">'+o.why+'</div>';
+        stage.querySelector('.sheet').appendChild(d);
+      }
+    });
+    stage._keys=n=>{if(buttons[n]&&!buttons[n].disabled)buttons[n].click()};
+  };
+  const settle=()=>{
+    S.res.eff=true; S.res.clean=clean;
+    S.res.sentence=it.slotA.q+' '+A.t+', '+it.slotB.q+' '+B.t+'.';
+    if(clean&&S.res.spot&&S.res.name){addScore(600);bumpChain();say(pick(ANNOUNCER.effGood));sChain()}
+    else{addScore(clean?600:200);say('LOGGED')}
+    itemResult();
+  };
+  draw();
+}
+
+/* ============ item result ============ */
+function itemResult(){
+  stage._keys=null;
+  const it=ST.items[S.i];
+  document.body.classList.remove('freeze');
+  const full=S.res.spot&&S.res.name&&S.res.clean;
+  stage.innerHTML='<div class="sheet">'+
+    '<p class="sub">'+(S.i+1)+' OF 12 &middot; '+(full?'FULL CHAIN':'LOGGED')+'</p>'+
+    '<h1 class="instruction">'+(full?'That is a whole annotation.':'Annotation saved.')+'</h1>'+
+    renderPassage(it,{locked:true,lit:true})+
+    '<div class="correct-note"><div class="why"><b>'+it.tech.toUpperCase()+'</b><br>'+esc(S.res.sentence)+'</div></div>'+
+    (it.flag?'<div class="callback">'+it.flag+'</div>':'')+'</div>';
+  stage.scrollTop=0;
+  const b=document.createElement('button');b.className='big-btn';
+  const last=S.i===ST.items.length-1;
+  const newAct = !last && ST.items[S.i+1].act!==it.act;
+  b.textContent= last?'FINISH':(newAct?'NEXT ACT':'NEXT');
+  b.onclick=()=>{
+    S.results.push(Object.assign({idx:S.i},S.res)); S.i++;
+    if(S.i>=ST.items.length)return endCard();
+    if(ST.items[S.i].act!==it.act)return actCard(ST.items[S.i].act);
+    nextItem();
+  };
+  stage.querySelector('.sheet').appendChild(b);b.focus();
+}
+function nextItem(){S.res={spot:false,name:false,eff:false,clean:false,sentence:''};roundSpot()}
+
+/* ============ act card ============ */
+function actCard(n){
+  stage._keys=null;
+  const a=ST.acts[n]; hideTimer(); document.body.classList.toggle('act3',n===3);
+  stage.innerHTML='<div class="card"><p class="actnum">'+a.sub+' &middot; '+ST.short.toUpperCase()+'</p>'+
+    '<h1 class="acttitle">'+a.title+'</h1>'+
+    a.blurb.map(b=>'<p class="blurb">'+b+'</p>').join('')+
+    '<hr class="rule"><button class="big-btn" id="go">BEGIN</button></div>';
+  stage.scrollTop=0;
+  $('#go').onclick=nextItem; $('#go').focus();
+}
+
+/* ============ story picker ============ */
+function pickerCard(){
+  stage._keys=null; ST=null; KEY=null;
+  hideTimer(); document.body.classList.remove('act3','freeze'); setStoryClass(); hud();
+  stage.innerHTML='<div class="card">'+
+    '<h1 class="title-big">ANNO<br><span>TATOR</span></h1>'+
+    '<p class="tagline">Twelve lines. Spot the technique before the highlighter runs out, name it, then everything stops and you say what it does.<br><br>'+
+    'Name it wrong and the story rewrites itself to obey you. It will not be an improvement.<br><br>'+
+    '<b>Choose your text.</b></p>'+
+    '<div class="pick">'+ORDER.map((k,n)=>{
+      const s=STORIES[k];
+      return '<button class="storybtn p'+(n+1)+'" data-k="'+k+'">'+
+        '<span class="sname">'+s.short+'</span>'+
+        '<div class="smeta">'+s.author.toUpperCase()+' &middot; '+s.year+' &middot; '+s.words.toUpperCase()+'</div>'+
+        '<div class="shook">'+s.hook+'</div></button>';
+    }).join('')+'</div>'+
+    '<button class="big-btn ghost" id="hlp" style="margin-top:14px">HOW IT WORKS</button></div>';
+  stage.scrollTop=0;
+  document.querySelectorAll('.storybtn').forEach(b=>b.onclick=()=>{ac();storyCard(b.dataset.k)});
+  $('#hlp').onclick=showHelp;
+}
+
+/* ============ story intro + read first ============ */
+function storyCard(k){
+  stage._keys=null; KEY=k; ST=STORIES[k];
+  S={i:0,score:0,chain:0,mult:1,muted:S.muted,paused:false,results:[],res:null};
+  setStoryClass(); hud(); hideTimer(); document.body.classList.remove('act3','freeze');
+  stage.innerHTML='<div class="card">'+
+    '<p class="actnum">'+ST.author.toUpperCase()+' &middot; '+ST.year+'</p>'+
+    '<h1 class="title-big" style="font-size:clamp(38px,11vw,72px)">'+ST.title+'</h1>'+
+    '<p class="blurb" style="margin-top:14px">'+ST.pitch+'</p>'+
+    '<hr class="rule">'+
+    '<p class="tagline" style="margin:0 0 8px"><b>Read the story first.</b> The game quotes twelve lines out of it. They land much harder if you have met them in place. '+ST.words+'.</p>'+
+    '<a class="big-btn ghost" id="read" href="'+ST.read.url+'" target="_blank" rel="noopener">READ THE STORY &nearr;</a>'+
+    '<p class="tagline" style="margin:6px 0 0;font-size:11.5px">Opens in a new tab &middot; '+ST.read.kind+' &middot; '+ST.pd+'</p>'+
+    '<hr class="rule">'+
+    '<button class="big-btn" id="go">START ANNOTATING</button>'+
+    '<button class="big-btn ghost" id="back">PICK A DIFFERENT STORY</button></div>';
+  stage.scrollTop=0;
+  $('#go').onclick=()=>{ac();actCard(1)};
+  $('#back').onclick=pickerCard;
+  $('#go').focus();
+}
+
+/* ============ end card ============ */
+function endCard(){
+  stage._keys=null; hideTimer(); document.body.classList.remove('freeze');
+  const spots=S.results.filter(r=>r.spot).length;
+  const names=S.results.filter(r=>r.name).length;
+  const cleans=S.results.filter(r=>r.clean&&r.spot&&r.name).length;
+  const lines=S.results.map(r=>{
+    const it=ST.items[r.idx];
+    const q=tokens(it.text).map((w,i)=>inTarget(it,i)?'<mark>'+esc(w)+'</mark>':esc(w)).join(' ');
+    return '<div class="report-line'+(r.spot&&r.name?'':' missed')+'">'+
+      '<div class="num">'+String(r.idx+1).padStart(2,'0')+' &middot; ACT '+it.act+'</div>'+
+      '<div class="quote">'+q+'</div>'+
+      '<div class="lab">'+it.tech.toUpperCase()+(r.name?'':'  (you named it something else)')+'</div>'+
+      '<div class="eff">'+esc(r.sentence)+'</div></div>';
+  }).join('');
+  const v=ST.end.verdicts;
+  const verdict = cleans>=10?v[0] : cleans>=7?v[1] : cleans>=4?v[2] : v[3];
+  stage.innerHTML='<div class="card">'+
+    '<p class="actnum">ANNOTATION SHEET</p>'+
+    '<h1 class="acttitle">'+ST.short.toUpperCase()+'</h1>'+
+    '<div class="scoreblock">'+
+      '<div>SCORE<b>'+S.score.toLocaleString()+'</b></div>'+
+      '<div>SPOTTED<b>'+spots+'/12</b></div>'+
+      '<div>NAMED<b>'+names+'/12</b></div>'+
+      '<div>FULL CHAINS<b>'+cleans+'/12</b></div></div>'+
+    '<p class="blurb">'+verdict+'</p><hr class="rule">'+
+    '<h3 class="h3a">WHAT CAME BACK</h3>'+
+    '<p class="tagline">'+ST.end.lines.join('<br>')+'</p><hr class="rule">'+lines+'<hr class="rule">'+
+    '<h3 class="h3a">TALK ABOUT IT</h3>'+
+    '<ol class="qs">'+ST.end.qs.map(q=>'<li>'+q+'</li>').join('')+'</ol><hr class="rule">'+
+    '<button class="big-btn" id="copy">COPY MY ANNOTATION SHEET</button>'+
+    '<button class="big-btn ghost" id="again">PLAY THIS STORY AGAIN</button>'+
+    '<button class="big-btn ghost" id="another">TRY A DIFFERENT STORY</button>'+
+    '<p class="tagline" style="margin-top:18px">'+ST.short+', '+ST.author+', '+ST.year+'. '+ST.pd+
+    ' Lines trimmed for the screen and spaced around dashes; no words changed. Everything else here is written for this game.</p></div>';
+  stage.scrollTop=0;
+  $('#again').onclick=()=>storyCard(KEY);
+  $('#another').onclick=pickerCard;
+  $('#copy').onclick=()=>{
+    let out='ANNOTATION SHEET — '+ST.short.toUpperCase()+' ('+ST.author+', '+ST.year+')\nScore '+S.score+' | full chains '+cleans+'/12\n\n';
+    S.results.forEach(r=>{const it=ST.items[r.idx];
+      out+=(r.idx+1)+'. '+it.text+'\n   TECHNIQUE: '+it.tech+'\n   EFFECT: '+r.sentence+'\n\n';});
+    out+='WHAT CAME BACK\n'+ST.end.lines.map(l=>'- '+l.replace(/<[^>]+>/g,'')).join('\n')+'\n';
+    const ta=document.createElement('textarea');ta.value=out;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');say('COPIED')}catch(e){say('SELECT + COPY',true)}
+    document.body.removeChild(ta);
+  };
+}
+
+/* ============ help ============ */
+function showHelp(){
+  overlay.classList.add('on');
+  overlay.innerHTML='<h2>ANNOTATOR</h2>'+
+    '<p>Four short stories, twelve lines each. Every line is a three-link chain.</p>'+
+    '<h3>1 &middot; SPOT</h3><p>Tap the words. The highlighter bar is your clock: 7 seconds in Act I, 5 by Act III. Worth 100.</p>'+
+    '<h3>2 &middot; NAME</h3><p>Pick the technique. Worth 200. Get it wrong and the sentence is rewritten to actually BE the thing you called it. Read the rewrite. That is the lesson, not the punishment.</p>'+
+    '<h3>3 &middot; EFFECT</h3><p>Everything stops. No clock. Build a sentence saying what the technique does and why it matters. Clean first try is worth 600.</p>'+
+    '<h3>CHAIN</h3><p>All three links clean, back to back, multiplies everything up to x3. One lucky tap is worth 100. A full chain is 900 before the multiplier.</p>'+
+    '<h3>CONTROLS</h3><p><kbd>1</kbd>&ndash;<kbd>4</kbd> choose &middot; <kbd>Space</kbd> continue &middot; <kbd>H</kbd> help &middot; <kbd>M</kbd> sound &middot; <kbd>Esc</kbd> pause. Tap works everywhere.</p>'+
+    '<h3>HOW EACH STORY IS BUILT</h3><ul>'+
+    '<li>Act I sets up the techniques. Act III uses the same ones against the characters.</li>'+
+    '<li>At least two things you annotate early come back later, changed. The game tells you when.</li>'+
+    '<li>Item 12 never has a timer. It is the last line of the story and it is not a race.</li></ul>'+
+    '<h3>THE TEXTS</h3><ul>'+ORDER.map(k=>{const s=STORIES[k];
+      return '<li><b>'+s.short+'</b> &mdash; '+s.author+', '+s.year+'. '+s.pd+' <a href="'+s.read.url+'" target="_blank" rel="noopener">Read it</a> ('+s.read.kind+').</li>';}).join('')+'</ul>'+
+    '<p>Quoted lines are original text, trimmed for screen width, with spacing added around dashes so words can be tapped one at a time. No words are changed or added. Every instruction, rewrite, roast and effect option is written for this game.</p>'+
+    '<button class="big-btn" id="close">BACK</button>';
+  $('#close').onclick=()=>overlay.classList.remove('on');
+  $('#close').focus();
+}
+$('#bhelp').onclick=showHelp;
+$('#bmute').onclick=()=>{S.muted=!S.muted;$('#bmute').textContent=S.muted?'\u266A\u0338':'\u266A'};
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(overlay.classList.contains('on'))overlay.classList.remove('on');
+    else if(ST){S.paused=!S.paused;say(S.paused?'PAUSED':'GO')}
+    return;
+  }
+  if(overlay.classList.contains('on'))return;
+  const k=e.key.toLowerCase();
+  if(k==='h'){showHelp();return}
+  if(k==='m'){$('#bmute').click();return}
+  if('1234'.indexOf(k)>-1&&stage._keys){stage._keys(+k-1);return}
+  if(k===' '||k==='enter'){const b=stage.querySelector('.big-btn');if(b&&b.tagName==='BUTTON'){e.preventDefault();b.click()}}
+});
+
+hud(); pickerCard();
+</script>
+</body>
+</html>
