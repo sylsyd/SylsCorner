@@ -287,7 +287,7 @@ ol.qs li{padding-left:4px}
       <span class="mark">AURA FARM</span>
       <span class="sub">conjunctions / yr 7</span>
     </div>
-    <button class="chip-btn" id="rotBtn" aria-pressed="true">brainrot: on</button>
+    <button class="chip-btn" id="rotBtn" aria-pressed="true">slang: on</button>
     <button class="chip-btn" id="sndBtn" aria-pressed="true">sound</button>
     <button class="chip-btn" id="helpBtn">how to play</button>
   </div>
@@ -326,7 +326,7 @@ ol.qs li{padding-left:4px}
     <div>
       <h3>For the teacher</h3>
       <ul>
-        <li><b>Brainrot: off</b> swaps every slang line for plain English. Same game, observation-safe.</li>
+        <li><b>Slang: off</b> swaps every slang line for plain English. Same game, observation-safe.</li>
         <li>Whole class on the board: round 1 with hands up for left / right, then pairs for rounds 2 and 3.</li>
         <li>The end card gives the aura breakdown plus three discussion questions.</li>
         <li>Watch for <i>for</i>, <i>so</i>, <i>since</i> and <i>as</i>. This game treats FANBOYS <i>for</i> and <i>so</i> as coordinating and <i>since</i>/<i>as</i> as subordinating, which is the KS3 line, but they shift with use and that's worth saying out loud.</li>
@@ -340,7 +340,7 @@ ol.qs li{padding-left:4px}
 (function(){
 "use strict";
 
-/* ============ copy: [brainrot, plain] ============ */
+/* ============ copy: [slang, plain] ============ */
 var S = {
   rot:true, snd:true, aura:0, streak:0, best:0,
   scores:{sort:0,build:0,judge:0},
@@ -636,7 +636,7 @@ function renderTitle(){
     '</div>'+
     '<div class="row"><button class="big-btn" id="go">START FARMING</button>'+
     '<button class="big-btn ghost" id="go2">How to play</button></div>'+
-    '<p class="muted" style="font-size:14px">Three rounds: sort the words, build the sentences, judge the wreckage. Brainrot can be switched off up top.</p>'+
+    '<p class="muted" style="font-size:14px">Three rounds: sort the words, build the sentences, judge the wreckage. Slang can be switched off up top.</p>'+
   '</section>');
   stage.appendChild(p);
   document.getElementById("go").onclick = function(){ sBig(); startSort(); };
@@ -1045,7 +1045,7 @@ var rotBtn = document.getElementById("rotBtn");
 rotBtn.onclick = function(){
   S.rot = !S.rot;
   rotBtn.setAttribute("aria-pressed", S.rot ? "true" : "false");
-  rotBtn.textContent = "brainrot: " + (S.rot ? "on" : "off");
+  rotBtn.textContent = "slang: " + (S.rot ? "on" : "off");
   sTick();
   if(S.screen === "title") renderTitle();
   else if(S.screen === "judge") renderJudge();
