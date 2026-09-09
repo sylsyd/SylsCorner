@@ -1,0 +1,1090 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>html{color-scheme:dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Conjunction Aura Farm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Chivo:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+
+<style>
+:root{
+  --void:#0a0715;
+  --ink:#160f2b;
+  --ink2:#1f1542;
+  --line:#3d2b78;
+  --acid:#d3ff3e;
+  --mag:#ff2e88;
+  --cyan:#3ee8ff;
+  --ember:#ff5a3c;
+  --bone:#f4efff;
+  --dim:#a08fcc;
+  --shadow:0 6px 0 #05030c;
+  --disp:"Bungee","Arial Black",Impact,sans-serif;
+  --body:"Chivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+
+*{box-sizing:border-box}
+
+body{
+  background:var(--void);
+  color:var(--bone);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.5;
+  min-height:100vh;
+  padding:0 0 48px;
+  background-image:
+    radial-gradient(120% 70% at 50% -10%, rgba(255,46,136,.22), transparent 60%),
+    radial-gradient(90% 60% at 10% 110%, rgba(62,232,255,.14), transparent 60%),
+    repeating-linear-gradient(115deg, rgba(255,255,255,.028) 0 2px, transparent 2px 9px);
+}
+
+button{font-family:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+
+/* ---------- frame ---------- */
+.wrap{max-width:900px;margin:0 auto;padding:0 16px}
+
+.topbar{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:14px 0 10px;
+}
+.lockup{display:flex;align-items:baseline;gap:10px;margin-right:auto;min-width:0}
+.lockup .mark{
+  font-family:var(--disp);font-size:19px;letter-spacing:.5px;
+  color:var(--void);background:var(--acid);padding:4px 9px 2px;
+  transform:rotate(-2deg);box-shadow:3px 3px 0 var(--mag);
+}
+.lockup .sub{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase}
+
+.chip-btn{
+  background:transparent;border:2px solid var(--line);border-radius:999px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  padding:6px 12px;color:var(--dim);
+}
+.chip-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.chip-btn[aria-pressed="true"]{background:var(--acid);border-color:var(--acid);color:var(--void);font-weight:600}
+
+/* ---------- hud ---------- */
+.hud{
+  display:grid;grid-template-columns:auto auto 1fr;gap:14px;align-items:center;
+  border:2px solid var(--line);background:rgba(22,15,43,.82);
+  padding:10px 14px;border-radius:14px;
+}
+.stat{display:flex;flex-direction:column;line-height:1.05}
+.stat .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.stat .v{font-family:var(--disp);font-size:22px;font-variant-numeric:tabular-nums;color:var(--acid)}
+.stat.streak .v{color:var(--mag)}
+.trail{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+.trail span{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  border:2px solid var(--line);color:var(--dim);padding:3px 8px;border-radius:999px;
+}
+.trail span.on{border-color:var(--cyan);color:var(--cyan)}
+.trail span.done{border-color:var(--acid);background:var(--acid);color:var(--void)}
+
+/* ---------- generic panel ---------- */
+.panel{
+  margin-top:14px;border:2px solid var(--line);border-radius:16px;
+  background:linear-gradient(180deg, rgba(31,21,66,.9), rgba(14,9,30,.9));
+  padding:20px;
+}
+h1{font-family:var(--disp);font-size:clamp(34px,7vw,58px);line-height:.95;margin:0;text-wrap:balance;letter-spacing:.5px}
+h1 .hl{color:var(--acid)}
+h1 .hl2{color:var(--mag)}
+h2{font-family:var(--disp);font-size:clamp(20px,3.4vw,26px);margin:0;letter-spacing:.5px;text-wrap:balance}
+p{margin:0;max-width:62ch}
+.lede{font-size:17px;color:var(--bone)}
+.muted{color:var(--dim)}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);
+}
+
+.big-btn{
+  font-family:var(--disp);font-size:17px;letter-spacing:.5px;
+  background:var(--acid);color:var(--void);border:0;border-radius:12px;
+  padding:14px 22px;box-shadow:var(--shadow);
+}
+.big-btn:hover{transform:translateY(-2px)}
+.big-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #05030c}
+.big-btn.alt{background:var(--mag);color:var(--bone)}
+.big-btn.ghost{background:transparent;color:var(--bone);border:2px solid var(--line);box-shadow:none}
+.big-btn.ghost:hover{border-color:var(--cyan);color:var(--cyan);transform:none}
+
+/* two teaching colours, used everywhere */
+.co{color:var(--acid)}
+.su{color:var(--mag)}
+
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.legend div{border-left:5px solid var(--line);padding:6px 0 6px 12px}
+.legend .l-co{border-left-color:var(--acid)}
+.legend .l-su{border-left-color:var(--mag)}
+.legend b{font-family:var(--disp);font-weight:400;font-size:15px;letter-spacing:.4px}
+.legend p{font-size:14px;color:var(--dim);margin-top:2px}
+
+/* ---------- sort mode ---------- */
+.lane{
+  position:relative;height:300px;overflow:hidden;border-radius:14px;
+  border:2px dashed var(--line);
+  background:repeating-linear-gradient(180deg, rgba(255,255,255,.03) 0 1px, transparent 1px 34px);
+}
+.lane .floorline{position:absolute;left:0;right:0;bottom:56px;border-top:2px dotted var(--line)}
+.word{
+  position:absolute;left:50%;top:0;
+  font-family:var(--disp);font-size:clamp(26px,6vw,44px);letter-spacing:.5px;
+  background:var(--ink2);border:3px solid var(--bone);color:var(--bone);
+  padding:8px 20px 4px;border-radius:10px;white-space:nowrap;
+  box-shadow:6px 6px 0 rgba(0,0,0,.5);
+}
+.word.fly-l{transition:transform .28s ease-in, opacity .28s;opacity:0}
+.word.fly-r{transition:transform .28s ease-in, opacity .28s;opacity:0}
+.word.bad{border-color:var(--ember);color:var(--ember);animation:shake .3s}
+@keyframes shake{25%{transform:translate(-50%,0) rotate(-5deg)}75%{transform:translate(-50%,0) rotate(5deg)}}
+
+.gates{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.gate{
+  border:3px solid var(--line);border-radius:14px;background:transparent;
+  padding:14px 10px;text-align:center;
+}
+.gate .g-name{font-family:var(--disp);font-size:clamp(16px,3.4vw,22px);letter-spacing:.4px;display:block}
+.gate .g-hint{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.06em}
+.gate.co{border-color:var(--acid)}
+.gate.co .g-name{color:var(--acid)}
+.gate.su{border-color:var(--mag)}
+.gate.su .g-name{color:var(--mag)}
+.gate:hover{background:rgba(255,255,255,.05)}
+.gate:active{transform:translateY(2px)}
+
+.callout{
+  min-height:52px;border-radius:12px;padding:10px 14px;
+  border:2px solid var(--line);background:rgba(10,7,21,.6);
+  font-size:15px;
+}
+.callout.win{border-color:var(--acid)}
+.callout.lose{border-color:var(--ember)}
+.callout b{font-family:var(--disp);font-weight:400;letter-spacing:.4px}
+
+/* ---------- build mode ---------- */
+.site{
+  position:relative;border-radius:14px;border:2px solid var(--line);
+  background:linear-gradient(180deg, rgba(10,7,21,.2), rgba(255,46,136,.09));
+  padding:38px 16px 0;min-height:196px;overflow:hidden;
+}
+.pit{
+  position:absolute;left:0;right:0;bottom:0;height:34px;
+  background:repeating-linear-gradient(90deg, var(--ember) 0 12px, transparent 12px 24px);
+  opacity:.35;
+}
+.pit-label{
+  position:absolute;left:14px;bottom:8px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--ember);opacity:.9;
+}
+.beam-row{display:flex;align-items:flex-end;gap:14px;justify-content:center;flex-wrap:wrap;padding-bottom:46px}
+.beam{
+  flex:1 1 220px;max-width:340px;position:relative;
+  border:3px solid var(--acid);border-radius:10px;background:rgba(211,255,62,.09);
+  padding:12px 14px;font-size:16px;line-height:1.35;
+  transition:transform .45s cubic-bezier(.3,1.4,.5,1), border-color .3s, background .3s;
+}
+.beam .tag{
+  position:absolute;top:-11px;left:10px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.16em;text-transform:uppercase;background:var(--void);padding:0 6px;color:var(--acid);
+}
+.beam.dep{border-color:var(--mag);background:rgba(255,46,136,.1);transform:translateY(-26px)}
+.beam.dep .tag{color:var(--mag)}
+.beam.fall{transform:translateY(120px) rotate(9deg);opacity:.25;border-color:var(--ember)}
+.joint{
+  align-self:center;font-family:var(--disp);font-size:clamp(16px,4vw,26px);
+  padding:8px 14px 5px;border-radius:10px;background:var(--ink2);border:3px solid var(--line);
+  color:var(--dim);min-width:96px;text-align:center;
+}
+.joint.filled-co{border-color:var(--acid);color:var(--acid);box-shadow:0 0 0 4px rgba(211,255,62,.15)}
+.joint.filled-su{border-color:var(--mag);color:var(--mag);box-shadow:0 0 0 4px rgba(255,46,136,.15)}
+
+.tray{display:flex;flex-wrap:wrap;gap:10px}
+.tile{
+  font-family:var(--disp);font-size:16px;letter-spacing:.4px;
+  border:3px solid var(--line);border-radius:10px;background:var(--ink);
+  padding:9px 14px 6px;box-shadow:var(--shadow);
+}
+.tile:hover{border-color:var(--bone);transform:translateY(-2px)}
+.tile[aria-pressed="true"]{background:var(--bone);color:var(--void);border-color:var(--bone)}
+.tile:disabled{opacity:.35;cursor:not-allowed;transform:none}
+
+.sentence{
+  font-size:clamp(17px,3.2vw,22px);line-height:1.4;
+  border-left:5px solid var(--cyan);padding:6px 0 6px 14px;
+}
+.sentence .k{color:var(--cyan);font-weight:900}
+.comma-pick{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ---------- judge mode ---------- */
+.card-judge{
+  border:3px solid var(--bone);border-radius:14px;background:var(--ink2);
+  padding:26px 20px;font-size:clamp(19px,3.6vw,27px);line-height:1.35;text-align:center;
+  box-shadow:8px 8px 0 rgba(0,0,0,.45);text-wrap:balance;
+}
+.verdicts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.verdict{
+  border:3px solid var(--line);border-radius:12px;background:transparent;padding:12px 6px;text-align:center;
+}
+.verdict .vt{font-family:var(--disp);font-size:clamp(13px,2.8vw,17px);display:block;letter-spacing:.4px}
+.verdict .vh{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.05em}
+.verdict:hover{background:rgba(255,255,255,.05)}
+.verdict.v1{border-color:var(--acid)} .verdict.v1 .vt{color:var(--acid)}
+.verdict.v2{border-color:var(--mag)} .verdict.v2 .vt{color:var(--mag)}
+.verdict.v3{border-color:var(--ember)} .verdict.v3 .vt{color:var(--ember)}
+
+/* ---------- end ---------- */
+.rank{
+  font-family:var(--disp);font-size:clamp(28px,6.5vw,50px);color:var(--acid);
+  line-height:1;letter-spacing:.5px;
+}
+.score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.score-grid div{border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+.score-grid .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.score-grid .v{font-family:var(--disp);font-size:24px;font-variant-numeric:tabular-nums}
+ol.qs{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:62ch}
+ol.qs li{padding-left:4px}
+
+/* ---------- help ---------- */
+.sheet{
+  position:fixed;inset:0;background:rgba(5,3,12,.86);z-index:40;
+  display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;overflow:auto;
+}
+.sheet[hidden]{display:none}
+.sheet .inner{
+  max-width:640px;width:100%;border:2px solid var(--line);border-radius:16px;
+  background:var(--ink);padding:22px;display:flex;flex-direction:column;gap:14px;
+}
+.sheet h3{font-family:var(--disp);font-size:16px;margin:0;letter-spacing:.4px;color:var(--cyan)}
+.sheet ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.sheet p{font-size:15px}
+
+.foot{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.08em;text-align:center;padding-top:16px;max-width:none}
+
+@media (max-width:560px){
+  .hud{grid-template-columns:auto auto;gap:10px}
+  .trail{grid-column:1 / -1;justify-content:flex-start}
+  .verdicts{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="lockup">
+      <span class="mark">AURA FARM</span>
+      <span class="sub">conjunctions / yr 7</span>
+    </div>
+    <button class="chip-btn" id="rotBtn" aria-pressed="true">brainrot: on</button>
+    <button class="chip-btn" id="sndBtn" aria-pressed="true">sound</button>
+    <button class="chip-btn" id="helpBtn">how to play</button>
+  </div>
+
+  <div class="hud">
+    <div class="stat"><span class="k">aura</span><span class="v" id="auraV">0</span></div>
+    <div class="stat streak"><span class="k">streak</span><span class="v" id="streakV">0</span></div>
+    <div class="trail" id="trail">
+      <span data-st="sort">1 · sort</span>
+      <span data-st="build">2 · build</span>
+      <span data-st="judge">3 · judge</span>
+    </div>
+  </div>
+
+  <main id="stage"></main>
+
+  <p class="foot">keys — sort: <b>&larr;</b> coordinating / <b>&rarr;</b> subordinating &nbsp;·&nbsp; 1&ndash;6 pick a tile &nbsp;·&nbsp; enter next &nbsp;·&nbsp; H help &nbsp;·&nbsp; M sound</p>
+</div>
+
+<div class="sheet" id="helpSheet" hidden>
+  <div class="inner">
+    <h2>How to play</h2>
+    <div>
+      <h3>The one idea</h3>
+      <p>A <b class="co">coordinating</b> conjunction (the FANBOYS: for, and, nor, but, or, yet, so) joins two clauses that could each stand alone as a sentence. Both stay on the ground.</p>
+      <p style="margin-top:8px">A <b class="su">subordinating</b> conjunction (because, although, while, if, when, since, unless, until, before, after&hellip;) takes a clause and makes it dependent. It lifts off the ground and has to hang off a main clause. Left alone, it falls: that's a fragment.</p>
+    </div>
+    <div>
+      <h3>Three rounds</h3>
+      <ul>
+        <li><b>Sort:</b> words drop, send each one left (coordinating) or right (subordinating). Speed climbs.</li>
+        <li><b>Build:</b> join real clauses. Structure points for the right <i>type</i>, sense bonus for the word that actually fits the meaning.</li>
+        <li><b>Judge:</b> is the sentence complete, a fragment, or two sentences crashed together?</li>
+      </ul>
+    </div>
+    <div>
+      <h3>For the teacher</h3>
+      <ul>
+        <li><b>Brainrot: off</b> swaps every slang line for plain English. Same game, observation-safe.</li>
+        <li>Whole class on the board: round 1 with hands up for left / right, then pairs for rounds 2 and 3.</li>
+        <li>The end card gives the aura breakdown plus three discussion questions.</li>
+        <li>Watch for <i>for</i>, <i>so</i>, <i>since</i> and <i>as</i>. This game treats FANBOYS <i>for</i> and <i>so</i> as coordinating and <i>since</i>/<i>as</i> as subordinating, which is the KS3 line, but they shift with use and that's worth saying out loud.</li>
+      </ul>
+    </div>
+    <div class="row"><button class="big-btn" id="helpClose">Back to it</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============ copy: [brainrot, plain] ============ */
+var S = {
+  rot:true, snd:true, aura:0, streak:0, best:0,
+  scores:{sort:0,build:0,judge:0},
+  hits:{sort:0,build:0,judge:0},
+  screen:"title"
+};
+function t(p){ return Array.isArray(p) ? (S.rot ? p[0] : p[1]) : p; }
+
+/* ============ round 1 data ============ */
+var SORT_POOL = [
+  {w:"and",type:"co"},{w:"but",type:"co"},{w:"or",type:"co"},{w:"so",type:"co"},
+  {w:"yet",type:"co"},{w:"for",type:"co"},{w:"nor",type:"co"},
+  {w:"and",type:"co"},{w:"but",type:"co"},{w:"or",type:"co"},{w:"yet",type:"co"},
+  {w:"because",type:"su"},{w:"although",type:"su"},{w:"while",type:"su"},{w:"if",type:"su"},
+  {w:"when",type:"su"},{w:"since",type:"su"},{w:"unless",type:"su"},{w:"until",type:"su"},
+  {w:"before",type:"su"},{w:"after",type:"su"},{w:"though",type:"su"},{w:"whereas",type:"su"},
+  {w:"whenever",type:"su"},{w:"as",type:"su"},{w:"once",type:"su"},{w:"even though",type:"su"}
+];
+var SORT_N = 20;
+
+var SORT_WIN = [
+  ["+aura. no notes.","Correct."],
+  ["caught in 4k. W.","Correct."],
+  ["that's the one.","Correct."],
+  ["locked in.","Correct."],
+  ["clean sort.","Correct."]
+];
+function sortMiss(item){
+  if(item.type === "co"){
+    return [
+      "nah. “"+item.w+"” is FANBOYS. it bolts two full sentences together, both still standing.",
+      "“"+item.w+"” is coordinating (FANBOYS). It joins two clauses that can each stand alone."
+    ];
+  }
+  return [
+    "nah. “"+item.w+"” hangs a clause off another one. “"+item.w+" the bus came” cannot stand by itself.",
+    "“"+item.w+"” is subordinating. It makes its clause dependent — “"+item.w+" the bus came” is not a sentence."
+  ];
+}
+
+/* ============ round 2 data ============ */
+var BUILD = [
+  {
+    goal:"co",
+    brief:["two full sentences. bolt them together so both stay standing.",
+           "Two clauses that could each stand alone. Join them so both stay independent."],
+    a:"The fire alarm went off", b:"nobody moved",
+    tiles:[
+      {w:"but",type:"co",sense:"good",say:["contrast bolted straight across. both clauses still on the ground. peak.",
+        "Correct. “But” coordinates two independent clauses and carries the contrast."]},
+      {w:"and",type:"co",sense:"ok",say:["structure holds, meaning is mid. “and” just stacks them, it doesn't sell the weirdness.",
+        "Structurally right, but “and” only stacks the two ideas. The contrast is lost."]},
+      {w:"yet",type:"co",sense:"good",say:["same bolt as but, more drama. goated.",
+        "Correct. “Yet” coordinates and sharpens the surprise."]},
+      {w:"so",type:"co",sense:"bad",say:["structure fine, logic cooked. “so” says the alarm is what froze everyone.",
+        "Coordinating, so the structure holds — but “so” claims the alarm caused the stillness."]},
+      {w:"because",type:"su",sense:"bad",say:["“because” doesn't bolt, it hangs. “nobody moved” just lifted off the ground.",
+        "“Because” is subordinating: it makes the second clause dependent instead of joining two equals."]},
+      {w:"although",type:"su",sense:"bad",say:["same problem. subordinator. one clause is now dangling.",
+        "“Although” is subordinating — the second clause stops being independent."]}
+    ]
+  },
+  {
+    goal:"co",
+    brief:["same job. FANBOYS only. pick the one that actually fits the meaning.",
+           "Join the two clauses as equals, and pick the coordinator whose meaning fits."],
+    a:"The Epic of Gilgamesh is over four thousand years old", b:"people still argue about the ending",
+    tiles:[
+      {w:"yet",type:"co",sense:"good",say:["“still” was begging for it. contrast, both standing.",
+        "Correct. “Yet” coordinates and matches the “still” already in the clause."]},
+      {w:"but",type:"co",sense:"good",say:["works. plainer than yet, does the same bolt.",
+        "Correct. “But” coordinates and carries the contrast."]},
+      {w:"and",type:"co",sense:"ok",say:["fine structure, flat meaning. the sentence had tension and you removed it.",
+        "Structurally right, but “and” flattens the contrast the sentence is built on."]},
+      {w:"or",type:"co",sense:"bad",say:["“or” offers a choice. nobody is choosing anything here.",
+        "Coordinating, but “or” offers alternatives — there is no choice in this sentence."]},
+      {w:"although",type:"su",sense:"bad",say:["subordinator. that clause is hanging now, not standing next to it.",
+        "“Although” subordinates: the second clause becomes dependent."]},
+      {w:"while",type:"su",sense:"bad",say:["also a subordinator. hangs the clause instead of bolting it.",
+        "“While” is subordinating, so the clause depends on the other one."]}
+    ]
+  },
+  {
+    goal:"su",
+    brief:["flip it. one clause stays grounded, make the other one depend on it.",
+           "Make the second clause dependent on the first with a subordinating conjunction."],
+    a:"The whole class went silent", b:"Miss walked in",
+    tiles:[
+      {w:"when",type:"su",sense:"good",say:["hung it on time. clause is dependent and the meaning lands.",
+        "Correct. “When” subordinates and gives the timing."]},
+      {w:"because",type:"su",sense:"good",say:["hung it on cause. also peak.",
+        "Correct. “Because” subordinates and gives the reason."]},
+      {w:"until",type:"su",sense:"ok",say:["dependent, sure, but now the silence stops the second she arrives. read it back.",
+        "Subordinating, but “until” means the silence ends when she walks in. Check that's what you meant."]},
+      {w:"although",type:"su",sense:"bad",say:["dependent yes, meaning delulu. silence despite a teacher arriving?",
+        "Subordinating, but “although” makes the arrival a surprise the silence resists. The logic slips."]},
+      {w:"and",type:"co",sense:"bad",say:["that's a bolt, not a hang. both clauses are still standing on their own.",
+        "“And” is coordinating — both clauses stay independent, which was not the task."]},
+      {w:"so",type:"co",sense:"bad",say:["FANBOYS. equal weight. nothing is depending on anything.",
+        "“So” is coordinating, so neither clause becomes dependent."]}
+    ]
+  },
+  {
+    goal:"su",
+    brief:["contrast, but make it hang. one of these tiles is a trap that works.",
+           "Express the contrast by subordinating one clause — not by coordinating."],
+    a:"I posted the video", b:"it got nine views",
+    tiles:[
+      {w:"although",type:"su",sense:"good",say:["dependent and dripping with contrast. exactly the job.",
+        "Correct. “Although” subordinates and carries the contrast."]},
+      {w:"even though",type:"su",sense:"good",say:["same hang, heavier. W.",
+        "Correct. “Even though” subordinates with a stronger contrast."]},
+      {w:"but",type:"co",sense:"good",say:["the trap. sentence sounds great, meaning is right — but nothing depends on anything. that's a bolt.",
+        "This makes a good sentence, but “but” is coordinating: both clauses stay independent. The task asked you to subordinate."]},
+      {w:"because",type:"su",sense:"bad",say:["dependent, but you just said nine views is the reason you posted it.",
+        "Subordinating, but “because” makes the nine views the reason for posting."]},
+      {w:"while",type:"su",sense:"ok",say:["it hangs, and “while” can do contrast — just reads like the two happened at once.",
+        "Subordinating, and “while” can mark contrast, but here it also reads as “at the same time”."]},
+      {w:"so",type:"co",sense:"bad",say:["FANBOYS, and it says posting caused nine views like that's the plan.",
+        "“So” is coordinating, and it makes nine views the intended result."]}
+    ]
+  },
+  {
+    goal:"front",
+    brief:["dependent clause goes FIRST this time. then you owe me a comma.",
+           "Put the dependent clause first — and remember what fronting it does to punctuation."],
+    a:"we can film the outro", b:"the bell goes",
+    tiles:[
+      {w:"before",type:"su",sense:"good",say:["hangs it out front on time. clean.",
+        "Correct. “Before” subordinates and the timing works."]},
+      {w:"if",type:"su",sense:"ok",say:["dependent and fine, but the bell going is a certainty, not a maybe.",
+        "Subordinating and grammatical, though the bell ringing is not really a condition."]},
+      {w:"after",type:"su",sense:"bad",say:["so you film once everyone has already left. bold.",
+        "Subordinating, but “after” means you film once the bell has gone."]},
+      {w:"until",type:"su",sense:"bad",say:["“until the bell goes we can film” — reads odd fronted, that one wants the back.",
+        "Subordinating, but “until” sits awkwardly at the front here."]},
+      {w:"and",type:"co",sense:"bad",say:["you cannot front a bolt. FANBOYS live in the middle.",
+        "“And” is coordinating and cannot start a fronted dependent clause here."]},
+      {w:"but",type:"co",sense:"bad",say:["same. coordinators bolt in the middle, they don't hang out front.",
+        "“But” is coordinating — it joins in the middle, it does not subordinate."]}
+    ]
+  },
+  {
+    goal:"front",
+    brief:["last build. dependent first again. pick the one that says what you mean.",
+           "Front the dependent clause once more, and choose the conjunction with the right meaning."],
+    a:"the whole plan falls apart", b:"one person forgets their line",
+    tiles:[
+      {w:"if",type:"su",sense:"good",say:["condition out front. this is the sentence.",
+        "Correct. “If” subordinates and states the condition."]},
+      {w:"when",type:"su",sense:"ok",say:["hangs fine, but “when” says it's going to happen. bleak but grammatical.",
+        "Subordinating and correct, though “when” treats the mistake as certain."]},
+      {w:"unless",type:"su",sense:"bad",say:["you just said the plan collapses unless someone forgets. read it back out loud.",
+        "Subordinating, but “unless” reverses your meaning."]},
+      {w:"because",type:"su",sense:"ok",say:["dependent, and it works if it already happened. “if” is the sharper call.",
+        "Subordinating and workable if the mistake has happened — but “if” fits a general rule better."]},
+      {w:"so",type:"co",sense:"bad",say:["FANBOYS. cannot go out front, cannot make anything depend.",
+        "“So” is coordinating and cannot front a dependent clause."]},
+      {w:"or",type:"co",sense:"bad",say:["also FANBOYS. it bolts, it doesn't hang.",
+        "“Or” is coordinating — it joins equals rather than creating dependency."]}
+    ]
+  }
+];
+
+/* ============ round 3 data ============ */
+var JUDGE = [
+  {s:"Because the wifi went down in the middle of the test.",
+   a:"frag",
+   why:["starts with a subordinator and then just stops. you never said what happened. it fell in the pit.",
+        "A subordinate clause on its own. “Because” makes it dependent and nothing holds it up."],
+   fix:"Because the wifi went down in the middle of the test, the whole class lost their answers."},
+  {s:"The wifi went down, the whole test froze.",
+   a:"crash",
+   why:["two full sentences taped together with a comma. that's a splice.",
+        "Two independent clauses joined by only a comma — a comma splice."],
+   fix:"The wifi went down, so the whole test froze."},
+  {s:"The wifi went down, so the whole test froze.",
+   a:"peak",
+   why:["FANBOYS bolt, comma in place. both clauses standing.",
+        "Two independent clauses joined by the coordinating conjunction “so”, with a comma before it."],
+   fix:""},
+  {s:"Although he practised the whole solo every single night.",
+   a:"frag",
+   why:["“although” hangs it and nothing catches it. no main clause, no sentence.",
+        "“Although” subordinates the clause and there is no main clause for it to attach to."],
+   fix:"Although he practised the whole solo every single night, he froze at the concert."},
+  {s:"He practised every night, but he still missed the note.",
+   a:"peak",
+   why:["clean bolt. two independent clauses, contrast, comma. no notes.",
+        "Two independent clauses joined by the coordinating conjunction “but”."],
+   fix:""},
+  {s:"I finished the whole essay I forgot to save it.",
+   a:"crash",
+   why:["two sentences smashed together with zero punctuation. run-on.",
+        "A run-on: two independent clauses with nothing joining them."],
+   fix:"I finished the whole essay, but I forgot to save it."},
+  {s:"When the lights finally came back on, everyone cheered.",
+   a:"peak",
+   why:["dependent clause out front, comma paid, main clause holds it. textbook.",
+        "A fronted subordinate clause, a comma, then the main clause."],
+   fix:""},
+  {s:"While the teacher was explaining the rules of the game.",
+   a:"frag",
+   why:["“while” makes it hang, and there's nothing to hang it off. fragment.",
+        "“While” subordinates the clause, and there is no main clause."],
+   fix:"While the teacher was explaining the rules, three people were already playing."},
+  {s:"The bus was late, we ran the last bit.",
+   a:"crash",
+   why:["splice again. that comma is doing a job it cannot do.",
+        "A comma splice: two independent clauses joined by a comma alone."],
+   fix:"The bus was late, so we ran the last bit."},
+  {s:"Since nobody had a pen, we borrowed one from reception.",
+   a:"peak",
+   why:["“since” hangs the first clause, comma, main clause catches it. complete.",
+        "A fronted subordinate clause with “since”, correctly punctuated."],
+   fix:""},
+  {s:"Unless you bring the permission slip in by Friday morning.",
+   a:"frag",
+   why:["long, yes. sentence, no. “unless” left it dangling.",
+        "Length is not the test. “Unless” makes it dependent and nothing completes it."],
+   fix:"Unless you bring the permission slip in by Friday, you cannot come."},
+  {s:"Nobody laughed, yet he kept telling the joke.",
+   a:"peak",
+   why:["FANBOYS, comma, two clauses standing. respectfully, goated.",
+        "Two independent clauses joined by the coordinating conjunction “yet”."],
+   fix:""}
+];
+
+var RANKS = [
+  {min:0,    r:["NPC ARC","Getting started"], n:["you clicked buttons. the buttons clicked back.","Keep working on the difference between joining and depending."]},
+  {min:2600, r:["CERTIFIED YAPPER","Developing"], n:["you know the words. the structure is still slippery.","You can name the conjunctions; the structural test needs more practice."]},
+  {min:4900, r:["SIGMA SYNTAX","Secure"], n:["you can tell a bolt from a hang basically every time.","You reliably tell coordination from subordination."]},
+  {min:7000, r:["AURA FARMER SUPREME","Mastery"], n:["fragments fear you. commas obey you.","You control clause type, dependency and punctuation together."]}
+];
+
+/* ============ sound ============ */
+var actx = null;
+function beep(freq, dur, type, vol){
+  if(!S.snd) return;
+  try{
+    if(!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+    var o = actx.createOscillator(), g = actx.createGain();
+    o.type = type || "square"; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol || 0.05, actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0008, actx.currentTime + (dur||0.12));
+    o.connect(g); g.connect(actx.destination);
+    o.start(); o.stop(actx.currentTime + (dur||0.12));
+  }catch(e){}
+}
+function sGood(){ beep(760,.09,"square",.05); setTimeout(function(){beep(1180,.11,"square",.045);},70); }
+function sBad(){ beep(150,.22,"sawtooth",.05); }
+function sTick(){ beep(420,.05,"square",.025); }
+function sBig(){ beep(520,.1,"square",.05); setTimeout(function(){beep(780,.1,"square",.05);},90); setTimeout(function(){beep(1040,.22,"square",.05);},180); }
+
+/* ============ helpers ============ */
+var stage = document.getElementById("stage");
+function el(html){ var d = document.createElement("div"); d.innerHTML = html.trim(); return d.firstElementChild; }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function addAura(n){
+  S.aura = Math.max(0, S.aura + n);
+  document.getElementById("auraV").textContent = S.aura;
+}
+function setStreak(n){
+  S.streak = n; if(n > S.best) S.best = n;
+  document.getElementById("streakV").textContent = n;
+}
+function markTrail(cur, done){
+  var spans = document.getElementById("trail").children;
+  for(var i=0;i<spans.length;i++){
+    var k = spans[i].getAttribute("data-st");
+    spans[i].className = (done.indexOf(k) >= 0) ? "done" : (k === cur ? "on" : "");
+  }
+}
+function shuffle(a){
+  a = a.slice();
+  for(var i=a.length-1;i>0;i--){ var j = Math.floor(Math.random()*(i+1)); var x=a[i]; a[i]=a[j]; a[j]=x; }
+  return a;
+}
+function uc(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+var primary = null;
+function setPrimary(node){ primary = node; }
+
+/* ============ title ============ */
+function renderTitle(){
+  S.screen = "title"; markTrail("", []);
+  stage.innerHTML = "";
+  var p = el('<section class="panel stack">'+
+    '<h1>TWO CLAUSES.<br><span class="hl">ONE BOLT</span> OR <span class="hl2">ONE HOOK</span>.</h1>'+
+    '<p class="lede">Every conjunction does one of two jobs. It either bolts two standing clauses together, or it hooks one clause onto another so it hangs. Get that wrong and the sentence falls in the pit.</p>'+
+    '<div class="legend">'+
+      '<div class="l-co"><b class="co">COORDINATING</b><p>for, and, nor, but, or, yet, so. The FANBOYS. Both clauses stay standing, and either one could be a sentence on its own.</p></div>'+
+      '<div class="l-su"><b class="su">SUBORDINATING</b><p>because, although, while, if, when, since, unless&hellip; The clause it grabs goes dependent. Alone, it is a fragment.</p></div>'+
+    '</div>'+
+    '<div class="row"><button class="big-btn" id="go">START FARMING</button>'+
+    '<button class="big-btn ghost" id="go2">How to play</button></div>'+
+    '<p class="muted" style="font-size:14px">Three rounds: sort the words, build the sentences, judge the wreckage. Brainrot can be switched off up top.</p>'+
+  '</section>');
+  stage.appendChild(p);
+  document.getElementById("go").onclick = function(){ sBig(); startSort(); };
+  document.getElementById("go2").onclick = openHelp;
+  setPrimary(document.getElementById("go"));
+}
+
+/* ============ round 1: sort ============ */
+var sortState = null;
+function startSort(){
+  S.screen = "sort"; markTrail("sort", []); setStreak(0);
+  stage.innerHTML = "";
+  var p = el('<section class="panel stack">'+
+    '<div><span class="eyebrow">round 1 of 3</span><h2>SORT THE WORDS</h2></div>'+
+    '<p class="muted" id="sortSub"></p>'+
+    '<div class="lane" id="lane"><div class="floorline"></div></div>'+
+    '<div class="gates">'+
+      '<button class="gate co" id="gCo"><span class="g-name">COORDINATING</span><span class="g-hint">both clauses stand &nbsp;&larr;</span></button>'+
+      '<button class="gate su" id="gSu"><span class="g-name">SUBORDINATING</span><span class="g-hint">&rarr;&nbsp; one clause hangs</span></button>'+
+    '</div>'+
+    '<div class="callout" id="cal"></div>'+
+  '</section>');
+  stage.appendChild(p);
+  document.getElementById("sortSub").textContent = t([
+    "20 words drop. left if it bolts, right if it hangs. it gets faster, obviously.",
+    "Twenty words fall. Send each one left if it coordinates, right if it subordinates. The speed increases."
+  ]);
+  document.getElementById("cal").textContent = t(["word 1 of 20. lock in.","Word 1 of 20."]);
+  document.getElementById("gCo").onclick = function(){ answerSort("co"); };
+  document.getElementById("gSu").onclick = function(){ answerSort("su"); };
+  setPrimary(null);
+
+  sortState = { q:shuffle(SORT_POOL).slice(0,SORT_N), i:0, y:0, live:false, chip:null, last:0, raf:0 };
+  nextWord();
+}
+function nextWord(){
+  if(!sortState) return;
+  if(sortState.i >= SORT_N){ return endSort(); }
+  var lane = document.getElementById("lane");
+  if(!lane) return;
+  var item = sortState.q[sortState.i];
+  var w = el('<div class="word">'+esc(item.w)+'</div>');
+  w.style.transform = "translate(-50%, -10px)";
+  lane.appendChild(w);
+  sortState.chip = w; sortState.y = -10; sortState.live = true; sortState.last = 0;
+  sortState.speed = 52 + sortState.i * 3.4;
+  document.getElementById("cal").className = "callout";
+  document.getElementById("cal").textContent = t([
+    "word "+(sortState.i+1)+" of 20.", "Word "+(sortState.i+1)+" of 20."
+  ]);
+  cancelAnimationFrame(sortState.raf);
+  sortState.raf = requestAnimationFrame(step);
+}
+function step(ts){
+  if(!sortState || !sortState.live) return;
+  if(!sortState.last) sortState.last = ts;
+  var dt = Math.min(0.05, (ts - sortState.last)/1000); sortState.last = ts;
+  sortState.y += sortState.speed * dt;
+  if(sortState.chip) sortState.chip.style.transform = "translate(-50%, "+sortState.y+"px)";
+  if(sortState.y > 196){ return answerSort(null); }
+  sortState.raf = requestAnimationFrame(step);
+}
+function answerSort(side){
+  if(!sortState || !sortState.live) return;
+  sortState.live = false;
+  cancelAnimationFrame(sortState.raf);
+  var item = sortState.q[sortState.i];
+  var chip = sortState.chip, cal = document.getElementById("cal");
+  var ok = side === item.type;
+  if(ok){
+    sGood();
+    S.hits.sort++;
+    var gain = 60 + S.streak * 12;
+    S.scores.sort += gain; addAura(gain); setStreak(S.streak + 1);
+    chip.style.borderColor = item.type === "co" ? "var(--acid)" : "var(--mag)";
+    chip.style.color = item.type === "co" ? "var(--acid)" : "var(--mag)";
+    chip.style.transform = "translate("+(item.type === "co" ? "-260%" : "160%")+", "+sortState.y+"px) rotate("+(item.type==="co"?-14:14)+"deg)";
+    chip.style.transition = "transform .3s ease-in, opacity .3s"; chip.style.opacity = "0";
+    cal.className = "callout win";
+    cal.innerHTML = "<b>"+esc(t(SORT_WIN[Math.floor(Math.random()*SORT_WIN.length)]))+"</b> +"+gain+" aura";
+  }else{
+    sBad();
+    setStreak(0); addAura(-40); S.scores.sort = Math.max(0, S.scores.sort - 40);
+    chip.classList.add("bad");
+    cal.className = "callout lose";
+    cal.innerHTML = "<b>"+esc(side === null ? t(["missed it.","Missed."]) : t(["-40 aura.","Not quite."]))+"</b> "+esc(t(sortMiss(item)));
+  }
+  setTimeout(function(){
+    if(chip && chip.parentNode) chip.parentNode.removeChild(chip);
+    if(!sortState) return;
+    sortState.i++;
+    nextWord();
+  }, ok ? 620 : 2100);
+}
+function endSort(){
+  sortState = null;
+  stage.innerHTML = "";
+  var acc = Math.round(S.hits.sort / SORT_N * 100);
+  var p = el('<section class="panel stack">'+
+    '<div><span class="eyebrow">round 1 done</span><h2>'+esc(t(["SORTED.","Round 1 complete"]))+'</h2></div>'+
+    '<div class="score-grid">'+
+      '<div><span class="k">correct</span><br><span class="v">'+S.hits.sort+'/'+SORT_N+'</span></div>'+
+      '<div><span class="k">accuracy</span><br><span class="v">'+acc+'%</span></div>'+
+      '<div><span class="k">best streak</span><br><span class="v">'+S.best+'</span></div>'+
+      '<div><span class="k">aura banked</span><br><span class="v co">'+S.scores.sort+'</span></div>'+
+    '</div>'+
+    '<p class="lede">'+esc(t([
+      "you can name them. cool. naming is the easy part. now use them.",
+      "Naming the type is the easy half. Round 2 asks you to use them on real clauses."]))+'</p>'+
+    '<div class="row"><button class="big-btn" id="go">ROUND 2 &rarr; BUILD</button></div>'+
+  '</section>');
+  stage.appendChild(p);
+  document.getElementById("go").onclick = function(){ sBig(); startBuild(); };
+  setPrimary(document.getElementById("go"));
+}
+
+/* ============ round 2: build ============ */
+var bi = 0, bPick = null, bStage = "pick";
+function startBuild(){ bi = 0; setStreak(0); renderBuild(); }
+function renderBuild(){
+  S.screen = "build"; markTrail("build", ["sort"]);
+  if(bi >= BUILD.length) return endBuild();
+  var r = BUILD[bi];
+  bPick = null; bStage = "pick";
+  var tiles = shuffle(r.tiles);
+  r._order = tiles;
+  var goalLabel = r.goal === "co"
+    ? t(["BOLT IT (coordinating)","Join as equals (coordinating)"])
+    : (r.goal === "su" ? t(["HANG IT (subordinating)","Make one clause depend (subordinating)"])
+                       : t(["HANG IT, FRONT-LOADED","Front the dependent clause"]));
+  var html = '<section class="panel stack">'+
+    '<div><span class="eyebrow">round 2 &middot; build '+(bi+1)+' of '+BUILD.length+'</span><h2>'+esc(goalLabel)+'</h2></div>'+
+    '<p class="lede">'+esc(t(r.brief))+'</p>'+
+    '<div class="site" id="site"></div>'+
+    '<div class="tray" id="tray"></div>'+
+    '<div class="callout" id="cal">'+esc(t(["pick a tile. keys 1-6.","Choose a conjunction. Number keys 1-6 work too."]))+'</div>'+
+    '<div class="row" id="acts"></div>'+
+  '</section>';
+  stage.innerHTML = ""; stage.appendChild(el(html));
+  drawSite(null);
+  var tray = document.getElementById("tray");
+  tiles.forEach(function(tl, idx){
+    var b = el('<button class="tile" aria-pressed="false"><span style="font-family:var(--mono);font-size:10px;color:var(--dim)">'+(idx+1)+'</span> '+esc(tl.w)+'</button>');
+    b.onclick = function(){ pickTile(idx); };
+    tray.appendChild(b);
+  });
+  var acts = document.getElementById("acts");
+  var send = el('<button class="big-btn" id="send" disabled style="opacity:.4">SEND IT</button>');
+  acts.appendChild(send);
+  send.onclick = doSend;
+  setPrimary(send);
+}
+function drawSite(arr){
+  var site = document.getElementById("site");
+  if(!site) return;
+  var r = BUILD[bi];
+  var tagStand = t(["STANDING","independent"]);
+  var tagDep = t(["HANGING","dependent"]);
+  var body;
+  if(!arr){
+    body = '<div class="beam"><span class="tag">'+tagStand+'</span>'+esc(uc(r.a))+'</div>'+
+           '<div class="joint" id="joint">?</div>'+
+           '<div class="beam"><span class="tag">'+tagStand+'</span>'+esc(uc(r.b))+'</div>';
+  }else if(arr.kind === "co"){
+    body = '<div class="beam"><span class="tag">'+tagStand+'</span>'+esc(uc(r.a))+'</div>'+
+           '<div class="joint filled-co">'+esc(arr.w)+'</div>'+
+           '<div class="beam"><span class="tag">'+tagStand+'</span>'+esc(r.b)+'</div>';
+  }else if(arr.kind === "su-end"){
+    body = '<div class="beam"><span class="tag">'+tagStand+'</span>'+esc(uc(r.a))+'</div>'+
+           '<div class="beam dep"><span class="tag">'+tagDep+'</span><b class="su">'+esc(arr.w)+'</b> '+esc(r.b)+'</div>';
+  }else{
+    body = '<div class="beam dep"><span class="tag">'+tagDep+'</span><b class="su">'+esc(uc(arr.w))+'</b> '+esc(r.b)+'</div>'+
+           '<div class="beam"><span class="tag">'+tagStand+'</span>'+esc(r.a)+'</div>';
+  }
+  site.innerHTML = '<div class="beam-row">'+body+'</div><div class="pit"></div><div class="pit-label">'+t(["the pit","fragment"])+'</div>';
+}
+function pickTile(idx){
+  if(bStage !== "pick") return;
+  bPick = idx; sTick();
+  var tray = document.getElementById("tray");
+  for(var i=0;i<tray.children.length;i++) tray.children[i].setAttribute("aria-pressed", i === idx ? "true" : "false");
+  var tl = BUILD[bi]._order[idx];
+  var joint = document.getElementById("joint");
+  if(joint){
+    joint.textContent = tl.w;
+    joint.className = "joint " + (tl.type === "co" ? "filled-co" : "filled-su");
+  }
+  var send = document.getElementById("send");
+  send.disabled = false; send.style.opacity = "1";
+}
+function sentenceOf(r, tl, comma){
+  if(tl.type === "co") return uc(r.a) + ", " + tl.w + " " + r.b + ".";
+  if(r.goal === "front") return uc(tl.w) + " " + r.b + (comma === false ? " " : ", ") + r.a + ".";
+  return uc(r.a) + " " + tl.w + " " + r.b + ".";
+}
+function doSend(){
+  if(bStage !== "pick" || bPick === null) return;
+  bStage = "result";
+  var r = BUILD[bi], tl = r._order[bPick];
+  var wantSub = (r.goal === "su" || r.goal === "front");
+  var structOK = wantSub ? (tl.type === "su") : (tl.type === "co");
+  var arrKind = tl.type === "co" ? "co" : (r.goal === "front" ? "su-front" : "su-end");
+  drawSite({kind:arrKind, w:tl.w});
+
+  var gain = 0;
+  if(structOK){ gain += 200; if(tl.sense === "good") gain += 120; else if(tl.sense === "ok") gain += 60; }
+  else { gain += (tl.sense === "good" ? 60 : 0); }
+  if(structOK && tl.sense !== "bad"){ S.hits.build++; setStreak(S.streak+1); } else setStreak(0);
+  S.scores.build += gain; addAura(gain);
+  structOK ? sGood() : sBad();
+
+  var structLine = structOK
+    ? t([ (wantSub ? "hung it. that clause is dependent now." : "bolted. both clauses still standing."),
+          (wantSub ? "Correct type: the clause is now dependent." : "Correct type: both clauses stay independent.") ])
+    : t([ (wantSub ? "wrong type. that's a bolt, not a hook." : "wrong type. that's a hook, not a bolt."),
+          (wantSub ? "Wrong type: this coordinates rather than subordinates." : "Wrong type: this subordinates rather than coordinates.") ]);
+
+  var cal = document.getElementById("cal");
+  cal.className = "callout " + (structOK ? "win" : "lose");
+  cal.innerHTML = "<b>"+esc(structLine)+"</b> +"+gain+" aura<br>"+esc(t(tl.say));
+
+  var isCommaRound = (r.goal === "front" && structOK);
+  if(!isCommaRound) showReadBack(r, tl);
+
+  var tray = document.getElementById("tray");
+  for(var i=0;i<tray.children.length;i++) tray.children[i].disabled = true;
+
+  var acts = document.getElementById("acts"); acts.innerHTML = "";
+  if(isCommaRound){
+    bStage = "comma";
+    var q = el('<div class="stack" style="width:100%">'+
+      '<p class="lede"><b>'+esc(t(["comma check. the dependent clause went first. which one is right?","The dependent clause is fronted. Which version is punctuated correctly?"]))+'</b></p>'+
+      '<div class="comma-pick">'+
+        '<button class="big-btn ghost" id="cmA" style="text-align:left;font-size:14px;max-width:100%">'+esc(sentenceOf(r,tl,true))+'</button>'+
+        '<button class="big-btn ghost" id="cmB" style="text-align:left;font-size:14px;max-width:100%">'+esc(sentenceOf(r,tl,false))+'</button>'+
+      '</div></div>');
+    acts.appendChild(q);
+    document.getElementById("cmA").onclick = function(){ commaAnswer(true); };
+    document.getElementById("cmB").onclick = function(){ commaAnswer(false); };
+    setPrimary(null);
+  }else{
+    var nb = el('<button class="big-btn" id="nx">'+(bi === BUILD.length-1 ? "ROUND 3 &rarr; JUDGE" : "NEXT BUILD")+'</button>');
+    acts.appendChild(nb);
+    nb.onclick = function(){ bi++; renderBuild(); };
+    setPrimary(nb);
+  }
+}
+function showReadBack(r, tl){
+  var site = document.getElementById("site");
+  if(!site) return;
+  var read = el('<div style="padding:14px 2px 4px"><span class="eyebrow">read it back</span>'+
+    '<p class="sentence" style="margin-top:6px">'+
+    sentenceOf(r, tl, true).replace(new RegExp("\\b"+tl.w+"\\b","i"), function(m){ return '<span class="k">'+esc(m)+'</span>'; })+
+    '</p></div>');
+  site.parentNode.insertBefore(read, site.nextSibling);
+}
+function commaAnswer(chose){
+  if(bStage !== "comma") return;
+  bStage = "result";
+  showReadBack(BUILD[bi], BUILD[bi]._order[bPick]);
+  var cal = document.getElementById("cal");
+  if(chose){
+    sGood(); S.scores.build += 80; addAura(80);
+    cal.className = "callout win";
+    cal.innerHTML = "<b>"+esc(t(["comma paid. +80 aura.","Correct. +80 aura."]))+"</b> "+esc(t([
+      "dependent clause out front always takes a comma before the main clause. move it to the back and the comma disappears.",
+      "A fronted subordinate clause takes a comma before the main clause. Move that clause to the end and the comma is dropped."]));
+  }else{
+    sBad(); setStreak(0);
+    cal.className = "callout lose";
+    cal.innerHTML = "<b>"+esc(t(["no comma, no aura.","Not quite."]))+"</b> "+esc(t([
+      "front-loaded dependent clause needs a comma before the main clause. at the back it needs none. that's the whole rule.",
+      "A fronted subordinate clause needs a comma before the main clause. At the end of the sentence it needs none."]));
+  }
+  var acts = document.getElementById("acts"); acts.innerHTML = "";
+  var nb = el('<button class="big-btn" id="nx">'+(bi === BUILD.length-1 ? "ROUND 3 &rarr; JUDGE" : "NEXT BUILD")+'</button>');
+  acts.appendChild(nb);
+  nb.onclick = function(){ bi++; renderBuild(); };
+  setPrimary(nb);
+}
+function endBuild(){
+  stage.innerHTML = "";
+  var p = el('<section class="panel stack">'+
+    '<div><span class="eyebrow">round 2 done</span><h2>'+esc(t(["BUILT.","Round 2 complete"]))+'</h2></div>'+
+    '<div class="score-grid">'+
+      '<div><span class="k">clean builds</span><br><span class="v">'+S.hits.build+'/'+BUILD.length+'</span></div>'+
+      '<div><span class="k">aura banked</span><br><span class="v co">'+S.scores.build+'</span></div>'+
+    '</div>'+
+    '<p class="lede">'+esc(t([
+      "you can build them. final round: other people's sentences, and some of them are cooked.",
+      "Last round: other people's sentences. Some are complete, some are not."]))+'</p>'+
+    '<div class="row"><button class="big-btn" id="go">ROUND 3 &rarr; JUDGE</button></div>'+
+  '</section>');
+  stage.appendChild(p);
+  document.getElementById("go").onclick = function(){ sBig(); startJudge(); };
+  setPrimary(document.getElementById("go"));
+}
+
+/* ============ round 3: judge ============ */
+var ji = 0, jOrder = [], jLock = false;
+function startJudge(){ ji = 0; setStreak(0); jOrder = shuffle(JUDGE); renderJudge(); }
+function renderJudge(){
+  S.screen = "judge"; markTrail("judge", ["sort","build"]);
+  if(ji >= jOrder.length) return renderEnd();
+  jLock = false;
+  var c = jOrder[ji];
+  var html = '<section class="panel stack">'+
+    '<div><span class="eyebrow">round 3 &middot; sentence '+(ji+1)+' of '+jOrder.length+'</span><h2>'+
+      esc(t(["IS IT COOKED?","Complete, fragment, or crash?"]))+'</h2></div>'+
+    '<div class="card-judge" id="jcard">'+esc(c.s)+'</div>'+
+    '<div class="verdicts">'+
+      '<button class="verdict v1" id="v1"><span class="vt">'+t(["PEAK","COMPLETE"])+'</span><span class="vh">a whole sentence</span></button>'+
+      '<button class="verdict v2" id="v2"><span class="vt">FRAGMENT</span><span class="vh">a clause left hanging</span></button>'+
+      '<button class="verdict v3" id="v3"><span class="vt">'+t(["CRASH OUT","CRASH"])+'</span><span class="vh">two sentences jammed</span></button>'+
+    '</div>'+
+    '<div class="callout" id="cal">'+esc(t(["read it. call it.","Read it, then call it."]))+'</div>'+
+    '<div class="row" id="acts"></div>'+
+  '</section>';
+  stage.innerHTML = ""; stage.appendChild(el(html));
+  document.getElementById("v1").onclick = function(){ judge("peak"); };
+  document.getElementById("v2").onclick = function(){ judge("frag"); };
+  document.getElementById("v3").onclick = function(){ judge("crash"); };
+  setPrimary(null);
+}
+function judge(pick){
+  if(jLock) return; jLock = true;
+  var c = jOrder[ji], ok = pick === c.a, cal = document.getElementById("cal");
+  var card = document.getElementById("jcard");
+  var names = {peak:t(["PEAK","Complete"]), frag:"Fragment", crash:t(["CRASH OUT","Crash"])};
+  if(ok){
+    sGood(); S.hits.judge++;
+    var gain = 150 + S.streak * 20;
+    S.scores.judge += gain; addAura(gain); setStreak(S.streak+1);
+    cal.className = "callout win";
+    cal.innerHTML = "<b>"+esc(names[c.a])+". +"+gain+" aura</b><br>"+esc(t(c.why));
+  }else{
+    sBad(); setStreak(0);
+    cal.className = "callout lose";
+    cal.innerHTML = "<b>"+esc(t(["nope. it's a ","No. It is a "])+names[c.a]+".")+"</b><br>"+esc(t(c.why));
+  }
+  card.style.borderColor = ok ? "var(--acid)" : "var(--ember)";
+  if(c.a === "frag"){ card.style.transform = "rotate(-1.5deg) translateY(6px)"; card.style.opacity = ".75"; }
+  if(c.fix){
+    cal.innerHTML += '<br><span class="eyebrow">the fix</span><br><span style="font-size:16px">'+esc(c.fix)+'</span>';
+  }
+  var acts = document.getElementById("acts"); acts.innerHTML = "";
+  var nb = el('<button class="big-btn">'+(ji === jOrder.length-1 ? "SEE YOUR AURA" : "NEXT SENTENCE")+'</button>');
+  acts.appendChild(nb);
+  nb.onclick = function(){ ji++; if(ji >= jOrder.length) sBig(); renderJudge(); };
+  setPrimary(nb);
+}
+
+/* ============ end ============ */
+function renderEnd(){
+  S.screen = "end"; markTrail("", ["sort","build","judge"]);
+  var rank = RANKS[0];
+  for(var i=0;i<RANKS.length;i++){ if(S.aura >= RANKS[i].min) rank = RANKS[i]; }
+  var total = SORT_N + BUILD.length + jOrder.length;
+  var hits = S.hits.sort + S.hits.build + S.hits.judge;
+  stage.innerHTML = "";
+  var p = el('<section class="panel stack">'+
+    '<div><span class="eyebrow">final aura</span><div class="rank">'+esc(t(rank.r))+'</div></div>'+
+    '<p class="lede">'+esc(t(rank.n))+'</p>'+
+    '<div class="score-grid">'+
+      '<div><span class="k">total aura</span><br><span class="v co">'+S.aura+'</span></div>'+
+      '<div><span class="k">1 &middot; sort</span><br><span class="v">'+S.hits.sort+'/'+SORT_N+'</span></div>'+
+      '<div><span class="k">2 &middot; build</span><br><span class="v">'+S.hits.build+'/'+BUILD.length+'</span></div>'+
+      '<div><span class="k">3 &middot; judge</span><br><span class="v">'+S.hits.judge+'/'+jOrder.length+'</span></div>'+
+      '<div><span class="k">overall</span><br><span class="v">'+Math.round(hits/total*100)+'%</span></div>'+
+      '<div><span class="k">best streak</span><br><span class="v su">'+S.best+'</span></div>'+
+    '</div>'+
+    '<div>'+
+      '<span class="eyebrow">what you were actually being tested on</span>'+
+      '<p style="margin-top:8px">A coordinating conjunction joins two clauses that could each stand alone. A subordinating conjunction takes one clause and makes it depend on another, and a dependent clause left on its own, however long, is a fragment. Put the dependent clause first and it takes a comma; put it last and it does not.</p>'+
+    '</div>'+
+    '<div>'+
+      '<span class="eyebrow">talk about it</span>'+
+      '<ol class="qs" style="margin-top:8px">'+
+        '<li><i>But</i> and <i>although</i> can both signal contrast. What is the structural difference, and when would you choose each?</li>'+
+        '<li>&ldquo;Unless you bring the permission slip in by Friday morning&rdquo; is eleven words and still not a sentence. Why does length have nothing to do with it?</li>'+
+        '<li>Take a sentence you built in round 2 and move the dependent clause to the other end. What has to change, and what does the new order emphasise?</li>'+
+      '</ol>'+
+    '</div>'+
+    '<div class="row"><button class="big-btn" id="again">RUN IT BACK</button>'+
+    '<button class="big-btn ghost" id="hp">How to play</button></div>'+
+  '</section>');
+  stage.appendChild(p);
+  document.getElementById("again").onclick = function(){
+    S.aura = 0; S.streak = 0; S.best = 0;
+    S.scores = {sort:0,build:0,judge:0}; S.hits = {sort:0,build:0,judge:0};
+    addAura(0); setStreak(0); sBig(); renderTitle();
+  };
+  document.getElementById("hp").onclick = openHelp;
+  setPrimary(document.getElementById("again"));
+}
+
+/* ============ chrome ============ */
+var sheet = document.getElementById("helpSheet");
+function openHelp(){ sheet.hidden = false; document.getElementById("helpClose").focus(); }
+function closeHelp(){ sheet.hidden = true; }
+document.getElementById("helpBtn").onclick = openHelp;
+document.getElementById("helpClose").onclick = closeHelp;
+sheet.addEventListener("click", function(e){ if(e.target === sheet) closeHelp(); });
+
+var rotBtn = document.getElementById("rotBtn");
+rotBtn.onclick = function(){
+  S.rot = !S.rot;
+  rotBtn.setAttribute("aria-pressed", S.rot ? "true" : "false");
+  rotBtn.textContent = "brainrot: " + (S.rot ? "on" : "off");
+  sTick();
+  if(S.screen === "title") renderTitle();
+  else if(S.screen === "judge") renderJudge();
+  else if(S.screen === "build") renderBuild();
+  else if(S.screen === "end") renderEnd();
+};
+var sndBtn = document.getElementById("sndBtn");
+sndBtn.onclick = function(){
+  S.snd = !S.snd;
+  sndBtn.setAttribute("aria-pressed", S.snd ? "true" : "false");
+  sndBtn.textContent = S.snd ? "sound" : "muted";
+};
+
+document.addEventListener("keydown", function(e){
+  var k = e.key.toLowerCase();
+  if(k === "escape" && !sheet.hidden){ closeHelp(); return; }
+  if(!sheet.hidden) return;
+  if(k === "h"){ openHelp(); return; }
+  if(k === "m"){ sndBtn.click(); return; }
+  if(S.screen === "sort" && sortState && sortState.live){
+    if(e.key === "ArrowLeft"){ e.preventDefault(); answerSort("co"); return; }
+    if(e.key === "ArrowRight"){ e.preventDefault(); answerSort("su"); return; }
+  }
+  if(S.screen === "build" && bStage === "pick" && /^[1-6]$/.test(k)){
+    var tray = document.getElementById("tray");
+    if(tray && tray.children[+k-1]) tray.children[+k-1].click();
+    return;
+  }
+  if(S.screen === "judge" && !jLock && /^[1-3]$/.test(k)){
+    var ids = ["v1","v2","v3"], b = document.getElementById(ids[+k-1]);
+    if(b) b.click();
+    return;
+  }
+  if(e.key === "Enter" && primary && e.target.tagName !== "BUTTON"){ e.preventDefault(); primary.click(); }
+});
+
+renderTitle();
+})();
+</script>
+
+</body>
+</html>
