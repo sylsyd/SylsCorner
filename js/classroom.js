@@ -15,11 +15,14 @@ const games = {
     { title: 'Annotator', copy: 'Read closely, annotate key details and build stronger interpretations.', href: 'games/annotator.html', theme: 'annotator' }
   ]
 };
+const lessonItems = {
+  '6LVA': [{ title: 'Junior Detective', copy: 'Week 2 · Intro Unit reading resource.', href: 'lessons/6lva/Week%202/Intro%20Unit/juniordetective.pdf', theme: 'junior-detective' }]
+};
 const params = new URLSearchParams(window.location.search);
 const className = validClasses.has(params.get('class')) ? params.get('class') : '6LVA';
 const section = destinations[params.get('section')] ? params.get('section') : 'lessons';
 const page = destinations[section];
-const gameList = section === 'resources' ? games[className] : null;
+const itemList = section === 'lessons' ? lessonItems[className] : games[className];
 
 document.title = `${page.label} | ${className} | The Learning Deck`;
 document.getElementById('eyebrow').textContent = `${className} classroom`;
@@ -30,17 +33,18 @@ document.getElementById('label').textContent = `${className} · ${page.label}`;
 document.getElementById('empty-title').textContent = page.emptyTitle;
 document.getElementById('empty-copy').textContent = page.emptyCopy;
 
-if (gameList) {
+if (itemList) {
   document.getElementById('resource-tabs').hidden = false;
   document.getElementById('empty-state').hidden = true;
   document.getElementById('games-panel').hidden = false;
-  document.getElementById('games-label').textContent = `${className} · Resources · Games`;
-  document.getElementById('games-title').textContent = gameList.length === 1 ? gameList[0].title : `${className} games`;
-  document.getElementById('games-copy').textContent = gameList.length === 1 ? gameList[0].copy : 'Choose a game to open in a new tab.';
-  document.getElementById('games-list').innerHTML = gameList.map(game => `
+  document.getElementById('games-label').textContent = `${className} · ${page.label}`;
+  document.querySelector('.resource-tab').textContent = page.label;
+  document.getElementById('games-title').textContent = itemList.length === 1 ? itemList[0].title : `${className} ${page.label.toLowerCase()}`;
+  document.getElementById('games-copy').textContent = itemList.length === 1 ? itemList[0].copy : `Choose a ${section === 'lessons' ? 'lesson' : 'game'} to open in a new tab.`;
+  document.getElementById('games-list').innerHTML = itemList.map(game => `
     <a class="game-card-link" href="${game.href}" target="_blank" rel="noopener">
       <span class="game-preview game-preview--${game.theme}" aria-hidden="true">✦</span>
-      <span class="game-link-copy"><span class="game-link-label">Open game</span><span>${game.title}</span></span>
+      <span class="game-link-copy"><span class="game-link-label">${section === 'lessons' ? 'Open lesson' : 'Open game'}</span><span>${game.title}</span></span>
       <span class="game-arrow" aria-hidden="true">→</span>
     </a>
   `).join('');
