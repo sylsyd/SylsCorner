@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -159,7 +159,7 @@ body.shake #app{animation:shake .3s}
 .storybtn:hover,.storybtn:focus-visible{background:var(--ink);color:var(--paper);outline:none}
 .storybtn:hover .sname,.storybtn:focus-visible .sname{background:none;color:var(--paper)}
 .storybtn:hover .smeta,.storybtn:focus-visible .smeta{color:var(--paper-dark)}
-.sname{font-family:'Anton',sans-serif;font-size:clamp(21px,5.6vw,28px);line-height:1.05;display:inline-block;background:var(--hi);padding:0 4px}
+.sname{font-family:'Anton',sans-serif;font-size:clamp(21px,5.6vw,28px);line-height:1.05;display:inline-block;background:var(--hi);padding:0 4px}.new-story{display:inline-block;margin-left:8px;font-family:'Courier Prime',monospace;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
 .smeta{font-family:'Courier Prime',monospace;font-size:11.5px;color:var(--ink-soft);margin-top:6px;letter-spacing:.04em}
 .shook{font-size:15.5px;line-height:1.45;margin-top:6px}
 .p1 .sname{background:#F5E33A}
@@ -1911,7 +1911,8 @@ STORIES.eleven=addedStory({
   end:{lines:["Being eleven does not erase being three.","A small classroom mistake can fill the whole sky when it happens to you."] ,qs:["Which image best explains Rachel’s idea of age?", "Where does the narration show powerlessness rather than just sadness?", "Why does the final wish feel both childish and completely understandable?"],verdicts:["You tracked Rachel’s voice.","You explained how images turn embarrassment into something we can see.","You can now connect language choices to character and power."]}
 });
 
-const ORDER = ["missbrill","telltale","monkeyspaw","ladytiger","zoo","school","eleven"];
+const ORDER = ["zoo","school","eleven","missbrill","telltale","monkeyspaw","ladytiger"];
+const NEW_STORIES = new Set(["zoo","school","eleven"]);
 </script>
 <script src="annotator-leaderboard.js"></script>
 <script>
@@ -2177,7 +2178,7 @@ function pickerCard(){
     '<div class="pick">'+ORDER.map((k,n)=>{
       const s=STORIES[k];
       return '<button class="storybtn p'+(n+1)+'" data-k="'+k+'">'+
-        '<span class="sname">'+s.short+'</span>'+
+        '<span class="sname">'+s.short+'</span>'+(NEW_STORIES.has(k)?'<span class="new-story">New</span>':'')+
         '<div class="smeta">'+s.author.toUpperCase()+' &middot; '+s.year+' &middot; '+s.words.toUpperCase()+'</div>'+
         '<div class="shook">'+s.hook+'</div></button>';
     }).join('')+'</div>'+
