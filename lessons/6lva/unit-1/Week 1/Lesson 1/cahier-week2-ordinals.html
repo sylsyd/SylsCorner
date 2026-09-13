@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Projector game suite for 6e LVA Unit 1, Week 2, Lesson 2 — ordinals.">
+</head>
+<body>
+<title>Cahier Week 2</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* ---------- tokens: exercise book (light) ---------- */
+:root{
+  --paper:#FAF7FC;
+  --paper-2:#F1ECF7;
+  --rule:#CFC5E8;
+  --rule-faint:#E8E2F3;
+  --margin:#EC93AC;
+  --ink:#493F61;
+  --ink-soft:#786D93;
+  --ink-faint:#A79FBE;
+  --edge:#B9AED6;
+  --good:#2F8A6E;
+  --good-bg:#DDF2EA;
+  --bad:#C9566F;
+  --bad-bg:#FBE6EB;
+  --gold:#A87A3C;
+  --gold-bg:#FAEEDC;
+  --bar:#F0C48A;
+  --tile:#FFFFFF;
+  --tile-edge:#E3DCF0;
+  --tile-shadow:0 2px 0 #E3DCF0;
+  --btn-bg:#7C6BA8;
+  --btn-fg:#FFFFFF;
+  --stage-edge:#E7E1F2;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#262139;
+    --paper-2:#2F2946;
+    --rule:#473E66;
+    --rule-faint:#332C4D;
+    --margin:#F4A7BC;
+    --ink:#EDE7F7;
+    --ink-soft:#BCB3D1;
+    --ink-faint:#8B82A4;
+    --edge:#5C5185;
+    --good:#9FE0C4;
+    --good-bg:#2B4A40;
+    --bad:#F6A9B8;
+    --bad-bg:#4A2B37;
+    --gold:#F3CE96;
+    --gold-bg:#463823;
+    --bar:#C9A46A;
+    --tile:#312A49;
+    --tile-edge:#473E66;
+    --tile-shadow:0 2px 0 #1B1729;
+    --btn-bg:#B9A9E4;
+    --btn-fg:#241F36;
+    --stage-edge:#3A3256;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#262139;
+  --paper-2:#2F2946;
+  --rule:#473E66;
+  --rule-faint:#332C4D;
+  --margin:#F4A7BC;
+  --ink:#EDE7F7;
+  --ink-soft:#BCB3D1;
+  --ink-faint:#8B82A4;
+  --edge:#5C5185;
+  --good:#9FE0C4;
+  --good-bg:#2B4A40;
+  --bad:#F6A9B8;
+  --bad-bg:#4A2B37;
+  --gold:#F3CE96;
+  --gold-bg:#463823;
+  --bar:#C9A46A;
+  --tile:#312A49;
+  --tile-edge:#473E66;
+  --tile-shadow:0 2px 0 #1B1729;
+  --btn-bg:#B9A9E4;
+  --btn-fg:#241F36;
+  --stage-edge:#3A3256;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Nunito","Segoe UI",system-ui,sans-serif;
+  overflow:hidden;
+}
+button{font:inherit;color:inherit}
+
+/* the Seyès grid: horizontal rules + red margin */
+#grid{
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:
+    repeating-linear-gradient(to bottom, transparent 0 39px, var(--rule-faint) 39px 40px),
+    repeating-linear-gradient(to bottom, transparent 0 159px, var(--rule) 159px 160px);
+  opacity:.9;
+}
+#grid::after{
+  content:""; position:absolute; top:0; bottom:0; left:clamp(28px,4.5vw,86px);
+  width:2px; background:var(--margin); opacity:.65;
+}
+:root[data-theme="dark"] #grid::after{opacity:.7}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #grid::after{opacity:.7}}
+
+/* ---------- frame ---------- */
+#app{position:relative; z-index:1; height:100%; display:flex; flex-direction:column}
+
+header{
+  display:flex; align-items:center; gap:clamp(10px,1.6vw,24px);
+  padding:10px clamp(16px,2.5vw,34px);
+  border-bottom:1px solid var(--stage-edge);
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(6px);
+  flex-wrap:wrap;
+}
+.brand{
+  font-family:"Fredoka",sans-serif; font-weight:600;
+  font-size:clamp(14px,1.5vw,19px); letter-spacing:.01em; white-space:nowrap;
+}
+.brand small{
+  display:block; font-family:"IBM Plex Mono",monospace; font-weight:500;
+  font-size:clamp(9px,.78vw,11px); letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-faint);
+}
+
+/* beat stepper */
+.rail{display:flex; align-items:center; gap:4px; flex:1 1 320px; min-width:0; overflow:hidden}
+.step{
+  display:flex; align-items:center; gap:7px;
+  padding:5px 10px 5px 6px; border-radius:999px;
+  font-size:clamp(10px,.95vw,13px); font-weight:700; letter-spacing:.02em;
+  color:var(--ink-faint); white-space:nowrap; border:1px solid transparent;
+  background:none; cursor:pointer;
+}
+.step .n{
+  width:20px; height:20px; border-radius:50%; display:grid; place-items:center;
+  font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600;
+  border:1px solid var(--tile-edge); color:var(--ink-faint);
+}
+.step.done{color:var(--ink-soft)}
+.step.done .n{background:var(--good-bg); border-color:var(--good); color:var(--good)}
+.step.on{color:var(--ink); border-color:var(--tile-edge); background:var(--tile)}
+.step.on .n{background:var(--btn-bg); border-color:var(--btn-bg); color:var(--btn-fg)}
+.step:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+
+/* scoreboard */
+.scores{display:flex; gap:8px; align-items:center}
+.team{
+  display:flex; align-items:baseline; gap:8px;
+  padding:5px 12px; border-radius:10px;
+  border:1px solid var(--tile-edge); background:var(--tile);
+  box-shadow:var(--tile-shadow);
+}
+.team .nm{font-size:clamp(10px,.9vw,12px); font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft)}
+.team .pts{font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:clamp(15px,1.5vw,21px); font-variant-numeric:tabular-nums}
+.team.active{border-color:var(--gold); box-shadow:0 0 0 2px var(--gold-bg), var(--tile-shadow)}
+.team.active .nm{color:var(--gold)}
+
+.tools{display:flex; gap:4px}
+.tool{
+  width:32px; height:32px; border-radius:8px; display:grid; place-items:center;
+  border:1px solid var(--tile-edge); background:var(--tile); cursor:pointer;
+  font-size:14px; line-height:1;
+}
+.tool:hover{border-color:var(--ink-soft)}
+.tool[aria-pressed="false"]{opacity:.42}
+.tool:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+
+/* stage */
+main{
+  flex:1; min-height:0; overflow-y:auto; overflow-x:hidden;
+  padding-block:clamp(14px,2.4vh,32px);
+  padding-inline:clamp(20px,5vw,90px);
+  display:block;
+}
+.wrap{
+  width:100%; max-width:1180px; margin:0 auto; min-height:100%;
+  display:flex; flex-direction:column; justify-content:center;
+}
+
+footer{
+  display:flex; gap:clamp(8px,1.4vw,20px); align-items:center; flex-wrap:wrap;
+  padding:8px clamp(16px,2.5vw,34px);
+  border-top:1px solid var(--stage-edge);
+  font-family:"IBM Plex Mono",monospace; font-size:clamp(9px,.82vw,11.5px);
+  color:var(--ink-faint); letter-spacing:.04em;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+}
+kbd{
+  font-family:"IBM Plex Mono",monospace; font-size:inherit;
+  border:1px solid var(--tile-edge); border-bottom-width:2px; border-radius:4px;
+  padding:1px 5px; margin-right:4px; color:var(--ink-soft); background:var(--tile);
+}
+
+/* ---------- shared pieces ---------- */
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace; font-size:clamp(10px,.85vw,12px);
+  letter-spacing:.18em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 10px;
+}
+h1{
+  font-family:"Fredoka",sans-serif; font-weight:600; text-wrap:balance;
+  font-size:clamp(30px,4.6vw,62px); line-height:1.04; margin:0 0 14px; letter-spacing:-.015em;
+}
+h2{
+  font-family:"Fredoka",sans-serif; font-weight:600; text-wrap:balance;
+  font-size:clamp(22px,2.9vw,40px); line-height:1.1; margin:0 0 12px;
+}
+.lede{font-size:clamp(15px,1.5vw,21px); line-height:1.5; color:var(--ink-soft); max-width:62ch; margin:0}
+.hand{font-family:"Caveat",cursive; font-weight:600; color:var(--margin)}
+.mono{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums}
+em.mark{font-style:normal; box-shadow:inset 0 -.34em 0 var(--gold-bg); padding:0 .08em}
+strong.hi{color:var(--margin)}
+
+/* menu */
+.menu-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin-top:26px}
+.mod{
+  text-align:left; padding:16px 16px 14px; border-radius:12px; cursor:pointer;
+  border:1px solid var(--tile-edge); background:var(--tile); box-shadow:var(--tile-shadow);
+  display:flex; flex-direction:column; gap:6px; min-height:132px;
+}
+.mod:hover{border-color:var(--ink-soft); transform:translateY(-2px)}
+.mod:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+.mod .idx{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em;
+  color:var(--ink-faint);
+}
+.mod .ttl{font-family:"Fredoka",sans-serif; font-weight:600; font-size:clamp(17px,1.7vw,22px); line-height:1.15}
+.mod .sub{font-size:13px; color:var(--ink-soft); line-height:1.35}
+.mod .mins{margin-top:auto; font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--gold)}
+.mod.played{border-color:var(--good)}
+.mod.played .idx{color:var(--good)}
+
+/* concept / model cards */
+.bigrule{
+  border:2px solid var(--edge); border-radius:14px; background:var(--tile);
+  padding:clamp(18px,2.6vw,34px); box-shadow:6px 6px 0 var(--gold-bg);
+}
+.bigrule .headline{
+  font-family:"Fredoka",sans-serif; font-weight:600; line-height:1.1; text-wrap:balance;
+  font-size:clamp(26px,3.6vw,50px); margin:0;
+}
+.notes{display:grid; gap:10px; margin:20px 0 0; padding:0; list-style:none}
+.notes li{
+  display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start;
+  font-size:clamp(15px,1.45vw,20px); line-height:1.45;
+}
+.notes .bullet{
+  font-family:"IBM Plex Mono",monospace; font-size:.8em; color:var(--gold);
+  border:1px solid var(--gold); border-radius:5px; padding:1px 6px; margin-top:.18em;
+}
+.wrongright{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:20px}
+@media (max-width:640px){.wrongright{grid-template-columns:1fr}}
+.wr{padding:14px 16px; border-radius:10px; font-size:clamp(15px,1.5vw,21px); line-height:1.35}
+.wr b{display:block; font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; margin-bottom:6px; font-weight:600}
+.wr.no{background:var(--bad-bg); color:var(--bad); text-decoration-color:var(--bad)}
+.wr.no s{text-decoration-thickness:2px}
+.wr.yes{background:var(--good-bg); color:var(--good)}
+
+.pairs{display:grid; gap:10px; margin:0; padding:0; list-style:none}
+.pair{
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:clamp(10px,2vw,28px);
+  align-items:baseline; padding:12px 14px; border-radius:10px; background:var(--tile);
+  border:1px solid var(--tile-edge);
+}
+@media (max-width:680px){.pair{grid-template-columns:1fr; gap:2px}}
+.pair .q{font-size:clamp(15px,1.5vw,21px); color:var(--ink-soft)}
+.pair .a{font-size:clamp(17px,1.8vw,25px); font-weight:700}
+.pair .gloss{display:block; font-family:"Caveat",cursive; font-size:.85em; color:var(--ink-faint); font-weight:600}
+
+/* phrase wall */
+.wall{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:10px}
+.card8{
+  padding:14px 16px; border-radius:10px; background:var(--tile);
+  border:1px solid var(--tile-edge); box-shadow:var(--tile-shadow);
+}
+.card8 .en{font-family:"Fredoka",sans-serif; font-weight:500; font-size:clamp(16px,1.55vw,21px); line-height:1.2}
+.card8 .fr{font-family:"Caveat",cursive; font-weight:600; font-size:clamp(15px,1.4vw,19px); color:var(--margin); margin-top:3px}
+
+/* alphabet families */
+.fam{display:grid; gap:10px}
+.famrow{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:12px 14px; border-radius:10px; border:1px solid var(--tile-edge); background:var(--tile);
+}
+.famrow .say{
+  font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:clamp(14px,1.4vw,19px);
+  color:var(--gold); min-width:96px;
+}
+.letters{display:flex; gap:6px; flex-wrap:wrap}
+.ltr{
+  width:clamp(30px,3vw,44px); height:clamp(34px,3.4vw,50px); border-radius:7px;
+  display:grid; place-items:center; font-family:"Fredoka",sans-serif; font-weight:600;
+  font-size:clamp(16px,1.7vw,24px); background:var(--paper-2); border:1px solid var(--tile-edge);
+}
+.ltr.trap{background:var(--bad-bg); color:var(--bad); border-color:var(--bad)}
+
+/* number grid */
+.numgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(108px,1fr)); gap:7px}
+.numcell{
+  padding:8px 10px; border-radius:8px; background:var(--tile); border:1px solid var(--tile-edge);
+  display:flex; align-items:baseline; gap:8px;
+}
+.numcell .d{font-family:"IBM Plex Mono",monospace; font-weight:600; color:var(--ink-faint); font-size:clamp(12px,1.1vw,15px); min-width:2.2em}
+.numcell .w{font-size:clamp(13px,1.25vw,18px); font-weight:600}
+.numcell.trap{border-color:var(--margin); background:var(--gold-bg)}
+.numcell.trap .w{color:var(--margin)}
+
+/* practise */
+.prac{display:grid; gap:12px}
+.pitem{
+  display:grid; grid-template-columns:auto 1fr auto; gap:14px; align-items:center;
+  padding:14px 18px; border-radius:10px; border:1px solid var(--tile-edge); background:var(--tile);
+  font-size:clamp(16px,1.7vw,24px);
+}
+.pitem .n{font-family:"IBM Plex Mono",monospace; font-size:.62em; color:var(--ink-faint)}
+.pitem .sol{
+  font-family:"Caveat",cursive; font-weight:700; color:var(--margin);
+  font-size:1.25em; opacity:0; transform:translateY(4px) rotate(-1.4deg);
+  transition:opacity .22s ease, transform .22s ease;
+}
+.pitem.shown .sol{opacity:1; transform:none}
+.pitem.shown{border-color:var(--margin)}
+
+/* game */
+.gamehead{display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:14px; flex-wrap:wrap}
+.progress{display:flex; gap:4px; align-items:center}
+.pip{width:9px; height:9px; border-radius:50%; background:var(--tile-edge)}
+.pip.ok{background:var(--good)}
+.pip.no{background:var(--bad)}
+.pip.now{background:var(--btn-bg); transform:scale(1.4)}
+
+.cue{
+  font-family:"Fredoka",sans-serif; font-weight:500; text-wrap:balance;
+  font-size:clamp(24px,3.4vw,48px); line-height:1.12; margin:0 0 6px;
+}
+.cuesub{font-size:clamp(14px,1.35vw,19px); color:var(--ink-soft); margin:0 0 18px}
+
+.opts{display:grid; gap:10px; grid-template-columns:1fr}
+.opts.two{grid-template-columns:1fr 1fr}
+.opts.three{grid-template-columns:repeat(3,1fr)}
+@media (max-width:760px){.opts.two,.opts.three{grid-template-columns:1fr}}
+.opt{
+  display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:center; text-align:left;
+  padding:14px 18px; border-radius:11px; cursor:pointer;
+  border:1px solid var(--tile-edge); background:var(--tile); box-shadow:var(--tile-shadow);
+  font-size:clamp(17px,1.85vw,27px); font-weight:600; line-height:1.2;
+}
+.opt:hover:not(:disabled){border-color:var(--ink-soft)}
+.opt:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+.opt .key{
+  width:30px; height:30px; border-radius:7px; display:grid; place-items:center;
+  font-family:"IBM Plex Mono",monospace; font-size:14px; font-weight:600;
+  background:var(--paper-2); border:1px solid var(--tile-edge); color:var(--ink-soft);
+}
+.opt.good{border-color:var(--good); background:var(--good-bg); color:var(--good)}
+.opt.good .key{background:var(--good); color:var(--tile); border-color:var(--good)}
+.opt.bad{border-color:var(--bad); background:var(--bad-bg); color:var(--bad)}
+.opt.bad .key{background:var(--bad); color:var(--tile); border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.opt.dim{opacity:.4}
+
+.why{
+  margin-top:14px; padding:12px 16px; border-left:4px solid var(--gold);
+  background:var(--gold-bg); border-radius:0 8px 8px 0;
+  font-size:clamp(14px,1.4vw,20px); line-height:1.4; color:var(--ink);
+}
+.why .lbl{font-family:"IBM Plex Mono",monospace; font-size:.72em; letter-spacing:.12em; text-transform:uppercase; display:block; margin-bottom:4px; color:var(--gold)}
+.why b{color:var(--margin)}
+
+.timer{height:8px; border-radius:999px; background:var(--tile-edge); overflow:hidden; margin-bottom:18px}
+.timer > i{display:block; height:100%; background:var(--bar); width:100%; transform-origin:left}
+
+.steal{
+  display:inline-flex; align-self:flex-start; align-items:center; gap:8px; margin-bottom:12px;
+  padding:5px 12px; border-radius:999px; background:var(--margin); color:#3A2430;
+  font-family:"IBM Plex Mono",monospace; font-size:clamp(11px,1vw,14px);
+  letter-spacing:.1em; text-transform:uppercase; font-weight:600;
+}
+
+/* word ordering */
+.slot{
+  min-height:clamp(56px,6vw,84px); border-bottom:3px solid var(--rule);
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:6px 2px; margin-bottom:18px;
+}
+.slot .placed{
+  font-family:"Caveat",cursive; font-weight:700; color:var(--margin);
+  font-size:clamp(26px,3.3vw,46px); line-height:1;
+}
+.slot .cursor{width:3px; height:clamp(26px,3vw,40px); background:var(--margin); animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.bank{display:flex; gap:8px; flex-wrap:wrap}
+.word{
+  padding:9px 14px; border-radius:9px; cursor:pointer;
+  border:1px solid var(--tile-edge); background:var(--tile); box-shadow:var(--tile-shadow);
+  font-size:clamp(16px,1.6vw,24px); font-weight:600;
+}
+.word .key{font-family:"IBM Plex Mono",monospace; font-size:.6em; color:var(--ink-faint); margin-right:7px}
+.word:hover:not(:disabled){border-color:var(--ink-soft)}
+.word:disabled{opacity:.28; cursor:default}
+.word:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+
+/* reveal / dictation */
+.bigreveal{
+  display:flex; align-items:center; justify-content:center; gap:clamp(10px,2vw,26px);
+  flex-wrap:wrap; min-height:clamp(110px,16vh,190px);
+  border:2px dashed var(--rule); border-radius:14px; padding:18px;
+}
+.chunk{
+  font-family:"IBM Plex Mono",monospace; font-weight:600; font-variant-numeric:tabular-nums;
+  font-size:clamp(34px,6.2vw,96px); line-height:1; letter-spacing:.03em;
+  opacity:0; transform:translateY(8px); transition:opacity .2s, transform .2s;
+}
+.chunk.on{opacity:1; transform:none}
+.chunk.pending{opacity:.16; transform:none}
+.spoken{
+  text-align:center; font-family:"Caveat",cursive; font-weight:700; color:var(--margin);
+  font-size:clamp(20px,2.6vw,38px); margin-top:14px; min-height:1.2em;
+}
+.answerbig{
+  font-family:"Fredoka",sans-serif; font-weight:600; color:var(--good);
+  font-size:clamp(30px,4.4vw,62px); line-height:1.05; text-align:center;
+}
+.calcline{
+  font-family:"IBM Plex Mono",monospace; font-weight:600; font-variant-numeric:tabular-nums;
+  font-size:clamp(32px,5.2vw,80px); text-align:center; line-height:1.1;
+}
+
+/* door scene */
+.scene{
+  display:flex; align-items:flex-end; justify-content:center; gap:clamp(12px,3vw,50px);
+  margin-bottom:22px; padding-bottom:10px; border-bottom:3px solid var(--rule);
+}
+.door{
+  width:clamp(74px,8vw,118px); height:clamp(120px,15vh,190px);
+  border:3px solid var(--edge); border-radius:6px 6px 0 0; background:var(--paper-2);
+  position:relative; flex:none;
+}
+.door::before{content:""; position:absolute; inset:10px; border:2px solid var(--tile-edge); border-radius:3px}
+.door::after{content:""; position:absolute; right:9px; top:52%; width:9px; height:9px; border-radius:50%; background:var(--gold)}
+.bubble{
+  position:relative; max-width:min(680px,62vw); background:var(--tile);
+  border:2px solid var(--edge); border-radius:14px; padding:14px 20px; margin-bottom:14px;
+  font-family:"Fredoka",sans-serif; font-weight:500; font-size:clamp(20px,2.6vw,38px); line-height:1.15;
+}
+.bubble::after{
+  content:""; position:absolute; left:-11px; bottom:16px; width:16px; height:16px;
+  background:var(--tile); border-left:2px solid var(--edge); border-bottom:2px solid var(--edge);
+  transform:rotate(45deg);
+}
+.pupil{
+  width:clamp(46px,5vw,72px); flex:none; display:flex; flex-direction:column; align-items:center; gap:3px;
+}
+.pupil .head{width:60%; aspect-ratio:1; border-radius:50%; border:3px solid var(--edge); background:var(--gold-bg)}
+.pupil .body{width:100%; height:clamp(46px,5.4vh,74px); border:3px solid var(--edge); border-bottom:none; border-radius:16px 16px 0 0; background:var(--tile)}
+
+/* letter card */
+.ltrbig{
+  width:clamp(120px,16vw,220px); aspect-ratio:.85; margin:0 auto 18px;
+  border:3px solid var(--edge); border-radius:14px; background:var(--tile);
+  display:grid; place-items:center; box-shadow:8px 8px 0 var(--gold-bg);
+  font-family:"Fredoka",sans-serif; font-weight:600; font-size:clamp(64px,9vw,140px); line-height:1;
+}
+
+/* worksheet beat */
+.sheet{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,320px); gap:clamp(16px,2.5vw,34px); align-items:start}
+@media (max-width:860px){.sheet{grid-template-columns:1fr}}
+.dolist{display:grid; gap:10px; margin:0; padding:0; list-style:none}
+.dolist li{
+  display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start;
+  padding:12px 14px; border-radius:10px; background:var(--tile); border:1px solid var(--tile-edge);
+  font-size:clamp(14px,1.4vw,19px); line-height:1.4;
+}
+.dolist .tick{color:var(--good); font-weight:700}
+.dolist .cross{color:var(--bad); font-weight:700}
+.warn{
+  border:1px solid var(--margin); border-left-width:5px; border-radius:8px;
+  padding:14px 16px; background:var(--bad-bg);
+  font-size:clamp(13px,1.25vw,17px); line-height:1.45; color:var(--ink);
+}
+.warn h3{margin:0 0 8px; font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--bad)}
+.warn ul{margin:0; padding-left:18px; display:grid; gap:5px}
+
+/* end card */
+.finaltable{display:grid; gap:8px; margin:22px 0}
+.frow{display:grid; grid-template-columns:1fr auto auto; gap:16px; align-items:center; padding:11px 14px; border-radius:9px; background:var(--tile); border:1px solid var(--tile-edge); font-size:clamp(14px,1.4vw,19px)}
+.frow .sc{font-family:"IBM Plex Mono",monospace; font-weight:600; font-variant-numeric:tabular-nums}
+
+.btnrow{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px}
+.btn{
+  padding:11px 20px; border-radius:10px; cursor:pointer; font-weight:700;
+  border:1px solid var(--btn-bg); background:var(--btn-bg); color:var(--btn-fg);
+  font-size:clamp(14px,1.35vw,18px);
+}
+.btn.ghost{background:var(--tile); color:var(--ink); border-color:var(--tile-edge)}
+.btn:hover{opacity:.88}
+.btn:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+
+/* help overlay */
+#help{
+  position:fixed; inset:0; z-index:20; display:none; place-items:center;
+  background:color-mix(in srgb, var(--ink) 55%, transparent); padding:20px;
+}
+#help.on{display:grid}
+.helpbox{
+  background:var(--paper); border:2px solid var(--edge); border-radius:14px;
+  padding:clamp(18px,2.4vw,30px); max-width:760px; width:100%; max-height:88vh; overflow:auto;
+}
+.keytable{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:8px 20px; margin-top:14px}
+.keyrow{display:grid; grid-template-columns:auto 1fr; gap:10px; align-items:baseline; font-size:14px; color:var(--ink-soft)}
+
+.flash{position:fixed; inset:0; z-index:15; pointer-events:none; opacity:0}
+.flash.go{animation:fl .45s ease-out}
+@keyframes fl{0%{opacity:.32}100%{opacity:0}}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important; transition-duration:.01ms !important}
+}
+</style>
+
+<div id="grid" aria-hidden="true"></div>
+<div class="flash" id="flash" aria-hidden="true"></div>
+
+<div id="app">
+  <header>
+    <div class="brand">Cahier<small>Unit 1 · Wk 2 · L2</small></div>
+    <nav class="rail" id="rail" aria-label="Lesson beats"></nav>
+    <div class="scores" id="scores"></div>
+    <div class="tools">
+      <button class="tool" id="tSound" aria-pressed="true" title="Voice and sound (M)">🔊</button>
+      <button class="tool" id="tClock" aria-pressed="true" title="Answer timer (C)">⏱</button>
+      <button class="tool" id="tTheme" title="Paper / blackboard (D)">◐</button>
+      <button class="tool" id="tHelp" title="Help (H)">?</button>
+    </div>
+  </header>
+
+  <main><div class="wrap" id="stage"></div></main>
+
+  <footer id="keys"></footer>
+</div>
+
+<div id="help" role="dialog" aria-modal="true" aria-label="Help">
+  <div class="helpbox">
+    <p class="eyebrow">How to run it</p>
+    <h2>Four blocks, five beats each</h2>
+    <p class="lede">Every block runs <strong>Concept → Model → Practise → Game → Worksheet</strong>. Project it, drive it from the keyboard, and let the class call the answers out loud. You press the key they shout.</p>
+    <div class="keytable">
+      <div class="keyrow"><kbd>1</kbd>–<kbd>9</kbd> choose an answer / place a word</div>
+      <div class="keyrow"><kbd>Space</kbd> next step, or reveal</div>
+      <div class="keyrow"><kbd>←</kbd> <kbd>→</kbd> move between beats</div>
+      <div class="keyrow"><kbd>R</kbd> say it again</div>
+      <div class="keyrow"><kbd>A</kbd> / <kbd>B</kbd> award a point by hand</div>
+      <div class="keyrow"><kbd>Z</kbd> undo the last point</div>
+      <div class="keyrow"><kbd>Backspace</kbd> take back a word</div>
+      <div class="keyrow"><kbd>C</kbd> timer on / off</div>
+      <div class="keyrow"><kbd>M</kbd> sound on / off</div>
+      <div class="keyrow"><kbd>D</kbd> paper / blackboard</div>
+      <div class="keyrow"><kbd>Esc</kbd> back to the menu</div>
+      <div class="keyrow"><kbd>H</kbd> close this</div>
+    </div>
+    <p class="lede" style="margin-top:18px;font-size:15px">Teams alternate automatically. A wrong answer opens a <strong>steal</strong> for the other team. If the browser has no English voice, every audio item still shows its text on <kbd>Space</kbd>.</p>
+    <div class="btnrow"><button class="btn" id="helpClose">Close</button></div>
+  </div>
+</div>
+
+<script>
+(() => {
+"use strict";
+
+/* ============================= CONTENT ============================= */
+
+const MODULES = [
+
+/* ---------- 1. MAKING ORDINALS ---------- */
+{
+  id:"make", title:"Making Ordinals", sub:"The -th rule and the eight rebels", mins:"10 min",
+  concept:{
+    headline:'Add <em class="mark">-th</em> to the number. Eight numbers refuse.',
+    notes:[
+      ["rule","four → <strong class=\"hi\">fourth</strong>. six → <strong class=\"hi\">sixth</strong>. ten → <strong class=\"hi\">tenth</strong>. Most of English behaves."],
+      ["rebels","<strong class=\"hi\">first, second, third, fifth, eighth, ninth, twelfth</strong> — and every <i>-ty</i> becomes <strong class=\"hi\">-tieth</strong>."],
+      ["write","In figures the last two letters ride on the end: <strong class=\"hi\">1st, 2nd, 3rd, 4th</strong> — then <i>th</i> all the way to 20th."],
+      ["dates","This is why you learn them: <strong class=\"hi\">the third of October</strong>, not <i>the three of October</i>."]
+    ],
+    wrong:"the five of May", right:"the fifth of May"
+  },
+  model:{
+    lead:"The eight rebels first. Everything not on this list simply takes -th.",
+    nums:[
+      [1,"first",1],[2,"second",1],[3,"third",1],[4,"fourth"],[5,"fifth",1],[6,"sixth"],[7,"seventh"],[8,"eighth",1],
+      [9,"ninth",1],[10,"tenth"],[11,"eleventh"],[12,"twelfth",1],[13,"thirteenth"],[15,"fifteenth"],[20,"twentieth",1],
+      [30,"thirtieth"],[40,"fortieth"],[50,"fiftieth"],[60,"sixtieth"],[70,"seventieth"],[80,"eightieth"],[90,"ninetieth"],[100,"hundredth"]
+    ]
+  },
+  practise:[
+    ["four →","fourth"],
+    ["five →","fifth — drop the E, add F"],
+    ["nine →","ninth — drop the E"],
+    ["twelve →","twelfth — VE becomes F"],
+    ["forty →","fortieth — Y becomes IE"]
+  ],
+  game:{
+    name:"Rebel Hunt",
+    how:"Regular or rebel? Twelve numbers. The rebels change their spelling, not just their ending.",
+    items:[
+      {kind:"num", cue:"5", say:"fifth", opts:["fiveth","fifth","fivth"], ok:1, cols:"three",
+       why:"<b>fifth</b>. The VE turns into F. Same trick as twelve → twelfth."},
+      {kind:"num", cue:"9", say:"ninth", opts:["nineth","ninth","ninenth"], ok:1, cols:"three",
+       why:"<b>ninth</b> loses its E. But <i>ninety</i> keeps it. English is not fair."},
+      {kind:"num", cue:"8", say:"eighth", opts:["eightth","eighth","eightieth"], ok:1, cols:"three",
+       why:"<b>eighth</b> — the word already ends in T, so it only needs one H."},
+      {kind:"num", cue:"12", say:"twelfth", opts:["twelveth","twelth","twelfth"], ok:2, cols:"three",
+       why:"<b>twelfth</b>. Six letters and three of them are traps."},
+      {kind:"num", cue:"20", say:"twentieth", opts:["twentyth","twentieth","twentyeth"], ok:1, cols:"three",
+       why:"Every <b>-ty</b> becomes <b>-tieth</b>. The Y turns into IE."},
+      {kind:"num", cue:"40", say:"fortieth", opts:["fourtieth","fortyeth","fortieth"], ok:2, cols:"three",
+       why:"<b>fortieth</b>. Still no U in forty. It follows the number all the way through."},
+      {kind:"num", cue:"7", say:"seventh", opts:["seventh","sevenieth","sevent"], ok:0, cols:"three",
+       why:"<b>seventh</b> is regular. Just add -th and stop worrying."},
+      {kind:"num", cue:"2", say:"second", opts:["twoth","secondth","second"], ok:2, cols:"three",
+       why:"<b>second</b> takes nothing from <i>two</i> at all. Nor does <i>first</i> from <i>one</i>."},
+      {kind:"word", cue:"thirtieth", say:"thirtieth", opts:["13th","30th","3rd"], ok:1, cols:"three",
+       why:"<b>30th</b>. The pair to watch all lesson: thirteenth and thirtieth."},
+      {kind:"word", cue:"thirteenth", say:"thirteenth", opts:["30th","3rd","13th"], ok:2, cols:"three",
+       why:"<b>13th</b>. Stress at the end again: thir-TEENTH."},
+      {kind:"num", cue:"21", say:"twenty first", opts:["twentieth-first","twenty-first","twenty-oneth"], ok:1, cols:"three",
+       why:"<b>twenty-first</b>. Only the <i>last</i> number becomes ordinal."},
+      {kind:"num", cue:"100", say:"hundredth", opts:["one hundredth","hundreth","hundredeth"], ok:0, cols:"three",
+       why:"<b>one hundredth</b>. Two Ds, and the H comes last."}
+    ]
+  },
+  sheet:{
+    title:"Numbers2024 — the ordinal column",
+    now:[
+      [true,"<strong>Activity 1</strong>, right column. Copy the ordinals <strong>from the board</strong>, not from the sheet."],
+      [true,"Under <strong>Grammar</strong>: the eight rebels in a box of their own."],
+      [false,"Do not copy the printed ordinal column. See the note."]
+    ],
+    note:{
+      title:"The printed ordinal column is wrong",
+      items:[
+        "It reads <i>einth</i>, <i>fourtenth</i>, <i>fifiteenth</i>, <i>sevrententh</i>, and it labels 15th as <i>eighteenth</i>.",
+        "The numbering skips 8th entirely and runs 7th, 9th, 10th.",
+        "Cross the column out before you photocopy, or they will copy the errors into their notebooks and keep them."
+      ],
+      foot:"Project this screen instead. The list on the Model beat is the correct one."
+    }
+  }
+},
+
+/* ---------- 2. THE QUEUE ---------- */
+{
+  id:"queue", title:"The Queue", sub:"Position words · Activity 3", mins:"8 min",
+  concept:{
+    headline:'A queue is the only place ordinals are <em class="mark">obvious</em>.',
+    notes:[
+      ["front","The person at the front is <strong class=\"hi\">first</strong>. Nobody is <i>zeroth</i>."],
+      ["end","The person at the back is <strong class=\"hi\">last</strong> — a word with no number in it at all."],
+      ["next","Second from the end is <strong class=\"hi\">second to last</strong>, or <i>next to last</i>."]
+    ],
+    wrong:"He is the three in the queue.", right:"He is third in the queue."
+  },
+  model:{
+    lead:"Nine people, left to right. Learn the shape before you name the positions.",
+    families:[
+      ["front","1st 2nd 3rd","1st"],
+      ["middle","4th 5th 6th",""],
+      ["back","7th 8th 9th","9th"],
+      ["no number","last · second to last",""]
+    ]
+  },
+  practise:[
+    ["The man in the red shirt is at the front.","first"],
+    ["The yellow shirt is after blue.","third"],
+    ["The green shirt has four people in front of him.","fifth"],
+    ["The grey shirt is at the very back.","ninth — or last"],
+    ["The pink shirt is just before grey.","eighth — or second to last"]
+  ],
+  game:{
+    name:"Queue Jump",
+    how:"Red, blue, yellow, orange, green, purple, white, pink, grey — front to back, as on the sheet.",
+    items:[
+      {kind:"choice", cue:"Where is the man in the <strong>orange</strong> shirt?",
+       sub:"red · blue · yellow · <strong>orange</strong> · green · purple · white · pink · grey",
+       opts:["third","fourth","fifth"], ok:1, cols:"three",
+       why:"<b>fourth</b>. Count from the front, and start at one."},
+      {kind:"choice", cue:"Where is the man in the <strong>purple</strong> shirt?",
+       sub:"red · blue · yellow · orange · green · <strong>purple</strong> · white · pink · grey",
+       opts:["sixth","seventh","fifth"], ok:0, cols:"three",
+       why:"<b>sixth</b>. Regular: six plus -th, no spelling change."},
+      {kind:"choice", cue:"Where is the man in the <strong>grey</strong> shirt?",
+       sub:"red · blue · yellow · orange · green · purple · white · pink · <strong>grey</strong>",
+       opts:["nineth","ninth","last"], ok:1, cols:"three",
+       why:"<b>ninth</b> — no E. <i>Last</i> is also correct here, but <i>nineth</i> never is."},
+      {kind:"choice", cue:"Who is <strong>second to last</strong>?",
+       sub:"red · blue · yellow · orange · green · purple · white · pink · grey",
+       opts:["white","pink","grey"], ok:1, cols:"three",
+       why:"<b>pink</b>, in eighth place. Second to last counts backwards from the end."},
+      {kind:"choice", cue:"The man in the <strong>white</strong> shirt is…",
+       sub:"red · blue · yellow · orange · green · purple · <strong>white</strong> · pink · grey",
+       opts:["seventh","seventieth","seven"], ok:0, cols:"three",
+       why:"<b>seventh</b>. <i>Seventieth</i> is 70th — a very long queue."},
+      {kind:"order", cue:"Put the front of the queue in order.", sub:"Front to back.",
+       words:["first","second","third","fourth","fifth"]},
+      {kind:"order", cue:"Put the back of the queue in order.", sub:"Front to back.",
+       words:["sixth","seventh","eighth","ninth"]},
+      {kind:"choice", cue:"The yellow shirt leaves. Where is <strong>green</strong> now?",
+       sub:"Green was fifth. One person in front of him has gone.",
+       opts:["fifth","fourth","sixth"], ok:1, cols:"three",
+       why:"<b>fourth</b>. Everyone behind a gap moves up one place."}
+    ]
+  },
+  sheet:{
+    title:"Activity 3 — put the queue in order",
+    now:[
+      [true,"<strong>Activity 3</strong> on the sheet. Write the position under each man. <i>Third</i> is done for you."],
+      [true,"Then, in the notebook: describe where <strong>you</strong> sit, counting from the door."]
+    ],
+    note:null
+  }
+},
+
+/* ---------- 3. SORTING THE SCATTER ---------- */
+{
+  id:"scatter", title:"Sorting the Scatter", sub:"Big ordinals · Activity 4", mins:"9 min",
+  concept:{
+    headline:'Above twenty, only the <em class="mark">last</em> word becomes an ordinal.',
+    notes:[
+      ["rule","<strong class=\"hi\">thirty-second</strong>, not <i>thirtieth-second</i>. The tens stay cardinal and the unit does the work."],
+      ["round","A round ten is the exception — it has no unit left, so it changes itself: <strong class=\"hi\">fortieth</strong>, <strong class=\"hi\">sixtieth</strong>."],
+      ["sort","To put them in order, read the tens first. <i>Fifty-first</i> lands between <i>fiftieth</i> and <i>fifty-seventh</i>."]
+    ],
+    wrong:"the thirtieth-third", right:"the thirty-third"
+  },
+  model:{
+    lead:"The scattered list from the sheet, sorted. Read it down the column — that is the answer.",
+    nums:[
+      [1,"first"],[2,"second"],[3,"third"],[5,"fifth"],[6,"sixth"],[8,"eighth"],[9,"ninth"],[10,"tenth"],
+      [11,"eleventh"],[12,"twelfth"],[13,"thirteenth"],[15,"fifteenth"],[27,"twenty-seventh",1],[32,"thirty-second",1],
+      [33,"thirty-third",1],[40,"fortieth"],[50,"fiftieth"],[51,"fifty-first",1],[57,"fifty-seventh",1],[60,"sixtieth"],
+      [63,"sixty-third",1],[66,"sixty-sixth",1],[74,"seventy-fourth",1],[80,"eightieth"],[100,"one hundredth"]
+    ]
+  },
+  practise:[
+    ["32nd","thirty-second"],
+    ["51st","fifty-first"],
+    ["74th","seventy-fourth"],
+    ["80th","eightieth"],
+    ["100th","one hundredth"]
+  ],
+  game:{
+    name:"Order Up",
+    how:"Which comes first? Then build three runs in order.",
+    items:[
+      {kind:"choice", cue:"Which comes <strong>first</strong>?", opts:["thirty-second","thirteenth","thirtieth"], ok:1, cols:"three",
+       why:"<b>thirteenth</b> is 13th. The other two are 32nd and 30th."},
+      {kind:"choice", cue:"Which comes <strong>last</strong>?", opts:["sixty-sixth","seventy-fourth","sixtieth"], ok:1, cols:"three",
+       why:"<b>seventy-fourth</b> = 74th. Read the tens first, every time."},
+      {kind:"num", cue:"51st", say:"fifty first", opts:["fiftieth-first","fifty-first","fifty-oneth"], ok:1, cols:"three",
+       why:"<b>fifty-first</b>. Only the unit changes, and it changes to a rebel."},
+      {kind:"num", cue:"63rd", say:"sixty third", opts:["sixty-third","sixtieth-third","sixty-threeth"], ok:0, cols:"three",
+       why:"<b>sixty-third</b>. Note the figures too: 63<b>rd</b>, because <i>third</i> ends in RD."},
+      {kind:"word", cue:"eightieth", say:"eightieth", opts:["18th","8th","80th"], ok:2, cols:"three",
+       why:"<b>80th</b>. The <i>-ieth</i> ending always means a round ten."},
+      {kind:"choice", cue:"Which of these is <strong>not</strong> a real word?", opts:["twenty-seventh","thirtieth-third","one hundredth"], ok:1, cols:"three",
+       why:"<b>thirtieth-third</b>. You cannot have two ordinals in one number."},
+      {kind:"order", cue:"Put these in order.", sub:"Smallest first.",
+       words:["eleventh","twelfth","thirteenth","fifteenth"]},
+      {kind:"order", cue:"Put these in order.", sub:"Smallest first.",
+       words:["twenty-seventh","thirty-second","thirty-third","fortieth"]},
+      {kind:"order", cue:"Put these in order.", sub:"Smallest first.",
+       words:["fiftieth","fifty-first","fifty-seventh","sixtieth","sixty-third"]}
+    ]
+  },
+  sheet:{
+    title:"Activity 4 — reorder, and Activity 5 — letters",
+    now:[
+      [true,"<strong>Activity 4</strong>: copy the scattered list into order. Warn them that numbers are missing — it is not 1 to 100."],
+      [true,"<strong>Activity 5</strong>: a = first, b = second, and on to l and y. Position in the alphabet, written as an ordinal."],
+      [true,"Quick check: <strong>m</strong> is the thirteenth letter. <strong>y</strong> is the twenty-fifth."]
+    ],
+    note:null
+  }
+},
+
+/* ---------- 4. CARDINAL OR ORDINAL ---------- */
+{
+  id:"which", title:"Cardinal or Ordinal?", sub:"Choosing in a sentence · Activity 6", mins:"9 min",
+  concept:{
+    headline:'<em class="mark">How many?</em> is cardinal. <em class="mark">Which one?</em> is ordinal.',
+    notes:[
+      ["count","Counting things: <strong class=\"hi\">five elephants</strong>, <strong class=\"hi\">two photos</strong>, <strong class=\"hi\">three trips</strong>."],
+      ["place","Placing one thing in a line: <strong class=\"hi\">the fifth day</strong>, <strong class=\"hi\">the second photo</strong>, <strong class=\"hi\">my third trip</strong>."],
+      ["the","<i>the</i> and <i>my</i> in front of the number are your clue. They almost always mean an ordinal follows."],
+      ["dates","Dates take ordinals in speech: <strong class=\"hi\">the first of September</strong>, even when you write 1 September."]
+    ],
+    wrong:"Today is the five day of the tour.", right:"Today is the fifth day of the tour."
+  },
+  model:{
+    lead:"The same number, twice in one sentence. This is the shape of Activity 6.",
+    pairs:[
+      ["Today is the ___ day and we saw ___ elephants. (5)","the <b>fifth</b> day · <b>five</b> elephants"],
+      ["There are ___ photos, but I like the ___ more. (2)","<b>two</b> photos · the <b>second</b>"],
+      ["Bobo is the ___ lion born this year. He is ___ months old. (4)","the <b>fourth</b> lion · <b>four</b> months"],
+      ["I have travelled there ___ times. On my ___ trip… (3)","<b>three</b> times · my <b>third</b> trip"],
+      ["It is the ___ time we visit and we have seen ___ lion. (1)","the <b>first</b> time · <b>one</b> lion"]
+    ]
+  },
+  practise:[
+    ["I have ___ sisters. (2)","two"],
+    ["She is my ___ sister. (2)","second"],
+    ["It is the ___ of June. (1)","first"],
+    ["We stayed ___ nights. (8)","eight"],
+    ["On the ___ night it rained. (8)","eighth"]
+  ],
+  game:{
+    name:"Which One?",
+    how:"Same number, two jobs. Pick the form the sentence needs.",
+    items:[
+      {kind:"choice", cue:"Today is the ___ day of the tour.", sub:"The number is 5.",
+       opts:["five","fifth"], ok:1, cols:"two",
+       why:"<b>the</b> in front of a number nearly always means an ordinal follows."},
+      {kind:"choice", cue:"We saw ___ elephants.", sub:"The number is 5.",
+       opts:["five","fifth"], ok:0, cols:"two",
+       why:"Counting animals answers <i>how many</i>. <b>five</b>."},
+      {kind:"choice", cue:"There are ___ photos of the baby crocodiles.", sub:"The number is 2.",
+       opts:["second","two"], ok:1, cols:"two",
+       why:"<b>two</b>. How many photos exist."},
+      {kind:"choice", cue:"I like the ___ photo more.", sub:"The number is 2.",
+       opts:["second","two"], ok:0, cols:"two",
+       why:"<b>second</b>. Which one out of the two."},
+      {kind:"choice", cue:"Bobo is the ___ lion born this year.", sub:"The number is 4.",
+       opts:["four","fourth"], ok:1, cols:"two",
+       why:"<b>fourth</b>. His place in the order of births."},
+      {kind:"choice", cue:"He is ___ months old.", sub:"The number is 4.",
+       opts:["four","fourth"], ok:0, cols:"two",
+       why:"<b>four</b>. Age counts months, so it is cardinal — the opposite of the line above."},
+      {kind:"choice", cue:"On my ___ trip, I rode a camel.", sub:"The number is 3.",
+       opts:["third","three"], ok:0, cols:"two",
+       why:"<b>third</b>. <i>My</i> works exactly like <i>the</i> here."},
+      {kind:"choice", cue:"I have travelled to the desert ___ times.", sub:"The number is 3.",
+       opts:["third","three"], ok:1, cols:"two",
+       why:"<b>three</b> times. How many, not which."},
+      {kind:"choice", cue:"It is the ___ time we visit the park.", sub:"The number is 1.",
+       opts:["one","first"], ok:1, cols:"two",
+       why:"<b>first</b>. And note that <i>first</i> borrows nothing from <i>one</i>."},
+      {kind:"choice", cue:"We have already seen ___ lion and four tigers.", sub:"The number is 1.",
+       opts:["one","first"], ok:0, cols:"two",
+       why:"<b>one</b> lion, counted alongside four tigers."},
+      {kind:"choice", cue:"My birthday is the ___ of March.", sub:"The number is 21.",
+       opts:["twenty-one","twenty-first"], ok:1, cols:"two",
+       why:"<b>twenty-first</b>. Spoken dates are always ordinals in English."},
+      {kind:"order", cue:"Build the sentence.", sub:"The tour is on day five and there were five elephants.",
+       words:["Today","is","the","fifth","day","and","we","saw","five","elephants."]}
+    ]
+  },
+  sheet:{
+    title:"Activity 6 — and the check question",
+    now:[
+      [true,"<strong>Activity 6</strong> on the sheet, all five sentences. Numbers 1 and 4 are partly done as models."],
+      [true,"The tick box at the bottom: <strong>What helped you answer?</strong> They must name the clue — <i>the</i>, <i>my</i>, or the word <i>times</i>."],
+      [true,"Extension: write two sentences about your own week using one cardinal and one ordinal."]
+    ],
+    note:{
+      title:"Where this is going",
+      items:[
+        "Dates are the real destination. Next lesson they write their own birthday as <i>the fourteenth of November</i>.",
+        "Keep the check question. Naming the clue is what makes the rule portable."
+      ],
+      foot:null
+    }
+  }
+}
+];
+
+const BEATS = ["Concept","Model","Practise","Game","Worksheet"];
+
+/* ============================= STATE ============================= */
+
+const S = {
+  view:"menu",      // menu | beat | end
+  m:0, b:0,
+  i:0,              // game item index
+  answered:false, picked:-1, steal:false,
+  placed:[], usedWords:[],
+  revealed:0,
+  pracShown:0,
+  results:{},       // moduleId -> [true/false,...]
+  scores:[0,0],
+  turn:0,
+  lastAward:null,
+  done:{},
+  sound:true, clock:true,
+  timeLeft:0, timerId:null
+};
+const TEAMS = ["Équipe A","Équipe B"];
+const TIME = 18;
+const TIMED = ["choice","door","letter","num","word","order"];
+
+/* ============================= AUDIO ============================= */
+
+let ac = null;
+function blip(freq, dur, type){
+  if(!S.sound) return;
+  try{
+    ac = ac || new (window.AudioContext||window.webkitAudioContext)();
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = type || "sine"; o.frequency.value = freq;
+    g.gain.setValueAtTime(.0001, ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(.16, ac.currentTime + .012);
+    g.gain.exponentialRampToValueAtTime(.0001, ac.currentTime + dur);
+    o.connect(g); g.connect(ac.destination);
+    o.start(); o.stop(ac.currentTime + dur + .02);
+  }catch(e){}
+}
+const sGood = () => { blip(660,.1); setTimeout(()=>blip(990,.16),95); };
+const sBad  = () => blip(165,.22,"square");
+const sTick = () => blip(440,.05,"triangle");
+
+let voice = null;
+function pickVoice(){
+  if(!window.speechSynthesis) return;
+  const vs = speechSynthesis.getVoices();
+  voice = vs.find(v=>/en-GB/i.test(v.lang)) || vs.find(v=>/^en/i.test(v.lang)) || null;
+}
+if(window.speechSynthesis){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+
+let lastSaid = "";
+function say(text, rate){
+  lastSaid = text || "";
+  if(!S.sound || !text || !window.speechSynthesis) return false;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-GB"; u.rate = rate || .85; u.pitch = 1;
+    if(voice) u.voice = voice;
+    speechSynthesis.speak(u);
+    return true;
+  }catch(e){ return false; }
+}
+
+function flash(colorVar){
+  const f = document.getElementById("flash");
+  f.style.background = `var(${colorVar})`;
+  f.classList.remove("go"); void f.offsetWidth; f.classList.add("go");
+}
+
+/* ============================= HELPERS ============================= */
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s);
+const mod = () => MODULES[S.m];
+const items = () => mod().game.items;
+const item = () => items()[S.i];
+
+function stopTimer(){ if(S.timerId){ clearInterval(S.timerId); S.timerId = null; } }
+
+function startTimer(){
+  stopTimer();
+  if(!S.clock) return;
+  S.timeLeft = TIME;
+  const bar = document.querySelector(".timer > i");
+  if(!bar) return;
+  bar.style.transition = "none";
+  bar.style.transform = "scaleX(1)";
+  S.timerId = setInterval(() => {
+    S.timeLeft -= .1;
+    const r = Math.max(0, S.timeLeft / TIME);
+    bar.style.transition = "transform .1s linear";
+    bar.style.transform = `scaleX(${r})`;
+    bar.style.background = r < .28 ? "var(--margin)" : "var(--bar)";
+    if(S.timeLeft <= 0){ stopTimer(); timeUp(); }
+  }, 100);
+}
+
+function timeUp(){
+  if(S.answered) return;
+  const it = item();
+  if(it.kind === "order"){ S.answered = true; sBad(); record(false); render(); return; }
+  if(!TIMED.includes(it.kind)) return;
+  S.answered = true; S.picked = -1; sBad(); flash("--bad-bg"); record(false); render();
+}
+
+function record(ok){
+  const id = mod().id;
+  (S.results[id] = S.results[id] || [])[S.i] = ok;
+}
+
+function award(team, pts){
+  S.scores[team] += pts;
+  S.lastAward = [team, pts];
+}
+
+/* ============================= RENDER: CHROME ============================= */
+
+function renderChrome(){
+  // rail
+  const rail = $("rail");
+  if(S.view !== "beat"){ rail.innerHTML = ""; }
+  else{
+    rail.innerHTML = BEATS.map((b,i)=>
+      `<button class="step ${i===S.b?"on":(i<S.b?"done":"")}" data-beat="${i}">
+         <span class="n">${i+1}</span>${b}</button>`).join("");
+    rail.querySelectorAll("[data-beat]").forEach(el=>{
+      el.onclick = () => { S.b = +el.dataset.beat; enterBeat(); };
+    });
+  }
+  // scores
+  $("scores").innerHTML = TEAMS.map((t,i)=>
+    `<div class="team ${S.view==="beat"&&S.b===3&&i===S.turn?"active":""}">
+       <span class="nm">${t.replace("Équipe ","")}</span><span class="pts">${S.scores[i]}</span></div>`).join("");
+  // keys
+  const K = {
+    menu:`<span><kbd>1</kbd>–<kbd>4</kbd>open a block</span><span><kbd>H</kbd>help</span><span><kbd>D</kbd>paper / blackboard</span>`,
+    end:`<span><kbd>Space</kbd>back to the menu</span><span><kbd>0</kbd>reset scores</span>`,
+    beat:``
+  };
+  let k = K[S.view] || "";
+  if(S.view === "beat"){
+    if(S.b === 3){
+      const it = item();
+      const per = {
+        choice:`<kbd>1</kbd>–<kbd>4</kbd>answer`, door:`<kbd>1</kbd>–<kbd>3</kbd>answer`,
+        letter:`<kbd>1</kbd><kbd>2</kbd>answer`, num:`<kbd>1</kbd>–<kbd>3</kbd>answer`,
+        word:`<kbd>1</kbd>–<kbd>3</kbd>answer`,
+        order:`<kbd>1</kbd>–<kbd>9</kbd>place a word &nbsp;<kbd>⌫</kbd>take back`,
+        spell:`<kbd>Space</kbd>reveal a letter`, dict:`<kbd>Space</kbd>reveal a pair`,
+        calc:`<kbd>Space</kbd>reveal`
+      }[it.kind] || "";
+      k = `<span>${per}</span><span><kbd>Space</kbd>next</span><span><kbd>R</kbd>say again</span>
+           <span><kbd>A</kbd><kbd>B</kbd>award point</span><span><kbd>Z</kbd>undo</span><span><kbd>Esc</kbd>menu</span>`;
+    }else{
+      k = `<span><kbd>Space</kbd>${S.b===2?"reveal the next answer":"next"}</span>
+           <span><kbd>←</kbd><kbd>→</kbd>beats</span><span><kbd>R</kbd>say again</span><span><kbd>Esc</kbd>menu</span>`;
+    }
+  }
+  $("keys").innerHTML = k;
+  $("tSound").setAttribute("aria-pressed", String(S.sound));
+  $("tClock").setAttribute("aria-pressed", String(S.clock));
+}
+
+/* ============================= RENDER: VIEWS ============================= */
+
+function viewMenu(){
+  const total = S.scores[0] + S.scores[1];
+  return `
+    <p class="eyebrow">6e LVA · Unit 1: Me and Us · Week 2, Lesson 2 · ordinals and dates</p>
+    <h1>Ordinals,<br>and where they belong</h1>
+    <p class="lede">The half of the numbers sheet you folded away last week. Four blocks, same five beats: the rule, the model, a slow practise, a game, then the activity on the paper. Do not run this before the cardinals are solid.</p>
+    <div class="menu-grid">
+      ${MODULES.map((m,i)=>`
+        <button class="mod ${S.done[m.id]?"played":""}" data-m="${i}">
+          <span class="idx">BLOCK ${i+1}${S.done[m.id]?" · done":""}</span>
+          <span class="ttl">${m.title}</span>
+          <span class="sub">${m.sub}</span>
+          <span class="mins">${m.mins}</span>
+        </button>`).join("")}
+    </div>
+    <div class="btnrow">
+      <button class="btn" id="goFirst">Start with block ${(S.m||0)+1}</button>
+      <button class="btn ghost" id="goEnd">Scoreboard${total?` · ${S.scores[0]}–${S.scores[1]}`:""}</button>
+      <button class="btn ghost" id="goHelp">How to run it</button>
+    </div>`;
+}
+
+function viewConcept(){
+  const c = mod().concept;
+  return `
+    <p class="eyebrow">Block ${S.m+1} · ${mod().title} · Concept</p>
+    <div class="bigrule">
+      <p class="headline">${c.headline}</p>
+      <ul class="notes">
+        ${c.notes.map(([tag,txt])=>`<li><span class="bullet">${tag}</span><span>${txt}</span></li>`).join("")}
+      </ul>
+      <div class="wrongright">
+        <div class="wr no"><b>not this</b><s>${c.wrong}</s></div>
+        <div class="wr yes"><b>this</b>${c.right}</div>
+      </div>
+    </div>`;
+}
+
+function viewModel(){
+  const m = mod(), md = m.model;
+  let body = "";
+  if(md.pairs){
+    body = `<ul class="pairs">${md.pairs.map(([q,a])=>
+      `<li class="pair"><span class="q">${q}</span><span class="a">${a}</span></li>`).join("")}</ul>`;
+  }else if(md.wall){
+    body = `<div class="wall">${md.wall.map(([en,fr])=>
+      `<div class="card8"><div class="en">${en}</div><div class="fr">${fr}</div></div>`).join("")}</div>`;
+  }else if(md.families){
+    body = `<div class="fam">${md.families.map(([say,letters,traps])=>
+      `<div class="famrow"><span class="say">${say}</span><span class="letters">${
+        letters.split(" ").map(L=>`<span class="ltr ${traps.includes(L)?"trap":""}">${L}</span>`).join("")
+      }</span></div>`).join("")}</div>`;
+  }else if(md.nums){
+    body = `<div class="numgrid">${md.nums.map(([d,w,t])=>
+      `<div class="numcell ${t?"trap":""}"><span class="d">${d}</span><span class="w">${w}</span></div>`).join("")}</div>`;
+  }else if(md.phone){
+    body = `<div class="bigreveal">${md.phone.map(d=>`<span class="chunk on">${d}</span>`).join("")}</div>
+            <p class="spoken">${md.phoneSay}</p>`;
+  }
+  return `
+    <p class="eyebrow">Block ${S.m+1} · ${m.title} · Model</p>
+    <h2>${md.lead}</h2>
+    ${body}`;
+}
+
+function viewPractise(){
+  const m = mod();
+  return `
+    <p class="eyebrow">Block ${S.m+1} · ${m.title} · Practise</p>
+    <h2>Together, slowly. <span class="hand">Space reveals one at a time.</span></h2>
+    <div class="prac">
+      ${m.practise.map(([q,a],i)=>`
+        <div class="pitem ${i < S.pracShown ? "shown":""}">
+          <span class="n">${i+1}</span><span>${q}</span><span class="sol">${a}</span>
+        </div>`).join("")}
+    </div>`;
+}
+
+/* ---- game ---- */
+
+function gameShell(inner){
+  const m = mod(), n = items().length;
+  const res = S.results[m.id] || [];
+  const pips = items().map((_,i)=>{
+    let c = "pip";
+    if(i === S.i) c += " now";
+    else if(res[i] === true) c += " ok";
+    else if(res[i] === false) c += " no";
+    return `<span class="${c}"></span>`;
+  }).join("");
+  return `
+    <div class="gamehead">
+      <div>
+        <p class="eyebrow" style="margin-bottom:4px">Block ${S.m+1} · ${m.game.name}</p>
+        <p class="cuesub" style="margin:0">${m.game.how}</p>
+      </div>
+      <div class="progress">${pips}<span class="mono" style="margin-left:8px;font-size:12px;color:var(--ink-faint)">${S.i+1}/${n}</span></div>
+    </div>
+    ${S.clock && TIMED.includes(item().kind) ? `<div class="timer"><i></i></div>` : ``}
+    ${S.steal ? `<div class="steal">Steal · ${TEAMS[S.turn]}</div>` : ``}
+    ${inner}`;
+}
+
+function optionRow(it){
+  const cls = "opts " + (it.cols || "");
+  return `<div class="${cls}">${it.opts.map((o,i)=>{
+    let c = "opt";
+    if(S.answered){
+      if(i === it.ok) c += " good";
+      else if(i === S.picked) c += " bad";
+      else c += " dim";
+    }
+    return `<button class="${c}" data-opt="${i}" ${S.answered?"disabled":""}>
+      <span class="key">${i+1}</span><span>${o}</span></button>`;
+  }).join("")}</div>`;
+}
+
+function whyBox(it){
+  return S.answered && it.why ? `<div class="why"><span class="lbl">why</span>${it.why}</div>` : "";
+}
+
+function viewGame(){
+  const it = item();
+  let inner = "";
+
+  if(it.kind === "door"){
+    inner = `
+      <div class="scene">
+        <div class="door"></div>
+        <div class="pupil"><div class="head"></div><div class="body"></div></div>
+        <div class="bubble">${it.cue}</div>
+      </div>
+      ${optionRow(it)}${whyBox(it)}`;
+  }
+  else if(it.kind === "choice"){
+    inner = `<p class="cue">${it.cue}</p>${it.sub?`<p class="cuesub">${it.sub}</p>`:""}${optionRow(it)}${whyBox(it)}`;
+  }
+  else if(it.kind === "letter"){
+    inner = `<p class="cue" style="text-align:center">Which letter is this?</p>
+      <div class="ltrbig">${it.cue}</div>${optionRow(it)}${whyBox(it)}`;
+  }
+  else if(it.kind === "num"){
+    inner = `<p class="cuesub" style="text-align:center">Say it, then choose.</p>
+      <div class="calcline" style="margin-bottom:22px">${it.cue}</div>${optionRow(it)}${whyBox(it)}`;
+  }
+  else if(it.kind === "word"){
+    inner = `<p class="cuesub" style="text-align:center">Which number is this?</p>
+      <p class="cue" style="text-align:center">${it.cue}</p>${optionRow(it)}${whyBox(it)}`;
+  }
+  else if(it.kind === "order"){
+    const done = S.placed.length === it.words.length;
+    const correct = done && S.placed.join(" ") === it.words.join(" ");
+    inner = `
+      <p class="cue">${it.cue}</p>${it.sub?`<p class="cuesub">${it.sub}</p>`:""}
+      <div class="slot">
+        ${S.placed.map(w=>`<span class="placed">${w}</span>`).join("")}
+        ${!S.answered?`<span class="cursor"></span>`:""}
+      </div>
+      <div class="bank">
+        ${S.shuffled.map((w,i)=>`
+          <button class="word" data-word="${i}" ${S.usedWords.includes(i)||S.answered?"disabled":""}>
+            <span class="key">${i+1}</span>${w}</button>`).join("")}
+      </div>
+      ${S.answered ? `<div class="why"><span class="lbl">${correct?"right":"the phrase is"}</span>${it.words.join(" ")}</div>` : ""}`;
+  }
+  else if(it.kind === "spell"){
+    const L = it.word.split("");
+    inner = `
+      <p class="cue" style="text-align:center">${it.cue}</p>
+      <div class="bigreveal">${L.map((c,i)=>
+        `<span class="chunk ${i<S.revealed?"on":"pending"}">${i<S.revealed?c:"•"}</span>`).join("")}</div>
+      <p class="spoken">${S.revealed>=L.length? it.word : "&nbsp;"}</p>
+      ${S.revealed>=L.length?`<div class="why"><span class="lbl">why</span>${it.why}</div>
+        <div class="btnrow" style="justify-content:center"><button class="btn ghost" data-award="0">Point to A</button><button class="btn ghost" data-award="1">Point to B</button></div>`:""}`;
+  }
+  else if(it.kind === "dict"){
+    const pairs = it.digits.match(/.{1,2}/g);
+    inner = `
+      <p class="cue" style="text-align:center">${it.cue}</p>
+      <p class="cuesub" style="text-align:center">Read it twice, digit by digit. They write. Then reveal.</p>
+      <div class="bigreveal">${pairs.map((p,i)=>
+        `<span class="chunk ${i<S.revealed?"on":"pending"}">${i<S.revealed?p:"••"}</span>`).join("")}</div>
+      <p class="spoken">${S.revealed>=pairs.length? it.say : "&nbsp;"}</p>
+      ${S.revealed>=pairs.length?`<div class="why"><span class="lbl">why</span>${it.why}</div>
+        <div class="btnrow" style="justify-content:center"><button class="btn ghost" data-award="0">Point to A</button><button class="btn ghost" data-award="1">Point to B</button></div>`:""}`;
+  }
+  else if(it.kind === "calc"){
+    inner = `
+      <p class="cuesub" style="text-align:center">Answer in <strong>words</strong>.</p>
+      <div class="calcline">${it.cue} ${S.revealed?`<span style="color:var(--good)">${it.answer}</span>`:`<span style="color:var(--ink-faint)">?</span>`}</div>
+      ${S.revealed?`<p class="answerbig" style="margin-top:14px">${it.word}</p>
+        <div class="why"><span class="lbl">why</span>${it.why}</div>
+        <div class="btnrow" style="justify-content:center"><button class="btn ghost" data-award="0">Point to A</button><button class="btn ghost" data-award="1">Point to B</button></div>`:""}`;
+  }
+  return gameShell(inner);
+}
+
+function viewSheet(){
+  const m = mod(), s = m.sheet;
+  return `
+    <p class="eyebrow">Block ${S.m+1} · ${m.title} · On the paper</p>
+    <h2>${s.title}</h2>
+    <div class="sheet">
+      <ul class="dolist">
+        ${s.now.map(([yes,txt])=>`<li><span class="${yes?"tick":"cross"}">${yes?"✓":"✕"}</span><span>${txt}</span></li>`).join("")}
+      </ul>
+      ${s.note?`<div class="warn">
+        <h3>${s.note.title}</h3>
+        <ul>${s.note.items.map(x=>`<li>${x}</li>`).join("")}</ul>
+        ${s.note.foot?`<p style="margin:10px 0 0">${s.note.foot}</p>`:""}
+      </div>`:`<div></div>`}
+    </div>
+    <div class="btnrow">
+      ${S.m < MODULES.length-1 ? `<button class="btn" id="nextMod">Block ${S.m+2}: ${MODULES[S.m+1].title}</button>` : `<button class="btn" id="goEnd2">Final scoreboard</button>`}
+      <button class="btn ghost" id="backMenu">Menu</button>
+    </div>`;
+}
+
+function viewEnd(){
+  const w = S.scores[0] === S.scores[1] ? null : (S.scores[0] > S.scores[1] ? 0 : 1);
+  const rows = MODULES.map(m=>{
+    const r = S.results[m.id] || [];
+    const got = r.filter(x=>x===true).length, tot = m.game.items.length;
+    return `<div class="frow"><span>${m.title}</span>
+      <span class="sc" style="color:var(--ink-faint)">${S.done[m.id]?"played":"not played"}</span>
+      <span class="sc">${got}/${tot}</span></div>`;
+  }).join("");
+  return `
+    <p class="eyebrow">End of Week 2, Lesson 2</p>
+    <h1>${w===null ? "A draw." : TEAMS[w] + " wins."}</h1>
+    <p class="lede">${S.scores[0]} – ${S.scores[1]}. Next: their own birthday, spoken and written, as the first line of the Week 5 acrostic.</p>
+    <div class="finaltable">${rows}</div>
+    <div class="warn" style="max-width:70ch">
+      <h3>Before they copy anything</h3>
+      <p style="margin:0">The printed ordinal column on Numbers2024 has five misspellings and skips 8th. Cross it out before photocopying and let them copy from the Model beat of block 1 instead.</p>
+    </div>
+    <div class="btnrow">
+      <button class="btn" id="backMenu">Menu</button>
+      <button class="btn ghost" id="resetAll">Reset scores</button>
+    </div>`;
+}
+
+/* ============================= RENDER ============================= */
+
+function render(){
+  const st = $("stage");
+  if(S.view === "menu") st.innerHTML = viewMenu();
+  else if(S.view === "end") st.innerHTML = viewEnd();
+  else st.innerHTML = [viewConcept, viewModel, viewPractise, viewGame, viewSheet][S.b]();
+  renderChrome();
+  bind();
+  if(S.view === "beat" && S.b === 3 && !S.answered && TIMED.includes(item().kind)) startTimer();
+  else stopTimer();
+  snapshot();
+}
+
+function bind(){
+  const st = $("stage");
+  st.querySelectorAll("[data-m]").forEach(el=>{
+    el.onclick = () => { S.m = +el.dataset.m; S.b = 0; S.view = "beat"; enterBeat(); };
+  });
+  st.querySelectorAll("[data-opt]").forEach(el=>{ el.onclick = () => answer(+el.dataset.opt); });
+  st.querySelectorAll("[data-word]").forEach(el=>{ el.onclick = () => placeWord(+el.dataset.word); });
+  st.querySelectorAll("[data-award]").forEach(el=>{
+    el.onclick = () => { award(+el.dataset.award, 1); record(true); sGood(); next(); };
+  });
+  const on = (id, fn) => { const e = $(id); if(e) e.onclick = fn; };
+  on("goFirst", ()=>{ S.b = 0; S.view = "beat"; enterBeat(); });
+  on("goEnd", ()=>{ S.view = "end"; render(); });
+  on("goEnd2", ()=>{ S.view = "end"; render(); });
+  on("goHelp", ()=> toggleHelp(true));
+  on("backMenu", ()=>{ S.view = "menu"; render(); });
+  on("nextMod", ()=>{ S.m++; S.b = 0; enterBeat(); });
+  on("resetAll", ()=>{ S.scores = [0,0]; S.results = {}; S.done = {}; render(); });
+}
+
+/* ============================= FLOW ============================= */
+
+function shuffle(a){
+  const b = a.slice();
+  for(let i=b.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [b[i],b[j]] = [b[j],b[i]]; }
+  return b;
+}
+
+function enterBeat(){
+  S.view = "beat";
+  S.pracShown = 0;
+  if(S.b === 3){ S.i = 0; loadItem(); }
+  else { stopTimer(); render(); if(S.b === 1 && mod().model.phoneSay) say(mod().model.phoneSay, .7); }
+}
+
+function loadItem(){
+  S.answered = false; S.picked = -1; S.steal = false; S.revealed = 0;
+  S.placed = []; S.usedWords = [];
+  const it = item();
+  if(it.kind === "order"){
+    S.shuffled = shuffle(it.words);
+    if(S.shuffled.join(" ") === it.words.join(" ")) S.shuffled = shuffle(it.words);
+  }
+  render();
+  if(it.say) setTimeout(()=>say(it.say, it.kind === "letter" ? .7 : .8), 260);
+}
+
+function answer(i){
+  if(S.answered) return;
+  const it = item();
+  stopTimer();
+  S.picked = i;
+  if(i === it.ok){
+    S.answered = true; sGood(); flash("--good-bg");
+    award(S.turn, S.steal ? 1 : 2);
+    record(true);
+  }else{
+    sBad(); flash("--bad-bg");
+    if(!S.steal){
+      S.steal = true; S.turn = 1 - S.turn; S.picked = -1;
+      render(); return;
+    }
+    S.answered = true; record(false);
+  }
+  render();
+}
+
+function placeWord(i){
+  if(S.answered) return;
+  if(S.usedWords.includes(i)) return;
+  const it = item();
+  S.usedWords.push(i); S.placed.push(S.shuffled[i]);
+  sTick();
+  if(S.placed.length === it.words.length){
+    stopTimer();
+    S.answered = true;
+    const ok = S.placed.join(" ") === it.words.join(" ");
+    if(ok){ sGood(); flash("--good-bg"); award(S.turn, S.steal ? 1 : 2); record(true); say(it.words.join(" ")); }
+    else { sBad(); flash("--bad-bg"); record(false); }
+  }
+  render();
+}
+
+function unplace(){
+  if(S.answered || !S.placed.length) return;
+  S.placed.pop(); S.usedWords.pop(); render();
+}
+
+function next(){
+  const n = items().length;
+  if(S.i < n - 1){ S.i++; S.turn = 1 - S.turn; loadItem(); }
+  else { S.done[mod().id] = true; S.b = 4; enterBeat(); }
+}
+
+function spaceAction(){
+  if(S.view === "menu"){ S.b = 0; S.view = "beat"; enterBeat(); return; }
+  if(S.view === "end"){ S.view = "menu"; render(); return; }
+  if(S.b === 2){
+    if(S.pracShown < mod().practise.length){
+      S.pracShown++; sTick();
+      const p = mod().practise[S.pracShown-1];
+      if(mod().id === "alpha" || mod().id === "numbers") say(p[1].replace(/ —.*/,""));
+      render();
+    } else { S.b = 3; enterBeat(); }
+    return;
+  }
+  if(S.b === 3){
+    const it = item();
+    if(it.kind === "spell"){
+      const L = it.word.length;
+      if(S.revealed < L){
+        S.revealed++; sTick();
+        say(S.revealed <= L ? it.word[S.revealed-1] : "", .6);
+        if(S.revealed === L) setTimeout(()=>say(it.word, .75), 500);
+        render(); return;
+      }
+      next(); return;
+    }
+    if(it.kind === "dict"){
+      const P = it.digits.match(/.{1,2}/g).length;
+      if(S.revealed < P){ S.revealed++; sTick(); render(); return; }
+      next(); return;
+    }
+    if(it.kind === "calc"){
+      if(!S.revealed){ S.revealed = 1; sTick(); say(it.word, .8); render(); return; }
+      next(); return;
+    }
+    if(S.answered){ next(); return; }
+    return;
+  }
+  // concept / model / sheet
+  if(S.b < 4){ S.b++; enterBeat(); }
+  else if(S.m < MODULES.length - 1){ S.m++; S.b = 0; enterBeat(); }
+  else { S.view = "end"; render(); }
+}
+
+function toggleHelp(on){
+  const h = $("help");
+  h.classList.toggle("on", on === undefined ? !h.classList.contains("on") : on);
+}
+
+/* ============================= KEYS ============================= */
+
+document.addEventListener("keydown", e => {
+  const k = e.key;
+  if(k === "Escape"){
+    if($("help").classList.contains("on")){ toggleHelp(false); return; }
+    stopTimer(); S.view = "menu"; render(); return;
+  }
+  if(k === "h" || k === "H"){ e.preventDefault(); toggleHelp(); return; }
+  if($("help").classList.contains("on")) return;
+
+  if(k === " " || k === "Enter"){ e.preventDefault(); spaceAction(); return; }
+  if(k === "Backspace"){ e.preventDefault(); if(S.view==="beat" && S.b===3 && item().kind==="order") unplace(); return; }
+  if(k === "ArrowRight"){ e.preventDefault(); if(S.view==="beat" && S.b<4){ S.b++; enterBeat(); } return; }
+  if(k === "ArrowLeft"){ e.preventDefault(); if(S.view==="beat" && S.b>0){ S.b--; enterBeat(); } return; }
+  if(k === "r" || k === "R"){
+    e.preventDefault();
+    if(S.view==="beat" && S.b===3 && item().say) say(item().say, item().kind==="letter"?.7:.8);
+    else if(lastSaid) say(lastSaid, .8);
+    return;
+  }
+  if(k === "a" || k === "A"){ award(0,1); renderChrome(); sTick(); return; }
+  if(k === "b" || k === "B"){ award(1,1); renderChrome(); sTick(); return; }
+  if(k === "z" || k === "Z"){
+    if(S.lastAward){ S.scores[S.lastAward[0]] -= S.lastAward[1]; S.lastAward = null; renderChrome(); }
+    return;
+  }
+  if(k === "c" || k === "C"){ S.clock = !S.clock; render(); return; }
+  if(k === "m" || k === "M"){
+    S.sound = !S.sound;
+    if(!S.sound && window.speechSynthesis) speechSynthesis.cancel();
+    renderChrome(); return;
+  }
+  if(k === "d" || k === "D"){ cycleTheme(); return; }
+  if(k === "0"){ S.scores = [0,0]; renderChrome(); return; }
+
+  if(/^[1-9]$/.test(k)){
+    const n = +k - 1;
+    if(S.view === "menu"){ if(n < MODULES.length){ S.m = n; S.b = 0; S.view="beat"; enterBeat(); } return; }
+    if(S.view === "beat" && S.b === 3){
+      const it = item();
+      if(it.opts && n < it.opts.length){ answer(n); }
+      else if(it.kind === "order" && n < S.shuffled.length){ placeWord(n); }
+    }
+  }
+});
+
+/* ============================= TOOLS ============================= */
+
+function cycleTheme(){
+  const r = document.documentElement;
+  const cur = r.getAttribute("data-theme");
+  const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  if(!cur) r.setAttribute("data-theme", dark ? "light" : "dark");
+  else if(cur === "dark") r.setAttribute("data-theme","light");
+  else r.setAttribute("data-theme","dark");
+}
+$("tTheme").onclick = cycleTheme;
+$("tHelp").onclick = () => toggleHelp();
+$("helpClose").onclick = () => toggleHelp(false);
+$("tSound").onclick = () => {
+  S.sound = !S.sound;
+  if(!S.sound && window.speechSynthesis) speechSynthesis.cancel();
+  renderChrome();
+};
+$("tClock").onclick = () => { S.clock = !S.clock; render(); };
+
+/* ============================= BOOT ============================= */
+
+function snapshot(){
+  try{
+    window.claude?.hot?.snapshot({
+      m:S.m, b:S.b, i:S.i, scores:S.scores, turn:S.turn,
+      results:S.results, done:S.done, view:S.view, sound:S.sound, clock:S.clock
+    });
+  }catch(e){}
+}
+
+function start(data){
+  if(data && typeof data === "object" && data.scores){
+    Object.assign(S, data);
+    if(S.view === "beat" && S.b === 3) loadItem(); else render();
+  } else render();
+}
+
+try{
+  if(window.claude?.hot?.ready) window.claude.hot.ready(start);
+  else start(window.claude?.hot?.data ?? {});
+}catch(e){ render(); }
+
+})();
+</script>
+
+</body>
+</html>

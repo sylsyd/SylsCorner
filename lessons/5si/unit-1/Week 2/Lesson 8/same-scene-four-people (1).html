@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Same Scene, Four People</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+  :root{
+    --ground:#16151a;
+    --ground-2:#1d1c23;
+    --rule:#332f3d;
+    --paper:#efe9dd;
+    --paper-dim:#ddd5c6;
+    --ink:#211f28;
+    --ink-soft:#57515f;
+    --brass:#d9a44c;
+    --brass-dim:#8a6a2f;
+    --true:#57b394;
+    --false:#d4664a;
+    --chalk:#c9c3d4;
+    --muted:#8b8496;
+    --shadow:0 18px 40px -24px rgba(0,0,0,.9);
+    --step-0:clamp(15px,.55vw + 13px,18px);
+    --step-1:clamp(17px,.9vw + 13px,23px);
+    --step-2:clamp(26px,2vw + 16px,44px);
+    --step-3:clamp(38px,4.4vw + 14px,86px);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--ground);
+    color:var(--chalk);
+    font-family:"Source Serif 4",Georgia,serif;
+    font-size:var(--step-0);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:1440px;
+    margin:0 auto;
+    padding-inline:clamp(16px,2.6vw,40px);
+    padding-block:clamp(14px,2vw,26px) clamp(28px,4vw,56px);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    gap:clamp(14px,1.8vw,26px);
+  }
+  h1,h2,h3,.display{
+    font-family:"Bebas Neue","Haettenschweiler",Impact,sans-serif;
+    font-weight:400;
+    letter-spacing:.02em;
+    line-height:.95;
+    text-wrap:balance;
+    margin:0;
+  }
+  .mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,monospace}
+
+  /* ---------- top bar ---------- */
+  .bar{
+    display:flex;align-items:center;gap:clamp(10px,1.6vw,22px);
+    flex-wrap:wrap;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:12px;
+  }
+  .bar .brand{font-size:clamp(22px,1.7vw + 12px,34px);color:var(--paper)}
+  .bar .brand em{font-style:normal;color:var(--brass)}
+  .bar .spacer{flex:1 1 auto}
+  .tag{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:clamp(10px,.35vw + 9px,13px);
+    letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  }
+  .tally{
+    font-family:"IBM Plex Mono",monospace;
+    font-variant-numeric:tabular-nums;
+    font-size:clamp(12px,.5vw + 10px,16px);
+    color:var(--brass);letter-spacing:.08em;
+  }
+  .iconbtn{
+    font-family:"IBM Plex Mono",monospace;font-size:13px;letter-spacing:.08em;
+    background:transparent;color:var(--muted);border:1px solid var(--rule);
+    border-radius:2px;padding:6px 10px;cursor:pointer;
+  }
+  .iconbtn:hover{color:var(--paper);border-color:var(--brass-dim)}
+
+  /* ---------- slug line ---------- */
+  .slug{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:clamp(11px,.5vw + 9px,15px);
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--brass);
+    border-left:3px solid var(--brass-dim);
+    padding-left:14px;
+  }
+  .slug b{color:var(--paper);font-weight:500}
+
+  /* ---------- panels ---------- */
+  .panels{
+    display:grid;gap:clamp(10px,1.1vw,18px);
+    grid-template-columns:repeat(4,1fr);
+    flex:1 1 auto;
+    align-items:stretch;
+  }
+  .panel{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:1px;
+    box-shadow:var(--shadow);
+    display:flex;flex-direction:column;
+    border-top:5px solid var(--paper-dim);
+    overflow:hidden;
+  }
+  .panel .head{
+    display:flex;align-items:baseline;gap:10px;
+    padding:clamp(10px,1vw,16px) clamp(12px,1.1vw,18px) 4px;
+  }
+  .key{
+    font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:500;
+    background:var(--ink);color:var(--paper);
+    padding:3px 7px;border-radius:2px;letter-spacing:.06em;
+    flex:0 0 auto;
+  }
+  .panel h3{font-size:clamp(22px,1.3vw + 14px,34px);color:var(--ink)}
+  .lines{
+    padding:6px clamp(12px,1.1vw,18px) clamp(12px,1.1vw,18px);
+    font-size:var(--step-1);
+    line-height:1.42;
+    display:flex;flex-direction:column;gap:.45em;
+    flex:1 1 auto;
+  }
+  .lines span{transition:background-color .35s ease}
+  .lines span.proof{
+    background:rgba(217,164,76,.42);
+    box-shadow:inset 3px 0 0 var(--brass);
+    padding:3px 8px;margin-inline:-8px;
+  }
+  .slot{
+    margin:0 clamp(12px,1.1vw,18px) clamp(12px,1.1vw,18px);
+    min-height:46px;
+    border:1px dashed #b6ac99;
+    border-radius:2px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.1em;
+    text-transform:uppercase;color:#8d8474;
+    cursor:pointer;text-align:center;padding:6px 8px;
+  }
+  .slot:hover{border-color:var(--ink);color:var(--ink)}
+  .slot.filled{
+    border:1px solid var(--ink);background:var(--ink);color:var(--paper);
+    font-family:"Source Serif 4",serif;font-size:var(--step-0);
+    letter-spacing:0;text-transform:none;
+  }
+  .panel.armed .slot{border-color:var(--brass-dim);color:var(--ink);background:rgba(217,164,76,.18)}
+  .panel.ok{border-top-color:var(--true)}
+  .panel.no{border-top-color:var(--false)}
+  .panel.ok .slot.filled{background:#1f5546;border-color:#1f5546}
+  .panel.no .slot.filled{background:#7a3423;border-color:#7a3423}
+  .verdict{
+    margin:0 clamp(12px,1.1vw,18px) clamp(12px,1.1vw,18px);
+    font-size:clamp(14px,.5vw + 12px,17px);
+    color:var(--ink-soft);border-top:1px solid #d6cdbb;padding-top:10px;
+  }
+  .verdict .said{color:#8a3f2a;display:block;margin-bottom:6px}
+  .verdict .said.right{color:#1f5546}
+
+  /* ---------- trait rail ---------- */
+  .rail{
+    display:flex;flex-wrap:wrap;gap:clamp(8px,.8vw,14px);
+    border-top:1px solid var(--rule);padding-top:clamp(12px,1.4vw,20px);
+  }
+  .trait{
+    display:flex;align-items:center;gap:10px;
+    background:var(--ground-2);border:1px solid var(--rule);border-radius:2px;
+    color:var(--chalk);font-family:"Source Serif 4",serif;
+    font-size:clamp(15px,.6vw + 12px,20px);
+    padding:9px 14px 9px 9px;cursor:pointer;
+    transition:border-color .15s,transform .15s,background-color .15s;
+  }
+  .trait .num{
+    font-family:"IBM Plex Mono",monospace;font-size:12px;
+    background:var(--rule);color:var(--chalk);padding:3px 7px;border-radius:2px;
+  }
+  .trait:hover{border-color:var(--brass-dim)}
+  .trait.sel{background:var(--brass);color:var(--ink);border-color:var(--brass);transform:translateY(-2px)}
+  .trait.sel .num{background:rgba(0,0,0,.25);color:var(--ink)}
+  .trait.used{opacity:.32;pointer-events:none}
+
+  /* ---------- generic card screens ---------- */
+  .card{
+    background:var(--ground-2);border:1px solid var(--rule);
+    padding:clamp(20px,3vw,48px);
+    display:flex;flex-direction:column;gap:clamp(14px,1.6vw,24px);
+    flex:1 1 auto;
+  }
+  .card h2{font-size:var(--step-3);color:var(--paper)}
+  .card h2 em{font-style:normal;color:var(--brass)}
+  .lede{font-size:var(--step-1);max-width:62ch;color:var(--chalk)}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:clamp(12px,1.4vw,22px);margin:0;padding:0;list-style:none}
+  .steps li{border-top:2px solid var(--brass-dim);padding-top:12px;font-size:clamp(15px,.55vw + 12px,19px)}
+  .steps .n{display:block;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;color:var(--brass);margin-bottom:6px}
+
+  .opts{display:flex;flex-direction:column;gap:10px;max-width:100ch}
+  .opt{
+    text-align:left;background:var(--ground);border:1px solid var(--rule);
+    color:var(--chalk);font-family:"Source Serif 4",serif;font-size:var(--step-1);
+    padding:14px 18px;border-radius:2px;cursor:pointer;display:flex;gap:14px;align-items:flex-start;
+    line-height:1.38;
+  }
+  .opt .num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--brass);padding-top:.35em;flex:0 0 auto}
+  .opt:hover{border-color:var(--brass-dim)}
+  .opt.picked{border-color:var(--brass)}
+  .opt.good{border-color:var(--true);background:rgba(87,179,148,.1)}
+  .opt.part{border-color:var(--brass);background:rgba(217,164,76,.1)}
+  .opt.bad{border-color:var(--false);background:rgba(212,102,74,.08)}
+  .opt.dim{opacity:.45}
+  .opt .note{display:block;margin-top:8px;font-size:clamp(14px,.45vw + 12px,16px);color:var(--muted)}
+  .opt.good .note{color:var(--true)}
+  .opt.bad .note{color:var(--false)}
+  .opt.part .note{color:var(--brass)}
+
+  .readback{
+    background:var(--paper);color:var(--ink);padding:clamp(16px,2vw,28px);
+    font-size:clamp(19px,1.3vw + 13px,32px);line-height:1.32;max-width:34ch;
+    box-shadow:var(--shadow);
+  }
+  .readback b{color:#1f5546}
+  .readback i{font-style:italic;background:linear-gradient(transparent 60%,rgba(217,164,76,.55) 60%)}
+  .readback .cap{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px}
+
+  .foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .go{
+    font-family:"Bebas Neue",Impact,sans-serif;font-size:clamp(20px,1vw + 15px,28px);
+    letter-spacing:.04em;background:var(--brass);color:var(--ink);border:0;
+    padding:10px 26px;border-radius:2px;cursor:pointer;
+  }
+  .go:disabled{background:var(--rule);color:var(--muted);cursor:not-allowed}
+  .go:hover:not(:disabled){background:var(--paper)}
+  .hint{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;color:var(--muted)}
+
+  .qs{margin:0;padding:0;list-style:none;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .qs li{border-left:2px solid var(--brass-dim);padding-left:14px;font-size:clamp(15px,.55vw + 12px,19px)}
+  .qs .n{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;color:var(--brass);display:block;margin-bottom:6px}
+
+  .score{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .score .big{font-family:"Bebas Neue",Impact,sans-serif;font-size:clamp(56px,8vw,120px);color:var(--brass);line-height:.8;font-variant-numeric:tabular-nums}
+
+  dialog{
+    background:var(--ground-2);color:var(--chalk);border:1px solid var(--brass-dim);
+    max-width:64ch;padding:clamp(20px,3vw,36px);font-size:var(--step-0);line-height:1.5;
+  }
+  dialog::backdrop{background:rgba(10,9,13,.82)}
+  dialog h3{font-size:clamp(28px,2vw + 16px,42px);color:var(--paper);margin-bottom:14px}
+  dialog h4{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin:20px 0 6px}
+  dialog p{margin:0 0 10px;max-width:60ch}
+  dialog ul{margin:0;padding-left:18px}
+  dialog li{margin-bottom:6px}
+
+  :focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+
+  @media (max-width:1050px){
+    .panels{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:560px){
+    .panels{grid-template-columns:1fr}
+    .bar .brand{font-size:26px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <div class="brand display">Same Scene, <em>Four People</em></div>
+    <span class="tag" id="stage">Starter</span>
+    <span class="spacer"></span>
+    <span class="tally" id="tally">EVIDENCE 0/18</span>
+    <button class="iconbtn" id="helpBtn" type="button">H · HOW TO RUN IT</button>
+    <button class="iconbtn" id="sndBtn" type="button">M · SOUND ON</button>
+    <button class="iconbtn" id="rstBtn" type="button">R · RESTART</button>
+  </div>
+  <div id="app"></div>
+</div>
+
+<dialog id="help">
+  <h3>How to run it</h3>
+  <p>A ten to fifteen minute starter for the whole class, on the board. You drive; they argue.</p>
+  <h4>The rule of the game</h4>
+  <p>Nobody in these scenes is described. You are never told that someone is nervous or dishonest or kind. You only get what a camera in the corner would catch. Personality is the thing you work out from what people <em>do</em>.</p>
+  <h4>Running a scene</h4>
+  <ul>
+    <li>Read the four panels aloud, or have four students read one each.</li>
+    <li>Take votes on the trait cards before you assign anything. Make someone justify it with a line.</li>
+    <li>Two of the six trait cards fit nobody. They are the ones students want most.</li>
+    <li>Reveal, then read the verdict lines out. The disagreements are the lesson.</li>
+  </ul>
+  <h4>Keys</h4>
+  <ul>
+    <li><b>1&ndash;6</b> pick a trait card, then <b>A&ndash;D</b> to place it on a person</li>
+    <li><b>Enter</b> reveal / next &middot; <b>H</b> this sheet &middot; <b>M</b> sound &middot; <b>R</b> restart</li>
+    <li>Everything also works by clicking. Click a filled slot to take the card back.</li>
+  </ul>
+  <h4>After the game</h4>
+  <p>The sentence frame on the reveal screens is the writing task: <em>[Name] is [trait]. We know because [action].</em> Ask for four of them about someone in the class novel, with no feeling words allowed.</p>
+  <h4>Copyright</h4>
+  <p>All scenes, characters and prose are original, written for this tool.</p>
+  <div class="foot"><button class="go" id="helpClose" type="button">Close</button></div>
+</dialog>
+
+<script>
+(function(){
+  "use strict";
+
+  var MAX = 18;
+
+  var SCENES = [
+    {
+      slug: 'Scene one &middot; <b>The lift stops between floors four and five. 07:42. Four people inside.</b>',
+      tag: 'Scene 1 of 3',
+      title: 'The lift',
+      sub: 'It stops between floors four and five at 07:42. Four people are inside and none of them chose the company.',
+      people: [
+        { key:'A', name:'Mira', trait:'anxious', proof:1, lines:[
+            'Mira presses the alarm button once, then steps back against the wall.',
+            'She counts the panel lights under her breath, one to twelve, and then counts them again.',
+            'When Jonah speaks to her the answer comes a beat late and louder than she meant it.',
+            'She keeps her bag on both shoulders the whole time.'
+          ],
+          why:'One press of the alarm is sensible. Counting the lights twice is not. The second count is the evidence.' },
+        { key:'B', name:'Jonah', trait:'jokes', proof:2, lines:[
+            'Jonah says the lift has made a series of poor life choices.',
+            'Nobody laughs, so he says it is doing this on purpose, and then that it has always hated him.',
+            'Between jokes he pulls his bag strap tighter, then looser, then tighter.',
+            'He does not press anything.'
+          ],
+          why:'Three jokes and nobody laughing is a person who cannot stop. The strap is the tell his mouth is covering.' },
+        { key:'C', name:'Elsie', trait:'audience', proof:3, lines:[
+            'Elsie films the ceiling panel and tells the camera that this is content.',
+            'She sits down on the floor, which nobody else has done, and types a message to eleven people.',
+            'Every few seconds she checks whether anyone has replied.',
+            'She asks Rafi to move slightly left, because he is spoiling the shot.'
+          ],
+          why:'She sits on the floor because it frames better, and asks Rafi to move for the shot while he is trying to get them out.' },
+        { key:'D', name:'Rafi', trait:'alone', proof:2, lines:[
+            'Rafi puts his fingers in the gap between the doors and pulls until they open six inches.',
+            'He looks at the gap, lets the doors close, and braces his shoulder to try again.',
+            'He does not tell anyone what he is doing, and he does not ask for help.',
+            'When the lift jolts he puts an arm across the doorway in front of Elsie without looking at her.'
+          ],
+          why:'He never asks and never announces. The arm across the doorway is the part that stops him being simply selfish.' }
+      ],
+      traits: [
+        { id:'anxious',  label:'Anxious',                      note:'Anxious shows as repeated useless actions: counting, checking, gripping.' },
+        { id:'confident',label:'Confident',      decoy:true,   note:'Confident would be an action done without checking how it lands. Everyone here checks something.' },
+        { id:'jokes',    label:'Hides discomfort behind jokes', note:'This one shows as a joke plus a body that has not relaxed.' },
+        { id:'audience', label:'Needs an audience',            note:'This one shows as one eye always on who is watching.' },
+        { id:'unfriendly',label:'Unfriendly',    decoy:true,   note:'Unfriendly is a verdict, not an observation. A late answer can be rudeness or nerves; the rest of the panel decides which.' },
+        { id:'alone',    label:'Solves it alone',              note:'This one shows as doing rather than asking.' }
+      ],
+      evidence: {
+        who:'Jonah',
+        prompt:'You have decided Jonah hides discomfort behind jokes. Now prove it. Which single line is the evidence?',
+        options:[
+          { text:'&ldquo;Jonah says the lift has made a series of poor life choices.&rdquo;', score:1, verdict:'part',
+            note:'Half of it. That proves he makes jokes. It does not prove there is anything underneath them.' },
+          { text:'&ldquo;He is nervous but does not want anyone to know.&rdquo;', score:0, verdict:'bad',
+            note:'That is a tell, and it is not even in the scene. Nobody in that lift could see this. Find the thing a camera would catch.' },
+          { text:'&ldquo;Between jokes he pulls his bag strap tighter, then looser, then tighter.&rdquo;', score:3, verdict:'good',
+            note:'Yes. The joke is the cover; the strap is the thing the cover is hiding. Evidence is usually the small repeated action, not the loud one.' },
+          { text:'&ldquo;He does not press anything.&rdquo;', score:0, verdict:'bad',
+            note:'True, but it proves nothing on its own. Three of the four never press anything.' }
+        ],
+        readback:'<b>Jonah hides discomfort behind jokes.</b> We know because <i>between jokes he pulls his bag strap tighter, then looser, then tighter.</i>'
+      }
+    },
+    {
+      slug: 'Scene two &middot; <b>A wallet lies on the pavement outside the newsagent. Four people pass it in four minutes.</b>',
+      tag: 'Scene 2 of 3',
+      title: 'The wallet',
+      sub: 'It is lying face up on the pavement outside the newsagent. Four people pass it in the next four minutes, in this order.',
+      people: [
+        { key:'A', name:'Dara', trait:'slow', proof:1, lines:[
+            'Dara steps over the wallet and keeps walking.',
+            'Eight paces later she stops.',
+            'She comes back, picks it up, and holds it away from her body as though it is still warm.',
+            'She turns a slow circle with it held out, offering it to nobody in particular, then sets it down and goes.'
+          ],
+          why:'Eight paces is the distance her conscience takes to catch up with her feet. She comes back; she does not finish.' },
+        { key:'B', name:'Kit', trait:'nerve', proof:2, lines:[
+            'Kit looks up the street, then down it, then crouches.',
+            'He opens the wallet and goes through the cards one at a time.',
+            'He puts it back on the pavement, face down, exactly where it was.',
+            'Then he stands, checks his own pocket twice, and walks off fast.'
+          ],
+          why:'He checks the street before he crouches. Face down, exactly where it was, is a person undoing what he nearly did.' },
+        { key:'C', name:'Mr Vance', trait:'accuse', proof:2, lines:[
+            'Mr Vance walks past the wallet twice without seeing it.',
+            'He sees Kit crouching over it and asks, loudly, whether that belongs to him.',
+            'He asks a second time before Kit has answered the first.',
+            'He does not pick the wallet up.'
+          ],
+          why:'He says it twice before Kit can answer. The second time is the evidence. Then he leaves it where it is.' },
+        { key:'D', name:'Ines', trait:'procedure', proof:2, lines:[
+            'Ines photographs the wallet where it lies, before she touches it.',
+            'She carries it into the shop, holds it up, and asks for the manager by name.',
+            'She waits at the counter until somebody writes down the time.',
+            'She asks for the piece of paper to be read back to her.'
+          ],
+          why:'Photograph, manager, written time, read it back. Four steps, in order, every one of them a witness.' }
+      ],
+      traits: [
+        { id:'honest',    label:'Honest',            decoy:true, note:'Honest is a verdict, not an observation. Three of these four could be called honest and they behave nothing alike.' },
+        { id:'slow',      label:'Does the right thing slowly', note:'This one shows as leaving, and then coming back.' },
+        { id:'procedure', label:'Trusts procedure',              note:'This one shows as steps, in order, with a witness for each.' },
+        { id:'nerve',     label:'Tempted, then loses nerve',     note:'This one shows as reaching, and then undoing.' },
+        { id:'helpful',   label:'Helpful',           decoy:true, note:'Helpful is a verdict too. Ask what the person actually does with their hands.' },
+        { id:'accuse',    label:'Quick to accuse',               note:'This one shows as speaking before checking.' }
+      ],
+      evidence: {
+        who:'Kit',
+        prompt:'You have decided Kit was tempted and lost his nerve. Now prove it. Which single line is the evidence?',
+        options:[
+          { text:'&ldquo;Kit looks up the street, then down it, then crouches.&rdquo;', score:1, verdict:'part',
+            note:'Strong. That is him checking for witnesses, so it proves the temptation. It does not yet prove he lost his nerve.' },
+          { text:'&ldquo;He opens the wallet and goes through the cards one at a time.&rdquo;', score:1, verdict:'part',
+            note:'Also the temptation, and slower than it needs to be. But a person who took the money would do this too.' },
+          { text:'&ldquo;Kit is a good person really.&rdquo;', score:0, verdict:'bad',
+            note:'A verdict, and a generous one. Not a single thing in the scene. Delete it.' },
+          { text:'&ldquo;He puts it back on the pavement, face down, exactly where it was.&rdquo;', score:3, verdict:'good',
+            note:'Yes. <em>Face down</em> and <em>exactly where it was</em> are a person trying to undo a minute of his life. That is the nerve going.' }
+        ],
+        readback:'<b>Kit is tempted, then loses his nerve.</b> We know because <i>he puts the wallet back on the pavement, face down, exactly where it was.</i>'
+      }
+    },
+    {
+      slug: 'Scene three &middot; <b>Sports day. The relay. The same four people, six weeks later.</b>',
+      tag: 'Scene 3 of 3',
+      title: 'The relay',
+      sub: 'Sports day, six weeks later. The same four people, and this time they are a team.',
+      noMatch:true,
+      people: [
+        { key:'A', name:'Mira', lines:[
+            'Mira says she will run first.',
+            'She says it before anyone asks, and she says it once, clearly.',
+            'Then she stands on the line and does not look at the crowd.'
+          ] },
+        { key:'B', name:'Jonah', lines:[
+            'Jonah does not make a single joke.',
+            'He ties his laces, unties them, and ties them again.',
+            'When Rafi speaks to him he nods without answering.'
+          ] },
+        { key:'C', name:'Elsie', lines:[
+            'Elsie leaves her phone in her bag.',
+            'She watches the other team&rsquo;s changeover four times.',
+            'She counts something on her fingers and does not tell anyone the number.'
+          ] },
+        { key:'D', name:'Rafi', lines:[
+            'Rafi tells the other three the running order he has decided.',
+            'He does not ask whether they agree.',
+            'He puts himself last.'
+          ] }
+      ],
+      d1: {
+        prompt:'In the lift, Mira counted the panel lights twice. Here she volunteers to run first. Which of these is the useful reading?',
+        options:[
+          { text:'She was never anxious. The lift was a one-off.', score:0, verdict:'bad',
+            note:'Careful. One scene does not prove a personality, but one contradiction does not cancel one either. Both are evidence and both stay on the table.' },
+          { text:'She has changed since the lift.', score:0, verdict:'bad',
+            note:'Six weeks and nothing shown to cause it. Writers earn a change; they do not announce one between scenes.' },
+          { text:'Anxious people can still be brave. The two are not opposites.', score:2, verdict:'good',
+            note:'Yes. Nerves and courage live in the same person, which is exactly why volunteering costs her something and is worth writing down.' },
+          { text:'The writer has made a mistake.', score:0, verdict:'bad',
+            note:'The first thing readers assume when a character surprises them, and almost always wrong. Ask what changed in the situation before you blame the writer.' }
+        ]
+      },
+      d2: {
+        prompt:'Two of these four are behaving exactly as they did in the lift. One is behaving in the same way for a completely new reason. Who?',
+        options:[
+          { text:'Mira &mdash; she is the one who has changed.', score:0, verdict:'bad',
+            note:'She is the one who surprises us, but we have just dealt with her. Look for someone doing a familiar thing for an unfamiliar reason.' },
+          { text:'Jonah &mdash; the silence is new.', score:0, verdict:'bad',
+            note:'The silence is new; the fidgeting is not. Laces instead of a bag strap. Same person, same tell, joke removed.' },
+          { text:'Elsie &mdash; the phone stays in the bag.', score:2, verdict:'good',
+            note:'Yes. In the lift she watched for an audience; here she is watching the opposition and keeping the count to herself. Same sharp attention, pointed somewhere new. That is what a character developing actually looks like.' },
+          { text:'Rafi &mdash; he is telling people what to do.', score:0, verdict:'bad',
+            note:'He decided alone in the lift and he decides alone here. He has simply been given a team. Putting himself last is the same arm across the doorway.' }
+        ]
+      }
+    }
+  ];
+
+  /* ---------------- state ---------------- */
+  var S = { i:0, phase:'title', assign:{}, sel:null, revealed:false, ev:null, d1:null, d2:null, score:0, sound:true, traits:null };
+
+  /* trait cards are dealt in a new order every run, so the answer is never a key sequence */
+  function shuffleTraits(order){
+    var sc = SCENES[S.i];
+    if(!sc || !sc.traits){ S.traits = null; return; }
+    if(order && order.length === sc.traits.length){
+      var byId = [], ok = true;
+      for(var a=0;a<order.length;a++){
+        var t = traitById(sc, order[a]);
+        if(!t){ ok = false; break; }
+        byId.push(t);
+      }
+      if(ok){ S.traits = byId; return; }
+    }
+    var deck = sc.traits.slice();
+    for(var i = deck.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = deck[i]; deck[i] = deck[j]; deck[j] = tmp;
+    }
+    S.traits = deck;
+  }
+
+  var app = document.getElementById('app');
+  var tally = document.getElementById('tally');
+  var stage = document.getElementById('stage');
+
+  /* ---------------- audio ---------------- */
+  var ac = null;
+  function tone(f, dur, type, vol){
+    if(!S.sound) return;
+    try{
+      if(!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
+      if(ac.state === 'suspended') ac.resume();
+      var o = ac.createOscillator(), g = ac.createGain();
+      o.type = type || 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, ac.currentTime);
+      g.gain.exponentialRampToValueAtTime(vol || 0.06, ac.currentTime + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + (dur || 0.12));
+      o.connect(g); g.connect(ac.destination);
+      o.start(); o.stop(ac.currentTime + (dur || 0.12) + 0.02);
+    }catch(e){}
+  }
+  var sfx = {
+    pick:  function(){ tone(520, .07, 'triangle', .05); },
+    place: function(){ tone(320, .1, 'sine', .06); },
+    good:  function(){ tone(523, .1, 'sine', .07); setTimeout(function(){ tone(784, .16, 'sine', .06); }, 90); },
+    bad:   function(){ tone(180, .2, 'sawtooth', .04); },
+    turn:  function(){ tone(240, .16, 'triangle', .05); }
+  };
+
+  /* ---------------- helpers ---------------- */
+  function esc(s){ return s; }
+  function scene(){ return SCENES[S.i]; }
+  function traitById(sc, id){
+    for(var i=0;i<sc.traits.length;i++){ if(sc.traits[i].id === id) return sc.traits[i]; }
+    return null;
+  }
+  function setTally(){ tally.textContent = 'EVIDENCE ' + S.score + '/' + MAX; }
+  function award(n){ S.score += n; setTally(); }
+
+  /* ---------------- render ---------------- */
+  function render(){
+    setTally();
+    if(S.phase === 'title')  return renderTitle();
+    if(S.phase === 'brief')  return renderBrief();
+    if(S.phase === 'match')  return renderMatch();
+    if(S.phase === 'show')   return renderShow();
+    if(S.phase === 'evidence') return renderEvidence();
+    if(S.phase === 'd1')     return renderDiscuss('d1');
+    if(S.phase === 'd2')     return renderDiscuss('d2');
+    if(S.phase === 'end')    return renderEnd();
+  }
+
+  function renderTitle(){
+    stage.textContent = 'Starter · 10–15 min';
+    app.innerHTML =
+      '<div class="card">' +
+        '<div class="tag">Reading character &middot; Year 7 and 8 &middot; whole class</div>' +
+        '<h2>Nobody here is <em>described</em>.</h2>' +
+        '<p class="lede">Three situations. Four people in each. You are never told what any of them are like, only what a camera in the corner of the room would have caught. Everything else, you work out.</p>' +
+        '<ul class="steps">' +
+          '<li><span class="n">First</span>Read the four panels. Nothing in them is a feeling word.</li>' +
+          '<li><span class="n">Then</span>Place a trait card on each person. Two of the six cards fit nobody.</li>' +
+          '<li><span class="n">Last</span>Prove one of them with a single line from the scene. Verdicts score nothing.</li>' +
+        '</ul>' +
+        '<div class="foot"><button class="go" data-go="1" type="button">Open scene one</button>' +
+        '<span class="hint">ENTER to begin &middot; H for the teacher sheet</span></div>' +
+      '</div>';
+  }
+
+  function renderBrief(){
+    var sc = scene();
+    stage.textContent = sc.tag;
+    app.innerHTML =
+      '<div class="card">' +
+        '<div class="tag">' + sc.tag + '</div>' +
+        '<h2>' + sc.title + '</h2>' +
+        '<p class="lede" style="font-size:var(--step-2);line-height:1.2;font-family:\'Source Serif 4\',serif;color:var(--paper)">' + sc.sub + '</p>' +
+        '<p class="lede">' + (sc.noMatch
+          ? 'Same four people as scene one. Read all four before anyone says anything.'
+          : 'Four panels. Four people. Read them all before you touch a trait card.') + '</p>' +
+        '<div class="foot"><button class="go" data-go="1" type="button">Show the scene</button>' +
+        '<span class="hint">ENTER</span></div>' +
+      '</div>';
+  }
+
+  function panelHTML(sc, p, revealed){
+    var assigned = S.assign[p.key];
+    var correct = revealed && assigned === p.trait;
+    var cls = 'panel' + (revealed ? (correct ? ' ok' : ' no') : (S.sel && !assigned ? ' armed' : ''));
+    var lines = '';
+    for(var i=0;i<p.lines.length;i++){
+      lines += '<span class="' + (revealed && i === p.proof ? 'proof' : '') + '">' + p.lines[i] + '</span>';
+    }
+    var slot = '';
+    if(!sc.noMatch){
+      if(revealed){
+        var t = traitById(sc, p.trait);
+        slot = '<div class="slot filled">' + t.label + '</div>';
+      } else if(assigned){
+        slot = '<div class="slot filled" data-clear="' + p.key + '">' + traitById(sc, assigned).label + '</div>';
+      } else {
+        slot = '<div class="slot" data-drop="' + p.key + '">Place a trait &middot; key ' + p.key + '</div>';
+      }
+    }
+    var verdict = '';
+    if(revealed){
+      var said = '';
+      if(assigned === p.trait){
+        said = '<span class="said right">Correct.</span>';
+      } else {
+        var bad = traitById(sc, assigned);
+        said = '<span class="said">You said &ldquo;' + bad.label + '&rdquo;. ' + bad.note + '</span>';
+      }
+      verdict = '<div class="verdict">' + said + p.why + '</div>';
+    }
+    return '<div class="' + cls + '" data-person="' + p.key + '">' +
+      '<div class="head"><span class="key">' + p.key + '</span><h3>' + p.name + '</h3></div>' +
+      '<div class="lines">' + lines + '</div>' + slot + verdict + '</div>';
+  }
+
+  function railHTML(sc){
+    if(!S.traits) shuffleTraits();
+    var out = '<div class="rail">';
+    for(var i=0;i<S.traits.length;i++){
+      var t = S.traits[i];
+      var used = false;
+      for(var k in S.assign){ if(S.assign[k] === t.id) used = true; }
+      out += '<button type="button" class="trait' + (S.sel === t.id ? ' sel' : '') + (used ? ' used' : '') +
+             '" data-trait="' + t.id + '"><span class="num">' + (i+1) + '</span>' + t.label + '</button>';
+    }
+    return out + '</div>';
+  }
+
+  function renderMatch(){
+    var sc = scene();
+    stage.textContent = sc.tag;
+    var n = 0; for(var k in S.assign) n++;
+    var all = n === 4;
+    var panels = '';
+    for(var i=0;i<sc.people.length;i++) panels += panelHTML(sc, sc.people[i], S.revealed);
+    var foot;
+    if(S.revealed){
+      foot = '<div class="foot"><button class="go" data-go="1" type="button">' +
+             (sc.evidence ? 'Now prove one' : 'Next') + '</button><span class="hint">ENTER</span></div>';
+    } else {
+      foot = railHTML(sc) +
+        '<div class="foot"><button class="go" data-go="1" type="button"' + (all ? '' : ' disabled') + '>Reveal</button>' +
+        '<span class="hint">' + (S.sel ? 'Now press A, B, C or D' : 'Press 1&ndash;6 to pick a trait, then A&ndash;D to place it') + '</span></div>';
+    }
+    app.innerHTML = '<div class="slug">' + sc.slug + '</div><div class="panels">' + panels + '</div>' + foot;
+  }
+
+  function renderShow(){
+    var sc = scene();
+    stage.textContent = sc.tag;
+    var panels = '';
+    for(var i=0;i<sc.people.length;i++) panels += panelHTML(sc, sc.people[i], false);
+    app.innerHTML = '<div class="slug">' + sc.slug + '</div><div class="panels">' + panels + '</div>' +
+      '<div class="foot"><button class="go" data-go="1" type="button">Compare with scene one</button>' +
+      '<span class="hint">ENTER &middot; no cards this time, just the argument</span></div>';
+  }
+
+  function optsHTML(options, picked){
+    var out = '<div class="opts">';
+    for(var i=0;i<options.length;i++){
+      var o = options[i], cls = 'opt';
+      if(picked !== null && picked !== undefined){
+        if(i === picked) cls += ' ' + o.verdict;
+        else if(o.verdict === 'good') cls += ' good dim';
+        else cls += ' dim';
+      }
+      out += '<button type="button" class="' + cls + '" data-opt="' + i + '"' + (picked !== null && picked !== undefined ? ' disabled' : '') + '>' +
+        '<span class="num">' + (i+1) + '</span><span>' + o.text +
+        (picked !== null && picked !== undefined ? '<span class="note">' + o.note + '</span>' : '') +
+        '</span></button>';
+    }
+    return out + '</div>';
+  }
+
+  function renderEvidence(){
+    var sc = scene(), e = sc.evidence;
+    stage.textContent = sc.tag + ' · evidence';
+    var done = S.ev !== null && S.ev !== undefined;
+    app.innerHTML =
+      '<div class="card">' +
+        '<div class="tag">Prove it &middot; ' + e.who + '</div>' +
+        '<h2>' + e.prompt + '</h2>' +
+        optsHTML(e.options, S.ev) +
+        (done ? '<div class="readback"><span class="cap">The sentence you are aiming for</span>' + e.readback + '</div>' : '') +
+        '<div class="foot">' + (done
+          ? '<button class="go" data-go="1" type="button">Next scene</button><span class="hint">ENTER</span>'
+          : '<span class="hint">Press 1&ndash;4, or click</span>') +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderDiscuss(which){
+    var sc = scene(), d = sc[which];
+    stage.textContent = sc.tag + (which === 'd1' ? ' · against type' : ' · the quiet one');
+    var picked = S[which];
+    var done = picked !== null && picked !== undefined;
+    app.innerHTML =
+      '<div class="card">' +
+        '<div class="tag">' + (which === 'd1' ? 'Talk it out' : 'One more') + '</div>' +
+        '<h2>' + d.prompt + '</h2>' +
+        optsHTML(d.options, picked) +
+        '<div class="foot">' + (done
+          ? '<button class="go" data-go="1" type="button">' + (which === 'd1' ? 'Keep going' : 'Finish') + '</button><span class="hint">ENTER</span>'
+          : '<span class="hint">Press 1&ndash;4, or click</span>') +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderEnd(){
+    stage.textContent = 'Done';
+    app.innerHTML =
+      '<div class="card">' +
+        '<div class="tag">Eight people, none of them described</div>' +
+        '<div class="score"><span class="big">' + S.score + '</span><h2>out of ' + MAX + ' pieces of evidence</h2></div>' +
+        '<div class="readback"><span class="cap">The frame</span><b>[Name] is [trait].</b> We know because <i>[the thing they do].</i></div>' +
+        '<ul class="qs">' +
+          '<li><span class="n">01</span>Which of the eight was the class most split on? What made that person hard to read?</li>' +
+          '<li><span class="n">02</span>&ldquo;Confident&rdquo;, &ldquo;unfriendly&rdquo;, &ldquo;honest&rdquo;, &ldquo;helpful&rdquo;. Four cards that fitted nobody. Why are verdict words such weak evidence?</li>' +
+          '<li><span class="n">03</span>Kit puts the wallet back <em>face down</em>. Why is that one word worth more than a paragraph about how he felt?</li>' +
+        '</ul>' +
+        '<p class="lede"><b>Now write.</b> Four sentences that show a person is impatient. No feeling words, no adjectives about the person, nothing a camera could not catch. Then swap and see whether your partner can name the trait.</p>' +
+        '<div class="foot"><button class="go" data-go="restart" type="button">Run it again</button>' +
+        '<span class="hint">R</span></div>' +
+      '</div>';
+  }
+
+  /* ---------------- actions ---------------- */
+  function pickTrait(id){
+    var sc = scene();
+    if(sc.noMatch || S.revealed) return;
+    for(var k in S.assign){ if(S.assign[k] === id) return; }
+    S.sel = (S.sel === id) ? null : id;
+    sfx.pick(); render();
+  }
+
+  function placeOn(key){
+    var sc = scene();
+    if(sc.noMatch || S.revealed || !S.sel) return;
+    var found = false;
+    for(var i=0;i<sc.people.length;i++){ if(sc.people[i].key === key) found = true; }
+    if(!found) return;
+    var prev = S.assign[key];
+    S.assign[key] = S.sel;
+    S.sel = null;
+    sfx.place();
+    if(prev){ /* the replaced card returns to the rail automatically */ }
+    render();
+  }
+
+  function clearSlot(key){
+    if(S.revealed) return;
+    delete S.assign[key];
+    sfx.turn(); render();
+  }
+
+  function reveal(){
+    var sc = scene(), got = 0;
+    for(var i=0;i<sc.people.length;i++){
+      if(S.assign[sc.people[i].key] === sc.people[i].trait) got++;
+    }
+    award(got);
+    S.revealed = true; S.sel = null;
+    if(got >= 3) sfx.good(); else sfx.turn();
+    render();
+  }
+
+  function choose(idx){
+    var sc = scene();
+    if(S.phase === 'evidence'){
+      if(S.ev !== null && S.ev !== undefined) return;
+      var o = sc.evidence.options[idx]; if(!o) return;
+      S.ev = idx; award(o.score);
+      if(o.score === 3) sfx.good(); else if(o.score) sfx.turn(); else sfx.bad();
+      render(); return;
+    }
+    if(S.phase === 'd1' || S.phase === 'd2'){
+      if(S[S.phase] !== null && S[S.phase] !== undefined) return;
+      var d = sc[S.phase].options[idx]; if(!d) return;
+      S[S.phase] = idx; award(d.score);
+      if(d.score) sfx.good(); else sfx.bad();
+      render();
+    }
+  }
+
+  function nextScene(){
+    S.i++;
+    S.assign = {}; S.sel = null; S.revealed = false; S.ev = null; S.d1 = null; S.d2 = null; S.traits = null;
+    if(S.i >= SCENES.length){ S.phase = 'end'; sfx.good(); }
+    else S.phase = 'brief';
+    render();
+  }
+
+  function advance(){
+    var sc = SCENES[S.i];
+    if(S.phase === 'title'){ S.phase = 'brief'; sfx.turn(); return render(); }
+    if(S.phase === 'brief'){
+      S.phase = sc.noMatch ? 'show' : 'match';
+      if(!sc.noMatch) shuffleTraits();
+      sfx.turn(); return render();
+    }
+    if(S.phase === 'show'){ S.phase = 'd1'; sfx.turn(); return render(); }
+    if(S.phase === 'match'){
+      if(!S.revealed){
+        var n = 0; for(var k in S.assign) n++;
+        if(n === 4) reveal();
+        return;
+      }
+      if(sc.evidence){ S.phase = 'evidence'; sfx.turn(); return render(); }
+      return nextScene();
+    }
+    if(S.phase === 'evidence'){
+      if(S.ev === null || S.ev === undefined) return;
+      return nextScene();
+    }
+    if(S.phase === 'd1'){
+      if(S.d1 === null || S.d1 === undefined) return;
+      S.phase = 'd2'; sfx.turn(); return render();
+    }
+    if(S.phase === 'd2'){
+      if(S.d2 === null || S.d2 === undefined) return;
+      return nextScene();
+    }
+    if(S.phase === 'end'){ return restart(); }
+  }
+
+  function restart(){
+    S.i = 0; S.phase = 'title'; S.assign = {}; S.sel = null;
+    S.revealed = false; S.ev = null; S.d1 = null; S.d2 = null; S.score = 0; S.traits = null;
+    sfx.turn(); render();
+  }
+
+  /* ---------------- wiring ---------------- */
+  app.addEventListener('click', function(e){
+    var t = e.target.closest('[data-go],[data-trait],[data-drop],[data-clear],[data-opt],[data-person]');
+    if(!t) return;
+    if(t.hasAttribute('data-go')){
+      if(t.getAttribute('data-go') === 'restart') return restart();
+      return advance();
+    }
+    if(t.hasAttribute('data-trait')) return pickTrait(t.getAttribute('data-trait'));
+    if(t.hasAttribute('data-clear')) return clearSlot(t.getAttribute('data-clear'));
+    if(t.hasAttribute('data-drop'))  return placeOn(t.getAttribute('data-drop'));
+    if(t.hasAttribute('data-opt'))   return choose(parseInt(t.getAttribute('data-opt'), 10));
+    if(t.hasAttribute('data-person') && S.sel) return placeOn(t.getAttribute('data-person'));
+  });
+
+  var help = document.getElementById('help');
+  var sndBtn = document.getElementById('sndBtn');
+  document.getElementById('helpBtn').addEventListener('click', function(){ help.showModal(); });
+  document.getElementById('helpClose').addEventListener('click', function(){ help.close(); });
+  document.getElementById('rstBtn').addEventListener('click', restart);
+  sndBtn.addEventListener('click', toggleSound);
+  function toggleSound(){
+    S.sound = !S.sound;
+    sndBtn.textContent = 'M · SOUND ' + (S.sound ? 'ON' : 'OFF');
+    if(S.sound) sfx.pick();
+  }
+
+  document.addEventListener('keydown', function(e){
+    if(e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key.toLowerCase();
+    if(help.open){ if(k === 'escape' || k === 'h') help.close(); return; }
+    if(k === 'h'){ e.preventDefault(); return help.showModal(); }
+    if(k === 'm'){ e.preventDefault(); return toggleSound(); }
+    if(k === 'r'){ e.preventDefault(); return restart(); }
+    if(k === 'enter' || k === ' '){ e.preventDefault(); return advance(); }
+    if(k >= '1' && k <= '6'){
+      e.preventDefault();
+      var n = parseInt(k, 10) - 1;
+      if(S.phase === 'match' && !S.revealed){
+        if(!S.traits) shuffleTraits();
+        if(S.traits && S.traits[n]) pickTrait(S.traits[n].id);
+      } else if(S.phase === 'evidence' || S.phase === 'd1' || S.phase === 'd2'){
+        choose(n);
+      }
+      return;
+    }
+    if('abcd'.indexOf(k) > -1 && S.phase === 'match' && !S.revealed){
+      e.preventDefault();
+      placeOn(k.toUpperCase());
+    }
+  });
+
+  /* survive a republish mid-lesson */
+  function start(saved){
+    if(saved && typeof saved.i === 'number'){
+      S.i = saved.i; S.phase = saved.phase || 'title'; S.assign = saved.assign || {};
+      S.revealed = !!saved.revealed; S.ev = saved.ev; S.d1 = saved.d1; S.d2 = saved.d2;
+      S.score = saved.score || 0;
+      if(saved.order) shuffleTraits(saved.order);
+    }
+    render();
+  }
+  try{
+    if(window.claude && window.claude.hot){
+      window.claude.hot.snapshot(function(){
+        var order = null;
+        if(S.traits){ order = []; for(var q=0;q<S.traits.length;q++) order.push(S.traits[q].id); }
+        return { i:S.i, phase:S.phase, assign:S.assign, revealed:S.revealed, ev:S.ev, d1:S.d1, d2:S.d2, score:S.score, order:order };
+      });
+      window.claude.hot.ready ? window.claude.hot.ready(start) : start(window.claude.hot.data);
+    } else { start(null); }
+  }catch(err){ start(null); }
+})();
+</script>
+
+</body>
+</html>

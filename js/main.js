@@ -1,5 +1,5 @@
 const classes = ['6LVA', '6SI', '5SI'];
-const classSummary = { '6LVA': '1 game ready.', '6SI': '6 lessons available.', '5SI': '7 lessons available.' };
+const classSummary = { '6LVA': 'Unit 1 and games are ready.', '6SI': 'Week 2 resources are ready.', '5SI': 'Week 2 resources are ready.' };
 
 const sections = [
   ['01', '≋', 'lessons', 'Lessons', 'Lessons', 'Lesson activities, unit materials and classroom learning in one place.', 'Unit 1 ready'],
@@ -14,6 +14,7 @@ const panels = document.getElementById('panels');
 const tabs = [...document.querySelectorAll('.tab')];
 
 function destinationFor(className, slug) {
+  if (slug === 'lessons' && className === '6LVA') return '6lva-unit-1.html';
   if (slug === 'lessons' && className === '6SI') return '6si-unit-1.html';
   if (slug === 'lessons' && className === '5SI') return '5si-unit-1.html';
   return `classroom.html?class=${encodeURIComponent(className)}&section=${encodeURIComponent(slug)}`;
@@ -33,12 +34,14 @@ panels.innerHTML = classes.map((className, index) => `
     <div class="grid">
       ${sections.map((section, sectionIndex) => {
         const [number, icon, slug, label, title, defaultDescription, defaultStatus] = section;
-        const isUnit = slug === 'lessons' && (className === '6SI' || className === '5SI');
+        const isUnit = slug === 'lessons' && (className === '6LVA' || className === '6SI' || className === '5SI');
         const hasGames = slug === 'resources' && (className === '6LVA' || className === '5SI');
         const description = isUnit
-          ? className === '6SI'
-            ? 'Unit 1: In Search of Adventure. Lessons 1–6, activities and student materials are ready to open.'
-            : 'Unit 1: Short Stories. Lessons 1–7, activities and student materials are ready to open.'
+          ? className === '6LVA'
+            ? 'Unit 1 notebooks, lesson activities and student worksheets are ready to open.'
+            : className === '6SI'
+              ? 'Unit 1: In Search of Adventure. Week 1 and Week 2 resources are ready to open.'
+              : 'Unit 1: Short Stories. Week 1 and Week 2 resources are ready to open.'
           : hasGames
             ? className === '5SI'
               ? 'Find Venus Walk under the Games tab.'
