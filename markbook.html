@@ -663,7 +663,7 @@ function viewMarkSheet(){
   const done = roll.filter(s => { const m = marks[s.id]; return m && (m.level || (m.mark||"").trim() || (m.note||"").trim()); }).length;
 
   $("#main").innerHTML = `
-    <div class="toolbar"><button class="chipbtn" id="back">Back to activities</button></div>
+    <div class="toolbar"><button class="chipbtn" id="back">Back to activities</button><button class="chipbtn" id="fill3" style="margin-left:auto">Fill blanks with 3</button></div>
     <div class="sheetbar">
       <div><h2>${esc(a.title)}</h2>
         <div class="meta">${fmtDate(a.date)}<span class="tag">${esc(catLabel(a.cat))}</span><span class="tag ${a.type}">${a.type==="formal"?"Formal":"Informal"}</span><span id="prog">${done} of ${roll.length} marked</span></div></div>
