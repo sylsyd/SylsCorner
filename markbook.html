@@ -683,6 +683,21 @@ function viewMarkSheet(){
 
   $("#back").onclick = () => { ui.act = null; render(); };
   $("#editact").onclick = () => activityDialog(a);
+  $("#fill3").onclick = () => {
+    let n = 0;
+    mutate(() => {
+      doc.marks[a.id] = doc.marks[a.id] || {};
+      roll.forEach(s => {
+        const cur = doc.marks[a.id][s.id];
+        if(!cur || !cur.level){
+          doc.marks[a.id][s.id] = Object.assign({level:null, mark:"", note:""}, cur, {level:3});
+          n++;
+        }
+      });
+    });
+    toast(n ? `Set ${n} to 3 Secure` : "No blank levels to fill");
+    viewMarkSheet();
+  };
 
   const bump = () => {
     const mm = doc.marks[a.id] || {};
