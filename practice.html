@@ -2860,6 +2860,719 @@ TEXTS.push({ id: "peer-pressure", type: "Non-fiction", mode: "Persuasive", form:
   TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
 }
 
+/* ================================================================
+   TEXT 13 · Fiction · Creative · Short story (extract) · 5ème
+   Frank R. Stockton, The Lady, or the Tiger? (1882)
+   ================================================================ */
+{
+const TEXT = {
+  title: "The Lady, or the Tiger?",
+  intro: "Frank R. Stockton, 1882 (extract). In an ancient kingdom, a semi-barbaric king judges the accused in a public arena. The accused must open one of two identical doors: behind one waits a hungry tiger, behind the other a lady he must marry at once. The king has discovered that a young courtier loves his daughter, the princess.",
+  paras: [
+    "The appointed day arrived. From far and near the people gathered, and thronged the great galleries of the arena, and crowds, unable to gain admittance, massed themselves against its outside walls. The king and his court were in their places, opposite the twin doors, those fateful portals, so terrible in their similarity.",
+    "All was ready. The signal was given. A door beneath the royal party opened, and the lover of the princess walked into the arena. Tall, beautiful, fair, his appearance was greeted with a low hum of admiration and anxiety. Half the audience had not known so grand a youth had lived among them. No wonder the princess loved him! What a terrible thing for him to be there!",
+    "As the youth advanced into the arena he turned, as the custom was, to bow to the king, but he did not think at all of that royal personage. His eyes were fixed upon the princess, who sat to the right of her father. Had it not been for the moiety of barbarism in her nature it is probable that lady would not have been there, but her intense and fervid soul would not allow her to be absent on an occasion in which she was so terribly interested. From the moment that the decree had gone forth that her lover should decide his fate in the king’s arena, she had thought of nothing, night or day, but this great event and the various subjects connected with it. Possessed of more power, influence, and force of character than any one who had ever before been interested in such a case, she had done what no other person had done – she had possessed herself of the secret of the doors. She knew in which of the two rooms, that lay behind those doors, stood the cage of the tiger, with its open front, and in which waited the lady. Through these thick doors, heavily curtained with skins on the inside, it was impossible that any noise or suggestion should come from within to the person who should approach to raise the latch of one of them. But gold, and the power of a woman’s will, had brought the secret to the princess.",
+    "And not only did she know in which room stood the lady ready to emerge, all blushing and radiant, should her door be opened, but she knew who the lady was. It was one of the fairest and loveliest of the damsels of the court who had been selected as the reward of the accused youth, should he be proved innocent of the crime of aspiring to one so far above him; and the princess hated her. Often had she seen, or imagined that she had seen, this fair creature throwing glances of admiration upon the person of her lover, and sometimes she thought these glances were perceived, and even returned. Now and then she had seen them talking together; it was but for a moment or two, but much can be said in a brief space; it may have been on most unimportant topics, but how could she know that? The girl was lovely, but she had dared to raise her eyes to the loved one of the princess; and, with all the intensity of the savage blood transmitted to her through long lines of wholly barbaric ancestors, she hated the woman who blushed and trembled behind that silent door.",
+    "When her lover turned and looked at her, and his eye met hers as she sat there, paler and whiter than anyone in the vast ocean of anxious faces about her, he saw, by that power of quick perception which is given to those whose souls are one, that she knew behind which door crouched the tiger, and behind which stood the lady. He had expected her to know it. He understood her nature, and his soul was assured that she would never rest until she had made plain to herself this thing, hidden to all other lookers-on, even to the king. The only hope for the youth in which there was any element of certainty was based upon the success of the princess in discovering this mystery; and the moment he looked upon her, he saw she had succeeded, as in his soul he knew she would succeed.",
+    "Then it was that his quick and anxious glance asked the question: “Which?” It was as plain to her as if he shouted it from where he stood. There was not an instant to be lost. The question was asked in a flash; it must be answered in another.",
+    "Her right arm lay on the cushioned parapet before her. She raised her hand, and made a slight, quick movement toward the right. No one but her lover saw her. Every eye but his was fixed on the man in the arena.",
+    "He turned, and with a firm and rapid step he walked across the empty space. Every heart stopped beating, every breath was held, every eye was fixed immovably upon that man. Without the slightest hesitation, he went to the door on the right, and opened it.",
+    "Now, the point of the story is this: Did the tiger come out of that door, or did the lady?",
+    "The more we reflect upon this question, the harder it is to answer. It involves a study of the human heart which leads us through devious mazes of passion, out of which it is difficult to find our way. Think of it, fair reader, not as if the decision of the question depended upon yourself, but upon that hot-blooded, semi-barbaric princess, her soul at a white heat beneath the combined fires of despair and jealousy. She had lost him, but who should have him?",
+    "How often, in her waking hours and in her dreams, had she started in wild horror, and covered her face with her hands as she thought of her lover opening the door on the other side of which waited the cruel fangs of the tiger! But how much oftener had she seen him at the other door! How in her grievous reveries had she gnashed her teeth, and torn her hair, when she saw his start of rapturous delight as he opened the door of the lady! How her soul had burned in agony when she had seen him rush to meet that woman, with her flushing cheek and sparkling eye of triumph; when she had seen him lead her forth, his whole frame kindled with the joy of recovered life; when she had heard the glad shouts from the multitude, and the wild ringing of the happy bells; when she had seen the priest, with his joyous followers, advance to the couple, and make them man and wife before her very eyes; and when she had seen them walk away together upon their path of flowers, followed by the tremendous shouts of the hilarious multitude, in which her one despairing shriek was lost and drowned!",
+    "Would it not be better for him to die at once, and go to wait for her in the blessed regions of semi-barbaric futurity? And yet, that awful tiger, those shrieks, that blood!",
+    "Her decision had been indicated in an instant, but it had been made after days and nights of anguished deliberation. She had known she would be asked, she had decided what she would answer, and, without the slightest hesitation, she had moved her hand to the right.",
+    "The question of her decision is one not to be lightly considered, and it is not for me to presume to set myself up as the one person able to answer it. And so I leave it with all of you: Which came out of the opened door – the lady, or the tiger?"
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Word choice",
+    prompt: "Find the phrase that makes two <em>identical doors</em> sound frightening.",
+    target: ["those fateful portals, so terrible in their similarity"],
+    decoys: [{ phrase: "the twin doors", why: "This names the doors plainly. The frightening description comes straight after it." }],
+    miss: "Look at the end of the first paragraph.",
+    explain: "“Fateful” means they decide a man’s fate, and “portals” sounds grander and more ominous than “doors”. The strangest part is “terrible in their similarity”: what makes them frightening is that nothing tells them apart."
+  },
+  {
+    skill: "Direct address",
+    prompt: "Find <em>one</em> place where the narrator speaks directly to the reader.",
+    target: ["Think of it, fair reader", "And so I leave it with all of you"],
+    decoys: [{ phrase: "Now, the point of the story is this", why: "The narrator is commenting on the story here, but not speaking to the reader as “you”. Look a little further on." }],
+    miss: "Look for the words “reader” or “you” near the end of the story.",
+    explain: "The narrator steps out of the story and talks to us. This pulls the reader into the princess’s dilemma and prepares us for the ending, where we must make the decision ourselves."
+  },
+  {
+    skill: "Metaphor",
+    prompt: "Find the metaphor that shows the princess’s emotions <em>burning</em> inside her.",
+    target: ["the combined fires of despair and jealousy"],
+    decoys: [{ phrase: "the vast ocean of anxious faces", why: "A metaphor, but it describes the crowd, not the princess’s feelings." }],
+    miss: "Look in the paragraph that begins “The more we reflect upon this question”.",
+    explain: "Despair and jealousy become two fires heating her soul “at a white heat”. The image suggests emotions so intense they could lead her to something destructive."
+  },
+  {
+    skill: "Narrator’s doubt",
+    prompt: "Find the phrase suggesting the princess’s jealousy may be <em>imagined</em>.",
+    target: ["Often had she seen, or imagined that she had seen"],
+    decoys: [{ phrase: "and the princess hated her", why: "This states her hatred, but doesn’t question whether it is justified. Look at the next sentence." }],
+    miss: "Look in the paragraph about the lady behind the door.",
+    explain: "The narrator corrects himself: she had “seen, or imagined that she had seen”. This plants doubt about the lady’s guilt, and makes the princess’s choice even harder to judge."
+  },
+  {
+    skill: "Key moment",
+    prompt: "Find the <em>tiny action</em> on which the whole story turns.",
+    target: ["made a slight, quick movement toward the right"],
+    decoys: [{ phrase: "he went to the door on the right, and opened it", why: "That is the youth’s action. The question asks for the princess’s signal that decides it." }],
+    miss: "Look at the princess’s hand on the parapet.",
+    explain: "After pages of build-up, everything depends on one small gesture that only the lover sees. “Slight” and “quick” contrast with the huge consequences, which makes the moment gripping."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Ending",
+    q: "What kind of ending does the story have?",
+    opts: [
+      { t: "An open ending: the reader must decide", ok: true, why: "Right. The narrator refuses to answer and leaves it “with all of you”. The story is built to make readers argue about the princess’s choice." },
+      { t: "The tiger comes out, and the narrator describes it in detail", why: "The door opens, but the story stops before anything comes out. The narrator never tells us." },
+      { t: "The lady comes out and the youth marries her in the arena", why: "The princess imagines this, but it is never shown happening. The narrator refuses to reveal the outcome." },
+      { t: "The king explains which door it was after the trial is over", why: "The king never speaks. The only voice at the end is the narrator, and he leaves the answer to us." }
+    ]
+  },
+  {
+    skill: "Narrator",
+    q: "What kind of narrator tells this story?",
+    opts: [
+      { t: "A third-person narrator who comments and talks to the reader", ok: true, why: "Right. The narrator describes all the characters from outside, adds opinions and even speaks to the “fair reader”." },
+      { t: "The princess, telling the story of her own terrible choice", why: "The princess is called “she”. She never narrates in the first person." },
+      { t: "The youth, remembering the day he walked into the arena", why: "The youth is described as “he”, and the story reaches into the princess’s private thoughts, which he couldn’t know." },
+      { t: "A neutral narrator who reports events and never gives opinions", why: "The narrator gives plenty of opinions, from “No wonder the princess loved him!” to refusing to judge the ending." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does the youth trust the princess to guide him?",
+    opts: [
+      { t: "He knows she would never rest until she discovered the secret", ok: true, why: "Right. “He understood her nature” and “had expected her to know it”. His hope rests on her determination." },
+      { t: "She told him the answer the night before the trial began", why: "There is no meeting before the trial. The question “Which?” is asked with a glance in the arena." },
+      { t: "The king gave him a secret hint about the doors earlier", why: "The king takes “aesthetic pleasure” in the trial. He would never help the youth." },
+      { t: "He has no reason to trust her and simply guesses a door", why: "He walks “without the slightest hesitation”, which shows he trusts her signal completely." }
+    ]
+  },
+  {
+    skill: "Character",
+    q: "What is the princess’s terrible dilemma?",
+    opts: [
+      { t: "Either she lets him die, or she watches him marry her rival", ok: true, why: "Right. The tiger means his death; the lady means losing him to a woman she hates. Both outcomes are unbearable to her." },
+      { t: "She doesn’t know which door hides the tiger and which the lady", why: "She does know. “She had possessed herself of the secret of the doors.”" },
+      { t: "She is worried her father will punish her for signalling", why: "The text never suggests she fears her father. Her struggle is between jealousy and love." },
+      { t: "She wants to help the lady escape from the arena safely", why: "She “hated” the lady. Helping her is the last thing on her mind." }
+    ]
+  },
+  {
+    skill: "Effect of structure",
+    q: "What is the effect of the long sentence beginning “How her soul had burned in agony”?",
+    opts: [
+      { t: "It piles up images of the wedding until her jealousy feels overwhelming", ok: true, why: "Right. Clause after clause adds the lady’s triumph, the bells, the priest, the flowers. The reader feels the pain building, which pushes us to suspect the tiger." },
+      { t: "It describes a real wedding that happened before the trial began", why: "These are scenes she has imagined “in her grievous reveries”. None of it has happened." },
+      { t: "It slows the story down so that the reader can relax for a moment", why: "It is full of agony and despair. It increases tension rather than letting the reader relax." },
+      { t: "It shows how happy the princess feels about her lover’s future", why: "Her “despairing shriek” shows the opposite. The images torture her." }
+    ]
+  },
+  {
+    skill: "Characterisation",
+    q: "Why does the narrator keep calling the princess “semi-barbaric”?",
+    opts: [
+      { t: "She is half civilised, half wild, so we can’t predict her choice", ok: true, why: "Right. A civilised side might save him; a “barbaric” side might choose jealousy and blood. The label keeps both possibilities open." },
+      { t: "It shows she is completely savage and would always choose the tiger", why: "“Semi” means half. The narrator deliberately leaves her partly civilised." },
+      { t: "It describes the unusual clothes and jewellery that she wears", why: "The word describes her nature and emotions, not her appearance." },
+      { t: "It is simply a compliment about her beauty and her royal status", why: "It describes her “intense and fervid soul”, which is anything but a simple compliment." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "No wonder the princess loved him!",
+    opts: [
+      { t: "The narrator shares the crowd’s admiration for the youth", ok: true, why: "Right. The exclamation echoes what the audience is thinking as they see him for the first time." },
+      { t: "The princess announced her love to the crowd", why: "Nobody announces anything. The exclamation is the narrator’s comment." },
+      { t: "Everyone in the arena is in love with the youth", why: "Overclaiming. The crowd admires him; it doesn’t prove they all love him." },
+      { t: "The youth is the son of the king himself", why: "He is “of that fineness of blood and lowness of station”. He is a courtier, not a prince." }
+    ]
+  },
+  {
+    quote: "But gold, and the power of a woman’s will, had brought the secret to the princess.",
+    opts: [
+      { t: "The princess used bribery and sheer determination to learn the secret", ok: true, why: "Right. “Gold” suggests she paid someone, and “the power of a woman’s will” shows her refusal to give up." },
+      { t: "The lady behind the door told the princess the secret", why: "The lady is the princess’s rival. Nothing suggests she told her anything." },
+      { t: "The secret of the doors was known to everyone in the kingdom", why: "The secret was “hidden to all other lookers-on, even to the king”." },
+      { t: "The king gave his daughter the secret because he loved her", why: "The king wants the trial to be decided by “chance”. He wouldn’t reveal it." }
+    ]
+  },
+  {
+    quote: "he saw she had succeeded, as in his soul he knew she would succeed",
+    opts: [
+      { t: "The youth has complete faith in the princess’s determination", ok: true, why: "Right. He “knew” she would succeed before he even looked at her. His faith in her is total." },
+      { t: "The youth doubts that she has discovered anything at all", why: "“He knew she would succeed” shows certainty, not doubt." },
+      { t: "The princess had given him a sign before the trial began", why: "He reads her success in her face in the arena. No earlier sign is mentioned." },
+      { t: "The princess told him out loud which door to choose", why: "She only makes a “slight, quick movement”. Nothing is said aloud." }
+    ]
+  },
+  {
+    quote: "but it had been made after days and nights of anguished deliberation",
+    opts: [
+      { t: "Her quick signal was planned carefully, not decided on impulse", ok: true, why: "Right. The gesture took “an instant”, but the decision behind it took “days and nights”. It was not a snap judgement." },
+      { t: "She chose the door randomly in the moment he looked at her", why: "The quote says the decision came from long deliberation, the opposite of random." },
+      { t: "The decision was easy for her, and she hardly thought about it", why: "“Anguished” means painful. It was agonising, not easy." },
+      { t: "She only started thinking about it when she saw him in the arena", why: "She “had known she would be asked” and decided long before." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The crowd has mixed feelings about the youth.",
+    quote: "a low hum of admiration and anxiety",
+    opts: [
+      { t: "“Admiration” and “anxiety” pull in opposite directions: they admire him yet fear for him. “Low hum” spreads the feeling quietly through the crowd.", ok: true, why: "Strong. It explains both nouns and the sound image, and links them to mixed feelings." },
+      { t: "When the youth walks out into the arena, the people in the crowd make a quiet noise because they are all surprised to see such a handsome young man.", why: "Retelling. It never explains how “admiration and anxiety” show mixed feelings." },
+      { t: "The writer uses alliteration in the phrase “admiration and anxiety”, repeating the letter a, which is a sound technique that makes the description stand out.", why: "It names a sound effect but ignores what the two words mean together." },
+      { t: "This proves that everyone in the crowd secretly wants the youth to be eaten by the tiger, because they are anxious to see a bloody show in the arena.", why: "A misreading. Their anxiety is fear for him, alongside admiration." }
+    ]
+  },
+  {
+    claim: "The narrator hints the princess’s jealousy may be unfounded.",
+    quote: "Often had she seen, or imagined that she had seen",
+    opts: [
+      { t: "The princess has often watched the lady looking at her lover with admiration, and she has seen them talking together at court more than once.", why: "Retelling. It treats the glances as certain and misses the doubt in “or imagined”." },
+      { t: "The narrator corrects “seen” to “imagined that she had seen”, planting doubt. Her hatred may rest on suspicion, which makes her choice harder to predict.", ok: true, why: "Strong. It explains the self-correction and why the doubt matters for the ending." },
+      { t: "This shows the lady was definitely in love with the youth and was trying to take him away from the princess, so the princess is right to hate her.", why: "Overclaiming. The narrator deliberately leaves this uncertain." },
+      { t: "The writer uses repetition of the word “seen” in this sentence to describe what the princess noticed at court, which is an effective technique.", why: "It notices repetition but never explains what the change to “imagined” suggests." }
+    ]
+  },
+  {
+    claim: "The princess is torn between two unbearable outcomes.",
+    quote: "And yet, that awful tiger, those shrieks, that blood!",
+    opts: [
+      { t: "I would never let someone I love be eaten by a tiger, so I think the princess must have chosen the lady, even if she was jealous.", why: "A personal answer to the question, not an explanation of how the words show she is torn." },
+      { t: "The tiger comes out of the door and attacks the youth, and there is a lot of screaming and blood in the arena in front of the whole crowd.", why: "A misreading. This is what she imagines; the story never shows it happening." },
+      { t: "“And yet” swings back just after she imagines him dead. Three short phrases list horrors one by one, showing she can’t bear either outcome.", ok: true, why: "Strong. It explains the turn in “And yet” and the effect of the list." },
+      { t: "The writer uses an exclamation mark at the end of this sentence to show the reader that the princess is feeling strong emotions about the tiger.", why: "Vague. Which emotions, and how does the sentence show she is torn?" }
+    ]
+  },
+  {
+    claim: "The narrator refuses to take responsibility for the ending.",
+    quote: "it is not for me to presume to set myself up as the one person able to answer it",
+    opts: [
+      { t: "The narrator does not know how the story ends because he forgot to find out what came out of the door before he started writing it down.", why: "A misreading. The refusal is deliberate, not forgetfulness." },
+      { t: "The narrator claims it would be arrogant (“presume”) to answer. This polite refusal hands the decision to the reader, who must judge the princess.", ok: true, why: "Strong. It explains “presume” and the effect of handing over the choice." },
+      { t: "The narrator says that he is not going to answer the question about which door the youth opened, and that the readers will have to do it.", why: "Retelling. It doesn’t explain how the language shows him avoiding responsibility." },
+      { t: "The writer uses formal and old-fashioned language in the final paragraph of the story, which makes the ending sound serious and important.", why: "Style noted, but it doesn’t explain the claim." }
+    ]
+  },
+  {
+    claim: "The narrator makes the moment feel unbearably tense.",
+    quote: "Every heart stopped beating, every breath was held",
+    opts: [
+      { t: "Repeating “every” spreads the tension across the whole crowd. Hearts stopping is an exaggeration that freezes time just as the door is opened.", ok: true, why: "Strong. It explains the repetition and the exaggeration, and links both to tension." },
+      { t: "The people in the crowd are so shocked that their hearts really stop beating and some of them faint in the galleries while the youth walks to the door.", why: "A literal misreading of an exaggeration." },
+      { t: "Everyone in the arena watches the youth closely and waits nervously to see which of the two doors he is going to open in front of them all.", why: "Retelling. How do the words create tension?" },
+      { t: "The writer uses repetition in this sentence to make the writing more interesting and exciting for the people who are reading the story.", why: "“More interesting” is not an effect. Explain what the repetition does." }
+    ]
+  }
+];
+TEXTS.push({ id: "lady-or-tiger", type: "Fiction", mode: "Creative", form: "Short story (extract)", level: "5ème",
+  hook: "Two doors. A tiger or a bride. And a princess who knows which is which.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
+/* ================================================================
+   TEXT 14 · Fiction · Creative · Horror short story (extract) · 5ème
+   W. W. Jacobs, The Monkey's Paw (1902), Part III
+   ================================================================ */
+{
+const TEXT = {
+  title: "The Monkey’s Paw",
+  intro: "W. W. Jacobs, 1902 (Part III). Mr and Mrs White were given a magic monkey’s paw that grants three wishes, with a warning that it brings disaster. Mr White wished for two hundred pounds. The next day their son, Herbert, was killed in an accident at work, and the company paid them two hundred pounds.",
+  paras: [
+    "In the huge new cemetery, some two miles distant, the old people buried their dead, and came back to a house steeped in shadow and silence. It was all over so quickly that at first they could hardly realize it, and remained in a state of expectation as though of something else to happen – something else which was to lighten this load, too heavy for old hearts to bear. But the days passed, and expectation gave place to resignation – the hopeless resignation of the old, sometimes miscalled, apathy. Sometimes they hardly exchanged a word, for now they had nothing to talk about, and their days were long to weariness.",
+    "It was about a week after that that the old man, waking suddenly in the night, stretched out his hand and found himself alone. The room was in darkness, and the sound of subdued weeping came from the window. He raised himself in bed and listened.",
+    "“Come back,” he said tenderly. “You will be cold.”",
+    "“It is colder for my son,” said the old woman, and wept afresh.",
+    "The sound of her sobs died away on his ears. The bed was warm, and his eyes heavy with sleep. He dozed fitfully, and then slept until a sudden wild cry from his wife awoke him with a start.",
+    "“The paw!” she cried wildly. “The monkey’s paw!”",
+    "He started up in alarm. “Where? Where is it? What’s the matter?”",
+    "She came stumbling across the room toward him. “I want it,” she said quietly. “You’ve not destroyed it?”",
+    "“It’s in the parlour, on the bracket,” he replied, marvelling. “Why?”",
+    "She cried and laughed together, and bending over, kissed his cheek. “I only just thought of it,” she said hysterically. “Why didn’t I think of it before? Why didn’t you think of it?”",
+    "“Think of what?” he questioned.",
+    "“The other two wishes,” she replied rapidly. “We’ve only had one.”",
+    "“Was not that enough?” he demanded fiercely.",
+    "“No,” she cried, triumphantly; “we’ll have one more. Go down and get it quickly, and wish our boy alive again.”",
+    "The man sat up in bed and flung the bedclothes from his quaking limbs. “Good God, you are mad!” he cried aghast.",
+    "“Get it,” she panted; “get it quickly, and wish – Oh, my boy, my boy!”",
+    "Her husband struck a match and lit the candle. “Get back to bed,” he said, unsteadily. “You don’t know what you are saying.”",
+    "“We had the first wish granted,” said the old woman, feverishly; “why not the second.”",
+    "“A coincidence,” stammered the old man.",
+    "“Go and get it and wish,” cried the old woman, quivering with excitement.",
+    "The old man turned and regarded her, and his voice shook. “He has been dead ten days, and besides he – I would not tell you else, but – I could only recognize him by his clothing. If he was too terrible for you to see then, how now?”",
+    "“Bring him back,” cried the old woman, and dragged him toward the door. “Do you think I fear the child I have nursed?”",
+    "He went down in the darkness, and felt his way to the parlour, and then to the mantelpiece. The talisman was in its place, and a horrible fear that the unspoken wish might bring his mutilated son before him ere he could escape from the room seized upon him, and he caught his breath as he found that he had lost the direction of the door. His brow cold with sweat, he felt his way round the table, and groped along the wall until he found himself in the small passage with the unwholesome thing in his hand.",
+    "Even his wife’s face seemed changed as he entered the room. It was white and expectant, and to his fears seemed to have an unnatural look upon it. He was afraid of her.",
+    "“Wish!” she cried, in a strong voice.",
+    "“It is foolish and wicked,” he faltered.",
+    "“Wish!” repeated his wife.",
+    "He raised his hand. “I wish my son alive again.”",
+    "The talisman fell to the floor, and he regarded it fearfully. Then he sank trembling into a chair as the old woman, with burning eyes, walked to the window and raised the blind.",
+    "He sat until he was chilled with the cold, glancing occasionally at the figure of the old woman peering through the window. The candle end, which had burnt below the rim of the china candlestick, was throwing pulsating shadows on the ceiling and walls, until, with a flicker larger than the rest, it expired. The old man, with an unspeakable sense of relief at the failure of the talisman, crept back to his bed, and a minute or two afterward the old woman came silently and apathetically beside him.",
+    "Neither spoke, but both lay silently listening to the ticking of the clock. A stair creaked, and a squeaky mouse scurried noisily through the wall. The darkness was oppressive, and after lying for some time screwing up his courage, the husband took the box of matches, and striking one, went downstairs for a candle.",
+    "At the foot of the stairs the match went out, and he paused to strike another, and at the same moment a knock, so quiet and stealthy as to be scarcely audible, sounded on the front door.",
+    "The matches fell from his hand. He stood motionless, his breath suspended until the knock was repeated. Then he turned and fled swiftly back to his room, and closed the door behind him. A third knock sounded through the house.",
+    "“What’s that?” cried the old woman, starting up.",
+    "“A rat,” said the old man, in shaking tones – “a rat. It passed me on the stairs.”",
+    "His wife sat up in bed listening. A loud knock resounded through the house.",
+    "“It’s Herbert!” she screamed. “It’s Herbert!”",
+    "She ran to the door, but her husband was before her, and catching her by the arm, held her tightly.",
+    "“What are you going to do?” he whispered hoarsely.",
+    "“It’s my boy; it’s Herbert!” she cried, struggling mechanically. “I forgot it was two miles away. What are you holding me for? Let go. I must open the door.”",
+    "“For God’s sake, don’t let it in,” cried the old man trembling.",
+    "“You’re afraid of your own son,” she cried, struggling. “Let me go. I’m coming, Herbert; I’m coming.”",
+    "There was another knock, and another. The old woman with a sudden wrench broke free and ran from the room. Her husband followed to the landing, and called after her appealingly as she hurried downstairs. He heard the chain rattle back and the bottom bolt drawn slowly and stiffly from the socket. Then the old woman’s voice, strained and panting.",
+    "“The bolt,” she cried loudly. “Come down. I can’t reach it.”",
+    "But her husband was on his hands and knees groping wildly on the floor in search of the paw. If he could only find it before the thing outside got in. A perfect fusillade of knocks reverberated through the house, and he heard the scraping of a chair as his wife put it down in the passage against the door. He heard the creaking of the bolt as it came slowly back, and at the same moment he found the monkey’s paw, and frantically breathed his third and last wish.",
+    "The knocking ceased suddenly, although the echoes of it were still in the house. He heard the chair drawn back and the door opened. A cold wind rushed up the staircase, and a long loud wail of disappointment and misery from his wife gave him courage to run down to her side, and then to the gate beyond. The street lamp flickering opposite shone on a quiet and deserted road."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Atmosphere",
+    prompt: "Find the description that shows <em>grief filling the house</em>.",
+    target: ["a house steeped in shadow and silence"],
+    decoys: [{ phrase: "In the huge new cemetery", why: "That is where Herbert is buried. The question asks how the house feels when they come home." }],
+    miss: "Look at the end of the first sentence.",
+    explain: "“Steeped” means soaked through, like tea in water. The house is soaked in shadow and silence, so grief seems to fill every corner. The soft “s” sounds add to the hush."
+  },
+  {
+    skill: "Dialogue",
+    prompt: "Find the reply showing the mother <em>cannot stop thinking about Herbert’s grave</em>.",
+    target: ["It is colder for my son"],
+    decoys: [{ phrase: "“Come back,” he said tenderly.", why: "That is Mr White’s gentle request. Look at how his wife answers." }],
+    miss: "Find what Mrs White says when her husband tells her she will be cold.",
+    explain: "Her husband worries she will be cold at the window; she thinks of Herbert lying in the cold ground. Six words reveal that her grief is constant and physical, and they set up her desperate wish."
+  },
+  {
+    skill: "Word choice",
+    prompt: "Find the phrase showing Mr White now sees the paw as <em>something evil</em>.",
+    target: ["the unwholesome thing"],
+    decoys: [{ phrase: "The talisman was in its place", why: "“Talisman” is a neutral name for a magic object. Look for how he describes it once it is in his hand." }],
+    miss: "Look at the end of the paragraph where he fetches the paw in the dark.",
+    explain: "“Unwholesome” suggests something unhealthy and corrupt, and “thing” refuses to give it a proper name. The paw has become something disgusting he doesn’t want to touch."
+  },
+  {
+    skill: "Suspense",
+    prompt: "Find the <em>first sound</em> suggesting something has come to the house.",
+    target: ["a knock, so quiet and stealthy as to be scarcely audible"],
+    decoys: [{ phrase: "A stair creaked, and a squeaky mouse scurried noisily", why: "These are ordinary night sounds. Look for the sound that stops Mr White in his tracks." }],
+    miss: "Look at what happens when his match goes out at the foot of the stairs.",
+    explain: "The knock is so quiet it is “scarcely audible”, and “stealthy” suggests something sneaking. Starting quietly lets the knocking grow louder and louder, building dread."
+  },
+  {
+    skill: "Ending image",
+    prompt: "Find the final image suggesting the <em>last wish</em> has worked.",
+    target: ["a quiet and deserted road"],
+    decoys: [{ phrase: "A cold wind rushed up the staircase", why: "This happens as the door opens, but it doesn’t show what is (or isn’t) outside. Look at the very last words." }],
+    miss: "Read the last sentence of the story.",
+    explain: "After all the knocking, the road is empty. Nothing is shown, so the reader must work out what Mr White wished for, and imagine what stood there a moment before."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Character",
+    q: "How does Mrs White change in this part of the story?",
+    opts: [
+      { t: "From hopeless grief to wild, desperate hope", ok: true, why: "Right. She begins weeping in the dark, then suddenly cries “The paw!” and speaks “feverishly”, “triumphantly”, “quivering with excitement”." },
+      { t: "From calm acceptance to anger at her husband", why: "She was never calm: she weeps at the window. Her main change is towards hope, not anger." },
+      { t: "She stays exactly the same from beginning to end", why: "Her wild cry and the words “triumphantly” and “feverishly” show a dramatic change." },
+      { t: "From joy about the money to boredom at home", why: "She is grieving, not joyful, and nothing suggests boredom." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why is Mr White so afraid of wishing Herbert alive?",
+    opts: [
+      { t: "Herbert was badly injured and has been dead ten days", ok: true, why: "Right. He “could only recognize him by his clothing”. Whatever comes back after ten days in the grave could be horrifying." },
+      { t: "He is afraid his wife will be angry if the wish fails", why: "His fear is of the wish working, not failing. He feels “relief at the failure of the talisman”." },
+      { t: "He is worried the paw will be lost or broken", why: "He wants rid of the paw. His fear is what it might bring." },
+      { t: "He believes Herbert was a bad son", why: "Nothing suggests this. His fear is about Herbert’s body." }
+    ]
+  },
+  {
+    skill: "Structure",
+    q: "How does Jacobs build suspense with the knocking?",
+    opts: [
+      { t: "It grows from “scarcely audible” to a “fusillade”", ok: true, why: "Right. First one quiet knock, then a second, a third, a “loud knock”, “another, and another”, then a “perfect fusillade”. Each step raises the tension." },
+      { t: "The knocking shows that Herbert is being polite", why: "The mood is horror, not politeness. The knocking becomes violent." },
+      { t: "The knocking tells the reader exactly who is outside", why: "The writer never reveals what is outside. That uncertainty is the source of the fear." },
+      { t: "The knocking is meant to make the ending funny", why: "Everything about the scene is terrifying. Nothing is played for laughs." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "What does Mr White most likely wish for with the third wish?",
+    opts: [
+      { t: "For whatever is outside to go away", ok: true, why: "Right. He searches “before the thing outside got in”, the knocking stops at once, and the road is “deserted”. His last wish undoes the second." },
+      { t: "For another two hundred pounds", why: "He is desperate to stop what is at the door. Money is the last thing on his mind." },
+      { t: "For his wife to calm down and go back to bed", why: "His wife gives “a long loud wail of disappointment”. The wish stopped the knocking, not her." },
+      { t: "For the knocking to be louder so he can hear it", why: "He wants the opposite. The knocking “ceased suddenly” after the wish." }
+    ]
+  },
+  {
+    skill: "Technique",
+    q: "What does the story never show the reader?",
+    opts: [
+      { t: "What was knocking on the other side of the door", ok: true, why: "Right. Jacobs never describes it. Leaving it unseen forces readers to imagine something worse than any description." },
+      { t: "The monkey’s paw that grants the wishes", why: "The paw appears several times: on the bracket, in his hand, on the floor." },
+      { t: "Mrs White’s reaction at the end of the story", why: "We hear her “long loud wail of disappointment and misery”." },
+      { t: "The cemetery where Herbert has been buried", why: "The very first sentence mentions “the huge new cemetery”." }
+    ]
+  },
+  {
+    skill: "Theme",
+    q: "What message does the story suggest?",
+    opts: [
+      { t: "Trying to change fate brings terrible consequences", ok: true, why: "Right. Each wish granted leads to disaster. The paw shows that interfering with fate is dangerous." },
+      { t: "Having more money always makes a family happier", why: "The money arrives with Herbert’s death. The story shows the opposite." },
+      { t: "You should always do what your mother tells you", why: "Following Mrs White’s wish leads to horror. The story doesn’t support this." },
+      { t: "Magic objects are fun and completely harmless", why: "The paw causes death and terror. It is anything but harmless." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "“Was not that enough?” he demanded fiercely.",
+    opts: [
+      { t: "Mr White blames the first wish for Herbert’s death", ok: true, why: "Right. “Enough” refers to the first wish, which brought money through Herbert’s death. His fierceness shows he connects the two." },
+      { t: "Mr White wishes he had asked for more money", why: "He is horrified by the idea of another wish. “Fiercely” shows anger, not greed." },
+      { t: "Mr White is angry his wife woke him up", why: "His anger is about the wishes, not being woken." },
+      { t: "Mr White has forgotten about the first wish", why: "“Was not that enough?” shows he remembers it all too well." }
+    ]
+  },
+  {
+    quote: "I could only recognize him by his clothing.",
+    opts: [
+      { t: "Herbert’s body was terribly damaged in the accident", ok: true, why: "Right. If his own father couldn’t recognise his face, the injuries must have been horrific." },
+      { t: "Herbert always wore very unusual clothes", why: "The point is that his face couldn’t be recognised, not that his clothes were unusual." },
+      { t: "Herbert’s body was never found after the accident", why: "Mr White saw the body: that is how he knows about the clothing." },
+      { t: "Mr White has very poor eyesight", why: "Nothing suggests poor eyesight. The problem was the injuries." }
+    ]
+  },
+  {
+    quote: "with an unspeakable sense of relief at the failure of the talisman",
+    opts: [
+      { t: "Mr White never wanted the wish to work", ok: true, why: "Right. “Relief” shows he was dreading success. He only wished because his wife insisted." },
+      { t: "Mr White is disappointed the wish didn’t work", why: "Relief is the opposite of disappointment." },
+      { t: "The paw is now broken and can never work again", why: "The paw does work: the knocking comes later, and he uses the third wish." },
+      { t: "Mrs White is relieved that nothing has happened", why: "The relief belongs to Mr White. She is at the window, hoping." }
+    ]
+  },
+  {
+    quote: "a long loud wail of disappointment and misery from his wife",
+    opts: [
+      { t: "Mrs White has opened the door to find no one there", ok: true, why: "Right. “Disappointment” shows the return she hoped for didn’t happen. The road outside is empty." },
+      { t: "Mrs White has just seen a terrible monster at the door", why: "A monster would cause terror, not “disappointment”. And the road is deserted." },
+      { t: "Mrs White has hurt herself on the chair in the passage", why: "Pain would not explain “disappointment”. The wail is about the empty doorway." },
+      { t: "Mrs White is angry about the cold wind blowing in", why: "The wind is a detail of the door opening. Her wail is grief." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "Grief has left the couple without hope.",
+    quote: "the hopeless resignation of the old, sometimes miscalled, apathy",
+    opts: [
+      { t: "The old couple are very sad after the funeral, and they sit in their quiet house day after day without talking much to each other.", why: "Retelling. It doesn’t explain “resignation” or “miscalled”." },
+      { t: "“Resignation” means giving up, and “hopeless” deepens it. People wrongly call this “apathy”: the couple still care, but no longer have any hope.", ok: true, why: "Strong. It explains the key words and the narrator’s correction." },
+      { t: "This shows the old couple do not care about Herbert any more, because the narrator uses the word apathy, which means not caring about anything.", why: "A misreading. The narrator says “apathy” is the wrong word for it." },
+      { t: "The writer uses complicated vocabulary in this sentence, which makes the story sound old-fashioned and serious for readers today.", why: "An observation about style, not an explanation of the claim." }
+    ]
+  },
+  {
+    claim: "Mrs White’s hope borders on madness.",
+    quote: "She cried and laughed together",
+    opts: [
+      { t: "Mrs White is happy because she has remembered the paw, and she is also crying because she misses Herbert, so she has two feelings at once.", why: "Partly right, but it stops before explaining what this reveals about her state of mind." },
+      { t: "Crying and laughing at once are opposite emotions colliding. With “hysterically” soon after, it shows grief tipping into frantic, unstable hope.", ok: true, why: "Strong. It explains the contradiction and links it to other evidence." },
+      { t: "The writer uses a contrast between crying and laughing, which is a technique that writers often use to make the reader think about a character.", why: "Too general. What does this contrast show about Mrs White?" },
+      { t: "This proves that Mrs White has completely lost her mind and will never be able to think clearly or behave normally again for the rest of her life.", why: "Overclaiming. It shows extreme emotion now, not permanent madness." }
+    ]
+  },
+  {
+    claim: "Mr White is terrified as he fetches the paw.",
+    quote: "His brow cold with sweat, he felt his way round the table",
+    opts: [
+      { t: "It is very cold in the house at night, so Mr White is shivering as he walks around the dark parlour looking for the monkey’s paw on the mantelpiece.", why: "A misreading. Cold sweat is caused by fear, not the temperature." },
+      { t: "I would be scared walking around a dark room on my own at night too, especially if I thought my dead son might suddenly appear in front of me.", why: "A personal response. Explain Jacobs’ words instead." },
+      { t: "Mr White goes downstairs in the dark to find the paw and has to feel his way around the furniture because he has not brought a candle with him.", why: "Retelling. It doesn’t explain how the words show terror." },
+      { t: "Cold sweat is a physical sign of fear, and “felt his way” shows he is blind in the dark. The reader shares his terror of touching something unseen.", ok: true, why: "Strong. It explains two details and their effect on the reader." }
+    ]
+  },
+  {
+    claim: "The knocking reaches a terrifying peak.",
+    quote: "A perfect fusillade of knocks reverberated through the house",
+    opts: [
+      { t: "A “fusillade” is a burst of gunfire, so the knocks become violent and relentless. After the first “scarcely audible” knock, the noise peaks.", ok: true, why: "Strong. It defines the metaphor and links it to how the knocking has built." },
+      { t: "Somebody outside starts shooting at the house with a gun, which is why there is so much noise echoing through all the rooms at the end.", why: "A literal misreading of a metaphor." },
+      { t: "The knocking on the front door gets louder and louder, and the sound of it can be heard all over the house while Mrs White tries to open the door.", why: "Retelling. What does “fusillade” add?" },
+      { t: "The writer uses a difficult word here to describe the sound of the knocking, which makes the scene more interesting for the reader of the story.", why: "Vague. Explain what the word suggests." }
+    ]
+  },
+  {
+    claim: "The ending is chilling because of what it doesn’t show.",
+    quote: "shone on a quiet and deserted road",
+    opts: [
+      { t: "The street lamp is on outside the house and there are no people walking along the road because it is the middle of the night and everyone is asleep.", why: "Retelling. It misses why the emptiness is chilling." },
+      { t: "After all the knocking, the road is empty. The calm image is unsettling because the reader must imagine what was there moments before.", ok: true, why: "Strong. It contrasts the quiet with the knocking and explains the effect on the reader." },
+      { t: "This proves that nobody was ever knocking at the door, and that Mrs White imagined the whole thing because she was so upset about her son.", why: "Overclaiming. Both of them heard the knocks; the story leaves it open." },
+      { t: "The writer ends the story with a description of the setting, which is a common way to finish a short story and create an atmosphere.", why: "Too general. What atmosphere, and how?" }
+    ]
+  }
+];
+TEXTS.push({ id: "monkeys-paw", type: "Fiction", mode: "Creative", form: "Horror story (extract)", level: "5ème",
+  hook: "Three wishes. One dead son. And a knock at the door in the middle of the night.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
+/* ================================================================
+   TEXT 15 · Fiction · Creative · Short story (extract) · 5ème
+   Katherine Mansfield, Miss Brill (1920), ending
+   ================================================================ */
+{
+const TEXT = {
+  title: "Miss Brill",
+  intro: "Katherine Mansfield, 1920 (final part). Every Sunday, Miss Brill, a lonely woman who teaches English, sits in the Jardins Publiques (public gardens) of a French town. She wears her old fur necklet and watches the people around her while the band plays.",
+  paras: [
+    "Oh, how fascinating it was! How she enjoyed it! How she loved sitting here, watching it all! It was like a play. It was exactly like a play. Who could believe the sky at the back wasn’t painted? But it wasn’t till a little brown dog trotted on solemn and then slowly trotted off, like a little “theatre” dog, a little dog that had been drugged, that Miss Brill discovered what it was that made it so exciting. They were all on the stage. They weren’t only the audience, not only looking on; they were acting. Even she had a part and came every Sunday. No doubt somebody would have noticed if she hadn’t been there; she was part of the performance after all. How strange she’d never thought of it like that before! And yet it explained why she made such a point of starting from home at just the same time each week – so as not to be late for the performance – and it also explained why she had quite a queer, shy feeling at telling her English pupils how she spent her Sunday afternoons. No wonder! Miss Brill nearly laughed out loud. She was on the stage.",
+    "She thought of the old invalid gentleman to whom she read the newspaper four afternoons a week while he slept in the garden. She had got quite used to the frail head on the cotton pillow, the hollowed eyes, the open mouth and the high pinched nose. If he’d been dead she mightn’t have noticed for weeks; she wouldn’t have minded. But suddenly he knew he was having the paper read to him by an actress! “An actress!” The old head lifted; two points of light quivered in the old eyes. “An actress – are ye?” And Miss Brill smoothed the newspaper as though it were the manuscript of her part and said gently: “Yes, I have been an actress for a long time.”",
+    "The band had been having a rest. Now they started again. And what they played was warm, sunny, yet there was just a faint chill – a something, what was it? – not sadness – no, not sadness – a something that made you want to sing. The tune lifted, lifted, the light shone; and it seemed to Miss Brill that in another moment all of them, all the whole company, would begin singing. The young ones, the laughing ones who were moving together, they would begin, and the men’s voices, very resolute and brave, would join them. And then she too, she too, and the others on the benches – they would come in with a kind of accompaniment – something low, that scarcely rose or fell, something so beautiful – moving… And Miss Brill’s eyes filled with tears and she looked smiling at all the other members of the company. Yes, we understand, we understand, she thought – though what they understood she didn’t know.",
+    "Just at that moment a boy and girl came and sat down where the old couple had been. They were beautifully dressed; they were in love. The hero and heroine, of course, just arrived from his father’s yacht. And still soundlessly singing, still with that trembling smile, Miss Brill prepared to listen.",
+    "“No, not now,” said the girl. “Not here, I can’t.”",
+    "“But why? Because of that stupid old thing at the end there?” asked the boy. “Why does she come here at all – who wants her? Why doesn’t she keep her silly old mug at home?”",
+    "“It’s her fu-ur which is so funny,” giggled the girl. “It’s exactly like a fried whiting.”",
+    "“Ah, be off with you!” said the boy in an angry whisper. Then: “Tell me, ma petite chère –”",
+    "“No, not here,” said the girl. “Not yet.”",
+    "On her way home she usually bought a slice of honey-cake at the baker’s. It was her Sunday treat. Sometimes there was an almond in her slice, sometimes not. It made a great difference. If there was an almond it was like carrying home a tiny present – a surprise – something that might very well not have been there. She hurried on the almond Sundays and struck the match for the kettle in quite a dashing way.",
+    "But to-day she passed the baker’s by, climbed the stairs, went into the little dark room – her room like a cupboard – and sat down on the red eiderdown. She sat there for a long time. The box that the fur came out of was on the bed. She unclasped the necklet quickly; quickly, without looking, laid it inside. But when she put the lid on she thought she heard something crying."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Short sentences",
+    prompt: "Find the short sentence where Miss Brill decides the park is a <em>performance</em>.",
+    target: ["It was exactly like a play.", "It was like a play."],
+    decoys: [{ phrase: "Who could believe the sky at the back wasn’t painted?", why: "This builds the theatre idea, but it is a question about the scenery. Look for the short sentence where she states it outright." }],
+    miss: "Look near the start of the first paragraph.",
+    explain: "“It was like a play” is repeated and strengthened to “exactly like a play”. The short, excited sentences show her delight as the idea takes hold, an idea the story will later destroy."
+  },
+  {
+    skill: "Revealing detail",
+    prompt: "Find the detail that reveals how <em>empty</em> Miss Brill’s weekday life is.",
+    target: ["If he’d been dead she mightn’t have noticed for weeks"],
+    decoys: [{ phrase: "She had got quite used to the frail head on the cotton pillow", why: "This shows a habit, but the shocking detail comes in the next sentence." }],
+    miss: "Look at the paragraph about the old invalid gentleman.",
+    explain: "Her weekday company is a man who sleeps while she reads, so absent that he could be dead without her noticing. The detail quietly shows how little real human contact she has."
+  },
+  {
+    skill: "Simile",
+    prompt: "Find the <em>cruel simile</em> the girl uses about Miss Brill’s fur.",
+    target: ["exactly like a fried whiting"],
+    decoys: [{ phrase: "like a little “theatre” dog", why: "That simile is Miss Brill’s own, from her happy imagining. Look for the girl’s insult." }],
+    miss: "Find what the girl says, giggling, about the fur.",
+    explain: "A fried whiting is a cheap fish, brown and scaly. The girl turns Miss Brill’s treasured fur into something ridiculous and a bit disgusting, and the phrase “exactly like” echoes Miss Brill’s own “exactly like a play”, which makes it crueller."
+  },
+  {
+    skill: "Simile",
+    prompt: "Find the simile showing how <em>small and dark</em> Miss Brill’s real life is.",
+    target: ["her room like a cupboard"],
+    decoys: [{ phrase: "went into the little dark room", why: "This describes the room directly. The comparison comes straight after." }],
+    miss: "Look at the last paragraph, when she gets home.",
+    explain: "A cupboard is cramped, dark and used for storing things out of sight. The simile suggests Miss Brill herself has been put away, far from the bright “stage” of the park."
+  },
+  {
+    skill: "Ending",
+    prompt: "Find the final phrase where Miss Brill’s sadness seems to <em>belong to something else</em>.",
+    target: ["she thought she heard something crying"],
+    decoys: [{ phrase: "She sat there for a long time.", why: "This shows her shock, but not the displaced sadness. Look at the very last words." }],
+    miss: "Read the last sentence of the story.",
+    explain: "Mansfield never says Miss Brill cries. Instead, “something” is crying, as if the sadness belongs to the fur in its box. It suggests she cannot admit her own pain, even to herself."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Point of view",
+    q: "How is this story narrated?",
+    opts: [
+      { t: "In the third person, closely following Miss Brill’s thoughts", ok: true, why: "Right. The narrator uses “she”, but we hear her excited thoughts directly: “Oh, how fascinating it was!” We see the world as she sees it." },
+      { t: "In the first person, by Miss Brill herself", why: "The story uses “she” and “Miss Brill”, not “I”." },
+      { t: "By a narrator who explains what every character thinks", why: "We only enter Miss Brill’s mind. We never learn what the couple or others think." },
+      { t: "By the boy who insults Miss Brill on the bench", why: "The boy is a minor character described from outside." }
+    ]
+  },
+  {
+    skill: "Irony",
+    q: "Miss Brill thinks the young couple are “The hero and heroine, of course”. Why is this ironic?",
+    opts: [
+      { t: "She casts them as heroes, but they turn out to be cruel to her", ok: true, why: "Right. She expects the “hero and heroine” of her play; instead they mock her and destroy her dream. The reader sees the gap between her hopes and reality." },
+      { t: "They really are professional actors performing in the gardens", why: "They are an ordinary couple. The “play” exists only in Miss Brill’s imagination." },
+      { t: "She already knows them well from her English lessons at school", why: "Nothing suggests she knows them. She invents a story about them on the spot." },
+      { t: "The narrator is making fun of the boy for owning a yacht", why: "The yacht is Miss Brill’s invention (“of course”), part of her imagined story." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does Miss Brill pass the baker’s by on the way home?",
+    opts: [
+      { t: "The humiliation has taken away her joy, even in small treats", ok: true, why: "Right. The honey-cake was her “Sunday treat” and a source of delight. Skipping it shows how deeply the couple’s words have hurt her." },
+      { t: "The baker’s shop is closed because it is a Sunday afternoon", why: "She usually buys honey-cake there every Sunday, so it must normally be open." },
+      { t: "She has spent all her money on the band and has none left", why: "The band is free in the public gardens. Money isn’t mentioned." },
+      { t: "She has decided to eat less cake to become healthier", why: "Nothing suggests a diet. The change comes straight after the insult." }
+    ]
+  },
+  {
+    skill: "Ending",
+    q: "What does the final line, “she thought she heard something crying”, suggest?",
+    opts: [
+      { t: "Miss Brill is crying but can’t admit it, so it seems to come from the fur", ok: true, why: "Right. “Something” and “thought she heard” create distance. Mansfield shows the pain without letting Miss Brill face it directly." },
+      { t: "The fur necklet is really alive and is crying inside its box", why: "A literal reading. The fur is an object; the crying suggests Miss Brill’s own feelings." },
+      { t: "A baby is crying in another flat in Miss Brill’s building", why: "Nothing mentions neighbours. The crying comes as she closes the fur’s box." },
+      { t: "Miss Brill feels happy and peaceful at the end of her day", why: "She skips her treat, sits for a long time and hears crying. The mood is deep sadness." }
+    ]
+  },
+  {
+    skill: "Mood",
+    q: "How does the mood change across the extract?",
+    opts: [
+      { t: "From joyful, almost magical, to hurt and silent", ok: true, why: "Right. She is “fascinating” and nearly singing, then after the insult she sits alone in her dark room without a word." },
+      { t: "From angry and bitter to calm and peaceful", why: "She begins delighted, not angry, and ends in sorrow, not peace." },
+      { t: "From bored and lonely to excited and hopeful", why: "The reverse. Her excitement comes first; the loneliness is revealed at the end." },
+      { t: "The mood stays cheerful from beginning to end", why: "The last paragraph, with the dark room and crying, is anything but cheerful." }
+    ]
+  },
+  {
+    skill: "Purpose of a detail",
+    q: "Why does Mansfield describe the almond in the honey-cake?",
+    opts: [
+      { t: "It shows how tiny pleasures fill her life, so losing them hurts", ok: true, why: "Right. An almond “made a great difference” and felt like “a tiny present”. Such small joys make her empty evening more painful." },
+      { t: "It explains that Miss Brill works as a baker during the week", why: "She teaches English and reads to an invalid. She buys the cake." },
+      { t: "It warns readers that Miss Brill is allergic to nuts", why: "The almond is a delight to her, not a danger." },
+      { t: "It gives the reader a traditional recipe for honey-cake", why: "No ingredients or method are given. The detail is about her feelings." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "No doubt somebody would have noticed if she hadn’t been there",
+    opts: [
+      { t: "Miss Brill badly wants to believe she matters to others", ok: true, why: "Right. “No doubt” sounds confident, but nothing shows anyone would notice. It reveals her wish to be important." },
+      { t: "Everyone in the gardens knows Miss Brill by name", why: "No one speaks to her. The quote is her belief, not a fact." },
+      { t: "Miss Brill is a famous actress in the town", why: "The “play” is imaginary. She teaches English and reads to an invalid." },
+      { t: "Miss Brill often misses her Sunday visits", why: "She comes “every Sunday” and makes “a point” of arriving on time." }
+    ]
+  },
+  {
+    quote: "Miss Brill’s eyes filled with tears and she looked smiling at all the other members of the company",
+    opts: [
+      { t: "In this moment she feels a deep sense of belonging", ok: true, why: "Right. Tears and a smile together show she is moved, imagining herself part of “the company”." },
+      { t: "She is crying because she feels lonely and sad", why: "She is smiling and feels they “understand”. These are tears of emotion and happiness." },
+      { t: "Someone in the gardens has just been unkind to her", why: "The insult comes after this moment. Here she is still happy." },
+      { t: "The cold wind is making her eyes water", why: "The context is the music and her feelings, not the weather." }
+    ]
+  },
+  {
+    quote: "Why doesn’t she keep her silly old mug at home?",
+    opts: [
+      { t: "The couple see Miss Brill as unwanted and ridiculous", ok: true, why: "Right. “Mug” is slang for face, and “silly old” adds contempt. They want her gone." },
+      { t: "The couple don’t notice Miss Brill at all", why: "They are talking directly about her. They notice her and mock her." },
+      { t: "The boy is joking kindly about Miss Brill", why: "“Stupid old thing” and “who wants her?” are cruel, not kind." },
+      { t: "Miss Brill has brought a cup to the gardens", why: "“Mug” is slang for face here, not a cup." }
+    ]
+  },
+  {
+    quote: "She unclasped the necklet quickly; quickly, without looking, laid it inside.",
+    opts: [
+      { t: "She can’t bear to look at the fur now that it has been mocked", ok: true, why: "Right. The repeated “quickly” and “without looking” show she wants it out of sight, the opposite of how she lovingly brushed it before." },
+      { t: "She is in a hurry because she wants to go out again", why: "She “sat there for a long time”. She isn’t going anywhere." },
+      { t: "The fur is dirty and needs to be cleaned before next Sunday", why: "Nothing suggests dirt. Her haste is about the insult." },
+      { t: "She is proud of her fur and wants to keep it safe", why: "Not looking at it suggests shame, not pride." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "Miss Brill imagines herself as important.",
+    quote: "she was part of the performance after all",
+    opts: [
+      { t: "Miss Brill thinks that everyone in the park is an actor in a play, including herself, because she comes to the gardens every single Sunday afternoon.", why: "Retelling. It doesn’t explain what the words reveal about her need to feel important." },
+      { t: "This proves that Miss Brill is the most important person in the whole park, and that the band would stop playing if she didn’t turn up on a Sunday.", why: "Overclaiming. The quote shows what she believes, not what is true." },
+      { t: "“Part of the performance” gives her a role, not just a seat. “After all” sounds like she is reassuring herself, hinting how much she needs to belong.", ok: true, why: "Strong. It explains both phrases and what they reveal." },
+      { t: "The writer uses the idea of a performance in this part of the story to create an effect on the reader and to make the park sound more interesting.", why: "Vague. What effect, and what does it show about Miss Brill?" }
+    ]
+  },
+  {
+    claim: "Miss Brill’s happiness is fragile.",
+    quote: "not sadness – no, not sadness",
+    opts: [
+      { t: "Miss Brill feels happy while she listens to the music, and she tells herself that she is definitely not feeling sad at all during this part of the afternoon.", why: "Retelling. It takes her denial at face value instead of analysing it." },
+      { t: "She rejects “sadness” twice, which only draws attention to it. The repetition hints sadness is already there, beneath her happiness.", ok: true, why: "Strong. It explains the effect of repeating a denial." },
+      { t: "The writer uses repetition here, which is a language technique that writers use to emphasise words and make them stand out for the reader.", why: "Technique named, but what does repeating “not sadness” suggest?" },
+      { t: "This shows Miss Brill is the saddest person in the story and has been crying all afternoon while she listens to the band playing in the gardens.", why: "A misreading. She is happy here; the sadness is hidden." }
+    ]
+  },
+  {
+    claim: "The couple’s words are especially cruel.",
+    quote: "that stupid old thing at the end there",
+    opts: [
+      { t: "“Thing” strips Miss Brill of being a person, and “stupid old” adds contempt. She had cast them as hero and heroine, so the insult wrecks her play.", ok: true, why: "Strong. It explains the word choices and links them to her imagined play." },
+      { t: "The boy is talking about Miss Brill, who is sitting at the end of the bench, and he says that he doesn’t want her there while he talks to the girl.", why: "Retelling. How do the words make it cruel?" },
+      { t: "I think the boy is very rude and should apologise to Miss Brill, because it is not nice to talk about people like that when they can hear you.", why: "A personal response. Analyse Mansfield’s words." },
+      { t: "The boy is really talking about an old object left at the end of the bench, not about Miss Brill, which is why he calls it a thing.", why: "A misreading. “Why does she come here at all” shows he means Miss Brill." }
+    ]
+  },
+  {
+    claim: "Miss Brill’s home life is bleak.",
+    quote: "her room like a cupboard",
+    opts: [
+      { t: "Miss Brill lives in a very small room at the top of some stairs, and it is dark inside because it doesn’t have many windows to let the light in.", why: "Retelling. It doesn’t explain what the simile suggests." },
+      { t: "This proves that Miss Brill actually lives inside a cupboard because she is too poor to afford a proper room of her own in the town.", why: "A literal misreading of a simile." },
+      { t: "The writer uses a simile to describe Miss Brill’s room, which is a comparison using the word like to help the reader picture it.", why: "A definition, not an explanation of the effect." },
+      { t: "A cupboard is cramped and dark, and things are stored there out of sight. The simile suggests Miss Brill has been put away, far from the bright “stage”.", ok: true, why: "Strong. It explains the simile and contrasts home with the park." }
+    ]
+  },
+  {
+    claim: "Miss Brill cannot admit her own pain.",
+    quote: "she thought she heard something crying",
+    opts: [
+      { t: "Miss Brill hears a sound coming from the box when she puts the lid on it, and she thinks that maybe the fur necklet inside it is crying.", why: "Retelling. It misses what the vague “something” suggests." },
+      { t: "“Something” avoids saying who is crying, and “thought she heard” adds distance. Mansfield suggests Miss Brill is crying but puts the grief onto the fur.", ok: true, why: "Strong. It explains two word choices and the displaced emotion." },
+      { t: "This shows that the fur is magic and has come to life at the end of the story, which is why Miss Brill can hear it crying inside its box.", why: "A literal misreading. The crying is suggestive, not magical." },
+      { t: "The writer ends the story with a sad sentence to make the reader feel sad as well.", why: "Too vague. How do these particular words create that sadness?" }
+    ]
+  }
+];
+TEXTS.push({ id: "miss-brill", type: "Fiction", mode: "Creative", form: "Short story (extract)", level: "5ème",
+  hook: "A lonely woman decides the park is a play, until two strangers take her part away.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
 /* ================================================================ */
 const $ = s => document.querySelector(s);
 const norm = t => t.toLowerCase().replace(/[^a-z0-9]/g, "");
