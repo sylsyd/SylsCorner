@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5SI English: A Mini-Golf Gripe, sequence of events</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e8efec; --paper:#fbfdfc; --paper-2:#eff4f2; --ink:#1d3147; --ink-2:#52636f; --line:#cddad5;
+  --amber:#f5dba8; --amber-ink:#8d5b0c; --teal:#b6e1d8; --teal-ink:#1b6a60;
+  --rose:#f5c6ca; --rose-ink:#9a3342; --lav:#dcd5f4; --lav-ink:#51458f;
+  --good:#cdeac6; --good-ink:#2f6a2a; --bad:#f7d0d0; --bad-ink:#9a2d2d;
+  --acc:#bddbb5; --acc-ink:#2e5a2a;
+  --shadow:0 16px 36px -24px rgba(29,49,71,.5);
+  --serif:"Literata", Georgia, "Times New Roman", serif;
+  --sans:"Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --hand:"Caveat", "Segoe Print", "Comic Sans MS", cursive;
+  color-scheme:light;
+}
+body[data-lesson="l11"]{ --acc:#f0c6d0; --acc-ink:#7d2c41; }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161e28; --paper:#202b37; --paper-2:#28353f; --ink:#e6edf2; --ink-2:#a9b8c3; --line:#374654;
+    --amber:#5a4a2c; --amber-ink:#f2d49b; --teal:#274f49; --teal-ink:#a8e2d7;
+    --rose:#58313a; --rose-ink:#f4b8bf; --lav:#3d3960; --lav-ink:#d5ccf6;
+    --good:#2d4c2c; --good-ink:#c2e7ba; --bad:#553032; --bad-ink:#f5c3c3;
+    --acc:#3b5739; --acc-ink:#c7e8bf; --shadow:0 16px 36px -24px rgba(0,0,0,.8); color-scheme:dark;
+  }
+  :root:not([data-theme="light"]) body[data-lesson="l11"]{ --acc:#5a3542; --acc-ink:#f3c4cf; }
+}
+:root[data-theme="dark"]{
+  --bg:#161e28; --paper:#202b37; --paper-2:#28353f; --ink:#e6edf2; --ink-2:#a9b8c3; --line:#374654;
+  --amber:#5a4a2c; --amber-ink:#f2d49b; --teal:#274f49; --teal-ink:#a8e2d7;
+  --rose:#58313a; --rose-ink:#f4b8bf; --lav:#3d3960; --lav-ink:#d5ccf6;
+  --good:#2d4c2c; --good-ink:#c2e7ba; --bad:#553032; --bad-ink:#f5c3c3;
+  --acc:#3b5739; --acc-ink:#c7e8bf; --shadow:0 16px 36px -24px rgba(0,0,0,.8); color-scheme:dark;
+}
+:root[data-theme="dark"] body[data-lesson="l11"]{ --acc:#5a3542; --acc-ink:#f3c4cf; }
+
+*{box-sizing:border-box}
+html{font-size:clamp(15px, .85vw + 8px, 25px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;line-height:1.45}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--lav-ink);outline-offset:2px}
+
+/* header */
+.bar{display:flex;align-items:center;gap:1rem;padding:.55rem 1.2rem;background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10;flex-wrap:wrap}
+.lessons{display:flex;gap:.4rem}
+.lessons button{border:1.5px solid var(--line);background:var(--paper-2);border-radius:.7rem;padding:.35rem .8rem;cursor:pointer;text-align:left;line-height:1.15}
+.lessons button small{display:block;font-size:.72rem;color:var(--ink-2)}
+.lessons button b{font-weight:700;font-size:.95rem}
+.lessons button[aria-selected="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+.lessons button[aria-selected="true"] small{color:inherit}
+.bar-title{flex:1;min-width:10rem;font-family:var(--serif);font-weight:600;font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tools{display:flex;gap:.4rem;align-items:center;position:relative}
+.icon-btn{border:1.5px solid var(--line);background:var(--paper);border-radius:.6rem;padding:.4rem .7rem;cursor:pointer;font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:.4rem}
+.icon-btn svg{width:1.1em;height:1.1em}
+.timer-pop{position:absolute;right:0;top:calc(100% + .4rem);background:var(--paper);border:1px solid var(--line);border-radius:.8rem;padding:.6rem;display:flex;gap:.35rem;box-shadow:var(--shadow)}
+.timer-pop[hidden]{display:none}
+#timerBtn.ring{background:var(--bad);border-color:var(--bad-ink);animation:pulse 1s ease-in-out 4}
+@keyframes pulse{50%{transform:scale(1.08)}}
+
+/* shell */
+.shell{display:grid;grid-template-columns:15.5rem minmax(0,1fr);min-height:calc(100vh - 3.8rem)}
+body.rail-off .shell{grid-template-columns:minmax(0,1fr)}
+body.rail-off .rail{display:none}
+.rail{padding:1rem .7rem;border-right:1px solid var(--line);background:var(--paper-2);overflow:auto}
+.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:.2rem}
+.rail button{display:grid;grid-template-columns:1.8rem 1fr;gap:.4rem;align-items:start;text-align:left;padding:.55rem .6rem;border-radius:.6rem;border:0;background:transparent;cursor:pointer;width:100%}
+.rail button:hover{background:var(--paper)}
+.rail .num{font-family:var(--serif);font-weight:700;font-size:1.25rem;line-height:1;color:var(--ink-2);padding-top:.1rem}
+.rail .bt{font-weight:600;font-size:.98rem;line-height:1.2;display:block}
+.rail .bs{font-size:.8rem;color:var(--ink-2);display:block;margin-top:.1rem}
+.rail button[aria-current="true"]{background:var(--acc);color:var(--acc-ink)}
+.rail button[aria-current="true"] .num,.rail button[aria-current="true"] .bs{color:inherit}
+
+main{display:flex;flex-direction:column;padding:1rem 2rem 1.2rem;min-width:0}
+.stages{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:.4rem}
+.stage-tab{display:flex;align-items:center;gap:.5em;padding:.35em .95em .35em .35em;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);font-weight:600;cursor:pointer;font-size:.95rem}
+.stage-tab .n{width:1.7em;height:1.7em;border-radius:50%;display:grid;place-items:center;background:var(--paper-2);font-size:.85em}
+.stage-tab[aria-current="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+.stage-tab[aria-current="true"] .n{background:var(--paper);color:var(--ink)}
+#stage{flex:1;width:100%;max-width:80rem;margin:0 auto;padding:1.1rem 0 1.4rem}
+#stage.enter{animation:enter .28s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(6px)}}
+@media (prefers-reduced-motion: reduce){#stage.enter{animation:none}#timerBtn.ring{animation:none}}
+.pager{display:flex;justify-content:space-between;align-items:center;gap:1rem;max-width:80rem;width:100%;margin:0 auto;border-top:1px solid var(--line);padding-top:.8rem}
+
+/* type */
+h2.title{font-family:var(--serif);font-weight:700;font-size:clamp(1.75rem,2.5vw,2.9rem);line-height:1.12;letter-spacing:-.015em;margin:0 0 .35em;max-width:32ch;text-wrap:balance}
+.prompt{font-size:1.2rem;color:var(--ink-2);max-width:64ch;margin:0 0 1.2rem}
+.hand{font-family:var(--hand);font-size:1.5em;line-height:1.15;font-weight:500}
+mark{background:var(--lav);color:inherit;border-radius:.2em;padding:0 .15em;box-shadow:inset 0 -.12em 0 var(--lav-ink)}
+
+/* buttons */
+.row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-top:1rem}
+.btn{font-weight:600;font-size:1rem;padding:.55em 1.05em;border-radius:.6em;border:1.5px solid var(--line);background:var(--paper);cursor:pointer}
+.btn:hover{border-color:var(--ink-2)}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.ghost{background:transparent}
+.btn:disabled{opacity:.4;cursor:default}
+.subtabs{display:flex;gap:.4rem;margin:-.2rem 0 1rem}
+.subtabs .btn[aria-pressed="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+
+/* passage */
+.passage{font-family:var(--serif);font-size:1.32rem;line-height:1.95;background:var(--paper);border-radius:.4rem;padding:1.2rem 1.6rem 1.2rem 3rem;box-shadow:var(--shadow);position:relative;max-width:50rem}
+.passage::before{content:"";position:absolute;left:1.9rem;top:0;bottom:0;width:2px;background:var(--rose)}
+.passage p{margin:0 0 .7em}
+.passage p:last-child{margin-bottom:0}
+.passage.small{font-size:1.15rem;margin-bottom:1rem}
+.split{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.6rem;align-items:start}
+@media (max-width:900px){.split{grid-template-columns:1fr}.shell{grid-template-columns:1fr}.rail{display:none}main{padding:1rem}}
+
+.chunk{padding:.04em .22em;margin:0 -.22em;border-radius:.3em;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:box-shadow .18s,background-color .18s}
+.markable .chunk{cursor:pointer}
+.markable .chunk:not(.mk):hover{background-color:var(--paper-2);box-shadow:inset 0 -2px 0 var(--line)}
+.mk-when{box-shadow:inset 0 0 0 .13em var(--amber-ink);background-color:var(--amber);border-radius:.1em}
+.mk-where{box-shadow:inset 0 0 0 .13em var(--teal-ink);border-radius:1em}
+.mk-event{box-shadow:inset 0 0 0 .13em var(--rose-ink);border-radius:1em}
+.mk-mood,.mk-detail,.mk-verb,.mk-after,.mk-feel,.mk-happen{background-image:linear-gradient(var(--u),var(--u));background-repeat:no-repeat;background-size:calc(100% - .44em) .13em;background-position:.22em 95%}
+.mk-mood{--u:var(--rose-ink)}
+.mk-detail,.mk-after,.mk-happen{--u:var(--teal-ink)}
+.mk-signal{box-shadow:inset 0 0 0 .13em var(--rose-ink);background-color:var(--rose);border-radius:.1em}
+.mk-verb,.mk-feel{--u:var(--lav-ink)}
+.mk-trap{text-decoration:line-through;text-decoration-color:var(--amber-ink);text-decoration-thickness:.1em;background-color:var(--amber)}
+.mk-turn{background-color:var(--amber)}
+.mk-evidence{background-color:var(--lav);box-shadow:inset 0 -.13em 0 var(--lav-ink)}
+.mk-clue{background-color:var(--teal);box-shadow:inset 0 -.13em 0 var(--teal-ink)}
+.nb{font:700 .62em var(--sans);background:var(--ink);color:var(--paper);border-radius:999px;padding:.05em .45em;vertical-align:super;margin-left:.25em}
+.ck-ok::after,.ck-bad::after{font:700 .7em var(--sans);vertical-align:super;margin-left:.2em}
+.ck-ok::after{content:"\2713";color:var(--good-ink)}
+.ck-bad::after{content:"\2717";color:var(--bad-ink)}
+.ck-miss{outline:2px dashed var(--bad-ink);outline-offset:1px}
+
+.notes{list-style:none;padding:0;margin:0;display:grid;gap:.65rem}
+.notes li{font-family:var(--hand);font-size:1.7rem;line-height:1.1;display:flex;gap:.55rem;align-items:baseline}
+.notes li .nb{font-size:.9rem;vertical-align:baseline;flex:none;position:relative;top:-.15em}
+.notes li.k-when{color:var(--amber-ink)} .notes li.k-where{color:var(--teal-ink)} .notes li.k-mood{color:var(--rose-ink)}
+.notes li.k-event,.notes li.k-signal{color:var(--rose-ink)} .notes li.k-happen{color:var(--teal-ink)} .notes li.k-detail{color:var(--teal-ink)} .notes li.k-verb,.notes li.k-feel{color:var(--lav-ink)} .notes li.k-trap{color:var(--amber-ink)}
+.notes-empty{color:var(--ink-2);font-size:1rem}
+
+/* toolbox */
+.toolbox{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1rem}
+.tool{display:flex;align-items:center;gap:.55rem;border:2px solid var(--line);background:var(--paper);border-radius:.7rem;padding:.45rem .85rem;cursor:pointer;font-weight:600;font-size:1.02rem}
+.tool[aria-pressed="true"]{border-color:var(--ink);background:var(--paper-2)}
+.tool svg{width:2.1rem;height:1.2rem;flex:none}
+.summary{font-size:1.1rem;margin-top:1rem;padding:.7rem 1rem;border-radius:.6rem;background:var(--paper-2)}
+
+/* concept */
+.points{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1rem 0 1.4rem}
+.point{background:var(--paper);border-radius:.8rem;padding:1.1rem 1.2rem 1.15rem;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.point::before{content:"";position:absolute;left:0;right:0;top:0;height:.4rem;background:var(--tone)}
+.point h3{font-family:var(--serif);font-size:1.45rem;margin:.15em 0 .25em;color:var(--tone-ink)}
+.point p{font-size:1.1rem;margin:0}
+.demo-wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.4rem;align-items:center}
+@media (max-width:900px){.demo-wrap{grid-template-columns:1fr}}
+.demo-note{font-size:1.1rem;color:var(--ink-2);max-width:60ch;margin-top:.8rem}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:62rem}
+.compare > div{background:var(--paper);border-radius:.8rem;padding:1rem 1.2rem;box-shadow:var(--shadow)}
+.compare .lab{font-weight:700;font-size:1rem}
+.compare .weak .lab{color:var(--bad-ink)} .compare .strong .lab{color:var(--good-ink)}
+.compare .phrase{font-family:var(--serif);font-size:1.2rem;margin:.3rem 0}
+.moodline{max-width:44rem;width:100%;height:auto;background:var(--paper);border-radius:.8rem;box-shadow:var(--shadow)}
+
+/* steps */
+.steps{margin:0;padding-left:1.6rem;display:grid;gap:.75rem;font-size:1.2rem}
+.steps li{padding-left:.3rem}
+.steps li::marker{font-weight:700;color:var(--ink-2)}
+.steps s{text-decoration-color:var(--bad-ink);text-decoration-thickness:.1em}
+
+/* sort */
+.pool{display:flex;flex-wrap:wrap;gap:.5rem;min-height:3.2rem;padding:.8rem;border:2px dashed var(--line);border-radius:.8rem;margin-bottom:1rem}
+.pool-empty{color:var(--ink-2);align-self:center}
+.bins{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:.8rem}
+@media (max-width:900px){.bins{grid-template-columns:1fr}}
+.bin{background:var(--paper);border-radius:.8rem;padding:.7rem;min-height:9rem;cursor:pointer;box-shadow:var(--shadow);border:2px solid transparent}
+.bin.ready{border-color:var(--acc-ink)}
+.bin-label{font-family:var(--serif);font-weight:700;font-size:1.3rem;margin:0 0 .5rem .2rem}
+.bin-body{display:flex;flex-wrap:wrap;gap:.45rem}
+.chip{border:1.5px solid var(--line);background:var(--paper-2);border-radius:.6rem;padding:.45rem .75rem;cursor:pointer;font-size:1.05rem;font-family:var(--serif);text-align:left}
+.chip.sel{border-color:var(--ink);background:var(--acc);color:var(--acc-ink);box-shadow:0 0 0 3px var(--acc)}
+.chip.ok{background:var(--good);border-color:var(--good-ink)}
+.chip.bad{background:var(--bad);border-color:var(--bad-ink)}
+.whys{margin:.8rem 0 0;padding-left:1.2rem;font-size:1.05rem;display:grid;gap:.3rem}
+
+/* questions */
+.qpanel{background:var(--paper);border-radius:1rem;padding:1.2rem 1.4rem;box-shadow:var(--shadow)}
+.single .qpanel{max-width:56rem}
+.qnav{display:flex;gap:.35rem;align-items:center;margin-bottom:.8rem;flex-wrap:wrap}
+.dot{width:2rem;height:2rem;border-radius:50%;border:1.5px solid var(--line);background:var(--paper-2);cursor:pointer;font-weight:700;font-size:.85rem}
+.dot[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.dot.done{background:var(--good);border-color:var(--good-ink)}
+.q{font-family:var(--serif);font-size:1.35rem;line-height:1.35;margin-bottom:.9rem}
+.opts{display:grid;gap:.5rem}
+.opt{display:flex;gap:.75em;align-items:center;text-align:left;font-size:1.12rem;padding:.6em .9em;border-radius:.7em;border:2px solid var(--line);background:var(--paper);cursor:pointer;width:100%}
+.opt:hover{border-color:var(--ink-2)}
+.opt .letter{font-weight:700;width:1.8em;height:1.8em;border-radius:50%;background:var(--paper-2);display:grid;place-items:center;flex:none;font-size:.9em}
+.opt.ok{background:var(--good);border-color:var(--good-ink)}
+.opt.bad{background:var(--bad);border-color:var(--bad-ink)}
+.opt.bad .otext{text-decoration:line-through;text-decoration-color:var(--bad-ink)}
+.fb{margin-top:.9rem;padding:.75rem 1rem;border-radius:.6rem;font-size:1.1rem}
+.fb.ok{background:var(--good);color:var(--good-ink)}
+.fb.bad{background:var(--bad);color:var(--bad-ink)}
+.fb.info{background:var(--paper-2)}
+.helped{margin-top:.8rem;color:var(--lav-ink)}
+
+/* frame */
+.frame-para{font-family:var(--serif);font-size:1.4rem;line-height:2.1;background:var(--paper);border-radius:.8rem;padding:1.2rem 1.6rem;box-shadow:var(--shadow);max-width:62rem;margin:0 0 1rem}
+.gap{font-family:var(--hand);font-size:1.45em;line-height:1;border:0;border-bottom:2.5px solid var(--ink-2);background:var(--paper-2);border-radius:.3em .3em 0 0;padding:.05em .4em;cursor:pointer;min-width:5em}
+.gap.active{background:var(--acc);border-bottom-color:var(--acc-ink)}
+.gap.ok{border-bottom-color:var(--good-ink);background:var(--good)}
+.gap.bad{border-bottom-color:var(--bad-ink);background:var(--bad)}
+.gap.active.ok,.gap.active.bad{box-shadow:0 0 0 3px var(--acc)}
+.chooser{max-width:62rem}
+.chooser-label{font-weight:700;margin:.2rem 0 .5rem}
+
+/* wordswap */
+.scene{font-family:var(--serif);font-size:1.55rem;line-height:1.9;background:var(--paper);border-radius:.8rem;padding:1.3rem 1.7rem;box-shadow:var(--shadow);max-width:60rem;margin:1rem 0}
+.swap{background:var(--lav);border-radius:.25em;padding:0 .2em;box-shadow:inset 0 -.12em 0 var(--lav-ink);transition:background-color .2s}
+.tag{font:700 .55em var(--sans);vertical-align:super;margin-left:.2em;padding:.05em .45em;border-radius:999px;background:var(--paper-2);color:var(--ink-2)}
+.btn[aria-pressed="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+
+/* infer */
+.slotline{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-bottom:.8rem}
+.slabel{font-weight:700;width:100%}
+.pill{border:1.5px dashed var(--line);border-radius:.6rem;padding:.35rem .7rem;color:var(--ink-2);font-size:1rem}
+.pill.on{border-style:solid;border-color:var(--teal-ink);background:var(--teal);color:var(--teal-ink);font-family:var(--serif)}
+.qpanel .opts .opt{font-size:1rem;padding:.5em .8em}
+.result{margin-top:.9rem;color:var(--good-ink)}
+
+/* sheet & intro */
+.sheet{background:var(--paper);border-radius:1rem;padding:1.5rem 2rem;max-width:70rem;box-shadow:var(--shadow);border-top:.5rem solid var(--acc)}
+.sheet h3{font-family:var(--serif);font-size:1.7rem;margin:0 0 .5rem}
+.sheet blockquote{font-family:var(--serif);font-style:italic;font-size:1.4rem;line-height:1.4;margin:0 0 1.3rem;padding-left:1rem;border-left:4px solid var(--acc-ink)}
+.sheet-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem}
+@media (max-width:900px){.sheet-cols{grid-template-columns:1fr}}
+.sheet h4{font-size:1.1rem;margin:0 0 .5rem}
+.todo{list-style:none;margin:0;padding:0;display:grid;gap:.45rem;counter-reset:t}
+.todo li{counter-increment:t}
+.todo button{display:flex;gap:.7rem;align-items:flex-start;border:0;background:var(--paper-2);border-radius:.6rem;padding:.55rem .8rem;cursor:pointer;text-align:left;width:100%;font-size:1.1rem}
+.todo button::before{content:counter(t);font-weight:700;width:1.7em;height:1.7em;border-radius:50%;background:var(--paper);display:grid;place-items:center;flex:none;font-size:.9em}
+.todo button.done{background:var(--good);color:var(--good-ink)}
+.todo button.done::before{content:"\2713"}
+.remember{margin:0;padding-left:1.2rem;display:grid;gap:.4rem;font-size:1.08rem}
+.frame-box{margin-top:1.2rem;padding:.8rem 1.1rem;border-radius:.7rem;background:var(--paper-2)}
+.map{display:grid;gap:.5rem;max-width:58rem;margin-top:1.2rem}
+.map-row{display:grid;grid-template-columns:1.2fr 1fr;gap:1rem;align-items:center;text-align:left;background:var(--paper);border:0;border-radius:.8rem;padding:.8rem 1.1rem;cursor:pointer;box-shadow:var(--shadow);font-size:1.12rem}
+.map-row:hover{outline:2px solid var(--acc-ink)}
+.map-skill{font-family:var(--serif);font-weight:600;color:var(--acc-ink)}
+.flow{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-top:1.4rem;color:var(--ink-2);font-size:1.02rem}
+.flow span{background:var(--paper);border-radius:999px;padding:.25rem .8rem;border:1.5px solid var(--line)}
+</style>
+</head>
+<body data-lesson="l12">
+<header class="bar">
+  <div class="lessons" role="tablist" aria-label="Lessons" id="lessonTabs"></div>
+  <div class="bar-title" id="barTitle"></div>
+  <div class="tools">
+    <button class="icon-btn" id="timerBtn" type="button" aria-haspopup="true">Timer</button>
+    <div class="timer-pop" id="timerPop" hidden>
+      <button class="btn" data-min="1" type="button">1 min</button>
+      <button class="btn" data-min="2" type="button">2 min</button>
+      <button class="btn" data-min="3" type="button">3 min</button>
+      <button class="btn" data-min="5" type="button">5 min</button>
+      <button class="btn ghost" data-min="0" type="button">Stop</button>
+    </div>
+    <button class="icon-btn" id="railBtn" type="button" title="Show or hide the block list">Blocks</button>
+    <button class="icon-btn" id="themeBtn" type="button" title="Switch light or dark">Theme</button>
+    <button class="icon-btn" id="fsBtn" type="button" title="Full screen">Full screen</button>
+  </div>
+</header>
+<div class="shell">
+  <nav class="rail" aria-label="Blocks"><ol id="rail"></ol></nav>
+  <main>
+    <div class="stages" id="stageTabs" role="tablist" aria-label="Stages"></div>
+    <section id="stage" aria-live="polite"></section>
+    <footer class="pager">
+      <button class="btn" id="prevBtn" type="button">Back</button>
+      <button class="btn primary" id="nextBtn" type="button">Next</button>
+    </footer>
+  </main>
+</div>
+
+<script>
+/* ================= CONTENT ================= */
+const L12 = {
+  id:'l12', code:'Lesson 12', title:'Sequence of events', sheet:'A Mini-Golf Gripe',
+  blocks:[
+    { title:'Start here', short:'What today builds towards', intro:true, stages:{ intro:{
+      title:'Close reading: A Mini-Golf Gripe',
+      lead:'Today’s sheet is A Mini-Golf Gripe, a humorous story told in an unusual order. Each block practises one skill on a different story first.',
+      map:[
+        {part:'Part 1: box time signals, underline key events', skill:'Time signals', block:1},
+        {part:'Notice the storytelling: track the order of the day', skill:'Telling order and happening order', block:2},
+        {part:'Question 1: why did the character start talking?', skill:'Who wants what?', block:3},
+        {part:'Question 2: how did it feel at that moment?', skill:'Precise feeling words', block:4},
+        {part:'Question 3: a suggestion and a reaction', skill:'Two-part questions', block:5},
+        {part:'Question 4: describe the personality', skill:'Evidence to interpretation', block:6},
+        {part:'Part 3: an object with a gripe', skill:'An object with a gripe', block:7}
+      ]}}},
+
+    /* ---------- 1 ---------- */
+    { title:'Time signals', short:'Words that order events', stages:{
+      concept:{
+        title:'Time signals tell you when, and in what order.',
+        lead:'Box the signal. Underline the event it introduces. Signals can be single words or short phrases.',
+        points:[
+          {tone:'amber', h:'Order words', t:'first, next, then, after that, lastly, finally'},
+          {tone:'teal', h:'Time phrases', t:'this morning, around lunchtime, right away, over the next hour'},
+          {tone:'rose', h:'Hidden signals', t:'Some sit in the middle of a sentence: “The bus broke down halfway through the trip.”'},
+          {tone:'lav', h:'The event', t:'The action the signal introduces. Underline what happens, not the description.'}
+        ],
+        demo:'[Then|signal|Time signal: marks the next event.] the kite [snagged on a tree|happen|Event: the kite gets stuck.]. [An hour later|signal|Time signal: shows time passing.], Dad [climbed up to rescue it|happen|Event: the kite is rescued.].',
+        demoNote:'Box the signal. Underline the event after it.'
+      },
+      model:{ kind:'annotate', mode:'reveal', tools:['signal','happen'],
+        title:'Watch the marks go on',
+        prompt:'A red umbrella tells a lost-property clerk about its day.',
+        passage:'“[This morning|signal|Time signal: when the day starts.], I [was leaning quietly by the front door|happen|Event: a calm start.]. [At eight o’clock|signal|Time signal: an exact time.], a man [grabbed me|happen|Event: the umbrella is chosen.] and rushed outside. [First|signal|Time signal: starts the list of mishaps.], a gust of wind [turned me inside out|happen|Event: first mishap.]. [Then|signal|Time signal: the next event.] I [got jammed in a bus door|happen|Event: second mishap.]. [Finally|signal|Time signal: the last event.], he [left me on the train|happen|Event: the umbrella is abandoned.].”'
+      },
+      practise:[
+        { kind:'sort', label:'A: Sort the signals', title:'Beginning, middle or end?',
+          prompt:'Where would each signal usually go in a retelling? Tap a signal, then its box.',
+          bins:[{id:'beg',label:'Beginning'},{id:'mid',label:'Middle'},{id:'end',label:'End'}],
+          items:[
+            {t:'To begin with', bin:'beg', why:'Opens the sequence.'},
+            {t:'That morning', bin:'beg', why:'Sets the starting time.'},
+            {t:'First', bin:'beg', why:'The first step.'},
+            {t:'Next', bin:'mid', why:'Moves to the following event.'},
+            {t:'Over the next hour', bin:'mid', why:'Shows time passing during the story.'},
+            {t:'After that', bin:'mid', why:'Links one event to the next.'},
+            {t:'Meanwhile', bin:'mid', why:'Something happening at the same time.'},
+            {t:'Lastly', bin:'end', why:'The final item.'},
+            {t:'In the end', bin:'end', why:'Closes the sequence.'},
+            {t:'Finally', bin:'end', why:'The last event.'}
+          ],
+          after:'Your sheet asks for single words and short time phrases. Both count.'},
+        { kind:'annotate', mode:'mark', tools:['signal','happen'], label:'B: Mark it',
+          title:'Your turn at the board',
+          prompt:'A sock complains. Box the time signals. Underline the event each one introduces.',
+          passage:'“[On Monday|signal], I [went into the washing machine|happen] with a red T-shirt. [For the next hour|signal], I [spun round and round|happen]. [When the door finally opened|?signal/?happen], I [had turned pink|happen]. [After that|signal], the dog [dragged me under the sofa|happen], and I’ve been stuck there [ever since|signal].”'
+        }
+      ],
+      sheet:{ part:'Part 1: Text marking', task:'Box at least six signal words about sequence and time. Underline the key events in the ball’s story.',
+        do:['Start where the ball begins its retelling.','Box single words, like the model’s “Then”.','Box short time phrases too.','Underline the event each signal introduces.','Your turn: find a different signal from the model, and its event.'],
+        remember:['A time signal answers “when?” or “in what order?”','Underline events, not descriptions.'] }
+    }},
+
+    /* ---------- 2 ---------- */
+    { title:'Telling order and happening order', short:'Stories that look back', stages:{
+      concept:{
+        title:'The order a story is told is not always the order things happened.',
+        lead:'Some stories start near the end, then look back. A conversation at the start can happen after everything the character describes.',
+        points:[
+          {tone:'amber', h:'Happening order', t:'The real order of events in time.'},
+          {tone:'teal', h:'Telling order', t:'The order the writer shows them to you.'},
+          {tone:'rose', h:'Clues to a look back', t:'A character “began” to tell a story. Speech in the past tense: “This morning, I…”'},
+          {tone:'lav', h:'Rebuild it', t:'Put the events on a timeline, earliest first. Where does the opening scene fit?'}
+        ]},
+      model:{ kind:'steps', title:'Told first, happened last',
+        prompt:'The red umbrella again.',
+        passage:'[“Rough day?” asked Priya|now1], [hanging the dripping umbrella on the lost-property hook|now2]. “Dreadful,” it sniffed. “[This morning|b1], [I was leaning by the door|e1]. Then [a man grabbed me|e2] and [the wind turned me inside out|e3]. [Lastly|b2], [he left me on the train|e4].”',
+        steps:[
+          {t:'The story opens with Priya talking to the umbrella. When is that happening?', hl:['now1'], mk:'turn'},
+          {t:'The umbrella <b>looks back</b>: “This morning…”. Its story happened earlier.', hl:['b1'], mk:'signal'},
+          {t:'Happening order: 1. leaning by the door, 2. grabbed, 3. turned inside out, 4. left on the train.', hl:['e1','e2','e3','e4'], mk:'happen'},
+          {t:'5. Found and hung up in lost property.', hl:['now2'], mk:'evidence'},
+          {t:'<span class="hand">The conversation happens after the umbrella’s adventures, so the writer shows the last moment first.</span>'}
+        ]},
+      practise:[
+        { kind:'sort', label:'A: Rebuild the timeline', title:'Put the remote’s day in order',
+          prompt:'Tap an event, then the box for when it happened.',
+          text:'Dad lifted the sofa cushion and found the TV remote. “Where have you been?” he asked. “Well,” it grumbled, “last night your daughter used me to flick through every channel. After that, the cat knocked me off the arm of the sofa. Then someone sat on me for two hours. Finally, I slid down the back of the cushion, where it was dark and full of crumbs.”',
+          bins:[{id:'1',label:'1st'},{id:'2',label:'2nd'},{id:'3',label:'3rd'},{id:'4',label:'4th'},{id:'5',label:'5th'}],
+          items:[
+            {t:'Dad finds the remote', bin:'5', why:'Told first, but it happened last.'},
+            {t:'flicked through every channel', bin:'1', why:'“last night”: the earliest event.'},
+            {t:'knocked off by the cat', bin:'2', why:'“After that”.'},
+            {t:'sat on for two hours', bin:'3', why:'“Then”.'},
+            {t:'slid down the cushion', bin:'4', why:'“Finally”, before Dad finds it.'}
+          ],
+          after:'The story opens with the last event, then the remote looks back.'},
+        { kind:'questions', label:'B: Told or happened?', title:'Told first or happened first?',
+          prompt:'Same story. Tap to test each option.',
+          passage:'[Dad lifted the sofa cushion and found the TV remote|a]. “Where have you been?” he asked. “Well,” it grumbled, “[last night|b] your daughter [used me to flick through every channel|c]. After that, the cat [knocked me off the arm of the sofa|d]. Then someone [sat on me for two hours|e]. Finally, I [slid down the back of the cushion|f].”',
+          items:[
+            {q:'1. Which event does the writer tell you first?', evidence:['a'], options:[
+              {t:'the remote slides down the cushion', tag:'Happened, told later', why:'This comes at the end of the remote’s story.'},
+              {t:'Dad finds the remote', ok:true, tag:'Supported', why:'It is the opening sentence.'},
+              {t:'the cat knocks it off the sofa', tag:'Told later', why:'This is in the middle of the retelling.'}]},
+            {q:'2. Which event happened first?', evidence:['b','c'], helped:'“last night” reaches back before everything else.', options:[
+              {t:'Dad finds the remote', tag:'Told first, happened last', why:'Dad finds it after all the mishaps.'},
+              {t:'someone sits on it', tag:'Wrong order', why:'That comes after the cat.'},
+              {t:'the daughter flicks through the channels', ok:true, tag:'Supported', why:'“last night” is the earliest time.'}]},
+            {q:'3. Which words show the remote is looking back?', evidence:['b'], options:[
+              {t:'“last night”', ok:true, tag:'Supported', why:'A time signal pointing into the past.'},
+              {t:'“he asked”', tag:'Not a signal', why:'Shows who speaks, not when.'},
+              {t:'“for two hours”', tag:'Close, but', why:'It tells how long, not that the remote is looking back.'}]}
+          ]}
+      ],
+      sheet:{ part:'Notice the storytelling', task:'The conversation happens after the golf ball’s adventures. Track the order of its day.',
+        do:['Find where the ball starts looking back.','Number the ball’s events in the order they happened.','Decide where the opening conversation fits on that timeline.'],
+        remember:['Told first does not mean happened first.','Your boxed time signals help you number the events.'] }
+    }},
+
+    /* ---------- 3 ---------- */
+    { title:'Who wants what?', short:'Motive questions and their traps', stages:{
+      concept:{
+        title:'Why did they do it? Check who wants what, and when.',
+        lead:'Motive questions have clever traps: an option might be true at a different moment, or give the feeling to the wrong character.',
+        points:[
+          {tone:'teal', h:'Find the motive', t:'Look for want, hope, needed, seeking, desperate for.'},
+          {tone:'amber', h:'True but wrong time', t:'It did happen, but not when the character made this choice.'},
+          {tone:'rose', h:'Flipped', t:'Gives the feeling or the want to the wrong character.'},
+          {tone:'lav', h:'Not in the text', t:'Sounds sensible, but the story never says it.'}
+        ]},
+      model:{ kind:'steps', title:'Crossing out, one by one',
+        prompt:'Why did the umbrella tap on Priya’s desk?',
+        passage:'At closing time, [a dripping umbrella tapped on Priya’s desk|a]. It [had spent the day being battered by the wind|b] and [left behind on a train|c], and now [it wanted someone to listen|d]. Priya put down her sandwich and [felt sorry for the poor thing|f].',
+        steps:[
+          {t:'<b>A.</b> It wanted someone to listen after its awful day. &nbsp;<b>B.</b> It wanted to be sold. &nbsp;<b>C.</b> It was wet and needed drying. &nbsp;<b>D.</b> It felt sorry for Priya.'},
+          {t:'Find the motive word: <b>wanted</b>.', hl:['d'], mk:'evidence'},
+          {t:'<s>C.</s> It is dripping, but the text never says it wants drying. A true detail, not the reason.', hl:['a'], mk:'trap'},
+          {t:'<s>D.</s> Flipped: <b>Priya</b> feels sorry for the umbrella, not the other way round.', hl:['f'], mk:'trap'},
+          {t:'<s>B.</s> Not in the text.'},
+          {t:'<b>A.</b> Supported: it “had spent the day being battered” and “wanted someone to listen”.', hl:['b','d'], mk:'evidence'},
+          {t:'<span class="hand">I chose A because the text says “it wanted someone to listen” after it “had spent the day being battered by the wind”.</span>'}
+        ]},
+      practise:{ kind:'questions', title:'Name the trap: the garden gnome',
+        prompt:'Tap an option to test it. Wrong answers name their trap.',
+        passage:'Every evening, [Mum’s old slipper usually chats to the dog|u]. But tonight, [a chipped garden gnome waddled over to the dog basket|a]. That morning it [had been knocked into the pond by a football|b], but [Dad had dried it off|c] [hours ago|c2]. Now it [was desperate for someone to hear about its terrible day|d]. The old dog yawned, but [he felt a bit sorry for the gnome|f].',
+        items:[
+          {q:'1. Why did the gnome go over to the dog basket?', evidence:['d'], helped:'“desperate for someone to hear about its terrible day”', options:[
+            {t:'It was wet and needed drying.', tag:'True but wrong time', why:'It was wet that morning, but Dad dried it hours ago.'},
+            {t:'It wanted someone to hear about its terrible day.', ok:true, tag:'Supported', why:'“desperate for someone to hear” is the motive.'},
+            {t:'It felt sorry for the dog.', tag:'Flipped', why:'The dog feels sorry for the gnome.'},
+            {t:'It wanted to sleep in the basket.', tag:'Not in the text', why:'Nothing says that.'}]},
+          {q:'2. Why is it surprising that the gnome talks to the dog?', evidence:['u','a'], helped:'“usually” shows the slipper is the one who normally chats.', options:[
+            {t:'Usually the slipper is the one who chats to the dog.', ok:true, tag:'Supported', why:'“usually” plus “But tonight” signals a change.'},
+            {t:'Dogs can’t listen.', tag:'Not in the text', why:'The dog does listen, and yawns.'},
+            {t:'The gnome is chipped.', tag:'Detail, not reason', why:'That describes the gnome.'}]},
+          {q:'3. Which words tell you when Dad dried the gnome?', evidence:['c2'], options:[
+            {t:'“That morning”', tag:'Wrong event', why:'That dates the pond accident.'},
+            {t:'“Now”', tag:'Wrong time', why:'That is the present moment.'},
+            {t:'“hours ago”', ok:true, tag:'Supported', why:'It goes with “Dad had dried it off”.'}]}
+        ]},
+      sheet:{ part:'Part 2: Question 1', task:'Why did the golf ball start a conversation with Ralph? What helped you answer?',
+        do:['Find the paragraph where the ball first speaks.','Look for words about what the ball wanted.','Cross out true-but-wrong-time and flipped options.','Quote the words that helped.'],
+        remember:['Check who feels what: the ball or Ralph?','An option can be true and still not be the reason.'],
+        frame:'I chose … because the text says “…”. I ruled out … because …' }
+    }},
+
+    /* ---------- 4 ---------- */
+    { title:'Precise feeling words', short:'The right word for the right moment', stages:{
+      concept:{
+        title:'Choose the feeling word that fits the exact moment.',
+        lead:'Feelings change through a story. Zoom in on the moment the question names, then match the clue words to the most precise option.',
+        points:[
+          {tone:'amber', h:'Find the moment', t:'Locate the exact event the question asks about.'},
+          {tone:'teal', h:'Clue words', t:'to my horror, to my delight, sadly, with a sigh: words right beside the event.'},
+          {tone:'rose', h:'Positive or negative?', t:'Sort the options first. Rule out the ones pointing the wrong way.'},
+          {tone:'lav', h:'Most precise', t:'Two options may both be negative. Which matches the clue best?'}
+        ]},
+      model:{ kind:'steps', title:'Zoom in on the moment',
+        prompt:'How did the cat feel when the vet’s carrier appeared? A thrilled, B curious, C alarmed, D sleepy.',
+        passage:'The cat [had been dozing happily on the warm radiator|a]. Just after lunch, [to her horror|c], [the vet’s carrier appeared in the doorway|e]. She [flattened her ears|b] and [slunk under the bed|b2].',
+        steps:[
+          {t:'Find the moment: <b>the vet’s carrier appeared</b>.', hl:['e'], mk:'happen'},
+          {t:'Clue words at that moment: <b>to her horror</b>, <b>flattened her ears</b>, <b>slunk under the bed</b>.', hl:['c','b','b2'], mk:'evidence'},
+          {t:'Positive or negative? Negative. <s>A. thrilled</s> points the wrong way.'},
+          {t:'<s>D. sleepy</s> True but wrong time: she was dozing before. <s>B. curious</s> Curious cats come closer. They don’t hide.', hl:['a'], mk:'trap'},
+          {t:'<span class="hand">I chose C because the text says “to her horror” and she “slunk under the bed”.</span>'}
+        ]},
+      practise:[
+        { kind:'sort', label:'A: Sort the words', title:'Positive, negative or unsure?',
+          prompt:'Know the options before you choose. Tap a word, then its box.',
+          bins:[{id:'pos',label:'Positive'},{id:'neg',label:'Negative'},{id:'uns',label:'Unsure'}],
+          items:[
+            {t:'eager', bin:'pos', why:'keen for something to happen'},
+            {t:'adventurous', bin:'pos', why:'ready for excitement and risk'},
+            {t:'hopeful', bin:'pos', why:'expecting something good'},
+            {t:'disheartened', bin:'neg', why:'has lost hope or confidence'},
+            {t:'dismayed', bin:'neg', why:'upset and disappointed'},
+            {t:'glum', bin:'neg', why:'sad and quiet'},
+            {t:'confused', bin:'uns', why:'doesn’t understand what is happening'},
+            {t:'puzzled', bin:'uns', why:'can’t work something out'}
+          ],
+          after:'Sort the options on your sheet the same way before you pick one.'},
+        { kind:'questions', label:'B: Pick the precise word', title:'Which word fits the moment?',
+          prompt:'Use the highlighted clue.',
+          items:[
+            {q:'Maya’s name was missing from the team list. She <mark>stuffed her kit back in her bag and trudged home</mark>. How did she feel?', options:[
+              {t:'eager', tag:'Wrong way', why:'Nothing positive here.'},
+              {t:'confused', tag:'Doesn’t fit', why:'She understands exactly what happened.'},
+              {t:'disheartened', ok:true, tag:'Supported', why:'Stuffing her kit away and trudging show she has lost hope.'},
+              {t:'adventurous', tag:'Wrong way', why:'She is going home, not seeking excitement.'}]},
+            {q:'Ben stared at the instructions, turned the page upside down and <mark>scratched his head</mark>. How did he feel?', options:[
+              {t:'disheartened', tag:'Too strong', why:'He hasn’t given up.'},
+              {t:'confused', ok:true, tag:'Supported', why:'Turning the page and scratching his head show he doesn’t understand.'},
+              {t:'eager', tag:'Doesn’t fit', why:'Nothing shows he is keen.'},
+              {t:'glum', tag:'Doesn’t fit', why:'Puzzled, not sad.'}]},
+            {q:'<mark>Before anyone could stop her</mark>, Zara was first in line for the tallest rollercoaster, grinning. How did she feel?', options:[
+              {t:'adventurous', ok:true, tag:'Supported', why:'She rushes towards the thrill.'},
+              {t:'confused', tag:'Doesn’t fit', why:'She knows exactly what she wants.'},
+              {t:'dismayed', tag:'Wrong way', why:'She is grinning.'},
+              {t:'glum', tag:'Wrong way', why:'She is grinning.'}]},
+            {q:'Leo <mark>kept checking the window</mark> for the postman, bouncing on his toes. How did he feel?', options:[
+              {t:'glum', tag:'Wrong way', why:'Bouncing is not sad.'},
+              {t:'adventurous', tag:'Close, but', why:'Waiting for the post isn’t taking a risk.'},
+              {t:'confused', tag:'Doesn’t fit', why:'He knows what he is waiting for.'},
+              {t:'eager', ok:true, tag:'Supported', why:'Checking and bouncing show he can’t wait.'}]}
+          ]}
+      ],
+      sheet:{ part:'Part 2: Question 2', task:'How did the golf ball feel when the little boy chose it? What helped you answer?',
+        do:['Find the moment the boy picks the ball.','Look for clue words right beside it.','Decide: positive, negative or unsure?','Pick the most precise word and quote the clue.'],
+        remember:['Feelings change: check the right moment.','The Words in context box on page 1 may help.'],
+        frame:'The ball felt … because the text says “…”.' }
+    }},
+
+    /* ---------- 5 ---------- */
+    { title:'Two-part questions', short:'Answer both halves', stages:{
+      concept:{
+        title:'Two questions in one. Answer both.',
+        lead:'Some questions ask what a character suggested and why another character reacted as it did. Split the question, answer each part, then link them.',
+        points:[
+          {tone:'amber', h:'Split it', t:'Find “and”: part 1 comes before it, part 2 after it.'},
+          {tone:'teal', h:'Part 1: what?', t:'Retell the suggestion briefly, in your own words.'},
+          {tone:'rose', h:'Part 2: why?', t:'Explain the reaction. What did the character want instead?'},
+          {tone:'lav', h:'The humour', t:'Comedy often comes from a gap between what is offered and what is wanted.'}
+        ],
+        compare:{ phrase:'What did Gran suggest, and why did Sam groan?', weak:'Gran suggested soup. Sam groaned.', weakWhy:'Answers part 1, then repeats part 2 without explaining.', strong:'Gran suggested a bowl of soup, but Sam groaned because he wanted to go to the pizza party, not stay in.', strongWhy:'Answers both parts and links them with “because”.' }
+      },
+      model:{ kind:'steps', title:'Split, answer, link',
+        prompt:'What did Priya suggest, and why did the umbrella react as it did?',
+        passage:'“Poor thing,” said Priya. “[How about I dry you by the heater|s] so [you’re ready for tomorrow’s rain|s2]?” The umbrella [drooped|r]. “[That is the last thing I want|r2],” it muttered. “[I dream of a sunny shelf in a museum|w].”',
+        steps:[
+          {t:'Split it at <b>and</b>. Part 1: what did Priya suggest? Part 2: why did the umbrella react that way?'},
+          {t:'Part 1: <b>dry you by the heater</b> so you’re <b>ready for tomorrow’s rain</b>.', hl:['s','s2'], mk:'evidence'},
+          {t:'Find the reaction: <b>drooped</b>, <b>the last thing I want</b>.', hl:['r','r2'], mk:'turn'},
+          {t:'Part 2: what does it want instead? <b>a sunny shelf in a museum</b>. It wants to stop working, not get ready for more.', hl:['w'], mk:'evidence'},
+          {t:'<span class="hand">Priya suggested drying the umbrella so it would be ready for tomorrow’s rain. It drooped because it wants to stop working for good, not face more storms.</span>'}
+        ]},
+      practise:[
+        { kind:'questions', label:'A: Part by part', title:'The office printer',
+          prompt:'Answer each part, then choose the full answer.',
+          passage:'The office printer [had jammed nine times before lunch|a]. “[Let me give you a quick clean|s],” said Mr Patel, “[and you’ll be printing again in no time|s2].” The printer [spat out a blank page|r]. “[Printing again is exactly my problem|r2],” it whirred. “[I want a holiday|w].”',
+          items:[
+            {q:'Part 1: What did Mr Patel suggest?', evidence:['s','s2'], options:[
+              {t:'buying a new printer', tag:'Not in the text', why:'He offers a clean.'},
+              {t:'a quick clean so it could print again', ok:true, tag:'Supported', why:'“a quick clean” and “printing again in no time”.'},
+              {t:'taking a holiday', tag:'Flipped', why:'That is what the printer wants.'}]},
+            {q:'Part 2: Why did the printer react as it did?', evidence:['r2','w'], helped:'“Printing again is exactly my problem” and “I want a holiday”.', options:[
+              {t:'It wants a break, and the suggestion means more work.', ok:true, tag:'Supported', why:'The help offered is the opposite of what it wants.'},
+              {t:'It was out of paper.', tag:'Not in the text', why:'Paper is never mentioned.'},
+              {t:'It loves being cleaned.', tag:'Opposite', why:'It spits out a blank page in protest.'}]},
+            {q:'Which answer does both parts?', options:[
+              {t:'Mr Patel suggested a clean. The printer spat out a page.', tag:'Half done', why:'Part 2 retells the reaction without explaining it.'},
+              {t:'The printer wanted a holiday.', tag:'Half done', why:'Only part 2.'},
+              {t:'Mr Patel suggested a clean so it could print again, but the printer spat out a blank page because it wants a holiday, not more work.', ok:true, tag:'Both parts', why:'Suggestion, reaction and reason, linked.'}]}
+          ]},
+        { kind:'frame', label:'B: Build the answer', title:'Build a two-part answer',
+          prompt:'Still the printer. Tap each gap and choose.',
+          template:'Mr Patel suggested {0}, but the printer {1} because {2}. This is funny because {3}.',
+          slots:[
+            [{t:'a quick clean so it could print again', ok:true, why:'Part 1, in your own words.'},
+             {t:'a holiday', why:'Flipped: the printer wants that.'},
+             {t:'nine jams', why:'Not a suggestion.'}],
+            [{t:'spat out a blank page', ok:true, why:'The reaction.'},
+             {t:'thanked him', why:'Not in the text.'},
+             {t:'jammed nine times', why:'That happened before lunch.'}],
+            [{t:'it wants a holiday, not more printing', ok:true, why:'Explains the reaction.'},
+             {t:'it is broken', why:'Doesn’t explain the reaction to this suggestion.'},
+             {t:'Mr Patel is kind', why:'About Mr Patel, not the printer.'}],
+            [{t:'his helpful idea is the exact opposite of what the printer wants', ok:true, why:'Names the gap that makes it funny.'},
+             {t:'printers can’t talk', why:'True, but not this joke.'},
+             {t:'the page is blank', why:'A detail.'}]
+          ]}
+      ],
+      sheet:{ part:'Part 2: Question 3', task:'What was Ralph’s helpful suggestion for easing the yellow ball’s discomfort and why did the ball react as it did?',
+        do:['Split the question at “and”.','Part 1: find what Ralph offers and say it in your own words.','Part 2: find the ball’s reply. What does it want instead?','Link the two parts with “but” or “because”.'],
+        remember:['Answer both parts, or you have only done half the question.','A gap between what is offered and what is wanted is part of the humour.'],
+        frame:'Ralph suggested … but the ball … because …' }
+    }},
+
+    /* ---------- 6 ---------- */
+    { title:'Evidence to interpretation', short:'What happens vs how it’s told', stages:{
+      concept:{
+        title:'What happens is not the same as how it is described.',
+        lead:'A personality question needs both. The events tell you what happened to the character. The words it chooses to describe them tell you who it is.',
+        points:[
+          {tone:'teal', h:'What happens', t:'The plain facts: it got wet, it was dropped.'},
+          {tone:'rose', h:'How it describes it', t:'The character’s own words: “a disaster”, “my suffering”.'},
+          {tone:'amber', h:'Personality clues', t:'Exaggeration, dramatic words, jokes, complaints, politeness.'},
+          {tone:'lav', h:'Say it', t:'The character seems … because it says … This suggests …'}
+        ],
+        compare:{ phrase:'“I was dropped in a puddle. It was the end of the world.”', weak:'The umbrella is wet.', weakWhy:'What happens, not personality.', strong:'The umbrella seems dramatic because it says a puddle was “the end of the world”. This suggests it exaggerates small problems.', strongWhy:'Evidence, then interpretation.' }
+      },
+      model:{ kind:'steps', title:'Find the gap',
+        prompt:'The umbrella describes its day. What is its personality?',
+        passage:'The umbrella [got blown inside out|h1]. “[It was the most horrific moment of my entire existence|d1],” it wailed. Later, [a bus door caught its handle|h2]. “[I was crushed, flattened, practically destroyed|d2],” it sobbed, “[and nobody even said sorry|d3].”',
+        steps:[
+          {t:'<b>What happens:</b> blown inside out, caught in a bus door. Bad, but ordinary umbrella problems.', hl:['h1','h2'], mk:'happen'},
+          {t:'<b>How it describes it:</b> <b>the most horrific moment of my entire existence</b>, <b>practically destroyed</b>. Huge words for small events.', hl:['d1','d2'], mk:'mood'},
+          {t:'The gap between the two is exaggeration. What kind of personality exaggerates like this? <b>Dramatic.</b>'},
+          {t:'<b>and nobody even said sorry</b>: it expects sympathy. <b>Self-pitying.</b>', hl:['d3'], mk:'mood'},
+          {t:'<span class="hand">The umbrella seems dramatic because it says being blown inside out was “the most horrific moment of my entire existence”. This suggests it exaggerates its problems to get sympathy.</span>'}
+        ]},
+      practise:[
+        { kind:'sort', label:'A: Happens or described?', title:'The toaster’s complaint',
+          prompt:'Is it a plain event, or the toaster’s dramatic description? Tap, then choose a box.',
+          bins:[{id:'hap',label:'What happens'},{id:'desc',label:'How it describes it'}],
+          items:[
+            {t:'the bread got stuck', bin:'hap', why:'A plain event.'},
+            {t:'“I was burning alive!”', bin:'desc', why:'The toaster’s own, exaggerated words.'},
+            {t:'someone pulled out the plug', bin:'hap', why:'A plain event.'},
+            {t:'“They abandoned me in total darkness.”', bin:'desc', why:'Dramatic words for being switched off.'},
+            {t:'it was put in the cupboard', bin:'hap', why:'A plain event.'},
+            {t:'“the cruellest day in toaster history”', bin:'desc', why:'Exaggeration.'}
+          ],
+          after:'A stuck slice of bread becomes “burning alive”. That gap reveals a dramatic personality.'},
+        { kind:'frame', label:'B: Evidence to interpretation', title:'Build the interpretation',
+          prompt:'Use the toaster’s words. Tap each gap and choose.',
+          template:'The toaster seems {0} because it says {1}. This suggests {2}.',
+          slots:[
+            [{t:'dramatic', ok:true, why:'Its words are far bigger than its problems.'},
+             {t:'brave', why:'Nothing shows courage.'},
+             {t:'hot', why:'Too literal: that is not a personality.'}],
+            [{t:'a stuck slice of bread left it “burning alive”', ok:true, why:'Evidence with a short quotation.'},
+             {t:'the bread got stuck', why:'What happens, not how it describes it.'},
+             {t:'it is a toaster', why:'Not evidence of personality.'}],
+            [{t:'it exaggerates small problems to sound like a victim', ok:true, why:'Interprets the evidence.'},
+             {t:'the bread was burnt', why:'Retells an event.'},
+             {t:'toasters get hot', why:'Too general.'}]
+          ]},
+        { kind:'questions', label:'C: Precise personality words', title:'Name the personality',
+          prompt:'Listen to the voice. Which word fits best?',
+          items:[
+            {q:'A lamp: “Oh, don’t mind me. I’ll just sit here in the corner, forgotten, as usual.”', options:[
+              {t:'cheerful', tag:'Wrong way', why:'Nothing happy here.'},
+              {t:'self-pitying', ok:true, tag:'Supported', why:'“forgotten, as usual” fishes for sympathy.'},
+              {t:'bossy', tag:'Doesn’t fit', why:'It gives no orders.'}]},
+            {q:'A ruler: “Right! Everyone line up. Pens away. I’m in charge of this drawer now.”', options:[
+              {t:'bossy', ok:true, tag:'Supported', why:'Orders and “I’m in charge”.'},
+              {t:'gloomy', tag:'Doesn’t fit', why:'It sounds energetic.'},
+              {t:'timid', tag:'Opposite', why:'Timid characters don’t give orders.'}]},
+            {q:'A cushion: “Well, I’ve been sat on all day, but at least I’m extremely comfortable!”', options:[
+              {t:'furious', tag:'Doesn’t fit', why:'It isn’t angry.'},
+              {t:'self-pitying', tag:'Opposite', why:'It looks on the bright side.'},
+              {t:'good-humoured', ok:true, tag:'Supported', why:'It jokes about its own problem.'}]}
+          ]}
+      ],
+      sheet:{ part:'Part 2: Question 4', task:'Make an inference. How would you describe the personality of the yellow golf ball?',
+        do:['List two things that happen to the ball.','Find how the ball describes them: look for big, dramatic words.','Choose a precise personality word.','Write evidence, then interpretation, using the frame.'],
+        remember:['Distinguish what happens to the ball from how it describes the experience.','Check: evidence and personality.'],
+        frame:'The ball seems … because it says “…”. This suggests …' }
+    }},
+
+    /* ---------- 7 ---------- */
+    { title:'An object with a gripe', short:'Writing a personified complaint', stages:{
+      concept:{
+        title:'Personification: give an everyday object a voice and a grudge.',
+        lead:'The extension asks for a 120–150-word complaint. Readers laugh when an ordinary object talks about ordinary events as if they were disasters.',
+        points:[
+          {tone:'rose', h:'Three mishaps in order', t:'Linked with at least five time signals.'},
+          {tone:'teal', h:'A distinctive voice', t:'How does your object talk? Grumpy, posh, dramatic, sarcastic?'},
+          {tone:'amber', h:'One exaggeration', t:'Make a small problem sound enormous.'},
+          {tone:'lav', h:'A humorous demand', t:'End with something funny it insists on: a medal, a spa day, a lawyer.'}
+        ]},
+      model:{ kind:'wordswap', title:'Plain retelling or gripe?', tagLabel:'techniques',
+        prompt:'The same three mishaps. Switch voices, then show the techniques.',
+        moods:[{id:'plain',label:'Plain retelling'},{id:'gripe',label:'With a gripe'}],
+        template:'This morning, I {0}. Then the wind {1}. Lastly, a man {2}. {3}',
+        slots:[
+          {sense:'exaggeration', v:{plain:'went out in the rain', gripe:'was dragged, against my will, into a monsoon'}, n:{plain:'Just the event.', gripe:'Ordinary rain becomes a monsoon.'}},
+          {sense:'dramatic verb', v:{plain:'blew me inside out', gripe:'wrenched every single rib out of place'}, n:{plain:'A plain verb.', gripe:'A dramatic verb makes the reader feel the “pain”.'}},
+          {sense:'voice', v:{plain:'left me on a train', gripe:'abandoned me on the 5.15, like yesterday’s newspaper'}, n:{plain:'Just the event.', gripe:'A comparison adds humour and self-pity.'}},
+          {sense:'demand', v:{plain:'Now I am in lost property.', gripe:'I demand a heated towel rail and a written apology.'}, n:{plain:'A flat ending.', gripe:'A humorous demand to finish.'}}
+        ]},
+      practise:[
+        { kind:'questions', label:'A: Spot the technique', title:'Which one does the job?',
+          prompt:'Each question checks one tool from the extension.',
+          items:[
+            {q:'1. Which sentence is an exaggeration?', options:[
+              {t:'The crayon was used twice today.', tag:'Plain', why:'Just an event.'},
+              {t:'I was scribbled down to a stub the size of a grain of rice!', ok:true, tag:'Exaggeration', why:'A small problem made enormous.'},
+              {t:'Then I rolled under the desk.', tag:'Plain', why:'An event with a time signal.'}]},
+            {q:'2. Which ending is a humorous demand?', options:[
+              {t:'And that was my day.', tag:'Flat', why:'No demand, no humour.'},
+              {t:'I felt very sad.', tag:'Telling', why:'Names a feeling instead.'},
+              {t:'I insist on a velvet cushion and a personal bodyguard.', ok:true, tag:'Humorous demand', why:'Funny, specific and in character.'}]},
+            {q:'3. Which gives the object the most distinctive voice?', options:[
+              {t:'I am a lunchbox and I had a bad day.', tag:'No voice', why:'Tells, with no personality.'},
+              {t:'“Honestly, darling, a squashed banana? In MY compartment? The indignity!”', ok:true, tag:'Distinctive voice', why:'Posh and dramatic: you can hear it.'},
+              {t:'The lunchbox was left in the sun.', tag:'Not personified', why:'The object isn’t speaking.'}]},
+            {q:'4. Which sentence uses personification?', options:[
+              {t:'The kettle shrieked at me to hurry up.', ok:true, tag:'Personification', why:'Shrieking and giving orders are human actions.'},
+              {t:'The kettle boiled.', tag:'Literal', why:'Kettles really do boil.'},
+              {t:'The kettle is silver.', tag:'Description', why:'No human quality.'}]}
+          ]},
+        { kind:'annotate', mode:'mark', tools:['signal','happen'], label:'B: Mark a model',
+          title:'Mark a model complaint',
+          prompt:'A lunchbox complains. Box the time signals. Underline the three key events.',
+          passage:'“[First thing this morning|signal], I [was stuffed with a squashed banana|happen] and slammed shut. [Then|signal], for three hours, I sat in a locker hotter than the sun. [At lunchtime|signal], a boy [flung me across the canteen|happen], and my lid flew off in front of the whole school. The shame! [After that|signal], I was stepped on, kicked and ignored. [Finally|signal], someone [left me on the bus|happen], where I have been sulking [ever since|?signal]. I demand a spa day, a new lid and a written apology from Year 8.”'
+        }
+      ],
+      sheet:{ part:'Part 3: Extension', task:'Write a 120–150-word complaint from an everyday object: a school bag, pencil, shoe or football.',
+        do:['Choose your object and its voice.','Plan three mishaps in order.','Link them with at least five time signals.','Include one exaggeration.','Finish with a humorous demand.','Box your time signals and underline the three key events.'],
+        remember:['Personification gives a non-human thing human qualities.','Check: six time signals, key events, evidence, personality.'] }
+    }}
+  ]
+};
+
+const LESSONS = [L12];
+
+
+
+/* ================= ENGINE ================= */
+const STAGE_ORDER = ['intro','concept','model','practise','sheet'];
+const STAGE_LABEL = {intro:'Overview', concept:'Concept', model:'Model', practise:'Practise', sheet:'On the sheet'};
+const MARKS = {
+  when:{label:'Box: when', shape:'box', color:'--amber-ink'},
+  where:{label:'Circle: where', shape:'circle', color:'--teal-ink'},
+  mood:{label:'Underline: mood', shape:'under', color:'--rose-ink'},
+  event:{label:'Circle: event', shape:'circle', color:'--rose-ink'},
+  detail:{label:'Underline: detail', shape:'under', color:'--teal-ink'},
+  feel:{label:'Underline: feeling', shape:'under', color:'--lav-ink'},
+  signal:{label:'Box: time signal', shape:'box', color:'--rose-ink'},
+  happen:{label:'Underline: key event', shape:'under', color:'--teal-ink'}
+};
+const S = { lesson:0, block:0, stage:0, sub:0, scores:{}, rail:true, theme:null };
+
+function h(tag, attrs, ...kids){
+  const el = document.createElement(tag);
+  if (attrs) for (const [k,v] of Object.entries(attrs)){
+    if (v == null || v === false) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'html') el.innerHTML = v;
+    else if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  for (const kid of kids.flat()){
+    if (kid == null || kid === false) continue;
+    el.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+  }
+  return el;
+}
+const btn = (label, fn, cls='') => h('button', {class:'btn '+cls, type:'button', onclick:fn}, label);
+const $ = id => document.getElementById(id);
+function shuffle(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]]; } return b; }
+
+function load(){ try{ const s = JSON.parse(localStorage.getItem('5si-u1w2-l12-golf-iwb') || '{}'); ['lesson','block','stage','rail','theme'].forEach(k=>{ if (s[k] !== undefined) S[k]=s[k]; }); }catch(e){} }
+function save(){ try{ localStorage.setItem('5si-u1w2-l12-golf-iwb', JSON.stringify({lesson:S.lesson,block:S.block,stage:S.stage,rail:S.rail,theme:S.theme})); }catch(e){} }
+
+function head(root, d){
+  if (d.title) root.append(h('h2', {class:'title'}, d.title));
+  if (d.prompt) root.append(h('p', {class:'prompt'}, d.prompt));
+}
+
+function shapeSvg(shape, colorVar){
+  const c = `var(${colorVar})`;
+  if (shape === 'box') return `<svg viewBox="0 0 40 22" aria-hidden="true"><rect x="3" y="4" width="34" height="14" rx="2" fill="none" stroke="${c}" stroke-width="3"/></svg>`;
+  if (shape === 'circle') return `<svg viewBox="0 0 40 22" aria-hidden="true"><ellipse cx="20" cy="11" rx="17" ry="8" fill="none" stroke="${c}" stroke-width="3"/></svg>`;
+  return `<svg viewBox="0 0 40 22" aria-hidden="true"><line x1="3" y1="15" x2="37" y2="15" stroke="${c}" stroke-width="3.5" stroke-linecap="round"/></svg>`;
+}
+
+/* passages: [text|key1/key2|note]  ?key = optional, x = distractor */
+function parsePassage(src){
+  const out=[]; const re=/\[([^\]|]+)\|([^\]|]*)(?:\|([^\]]*))?\]/g; let last=0, m, i=0;
+  while ((m = re.exec(src))){
+    if (m.index > last) out.push({text:src.slice(last, m.index)});
+    const keys = m[2] ? m[2].split('/') : [];
+    out.push({ text:m[1], keys, note:m[3]||'', id:i++,
+      req: keys.filter(k=>k && k[0] !== '?' && k !== 'x'),
+      opt: keys.filter(k=>k[0] === '?').map(k=>k.slice(1)) });
+    last = re.lastIndex;
+  }
+  if (last < src.length) out.push({text:src.slice(last)});
+  return out;
+}
+function buildPassage(src, cls){
+  const tokens = parsePassage(src);
+  const el = h('div', {class:'passage' + (cls ? ' '+cls : '')});
+  let p = h('p'); el.append(p);
+  const chunks = [];
+  tokens.forEach(t=>{
+    if (t.id == null){
+      t.text.split('\n\n').forEach((part, i)=>{ if (i>0){ p = h('p'); el.append(p); } if (part) p.append(document.createTextNode(part)); });
+    } else {
+      t.el = h('span', {class:'chunk', 'data-i':t.id}, t.text);
+      chunks.push(t); p.append(t.el);
+    }
+  });
+  return {el, chunks};
+}
+function setMark(c, key){ c.el.className = 'chunk' + (key ? ' mk mk-'+key : ''); c.el.querySelectorAll('.nb').forEach(n=>n.remove()); }
+
+/* ---------- concept ---------- */
+function rConcept(d, root){
+  root.append(h('h2', {class:'title'}, d.title));
+  if (d.lead) root.append(h('p', {class:'prompt'}, d.lead));
+  const pts = h('div', {class:'points'});
+  (d.points||[]).forEach(p => pts.append(h('div', {class:'point', style:`--tone:var(--${p.tone});--tone-ink:var(--${p.tone}-ink)`}, h('h3', null, p.h), h('p', null, p.t))));
+  root.append(pts);
+  if (d.demo){
+    const P = buildPassage(d.demo, 'small');
+    const notes = h('ol', {class:'notes'});
+    let n = 0;
+    P.chunks.forEach(c=>{ if (c.req[0]){ setMark(c, c.req[0]); if (c.note){ n++; c.el.append(h('span',{class:'nb'}, n)); notes.append(h('li', {class:'k-'+c.req[0]}, h('span',{class:'nb'}, n), c.note)); } } });
+    root.append(h('div', {class:'demo-wrap'}, P.el, notes));
+    if (d.demoNote) root.append(h('p', {class:'demo-note'}, d.demoNote));
+  }
+  if (d.compare){
+    const c = d.compare;
+    root.append(h('div', {class:'compare'},
+      h('div', {class:'weak'}, h('div',{class:'lab'}, 'Weak note'), h('div',{class:'phrase'}, c.phrase), h('div',{class:'hand'}, c.weak), h('div',{class:'demo-note'}, c.weakWhy)),
+      h('div', {class:'strong'}, h('div',{class:'lab'}, 'Strong note'), h('div',{class:'phrase'}, c.phrase), h('div',{class:'hand'}, c.strong), h('div',{class:'demo-note'}, c.strongWhy))));
+  }
+  if (d.moodline){
+    root.append(h('div', {html:`<svg class="moodline" viewBox="0 0 640 200" role="img" aria-label="A mood line: low before the turning point, rising sharply after it">
+      <line x1="40" y1="170" x2="610" y2="170" stroke="var(--line)" stroke-width="2"/>
+      <path d="M40 140 C120 150, 200 135, 290 148 L330 60 C400 45, 520 40, 610 36" fill="none" stroke="var(--rose-ink)" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="310" cy="104" r="11" fill="var(--amber)" stroke="var(--amber-ink)" stroke-width="3"/>
+      <text x="100" y="118" font-family="Figtree, sans-serif" font-size="20" font-weight="700" fill="var(--rose-ink)">Before</text>
+      <text x="330" y="112" font-family="Figtree, sans-serif" font-size="20" font-weight="700" fill="var(--amber-ink)">Turning point</text>
+      <text x="480" y="80" font-family="Figtree, sans-serif" font-size="20" font-weight="700" fill="var(--teal-ink)">After</text>
+      <text x="40" y="194" font-family="Figtree, sans-serif" font-size="15" fill="var(--ink-2)">Same place, same time. Different feeling.</text></svg>`}));
+  }
+}
+
+/* ---------- annotate ---------- */
+function toolbox(tools, current, onPick){
+  const box = h('div', {class:'toolbox', role:'toolbar', 'aria-label':'Pens'});
+  tools.forEach(k=>{
+    const m = MARKS[k];
+    box.append(h('button', {class:'tool', type:'button', 'aria-pressed': String(current()===k), onclick:()=>onPick(k)}, h('span',{html:shapeSvg(m.shape, m.color)}), m.label));
+  });
+  return box;
+}
+function rAnnotate(d, root){
+  head(root, d);
+  if (d.mode === 'reveal'){
+    const legend = h('div', {class:'toolbox'});
+    d.tools.forEach(k=>{ const m=MARKS[k]; legend.append(h('span',{class:'tool', style:'cursor:default'}, h('span',{html:shapeSvg(m.shape,m.color)}), m.label)); });
+    root.append(legend);
+    const P = buildPassage(d.passage);
+    const targets = P.chunks.filter(c=>c.req.length);
+    const notes = h('ol', {class:'notes'});
+    root.append(h('div', {class:'split'}, P.el, h('div', null, notes)));
+    let k = 0;
+    const next = btn('Show next mark', ()=>{ k=Math.min(targets.length,k+1); draw(); }, 'primary');
+    const all = btn('Show all', ()=>{ k=targets.length; draw(); });
+    const reset = btn('Clear', ()=>{ k=0; draw(); }, 'ghost');
+    root.append(h('div', {class:'row'}, next, all, reset));
+    function draw(){
+      notes.innerHTML='';
+      targets.forEach((c,i)=>{
+        setMark(c, i<k ? c.req[0] : null);
+        if (i<k){ c.el.append(h('span',{class:'nb'}, i+1)); notes.append(h('li', {class:'k-'+c.req[0]}, h('span',{class:'nb'}, i+1), c.note || MARKS[c.req[0]].label)); }
+      });
+      if (!k) notes.append(h('li', {class:'notes-empty'}, 'Notes appear here as each mark goes on.'));
+      next.disabled = k>=targets.length;
+    }
+    draw();
+    return;
+  }
+  // mark mode
+  let tool = d.tools[0];
+  const marks = new Map();
+  let checked = false;
+  const tbWrap = h('div');
+  const P = buildPassage(d.passage, 'markable');
+  const side = h('div');
+  root.append(tbWrap, h('div', {class:'split'}, P.el, side));
+  const summary = h('div', {class:'summary', hidden:true});
+  root.append(h('div', {class:'row'},
+    btn('Check', ()=>{ checked=true; draw(); }, 'primary'),
+    btn('Show suggested marks', ()=>{ P.chunks.forEach(c=>{ if (c.req[0]) marks.set(c.id, c.req[0]); else marks.delete(c.id); }); checked=true; draw(); }),
+    btn('Clear', ()=>{ marks.clear(); checked=false; draw(); }, 'ghost')), summary);
+  P.chunks.forEach(c=> c.el.addEventListener('click', ()=>{
+    if (marks.get(c.id) === tool) marks.delete(c.id); else marks.set(c.id, tool);
+    checked=false; draw();
+  }));
+  function draw(){
+    tbWrap.innerHTML=''; tbWrap.append(toolbox(d.tools, ()=>tool, k=>{ tool=k; draw(); }));
+    let found=0, need=0, wrong=0;
+    P.chunks.forEach(c=>{
+      const mk = marks.get(c.id);
+      setMark(c, mk);
+      if (c.req.length) need++;
+      if (!checked) return;
+      const okKeys = c.req.concat(c.opt);
+      if (mk){
+        if (okKeys.includes(mk)){ c.el.classList.add('ck-ok'); if (c.req.length) found++; }
+        else { c.el.classList.add('ck-bad'); wrong++; }
+      } else if (c.req.length){ c.el.classList.add('ck-miss'); }
+    });
+    side.innerHTML='';
+    side.append(h('p', {class:'prompt'}, 'Tap a phrase to mark it with the pen you picked. Tap it again to remove the mark.'));
+    if (checked){
+      summary.hidden=false;
+      summary.textContent = `Found ${found} of ${need}. ` + (wrong ? `${wrong} mark${wrong>1?'s need':' needs'} another look (crossed). ` : '') + (found<need ? 'Dashed outlines show phrases still to mark.' : 'Every key phrase is marked.');
+    } else summary.hidden=true;
+  }
+  draw();
+}
+
+/* ---------- steps ---------- */
+function rSteps(d, root){
+  head(root, d);
+  const P = d.passage ? buildPassage(d.passage) : null;
+  const list = h('ol', {class:'steps'});
+  root.append(P ? h('div', {class:'split'}, P.el, list) : list);
+  let k = 0;
+  const next = btn('Next step', ()=>{ k=Math.min(d.steps.length,k+1); draw(); }, 'primary');
+  root.append(h('div', {class:'row'}, next, btn('Show all', ()=>{ k=d.steps.length; draw(); }), btn('Start again', ()=>{ k=0; draw(); }, 'ghost')));
+  function draw(){
+    list.innerHTML='';
+    if (P) P.chunks.forEach(c=>setMark(c, null));
+    d.steps.forEach((s,i)=>{
+      if (i>=k) return;
+      list.append(h('li', {html:s.t}));
+      if (P && s.hl) P.chunks.forEach(c=>{ if (c.keys.some(x=>s.hl.includes(x))) setMark(c, s.mk || 'evidence'); });
+    });
+    next.disabled = k>=d.steps.length;
+  }
+  draw();
+}
+
+/* ---------- sort ---------- */
+function rSort(d, root){
+  head(root, d);
+  if (d.text) root.append(h('div', {class:'passage small'}, h('p', null, d.text)));
+  const placed = d.items.map(()=>null);
+  let sel = null, checked = false;
+  const pool = h('div', {class:'pool'});
+  const bins = h('div', {class:'bins', style:`--n:${d.bins.length}`});
+  const binBody = {}, binEl = {};
+  d.bins.forEach(b=>{
+    const body = h('div', {class:'bin-body'});
+    const el = h('div', {class:'bin', role:'button', tabindex:'0', 'aria-label':'Place in '+b.label, onclick:()=>drop(b.id), onkeydown:e=>{ if (e.key==='Enter'||e.key===' '){ e.preventDefault(); drop(b.id); } }}, h('div', {class:'bin-label'}, b.label), body);
+    binBody[b.id]=body; binEl[b.id]=el; bins.append(el);
+  });
+  const fb = h('div');
+  root.append(pool, bins, h('div', {class:'row'},
+    btn('Check', ()=>{ checked=true; draw(); }, 'primary'),
+    btn('Show answers', ()=>{ d.items.forEach((it,i)=>placed[i]=it.bin); sel=null; checked=true; draw(); }),
+    btn('Reset', ()=>{ placed.fill(null); sel=null; checked=false; draw(); }, 'ghost')), fb);
+  function drop(id){ if (sel == null) return; placed[sel]=id; sel=null; checked=false; draw(); }
+  function draw(){
+    pool.innerHTML=''; Object.values(binBody).forEach(b=>b.innerHTML='');
+    Object.values(binEl).forEach(b=>b.classList.toggle('ready', sel!=null));
+    d.items.forEach((it,i)=>{
+      let cls = 'chip';
+      if (sel===i) cls+=' sel';
+      if (checked && placed[i]) cls += placed[i]===it.bin ? ' ok' : ' bad';
+      const chip = h('button', {class:cls, type:'button', onclick:e=>{ e.stopPropagation(); if (placed[i]){ placed[i]=null; checked=false; } else sel = sel===i ? null : i; draw(); }}, it.t);
+      (placed[i] ? binBody[placed[i]] : pool).append(chip);
+    });
+    if (!pool.children.length) pool.append(h('span', {class:'pool-empty'}, 'All placed. Press Check.'));
+    fb.innerHTML='';
+    if (checked){
+      const right = d.items.filter((it,i)=>placed[i]===it.bin).length;
+      const box = h('div', {class:'fb '+(right===d.items.length?'ok':'info')}, h('strong', null, `${right} of ${d.items.length} in the right place. `));
+      const whys = h('ul', {class:'whys'});
+      d.items.forEach((it,i)=>{ if (placed[i] && placed[i]!==it.bin) whys.append(h('li', null, `“${it.t}” belongs in ${d.bins.find(b=>b.id===it.bin).label}: ${it.why}`)); });
+      if (right===d.items.length) d.items.forEach(it=> whys.append(h('li', null, `“${it.t}”: ${it.why}`)));
+      box.append(whys);
+      if (right===d.items.length && d.after) box.append(h('p', {class:'hand', style:'margin:.6rem 0 0'}, d.after));
+      fb.append(box);
+    }
+  }
+  draw();
+}
+
+/* ---------- questions ---------- */
+function rQuestions(d, root){
+  head(root, d);
+  const P = d.passage ? buildPassage(d.passage) : null;
+  const panel = h('div', {class:'qpanel'});
+  root.append(P ? h('div', {class:'split'}, P.el, panel) : h('div', {class:'single'}, panel));
+  const st = d.items.map(()=>({picked:new Set(), last:null, help:false}));
+  let qi = 0;
+  const optsFor = it => it.options || d.options.map((t,i)=>({t, ok:i===it.a, why: i===it.a ? it.why : (d.wrong || 'Not this one.')}));
+  function draw(){
+    panel.innerHTML='';
+    const it = d.items[qi], s = st[qi], O = optsFor(it);
+    if (P) P.chunks.forEach(c=>setMark(c, null));
+    const nav = h('div', {class:'qnav'});
+    d.items.forEach((_,i)=>{
+      const solved = optsFor(d.items[i]).some((o,j)=>o.ok && st[i].picked.has(j));
+      nav.append(h('button', {class:'dot'+(solved?' done':''), type:'button', 'aria-current':String(i===qi), 'aria-label':'Question '+(i+1), onclick:()=>{ qi=i; draw(); }}, i+1));
+    });
+    panel.append(nav, h('div', {class:'q', html:it.q}));
+    const list = h('div', {class:'opts'});
+    O.forEach((o,j)=>{
+      const picked = s.picked.has(j);
+      list.append(h('button', {class:'opt'+(picked ? (o.ok?' ok':' bad') : ''), type:'button', onclick:()=>{ s.picked.add(j); s.last=j; draw(); }},
+        h('span', {class:'letter'}, 'ABCDEF'[j]), h('span', {class:'otext', html:o.t})));
+    });
+    panel.append(list);
+    if (s.last != null){
+      const o = O[s.last];
+      panel.append(h('div', {class:'fb '+(o.ok?'ok':'bad')}, h('strong', null, (o.tag ? o.tag : (o.ok ? 'Yes' : 'Not quite')) + '. '), h('span', {html:o.why || ''})));
+    }
+    const row = h('div', {class:'row'});
+    if (it.evidence || it.helped) row.append(btn(s.help ? 'Hide what helped' : 'Show what helped', ()=>{ s.help=!s.help; draw(); }));
+    row.append(btn('Previous', ()=>{ qi=Math.max(0,qi-1); draw(); }, 'ghost'));
+    const nx = btn('Next question', ()=>{ qi=Math.min(d.items.length-1,qi+1); draw(); }, 'primary');
+    nx.disabled = qi>=d.items.length-1;
+    row.append(nx);
+    panel.append(row);
+    if (s.help){
+      if (P && it.evidence) P.chunks.forEach(c=>{ if (c.keys.some(k=>it.evidence.includes(k))) setMark(c, 'evidence'); });
+      if (it.helped) panel.append(h('div', {class:'helped hand'}, it.helped));
+    }
+  }
+  draw();
+}
+
+/* ---------- frame ---------- */
+function rFrame(d, root){
+  head(root, d);
+  const order = d.slots.map(s=>shuffle(s.map((_,j)=>j)));
+  const picks = d.slots.map(()=>null);
+  let active = 0, last = null;
+  const para = h('p', {class:'frame-para'});
+  const chooser = h('div', {class:'chooser'});
+  root.append(para, chooser, h('div', {class:'row'}, btn('Start again', ()=>{ picks.fill(null); active=0; last=null; draw(); }, 'ghost')));
+  function draw(){
+    para.innerHTML='';
+    d.template.split(/(\{\d+\})/).forEach(part=>{
+      const m = part.match(/^\{(\d+)\}$/);
+      if (!m){ if (part) para.append(document.createTextNode(part)); return; }
+      const i = +m[1], o = picks[i]!=null ? d.slots[i][picks[i]] : null;
+      para.append(h('button', {class:'gap'+(i===active?' active':'')+(o?(o.ok?' ok':' bad'):''), type:'button', onclick:()=>{ active=i; draw(); }}, o ? o.t : `gap ${i+1}`));
+    });
+    chooser.innerHTML='';
+    const done = picks.every((p,i)=>p!=null && d.slots[i][p].ok);
+    chooser.append(h('div', {class:'chooser-label'}, `Choose for gap ${active+1}`));
+    const row = h('div', {class:'opts'});
+    const slot = active;
+    order[slot].forEach(j=>{
+      const o = d.slots[slot][j];
+      row.append(h('button', {class:'opt'+(picks[slot]===j?(o.ok?' ok':' bad'):''), type:'button', onclick:()=>{
+        picks[slot]=j; last={i:slot,j};
+        if (o.ok){ const nxt = picks.findIndex((p,i)=>p==null || !d.slots[i][p].ok); if (nxt>=0) active=nxt; }
+        draw();
+      }}, h('span', {class:'otext'}, o.t)));
+    });
+    chooser.append(row);
+    if (last){
+      const o = d.slots[last.i][last.j];
+      chooser.append(h('div', {class:'fb '+(o.ok?'ok':'bad')}, h('strong', null, `Gap ${last.i+1}: ${o.ok?'yes':'not quite'}. `), o.why || ''));
+    }
+    if (done) chooser.append(h('div', {class:'fb ok'}, h('strong', null, 'Complete. '), 'Read it aloud. Does every sentence do one job?'));
+  }
+  draw();
+}
+
+/* ---------- wordswap ---------- */
+function rWordswap(d, root){
+  head(root, d);
+  let mood = d.moods[0].id, senses = false;
+  const bar = h('div', {class:'row', style:'margin-top:0'});
+  const scene = h('p', {class:'scene'});
+  const notes = h('ul', {class:'notes'});
+  root.append(bar, scene, notes);
+  function draw(){
+    bar.innerHTML='';
+    d.moods.forEach(m=> bar.append(h('button', {class:'btn', type:'button', 'aria-pressed':String(mood===m.id), onclick:()=>{ mood=m.id; draw(); }}, m.label)));
+    bar.append(h('button', {class:'btn ghost', type:'button', 'aria-pressed':String(senses), onclick:()=>{ senses=!senses; draw(); }}, senses ? 'Hide '+(d.tagLabel||'senses') : 'Show '+(d.tagLabel||'senses')));
+    scene.innerHTML='';
+    d.template.split(/(\{\d+\})/).forEach(part=>{
+      const m = part.match(/^\{(\d+)\}$/);
+      if (!m){ if (part) scene.append(document.createTextNode(part)); return; }
+      const sl = d.slots[+m[1]];
+      const sp = h('span', {class:'swap'}, sl.v[mood]);
+      if (senses) sp.append(h('span', {class:'tag'}, sl.sense));
+      scene.append(sp);
+    });
+    notes.innerHTML='';
+    d.slots.forEach(sl=> notes.append(h('li', null, `“${sl.v[mood]}”: ${sl.n[mood]}`)));
+  }
+  draw();
+}
+
+/* ---------- infer ---------- */
+function rInfer(d, root){
+  head(root, d);
+  const P = buildPassage(d.passage, 'markable');
+  const panel = h('div', {class:'qpanel'});
+  root.append(h('div', {class:'split'}, P.el, panel));
+  let clues = [], know = null, inf = null, result = null;
+  const textOf = k => (P.chunks.find(c=>c.keys[0]===k) || {}).text || '';
+  P.chunks.forEach(c=> c.el.addEventListener('click', ()=>{
+    const k = c.keys[0];
+    if (clues.includes(k)) clues = clues.filter(x=>x!==k);
+    else { clues.push(k); if (clues.length>2) clues.shift(); }
+    result=null; draw();
+  }));
+  function check(){
+    if (clues.length<2) return {ok:false, t:'Tap two clues in the text first.'};
+    if (know==null || inf==null) return {ok:false, t:'Choose what you know and an inference.'};
+    const I = d.inferences[inf];
+    if (!I.ok) return {ok:false, t:I.why};
+    if (d.know[know].id !== d.goodKnow) return {ok:false, t:'True, but it doesn’t connect these clues to your inference.'};
+    const weak = clues.filter(c=>!I.clues.includes(c));
+    if (weak.length) return {ok:false, t:`“${textOf(weak[0])}” could mean several things. Choose a clue that points only to your inference.`};
+    return {ok:true};
+  }
+  function draw(){
+    P.chunks.forEach(c=> setMark(c, clues.includes(c.keys[0]) ? 'clue' : null));
+    panel.innerHTML='';
+    panel.append(h('div', {class:'slotline'}, h('span', {class:'slabel'}, 'Clues'),
+      [0,1].map(i=> h('span', {class:'pill'+(clues[i]?' on':'')}, clues[i] ? `“${textOf(clues[i])}”` : `Tap clue ${i+1} in the text`))));
+    panel.append(h('div', {class:'slabel'}, 'What you know'));
+    const k = h('div', {class:'opts'});
+    d.know.forEach((o,i)=> k.append(h('button', {class:'opt'+(know===i?' ok':''), type:'button', onclick:()=>{ know=i; result=null; draw(); }}, h('span',{class:'otext'}, o.t))));
+    panel.append(k, h('div', {class:'slabel', style:'margin-top:.8rem'}, 'Inference'));
+    const f = h('div', {class:'opts'});
+    d.inferences.forEach((o,i)=> f.append(h('button', {class:'opt'+(inf===i?' ok':''), type:'button', onclick:()=>{ inf=i; result=null; draw(); }}, h('span',{class:'otext'}, o.t))));
+    panel.append(f, h('div', {class:'row'}, btn('Check', ()=>{ result=check(); draw(); }, 'primary'), btn('Clear', ()=>{ clues=[]; know=null; inf=null; result=null; draw(); }, 'ghost')));
+    if (result){
+      if (result.ok){
+        const kt = d.know[know].t; const kLower = kt.charAt(0).toLowerCase() + kt.slice(1);
+        panel.append(h('div', {class:'fb ok'}, h('strong', null, 'Strong inference. ')),
+          h('p', {class:'hand result'}, `I infer that ${d.inferences[inf].t} because the text says “${textOf(clues[0])}” and “${textOf(clues[1])}”, and I know that ${kLower.replace(/\.$/,'')}.`));
+      } else panel.append(h('div', {class:'fb bad'}, h('strong', null, 'Not yet. '), result.t));
+    }
+  }
+  draw();
+}
+
+/* ---------- sheet & intro ---------- */
+function rSheet(d, root){
+  const L = LESSONS[S.lesson];
+  const card = h('div', {class:'sheet'});
+  card.append(h('h2', {class:'title', style:'font-size:clamp(1.5rem,2.1vw,2.2rem)'}, `Now on your sheet: ${L.sheet}`), h('h3', null, d.part), h('blockquote', null, d.task));
+  const todo = h('ol', {class:'todo'});
+  d.do.forEach(t=>{ const b = h('button', {type:'button', onclick:()=>b.classList.toggle('done')}, t); todo.append(h('li', null, b)); });
+  const rem = h('ul', {class:'remember'});
+  (d.remember||[]).forEach(t=>rem.append(h('li', null, t)));
+  card.append(h('div', {class:'sheet-cols'}, h('div', null, h('h4', null, 'What to do'), todo), h('div', null, h('h4', null, 'Remember'), rem,
+    d.frame ? h('div', {class:'frame-box'}, h('h4', null, 'Sentence frame'), h('div', {class:'hand'}, d.frame)) : null)));
+  root.append(card);
+}
+function rIntro(d, root){
+  const L = LESSONS[S.lesson];
+  root.append(h('h2', {class:'title'}, d.title), h('p', {class:'prompt'}, d.lead));
+  const map = h('div', {class:'map'});
+  d.map.forEach(m=> map.append(h('button', {class:'map-row', type:'button', onclick:()=>go(S.lesson, m.block, 0)}, h('span', null, m.part), h('span', {class:'map-skill'}, m.skill))));
+  root.append(map, h('div', {class:'flow'}, 'Every block runs in the same order:', ['Concept','Model','Practise','On the sheet'].map(t=>h('span', null, t))));
+}
+
+/* ---------- navigation ---------- */
+function stagesOf(b){ return STAGE_ORDER.filter(k=>b.stages[k]); }
+function go(l, b, s){ S.lesson=l; S.block=b; S.stage=s; S.sub=0; render(); }
+function next(){
+  const L = LESSONS[S.lesson], st = stagesOf(L.blocks[S.block]);
+  if (S.stage < st.length-1) go(S.lesson, S.block, S.stage+1);
+  else if (S.block < L.blocks.length-1) go(S.lesson, S.block+1, 0);
+}
+function prev(){
+  const L = LESSONS[S.lesson];
+  if (S.stage > 0) go(S.lesson, S.block, S.stage-1);
+  else if (S.block > 0) go(S.lesson, S.block-1, stagesOf(L.blocks[S.block-1]).length-1);
+}
+function renderActivity(key, d, root){
+  if (key==='intro') return rIntro(d, root);
+  if (key==='concept') return rConcept(d, root);
+  if (key==='sheet') return rSheet(d, root);
+  const R = {annotate:rAnnotate, steps:rSteps, sort:rSort, questions:rQuestions, frame:rFrame, wordswap:rWordswap, infer:rInfer}[d.kind];
+  if (R) R(d, root); else root.append(h('p', null, 'Unknown activity.'));
+}
+function render(){
+  const L = LESSONS[S.lesson];
+  if (S.block >= L.blocks.length) S.block = 0;
+  const B = L.blocks[S.block], st = stagesOf(B);
+  if (S.stage >= st.length) S.stage = 0;
+  document.body.dataset.lesson = L.id;
+  document.body.classList.toggle('rail-off', !S.rail);
+  if (S.theme) document.documentElement.setAttribute('data-theme', S.theme); else document.documentElement.removeAttribute('data-theme');
+
+  const tabs = $('lessonTabs'); tabs.innerHTML='';
+  LESSONS.forEach((l,i)=> tabs.append(h('button', {type:'button', role:'tab', 'aria-selected':String(i===S.lesson), onclick:()=>go(i,0,0)}, h('small', null, `${l.code}: ${l.sheet}`), h('b', null, l.title))));
+  $('barTitle').textContent = B.intro ? L.title : B.title;
+
+  const rail = $('rail'); rail.innerHTML='';
+  L.blocks.forEach((b,i)=> rail.append(h('li', null, h('button', {type:'button', 'aria-current':String(i===S.block), onclick:()=>go(S.lesson,i,0)},
+    h('span', {class:'num'}, b.intro ? '' : i), h('span', null, h('span', {class:'bt'}, b.title), h('span', {class:'bs'}, b.short))))));
+
+  const stTabs = $('stageTabs'); stTabs.innerHTML='';
+  st.forEach((k,i)=> stTabs.append(h('button', {class:'stage-tab', type:'button', role:'tab', 'aria-current':String(i===S.stage), onclick:()=>go(S.lesson,S.block,i)}, h('span', {class:'n'}, i+1), STAGE_LABEL[k])));
+
+  const root = $('stage'); root.innerHTML='';
+  root.classList.remove('enter'); void root.offsetWidth; root.classList.add('enter');
+  const key = st[S.stage]; const d = B.stages[key];
+  if (Array.isArray(d)){
+    if (S.sub >= d.length) S.sub = 0;
+    const sub = h('div', {class:'subtabs'});
+    d.forEach((a,i)=> sub.append(h('button', {class:'btn', type:'button', 'aria-pressed':String(i===S.sub), onclick:()=>{ S.sub=i; render(); }}, a.label || `Part ${i+1}`)));
+    root.append(sub);
+    renderActivity(key, d[S.sub], root);
+  } else renderActivity(key, d, root);
+
+  const atStart = S.block===0 && S.stage===0;
+  const atEnd = S.block===L.blocks.length-1 && S.stage===st.length-1;
+  $('prevBtn').disabled = atStart;
+  $('nextBtn').disabled = atEnd;
+  let nextLabel = 'Next';
+  if (!atEnd){ nextLabel = S.stage < st.length-1 ? `Next: ${STAGE_LABEL[st[S.stage+1]]}` : `Next: ${L.blocks[S.block+1].title}`; }
+  $('nextBtn').textContent = nextLabel;
+  save();
+}
+
+/* ---------- chrome ---------- */
+let timerId = null, timerEnd = 0;
+function fmt(ms){ const s=Math.max(0,Math.ceil(ms/1000)); return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; }
+function startTimer(min){
+  clearInterval(timerId); const b=$('timerBtn'); b.classList.remove('ring');
+  if (!min){ b.textContent='Timer'; return; }
+  timerEnd = Date.now() + min*60000; b.textContent = fmt(min*60000);
+  timerId = setInterval(()=>{ const left = timerEnd-Date.now(); b.textContent = fmt(left); if (left<=0){ clearInterval(timerId); b.textContent='Time!'; b.classList.add('ring'); } }, 250);
+}
+$('timerBtn').addEventListener('click', e=>{ e.stopPropagation(); $('timerPop').hidden = !$('timerPop').hidden; });
+$('timerPop').addEventListener('click', e=>{ const m = e.target.closest('[data-min]'); if (!m) return; startTimer(+m.dataset.min); $('timerPop').hidden = true; });
+document.addEventListener('click', e=>{ if (!e.target.closest('.tools')) $('timerPop').hidden = true; });
+$('railBtn').addEventListener('click', ()=>{ S.rail=!S.rail; render(); });
+$('themeBtn').addEventListener('click', ()=>{
+  const dark = S.theme ? S.theme==='dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  S.theme = dark ? 'light' : 'dark'; render();
+});
+$('fsBtn').addEventListener('click', ()=>{ try{ if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }catch(e){} });
+$('prevBtn').addEventListener('click', prev);
+$('nextBtn').addEventListener('click', next);
+document.addEventListener('keydown', e=>{
+  if (e.target.closest && e.target.closest('input,textarea')) return;
+  if (e.key==='ArrowRight' || e.key==='PageDown'){ e.preventDefault(); next(); }
+  if (e.key==='ArrowLeft' || e.key==='PageUp'){ e.preventDefault(); prev(); }
+});
+load();
+render();
+</script>
+</body>
+</html>

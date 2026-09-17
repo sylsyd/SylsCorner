@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5SI English: To Angkor Wat, close reading skills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e8efec; --paper:#fbfdfc; --paper-2:#eff4f2; --ink:#1d3147; --ink-2:#52636f; --line:#cddad5;
+  --amber:#f5dba8; --amber-ink:#8d5b0c; --teal:#b6e1d8; --teal-ink:#1b6a60;
+  --rose:#f5c6ca; --rose-ink:#9a3342; --lav:#dcd5f4; --lav-ink:#51458f;
+  --good:#cdeac6; --good-ink:#2f6a2a; --bad:#f7d0d0; --bad-ink:#9a2d2d;
+  --acc:#bddbb5; --acc-ink:#2e5a2a;
+  --shadow:0 16px 36px -24px rgba(29,49,71,.5);
+  --serif:"Literata", Georgia, "Times New Roman", serif;
+  --sans:"Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --hand:"Caveat", "Segoe Print", "Comic Sans MS", cursive;
+  color-scheme:light;
+}
+body[data-lesson="l11"]{ --acc:#f0c6d0; --acc-ink:#7d2c41; }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161e28; --paper:#202b37; --paper-2:#28353f; --ink:#e6edf2; --ink-2:#a9b8c3; --line:#374654;
+    --amber:#5a4a2c; --amber-ink:#f2d49b; --teal:#274f49; --teal-ink:#a8e2d7;
+    --rose:#58313a; --rose-ink:#f4b8bf; --lav:#3d3960; --lav-ink:#d5ccf6;
+    --good:#2d4c2c; --good-ink:#c2e7ba; --bad:#553032; --bad-ink:#f5c3c3;
+    --acc:#3b5739; --acc-ink:#c7e8bf; --shadow:0 16px 36px -24px rgba(0,0,0,.8); color-scheme:dark;
+  }
+  :root:not([data-theme="light"]) body[data-lesson="l11"]{ --acc:#5a3542; --acc-ink:#f3c4cf; }
+}
+:root[data-theme="dark"]{
+  --bg:#161e28; --paper:#202b37; --paper-2:#28353f; --ink:#e6edf2; --ink-2:#a9b8c3; --line:#374654;
+  --amber:#5a4a2c; --amber-ink:#f2d49b; --teal:#274f49; --teal-ink:#a8e2d7;
+  --rose:#58313a; --rose-ink:#f4b8bf; --lav:#3d3960; --lav-ink:#d5ccf6;
+  --good:#2d4c2c; --good-ink:#c2e7ba; --bad:#553032; --bad-ink:#f5c3c3;
+  --acc:#3b5739; --acc-ink:#c7e8bf; --shadow:0 16px 36px -24px rgba(0,0,0,.8); color-scheme:dark;
+}
+:root[data-theme="dark"] body[data-lesson="l11"]{ --acc:#5a3542; --acc-ink:#f3c4cf; }
+
+*{box-sizing:border-box}
+html{font-size:clamp(15px, .85vw + 8px, 25px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;line-height:1.45}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--lav-ink);outline-offset:2px}
+
+/* header */
+.bar{display:flex;align-items:center;gap:1rem;padding:.55rem 1.2rem;background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10;flex-wrap:wrap}
+.lessons{display:flex;gap:.4rem}
+.lessons button{border:1.5px solid var(--line);background:var(--paper-2);border-radius:.7rem;padding:.35rem .8rem;cursor:pointer;text-align:left;line-height:1.15}
+.lessons button small{display:block;font-size:.72rem;color:var(--ink-2)}
+.lessons button b{font-weight:700;font-size:.95rem}
+.lessons button[aria-selected="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+.lessons button[aria-selected="true"] small{color:inherit}
+.bar-title{flex:1;min-width:10rem;font-family:var(--serif);font-weight:600;font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tools{display:flex;gap:.4rem;align-items:center;position:relative}
+.icon-btn{border:1.5px solid var(--line);background:var(--paper);border-radius:.6rem;padding:.4rem .7rem;cursor:pointer;font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:.4rem}
+.icon-btn svg{width:1.1em;height:1.1em}
+.timer-pop{position:absolute;right:0;top:calc(100% + .4rem);background:var(--paper);border:1px solid var(--line);border-radius:.8rem;padding:.6rem;display:flex;gap:.35rem;box-shadow:var(--shadow)}
+.timer-pop[hidden]{display:none}
+#timerBtn.ring{background:var(--bad);border-color:var(--bad-ink);animation:pulse 1s ease-in-out 4}
+@keyframes pulse{50%{transform:scale(1.08)}}
+
+/* shell */
+.shell{display:grid;grid-template-columns:15.5rem minmax(0,1fr);min-height:calc(100vh - 3.8rem)}
+body.rail-off .shell{grid-template-columns:minmax(0,1fr)}
+body.rail-off .rail{display:none}
+.rail{padding:1rem .7rem;border-right:1px solid var(--line);background:var(--paper-2);overflow:auto}
+.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:.2rem}
+.rail button{display:grid;grid-template-columns:1.8rem 1fr;gap:.4rem;align-items:start;text-align:left;padding:.55rem .6rem;border-radius:.6rem;border:0;background:transparent;cursor:pointer;width:100%}
+.rail button:hover{background:var(--paper)}
+.rail .num{font-family:var(--serif);font-weight:700;font-size:1.25rem;line-height:1;color:var(--ink-2);padding-top:.1rem}
+.rail .bt{font-weight:600;font-size:.98rem;line-height:1.2;display:block}
+.rail .bs{font-size:.8rem;color:var(--ink-2);display:block;margin-top:.1rem}
+.rail button[aria-current="true"]{background:var(--acc);color:var(--acc-ink)}
+.rail button[aria-current="true"] .num,.rail button[aria-current="true"] .bs{color:inherit}
+
+main{display:flex;flex-direction:column;padding:1rem 2rem 1.2rem;min-width:0}
+.stages{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:.4rem}
+.stage-tab{display:flex;align-items:center;gap:.5em;padding:.35em .95em .35em .35em;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);font-weight:600;cursor:pointer;font-size:.95rem}
+.stage-tab .n{width:1.7em;height:1.7em;border-radius:50%;display:grid;place-items:center;background:var(--paper-2);font-size:.85em}
+.stage-tab[aria-current="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+.stage-tab[aria-current="true"] .n{background:var(--paper);color:var(--ink)}
+#stage{flex:1;width:100%;max-width:80rem;margin:0 auto;padding:1.1rem 0 1.4rem}
+#stage.enter{animation:enter .28s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(6px)}}
+@media (prefers-reduced-motion: reduce){#stage.enter{animation:none}#timerBtn.ring{animation:none}}
+.pager{display:flex;justify-content:space-between;align-items:center;gap:1rem;max-width:80rem;width:100%;margin:0 auto;border-top:1px solid var(--line);padding-top:.8rem}
+
+/* type */
+h2.title{font-family:var(--serif);font-weight:700;font-size:clamp(1.75rem,2.5vw,2.9rem);line-height:1.12;letter-spacing:-.015em;margin:0 0 .35em;max-width:32ch;text-wrap:balance}
+.prompt{font-size:1.2rem;color:var(--ink-2);max-width:64ch;margin:0 0 1.2rem}
+.hand{font-family:var(--hand);font-size:1.5em;line-height:1.15;font-weight:500}
+mark{background:var(--lav);color:inherit;border-radius:.2em;padding:0 .15em;box-shadow:inset 0 -.12em 0 var(--lav-ink)}
+
+/* buttons */
+.row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-top:1rem}
+.btn{font-weight:600;font-size:1rem;padding:.55em 1.05em;border-radius:.6em;border:1.5px solid var(--line);background:var(--paper);cursor:pointer}
+.btn:hover{border-color:var(--ink-2)}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.ghost{background:transparent}
+.btn:disabled{opacity:.4;cursor:default}
+.subtabs{display:flex;gap:.4rem;margin:-.2rem 0 1rem}
+.subtabs .btn[aria-pressed="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+
+/* passage */
+.passage{font-family:var(--serif);font-size:1.32rem;line-height:1.95;background:var(--paper);border-radius:.4rem;padding:1.2rem 1.6rem 1.2rem 3rem;box-shadow:var(--shadow);position:relative;max-width:50rem}
+.passage::before{content:"";position:absolute;left:1.9rem;top:0;bottom:0;width:2px;background:var(--rose)}
+.passage p{margin:0 0 .7em}
+.passage p:last-child{margin-bottom:0}
+.passage.small{font-size:1.15rem;margin-bottom:1rem}
+.split{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.6rem;align-items:start}
+@media (max-width:900px){.split{grid-template-columns:1fr}.shell{grid-template-columns:1fr}.rail{display:none}main{padding:1rem}}
+
+.chunk{padding:.04em .22em;margin:0 -.22em;border-radius:.3em;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:box-shadow .18s,background-color .18s}
+.markable .chunk{cursor:pointer}
+.markable .chunk:not(.mk):hover{background-color:var(--paper-2);box-shadow:inset 0 -2px 0 var(--line)}
+.mk-when{box-shadow:inset 0 0 0 .13em var(--amber-ink);background-color:var(--amber);border-radius:.1em}
+.mk-where{box-shadow:inset 0 0 0 .13em var(--teal-ink);border-radius:1em}
+.mk-event{box-shadow:inset 0 0 0 .13em var(--rose-ink);border-radius:1em}
+.mk-mood,.mk-detail,.mk-verb,.mk-after,.mk-feel{background-image:linear-gradient(var(--u),var(--u));background-repeat:no-repeat;background-size:calc(100% - .44em) .13em;background-position:.22em 95%}
+.mk-mood{--u:var(--rose-ink)}
+.mk-detail,.mk-after{--u:var(--teal-ink)}
+.mk-verb,.mk-feel{--u:var(--lav-ink)}
+.mk-trap{text-decoration:line-through;text-decoration-color:var(--amber-ink);text-decoration-thickness:.1em;background-color:var(--amber)}
+.mk-turn{background-color:var(--amber)}
+.mk-evidence{background-color:var(--lav);box-shadow:inset 0 -.13em 0 var(--lav-ink)}
+.mk-clue{background-color:var(--teal);box-shadow:inset 0 -.13em 0 var(--teal-ink)}
+.nb{font:700 .62em var(--sans);background:var(--ink);color:var(--paper);border-radius:999px;padding:.05em .45em;vertical-align:super;margin-left:.25em}
+.ck-ok::after,.ck-bad::after{font:700 .7em var(--sans);vertical-align:super;margin-left:.2em}
+.ck-ok::after{content:"\2713";color:var(--good-ink)}
+.ck-bad::after{content:"\2717";color:var(--bad-ink)}
+.ck-miss{outline:2px dashed var(--bad-ink);outline-offset:1px}
+
+.notes{list-style:none;padding:0;margin:0;display:grid;gap:.65rem}
+.notes li{font-family:var(--hand);font-size:1.7rem;line-height:1.1;display:flex;gap:.55rem;align-items:baseline}
+.notes li .nb{font-size:.9rem;vertical-align:baseline;flex:none;position:relative;top:-.15em}
+.notes li.k-when{color:var(--amber-ink)} .notes li.k-where{color:var(--teal-ink)} .notes li.k-mood{color:var(--rose-ink)}
+.notes li.k-event{color:var(--rose-ink)} .notes li.k-detail{color:var(--teal-ink)} .notes li.k-verb,.notes li.k-feel{color:var(--lav-ink)} .notes li.k-trap{color:var(--amber-ink)}
+.notes-empty{color:var(--ink-2);font-size:1rem}
+
+/* toolbox */
+.toolbox{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1rem}
+.tool{display:flex;align-items:center;gap:.55rem;border:2px solid var(--line);background:var(--paper);border-radius:.7rem;padding:.45rem .85rem;cursor:pointer;font-weight:600;font-size:1.02rem}
+.tool[aria-pressed="true"]{border-color:var(--ink);background:var(--paper-2)}
+.tool svg{width:2.1rem;height:1.2rem;flex:none}
+.summary{font-size:1.1rem;margin-top:1rem;padding:.7rem 1rem;border-radius:.6rem;background:var(--paper-2)}
+
+/* concept */
+.points{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1rem 0 1.4rem}
+.point{background:var(--paper);border-radius:.8rem;padding:1.1rem 1.2rem 1.15rem;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.point::before{content:"";position:absolute;left:0;right:0;top:0;height:.4rem;background:var(--tone)}
+.point h3{font-family:var(--serif);font-size:1.45rem;margin:.15em 0 .25em;color:var(--tone-ink)}
+.point p{font-size:1.1rem;margin:0}
+.demo-wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.4rem;align-items:center}
+@media (max-width:900px){.demo-wrap{grid-template-columns:1fr}}
+.demo-note{font-size:1.1rem;color:var(--ink-2);max-width:60ch;margin-top:.8rem}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:62rem}
+.compare > div{background:var(--paper);border-radius:.8rem;padding:1rem 1.2rem;box-shadow:var(--shadow)}
+.compare .lab{font-weight:700;font-size:1rem}
+.compare .weak .lab{color:var(--bad-ink)} .compare .strong .lab{color:var(--good-ink)}
+.compare .phrase{font-family:var(--serif);font-size:1.2rem;margin:.3rem 0}
+.moodline{max-width:44rem;width:100%;height:auto;background:var(--paper);border-radius:.8rem;box-shadow:var(--shadow)}
+
+/* steps */
+.steps{margin:0;padding-left:1.6rem;display:grid;gap:.75rem;font-size:1.2rem}
+.steps li{padding-left:.3rem}
+.steps li::marker{font-weight:700;color:var(--ink-2)}
+.steps s{text-decoration-color:var(--bad-ink);text-decoration-thickness:.1em}
+
+/* sort */
+.pool{display:flex;flex-wrap:wrap;gap:.5rem;min-height:3.2rem;padding:.8rem;border:2px dashed var(--line);border-radius:.8rem;margin-bottom:1rem}
+.pool-empty{color:var(--ink-2);align-self:center}
+.bins{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:.8rem}
+@media (max-width:900px){.bins{grid-template-columns:1fr}}
+.bin{background:var(--paper);border-radius:.8rem;padding:.7rem;min-height:9rem;cursor:pointer;box-shadow:var(--shadow);border:2px solid transparent}
+.bin.ready{border-color:var(--acc-ink)}
+.bin-label{font-family:var(--serif);font-weight:700;font-size:1.3rem;margin:0 0 .5rem .2rem}
+.bin-body{display:flex;flex-wrap:wrap;gap:.45rem}
+.chip{border:1.5px solid var(--line);background:var(--paper-2);border-radius:.6rem;padding:.45rem .75rem;cursor:pointer;font-size:1.05rem;font-family:var(--serif);text-align:left}
+.chip.sel{border-color:var(--ink);background:var(--acc);color:var(--acc-ink);box-shadow:0 0 0 3px var(--acc)}
+.chip.ok{background:var(--good);border-color:var(--good-ink)}
+.chip.bad{background:var(--bad);border-color:var(--bad-ink)}
+.whys{margin:.8rem 0 0;padding-left:1.2rem;font-size:1.05rem;display:grid;gap:.3rem}
+
+/* questions */
+.qpanel{background:var(--paper);border-radius:1rem;padding:1.2rem 1.4rem;box-shadow:var(--shadow)}
+.single .qpanel{max-width:56rem}
+.qnav{display:flex;gap:.35rem;align-items:center;margin-bottom:.8rem;flex-wrap:wrap}
+.dot{width:2rem;height:2rem;border-radius:50%;border:1.5px solid var(--line);background:var(--paper-2);cursor:pointer;font-weight:700;font-size:.85rem}
+.dot[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.dot.done{background:var(--good);border-color:var(--good-ink)}
+.q{font-family:var(--serif);font-size:1.35rem;line-height:1.35;margin-bottom:.9rem}
+.opts{display:grid;gap:.5rem}
+.opt{display:flex;gap:.75em;align-items:center;text-align:left;font-size:1.12rem;padding:.6em .9em;border-radius:.7em;border:2px solid var(--line);background:var(--paper);cursor:pointer;width:100%}
+.opt:hover{border-color:var(--ink-2)}
+.opt .letter{font-weight:700;width:1.8em;height:1.8em;border-radius:50%;background:var(--paper-2);display:grid;place-items:center;flex:none;font-size:.9em}
+.opt.ok{background:var(--good);border-color:var(--good-ink)}
+.opt.bad{background:var(--bad);border-color:var(--bad-ink)}
+.opt.bad .otext{text-decoration:line-through;text-decoration-color:var(--bad-ink)}
+.fb{margin-top:.9rem;padding:.75rem 1rem;border-radius:.6rem;font-size:1.1rem}
+.fb.ok{background:var(--good);color:var(--good-ink)}
+.fb.bad{background:var(--bad);color:var(--bad-ink)}
+.fb.info{background:var(--paper-2)}
+.helped{margin-top:.8rem;color:var(--lav-ink)}
+
+/* frame */
+.frame-para{font-family:var(--serif);font-size:1.4rem;line-height:2.1;background:var(--paper);border-radius:.8rem;padding:1.2rem 1.6rem;box-shadow:var(--shadow);max-width:62rem;margin:0 0 1rem}
+.gap{font-family:var(--hand);font-size:1.45em;line-height:1;border:0;border-bottom:2.5px solid var(--ink-2);background:var(--paper-2);border-radius:.3em .3em 0 0;padding:.05em .4em;cursor:pointer;min-width:5em}
+.gap.active{background:var(--acc);border-bottom-color:var(--acc-ink)}
+.gap.ok{border-bottom-color:var(--good-ink);background:var(--good)}
+.gap.bad{border-bottom-color:var(--bad-ink);background:var(--bad)}
+.gap.active.ok,.gap.active.bad{box-shadow:0 0 0 3px var(--acc)}
+.chooser{max-width:62rem}
+.chooser-label{font-weight:700;margin:.2rem 0 .5rem}
+
+/* wordswap */
+.scene{font-family:var(--serif);font-size:1.55rem;line-height:1.9;background:var(--paper);border-radius:.8rem;padding:1.3rem 1.7rem;box-shadow:var(--shadow);max-width:60rem;margin:1rem 0}
+.swap{background:var(--lav);border-radius:.25em;padding:0 .2em;box-shadow:inset 0 -.12em 0 var(--lav-ink);transition:background-color .2s}
+.tag{font:700 .55em var(--sans);vertical-align:super;margin-left:.2em;padding:.05em .45em;border-radius:999px;background:var(--paper-2);color:var(--ink-2)}
+.btn[aria-pressed="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+
+/* infer */
+.slotline{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-bottom:.8rem}
+.slabel{font-weight:700;width:100%}
+.pill{border:1.5px dashed var(--line);border-radius:.6rem;padding:.35rem .7rem;color:var(--ink-2);font-size:1rem}
+.pill.on{border-style:solid;border-color:var(--teal-ink);background:var(--teal);color:var(--teal-ink);font-family:var(--serif)}
+.qpanel .opts .opt{font-size:1rem;padding:.5em .8em}
+.result{margin-top:.9rem;color:var(--good-ink)}
+
+/* sheet & intro */
+.sheet{background:var(--paper);border-radius:1rem;padding:1.5rem 2rem;max-width:70rem;box-shadow:var(--shadow);border-top:.5rem solid var(--acc)}
+.sheet h3{font-family:var(--serif);font-size:1.7rem;margin:0 0 .5rem}
+.sheet blockquote{font-family:var(--serif);font-style:italic;font-size:1.4rem;line-height:1.4;margin:0 0 1.3rem;padding-left:1rem;border-left:4px solid var(--acc-ink)}
+.sheet-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem}
+@media (max-width:900px){.sheet-cols{grid-template-columns:1fr}}
+.sheet h4{font-size:1.1rem;margin:0 0 .5rem}
+.todo{list-style:none;margin:0;padding:0;display:grid;gap:.45rem;counter-reset:t}
+.todo li{counter-increment:t}
+.todo button{display:flex;gap:.7rem;align-items:flex-start;border:0;background:var(--paper-2);border-radius:.6rem;padding:.55rem .8rem;cursor:pointer;text-align:left;width:100%;font-size:1.1rem}
+.todo button::before{content:counter(t);font-weight:700;width:1.7em;height:1.7em;border-radius:50%;background:var(--paper);display:grid;place-items:center;flex:none;font-size:.9em}
+.todo button.done{background:var(--good);color:var(--good-ink)}
+.todo button.done::before{content:"\2713"}
+.remember{margin:0;padding-left:1.2rem;display:grid;gap:.4rem;font-size:1.08rem}
+.frame-box{margin-top:1.2rem;padding:.8rem 1.1rem;border-radius:.7rem;background:var(--paper-2)}
+.map{display:grid;gap:.5rem;max-width:58rem;margin-top:1.2rem}
+.map-row{display:grid;grid-template-columns:1.2fr 1fr;gap:1rem;align-items:center;text-align:left;background:var(--paper);border:0;border-radius:.8rem;padding:.8rem 1.1rem;cursor:pointer;box-shadow:var(--shadow);font-size:1.12rem}
+.map-row:hover{outline:2px solid var(--acc-ink)}
+.map-skill{font-family:var(--serif);font-weight:600;color:var(--acc-ink)}
+.flow{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-top:1.4rem;color:var(--ink-2);font-size:1.02rem}
+.flow span{background:var(--paper);border-radius:999px;padding:.25rem .8rem;border:1.5px solid var(--line)}
+</style>
+</head>
+<body data-lesson="l11">
+<header class="bar">
+  <div class="lessons" role="tablist" aria-label="Lessons" id="lessonTabs"></div>
+  <div class="bar-title" id="barTitle"></div>
+  <div class="tools">
+    <button class="icon-btn" id="timerBtn" type="button" aria-haspopup="true">Timer</button>
+    <div class="timer-pop" id="timerPop" hidden>
+      <button class="btn" data-min="1" type="button">1 min</button>
+      <button class="btn" data-min="2" type="button">2 min</button>
+      <button class="btn" data-min="3" type="button">3 min</button>
+      <button class="btn" data-min="5" type="button">5 min</button>
+      <button class="btn ghost" data-min="0" type="button">Stop</button>
+    </div>
+    <button class="icon-btn" id="railBtn" type="button" title="Show or hide the block list">Blocks</button>
+    <button class="icon-btn" id="themeBtn" type="button" title="Switch light or dark">Theme</button>
+    <button class="icon-btn" id="fsBtn" type="button" title="Full screen">Full screen</button>
+  </div>
+</header>
+<div class="shell">
+  <nav class="rail" aria-label="Blocks"><ol id="rail"></ol></nav>
+  <main>
+    <div class="stages" id="stageTabs" role="tablist" aria-label="Stages"></div>
+    <section id="stage" aria-live="polite"></section>
+    <footer class="pager">
+      <button class="btn" id="prevBtn" type="button">Back</button>
+      <button class="btn primary" id="nextBtn" type="button">Next</button>
+    </footer>
+  </main>
+</div>
+
+<script>
+/* ================= CONTENT ================= */
+const L11 = {
+  id:'l11', code:'Lesson 11', title:'Key events, details and effects', sheet:'To Angkor Wat',
+  blocks:[
+    { title:'Start here', short:'What today builds towards', intro:true, stages:{ intro:{
+      title:'Close reading: To Angkor Wat',
+      lead:'Today’s sheet is To Angkor Wat, a travel story about a journey through the dark to see something remarkable. Each block practises one skill on a different story first.',
+      map:[
+        {part:'Part 1: circle four main events, underline details', skill:'Main events and details', block:1},
+        {part:'Part 1, your turn: a detail that shows feeling', skill:'Details that show feelings', block:2},
+        {part:'Part 1 margin notes and Question 3', skill:'Why an event matters', block:3},
+        {part:'Question 1: when did it first happen?', skill:'Tracking time', block:4},
+        {part:'Question 2: why at such an early hour?', skill:'Reasons across the text', block:5},
+        {part:'Question 4: suspense and mood', skill:'Explaining the effect', block:6},
+        {part:'Part 3: from unease to wonder', skill:'From unease to wonder', block:7}
+      ]}}},
+
+    /* ---------- 1 ---------- */
+    { title:'Main events and details', short:'The steps of the journey', stages:{
+      concept:{
+        title:'A main event moves the journey forward. A detail tells you more about it.',
+        lead:'Travel stories are full of small happenings. Main events are the steps of the journey: take one away and the story falls apart.',
+        points:[
+          {tone:'rose', h:'Main event', t:'A step in the journey: setting off, arriving, something that changes the trip.'},
+          {tone:'amber', h:'Minor event', t:'Something that happens but changes nothing: yawning, buying water, checking a watch.'},
+          {tone:'teal', h:'Detail', t:'Tells you when, where, how, or what it was like.'},
+          {tone:'lav', h:'The retell test', t:'Could you retell the whole trip in four events? Those are your main events.'}
+        ],
+        demo:'The climbers [set off|event|Event: the climb begins.] [just after midnight|detail|Detail: tells us when.] and [reached the hut|event|Event: they arrive.] [soaked and shivering|detail|Detail: tells us what it was like.].',
+        demoNote:'Circle the action. Underline what the detail tells you: when, where, how or what it was like.'
+      },
+      model:{ kind:'annotate', mode:'reveal', tools:['event','detail'],
+        title:'Watch the marks go on',
+        prompt:'Arif’s trip to a volcano. Four main events, each with a detail.',
+        passage:'Arif had always wanted to see Mount Bromo, the smoking volcano in his father’s photographs. At 3am, the jeep [left the guesthouse|event|Event: the journey begins.], [its headlights bouncing over the ruts|detail|Detail: shows a rough, dark road.]. After an hour, they [reached the crater rim|event|Event: they arrive.], [wrapped in thick blankets|detail|Detail: shows how cold it is.]. As the sun rose, [the mist rolled away|event|Event: the view appears.] [from the grey slopes|detail|Detail: tells us where.]. Arif [lifted his camera|event|Event: he reacts.] [to capture the view his father had seen|detail|Detail: tells us why.].'
+      },
+      practise:[
+        { kind:'sort', label:'A: Main or minor?', title:'Main event or minor event?',
+          prompt:'Lena’s class trip. Tap an event, then tap its box. Four are main events.',
+          text:'The coach left school at 7am. Lena ate a crisp and zipped up her coat. When they arrived at the rocky coast, the teacher counted heads. Then fog rolled in and hid the path. A boy asked where the toilets were. At last, the fog lifted to reveal thousands of stone columns stepping into the sea.',
+          bins:[{id:'main',label:'Main event'},{id:'minor',label:'Minor event'}],
+          items:[
+            {t:'the coach left school', bin:'main', why:'The trip begins.'},
+            {t:'Lena ate a crisp', bin:'minor', why:'Nothing changes.'},
+            {t:'they arrived at the rocky coast', bin:'main', why:'A new place.'},
+            {t:'the teacher counted heads', bin:'minor', why:'Nothing changes.'},
+            {t:'fog rolled in and hid the path', bin:'main', why:'A problem appears.'},
+            {t:'a boy asked where the toilets were', bin:'minor', why:'Nothing changes.'},
+            {t:'the fog lifted to reveal the columns', bin:'main', why:'The big moment the trip builds to.'},
+            {t:'Lena zipped up her coat', bin:'minor', why:'Nothing changes.'}
+          ],
+          after:'Sets off, arrives, a problem, the big reveal. That is the shape of many journey stories.'},
+        { kind:'annotate', mode:'mark', tools:['event','detail'], label:'B: Mark it',
+          title:'Your turn at the board',
+          prompt:'Circle four main events. Underline a detail for each. Careful: not every action is a main event.',
+          passage:'Jonas [stepped off the night bus|event] [in a tiny Arctic village|detail]. He [followed the guide|event] [across the frozen lake|detail], [his boots creaking on the snow|?detail]. He [yawned|x] and [checked his watch|x]. At midnight, [green light rippled|event] [across the black sky|detail]. Jonas [lay down on the ice|event] [to watch it dance|detail].'
+        }
+      ],
+      sheet:{ part:'Part 1: Text marking', task:'Circle four main events. Underline details about each event.',
+        do:['Read the whole travel story first.','Ask: what are the four steps of the journey?','Circle short event phrases built around a verb.','Underline a detail beside each event: when, where, how or what it was like.'],
+        remember:['Your sheet has a model: “the group left” is the event, “at 4am” tells us when.','Minor actions are not main events.','Short phrases only.'] }
+    }},
+
+    /* ---------- 2 ---------- */
+    { title:'Details that show feelings', short:'Actions reveal emotions', stages:{
+      concept:{
+        title:'Writers show feelings through actions.',
+        lead:'Your sheet asks for a detail that shows how the character feels. Look at what the character does, not only for feeling words.',
+        points:[
+          {tone:'rose', h:'Telling', t:'Names the feeling: she was scared, he felt calm.'},
+          {tone:'teal', h:'Showing', t:'An action that lets you work it out: she gripped the rail, he whistled.'},
+          {tone:'amber', h:'Ask', t:'Why would someone do that? The answer is the feeling.'},
+          {tone:'lav', h:'Feelings change', t:'Track the actions through the story: nervous at the start, amazed at the end?'}
+        ],
+        compare:{ phrase:'“Mia bit her nails in the queue.”', weak:'Detail: she bites her nails.', weakWhy:'Repeats the action.', strong:'Detail: biting her nails shows Mia is nervous about the ride.', strongWhy:'Names the feeling the action shows.' }
+      },
+      model:{ kind:'steps', title:'From action to feeling',
+        prompt:'Mia rides a cable car up a mountain.',
+        passage:'The cable car [jolted|a] and Mia [grabbed the handrail|b]. She [kept her eyes on the floor|c] and [counted under her breath|d]. At the top, the doors slid open onto snowy peaks. Mia [laughed out loud|e] and [ran to the railing|f].',
+        steps:[
+          {t:'Find an action: <b>grabbed the handrail</b>. Why would someone do that?', hl:['b'], mk:'feel'},
+          {t:'<span class="hand">Detail: grabbing the rail shows Mia is frightened.</span>'},
+          {t:'More actions point the same way: <b>kept her eyes on the floor</b>, <b>counted under her breath</b>. She is trying to stay calm.', hl:['c','d'], mk:'feel'},
+          {t:'At the top, the actions change: <b>laughed out loud</b>, <b>ran to the railing</b>.', hl:['e','f'], mk:'feel'},
+          {t:'<span class="hand">The actions show Mia’s feelings change from fear to delight.</span>'}
+        ]},
+      practise:[
+        { kind:'questions', label:'A: What does it show?', title:'What does the action show?',
+          prompt:'Leo goes on a night safari. Choose the feeling, then show what helped.',
+          passage:'Before the night safari, Leo [checked his torch three times|a]. As the jeep rolled into the forest, he [sat very still|b], [barely breathing|c]. Something [rustled|x] in the long grass. Leo [clutched his sister’s sleeve|d]. Then the guide’s lamp lit up a baby elephant, and Leo [whispered ‘wow’ again and again|e].',
+          items:[
+            {q:'1. “checked his torch three times”', evidence:['a'], helped:'Checking something again and again is what worried people do.', options:[
+              {t:'He is worried about the dark.', ok:true, tag:'Supported', why:'Checking three times shows anxiety.'},
+              {t:'His torch is broken.', tag:'Not in the text', why:'Nothing says it is broken.'},
+              {t:'He is bored.', tag:'Doesn’t fit', why:'Bored people don’t check things three times.'}]},
+            {q:'2. “sat very still, barely breathing”', evidence:['b','c'], helped:'Holding still and quiet in a dark forest shows tension.', options:[
+              {t:'He is relaxed.', tag:'Opposite', why:'Barely breathing is not relaxed.'},
+              {t:'He is tense and listening hard.', ok:true, tag:'Supported', why:'Stillness and held breath show tension.'},
+              {t:'He is asleep.', tag:'Twisted', why:'Still, yes, but he is holding his breath.'}]},
+            {q:'3. “clutched his sister’s sleeve”', evidence:['d'], helped:'It comes straight after something “rustled” in the grass.', options:[
+              {t:'He wants her to move.', tag:'Not in the text', why:'Nothing suggests that.'},
+              {t:'He is cold.', tag:'Doesn’t fit', why:'The rustle just before it points to fear.'},
+              {t:'He is scared and wants to feel safe.', ok:true, tag:'Supported', why:'He grabs her right after the rustle.'}]},
+            {q:'4. How do Leo’s feelings change?', evidence:['d','e'], helped:'“clutched his sister’s sleeve”, then “whispered ‘wow’ again and again”.', options:[
+              {t:'from nervous to amazed', ok:true, tag:'Supported', why:'Fearful actions first, an amazed reaction at the end.'},
+              {t:'from excited to bored', tag:'Twisted', why:'Whispering “wow” is not bored.'},
+              {t:'from happy to scared', tag:'Backwards', why:'The fear comes first.'},
+              {t:'They don’t change.', tag:'Doesn’t fit', why:'His actions at the start and end are very different.'}]}
+          ]},
+        { kind:'annotate', mode:'mark', tools:['event','detail','feel'], label:'B: Mark it',
+          title:'Three pens',
+          prompt:'Circle events. Underline details. Use the lilac pen for details that show how Aisha feels.',
+          passage:'Aisha [reached the rope bridge|event] [high above the gorge|detail]. She [stopped at the first plank|event] and [wiped her palms on her jeans|feel]. [Halfway across|detail], the bridge [swayed|event]. Aisha [froze|?feel/?event], [gripping both ropes|feel]. On the far side, she [sank onto the grass|event] and [grinned up at the sky|feel].'
+        }
+      ],
+      sheet:{ part:'Part 1: Your turn', task:'Mark a later event and a detail that shows how Solyna feels.',
+        do:['Look past the opening: the sheet wants a later event.','Find what Solyna does, not just what she sees.','Underline the action and ask: why would someone do that?','In the margin, name the feeling.'],
+        remember:['Read for change: her feelings shift as the journey unfolds.','Actions and body reactions count as feeling details.'],
+        frame:'Detail: … shows that Solyna feels …' }
+    }},
+
+    /* ---------- 3 ---------- */
+    { title:'Why an event matters', short:'Margin notes and the most important event', stages:{
+      concept:{
+        title:'Every main event changes something.',
+        lead:'After you circle an event, ask: what is different now? The event that changes the most, or that the story builds towards, is a strong choice for “most important”.',
+        points:[
+          {tone:'teal', h:'Place', t:'The traveller is somewhere new.'},
+          {tone:'amber', h:'Knowledge', t:'Someone learns or sees something for the first time.'},
+          {tone:'rose', h:'Feeling', t:'The mood or the character’s feelings change.'},
+          {tone:'lav', h:'Story', t:'It sets up what comes next, or it is the moment the story builds towards.'}
+        ],
+        compare:{ phrase:'“the jeep left the guesthouse”', weak:'The jeep leaves.', weakWhy:'Retells the event.', strong:'Event: the journey begins. It matters because it takes Arif into the dark towards the volcano.', strongWhy:'Names what changes.' }
+      },
+      model:{ kind:'steps', title:'Margin notes, then the most important event',
+        prompt:'Arif’s volcano trip again.',
+        passage:'Arif had always [dreamed of seeing Mount Bromo|e0]. At 3am, the jeep [left the guesthouse|e1]. After an hour, they [reached the crater rim|e2]. As the sun rose, [the mist rolled away|e3] and [the volcano appeared, smoking against a pink sky|e4].',
+        steps:[
+          {t:'Event: <b>left the guesthouse</b>. What changes? Place: the journey starts.', hl:['e1'], mk:'event'},
+          {t:'<span class="hand">Event: they set off. It matters because it starts the journey in the dark.</span>'},
+          {t:'Event: <b>the mist rolled away</b>. What changes? Knowledge and feeling: Arif finally sees the volcano.', hl:['e3','e4'], mk:'event'},
+          {t:'<span class="hand">Event: the view appears. It matters because Arif’s dream comes true.</span>'},
+          {t:'Which is <b>most important</b>? Ask: what does the whole story build towards? Does anything in the opening point to it?', hl:['e0'], mk:'evidence'},
+          {t:'<span class="hand">I think the most important event is when the mist rolls away, because the story opens with Arif’s dream of seeing Bromo, and this is the moment it comes true.</span>'}
+        ]},
+      practise:[
+        { kind:'questions', label:'A: Margin notes', title:'Pick the best margin note',
+          prompt:'Jonas’s Arctic trip. For each event, choose the note that explains why it matters.',
+          passage:'Jonas [stepped off the night bus|a] in a tiny Arctic village. He [followed the guide across the frozen lake|b]. At midnight, [green light rippled across the black sky|c]. Jonas [lay down on the ice to watch it dance|d].',
+          items:[
+            {q:'Event: “stepped off the night bus”', evidence:['a'], options:[
+              {t:'Jonas gets off a bus.', why:'Retells the event.'},
+              {t:'It matters because Jonas has arrived somewhere remote, where the adventure can begin.', ok:true, why:'Names what changes: place.'},
+              {t:'Buses are useful at night.', why:'Too general: not about this story.'}]},
+            {q:'Event: “followed the guide across the frozen lake”', evidence:['b'], options:[
+              {t:'The lake is frozen.', why:'A detail, not why it matters.'},
+              {t:'Guides know the way.', why:'Too general.'},
+              {t:'It matters because it takes Jonas away from the village to a dark, open place to watch the sky.', ok:true, why:'Names the change and links to what comes next.'}]},
+            {q:'Event: “green light rippled across the black sky”', evidence:['c'], options:[
+              {t:'It matters because it is what Jonas came to see: the moment the story builds towards.', ok:true, why:'Explains why this event is the high point.'},
+              {t:'The sky turns green.', why:'Retells the event.'},
+              {t:'It is midnight.', why:'A detail about when.'}]},
+            {q:'Event: “lay down on the ice to watch it dance”', evidence:['d'], options:[
+              {t:'Ice is cold.', why:'Too general.'},
+              {t:'It matters because it shows Jonas is so amazed he forgets the cold.', ok:true, why:'Names the feeling the event reveals.'},
+              {t:'He lies down.', why:'Retells the event.'}]}
+          ]},
+        { kind:'frame', label:'B: Most important event', title:'Build a “most important event” answer',
+          prompt:'Tap each gap and choose. Wrong choices explain themselves.',
+          template:'I think the most important event is {0}, because {1}. The text says {2}, which shows {3}.',
+          slots:[
+            [{t:'when the green light ripples across the sky', ok:true, why:'The story builds towards this.'},
+             {t:'when Jonas steps off the bus', why:'Important, but it only starts the trip.'},
+             {t:'when the bus is late', why:'Not in the text.'}],
+            [{t:'it is the moment Jonas travelled all that way to see', ok:true, why:'Explains what the event means for the story.'},
+             {t:'it happens at midnight', why:'A detail, not a reason.'},
+             {t:'lights in the sky are pretty', why:'Too general.'}],
+            [{t:'“green light rippled across the black sky”', ok:true, why:'A short, precise quotation.'},
+             {t:'“Jonas stepped off the night bus in a tiny Arctic village and followed the guide”', why:'Too long, and about a different event.'},
+             {t:'that the sky was nice', why:'Not a quotation.'}],
+            [{t:'the long, dark journey was worth it', ok:true, why:'Links the evidence back to why it matters.'},
+             {t:'it was green', why:'Repeats the quotation.'},
+             {t:'Jonas was cold', why:'This quotation doesn’t show that.'}]
+          ]}
+      ],
+      sheet:{ part:'Part 1 margin notes and Question 3', task:'Add a margin note explaining why each event matters. Which event in the story do you think is most important? Explain.',
+        do:['Beside each circled event, write “Event:” and what happens.','Add “It matters because…” and name what changes.','For Question 3, compare your four events: which does the story build towards?','Support your choice with a short quotation.'],
+        remember:['Ask: place, knowledge, feeling or story?','There is more than one good answer to Question 3. Your explanation earns the marks.'],
+        frame:'I think the most important event is … because … The text says “…”, which shows …' }
+    }},
+
+    /* ---------- 4 ---------- */
+    { title:'Tracking time', short:'When did it first happen?', stages:{
+      concept:{
+        title:'Stories don’t always tell events in the order they happened.',
+        lead:'“When did she first…?” questions send you back in time. Some options are true facts from the text but belong to the wrong moment.',
+        points:[
+          {tone:'amber', h:'Time signals', t:'always, had, years later, decades later, one day, after, at last'},
+          {tone:'teal', h:'Before the story', t:'“had always hoped” or “loved their stories” reach back to a time before the main journey.'},
+          {tone:'rose', h:'First means earliest', t:'Put the events on a quick timeline and pick the earliest one that fits.'},
+          {tone:'lav', h:'True but wrong time', t:'An option can be in the text but happen later. Check when, not just whether.'}
+        ]},
+      model:{ kind:'steps', title:'Timeline first, then the answer',
+        prompt:'When did Tomás first learn about Lake Titicaca? (abuela = grandmother in Spanish)',
+        passage:'Tomás had always [loved his abuela’s songs about Lake Titicaca|a], sung in the kitchen on rainy evenings. [In 2015|b], [a documentary called it one of the highest lakes in the world|c]. [Ten years later|d], Tomás [finally crossed it by boat|e] with his mother.',
+        steps:[
+          {t:'<b>A.</b> from a documentary &nbsp;<b>B.</b> on the boat trip &nbsp;<b>C.</b> from his grandmother &nbsp;<b>D.</b> from a school textbook'},
+          {t:'Find the time signals: <b>had always</b>, <b>In 2015</b>, <b>Ten years later</b>.', hl:['b','d'], mk:'when'},
+          {t:'Put them in order. “Had always loved” reaches back furthest: before 2015, before the trip.', hl:['a'], mk:'evidence'},
+          {t:'<s>A. from a documentary</s> True, but the wrong time: 2015 comes after “had always”.', hl:['c'], mk:'trap'},
+          {t:'<s>B. on the boat trip</s> True, but ten years later. <s>D. from a school textbook</s> Not in the text.', hl:['e'], mk:'trap'},
+          {t:'<b>C.</b> Supported: his abuela is his grandmother, and he had always loved her songs.', hl:['a'], mk:'evidence'},
+          {t:'<span class="hand">I chose C because the text says Tomás “had always loved his abuela’s songs”, which comes before the documentary and the trip.</span>'}
+        ]},
+      practise:[
+        { kind:'sort', label:'A: Timeline', title:'Put it on the timeline',
+          prompt:'Tap an event, then tap its box.',
+          text:'Hana’s great-grandfather had built boats in the harbour at Hoi An, and his letters described lanterns floating on the river. Years later, Hana saved her pocket money and booked a flight. On her first night in Hoi An, she floated a paper lantern past the old boatyard.',
+          bins:[{id:'long',label:'Long before'},{id:'ready',label:'Getting ready'},{id:'trip',label:'The trip'}],
+          items:[
+            {t:'great-grandfather built boats', bin:'long', why:'“had built” reaches far back.'},
+            {t:'his letters described the lanterns', bin:'long', why:'Part of the family past.'},
+            {t:'Hana saved her pocket money', bin:'ready', why:'“Years later”: preparing to go.'},
+            {t:'booked a flight', bin:'ready', why:'Preparing to go.'},
+            {t:'her first night in Hoi An', bin:'trip', why:'She has arrived.'},
+            {t:'floated a paper lantern', bin:'trip', why:'Happens during the trip.'}
+          ],
+          after:'When did Hana first learn about the lanterns? From her great-grandfather’s letters: the earliest box.'},
+        { kind:'questions', label:'B: True but wrong time', title:'True, but when?',
+          prompt:'Tap an option to test it. Then show what helped.',
+          passage:'Kwame’s uncle [had often described the castle on the coast|a] [during long phone calls from Accra|b]. [Last spring|c], Kwame’s class [watched a video about it|d]. [This summer|e], he [walked through its gates|f] [for the first time|g].',
+          items:[
+            {q:'1. When did Kwame first hear about the castle?', evidence:['a','b'], helped:'“had often described” reaches back before “last spring”.', options:[
+              {t:'in a class video', tag:'True but wrong time', why:'That was last spring, after years of his uncle’s calls.'},
+              {t:'from his uncle', ok:true, tag:'Supported', why:'“had often described” is the earliest moment.'},
+              {t:'when he walked through the gates', tag:'True but wrong time', why:'This summer: the latest event.'},
+              {t:'from a guidebook', tag:'Not in the text', why:'No guidebook is mentioned.'}]},
+            {q:'2. Which words tell you the uncle’s calls came first?', evidence:['a'], options:[
+              {t:'“had often described”', ok:true, tag:'Supported', why:'“had” points further back than the other events.'},
+              {t:'“Last spring”', tag:'Wrong event', why:'That dates the video.'},
+              {t:'“for the first time”', tag:'Trap', why:'That is about visiting, not hearing about it.'}]},
+            {q:'3. In the last sentence, “for the first time” means…', evidence:['f','g'], options:[
+              {t:'the first time Kwame heard of the castle', tag:'Twisted', why:'He had heard about it for years.'},
+              {t:'the castle had just opened', tag:'Not in the text', why:'Nothing says that.'},
+              {t:'the first time Kwame visited the castle', ok:true, tag:'Supported', why:'It goes with “walked through its gates”.'}]}
+          ]}
+      ],
+      sheet:{ part:'Part 2: Question 1', task:'When did Solyna first learn about Angkor Wat? What helped you answer?',
+        do:['Find the time signals in the first two paragraphs.','Put the events on a quick timeline.','Cross out options that are in the text but happen at the wrong time.','Quote the words that helped.'],
+        remember:['“First” means the earliest moment.','An option can be true and still wrong.'],
+        frame:'I chose … because the text says “…”. I ruled out … because it happened …' }
+    }},
+
+    /* ---------- 5 ---------- */
+    { title:'Reasons across the text', short:'Why did they do that?', stages:{
+      concept:{
+        title:'The reason is not always in the same sentence.',
+        lead:'“Why did they…?” The answer might come a paragraph later. Don’t choose “nothing explains this” until you have read to the end.',
+        points:[
+          {tone:'teal', h:'Find the action', t:'Locate what happened, for example: they left very early.'},
+          {tone:'amber', h:'Read on', t:'What do they do next? Where do they go? What are they waiting for?'},
+          {tone:'lav', h:'Purpose words', t:'to, so that, in time for, hoping to, wait for'},
+          {tone:'rose', h:'The “nothing” trap', t:'“There is nothing in the story to explain this” is only right if you have checked the whole text.'}
+        ]},
+      model:{ kind:'steps', title:'Linking the clues',
+        prompt:'Why did the hikers set off so early?',
+        passage:'The hikers [set their alarms for 2am|a]. They climbed in silence, [torches bobbing on the path|b]. [Near the summit|c], they found a flat rock and [sat down to wait|d]. Slowly, [a thin gold line appeared on the horizon|e].',
+        steps:[
+          {t:'<b>A.</b> Nothing explains this. &nbsp;<b>B.</b> To be at the top in time for sunrise. &nbsp;<b>C.</b> To enjoy climbing by torchlight. &nbsp;<b>D.</b> To avoid a storm.'},
+          {t:'Find the action: <b>set their alarms for 2am</b>. The reason isn’t in that sentence.', hl:['a'], mk:'turn'},
+          {t:'Read on: they <b>sat down to wait</b> near the summit. Wait for what?', hl:['c','d'], mk:'evidence'},
+          {t:'Last sentence: <b>a thin gold line appeared on the horizon</b>. That is the sunrise.', hl:['e'], mk:'evidence'},
+          {t:'<s>A</s> The text does explain it, just later. <s>C</s> Too literal: the torches are a detail, not a reason. <s>D</s> Not in the text.', hl:['b'], mk:'trap'},
+          {t:'<span class="hand">I chose B because they set off at 2am, “sat down to wait” near the summit, and then “a thin gold line appeared on the horizon”.</span>'}
+        ]},
+      practise:{ kind:'questions', title:'Cross it out: the night fishermen',
+        prompt:'Tap an option to test it. Wrong answers name their trap.',
+        passage:'The fishermen [left the harbour before midnight|a]. [Their lamps glowed on the black water|b] as they rowed out [past the rocks|p]. By the time the first light came, [their nets were already full of silver fish|d] that [only swim near the surface in the dark|e]. [Other boats were just setting off|f].',
+        items:[
+          {q:'1. Why did the fishermen leave before midnight?', evidence:['d','e'], helped:'The fish “only swim near the surface in the dark”, and by first light “their nets were already full”.', options:[
+            {t:'There is nothing in the text to explain this.', tag:'The nothing trap', why:'Read on: the fish only come up in the dark.'},
+            {t:'To catch fish that come to the surface in the dark.', ok:true, tag:'Supported', why:'The reason arrives two sentences later.'},
+            {t:'To see their lamps glow on the water.', tag:'Too literal', why:'The lamps are a detail about the journey.'},
+            {t:'To race the other boats back to the harbour.', tag:'Twisted', why:'The other boats were setting off, not racing back.'}]},
+          {q:'2. Which quotation best supports your answer?', evidence:['e'], options:[
+            {t:'“Their lamps glowed on the black water”', tag:'Not the reason', why:'Describes the scene.'},
+            {t:'“past the rocks”', tag:'Not the reason', why:'Where, not why.'},
+            {t:'“only swim near the surface in the dark”', ok:true, tag:'Supported', why:'This explains the timing.'}]},
+          {q:'3. What does “Other boats were just setting off” suggest?', evidence:['f','d'], helped:'The others leave at first light, when the fishermen’s nets are already full.', options:[
+            {t:'The other boats were faster.', tag:'Not in the text', why:'Speed is never mentioned.'},
+            {t:'The other boats were too late for the best catch.', ok:true, tag:'Supported', why:'By then the fish have gone deeper.'},
+            {t:'The fishermen were lost.', tag:'Not in the text', why:'Nothing suggests that.'}]}
+        ]},
+      sheet:{ part:'Part 2: Question 2', task:'Why did the tour group leave for Angkor Wat at such an early hour? What helped you answer?',
+        do:['Find the sentence where the group leaves.','Keep reading: what do they do when they get there?','Test option A: only choose it if nothing in the whole story explains the early start.','Quote two short pieces of evidence.'],
+        remember:['Reasons can be spread across paragraphs.','Every wrong option is wrong for a reason you can name.'],
+        frame:'I chose … because the text says “…” and later “…”.' }
+    }},
+
+    /* ---------- 6 ---------- */
+    { title:'Explaining the effect', short:'How writers build suspense and mood', stages:{
+      concept:{
+        title:'Suspense comes from what we can’t see. Wonder comes from what we finally can.',
+        lead:'Question 4 asks how. Pick a phrase, name the mood, then zoom in on the word that creates it. Compare the dark part with the light part.',
+        points:[
+          {tone:'lav', h:'Darkness and sound', t:'Hidden things and strange noises make readers uneasy: we imagine the worst.'},
+          {tone:'amber', h:'Waiting', t:'Slowing down before a big moment makes us desperate to know what comes.'},
+          {tone:'teal', h:'Light and colour', t:'Light and colour appearing bring relief and wonder.'},
+          {tone:'rose', h:'Size and stillness', t:'Huge, calm or ancient things create awe.'}
+        ],
+        compare:{ phrase:'“shadows crept along the canyon walls”', weak:'This creates a scary mood.', weakWhy:'Names a mood but doesn’t explain which words create it.', strong:'The phrase “shadows crept” creates a tense mood because “crept” makes the shadows sound alive and sneaking closer.', strongWhy:'Quotes, names the mood, zooms in on one word.' }
+      },
+      model:{ kind:'steps', title:'Dark journey, then the reveal',
+        prompt:'A night walk to a temple carved into a cliff.',
+        passage:'The guide led us [into the narrow canyon|a] after dark. [Shadows crept along the rock walls|c], and [somewhere ahead, water dripped|d]. We walked in single file, [nobody speaking|f]. Then the canyon opened, and [hundreds of candles flickered|g] in front of [a vast rose-pink temple carved into the cliff|h].',
+        steps:[
+          {t:'<b>Dark journey:</b> pick a phrase. <b>Shadows crept along the rock walls</b>.', hl:['c'], mk:'mood'},
+          {t:'Name the mood: tense, uneasy. Zoom in: “crept” makes the shadows sound like they are sneaking up on the walkers.'},
+          {t:'More suspense: <b>somewhere ahead, water dripped</b> and <b>nobody speaking</b>. A sound with no visible source, and silence.', hl:['d','f'], mk:'mood'},
+          {t:'<b>The reveal:</b> <b>hundreds of candles flickered</b>, <b>a vast rose-pink temple</b>.', hl:['g','h'], mk:'after'},
+          {t:'Name the mood: wonder, awe. Zoom in: “vast” shows its size, “rose-pink” brings colour after all the darkness.'},
+          {t:'<span class="hand">The phrase “shadows crept” creates a tense mood because “crept” makes the dark seem alive. In contrast, “a vast rose-pink temple” creates a mood of wonder because colour and size replace the fear.</span>'}
+        ]},
+      practise:[
+        { kind:'sort', label:'A: Unease or wonder?', title:'Unease or wonder?',
+          prompt:'Tap a phrase, then tap its box.',
+          bins:[{id:'unease',label:'Unease'},{id:'wonder',label:'Wonder'}],
+          items:[
+            {t:'an owl screeched somewhere in the trees', bin:'unease', why:'A sudden sound with no visible source.'},
+            {t:'gold light spilled over the rooftops', bin:'wonder', why:'Light and colour arriving.'},
+            {t:'the path vanished into blackness', bin:'unease', why:'We can’t see what is ahead.'},
+            {t:'the ancient tower stood silent and enormous', bin:'wonder', why:'Size and stillness create awe.'},
+            {t:'his torch flickered and died', bin:'unease', why:'Losing light raises the danger.'},
+            {t:'the lake turned from grey to shining silver', bin:'wonder', why:'A change in light.'},
+            {t:'twigs snapped behind them', bin:'unease', why:'Something unseen is close.'},
+            {t:'she gasped and forgot the cold', bin:'wonder', why:'An action that shows amazement.'}
+          ],
+          after:'Notice the pattern: unease comes from what is hidden, wonder from what is revealed.'},
+        { kind:'frame', label:'B: Explain the effect', title:'Build a compare answer',
+          prompt:'Use phrases from the sort. Tap each gap and choose.',
+          template:'The phrase {0} creates {1} mood because {2}. In contrast, {3} creates a mood of wonder because {4}.',
+          slots:[
+            [{t:'“the path vanished into blackness”', ok:true, why:'A short phrase from the dark part.'},
+             {t:'“the lake turned from grey to shining silver”', why:'That belongs to the light part: save it for the contrast.'},
+             {t:'“they walked”', why:'Too plain: it creates no mood.'}],
+            [{t:'a tense, uneasy', ok:true, why:'A precise mood word.'},
+             {t:'a joyful', why:'Nothing about blackness is joyful here.'},
+             {t:'a boring', why:'Suspense is the opposite of boring.'}],
+            [{t:'“vanished” suggests the walkers cannot see what lies ahead', ok:true, why:'Zooms in on one word and explains it.'},
+             {t:'it is dark', why:'True, but it doesn’t explain how the words work.'},
+             {t:'the writer uses a phrase', why:'Says nothing about the effect.'}],
+            [{t:'“the lake turned from grey to shining silver”', ok:true, why:'A phrase from the light part.'},
+             {t:'“twigs snapped behind them”', why:'That builds unease, not wonder.'},
+             {t:'“his torch flickered and died”', why:'Unease again.'}],
+            [{t:'the change in light replaces the darkness with something beautiful', ok:true, why:'Explains the effect and links back to the contrast.'},
+             {t:'lakes are wet', why:'Not about mood.'},
+             {t:'silver is expensive', why:'Too literal: the writer means the colour of the light.'}]
+          ]}
+      ],
+      sheet:{ part:'Part 2: Question 4', task:'How does the author of the story build suspense and mood? Compare a detail from the dark journey with one from the sunrise.',
+        do:['Find two phrases from the night journey.','Find one or two phrases from the sunrise.','Name the mood each one creates.','Zoom in on one word in each and explain its effect.','Link the two with “In contrast”.'],
+        remember:['Short quotations only.','Use a precise mood word: tense, uneasy, peaceful, awed.'],
+        frame:'The phrase “…” creates a … mood because … In contrast, “…” creates …' }
+    }},
+
+    /* ---------- 7 ---------- */
+    { title:'From unease to wonder', short:'Writing the arrival', stages:{
+      concept:{
+        title:'Begin uncertain. Reveal something beautiful.',
+        lead:'The extension asks for an arrival at a remarkable place. The mood shift comes from three tools: light, the senses and the traveller’s actions.',
+        points:[
+          {tone:'lav', h:'Change in light', t:'Dark, then grey, then colour: the reader watches the place appear.'},
+          {tone:'teal', h:'Two senses', t:'What you hear in the dark, what you see or feel when the light comes.'},
+          {tone:'rose', h:'Feelings through actions', t:'Not “she was nervous” but “she twisted her ticket in her hands”.'},
+          {tone:'amber', h:'One word to explain', t:'Pick your strongest word and say what it makes the reader imagine.'}
+        ],
+        moodline:true
+      },
+      model:{ kind:'wordswap', title:'One arrival, two moods',
+        prompt:'Same place. Switch between the uneasy start and the reveal, then show the senses.',
+        moods:[{id:'unease',label:'Arriving: unease'},{id:'wonder',label:'Revealed: wonder'}],
+        template:'The boat drifted towards the island {0}. From the shore came {1}. Ines {2}. The temple on the hill {3}.',
+        slots:[
+          {sense:'sight', v:{unease:'through a thick grey fog', wonder:'as the fog burned away into gold'}, n:{unease:'Light hidden: we can’t see where we are going.', wonder:'Change in light: the scene is revealed.'}},
+          {sense:'sound', v:{unease:'a low, hollow knocking', wonder:'the soft ringing of a hundred bells'}, n:{unease:'A sound with no source creates suspense.', wonder:'A sound again, now gentle and beautiful.'}},
+          {sense:'action', v:{unease:'gripped the side of the boat', wonder:'let go and stood up, laughing'}, n:{unease:'An action shows fear without naming it.', wonder:'An action shows the feeling has become delight.'}},
+          {sense:'sight', v:{unease:'loomed like a shadow', wonder:'glittered white and gold'}, n:{unease:'“loomed” makes it feel huge and threatening.', wonder:'“glittered” brings light and wonder.'}}
+        ]},
+      practise:[
+        { kind:'questions', label:'A: Choose the stronger', title:'Which sentence does the job?',
+          prompt:'Each question checks one tool from the extension.',
+          items:[
+            {q:'1. Which sentence shows nervousness through an action?', options:[
+              {t:'Ines was very nervous.', tag:'Telling', why:'It names the feeling.'},
+              {t:'Ines twisted the strap of her bag round and round.', ok:true, tag:'Showing', why:'The action lets the reader work out the feeling.'},
+              {t:'Ines felt a nervous feeling.', tag:'Telling', why:'Names the feeling twice.'}]},
+            {q:'2. Which sentence uses a change in light?', options:[
+              {t:'The mountain was very big.', tag:'No light', why:'Size, but no change in light.'},
+              {t:'It was morning.', tag:'Telling', why:'Names the time instead of showing the light change.'},
+              {t:'The sky turned from black to silver, and the mountain’s outline appeared.', ok:true, tag:'Supported', why:'Black to silver, and something is revealed.'}]},
+            {q:'3. Which pair uses two different senses?', options:[
+              {t:'the cold spray on her face / the thunder of the waterfall', ok:true, tag:'Touch and hearing', why:'Two different senses.'},
+              {t:'the tall trees / the green leaves', tag:'Sight twice', why:'Both are things you see.'},
+              {t:'the noise / the loud sound', tag:'Vague', why:'Both hearing, and neither is precise.'}]},
+            {q:'4. Which sentence explains a word choice best?', options:[
+              {t:'“Loomed” is a good word.', tag:'No effect', why:'Doesn’t say what it does.'},
+              {t:'I used “loomed” in my second sentence.', tag:'No effect', why:'Says where, not why.'},
+              {t:'I chose “loomed” because it makes the temple seem huge and threatening before the light reveals it.', ok:true, tag:'Explained', why:'Names the effect on the reader.'}]}
+          ]},
+        { kind:'annotate', mode:'mark', tools:['event','detail'], label:'B: Mark a model',
+          title:'Mark a short model answer',
+          prompt:'Circle the two key events. Underline details that create the mood shift.',
+          passage:'The train [stopped in the middle of nowhere|event]. [The platform was dark and empty|detail], and [a door banged somewhere in the wind|detail]. Rafi [pulled his hood tight|?detail] and followed a gravel path [up a steep hill|?detail]. At the top, [the clouds split open|event]. [Pink light poured across a valley of glass greenhouses|detail], [glowing like lanterns|detail]. [The air smelled of oranges|detail]. Rafi [let his bag slide off his shoulder|?detail] and stared.'
+        },
+        { kind:'frame', label:'C: Explain your word', title:'Explain your most effective word',
+          prompt:'From Rafi’s paragraph. Tap each gap and choose.',
+          template:'My most effective word is {0} because it makes the reader {1}, which {2}.',
+          slots:[
+            [{t:'“poured”', ok:true, why:'A precise verb: light moving like liquid.'},
+             {t:'“the”', why:'No effect to explain.'},
+             {t:'“was”', why:'Too plain to explain.'}],
+            [{t:'imagine light flooding the whole valley at once', ok:true, why:'Says what the reader pictures.'},
+             {t:'think about pouring drinks', why:'Too literal.'},
+             {t:'read the sentence', why:'Says nothing about the effect.'}],
+            [{t:'shows the sudden change from darkness to wonder', ok:true, why:'Links the word to the mood shift.'},
+             {t:'makes the sentence longer', why:'Length isn’t an effect.'},
+             {t:'is a verb', why:'Names the word class, not the effect.'}]
+          ]}
+      ],
+      sheet:{ part:'Part 3: Extension', task:'Write 120–150 words describing an arrival at a remarkable place. Begin with uncertainty and gradually reveal something beautiful.',
+        do:['Plan three moments: uneasy start, turning point, reveal.','Use two senses and a change in light.','Show the traveller’s feelings through actions.','Circle two key events and underline details that create the mood shift.','Add one sentence explaining your most effective word choice.'],
+        remember:['Reveal gradually: don’t jump straight to beauty.','Check: four events, supporting details, short quotations, explained effects.'],
+        frame:'My most effective word is “…” because it makes the reader …' }
+    }}
+  ]
+};
+
+const LESSONS = [L11];
+
+
+/* ================= ENGINE ================= */
+const STAGE_ORDER = ['intro','concept','model','practise','sheet'];
+const STAGE_LABEL = {intro:'Overview', concept:'Concept', model:'Model', practise:'Practise', sheet:'On the sheet'};
+const MARKS = {
+  when:{label:'Box: when', shape:'box', color:'--amber-ink'},
+  where:{label:'Circle: where', shape:'circle', color:'--teal-ink'},
+  mood:{label:'Underline: mood', shape:'under', color:'--rose-ink'},
+  event:{label:'Circle: event', shape:'circle', color:'--rose-ink'},
+  detail:{label:'Underline: detail', shape:'under', color:'--teal-ink'},
+  feel:{label:'Underline: feeling', shape:'under', color:'--lav-ink'}
+};
+const S = { lesson:0, block:0, stage:0, sub:0, scores:{}, rail:true, theme:null };
+
+function h(tag, attrs, ...kids){
+  const el = document.createElement(tag);
+  if (attrs) for (const [k,v] of Object.entries(attrs)){
+    if (v == null || v === false) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'html') el.innerHTML = v;
+    else if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  for (const kid of kids.flat()){
+    if (kid == null || kid === false) continue;
+    el.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+  }
+  return el;
+}
+const btn = (label, fn, cls='') => h('button', {class:'btn '+cls, type:'button', onclick:fn}, label);
+const $ = id => document.getElementById(id);
+function shuffle(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]]; } return b; }
+
+function load(){ try{ const s = JSON.parse(localStorage.getItem('5si-u1w2-l11-angkor-iwb') || '{}'); ['lesson','block','stage','rail','theme'].forEach(k=>{ if (s[k] !== undefined) S[k]=s[k]; }); }catch(e){} }
+function save(){ try{ localStorage.setItem('5si-u1w2-l11-angkor-iwb', JSON.stringify({lesson:S.lesson,block:S.block,stage:S.stage,rail:S.rail,theme:S.theme})); }catch(e){} }
+
+function head(root, d){
+  if (d.title) root.append(h('h2', {class:'title'}, d.title));
+  if (d.prompt) root.append(h('p', {class:'prompt'}, d.prompt));
+}
+
+function shapeSvg(shape, colorVar){
+  const c = `var(${colorVar})`;
+  if (shape === 'box') return `<svg viewBox="0 0 40 22" aria-hidden="true"><rect x="3" y="4" width="34" height="14" rx="2" fill="none" stroke="${c}" stroke-width="3"/></svg>`;
+  if (shape === 'circle') return `<svg viewBox="0 0 40 22" aria-hidden="true"><ellipse cx="20" cy="11" rx="17" ry="8" fill="none" stroke="${c}" stroke-width="3"/></svg>`;
+  return `<svg viewBox="0 0 40 22" aria-hidden="true"><line x1="3" y1="15" x2="37" y2="15" stroke="${c}" stroke-width="3.5" stroke-linecap="round"/></svg>`;
+}
+
+/* passages: [text|key1/key2|note]  ?key = optional, x = distractor */
+function parsePassage(src){
+  const out=[]; const re=/\[([^\]|]+)\|([^\]|]*)(?:\|([^\]]*))?\]/g; let last=0, m, i=0;
+  while ((m = re.exec(src))){
+    if (m.index > last) out.push({text:src.slice(last, m.index)});
+    const keys = m[2] ? m[2].split('/') : [];
+    out.push({ text:m[1], keys, note:m[3]||'', id:i++,
+      req: keys.filter(k=>k && k[0] !== '?' && k !== 'x'),
+      opt: keys.filter(k=>k[0] === '?').map(k=>k.slice(1)) });
+    last = re.lastIndex;
+  }
+  if (last < src.length) out.push({text:src.slice(last)});
+  return out;
+}
+function buildPassage(src, cls){
+  const tokens = parsePassage(src);
+  const el = h('div', {class:'passage' + (cls ? ' '+cls : '')});
+  let p = h('p'); el.append(p);
+  const chunks = [];
+  tokens.forEach(t=>{
+    if (t.id == null){
+      t.text.split('\n\n').forEach((part, i)=>{ if (i>0){ p = h('p'); el.append(p); } if (part) p.append(document.createTextNode(part)); });
+    } else {
+      t.el = h('span', {class:'chunk', 'data-i':t.id}, t.text);
+      chunks.push(t); p.append(t.el);
+    }
+  });
+  return {el, chunks};
+}
+function setMark(c, key){ c.el.className = 'chunk' + (key ? ' mk mk-'+key : ''); c.el.querySelectorAll('.nb').forEach(n=>n.remove()); }
+
+/* ---------- concept ---------- */
+function rConcept(d, root){
+  root.append(h('h2', {class:'title'}, d.title));
+  if (d.lead) root.append(h('p', {class:'prompt'}, d.lead));
+  const pts = h('div', {class:'points'});
+  (d.points||[]).forEach(p => pts.append(h('div', {class:'point', style:`--tone:var(--${p.tone});--tone-ink:var(--${p.tone}-ink)`}, h('h3', null, p.h), h('p', null, p.t))));
+  root.append(pts);
+  if (d.demo){
+    const P = buildPassage(d.demo, 'small');
+    const notes = h('ol', {class:'notes'});
+    let n = 0;
+    P.chunks.forEach(c=>{ if (c.req[0]){ setMark(c, c.req[0]); if (c.note){ n++; c.el.append(h('span',{class:'nb'}, n)); notes.append(h('li', {class:'k-'+c.req[0]}, h('span',{class:'nb'}, n), c.note)); } } });
+    root.append(h('div', {class:'demo-wrap'}, P.el, notes));
+    if (d.demoNote) root.append(h('p', {class:'demo-note'}, d.demoNote));
+  }
+  if (d.compare){
+    const c = d.compare;
+    root.append(h('div', {class:'compare'},
+      h('div', {class:'weak'}, h('div',{class:'lab'}, 'Weak note'), h('div',{class:'phrase'}, c.phrase), h('div',{class:'hand'}, c.weak), h('div',{class:'demo-note'}, c.weakWhy)),
+      h('div', {class:'strong'}, h('div',{class:'lab'}, 'Strong note'), h('div',{class:'phrase'}, c.phrase), h('div',{class:'hand'}, c.strong), h('div',{class:'demo-note'}, c.strongWhy))));
+  }
+  if (d.moodline){
+    root.append(h('div', {html:`<svg class="moodline" viewBox="0 0 640 200" role="img" aria-label="A mood line: low before the turning point, rising sharply after it">
+      <line x1="40" y1="170" x2="610" y2="170" stroke="var(--line)" stroke-width="2"/>
+      <path d="M40 140 C120 150, 200 135, 290 148 L330 60 C400 45, 520 40, 610 36" fill="none" stroke="var(--rose-ink)" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="310" cy="104" r="11" fill="var(--amber)" stroke="var(--amber-ink)" stroke-width="3"/>
+      <text x="100" y="118" font-family="Figtree, sans-serif" font-size="20" font-weight="700" fill="var(--rose-ink)">Before</text>
+      <text x="330" y="112" font-family="Figtree, sans-serif" font-size="20" font-weight="700" fill="var(--amber-ink)">Turning point</text>
+      <text x="480" y="80" font-family="Figtree, sans-serif" font-size="20" font-weight="700" fill="var(--teal-ink)">After</text>
+      <text x="40" y="194" font-family="Figtree, sans-serif" font-size="15" fill="var(--ink-2)">Same place, same time. Different feeling.</text></svg>`}));
+  }
+}
+
+/* ---------- annotate ---------- */
+function toolbox(tools, current, onPick){
+  const box = h('div', {class:'toolbox', role:'toolbar', 'aria-label':'Pens'});
+  tools.forEach(k=>{
+    const m = MARKS[k];
+    box.append(h('button', {class:'tool', type:'button', 'aria-pressed': String(current()===k), onclick:()=>onPick(k)}, h('span',{html:shapeSvg(m.shape, m.color)}), m.label));
+  });
+  return box;
+}
+function rAnnotate(d, root){
+  head(root, d);
+  if (d.mode === 'reveal'){
+    const legend = h('div', {class:'toolbox'});
+    d.tools.forEach(k=>{ const m=MARKS[k]; legend.append(h('span',{class:'tool', style:'cursor:default'}, h('span',{html:shapeSvg(m.shape,m.color)}), m.label)); });
+    root.append(legend);
+    const P = buildPassage(d.passage);
+    const targets = P.chunks.filter(c=>c.req.length);
+    const notes = h('ol', {class:'notes'});
+    root.append(h('div', {class:'split'}, P.el, h('div', null, notes)));
+    let k = 0;
+    const next = btn('Show next mark', ()=>{ k=Math.min(targets.length,k+1); draw(); }, 'primary');
+    const all = btn('Show all', ()=>{ k=targets.length; draw(); });
+    const reset = btn('Clear', ()=>{ k=0; draw(); }, 'ghost');
+    root.append(h('div', {class:'row'}, next, all, reset));
+    function draw(){
+      notes.innerHTML='';
+      targets.forEach((c,i)=>{
+        setMark(c, i<k ? c.req[0] : null);
+        if (i<k){ c.el.append(h('span',{class:'nb'}, i+1)); notes.append(h('li', {class:'k-'+c.req[0]}, h('span',{class:'nb'}, i+1), c.note || MARKS[c.req[0]].label)); }
+      });
+      if (!k) notes.append(h('li', {class:'notes-empty'}, 'Notes appear here as each mark goes on.'));
+      next.disabled = k>=targets.length;
+    }
+    draw();
+    return;
+  }
+  // mark mode
+  let tool = d.tools[0];
+  const marks = new Map();
+  let checked = false;
+  const tbWrap = h('div');
+  const P = buildPassage(d.passage, 'markable');
+  const side = h('div');
+  root.append(tbWrap, h('div', {class:'split'}, P.el, side));
+  const summary = h('div', {class:'summary', hidden:true});
+  root.append(h('div', {class:'row'},
+    btn('Check', ()=>{ checked=true; draw(); }, 'primary'),
+    btn('Show suggested marks', ()=>{ P.chunks.forEach(c=>{ if (c.req[0]) marks.set(c.id, c.req[0]); else marks.delete(c.id); }); checked=true; draw(); }),
+    btn('Clear', ()=>{ marks.clear(); checked=false; draw(); }, 'ghost')), summary);
+  P.chunks.forEach(c=> c.el.addEventListener('click', ()=>{
+    if (marks.get(c.id) === tool) marks.delete(c.id); else marks.set(c.id, tool);
+    checked=false; draw();
+  }));
+  function draw(){
+    tbWrap.innerHTML=''; tbWrap.append(toolbox(d.tools, ()=>tool, k=>{ tool=k; draw(); }));
+    let found=0, need=0, wrong=0;
+    P.chunks.forEach(c=>{
+      const mk = marks.get(c.id);
+      setMark(c, mk);
+      if (c.req.length) need++;
+      if (!checked) return;
+      const okKeys = c.req.concat(c.opt);
+      if (mk){
+        if (okKeys.includes(mk)){ c.el.classList.add('ck-ok'); if (c.req.length) found++; }
+        else { c.el.classList.add('ck-bad'); wrong++; }
+      } else if (c.req.length){ c.el.classList.add('ck-miss'); }
+    });
+    side.innerHTML='';
+    side.append(h('p', {class:'prompt'}, 'Tap a phrase to mark it with the pen you picked. Tap it again to remove the mark.'));
+    if (checked){
+      summary.hidden=false;
+      summary.textContent = `Found ${found} of ${need}. ` + (wrong ? `${wrong} mark${wrong>1?'s need':' needs'} another look (crossed). ` : '') + (found<need ? 'Dashed outlines show phrases still to mark.' : 'Every key phrase is marked.');
+    } else summary.hidden=true;
+  }
+  draw();
+}
+
+/* ---------- steps ---------- */
+function rSteps(d, root){
+  head(root, d);
+  const P = d.passage ? buildPassage(d.passage) : null;
+  const list = h('ol', {class:'steps'});
+  root.append(P ? h('div', {class:'split'}, P.el, list) : list);
+  let k = 0;
+  const next = btn('Next step', ()=>{ k=Math.min(d.steps.length,k+1); draw(); }, 'primary');
+  root.append(h('div', {class:'row'}, next, btn('Show all', ()=>{ k=d.steps.length; draw(); }), btn('Start again', ()=>{ k=0; draw(); }, 'ghost')));
+  function draw(){
+    list.innerHTML='';
+    if (P) P.chunks.forEach(c=>setMark(c, null));
+    d.steps.forEach((s,i)=>{
+      if (i>=k) return;
+      list.append(h('li', {html:s.t}));
+      if (P && s.hl) P.chunks.forEach(c=>{ if (c.keys.some(x=>s.hl.includes(x))) setMark(c, s.mk || 'evidence'); });
+    });
+    next.disabled = k>=d.steps.length;
+  }
+  draw();
+}
+
+/* ---------- sort ---------- */
+function rSort(d, root){
+  head(root, d);
+  if (d.text) root.append(h('div', {class:'passage small'}, h('p', null, d.text)));
+  const placed = d.items.map(()=>null);
+  let sel = null, checked = false;
+  const pool = h('div', {class:'pool'});
+  const bins = h('div', {class:'bins', style:`--n:${d.bins.length}`});
+  const binBody = {}, binEl = {};
+  d.bins.forEach(b=>{
+    const body = h('div', {class:'bin-body'});
+    const el = h('div', {class:'bin', role:'button', tabindex:'0', 'aria-label':'Place in '+b.label, onclick:()=>drop(b.id), onkeydown:e=>{ if (e.key==='Enter'||e.key===' '){ e.preventDefault(); drop(b.id); } }}, h('div', {class:'bin-label'}, b.label), body);
+    binBody[b.id]=body; binEl[b.id]=el; bins.append(el);
+  });
+  const fb = h('div');
+  root.append(pool, bins, h('div', {class:'row'},
+    btn('Check', ()=>{ checked=true; draw(); }, 'primary'),
+    btn('Show answers', ()=>{ d.items.forEach((it,i)=>placed[i]=it.bin); sel=null; checked=true; draw(); }),
+    btn('Reset', ()=>{ placed.fill(null); sel=null; checked=false; draw(); }, 'ghost')), fb);
+  function drop(id){ if (sel == null) return; placed[sel]=id; sel=null; checked=false; draw(); }
+  function draw(){
+    pool.innerHTML=''; Object.values(binBody).forEach(b=>b.innerHTML='');
+    Object.values(binEl).forEach(b=>b.classList.toggle('ready', sel!=null));
+    d.items.forEach((it,i)=>{
+      let cls = 'chip';
+      if (sel===i) cls+=' sel';
+      if (checked && placed[i]) cls += placed[i]===it.bin ? ' ok' : ' bad';
+      const chip = h('button', {class:cls, type:'button', onclick:e=>{ e.stopPropagation(); if (placed[i]){ placed[i]=null; checked=false; } else sel = sel===i ? null : i; draw(); }}, it.t);
+      (placed[i] ? binBody[placed[i]] : pool).append(chip);
+    });
+    if (!pool.children.length) pool.append(h('span', {class:'pool-empty'}, 'All placed. Press Check.'));
+    fb.innerHTML='';
+    if (checked){
+      const right = d.items.filter((it,i)=>placed[i]===it.bin).length;
+      const box = h('div', {class:'fb '+(right===d.items.length?'ok':'info')}, h('strong', null, `${right} of ${d.items.length} in the right place. `));
+      const whys = h('ul', {class:'whys'});
+      d.items.forEach((it,i)=>{ if (placed[i] && placed[i]!==it.bin) whys.append(h('li', null, `“${it.t}” belongs in ${d.bins.find(b=>b.id===it.bin).label}: ${it.why}`)); });
+      if (right===d.items.length) d.items.forEach(it=> whys.append(h('li', null, `“${it.t}”: ${it.why}`)));
+      box.append(whys);
+      if (right===d.items.length && d.after) box.append(h('p', {class:'hand', style:'margin:.6rem 0 0'}, d.after));
+      fb.append(box);
+    }
+  }
+  draw();
+}
+
+/* ---------- questions ---------- */
+function rQuestions(d, root){
+  head(root, d);
+  const P = d.passage ? buildPassage(d.passage) : null;
+  const panel = h('div', {class:'qpanel'});
+  root.append(P ? h('div', {class:'split'}, P.el, panel) : h('div', {class:'single'}, panel));
+  const st = d.items.map(()=>({picked:new Set(), last:null, help:false}));
+  let qi = 0;
+  const optsFor = it => it.options || d.options.map((t,i)=>({t, ok:i===it.a, why: i===it.a ? it.why : (d.wrong || 'Not this one.')}));
+  function draw(){
+    panel.innerHTML='';
+    const it = d.items[qi], s = st[qi], O = optsFor(it);
+    if (P) P.chunks.forEach(c=>setMark(c, null));
+    const nav = h('div', {class:'qnav'});
+    d.items.forEach((_,i)=>{
+      const solved = optsFor(d.items[i]).some((o,j)=>o.ok && st[i].picked.has(j));
+      nav.append(h('button', {class:'dot'+(solved?' done':''), type:'button', 'aria-current':String(i===qi), 'aria-label':'Question '+(i+1), onclick:()=>{ qi=i; draw(); }}, i+1));
+    });
+    panel.append(nav, h('div', {class:'q', html:it.q}));
+    const list = h('div', {class:'opts'});
+    O.forEach((o,j)=>{
+      const picked = s.picked.has(j);
+      list.append(h('button', {class:'opt'+(picked ? (o.ok?' ok':' bad') : ''), type:'button', onclick:()=>{ s.picked.add(j); s.last=j; draw(); }},
+        h('span', {class:'letter'}, 'ABCDEF'[j]), h('span', {class:'otext', html:o.t})));
+    });
+    panel.append(list);
+    if (s.last != null){
+      const o = O[s.last];
+      panel.append(h('div', {class:'fb '+(o.ok?'ok':'bad')}, h('strong', null, (o.tag ? o.tag : (o.ok ? 'Yes' : 'Not quite')) + '. '), h('span', {html:o.why || ''})));
+    }
+    const row = h('div', {class:'row'});
+    if (it.evidence || it.helped) row.append(btn(s.help ? 'Hide what helped' : 'Show what helped', ()=>{ s.help=!s.help; draw(); }));
+    row.append(btn('Previous', ()=>{ qi=Math.max(0,qi-1); draw(); }, 'ghost'));
+    const nx = btn('Next question', ()=>{ qi=Math.min(d.items.length-1,qi+1); draw(); }, 'primary');
+    nx.disabled = qi>=d.items.length-1;
+    row.append(nx);
+    panel.append(row);
+    if (s.help){
+      if (P && it.evidence) P.chunks.forEach(c=>{ if (c.keys.some(k=>it.evidence.includes(k))) setMark(c, 'evidence'); });
+      if (it.helped) panel.append(h('div', {class:'helped hand'}, it.helped));
+    }
+  }
+  draw();
+}
+
+/* ---------- frame ---------- */
+function rFrame(d, root){
+  head(root, d);
+  const order = d.slots.map(s=>shuffle(s.map((_,j)=>j)));
+  const picks = d.slots.map(()=>null);
+  let active = 0, last = null;
+  const para = h('p', {class:'frame-para'});
+  const chooser = h('div', {class:'chooser'});
+  root.append(para, chooser, h('div', {class:'row'}, btn('Start again', ()=>{ picks.fill(null); active=0; last=null; draw(); }, 'ghost')));
+  function draw(){
+    para.innerHTML='';
+    d.template.split(/(\{\d+\})/).forEach(part=>{
+      const m = part.match(/^\{(\d+)\}$/);
+      if (!m){ if (part) para.append(document.createTextNode(part)); return; }
+      const i = +m[1], o = picks[i]!=null ? d.slots[i][picks[i]] : null;
+      para.append(h('button', {class:'gap'+(i===active?' active':'')+(o?(o.ok?' ok':' bad'):''), type:'button', onclick:()=>{ active=i; draw(); }}, o ? o.t : `gap ${i+1}`));
+    });
+    chooser.innerHTML='';
+    const done = picks.every((p,i)=>p!=null && d.slots[i][p].ok);
+    chooser.append(h('div', {class:'chooser-label'}, `Choose for gap ${active+1}`));
+    const row = h('div', {class:'opts'});
+    const slot = active;
+    order[slot].forEach(j=>{
+      const o = d.slots[slot][j];
+      row.append(h('button', {class:'opt'+(picks[slot]===j?(o.ok?' ok':' bad'):''), type:'button', onclick:()=>{
+        picks[slot]=j; last={i:slot,j};
+        if (o.ok){ const nxt = picks.findIndex((p,i)=>p==null || !d.slots[i][p].ok); if (nxt>=0) active=nxt; }
+        draw();
+      }}, h('span', {class:'otext'}, o.t)));
+    });
+    chooser.append(row);
+    if (last){
+      const o = d.slots[last.i][last.j];
+      chooser.append(h('div', {class:'fb '+(o.ok?'ok':'bad')}, h('strong', null, `Gap ${last.i+1}: ${o.ok?'yes':'not quite'}. `), o.why || ''));
+    }
+    if (done) chooser.append(h('div', {class:'fb ok'}, h('strong', null, 'Complete. '), 'Read it aloud. Does every sentence do one job?'));
+  }
+  draw();
+}
+
+/* ---------- wordswap ---------- */
+function rWordswap(d, root){
+  head(root, d);
+  let mood = d.moods[0].id, senses = false;
+  const bar = h('div', {class:'row', style:'margin-top:0'});
+  const scene = h('p', {class:'scene'});
+  const notes = h('ul', {class:'notes'});
+  root.append(bar, scene, notes);
+  function draw(){
+    bar.innerHTML='';
+    d.moods.forEach(m=> bar.append(h('button', {class:'btn', type:'button', 'aria-pressed':String(mood===m.id), onclick:()=>{ mood=m.id; draw(); }}, m.label)));
+    bar.append(h('button', {class:'btn ghost', type:'button', 'aria-pressed':String(senses), onclick:()=>{ senses=!senses; draw(); }}, senses ? 'Hide senses' : 'Show senses'));
+    scene.innerHTML='';
+    d.template.split(/(\{\d+\})/).forEach(part=>{
+      const m = part.match(/^\{(\d+)\}$/);
+      if (!m){ if (part) scene.append(document.createTextNode(part)); return; }
+      const sl = d.slots[+m[1]];
+      const sp = h('span', {class:'swap'}, sl.v[mood]);
+      if (senses) sp.append(h('span', {class:'tag'}, sl.sense));
+      scene.append(sp);
+    });
+    notes.innerHTML='';
+    d.slots.forEach(sl=> notes.append(h('li', null, `“${sl.v[mood]}”: ${sl.n[mood]}`)));
+  }
+  draw();
+}
+
+/* ---------- infer ---------- */
+function rInfer(d, root){
+  head(root, d);
+  const P = buildPassage(d.passage, 'markable');
+  const panel = h('div', {class:'qpanel'});
+  root.append(h('div', {class:'split'}, P.el, panel));
+  let clues = [], know = null, inf = null, result = null;
+  const textOf = k => (P.chunks.find(c=>c.keys[0]===k) || {}).text || '';
+  P.chunks.forEach(c=> c.el.addEventListener('click', ()=>{
+    const k = c.keys[0];
+    if (clues.includes(k)) clues = clues.filter(x=>x!==k);
+    else { clues.push(k); if (clues.length>2) clues.shift(); }
+    result=null; draw();
+  }));
+  function check(){
+    if (clues.length<2) return {ok:false, t:'Tap two clues in the text first.'};
+    if (know==null || inf==null) return {ok:false, t:'Choose what you know and an inference.'};
+    const I = d.inferences[inf];
+    if (!I.ok) return {ok:false, t:I.why};
+    if (d.know[know].id !== d.goodKnow) return {ok:false, t:'True, but it doesn’t connect these clues to your inference.'};
+    const weak = clues.filter(c=>!I.clues.includes(c));
+    if (weak.length) return {ok:false, t:`“${textOf(weak[0])}” could mean several things. Choose a clue that points only to your inference.`};
+    return {ok:true};
+  }
+  function draw(){
+    P.chunks.forEach(c=> setMark(c, clues.includes(c.keys[0]) ? 'clue' : null));
+    panel.innerHTML='';
+    panel.append(h('div', {class:'slotline'}, h('span', {class:'slabel'}, 'Clues'),
+      [0,1].map(i=> h('span', {class:'pill'+(clues[i]?' on':'')}, clues[i] ? `“${textOf(clues[i])}”` : `Tap clue ${i+1} in the text`))));
+    panel.append(h('div', {class:'slabel'}, 'What you know'));
+    const k = h('div', {class:'opts'});
+    d.know.forEach((o,i)=> k.append(h('button', {class:'opt'+(know===i?' ok':''), type:'button', onclick:()=>{ know=i; result=null; draw(); }}, h('span',{class:'otext'}, o.t))));
+    panel.append(k, h('div', {class:'slabel', style:'margin-top:.8rem'}, 'Inference'));
+    const f = h('div', {class:'opts'});
+    d.inferences.forEach((o,i)=> f.append(h('button', {class:'opt'+(inf===i?' ok':''), type:'button', onclick:()=>{ inf=i; result=null; draw(); }}, h('span',{class:'otext'}, o.t))));
+    panel.append(f, h('div', {class:'row'}, btn('Check', ()=>{ result=check(); draw(); }, 'primary'), btn('Clear', ()=>{ clues=[]; know=null; inf=null; result=null; draw(); }, 'ghost')));
+    if (result){
+      if (result.ok){
+        const kt = d.know[know].t; const kLower = kt.charAt(0).toLowerCase() + kt.slice(1);
+        panel.append(h('div', {class:'fb ok'}, h('strong', null, 'Strong inference. ')),
+          h('p', {class:'hand result'}, `I infer that ${d.inferences[inf].t} because the text says “${textOf(clues[0])}” and “${textOf(clues[1])}”, and I know that ${kLower.replace(/\.$/,'')}.`));
+      } else panel.append(h('div', {class:'fb bad'}, h('strong', null, 'Not yet. '), result.t));
+    }
+  }
+  draw();
+}
+
+/* ---------- sheet & intro ---------- */
+function rSheet(d, root){
+  const L = LESSONS[S.lesson];
+  const card = h('div', {class:'sheet'});
+  card.append(h('h2', {class:'title', style:'font-size:clamp(1.5rem,2.1vw,2.2rem)'}, `Now on your sheet: ${L.sheet}`), h('h3', null, d.part), h('blockquote', null, d.task));
+  const todo = h('ol', {class:'todo'});
+  d.do.forEach(t=>{ const b = h('button', {type:'button', onclick:()=>b.classList.toggle('done')}, t); todo.append(h('li', null, b)); });
+  const rem = h('ul', {class:'remember'});
+  (d.remember||[]).forEach(t=>rem.append(h('li', null, t)));
+  card.append(h('div', {class:'sheet-cols'}, h('div', null, h('h4', null, 'What to do'), todo), h('div', null, h('h4', null, 'Remember'), rem,
+    d.frame ? h('div', {class:'frame-box'}, h('h4', null, 'Sentence frame'), h('div', {class:'hand'}, d.frame)) : null)));
+  root.append(card);
+}
+function rIntro(d, root){
+  const L = LESSONS[S.lesson];
+  root.append(h('h2', {class:'title'}, d.title), h('p', {class:'prompt'}, d.lead));
+  const map = h('div', {class:'map'});
+  d.map.forEach(m=> map.append(h('button', {class:'map-row', type:'button', onclick:()=>go(S.lesson, m.block, 0)}, h('span', null, m.part), h('span', {class:'map-skill'}, m.skill))));
+  root.append(map, h('div', {class:'flow'}, 'Every block runs in the same order:', ['Concept','Model','Practise','On the sheet'].map(t=>h('span', null, t))));
+}
+
+/* ---------- navigation ---------- */
+function stagesOf(b){ return STAGE_ORDER.filter(k=>b.stages[k]); }
+function go(l, b, s){ S.lesson=l; S.block=b; S.stage=s; S.sub=0; render(); }
+function next(){
+  const L = LESSONS[S.lesson], st = stagesOf(L.blocks[S.block]);
+  if (S.stage < st.length-1) go(S.lesson, S.block, S.stage+1);
+  else if (S.block < L.blocks.length-1) go(S.lesson, S.block+1, 0);
+}
+function prev(){
+  const L = LESSONS[S.lesson];
+  if (S.stage > 0) go(S.lesson, S.block, S.stage-1);
+  else if (S.block > 0) go(S.lesson, S.block-1, stagesOf(L.blocks[S.block-1]).length-1);
+}
+function renderActivity(key, d, root){
+  if (key==='intro') return rIntro(d, root);
+  if (key==='concept') return rConcept(d, root);
+  if (key==='sheet') return rSheet(d, root);
+  const R = {annotate:rAnnotate, steps:rSteps, sort:rSort, questions:rQuestions, frame:rFrame, wordswap:rWordswap, infer:rInfer}[d.kind];
+  if (R) R(d, root); else root.append(h('p', null, 'Unknown activity.'));
+}
+function render(){
+  const L = LESSONS[S.lesson];
+  if (S.block >= L.blocks.length) S.block = 0;
+  const B = L.blocks[S.block], st = stagesOf(B);
+  if (S.stage >= st.length) S.stage = 0;
+  document.body.dataset.lesson = L.id;
+  document.body.classList.toggle('rail-off', !S.rail);
+  if (S.theme) document.documentElement.setAttribute('data-theme', S.theme); else document.documentElement.removeAttribute('data-theme');
+
+  const tabs = $('lessonTabs'); tabs.innerHTML='';
+  LESSONS.forEach((l,i)=> tabs.append(h('button', {type:'button', role:'tab', 'aria-selected':String(i===S.lesson), onclick:()=>go(i,0,0)}, h('small', null, `${l.code}: ${l.sheet}`), h('b', null, l.title))));
+  $('barTitle').textContent = B.intro ? L.title : B.title;
+
+  const rail = $('rail'); rail.innerHTML='';
+  L.blocks.forEach((b,i)=> rail.append(h('li', null, h('button', {type:'button', 'aria-current':String(i===S.block), onclick:()=>go(S.lesson,i,0)},
+    h('span', {class:'num'}, b.intro ? '' : i), h('span', null, h('span', {class:'bt'}, b.title), h('span', {class:'bs'}, b.short))))));
+
+  const stTabs = $('stageTabs'); stTabs.innerHTML='';
+  st.forEach((k,i)=> stTabs.append(h('button', {class:'stage-tab', type:'button', role:'tab', 'aria-current':String(i===S.stage), onclick:()=>go(S.lesson,S.block,i)}, h('span', {class:'n'}, i+1), STAGE_LABEL[k])));
+
+  const root = $('stage'); root.innerHTML='';
+  root.classList.remove('enter'); void root.offsetWidth; root.classList.add('enter');
+  const key = st[S.stage]; const d = B.stages[key];
+  if (Array.isArray(d)){
+    if (S.sub >= d.length) S.sub = 0;
+    const sub = h('div', {class:'subtabs'});
+    d.forEach((a,i)=> sub.append(h('button', {class:'btn', type:'button', 'aria-pressed':String(i===S.sub), onclick:()=>{ S.sub=i; render(); }}, a.label || `Part ${i+1}`)));
+    root.append(sub);
+    renderActivity(key, d[S.sub], root);
+  } else renderActivity(key, d, root);
+
+  const atStart = S.block===0 && S.stage===0;
+  const atEnd = S.block===L.blocks.length-1 && S.stage===st.length-1;
+  $('prevBtn').disabled = atStart;
+  $('nextBtn').disabled = atEnd;
+  let nextLabel = 'Next';
+  if (!atEnd){ nextLabel = S.stage < st.length-1 ? `Next: ${STAGE_LABEL[st[S.stage+1]]}` : `Next: ${L.blocks[S.block+1].title}`; }
+  $('nextBtn').textContent = nextLabel;
+  save();
+}
+
+/* ---------- chrome ---------- */
+let timerId = null, timerEnd = 0;
+function fmt(ms){ const s=Math.max(0,Math.ceil(ms/1000)); return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; }
+function startTimer(min){
+  clearInterval(timerId); const b=$('timerBtn'); b.classList.remove('ring');
+  if (!min){ b.textContent='Timer'; return; }
+  timerEnd = Date.now() + min*60000; b.textContent = fmt(min*60000);
+  timerId = setInterval(()=>{ const left = timerEnd-Date.now(); b.textContent = fmt(left); if (left<=0){ clearInterval(timerId); b.textContent='Time!'; b.classList.add('ring'); } }, 250);
+}
+$('timerBtn').addEventListener('click', e=>{ e.stopPropagation(); $('timerPop').hidden = !$('timerPop').hidden; });
+$('timerPop').addEventListener('click', e=>{ const m = e.target.closest('[data-min]'); if (!m) return; startTimer(+m.dataset.min); $('timerPop').hidden = true; });
+document.addEventListener('click', e=>{ if (!e.target.closest('.tools')) $('timerPop').hidden = true; });
+$('railBtn').addEventListener('click', ()=>{ S.rail=!S.rail; render(); });
+$('themeBtn').addEventListener('click', ()=>{
+  const dark = S.theme ? S.theme==='dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  S.theme = dark ? 'light' : 'dark'; render();
+});
+$('fsBtn').addEventListener('click', ()=>{ try{ if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }catch(e){} });
+$('prevBtn').addEventListener('click', prev);
+$('nextBtn').addEventListener('click', next);
+document.addEventListener('keydown', e=>{
+  if (e.target.closest && e.target.closest('input,textarea')) return;
+  if (e.key==='ArrowRight' || e.key==='PageDown'){ e.preventDefault(); next(); }
+  if (e.key==='ArrowLeft' || e.key==='PageUp'){ e.preventDefault(); prev(); }
+});
+load();
+render();
+</script>
+</body>
+</html>
