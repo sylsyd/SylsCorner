@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>6LVA Feelings: Read the Clues</title>
+<style>
+:root{--ink:#17212b;--paper:#f7f5ef;--panel:#fff;--line:#d8d4ca;--yellow:#f2c14e;--coral:#e76f51;--teal:#2a9d8f;--blue:#35618f}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font-family:Arial,sans-serif}
+body{display:flex;flex-direction:column}
+header{height:64px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:#fff}
+.brand{font-size:15px;font-weight:800;text-transform:uppercase;color:var(--blue)}
+.stage-count{font-weight:800;font-size:15px}
+main{width:min(1500px,100%);margin:auto;padding:18px 24px 24px;display:grid;gap:14px}
+.topline{display:flex;align-items:end;justify-content:space-between;gap:20px}
+h1{margin:0;font-size:clamp(26px,4vh,46px);line-height:1}
+.prompt{margin:6px 0 0;font-size:clamp(16px,2vh,22px);font-weight:700;color:#53606b}
+.dots{display:flex;gap:8px}
+.dot{width:34px;height:8px;border:0;background:#cbc7bd;padding:0;cursor:pointer}
+.dot.active{background:var(--coral)}
+.photo-wrap{position:relative;background:#ddd;overflow:hidden;border:1px solid #bbb;aspect-ratio:1942/889;min-height:260px}
+.photo-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.numbers,.answers{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);pointer-events:none}
+.number{display:flex;align-items:flex-start;justify-content:flex-start;padding:14px}
+.number span{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:rgba(23,33,43,.9);color:#fff;font-size:22px;font-weight:900}
+.answer{display:flex;align-items:flex-end;justify-content:center;padding:18px;border-right:2px solid rgba(255,255,255,.65)}
+.answer:last-child{border-right:0}
+.answer span{opacity:0;transform:translateY(8px);background:#fff;color:var(--ink);border:3px solid var(--yellow);padding:10px 22px;font-size:clamp(20px,3vw,40px);font-weight:900;text-transform:uppercase;transition:.2s}
+.answer.show span{opacity:1;transform:none}
+.controls{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}
+.nav{width:54px;height:50px;border:1px solid #b9b4aa;background:#fff;font-size:26px;cursor:pointer}
+.nav:disabled{opacity:.28;cursor:default}
+.reveals{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+button{font:inherit}
+.reveal,.all,.reset{min-height:50px;border:1px solid #b9b4aa;background:#fff;font-weight:800;cursor:pointer}
+.reveal.revealed{background:var(--yellow);border-color:#a77a00}
+.all{background:var(--teal);border-color:#16796f;color:#fff}
+.reset{background:var(--coral);border-color:#b94830;color:#fff}
+footer{text-align:center;padding:0 20px 18px;font-size:14px;color:#66717a}
+@media(max-width:760px){
+header{height:54px;padding:0 14px}
+main{padding:14px;gap:12px}
+.topline{align-items:flex-start;flex-direction:column}
+.photo-wrap{aspect-ratio:1.3;min-height:0}
+.photo-wrap img{object-fit:cover}
+.number{padding:8px}.number span{width:32px;height:32px;font-size:17px}
+.answer{padding:8px}.answer span{padding:7px 5px;font-size:15px;width:100%;text-align:center}
+.controls{grid-template-columns:46px 1fr 46px}
+.nav{width:46px}
+.reveals{grid-template-columns:repeat(3,1fr)}
+.all,.reset{grid-column:auto}
+}
+</style>
+</head>
+<body>
+<header><div class="brand">6LVA · Feelings</div><div class="stage-count" id="count">Stage 1 of 5</div></header>
+<main>
+  <div class="topline">
+    <div><h1>Read the clues</h1><p class="prompt">Hands up. What are the three feelings?</p></div>
+    <div class="dots" id="dots" aria-label="Choose a stage"></div>
+  </div>
+  <section class="photo-wrap" aria-live="polite">
+    <img id="photo" src="feelings-stage-1.jpg" alt="The same child showing three different feelings">
+    <div class="numbers"><div class="number"><span>1</span></div><div class="number"><span>2</span></div><div class="number"><span>3</span></div></div>
+    <div class="answers" id="answers"></div>
+  </section>
+  <div class="controls">
+    <button class="nav" id="prev" title="Previous stage" aria-label="Previous stage">←</button>
+    <div class="reveals">
+      <button class="reveal" data-index="0">Reveal 1</button>
+      <button class="reveal" data-index="1">Reveal 2</button>
+      <button class="reveal" data-index="2">Reveal 3</button>
+      <button class="all" id="all">Reveal all</button>
+      <button class="reset" id="reset">Hide answers</button>
+    </div>
+    <button class="nav" id="next" title="Next stage" aria-label="Next stage">→</button>
+  </div>
+</main>
+<footer>Look at the face, hands and posture.</footer>
+<script>
+const stages=[
+  {image:"feelings-stage-1.jpg",feelings:["Happy","Sad","Angry"]},
+  {image:"feelings-stage-2.jpg",feelings:["Scared","Surprised","Excited"]},
+  {image:"feelings-stage-3.jpg",feelings:["Tired","Bored","Confused"]},
+  {image:"feelings-stage-4.jpg",feelings:["Proud","Embarrassed","Worried"]},
+  {image:"feelings-stage-5.jpg",feelings:["Calm","Frustrated","Shy"]}
+];
+let stage=0,shown=[false,false,false];
+const photo=document.querySelector("#photo"),answers=document.querySelector("#answers"),count=document.querySelector("#count");
+const prev=document.querySelector("#prev"),next=document.querySelector("#next"),dots=document.querySelector("#dots");
+function render(){
+  const s=stages[stage];
+  photo.src=s.image;
+  photo.alt="Stage "+(stage+1)+": the same child showing three different feelings";
+  count.textContent="Stage "+(stage+1)+" of "+stages.length;
+  answers.innerHTML=s.feelings.map((f,i)=>'<div class="answer '+(shown[i]?'show':'')+'"><span>'+f+'</span></div>').join("");
+  document.querySelectorAll(".reveal").forEach((b,i)=>{b.classList.toggle("revealed",shown[i]);b.textContent=shown[i]?"Hide "+(i+1):"Reveal "+(i+1)});
+  [...dots.children].forEach((d,i)=>d.classList.toggle("active",i===stage));
+  prev.disabled=stage===0;next.disabled=stage===stages.length-1;
+}
+function go(n){stage=Math.max(0,Math.min(stages.length-1,n));shown=[false,false,false];render()}
+stages.forEach((_,i)=>{const b=document.createElement("button");b.className="dot";b.title="Stage "+(i+1);b.setAttribute("aria-label","Stage "+(i+1));b.onclick=()=>go(i);dots.appendChild(b)});
+document.querySelectorAll(".reveal").forEach(b=>b.onclick=()=>{const i=+b.dataset.index;shown[i]=!shown[i];render()});
+document.querySelector("#all").onclick=()=>{shown=[true,true,true];render()};
+document.querySelector("#reset").onclick=()=>{shown=[false,false,false];render()};
+prev.onclick=()=>go(stage-1);next.onclick=()=>go(stage+1);
+document.addEventListener("keydown",e=>{if(e.key==="ArrowLeft")go(stage-1);if(e.key==="ArrowRight")go(stage+1);if(e.key===" ") {e.preventDefault();shown=[true,true,true];render()}});
+render();
+</script>
+</body>
+</html>
