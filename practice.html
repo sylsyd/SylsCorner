@@ -138,6 +138,11 @@
 #stamp{border-radius:12px}
 .best-badge{position:absolute;left:12px;bottom:12px;z-index:2;font:700 12px/1 'Courier Prime',monospace;letter-spacing:.06em;background:rgba(255,255,255,.94);color:var(--ink);padding:6px 9px;border-radius:7px}
 .best-line{font:700 13px/1.4 'Courier Prime',monospace;color:var(--ink);background:var(--hi);padding:7px 10px;border-radius:8px;margin:10px 0 0}
+.pick-card.pending{opacity:.6;cursor:not-allowed}
+.pick-card.pending:hover{transform:none;box-shadow:none}
+.teacher-warn{margin-top:12px;border:2px dashed var(--pen);border-radius:8px;padding:8px 10px;font:400 13px/1.45 'Courier Prime',monospace;color:var(--pen)}
+.teacher-warn summary{cursor:pointer;font-weight:700}
+.teacher-warn ul{margin:6px 0 0;padding-left:18px;color:var(--ink)}
 @media (prefers-reduced-motion:reduce){.cr *,#stamp{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -3573,8 +3578,866 @@ TEXTS.push({ id: "miss-brill", type: "Fiction", mode: "Creative", form: "Short s
   TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
 }
 
+/* ================================================================
+   TEXTS 16–19: stages written, TEXT TO BE PASTED BY THE TEACHER.
+   Paste the passage between the two backticks after raw: `  `
+   Leave a blank line between paragraphs. Nothing else needs changing.
+   Until text is pasted, the card shows “Text needed” and cannot be opened.
+   ================================================================ */
+
+/* ---------- TEXT 16 · The Butterfly Lion (opening) · CM2 ---------- */
+{
+const TEXT = {
+  title: "The Butterfly Lion",
+  intro: "Michael Morpurgo, The Butterfly Lion (1996), opening chapter: “Chilblains and Semolina Pudding”. The narrator remembers being ten years old at boarding school.",
+  raw: `
+PASTE THE TEXT HERE
+`
+};
+
+const ANNOTATE = [
+  {
+    skill: "List",
+    prompt: "Find the long list that shows <em>everything the narrator dislikes</em> about school.",
+    target: ["a diet of Latin and stew and rugby and detentions"],
+    decoys: [{ phrase: "boarding school in deepest Wiltshire", why: "That tells us where the school is, not what life there is like. Look for the list joined by lots of “and”s." }],
+    miss: "Look in the second paragraph for a sentence with the word “and” again and again.",
+    explain: "The list keeps going with “and… and… and…”, as if the narrator can’t stop complaining. Mixing lessons, food and punishments together makes school feel like one long, unpleasant meal he is forced to eat."
+  },
+  {
+    skill: "Short sentences",
+    prompt: "Find a short sentence showing this memory is <em>very important</em> to the narrator.",
+    target: ["I mustn’t forget.", "But I don’t forget."],
+    decoys: [{ phrase: "A long time ago.", why: "This tells us when it happened, not how important the memory is. Look at the sentences right after it." }],
+    miss: "Look near the end of the first paragraph.",
+    explain: "The sentences get shorter and stronger: “I don’t forget. I mustn’t forget.” The narrator sounds as if he is making a serious promise, which makes us curious about what he saw."
+  },
+  {
+    skill: "Simile",
+    prompt: "Find the simile that shows how <em>fast and scared</em> the narrator runs.",
+    target: ["as if bloodhounds were after me"],
+    decoys: [{ phrase: "I had my escape all planned.", why: "This shows he planned his escape, but it isn’t a comparison. Look for how he describes his running." }],
+    miss: "Look at the start of the second page, when he runs through the trees.",
+    explain: "Bloodhounds are dogs used to track and hunt people. The simile makes the narrator feel like an escaped prisoner being chased, so we feel his fear and speed."
+  },
+  {
+    skill: "Word choice",
+    prompt: "Find the <em>two strong verbs</em> that show how cruel Basher Beaumont is.",
+    target: ["terrorised and tormented"],
+    decoys: [{ phrase: "smeared black shoe-polish in my hair", why: "That is one cruel thing Basher did. The question asks for the two verbs that describe how he treats the narrator all the time." }],
+    miss: "Find the sentence that introduces Basher Beaumont.",
+    explain: "“Terrorised” means filled with terror, and “tormented” means hurt again and again. Both start with “t”, so they hit hard together and show Basher is a real bully, not just unkind."
+  },
+  {
+    skill: "Repetition",
+    prompt: "Find the repeated word that shows how much the narrator <em>wants to be home</em>.",
+    target: ["home, home and free"],
+    decoys: [{ phrase: "never, ever going back", why: "That is repetition too (“never, ever”), but it is about school, not home. Look for the word “home” used twice." }],
+    miss: "Look for where he imagines being missed at supper.",
+    explain: "Saying “home” twice sounds like a wish he is repeating to himself. Adding “free” shows school feels like a prison and home means freedom."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Point of view",
+    q: "Who is telling this story?",
+    opts: [
+      { t: "The narrator, remembering when he was ten", ok: true, why: "Right. He uses “I” and says “when I was young. A long time ago.” He is an adult looking back." },
+      { t: "An outside narrator describing a boy", why: "The story uses “I”, so the narrator is the boy himself, now grown up." },
+      { t: "Basher Beaumont, the school bully", why: "Basher is described by the narrator: “who terrorised and tormented me”." },
+      { t: "The narrator’s mother, writing a letter", why: "The mother only sends a letter. The narrator is her son." }
+    ]
+  },
+  {
+    skill: "Opening",
+    q: "Why does the story begin by talking about butterflies?",
+    opts: [
+      { t: "It hints the story is about something rare that he saw only briefly", ok: true, why: "Right. Butterflies live “short lives” and you must be “in the right place at the right time”, just like when he saw the butterfly lion." },
+      { t: "Because the story is really a science text about butterflies", why: "It quickly becomes a story about a boy at school. The butterflies introduce an idea." },
+      { t: "Because the narrator collects butterflies at his school", why: "Nothing mentions collecting. Butterflies are used to explain how rare his experience was." },
+      { t: "To describe the flowers in the school garden in June", why: "The school park is only mentioned later. The butterflies are about timing and rarity." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does the narrator finally decide to run away?",
+    opts: [
+      { t: "Several bad things happened on the same day", ok: true, why: "Right. He was homesick after a letter, bullied by Basher, and punished by Mr Carter. It all added up until he was “more miserable than I had ever been”." },
+      { t: "He wanted an exciting adventure at the weekend", why: "He runs because he is miserable, not for fun." },
+      { t: "He had been told to leave by the headteacher", why: "He escapes secretly and hopes not to be “missed till supper”." },
+      { t: "His mother wrote asking him to come home", why: "The letter made him homesick, but nothing says she asked him to come home." }
+    ]
+  },
+  {
+    skill: "Vocabulary",
+    q: "“I lived every waking moment of my life in dread of him.” What does “dread” mean?",
+    opts: [
+      { t: "Great fear of something that might happen", ok: true, why: "Right. He is always afraid of what Basher might do next." },
+      { t: "Excitement about seeing someone soon", why: "Basher “terrorised and tormented” him. There is nothing exciting about it." },
+      { t: "Anger that makes you want to fight", why: "The narrator never fights back. The word describes fear, not anger." },
+      { t: "Boredom at having nothing to do", why: "Dread is a strong fear, the opposite of feeling bored." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does he turn up the collar of his raincoat?",
+    opts: [
+      { t: "So nobody sees his school uniform and stops him", ok: true, why: "Right. The text says, “so that no one could catch a glimpse of my uniform”. He is hiding that he is a runaway schoolboy." },
+      { t: "Because it is freezing cold and snowing outside", why: "It starts to rain, but the text gives a different reason: hiding his uniform." },
+      { t: "Because it is the fashion at his boarding school", why: "The reason is given clearly: not to be recognised." },
+      { t: "So that he looks older than ten years old", why: "The text says he wants to hide his uniform, not look older." }
+    ]
+  },
+  {
+    skill: "Mood",
+    q: "What mood does the rain create at the end of the extract?",
+    opts: [
+      { t: "Gloomy and uncertain, as if trouble lies ahead", ok: true, why: "Right. “Heavy hard drops” that mean “more of the same on the way” suggest things are about to get worse for him." },
+      { t: "Cheerful and bright, like a sunny holiday", why: "Heavy rain is not cheerful. The weather matches his difficult situation." },
+      { t: "Funny and silly, like a comedy show", why: "Nothing in the description is played for laughs." },
+      { t: "Calm and safe, as if he is already home", why: "He is still on the road, alone, in growing rain. He is far from safe." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "I didn’t dream him. I didn’t dream any of it.",
+    opts: [
+      { t: "He wants readers to believe something amazing really happened", ok: true, why: "Right. He insists it wasn’t a dream, because what he saw (a blue butterfly lion) sounds unbelievable." },
+      { t: "The narrator often has bad dreams at night", why: "He is saying the opposite: this was not a dream." },
+      { t: "The narrator has forgotten what happened", why: "He says “I don’t forget.” He remembers clearly." },
+      { t: "The whole story is only a dream", why: "The quote denies exactly that." }
+    ]
+  },
+  {
+    quote: "stood me in the corner with a book on my head all through the lesson",
+    opts: [
+      { t: "Teachers at the school could be harsh", ok: true, why: "Right. Standing in the corner for a whole lesson is a cruel, embarrassing punishment, and the narrator calls it “his favourite torture”." },
+      { t: "The narrator loves reading books in class", why: "The book is part of a punishment, not reading for pleasure." },
+      { t: "Mr Carter was a kind, patient teacher", why: "He calls it Mr Carter’s “favourite torture”. That is not kind." },
+      { t: "The lesson was about learning to balance", why: "It was a spelling lesson; the book was a punishment." }
+    ]
+  },
+  {
+    quote: "I had my escape all planned.",
+    opts: [
+      { t: "He had thought carefully about how to get home", ok: true, why: "Right. The next sentences give his plan: walk to the station, train to London, underground home." },
+      { t: "He had escaped from the school many times before", why: "He says he “only once ever plucked up the courage to do it”." },
+      { t: "His friends helped him plan the escape", why: "He goes alone, and no friends are mentioned." },
+      { t: "The teachers knew about his plan", why: "He hopes not to be “missed till supper”, so it is secret." }
+    ]
+  },
+  {
+    quote: "those heavy hard drops that mean there’s more of the same on the way",
+    opts: [
+      { t: "The weather is about to get worse", ok: true, why: "Right. “More of the same on the way” means heavier rain is coming." },
+      { t: "It has just stopped raining", why: "“Beginning to rain now” shows it is only starting." },
+      { t: "The narrator enjoys walking in the rain", why: "Nothing suggests he enjoys it. He shelters “under the trees”." },
+      { t: "It is starting to snow", why: "The text describes rain drops, not snow." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "School life is miserable for the narrator.",
+    quote: "a diet of Latin and stew and rugby and detentions",
+    opts: [
+      { t: "Calling school “a diet” suggests he is fed these things every day, like it or not. Repeating “and” piles them up so school feels endless.", ok: true, why: "Strong. It explains the metaphor and the repeated “and”." },
+      { t: "At the boarding school the children have to study Latin, eat stew for dinner, play rugby and sometimes get detentions when they behave badly.", why: "Retelling. How do the words show misery?" },
+      { t: "The writer uses a list in this sentence to tell the reader about all of the different things that happen at the boarding school every week.", why: "It names the list but doesn’t explain its effect." },
+      { t: "This shows the narrator is on a special diet at school and is only allowed to eat stew and semolina pudding because of the school rules.", why: "A literal misreading. “Diet” is a metaphor for everyday school life." }
+    ]
+  },
+  {
+    claim: "Basher Beaumont makes the narrator’s life frightening.",
+    quote: "I lived every waking moment of my life in dread of him",
+    opts: [
+      { t: "Basher Beaumont was a bully at the boarding school, and he was mean to the narrator and did horrible things like putting shoe-polish in his hair.", why: "Retelling, with a detail from later. Explain these words." },
+      { t: "“Every waking moment” means there is no break from fear, and “dread” is stronger than being scared. Basher controls the narrator’s whole life.", ok: true, why: "Strong. Two phrases explained and linked to the claim." },
+      { t: "I think bullying is very bad, and if I were the narrator I would tell a teacher straight away so that Basher Beaumont got into trouble.", why: "A personal response. Explain the writer’s words." },
+      { t: "This proves that the narrator never slept at all while he was at school, because he was awake and worrying about Basher every single night.", why: "A misreading. “Waking moment” means all the time he is awake." }
+    ]
+  },
+  {
+    claim: "The memory matters deeply to the narrator.",
+    quote: "But I don’t forget. I mustn’t forget. I promised them I wouldn’t.",
+    opts: [
+      { t: "The writer uses short sentences here, which is a technique that makes writing more dramatic and interesting for the person reading it.", why: "Too general. What do these particular sentences show?" },
+      { t: "The narrator remembers everything that happened to him when he was ten, even though it was a long time ago and he is now an adult.", why: "Retelling. How do the words show the memory matters?" },
+      { t: "Three short sentences grow stronger: “don’t”, then “mustn’t”, then a promise. He feels he owes it to someone to remember.", ok: true, why: "Strong. It traces how the sentences build and what the promise suggests." },
+      { t: "This shows the narrator is worried he has a bad memory and might forget things, so he has promised his teachers he will try harder.", why: "A misreading. The promise is to “them”, the people in his story." }
+    ]
+  },
+  {
+    claim: "The narrator is desperate to escape.",
+    quote: "I ran as if bloodhounds were after me",
+    opts: [
+      { t: "There were real dogs from the school chasing the narrator through the park, so he had to run as fast as he could to get away from them.", why: "A literal misreading. “As if” shows it’s a comparison." },
+      { t: "Bloodhounds are dogs used to hunt people. The simile makes him feel like a hunted prisoner, running in fear, not just for fun.", ok: true, why: "Strong. It explains what bloodhounds are and what the simile suggests." },
+      { t: "The narrator runs very quickly out of the school park and through Innocents Breach so that he can get to the road on the other side.", why: "Retelling. What does the simile add?" },
+      { t: "This is a simile, because the writer uses the words “as if” to compare the narrator to something else while he is running.", why: "A definition, not an explanation." }
+    ]
+  },
+  {
+    claim: "Home means safety and freedom to the narrator.",
+    quote: "home, home and free",
+    opts: [
+      { t: "The narrator hopes that by supper time he will already be back at his house with his family, and nobody will be able to stop him.", why: "Retelling. Explain the repetition and “free”." },
+      { t: "The writer repeats the word “home” in this part of the story.", why: "An observation. What does the repetition show?" },
+      { t: "This proves the narrator’s family will be happy to see him and will let him stay at home forever without sending him back to school.", why: "Overclaiming. We don’t know how his family reacts." },
+      { t: "Repeating “home” sounds like a longing chant, and “free” shows school feels like a prison. Home means freedom.", ok: true, why: "Strong. It explains the repetition and the word “free”." }
+    ]
+  }
+];
+TEXTS.push({ id: "butterfly-lion", type: "Fiction", mode: "Creative", form: "Novel opening", level: "CM2",
+  hook: "A miserable ten-year-old runs away from boarding school in the rain.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
+/* ---------- TEXT 17 · Seventh Grade · 6ème ---------- */
+{
+const TEXT = {
+  title: "Seventh Grade",
+  intro: "Gary Soto, “Seventh Grade”, from Baseball in April and Other Stories (1990). Victor starts seventh grade in Fresno, California, determined that Teresa will be his girl this year.",
+  raw: `
+PASTE THE TEXT HERE
+`
+};
+
+const ANNOTATE = [
+  {
+    skill: "Simile",
+    prompt: "Find the <em>funny simile</em> describing picking grapes.",
+    target: ["like living in Siberia, except hot and more boring"],
+    decoys: [{ phrase: "like the inside of a watch", why: "That is a simile too, but it describes maths class, not picking grapes." }],
+    miss: "Look for what Victor and Michael talk about by the water fountain.",
+    explain: "Siberia is known as a freezing, lonely place of hardship. Soto compares grape-picking to it, then twists the comparison (“except hot and more boring”), which makes the misery funny."
+  },
+  {
+    skill: "Metaphor",
+    prompt: "Find the metaphor showing Victor <em>blushing with embarrassment</em> in French class.",
+    target: ["Great rosebushes of red bloomed on Victor’s cheeks"],
+    decoys: [{ phrase: "His brown face blushed.", why: "That describes blushing plainly, earlier in the story. Look for the flower image in French class." }],
+    miss: "Look at the moment Mr. Bueller asks Victor to speak up.",
+    explain: "His blush isn’t just pink: whole “rosebushes” of red “bloom” across his face. The exaggerated flower image shows how hot and huge his embarrassment feels."
+  },
+  {
+    skill: "Exaggeration",
+    prompt: "Find the exaggeration showing how <em>nervous</em> Victor is.",
+    target: ["A river of nervous sweat ran down his palms"],
+    decoys: [{ phrase: "Victor felt all eyes staring at him", why: "This shows the pressure on him, but it isn’t exaggerated. Look for a physical detail made enormous." }],
+    miss: "Look right after the rosebushes of red.",
+    explain: "Nobody’s hands produce a river. The exaggeration turns sweaty palms into something dramatic, showing panic from the inside."
+  },
+  {
+    skill: "Characterisation",
+    prompt: "Find <em>one piece of nonsense</em> Victor says to pretend he speaks French.",
+    target: ["La me vave me con le grandma", "Frenchie oh wewe gee in September"],
+    decoys: [{ phrase: "Le bateau est sur l’eau", why: "That is real French, sung by the teacher. Look for Victor’s made-up sounds." }],
+    miss: "Look for what Victor says when he tries to “bluff his way out”.",
+    explain: "Victor mixes French-sounding noises with English words like “grandma” and “September”. The nonsense is funny, and it shows how far he will go to avoid looking foolish in front of Teresa."
+  },
+  {
+    skill: "Metaphor",
+    prompt: "Find where Victor’s embarrassment <em>turns into happiness</em>.",
+    target: ["The rosebuds of shame on his face became bouquets of love"],
+    decoys: [{ phrase: "Great rosebushes of red bloomed on Victor’s cheeks", why: "That is the earlier blush of embarrassment. Look for the moment the flower image changes." }],
+    miss: "Look near the end, after Teresa says “Bonjour” to Victor.",
+    explain: "The flower image from French class comes back, but it changes: “rosebuds of shame” become “bouquets of love”. The same red face now means joy, showing how quickly his day has turned around."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Character",
+    q: "What is the main reason Victor chooses French?",
+    opts: [
+      { t: "Teresa, the girl he likes, is taking French", ok: true, why: "Right. He mentions France, but “Besides, Teresa… was taking French, too” reveals the real reason." },
+      { t: "He already speaks French at home with family", why: "He speaks Spanish and English. His lack of French is the whole problem." },
+      { t: "His parents told him that he had to take it", why: "Nothing mentions his parents choosing. It is his own decision." },
+      { t: "His best friend Michael is taking French", why: "Michael is taking Spanish." }
+    ]
+  },
+  {
+    skill: "Character",
+    q: "What does Michael’s scowling show about him?",
+    opts: [
+      { t: "He copies magazine models, hoping to look cool to girls", ok: true, why: "Right. He saw scowling men in GQ and believes “it works” because a girl looked at him." },
+      { t: "He is angry with Victor about something over summer", why: "He is friendly with Victor. The scowl is a deliberate look." },
+      { t: "He is sad because the summer holiday is over", why: "He explains the scowl as a new style, not sadness." },
+      { t: "He has toothache and can’t stop making a face", why: "He chooses to scowl: “This is my face.”" }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does Victor raise his hand and claim he knows French?",
+    opts: [
+      { t: "He wants to impress Teresa", ok: true, why: "Right. The text says he raised his hand “wanting to impress Teresa”." },
+      { t: "He wants to annoy the teacher on purpose", why: "He isn’t trying to cause trouble. He wants Teresa to notice him." },
+      { t: "He honestly believes he can speak French well", why: "He has never learned French; he has to “bluff his way out”." },
+      { t: "Michael dared him to do it before class", why: "Michael isn’t in French class and never dares him." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does Mr. Bueller keep Victor’s secret?",
+    opts: [
+      { t: "He once pretended to be something he wasn’t to impress a girl", ok: true, why: "Right. He remembers borrowing cars so a girlfriend thought he was rich. He understands Victor." },
+      { t: "He didn’t notice that Victor was speaking nonsense", why: "He “understood that the boy didn’t know French”." },
+      { t: "He wants Victor to be embarrassed later in the year", why: "He smiles and hums, which suggests kindness, not a plan to embarrass him." },
+      { t: "He thinks honesty is not important in school", why: "The story shows sympathy, not a view that honesty doesn’t matter." }
+    ]
+  },
+  {
+    skill: "Irony",
+    q: "Teresa says, “I didn’t know you knew French. That was good.” Why is this ironic?",
+    opts: [
+      { t: "She is impressed by the moment Victor felt most humiliated", ok: true, why: "Right. Victor was “too weak from failure” and wanted to start his life over, yet Teresa thinks he was brilliant." },
+      { t: "She is joking and knows he can’t speak French", why: "She asks him to help her with French, so she sincerely believes him." },
+      { t: "She speaks French fluently and is testing him", why: "She wants his help with French, so she isn’t fluent." },
+      { t: "She is angry that he showed off in class", why: "She smiles and asks for his help. She isn’t angry." }
+    ]
+  },
+  {
+    skill: "Ending",
+    q: "Why does Victor check out three French textbooks at the end?",
+    opts: [
+      { t: "To learn French so that his pretence becomes true", ok: true, why: "Right. Teresa wants his help, so now he must actually learn. The ending shows new motivation." },
+      { t: "To return the maths book he left in class", why: "He had already collected his maths book. The library visit is about French." },
+      { t: "To hide from Teresa in the quiet library", why: "He is happy about Teresa now. He isn’t hiding." },
+      { t: "Because French is his favourite subject", why: "He knew no French that morning. His interest comes from Teresa." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "Teresa is going to be my girl this year, he promised himself",
+    opts: [
+      { t: "Victor is hopeful and determined about Teresa", ok: true, why: "Right. “Promised himself” shows determination, though Teresa hasn’t agreed to anything." },
+      { t: "Teresa has already agreed to be his girlfriend", why: "He promised himself. Teresa knows nothing about it." },
+      { t: "Victor doesn’t really care about Teresa", why: "Making a promise about her shows he cares a lot." },
+      { t: "Victor told Teresa his plan that morning", why: "The promise is silent, to himself." }
+    ]
+  },
+  {
+    quote: "He moved his lips as if he were reading, but his mind was somewhere else.",
+    opts: [
+      { t: "Victor is pretending, to hide that he is searching for Teresa", ok: true, why: "Right. He fakes reading while “snooping” for her. It’s his second pretence of the day." },
+      { t: "Victor is studying very hard for his maths test", why: "“His mind was somewhere else”: he isn’t studying." },
+      { t: "Victor has trouble reading the maths book", why: "The point is pretending, not difficulty reading." },
+      { t: "Victor loves maths and can’t stop thinking about it", why: "Maths is “his weakest subject” and the problems “scared him”." }
+    ]
+  },
+  {
+    quote: "Oh please, don’t say anything, Victor pleaded with his eyes.",
+    opts: [
+      { t: "Victor is terrified of being exposed in front of Teresa", ok: true, why: "Right. He silently begs Mr. Bueller not to reveal the truth, even offering to wash his car." },
+      { t: "Victor wants Mr. Bueller to praise his French", why: "He wants the teacher to say nothing at all." },
+      { t: "Victor is angry with Mr. Bueller", why: "“Pleaded” shows begging, not anger." },
+      { t: "Victor says these words out loud to the teacher", why: "He pleads “with his eyes”, silently." }
+    ]
+  },
+  {
+    quote: "where he checked out three French textbooks",
+    opts: [
+      { t: "Victor plans to make his lie come true by learning French", ok: true, why: "Right. After promising to help Teresa, he races to get the books he needs." },
+      { t: "Victor is already fluent in French", why: "He needs textbooks because he knows no French." },
+      { t: "The books are a present for Teresa", why: "He checks them out for himself, to learn." },
+      { t: "Victor has decided to give up French", why: "Borrowing three textbooks shows the opposite." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "Victor is easily influenced.",
+    quote: "He scowled with greater conviction.",
+    opts: [
+      { t: "Victor thought scowling was “weird”, yet after one girl glances at him he scowls “with greater conviction”. One look changes his mind.", ok: true, why: "Strong. It contrasts his earlier opinion with his reaction and explains “conviction”." },
+      { t: "Victor starts making the same face as Michael while he is walking to his homeroom on the first day of seventh grade.", why: "Retelling. How does this show he is easily influenced?" },
+      { t: "This shows that scowling really does work and that every girl at the school finds boys attractive when they make an angry face.", why: "Overclaiming. One glance proves nothing about every girl." },
+      { t: "The writer uses the word “conviction” in this sentence, which is a strong and interesting piece of vocabulary for the reader.", why: "It notices the word but doesn’t explain what it shows." }
+    ]
+  },
+  {
+    claim: "Victor becomes tongue-tied around Teresa.",
+    quote: "Yeah, that’s me.",
+    opts: [
+      { t: "Teresa says “Hi, Victor” and he replies by confirming his own name. The awkward answer shows his nerves in a funny, relatable way.", ok: true, why: "Strong. It explains why the reply is awkward and its effect." },
+      { t: "Victor says hello back to Teresa when she smiles at him at the door of the homeroom, before she walks away down the hall.", why: "Retelling. What does this reply reveal?" },
+      { t: "This shows Victor is rude and doesn’t want to talk to Teresa, so he gives her a short answer and walks off the other way.", why: "A misreading. He wishes he’d said something nicer." },
+      { t: "I would also be nervous talking to someone I liked, so I understand why Victor didn’t know what to say to her.", why: "A personal response. Explain Soto’s words." }
+    ]
+  },
+  {
+    claim: "Soto uses humour to show Victor’s struggles.",
+    quote: "like the inside of a watch",
+    opts: [
+      { t: "The writer uses a simile, comparing maths to the inside of a watch using the word “like”, to describe the lesson.", why: "A definition, not an explanation of the humour." },
+      { t: "A watch’s insides are full of tiny moving parts most people can’t understand. The simile makes maths confusing in a way readers can picture.", ok: true, why: "Strong. It explains what the image suggests and why it works." },
+      { t: "Victor finds maths class confusing because some of the problems look as if the teacher is making them up as she goes along.", why: "Retelling. What does the simile add?" },
+      { t: "This shows Victor’s maths teacher is teaching the class how to fix watches instead of teaching them proper maths.", why: "A literal misreading of a simile." }
+    ]
+  },
+  {
+    claim: "Victor’s embarrassment feels overwhelming.",
+    quote: "Victor was too weak from failure to join the class",
+    opts: [
+      { t: "Victor doesn’t sing along with the other students in French class because he is feeling ill and tired after lunch.", why: "A misreading. He is weak from embarrassment, not illness." },
+      { t: "This proves Victor has completely failed French and will never pass the class at the end of the year.", why: "Overclaiming. One moment isn’t failing the course." },
+      { t: "“Too weak” describes embarrassment like a physical illness, and “failure” is a harsh word for one mistake. The moment feels huge to him.", ok: true, why: "Strong. Two word choices explained and linked to the claim." },
+      { t: "After Victor pretends to speak French, the rest of the class repeats the French words that Mr. Bueller sings, but Victor stays quiet.", why: "Retelling. How do the words show overwhelming embarrassment?" }
+    ]
+  },
+  {
+    claim: "The ending shows Victor’s mood transformed.",
+    quote: "The rosebuds of shame on his face became bouquets of love",
+    opts: [
+      { t: "Victor’s face is still red at the end of the day, even though French class finished a long time ago and he has left the room.", why: "Retelling. How does the image show a change?" },
+      { t: "The writer uses a metaphor about flowers to describe Victor’s face.", why: "An observation. What does the change in the metaphor show?" },
+      { t: "The flower image returns from French class but grows from “rosebuds” into “bouquets”. The same blush now means love, not shame.", ok: true, why: "Strong. It links back to the earlier image and explains the change." },
+      { t: "This shows that Victor is going to buy Teresa a bouquet of roses after school to tell her that he loves her.", why: "A literal misreading of a metaphor." }
+    ]
+  }
+];
+TEXTS.push({ id: "seventh-grade", type: "Fiction", mode: "Creative", form: "Short story", level: "6ème",
+  hook: "First day of seventh grade, one crush, and a very bad idea in French class.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
+/* ---------- TEXT 18 · The Great Escape (National Geographic Kids) · CM2 ----------
+   Source: https://kids.nationalgeographic.com/pages/article/the-great-escape */
+{
+const TEXT = {
+  title: "The Great Escape",
+  intro: "National Geographic Kids, “Amazing Animals: The Great Escape”. A true story from a wildlife reserve in South Africa.",
+  raw: `
+PASTE THE TEXT HERE
+`
+};
+
+const ANNOTATE = [
+  {
+    skill: "Hook",
+    prompt: "Find the opening that compares the event to <em>a film</em>.",
+    target: ["It looked like a scene from"],
+    decoys: [{ phrase: "Why did the elephants do this?", why: "That question comes later. Look at the very first words." }],
+    miss: "Read the first sentence of the article.",
+    explain: "Comparing a real event to a famous animated film makes it sound unbelievable and fun. Readers who know the film picture animals escaping straight away."
+  },
+  {
+    skill: "Vocabulary",
+    prompt: "Find the <em>unusual word</em> showing the rangers were amazed.",
+    target: ["flabbergasted"],
+    decoys: [{ phrase: "It took the rangers hours", why: "That tells us how long it took them, not how they felt. Look for a word describing the rangers." }],
+    miss: "Look for a long, unusual word just before “rangers”.",
+    explain: "“Flabbergasted” means so surprised you can hardly believe it. It is a fun, bouncy word that shows the rangers’ shock better than “surprised”."
+  },
+  {
+    skill: "Key detail",
+    prompt: "Find <em>how</em> the elephant opened the gate.",
+    target: ["with her trunk"],
+    decoys: [{ phrase: "a herd of wild elephants", why: "That tells us who was there, not how the gate was opened." }],
+    miss: "Look for what the elephant used to undo the latches.",
+    explain: "The trunk works like a hand. Using it to undo latches shows the elephant was skilful and may even have known exactly what she was doing."
+  },
+  {
+    skill: "Verb choice",
+    prompt: "Find the verb showing the antelopes ran away <em>very fast</em>.",
+    target: ["bolted"],
+    decoys: [{ phrase: "followed by the elephants", why: "That says the elephants came after them, not how fast the antelopes ran." }],
+    miss: "Look at what the antelopes did once the gate was open.",
+    explain: "“Bolted” means ran off suddenly and fast, like a startled horse. It shows the antelopes grabbed their chance the moment the gate opened."
+  },
+  {
+    skill: "Question",
+    prompt: "Find the question the writer asks to <em>lead into the expert’s opinion</em>.",
+    target: ["Why did the elephants do this?"],
+    decoys: [{ phrase: "They may have just been having fun!", why: "That is a possible answer. Look for the question that comes before it." }],
+    miss: "Look near the end for a question mark.",
+    explain: "The writer asks the question readers are already wondering about. It sets up the expert’s explanation and keeps the reader curious."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Text type",
+    q: "What kind of text is this?",
+    opts: [
+      { t: "A true news story about a real event", ok: true, why: "Right. It names a real place, real rangers and a real expert, and tells what happened." },
+      { t: "A made-up fairy tale about animals", why: "The place, people and expert are real. It isn’t invented." },
+      { t: "A set of instructions for opening gates", why: "There are no steps or commands. It tells a story." },
+      { t: "A poem about elephants and antelopes", why: "It is written in paragraphs, with no rhyme or verses." }
+    ]
+  },
+  {
+    skill: "Finding information",
+    q: "Where did the great escape happen?",
+    opts: [
+      { t: "At a wildlife reserve in South Africa", ok: true, why: "Right. It happened at Thula Thula Wildlife Reserve in South Africa." },
+      { t: "At a zoo in Pittsburgh, in the USA", why: "Pittsburgh Zoo is where the expert works, not where the escape happened." },
+      { t: "In Madagascar, the island near Africa", why: "Madagascar is the film it is compared to, not the place." },
+      { t: "On a farm in Australia", why: "Australia is not mentioned. Check the name of the reserve." }
+    ]
+  },
+  {
+    skill: "Technique",
+    q: "Why does the writer mention the film Madagascar?",
+    opts: [
+      { t: "It compares the event to a fun film readers know", ok: true, why: "Right. Readers instantly picture cartoon animals escaping, which makes the real story sound surprising and entertaining." },
+      { t: "Because the escape happened in Madagascar", why: "The escape happened in South Africa. The film is just a comparison." },
+      { t: "Because the elephants were famous film stars", why: "These were wild elephants on a reserve, not film stars." },
+      { t: "To advertise the film to young readers", why: "The film is only a quick comparison, not an advert." }
+    ]
+  },
+  {
+    skill: "Purpose of a quotation",
+    q: "Why does the writer include an elephant expert?",
+    opts: [
+      { t: "To give an explanation from someone who knows elephants", ok: true, why: "Right. An expert’s view makes the explanation more trustworthy than a guess." },
+      { t: "Because the expert was at the reserve that day", why: "The expert works at Pittsburgh Zoo, far from South Africa." },
+      { t: "Because the expert let the elephants out", why: "An elephant opened the gate, not the expert." },
+      { t: "Only to make the article longer", why: "The expert answers the big question: why did they do it?" }
+    ]
+  },
+  {
+    skill: "Certainty",
+    q: "The expert says the elephants “may have just been having fun”. What does “may” show?",
+    opts: [
+      { t: "It is a possible reason, but nobody knows for sure", ok: true, why: "Right. “May” shows a guess. Even the expert can’t be certain." },
+      { t: "Scientists have proved that the elephants were playing", why: "“May” is the opposite of proof. It shows uncertainty." },
+      { t: "The expert is lying to make the story funnier", why: "A careful guess is not a lie. He is being honest about not knowing." },
+      { t: "The elephants told the rangers they were playing", why: "Elephants can’t explain themselves. That is why we can only guess." }
+    ]
+  },
+  {
+    skill: "Vocabulary",
+    q: "What does “flabbergasted” mean?",
+    opts: [
+      { t: "Extremely surprised", ok: true, why: "Right. The rangers could hardly believe an elephant had opened the gate." },
+      { t: "Very angry", why: "The rangers were shocked, not angry. Use the context: something unbelievable happened." },
+      { t: "Tired and sleepy", why: "Nothing suggests tiredness at that moment." },
+      { t: "Frightened of the elephants", why: "The word means amazed, not afraid." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "It took the rangers hours to recapture the antelopes",
+    opts: [
+      { t: "The escape caused the rangers a lot of extra work", ok: true, why: "Right. “Hours” shows the escape wasn’t easy to fix." },
+      { t: "The antelopes were never caught again", why: "“Recapture” means they were caught, even if it took hours." },
+      { t: "The rangers were happy about the escape", why: "Hours of chasing antelopes isn’t fun. The quote shows hard work." },
+      { t: "Antelopes are very slow animals", why: "If they were slow, it wouldn’t take hours. They “bolted”." }
+    ]
+  },
+  {
+    quote: "with her trunk",
+    opts: [
+      { t: "Elephants can use their trunks very skilfully", ok: true, why: "Right. Undoing latches with a trunk takes control, like using fingers." },
+      { t: "The gate was already broken", why: "She “unfastened the latches”, so the gate was closed and working." },
+      { t: "The rangers opened the gate for the elephants", why: "The elephant opened it herself, with her trunk." },
+      { t: "The elephant used her feet to push the gate", why: "The quote says trunk, not feet." }
+    ]
+  },
+  {
+    quote: "elephants have a sense of humor",
+    opts: [
+      { t: "The expert believes elephants can enjoy fun and tricks", ok: true, why: "Right. A sense of humour suggests they might have freed the antelopes just for fun." },
+      { t: "Elephants can tell jokes to each other", why: "A sense of humour means enjoying fun, not telling jokes in words." },
+      { t: "Elephants are angry and dangerous animals", why: "Humour is about fun, the opposite of anger." },
+      { t: "Antelopes are the funniest animals in Africa", why: "The quote is about elephants, not antelopes." }
+    ]
+  },
+  {
+    quote: "They may have just been having fun!",
+    opts: [
+      { t: "The explanation is a guess, not a proven fact", ok: true, why: "Right. “May” shows it is only a possibility." },
+      { t: "Scientists have proved the elephants were playing", why: "“May” means it isn’t proved." },
+      { t: "The elephants were bored of living in a zoo", why: "They were wild elephants on a reserve, not in a zoo." },
+      { t: "The antelopes wanted to have fun too", why: "“They” refers to the elephants, not the antelopes." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The opening grabs the reader’s attention.",
+    quote: "It looked like a scene from",
+    opts: [
+      { t: "Comparing a real event to a film makes it sound unbelievable and fun, so readers want to know what happened.", ok: true, why: "Strong. It explains the comparison and its effect on readers." },
+      { t: "The article starts by talking about a film that lots of children have watched at the cinema or at home.", why: "Retelling. Why does this grab attention?" },
+      { t: "The writer uses a comparison at the start of the article to begin the text.", why: "Every text begins somehow. What does this comparison do?" },
+      { t: "This proves the elephants had watched the film Madagascar and copied the animals.", why: "A misreading. The comparison is the writer’s, not the elephants’." }
+    ]
+  },
+  {
+    claim: "The rangers were very surprised.",
+    quote: "flabbergasted",
+    opts: [
+      { t: "The rangers watched the elephants open the gate and saw the antelopes run away into the bush.", why: "Retelling. What does the word show?" },
+      { t: "“Flabbergasted” is a big, bouncy word meaning far more than surprised. It shows they could hardly believe what they saw.", ok: true, why: "Strong. It explains the word’s meaning and its effect." },
+      { t: "This is an interesting word that the writer uses.", why: "Interesting how? Explain what it shows." },
+      { t: "This shows the rangers were angry with the elephants and wanted to punish them for opening the gate.", why: "A misreading. It means amazed, not angry." }
+    ]
+  },
+  {
+    claim: "The elephant was clever.",
+    quote: "with her trunk",
+    opts: [
+      { t: "An elephant has a long trunk that it uses for eating, drinking and picking things up.", why: "A general fact, not an explanation of this quote." },
+      { t: "The elephant opened the gate so that the antelopes could escape from where they were kept.", why: "Retelling. How does this show cleverness?" },
+      { t: "Undoing latches is a careful job, like using fingers. Doing it with a trunk shows skill, not an accident.", ok: true, why: "Strong. It explains why the action shows cleverness." },
+      { t: "This shows every elephant in the world knows how to open gates.", why: "Overclaiming. It shows what one elephant did." }
+    ]
+  },
+  {
+    claim: "The antelopes escaped very quickly.",
+    quote: "bolted",
+    opts: [
+      { t: "The writer uses a verb to describe what the antelopes did next.", why: "True of any verb. What does this one show?" },
+      { t: "“Bolted” means ran off suddenly and fast, like a frightened horse. The antelopes took their chance the second the gate opened.", ok: true, why: "Strong. It explains the verb and links it to speed." },
+      { t: "The antelopes ran out of the open gate and into the bush, and then the elephants went after them.", why: "Retelling. Explain the word." },
+      { t: "This means the antelopes locked the gate behind them with a bolt so the rangers couldn’t follow.", why: "A misreading of “bolted”." }
+    ]
+  },
+  {
+    claim: "The article is careful not to claim it knows the reason.",
+    quote: "They may have just been having fun!",
+    opts: [
+      { t: "The elephants were having fun when they let the antelopes out.", why: "Retelling as if certain, which misses the point of “may”." },
+      { t: "“May” shows it is only a possibility, and “just” makes it a simple, playful reason. The writer admits nobody knows for sure.", ok: true, why: "Strong. Two words explained and linked to the claim." },
+      { t: "I think the elephants were having fun too, because elephants are clever animals.", why: "A personal opinion. Explain the writer’s words." },
+      { t: "This ends with an exclamation mark.", why: "True, but what does that show?" }
+    ]
+  }
+];
+TEXTS.push({ id: "great-escape", type: "Non-fiction", mode: "Informative", form: "News story", level: "CM2",
+  hook: "Rangers watched in shock as an elephant opened a gate and let the antelopes out.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
+/* ---------- TEXT 19 · 10 Facts about Albert Einstein (National Geographic Kids) · 6ème ----------
+   Source: https://www.natgeokids.com/uk/discover/science/general-science/albert-einstein-facts/ */
+{
+const TEXT = {
+  title: "10 Facts about Albert Einstein",
+  intro: "National Geographic Kids (UK), “10 facts about Albert Einstein”. A fact file about the life of the famous physicist.",
+  raw: `
+PASTE THE TEXT HERE
+`
+};
+
+const ANNOTATE = [
+  {
+    skill: "Word choice",
+    prompt: "Find the adjective in the introduction showing the writer <em>admires</em> Einstein.",
+    target: ["extraordinary physicist"],
+    decoys: [{ phrase: "Albert Einstein was born in Germany", why: "That is a plain fact. Look for a describing word that shows an opinion." }],
+    miss: "Look at the introduction before fact number 1.",
+    explain: "“Extraordinary” means far beyond ordinary. It tells readers from the very first line that Einstein was special, before any facts prove it."
+  },
+  {
+    skill: "Metaphor",
+    prompt: "Find the phrase showing how much <em>young Einstein loved science</em>.",
+    target: ["fell in love with physics"],
+    decoys: [{ phrase: "struggled with other subjects like languages", why: "That shows what he found hard, not what he loved." }],
+    miss: "Look at the fact about the compass.",
+    explain: "People fall in love with people, not subjects. The metaphor shows physics was a passion that excited him, not just something he was good at."
+  },
+  {
+    skill: "Detail",
+    prompt: "Find the detail showing even Einstein had <em>setbacks</em>.",
+    target: ["originally failed the entrance exam"],
+    decoys: [{ phrase: "excelled at maths, physics, and philosophy", why: "That shows his strengths. Look for something that went wrong." }],
+    miss: "Look at the fact about going to university in Zürich.",
+    explain: "Readers might expect a genius never to fail. Including this setback makes Einstein more human and shows success can come after failure."
+  },
+  {
+    skill: "Nickname",
+    prompt: "Find the nickname given to <em>one amazing year</em> in Einstein’s life.",
+    target: ["year of miracles"],
+    decoys: [{ phrase: "published four groundbreaking papers", why: "That explains what happened that year, not what the year was called." }],
+    miss: "Look at the fact about 1905.",
+    explain: "A miracle is something amazing that seems impossible. Calling 1905 a “year of miracles” shows how unbelievable it was to make so many discoveries in twelve months."
+  },
+  {
+    skill: "Informal language",
+    prompt: "Find <em>one</em> informal phrase showing Einstein became famous.",
+    target: ["a star", "wowed the world"],
+    decoys: [{ phrase: "groundbreaking papers", why: "“Groundbreaking” shows the work was important, but it isn’t about Einstein becoming famous. Look for chatty, exciting words." }],
+    miss: "Look at the facts about E=mc² and his theory of relativity.",
+    explain: "Words like “a star” and “wowed” are chatty, everyday language. They make a scientist sound as exciting as a celebrity, which suits young readers."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Structure",
+    q: "Why is the article organised as ten numbered facts?",
+    opts: [
+      { t: "It breaks a whole life into short, easy-to-find chunks", ok: true, why: "Right. Numbered facts let readers read one idea at a time or jump to the part they want." },
+      { t: "The facts are ranked from least to most important", why: "The facts mostly follow the order of his life, not a ranking." },
+      { t: "Einstein himself wrote the ten facts before he died", why: "The article is written by National Geographic Kids about Einstein." },
+      { t: "It is a quiz that readers have to answer", why: "The facts give information; they don’t ask questions." }
+    ]
+  },
+  {
+    skill: "Purpose",
+    q: "What is the main purpose of the article?",
+    opts: [
+      { t: "To inform young readers about Einstein’s life and achievements", ok: true, why: "Right. It gives facts about his childhood, school, discoveries and prizes in an engaging way." },
+      { t: "To persuade readers that they must all become physicists", why: "It celebrates Einstein but doesn’t tell readers what career to choose." },
+      { t: "To criticise Einstein for leaving school early", why: "The tone is admiring throughout, not critical." },
+      { t: "To explain the theory of relativity in full detail", why: "Relativity is mentioned briefly. The focus is his life." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does the article mention the compass Einstein’s father gave him?",
+    opts: [
+      { t: "It shows a childhood experience sparked lifelong curiosity", ok: true, why: "Right. Wondering how the needle moved led him to study magnetism and, later, physics." },
+      { t: "It shows he wanted to become a sailor or explorer", why: "The compass made him curious about science, not travel." },
+      { t: "It explains that he often got lost as a child", why: "Nothing suggests he got lost. The compass fascinated him." },
+      { t: "It shows his family was very rich", why: "A compass is not evidence of wealth. The point is curiosity." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "What does Einstein leaving school at 15 suggest?",
+    opts: [
+      { t: "Being brilliant doesn’t mean enjoying every kind of school", ok: true, why: "Right. He disliked strict discipline, yet he still excelled at maths and physics." },
+      { t: "He was lazy and never wanted to learn anything", why: "He wrote a scholarly paper at 16. He loved learning, just not strict rules." },
+      { t: "He failed every single subject at school", why: "He excelled at maths, physics and philosophy." },
+      { t: "He became a teacher when he was 15", why: "He trained later; at 15 he left grammar school." }
+    ]
+  },
+  {
+    skill: "Tone",
+    q: "What effect do informal phrases like “wowed the world” have?",
+    opts: [
+      { t: "They create a friendly, exciting tone that suits young readers", ok: true, why: "Right. Chatty words make science feel thrilling and easy to connect with." },
+      { t: "They make the article formal and academic", why: "“Wowed” is informal, the opposite of academic." },
+      { t: "They show the writer is being sarcastic about Einstein", why: "The writer clearly admires him. There is no sarcasm." },
+      { t: "They show the writer is angry", why: "Nothing about “wowed” suggests anger." }
+    ]
+  },
+  {
+    skill: "Finding information",
+    q: "Why did Einstein never return to Germany?",
+    opts: [
+      { t: "He didn’t feel safe there because of events leading to World War 2", ok: true, why: "Right. The article explains he moved to the USA in 1933 and felt unsafe in Germany." },
+      { t: "He preferred the weather in the United States", why: "The article gives safety as the reason, not weather." },
+      { t: "He had been expelled from school in Germany", why: "He left school himself, and that isn’t why he stayed away." },
+      { t: "He did not speak German", why: "He was born in Germany. The reason was safety." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "originally failed the entrance exam",
+    opts: [
+      { t: "Setbacks didn’t stop Einstein from succeeding", ok: true, why: "Right. He failed at first but was still accepted and went on to change science." },
+      { t: "Einstein was bad at maths", why: "He had exceptional maths results. The failure was in other parts of the exam." },
+      { t: "The entrance exam was unfair", why: "The quote doesn’t say anything about fairness." },
+      { t: "Einstein never went to university", why: "He was accepted in 1896 and later earned a PhD." }
+    ]
+  },
+  {
+    quote: "published four groundbreaking papers",
+    opts: [
+      { t: "1905 was an extraordinarily productive year for him", ok: true, why: "Right. Four major discoveries in one year is why it’s called his “year of miracles”." },
+      { t: "Einstein wrote children’s books in 1905", why: "Scientific papers are research, not children’s books." },
+      { t: "Nobody paid attention to his papers", why: "“Groundbreaking” and becoming famous at 26 show they had huge impact." },
+      { t: "Einstein only wrote one paper in his whole life", why: "The quote mentions four papers in one year alone." }
+    ]
+  },
+  {
+    quote: "excelled at maths, physics, and philosophy",
+    opts: [
+      { t: "Einstein was strongest in subjects involving logic and big ideas", ok: true, why: "Right. Maths, physics and philosophy all involve deep thinking and reasoning." },
+      { t: "Einstein was excellent at every school subject", why: "The article also says he struggled with languages." },
+      { t: "Einstein worked as a philosophy teacher", why: "The quote is about his school strengths, not a job." },
+      { t: "Einstein hated maths at school", why: "“Excelled” means he was very good at it." }
+    ]
+  },
+  {
+    quote: "a star",
+    opts: [
+      { t: "Einstein became famous at a young age because of his work", ok: true, why: "Right. His 1905 discoveries made him famous at just 26." },
+      { t: "Einstein became a film star in Hollywood", why: "“A star” means famous, not an actor." },
+      { t: "Einstein studied stars through a telescope", why: "In this context, “star” means a famous person." },
+      { t: "Einstein only became famous after he died", why: "He became a star at 26, decades before his death." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The writer presents Einstein as special from the start.",
+    quote: "extraordinary physicist",
+    opts: [
+      { t: "“Extraordinary” means far beyond ordinary. Placing it in the introduction tells readers at once that Einstein was no ordinary scientist.", ok: true, why: "Strong. It explains the word and why its position matters." },
+      { t: "Albert Einstein was a physicist, which is a type of scientist who studies how things like energy, space and time work.", why: "A definition of “physicist”, not an explanation of the claim." },
+      { t: "The writer uses an adjective in the introduction of the article to describe the person the article is about.", why: "Which adjective, and what does it show?" },
+      { t: "This proves Einstein was the cleverest person who has ever lived and that no other scientist was as intelligent.", why: "Overclaiming. “Extraordinary” is admiring, not a ranking of everyone." }
+    ]
+  },
+  {
+    claim: "Einstein’s interest in physics was a passion, not just a talent.",
+    quote: "fell in love with physics",
+    opts: [
+      { t: "Einstein started to study physics when he was young, after his father gave him a compass and he wondered how it worked.", why: "Retelling. How do the words show passion?" },
+      { t: "This shows Einstein didn’t have time for friends or family because he only cared about physics.", why: "Overclaiming. The phrase shows enthusiasm, nothing about friends." },
+      { t: "Falling in love suggests excitement and devotion. The metaphor shows physics was something he adored, not just a subject he was good at.", ok: true, why: "Strong. It explains the metaphor and links it to passion." },
+      { t: "The writer uses a metaphor in this sentence.", why: "Correct label, but what does it show?" }
+    ]
+  },
+  {
+    claim: "The article makes Einstein relatable to young readers.",
+    quote: "originally failed the entrance exam",
+    opts: [
+      { t: "Readers expect a genius never to fail. Showing he failed an exam makes him human and encourages readers who find tests hard.", ok: true, why: "Strong. It explains the surprise and the effect on readers." },
+      { t: "Einstein had to take an exam to get into a school in Zürich, and he did not pass it the first time he tried.", why: "Retelling. Why does this make him relatable?" },
+      { t: "This shows that exams are not important and that students don’t need to pass them to be successful.", why: "Overclaiming. One example doesn’t prove exams don’t matter." },
+      { t: "I have failed tests before, so I like knowing that Einstein did too.", why: "A personal response. Explain how the article creates this effect." }
+    ]
+  },
+  {
+    claim: "1905 was an astonishing year for Einstein.",
+    quote: "year of miracles",
+    opts: [
+      { t: "In 1905, Einstein got his PhD and published some important scientific papers, including one about E=mc².", why: "Retelling. What does the nickname add?" },
+      { t: "A miracle is something amazing that seems impossible. Calling a whole year “miracles” shows how unusual it was to discover so much at once.", ok: true, why: "Strong. It explains the word and applies it to the claim." },
+      { t: "This shows that Einstein’s discoveries were magic and could not be explained by science.", why: "A literal misreading. “Miracles” is used for amazement." },
+      { t: "The writer uses a nickname for the year.", why: "An observation, not an explanation." }
+    ]
+  },
+  {
+    claim: "Informal language makes science exciting for young readers.",
+    quote: "wowed the world",
+    opts: [
+      { t: "Einstein’s theory of relativity became famous all over the world and lots of people learned about it.", why: "Retelling. How does the language create excitement?" },
+      { t: "The writer uses alliteration.", why: "A technique named with no effect." },
+      { t: "This proves every person in the world understood Einstein’s theory of relativity.", why: "Overclaiming. Being wowed isn’t the same as understanding." },
+      { t: "“Wowed” is a chatty, exciting word, and the alliteration with “world” makes it catchy. It makes a science achievement sound thrilling.", ok: true, why: "Strong. It explains word choice and sound, and links both to excitement." }
+    ]
+  }
+];
+TEXTS.push({ id: "einstein-facts", type: "Non-fiction", mode: "Informative", form: "Fact file", level: "6ème",
+  hook: "A compass, a failed exam and a year of miracles: the life of a genius.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
 /* ================================================================ */
 const $ = s => document.querySelector(s);
+const spaceDashes = t => t.replace(/--/g, " – ").replace(/(\S)([—–])/g, "$1 $2").replace(/([—–])(\S)/g, "$1 $2");
 const norm = t => t.toLowerCase().replace(/[^a-z0-9]/g, "");
 const panel = $("#panel"), passage = $("#passage");
 let onPick = () => {};
@@ -3597,7 +4460,7 @@ function buildPassage() {
     el = document.createElement("p");
     if (p.startsWith("• ")) el.className = "bullet";
     paraEls.push(el);
-    p.split(" ").forEach((word, k) => {
+    spaceDashes(p).split(/\s+/).filter(Boolean).forEach((word, k) => {
       if (k) el.appendChild(document.createTextNode(" "));
       const s = document.createElement("span");
       s.className = "w"; s.textContent = word; s.dataset.i = tokens.length;
@@ -3698,7 +4561,7 @@ passage.addEventListener("click", e => {
 });
 
 function findRanges(phrase, all) {
-  const words = phrase.split(/\s+/).map(norm).filter(Boolean), out = [];
+  const words = spaceDashes(phrase).split(/\s+/).map(norm).filter(Boolean), out = [];
   const seq = tokens.map((t, i) => ({ n: t.n, i })).filter(t => t.n);
   for (let s = 0; s + words.length <= seq.length; s++) {
     if (words.every((w, k) => seq[s + k].n === w)) {
@@ -3746,7 +4609,7 @@ function intro() {
   panel.innerHTML = `<div class="card intro-card"><p class="num">Before you start</p><h3>Read the whole text <em>once</em>, slowly.</h3>
     <p>Then work through four stages. Wrong answers are not the end: read the red pen, then try again.</p>
     <ol><li>Annotate: find the words that match each description (${ANNOTATE.length})</li><li>Questions: close reading multiple choice (${QUESTIONS.length})</li><li>Evidence: decide what a quote actually proves (${EVIDENCE.length})</li><li>Explain: choose the explanation that best proves a claim (${EXPLAIN.length})</li></ol>
-    <p class="tip">Points only count on your first try.</p></div>`;
+    <p class="tip">Points only count on your first try.</p>${missingReport()}</div>`;
   panel.firstChild.appendChild(nextBtn("START ANNOTATING", () => { stage = 1; idx = 0; setStages(); annotateItem(); }));
 }
 
@@ -3756,6 +4619,13 @@ function annotateItem() {
   const target = it.target.flatMap(p => findRanges(p, it.all));
   const decoys = (it.decoys || []).map(d => ({ ...d, r: findRanges(d.phrase, true) }));
   let tries = 0, done = false;
+  if (!target.length) {
+    panel.innerHTML = `<div class="card"><p class="num">Stage 1 &middot; Annotation ${idx + 1} of ${ANNOTATE.length}</p><h3>This item is skipped</h3><p class="tip">Its phrase wasn’t found in the text (teacher: check the pasted text).</p></div>`;
+    panel.firstChild.appendChild(nextBtn(idx === ANNOTATE.length - 1 ? "ON TO STAGE 2" : "NEXT ANNOTATION", () => {
+      if (idx === ANNOTATE.length - 1) { stage = 2; idx = 0; setStages(); mcqItem(QUESTIONS, 2); } else { idx++; annotateItem(); }
+    }));
+    return;
+  }
   focus(target.concat(...decoys.map(d => d.r)));
   panel.innerHTML = `<div class="card"><p class="num">Stage 1 &middot; Annotation ${idx + 1} of ${ANNOTATE.length}</p>
     <h3>${it.prompt}</h3><span class="skill">${it.skill}</span><p class="tip" style="margin-top:12px">Click any word in the passage.${LONG ? " The answer is in the paragraphs shown." : ""}</p><div class="fbs"></div></div>`;
@@ -3897,6 +4767,23 @@ function results_() {
   panel.firstChild.appendChild(nextBtn("CHOOSE ANOTHER TEXT", showPicker, true));
 }
 
+/* ---------- teacher check: phrases that don't match the text ---------- */
+function missingReport() {
+  const miss = [];
+  ANNOTATE.forEach(a => a.target.concat((a.decoys || []).map(d => d.phrase)).forEach(ph => { if (!findRanges(ph, true).length) miss.push(ph); }));
+  EVIDENCE.concat(EXPLAIN).forEach(e => { if (!findRanges(e.quote).length) miss.push(e.quote); });
+  if (!miss.length) return "";
+  return `<details class="teacher-warn"><summary>Teacher check: ${miss.length} phrase${miss.length > 1 ? "s" : ""} not found in the text</summary><p>Edit the text or these phrases so they match word for word:</p><ul>${miss.map(m => `<li>${m}</li>`).join("")}</ul></details>`;
+}
+
+/* ---------- pasted texts ---------- */
+TEXTS.forEach(t => {
+  if (t.TEXT.raw === undefined) return;
+  const raw = t.TEXT.raw.trim();
+  t.pending = !raw || raw.includes("PASTE THE TEXT HERE");
+  t.TEXT.paras = t.pending ? [] : raw.split(/\n\s*\n/).map(x => x.replace(/\s*\n\s*/g, " ").trim()).filter(Boolean);
+});
+
 /* ---------- best scores (saved in this browser only) ---------- */
 function getBest(id) { try { const v = localStorage.getItem("crp-best-" + id); return v === null ? null : +v; } catch (e) { return null; } }
 function setBest(id, v) { try { localStorage.setItem("crp-best-" + id, v); } catch (e) {} }
@@ -3928,7 +4815,10 @@ function showPicker() {
       <div class="pick-meta"><span>${words} words &middot; ${pts} points</span><b>${best === null ? "Start" : "Retry"} &rarr;</b></div></div>`;
     const img = card.querySelector("img");
     img.addEventListener("load", () => card.querySelector(".thumb").classList.add("has-img"));
-    card.addEventListener("click", () => loadText(t));
+    if (t.pending) {
+      card.classList.add("pending"); card.disabled = true;
+      card.querySelector(".pick-meta").innerHTML = `<span>Text needed</span><b>Soon</b>`;
+    } else card.addEventListener("click", () => loadText(t));
     grid.appendChild(card);
   });
   scrollTo(0, 0);
@@ -3961,7 +4851,7 @@ $("#lvlFilter").querySelectorAll("button").forEach(b => b.addEventListener("clic
     levelFilter = lv;
     $("#lvlFilter").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x.dataset.l === lv));
   }
-  const t = TEXTS.find(x => x.id === q.get("text"));
+  const t = TEXTS.find(x => x.id === q.get("text") && !x.pending);
   if (t) loadText(t); else showPicker();
 })();
 </script>
