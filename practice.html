@@ -143,6 +143,16 @@
 .teacher-warn{margin-top:12px;border:2px dashed var(--pen);border-radius:8px;padding:8px 10px;font:400 13px/1.45 'Courier Prime',monospace;color:var(--pen)}
 .teacher-warn summary{cursor:pointer;font-weight:700}
 .teacher-warn ul{margin:6px 0 0;padding-left:18px;color:var(--ink)}
+.drill-bar{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:14px 16px;margin-bottom:20px}
+.drill-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-bottom:10px}
+.drill-title{font:400 22px/1 Anton,Impact,sans-serif;margin:0}
+.drill-sub{font:400 13px/1.3 'Courier Prime',monospace;color:var(--soft);margin:0}
+.drill-chips{display:flex;flex-wrap:wrap;gap:8px}
+.drill-chip{font:700 13px/1.2 'Courier Prime',monospace;text-align:left;border:2px solid var(--ink);border-radius:10px;background:var(--hi);color:var(--ink);padding:8px 12px;cursor:pointer}
+.drill-chip span{display:block;font-weight:400;font-size:11px;color:var(--soft);margin-top:3px}
+.drill-chip:hover{background:var(--ink);color:#fff}
+.drill-chip:hover span{color:var(--hi)}
+.stages[hidden]{display:none}
 @media (prefers-reduced-motion:reduce){.cr *,#stamp{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -157,6 +167,7 @@
     <div class="lvl-filter" id="lvlFilter" role="group" aria-label="Filter by level">
       <button data-l="all" aria-pressed="true">All levels</button><button data-l="CM2" aria-pressed="false">CM2</button><button data-l="6ème" aria-pressed="false">6ème</button><button data-l="5ème" aria-pressed="false">5ème</button>
     </div></div>
+  <div class="drill-bar" id="drillBar"></div>
   <div class="pick-grid" id="pickGrid"></div>
 </div>
 <div class="cr" id="work" hidden>
@@ -3426,8 +3437,8 @@ const QUESTIONS = [
     opts: [
       { t: "In the third person, closely following Miss Brill’s thoughts", ok: true, why: "Right. The narrator uses “she”, but we hear her excited thoughts directly: “Oh, how fascinating it was!” We see the world as she sees it." },
       { t: "In the first person, by Miss Brill herself", why: "The story uses “she” and “Miss Brill”, not “I”." },
-      { t: "By a narrator who explains what every character thinks", why: "We only enter Miss Brill’s mind. We never learn what the couple or others think." },
-      { t: "By the boy who insults Miss Brill on the bench", why: "The boy is a minor character described from outside." }
+      { t: "By an all-knowing narrator who explains what every single character in the park thinks", why: "We only enter Miss Brill’s mind. We never learn what the couple or others think." },
+      { t: "By the young boy who insults Miss Brill while sitting on the bench beside her", why: "The boy is a minor character described from outside." }
     ]
   },
   {
@@ -3445,8 +3456,8 @@ const QUESTIONS = [
     q: "Why does Miss Brill pass the baker’s by on the way home?",
     opts: [
       { t: "The humiliation has taken away her joy, even in small treats", ok: true, why: "Right. The honey-cake was her “Sunday treat” and a source of delight. Skipping it shows how deeply the couple’s words have hurt her." },
-      { t: "The baker’s shop is closed because it is a Sunday afternoon", why: "She usually buys honey-cake there every Sunday, so it must normally be open." },
-      { t: "She has spent all her money on the band and has none left", why: "The band is free in the public gardens. Money isn’t mentioned." },
+      { t: "The baker’s shop is closed because it is late on a Sunday afternoon and everyone has gone home", why: "She usually buys honey-cake there every Sunday, so it must normally be open." },
+      { t: "She has spent all her money on the band and has nothing left for cake", why: "The band is free in the public gardens. Money isn’t mentioned." },
       { t: "She has decided to eat less cake to become healthier", why: "Nothing suggests a diet. The change comes straight after the insult." }
     ]
   },
@@ -3454,8 +3465,8 @@ const QUESTIONS = [
     skill: "Ending",
     q: "What does the final line, “she thought she heard something crying”, suggest?",
     opts: [
-      { t: "Miss Brill is crying but can’t admit it, so it seems to come from the fur", ok: true, why: "Right. “Something” and “thought she heard” create distance. Mansfield shows the pain without letting Miss Brill face it directly." },
-      { t: "The fur necklet is really alive and is crying inside its box", why: "A literal reading. The fur is an object; the crying suggests Miss Brill’s own feelings." },
+      { t: "She is crying but can’t admit it, so it seems to come from the fur", ok: true, why: "Right. “Something” and “thought she heard” create distance. Mansfield shows the pain without letting Miss Brill face it directly." },
+      { t: "The fur necklet is really alive and is crying quietly inside its cardboard box on the bed", why: "A literal reading. The fur is an object; the crying suggests Miss Brill’s own feelings." },
       { t: "A baby is crying in another flat in Miss Brill’s building", why: "Nothing mentions neighbours. The crying comes as she closes the fur’s box." },
       { t: "Miss Brill feels happy and peaceful at the end of her day", why: "She skips her treat, sits for a long time and hears crying. The mood is deep sadness." }
     ]
@@ -3465,8 +3476,8 @@ const QUESTIONS = [
     q: "How does the mood change across the extract?",
     opts: [
       { t: "From joyful, almost magical, to hurt and silent", ok: true, why: "Right. She is “fascinating” and nearly singing, then after the insult she sits alone in her dark room without a word." },
-      { t: "From angry and bitter to calm and peaceful", why: "She begins delighted, not angry, and ends in sorrow, not peace." },
-      { t: "From bored and lonely to excited and hopeful", why: "The reverse. Her excitement comes first; the loneliness is revealed at the end." },
+      { t: "From angry and bitter at the start to calm and peaceful by the end of the day", why: "She begins delighted, not angry, and ends in sorrow, not peace." },
+      { t: "From bored and lonely to excited and hopeful about the future", why: "The reverse. Her excitement comes first; the loneliness is revealed at the end." },
       { t: "The mood stays cheerful from beginning to end", why: "The last paragraph, with the dark room and crying, is anything but cheerful." }
     ]
   },
@@ -3475,9 +3486,9 @@ const QUESTIONS = [
     q: "Why does Mansfield describe the almond in the honey-cake?",
     opts: [
       { t: "It shows how tiny pleasures fill her life, so losing them hurts", ok: true, why: "Right. An almond “made a great difference” and felt like “a tiny present”. Such small joys make her empty evening more painful." },
-      { t: "It explains that Miss Brill works as a baker during the week", why: "She teaches English and reads to an invalid. She buys the cake." },
+      { t: "It explains that Miss Brill secretly works as a baker in the town during the rest of the week", why: "She teaches English and reads to an invalid. She buys the cake." },
       { t: "It warns readers that Miss Brill is allergic to nuts", why: "The almond is a delight to her, not a danger." },
-      { t: "It gives the reader a traditional recipe for honey-cake", why: "No ingredients or method are given. The detail is about her feelings." }
+      { t: "It gives the reader a traditional recipe for making honey-cake at home", why: "No ingredients or method are given. The detail is about her feelings." }
     ]
   }
 ];
@@ -3487,8 +3498,8 @@ const EVIDENCE = [
     quote: "No doubt somebody would have noticed if she hadn’t been there",
     opts: [
       { t: "Miss Brill badly wants to believe she matters to others", ok: true, why: "Right. “No doubt” sounds confident, but nothing shows anyone would notice. It reveals her wish to be important." },
-      { t: "Everyone in the gardens knows Miss Brill by name", why: "No one speaks to her. The quote is her belief, not a fact." },
-      { t: "Miss Brill is a famous actress in the town", why: "The “play” is imaginary. She teaches English and reads to an invalid." },
+      { t: "Everyone in the Jardins Publiques knows Miss Brill by name and looks out for her", why: "No one speaks to her. The quote is her belief, not a fact." },
+      { t: "Miss Brill is a famous actress who performs in the town’s theatre", why: "The “play” is imaginary. She teaches English and reads to an invalid." },
       { t: "Miss Brill often misses her Sunday visits", why: "She comes “every Sunday” and makes “a point” of arriving on time." }
     ]
   },
@@ -3505,8 +3516,8 @@ const EVIDENCE = [
     quote: "Why doesn’t she keep her silly old mug at home?",
     opts: [
       { t: "The couple see Miss Brill as unwanted and ridiculous", ok: true, why: "Right. “Mug” is slang for face, and “silly old” adds contempt. They want her gone." },
-      { t: "The couple don’t notice Miss Brill at all", why: "They are talking directly about her. They notice her and mock her." },
-      { t: "The boy is joking kindly about Miss Brill", why: "“Stupid old thing” and “who wants her?” are cruel, not kind." },
+      { t: "The young couple don’t notice Miss Brill sitting at the end of the bench at all", why: "They are talking directly about her. They notice her and mock her." },
+      { t: "The boy is joking kindly about Miss Brill to make the girl laugh", why: "“Stupid old thing” and “who wants her?” are cruel, not kind." },
       { t: "Miss Brill has brought a cup to the gardens", why: "“Mug” is slang for face here, not a cup." }
     ]
   },
@@ -3514,8 +3525,8 @@ const EVIDENCE = [
     quote: "She unclasped the necklet quickly; quickly, without looking, laid it inside.",
     opts: [
       { t: "She can’t bear to look at the fur now that it has been mocked", ok: true, why: "Right. The repeated “quickly” and “without looking” show she wants it out of sight, the opposite of how she lovingly brushed it before." },
-      { t: "She is in a hurry because she wants to go out again", why: "She “sat there for a long time”. She isn’t going anywhere." },
-      { t: "The fur is dirty and needs to be cleaned before next Sunday", why: "Nothing suggests dirt. Her haste is about the insult." },
+      { t: "She is in a hurry because she wants to go straight back out again for her Sunday treat", why: "She “sat there for a long time”. She isn’t going anywhere." },
+      { t: "The fur is dirty and needs to be cleaned before she wears it next Sunday", why: "Nothing suggests dirt. Her haste is about the insult." },
       { t: "She is proud of her fur and wants to keep it safe", why: "Not looking at it suggests shame, not pride." }
     ]
   }
@@ -3558,8 +3569,8 @@ const EXPLAIN = [
     opts: [
       { t: "Miss Brill lives in a very small room at the top of some stairs, and it is dark inside because it doesn’t have many windows to let the light in.", why: "Retelling. It doesn’t explain what the simile suggests." },
       { t: "This proves that Miss Brill actually lives inside a cupboard because she is too poor to afford a proper room of her own in the town.", why: "A literal misreading of a simile." },
-      { t: "The writer uses a simile to describe Miss Brill’s room, which is a comparison using the word like to help the reader picture it.", why: "A definition, not an explanation of the effect." },
-      { t: "A cupboard is cramped and dark, and things are stored there out of sight. The simile suggests Miss Brill has been put away, far from the bright “stage”.", ok: true, why: "Strong. It explains the simile and contrasts home with the park." }
+      { t: "The writer uses a simile to describe Miss Brill’s room, which is a comparison using the word like to help the reader picture where she lives.", why: "A definition, not an explanation of the effect." },
+      { t: "A cupboard is cramped and dark, and things are stored there out of sight. Miss Brill seems put away, far from the bright “stage”.", ok: true, why: "Strong. It explains the simile and contrasts home with the park." }
     ]
   },
   {
@@ -3567,9 +3578,9 @@ const EXPLAIN = [
     quote: "she thought she heard something crying",
     opts: [
       { t: "Miss Brill hears a sound coming from the box when she puts the lid on it, and she thinks that maybe the fur necklet inside it is crying.", why: "Retelling. It misses what the vague “something” suggests." },
-      { t: "“Something” avoids saying who is crying, and “thought she heard” adds distance. Mansfield suggests Miss Brill is crying but puts the grief onto the fur.", ok: true, why: "Strong. It explains two word choices and the displaced emotion." },
+      { t: "“Something” avoids saying who is crying, and “thought she heard” adds distance. Miss Brill is crying but puts the grief onto the fur.", ok: true, why: "Strong. It explains two word choices and the displaced emotion." },
       { t: "This shows that the fur is magic and has come to life at the end of the story, which is why Miss Brill can hear it crying inside its box.", why: "A literal misreading. The crying is suggestive, not magical." },
-      { t: "The writer ends the story with a sad sentence to make the reader feel sad as well.", why: "Too vague. How do these particular words create that sadness?" }
+      { t: "The writer ends the story with a sad sentence about crying because she wants the reader to feel sad about Miss Brill as well.", why: "Too vague. How do these particular words create that sadness?" }
     ]
   }
 ];
@@ -3591,7 +3602,21 @@ const TEXT = {
   title: "The Butterfly Lion",
   intro: "Michael Morpurgo, The Butterfly Lion (1996), opening chapter: “Chilblains and Semolina Pudding”. The narrator remembers being ten years old at boarding school.",
   raw: `
-PASTE THE TEXT HERE
+Butterflies live only short lives. They flower and flutter for just a few glorious weeks, and then they die. To see them, you have to be in the right place at the right time. And that’s how it was when I saw the butterfly lion - I happened to be in just the right place, at just the right time. I didn’t dream him. I didn’t dream any of it. I saw him, blue and shimmering in the sun, one afternoon in June when I was young. A long time ago. But I don’t forget. I mustn’t forget. I promised them I wouldn’t.
+
+I was ten, and away at boarding school in deepest Wiltshire. I was far from home and I didn’t want to be. It was a diet of Latin and stew and rugby and detentions and cross-country runs and chilblains and marks and squeaky beds and semolina pudding. And then there was Basher Beaumont who terrorised and tormented me, so that I lived every waking moment of my life in dread of him. I had often thought of running away, but only once ever plucked up the courage to do it.
+
+I was homesick after a letter from my mother. Basher Beaumont had cornered me in the bootroom and smeared black shoe-polish in my hair. I had done badly in a spelling test, and Mr Carter had stood me in the corner with a book on my head all through the lesson - his favourite torture. I was more miserable than I had ever been before. I picked at the plaster in the wall, and determined there and then that I would run away.
+
+I took off the next Sunday afternoon. With any luck I wouldn’t be missed till supper, and by that time I’d be home, home and free. I climbed the fence at the bottom of the school park, behind the trees where I couldn’t be seen. Then I ran for it. I ran as if bloodhounds were after me, not stopping till I was through Innocents Breach and out onto the road beyond. I had my escape all planned. I would walk to the station - it was only five miles or so - and catch the train to London. Then I’d take the underground home. I’d just walk in and tell them that I was never, ever going back.
+
+There wasn’t much traffic, but all the same I turned up the collar of my raincoat so that no one could catch a glimpse of my uniform. It was beginning to rain now, those heavy hard drops that mean there’s more of the same on the way. I crossed the road, and ran along the wide grass verge under the shelter of the trees.
+
+Beyond the grass verge was a high brick wall, much of it covered in ivy. It stretched away into the distance, continuous as far as the eye could see, except for a massive arched gateway at the bend of the road. A great stone lion bestrode the gateway. As I came closer I could see he was roaring in the rain, his lip curled, his teeth bared.
+
+I stopped and stared up at him for a moment. That was when I heard a car slowing down behind me. I did not think twice. I pushed open the iron gate, darted through, and flattened myself behind the stone pillar. I watched the car until it disappeared round the bend.
+
+To be caught would mean a caning, four strokes, maybe six, across the back of the knees. Worse, I would be back at school, back to detentions, back to Basher Beaumont. To go along the road was dangerous, too dangerous. I would try to cut across country to the station. It would be longer that way, but far safer.
 `
 };
 
@@ -3803,7 +3828,133 @@ const TEXT = {
   title: "Seventh Grade",
   intro: "Gary Soto, “Seventh Grade”, from Baseball in April and Other Stories (1990). Victor starts seventh grade in Fresno, California, determined that Teresa will be his girl this year.",
   raw: `
-PASTE THE TEXT HERE
+On the first day of school, Victor stood in line half an hour before he came to a wobbly card table. He was handed a packet of papers and a computer card on which he listed his one elective, French. He already spoke Spanish and English, but he thought some day he might travel to France, where it was cool; not like Fresno, where summer days reached 110 degrees in the shade. There were rivers in France, and huge churches, and fair-skinned people everywhere, the way there were brown people all around Victor
+
+Besides, Teresa, a girl he had liked since they were in catechism classes at Saint Theresa’s, was taking French, too. With any luck they would be in the same class. Teresa is going to be my girl this year, he promised himself as he left the gym full of students in their new fall clothes. She was cute. And good in math, too, Victor thought as he walked down the hall to his homeroom. He ran into his friend, Michael Torres, by the water fountain that never turned off.
+
+They shook hands, raza-style, and jerked their heads at one another in a saludo de vato. “How come you’re making a face?” asked Victor.
+
+“I ain’t making a face, ese. This is my face.” Michael said his face had changed during the summer. He had read a GQ magazine that his older brother had borrowed from the Book Mobile and noticed that the male models all had the same look on their faces. They would stand, one arm around a beautiful woman, and scowl. They would sit at the pool, their rippled stomachs dark with shadow, and scowl. They would sit at dinner tables, cool drinks in their hands, and scowl,
+
+“I think it works,” Michael said. He scowled and let his upper lip quiver. His teeth showed along with the ferocity of his soul. “Belinda Reyes walked by a while ago and looked at me,” he said.
+
+Victor didn’t say anything, though he thought his friend looked pretty strange. They talked about recent movies, baseball, their parents, and the horrors of picking grapes in order to buy their fall clothes. Picking grapes was like living in Siberia, except hot and more boring.
+
+“What classes are you taking?” Michael said, scowling.
+
+“French. How ‘bout you?”
+
+“Spanish. I ain’t so good at it, even if I’m Mexican."
+
+“I’m not either, but I’m better at it than math, that’s for sure.”
+
+A tiny, three-beat bell propelled students to their homerooms. The two friends socked each other in the arm and went their ways, Victor thinking, man, that’s weird. Michael thinks making a face makes him handsome.
+
+On the way to his homeroom, Victor tried a scowl. He felt foolish, until out of the corner of his eye he saw a girl looking at hint Umm, he thought, maybe it does work. He scowled with greater conviction.
+
+In the homeroom, roll was taken, emergency cards were passed out, and they were given a bulletin to take home to their parents. The principal, Mr. Belton, spoke over the crackling loudspeaker, welcoming the students to a new year, new experiences, and new friendships. The students squirmed in their chairs and ignored him, they were anxious to go to first period. Victor sat calmly, thinking of Teresa, who sat two rows away, reading a paperback novel. This would be his lucky year. She was in his homeroom, and would probably be in his English and math classes. And, of course, French.
+
+The bell rang for first period, and the students herded noisily through the door. Only Teresa lingered, talking with the homeroom teacher.
+
+“So you think I should talk to Mrs. Gaines?” she asked the teacher. “She would know about ballet?”
+
+“She would be a good bet,” the teacher said. Then added, “Or the gym teacher, Mrs. Garza."
+
+Victor lingered, keeping his head down and staring at his desk. He wanted to leave when she did so he could bump into her and say something clever.
+
+He watched her on the sly. As she turned to leave, he stood up and hurried to the door, where he managed to catch her eye. She smiled and said, “Hi, Victor."
+
+He smiled back and said, “Yeah, that's me.” His brown face blushed. Why hadn’t he said, “Hi, Teresa,” or "How was your summer?” or something nice.
+
+As Teresa walked down the hall, Victor walked the other way, looking back, admiring how gracefully she walked, one foot in front of the other. So much for being in the same class, he thought. As he trudged to English, he practiced scowling.
+
+In English they reviewed the parts of speech. Mr. Lucas, a portly man, waddled down the aisle, asking, “What is a noun?”
+
+“A person, place, or thing,” said the class in unison.
+
+Yes, now somebody give me an example of a person--you, Victor Rodriguez.”
+
+"Teresa,” Victor said automatically. Some of the girls giggled. They knew he had a crush on Teresa. He felt himself blushing again.
+
+“Correct,” Mr. Lucas said. “Now provide me with a place.”
+
+Mr. Lucas called on a freckled kid who answered, “Teresa’s house with a kitchen full of big brothers.”
+
+After English, Victor had math, his weakest subject. He sat in the back by the window, hoping that he would not be called on. Victor understood most of the problems, but some of the stuff looked like the teacher made it up as she went along. It was confusing, like the inside of a watch.
+
+After math he had a fifteen-minute break, then social studies, and finally lunch. He bought a tuna casserole with buttered rolls, some fruit cocktail, and milk. He sat with Michael, who practiced scowling between bites,
+
+Girls walked by and looked at him, “See what I mean, Vic?” Michael scowled. "They love it.”
+
+“Yeah, I guess so.”
+
+They ate slowly, Victor scanning the horizon for a glimpse of Teresa. He didn’t see her. She must have brought lunch, he thought, and is eating outside. Victor scraped his plate and left Michael, who was busy scowling at a girl two tables away.
+
+The small, triangle-shaped campus bustled with students talking about their new classes. Everyone was in a sunny mood. Victor hurried to the bag lunch area, where he sat down and opened his math book. He moved his lips as if he were reading, but his mind was somewhere else. He raised his eyes slowly and looked around. No Teresa.
+
+He lowered his eyes, pretending to study, then looked slowly to the left. No Teresa. He turned a page in the book and stared at some math problems that scared him because he knew he would have to do them eventually. He looked at the right. Still no sign of her. He stretched out lazily in an attempt to disguise his snooping.
+
+Then he saw her. She was sitting with a girlfriend under a plum tree. Victor moved to a table near her and daydreamed about taking her to a movie. When the bell sounded, Teresa looked up, and their eyes met. She smiled sweetly and gathered her books. Her next class was French, same as Victor’s.
+
+They were among the last students to arrive in class, so all the good desks in the back had already been taken. Victor was forced to sit near the front, a few desks away from Teresa, while Mr. Bueller wrote French words on the chalkboard. The bell rang, and Mr. Bueller wiped his hands, turned to the class, and said, “Bonjour.”
+
+“Bonjour,” braved a few students. What obstacles are getting in the way of Victor making Teresa “his girl”?
+
+“Bonjour” Victor whispered. He wondered if Teresa heard him.
+
+Mr. Bueller said that if the students studied hard, at the end of the year they could go to France and be understood by the populace.
+
+One kid raised his hand and asked, “‘What’s ‘populace’?”
+
+"The people, the people of France.”
+
+Mr. Bueller asked if anyone knew French. Victor raised his hand, wanting to impress Teresa. The teacher beamed and said, “Tres bien. Parlez-vous francais?”
+
+Victor didn’t know what to say. The teacher wet his lips and asked something else in French. The room grew silent. Victor felt all eyes staring at him. He tried to bluff his way out by making noises that sounded French.
+
+“La me vave me con le grandma,” he said uncertainly.
+
+Mr. Bueller, wrinkling his face in curiosity, asked him to speak up.
+
+Great rosebushes of red bloomed on Victor’s cheeks. A river of nervous sweat ran down his palms. He felt awful. Teresa sat a few desks away, no doubt thinking he was a fool. Without looking at Mr. Bueller, Victor mumbled, ‘Frenchie oh wewe gee in September.”
+
+Mr. Bueller asked Victor to repeat what he said.
+
+“Frenchie oh wewe gee in September," Victor repeated.
+
+Mr. Bueller understood that the boy didn’t know French and turned away. He walked to the blackboard and pointed to the words on the board with his steel-edged ruler.
+
+"Le bateau,” he sang.
+
+“Le bateau,” the students repeated.
+
+"Le bateau est sur l’eau,” he sang.
+
+“Le bateau est sur l’eau.”
+
+Victor was too weak from failure to join the class. He stared at the board and wished he had taken Spanish, not French. Better yet, he wished he could start his life over. He had never been so embarrassed. He bit his thumb until he tore off a sliver of skin.
+
+The bell sounded for fifth period, and Victor shot out of the room, avoiding the stares of the other kids, but had to return for his math book. He looked sheepishly at the teacher, who was erasing the board, then widened his eyes in terror at Teresa who stood in front of him. “I didn’t know you knew French,”she said. “That was good.”
+
+Mr. Bueller looked at Victor, and Victor looked back. Oh please, don’t say anything, Victor pleaded with his eyes. I’ll wash your car, mow your lawn, walk your dog--anything! I'll be your best student, and I’ll clean your erasers after school.
+
+Mr. Bueller shuffled through the papers on his desk, He smiled and hummed as he sat down to work. He remembered his college years when he dated a girlfriend in borrowed cars. She thought he was rich because each time he picked her up he had a different car. It was fun until he had spent all his money on her and had to write home to his parents because he was broke.
+
+Victor couldn’t stand to look at Teresa. He was sweaty with shame. “Yeah, well, I picked up a few things from movies and books and stuff like that.” They left the class together. Teresa asked him if he would help her with her French.
+
+"Sure, anytime,” Victor said.
+
+“I won’t be bothering you, will I?”
+
+"Oh no, I like being bothered.”
+
+“Bonjour,” Teresa said, leaving him outside her next class. She smiled and pushed wisps of hair from her face.
+
+"Yeah, right, bonjour,” Victor said. He turned and headed to his class. The rosebuds of shame on his face became bouquets of love. Teresa is a great girl, he thought. And Mr. Bueller is a good guy.
+
+He raced to metal shop. After metal shop there was biology, and after biology a long sprint to the public library, where he checked out three French textbooks.
+
+He was going to like seventh grade.
 `
 };
 
@@ -3866,9 +4017,9 @@ const QUESTIONS = [
     q: "What does Michael’s scowling show about him?",
     opts: [
       { t: "He copies magazine models, hoping to look cool to girls", ok: true, why: "Right. He saw scowling men in GQ and believes “it works” because a girl looked at him." },
-      { t: "He is angry with Victor about something over summer", why: "He is friendly with Victor. The scowl is a deliberate look." },
+      { t: "He is angry with Victor about something that happened between them over the summer", why: "He is friendly with Victor. The scowl is a deliberate look." },
       { t: "He is sad because the summer holiday is over", why: "He explains the scowl as a new style, not sadness." },
-      { t: "He has toothache and can’t stop making a face", why: "He chooses to scowl: “This is my face.”" }
+      { t: "He has toothache and can’t stop making a face, even when he is talking", why: "He chooses to scowl: “This is my face.”" }
     ]
   },
   {
@@ -3885,9 +4036,9 @@ const QUESTIONS = [
     skill: "Inference",
     q: "Why does Mr. Bueller keep Victor’s secret?",
     opts: [
-      { t: "He once pretended to be something he wasn’t to impress a girl", ok: true, why: "Right. He remembers borrowing cars so a girlfriend thought he was rich. He understands Victor." },
+      { t: "He once pretended to be someone he wasn’t to impress a girl", ok: true, why: "Right. He remembers borrowing cars so a girlfriend thought he was rich. He understands Victor." },
       { t: "He didn’t notice that Victor was speaking nonsense", why: "He “understood that the boy didn’t know French”." },
-      { t: "He wants Victor to be embarrassed later in the year", why: "He smiles and hums, which suggests kindness, not a plan to embarrass him." },
+      { t: "He wants Victor to be embarrassed again later in the year in front of the whole class", why: "He smiles and hums, which suggests kindness, not a plan to embarrass him." },
       { t: "He thinks honesty is not important in school", why: "The story shows sympathy, not a view that honesty doesn’t matter." }
     ]
   },
@@ -3896,8 +4047,8 @@ const QUESTIONS = [
     q: "Teresa says, “I didn’t know you knew French. That was good.” Why is this ironic?",
     opts: [
       { t: "She is impressed by the moment Victor felt most humiliated", ok: true, why: "Right. Victor was “too weak from failure” and wanted to start his life over, yet Teresa thinks he was brilliant." },
-      { t: "She is joking and knows he can’t speak French", why: "She asks him to help her with French, so she sincerely believes him." },
-      { t: "She speaks French fluently and is testing him", why: "She wants his help with French, so she isn’t fluent." },
+      { t: "She is joking with him because she knows perfectly well he can’t speak French", why: "She asks him to help her with French, so she sincerely believes him." },
+      { t: "She speaks French fluently herself and is secretly testing him", why: "She wants his help with French, so she isn’t fluent." },
       { t: "She is angry that he showed off in class", why: "She smiles and asks for his help. She isn’t angry." }
     ]
   },
@@ -3906,9 +4057,9 @@ const QUESTIONS = [
     q: "Why does Victor check out three French textbooks at the end?",
     opts: [
       { t: "To learn French so that his pretence becomes true", ok: true, why: "Right. Teresa wants his help, so now he must actually learn. The ending shows new motivation." },
-      { t: "To return the maths book he left in class", why: "He had already collected his maths book. The library visit is about French." },
+      { t: "To return the maths book he accidentally left behind in French class", why: "He had already collected his maths book. The library visit is about French." },
       { t: "To hide from Teresa in the quiet library", why: "He is happy about Teresa now. He isn’t hiding." },
-      { t: "Because French is his favourite subject", why: "He knew no French that morning. His interest comes from Teresa." }
+      { t: "Because French has always been his favourite subject at school", why: "He knew no French that morning. His interest comes from Teresa." }
     ]
   }
 ];
@@ -3927,8 +4078,8 @@ const EVIDENCE = [
     quote: "He moved his lips as if he were reading, but his mind was somewhere else.",
     opts: [
       { t: "Victor is pretending, to hide that he is searching for Teresa", ok: true, why: "Right. He fakes reading while “snooping” for her. It’s his second pretence of the day." },
-      { t: "Victor is studying very hard for his maths test", why: "“His mind was somewhere else”: he isn’t studying." },
-      { t: "Victor has trouble reading the maths book", why: "The point is pretending, not difficulty reading." },
+      { t: "Victor is studying very hard because he is worried about his first maths test", why: "“His mind was somewhere else”: he isn’t studying." },
+      { t: "Victor has trouble reading the words in his new maths book", why: "The point is pretending, not difficulty reading." },
       { t: "Victor loves maths and can’t stop thinking about it", why: "Maths is “his weakest subject” and the problems “scared him”." }
     ]
   },
@@ -3936,17 +4087,17 @@ const EVIDENCE = [
     quote: "Oh please, don’t say anything, Victor pleaded with his eyes.",
     opts: [
       { t: "Victor is terrified of being exposed in front of Teresa", ok: true, why: "Right. He silently begs Mr. Bueller not to reveal the truth, even offering to wash his car." },
-      { t: "Victor wants Mr. Bueller to praise his French", why: "He wants the teacher to say nothing at all." },
+      { t: "Victor wants Mr. Bueller to praise his French in front of Teresa", why: "He wants the teacher to say nothing at all." },
       { t: "Victor is angry with Mr. Bueller", why: "“Pleaded” shows begging, not anger." },
-      { t: "Victor says these words out loud to the teacher", why: "He pleads “with his eyes”, silently." }
+      { t: "Victor says these words out loud to the teacher so that Teresa can hear", why: "He pleads “with his eyes”, silently." }
     ]
   },
   {
     quote: "where he checked out three French textbooks",
     opts: [
       { t: "Victor plans to make his lie come true by learning French", ok: true, why: "Right. After promising to help Teresa, he races to get the books he needs." },
-      { t: "Victor is already fluent in French", why: "He needs textbooks because he knows no French." },
-      { t: "The books are a present for Teresa", why: "He checks them out for himself, to learn." },
+      { t: "Victor is already fluent in French and wants some harder books to read", why: "He needs textbooks because he knows no French." },
+      { t: "The books are a present for Teresa to help her with her French", why: "He checks them out for himself, to learn." },
       { t: "Victor has decided to give up French", why: "Borrowing three textbooks shows the opposite." }
     ]
   }
@@ -3957,9 +4108,9 @@ const EXPLAIN = [
     claim: "Victor is easily influenced.",
     quote: "He scowled with greater conviction.",
     opts: [
-      { t: "Victor thought scowling was “weird”, yet after one girl glances at him he scowls “with greater conviction”. One look changes his mind.", ok: true, why: "Strong. It contrasts his earlier opinion with his reaction and explains “conviction”." },
+      { t: "Victor thought scowling was “weird”, yet one girl’s glance makes him scowl “with greater conviction”. One look changes his mind.", ok: true, why: "Strong. It contrasts his earlier opinion with his reaction and explains “conviction”." },
       { t: "Victor starts making the same face as Michael while he is walking to his homeroom on the first day of seventh grade.", why: "Retelling. How does this show he is easily influenced?" },
-      { t: "This shows that scowling really does work and that every girl at the school finds boys attractive when they make an angry face.", why: "Overclaiming. One glance proves nothing about every girl." },
+      { t: "This shows that scowling really does work and that every single girl at the school finds boys attractive when they make an angry face at them.", why: "Overclaiming. One glance proves nothing about every girl." },
       { t: "The writer uses the word “conviction” in this sentence, which is a strong and interesting piece of vocabulary for the reader.", why: "It notices the word but doesn’t explain what it shows." }
     ]
   },
@@ -3967,8 +4118,8 @@ const EXPLAIN = [
     claim: "Victor becomes tongue-tied around Teresa.",
     quote: "Yeah, that’s me.",
     opts: [
-      { t: "Teresa says “Hi, Victor” and he replies by confirming his own name. The awkward answer shows his nerves in a funny, relatable way.", ok: true, why: "Strong. It explains why the reply is awkward and its effect." },
-      { t: "Victor says hello back to Teresa when she smiles at him at the door of the homeroom, before she walks away down the hall.", why: "Retelling. What does this reply reveal?" },
+      { t: "Teresa says “Hi, Victor” and he replies by confirming his own name. The awkward answer shows his nerves in a funny way.", ok: true, why: "Strong. It explains why the reply is awkward and its effect." },
+      { t: "Victor says hello back to Teresa when she smiles at him at the door of the homeroom, before she walks away down the hall to her next class.", why: "Retelling. What does this reply reveal?" },
       { t: "This shows Victor is rude and doesn’t want to talk to Teresa, so he gives her a short answer and walks off the other way.", why: "A misreading. He wishes he’d said something nicer." },
       { t: "I would also be nervous talking to someone I liked, so I understand why Victor didn’t know what to say to her.", why: "A personal response. Explain Soto’s words." }
     ]
@@ -3978,18 +4129,18 @@ const EXPLAIN = [
     quote: "like the inside of a watch",
     opts: [
       { t: "The writer uses a simile, comparing maths to the inside of a watch using the word “like”, to describe the lesson.", why: "A definition, not an explanation of the humour." },
-      { t: "A watch’s insides are full of tiny moving parts most people can’t understand. The simile makes maths confusing in a way readers can picture.", ok: true, why: "Strong. It explains what the image suggests and why it works." },
+      { t: "A watch’s insides are full of tiny moving parts few people understand. The simile makes maths confusing in a way readers can picture.", ok: true, why: "Strong. It explains what the image suggests and why it works." },
       { t: "Victor finds maths class confusing because some of the problems look as if the teacher is making them up as she goes along.", why: "Retelling. What does the simile add?" },
-      { t: "This shows Victor’s maths teacher is teaching the class how to fix watches instead of teaching them proper maths.", why: "A literal misreading of a simile." }
+      { t: "This shows Victor’s maths teacher is teaching the class how to fix watches and clocks instead of teaching them proper maths problems.", why: "A literal misreading of a simile." }
     ]
   },
   {
     claim: "Victor’s embarrassment feels overwhelming.",
     quote: "Victor was too weak from failure to join the class",
     opts: [
-      { t: "Victor doesn’t sing along with the other students in French class because he is feeling ill and tired after lunch.", why: "A misreading. He is weak from embarrassment, not illness." },
+      { t: "Victor doesn’t sing along with the other students in French class because he is feeling ill and very tired after eating his lunch in the cafeteria.", why: "A misreading. He is weak from embarrassment, not illness." },
       { t: "This proves Victor has completely failed French and will never pass the class at the end of the year.", why: "Overclaiming. One moment isn’t failing the course." },
-      { t: "“Too weak” describes embarrassment like a physical illness, and “failure” is a harsh word for one mistake. The moment feels huge to him.", ok: true, why: "Strong. Two word choices explained and linked to the claim." },
+      { t: "“Too weak” describes embarrassment like an illness, and “failure” is a harsh word for one mistake. The moment feels huge to him.", ok: true, why: "Strong. Two word choices explained and linked to the claim." },
       { t: "After Victor pretends to speak French, the rest of the class repeats the French words that Mr. Bueller sings, but Victor stays quiet.", why: "Retelling. How do the words show overwhelming embarrassment?" }
     ]
   },
@@ -3997,9 +4148,9 @@ const EXPLAIN = [
     claim: "The ending shows Victor’s mood transformed.",
     quote: "The rosebuds of shame on his face became bouquets of love",
     opts: [
-      { t: "Victor’s face is still red at the end of the day, even though French class finished a long time ago and he has left the room.", why: "Retelling. How does the image show a change?" },
+      { t: "Victor’s face is still red at the end of the school day, even though French class finished a long time ago and he has already left the room.", why: "Retelling. How does the image show a change?" },
       { t: "The writer uses a metaphor about flowers to describe Victor’s face.", why: "An observation. What does the change in the metaphor show?" },
-      { t: "The flower image returns from French class but grows from “rosebuds” into “bouquets”. The same blush now means love, not shame.", ok: true, why: "Strong. It links back to the earlier image and explains the change." },
+      { t: "The flower image returns from French class but grows from “rosebuds” to “bouquets”. The blush now means love, not shame.", ok: true, why: "Strong. It links back to the earlier image and explains the change." },
       { t: "This shows that Victor is going to buy Teresa a bouquet of roses after school to tell her that he loves her.", why: "A literal misreading of a metaphor." }
     ]
   }
@@ -4009,8 +4160,267 @@ TEXTS.push({ id: "seventh-grade", type: "Fiction", mode: "Creative", form: "Shor
   TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
 }
 
-/* ---------- TEXT 18 · The Great Escape (National Geographic Kids) · CM2 ----------
-   Source: https://kids.nationalgeographic.com/pages/article/the-great-escape */
+/* ---------- TEXT 19 · 10 Facts about Albert Einstein (National Geographic Kids) · 6ème ----------
+   Source: https://www.natgeokids.com/uk/discover/science/general-science/albert-einstein-facts/ */
+{
+const TEXT = {
+  title: "10 Facts about Albert Einstein",
+  intro: "National Geographic Kids (UK), “10 facts about Albert Einstein”. A fact file about the life of the famous physicist.",
+  raw: `
+Find out about this extraordinary physicist…
+
+Discover the scientist whose ideas and theories about time and space changed the world and what we think about the universe in our 10 facts about Albert Einstein…
+
+Albert Einstein Facts
+
+
+Full name: Albert Einstein
+
+Born: 14 March 1879
+
+Occupation: Scientist specialising in physics, also known as a theoretical physicist*
+
+Died: 18 April 1955
+
+Best known for: His theory of relativity*
+
+1. Albert Einstein was born in Germany, but lived in Italy, Switzerland and Czechia (which was then part of the Austro-Hungarian Empire), until he eventually moved to the United States in 1933.
+Albert never went back to Germany after moving to the USA. He didn’t feel safe in Germany because of the events that led to World War 2, and instead settled down to life in the American town of Princeton, New Jersey.
+
+2. When Albert was a boy, he fell in love with physics when his father gifted him a compass.
+He was fascinated by the way the magnets moved inside of the compass, and thought about this when he was older and coming up with his theories around relativity.
+
+3. Albert hated the strict discipline of the grammar school he attended as a teenager, and left aged 15…
+While at school, he excelled at maths, physics, and philosophy, but struggled with other subjects like languages.
+
+4. …but he still managed to write his first scholarly paper at just 16 years old!
+The paper was inspired by his compass, and discussed the force of magnetism.
+
+5. Rather than becoming a physicist straight away, Albert first trained as a teacher.
+In 1896, he was accepted into the Swiss Federal Polytechnic School in Zürich, Switzerland. He originally failed the entrance exam, but was let in anyway due to his exceptional maths results! However, this was on the condition that Albert also went to high school and finished his formal schooling.
+
+6. After failing to find work as a maths and physics teacher, Albert decided to obtain a Ph.D. in physics.
+He obtained this degree in 1905 – a year that came to be known as Albert’s “year of miracles“, because he published four groundbreaking papers in just 12 months!
+
+7. One of the discoveries Albert announced in 1905 was his famous formula: E=mc2
+Albert figured out that matter – the tiny particles that make up everything in the world – can be turned into energy. The equation, E=mc2 , describes how this conversion can be achieved. This amazing breakthrough made the 26-year-old Albert Einstein a star!
+
+8. The formula formed part of Albert’s ‘general theory of relativity’, which he worked on over the next ten years.
+Other scientists, for example Dutch physicist Hendrik Lorentz, had already been forming pieces of the theory. However, Albert was the first one to put the whole thing together. He published the complete theory in 1915, where it wowed the world!
+
+9. Albert’s theory of relativity helped scientists understand how the universe works.
+Albert’s theory showed that the effects of gravity result from the ways that objects affect space and time. These interactions can only be seen on enormous objects like the planets. As a result, Albert’s general theory of relativity describes the way that amazing phenomena like the movement of planets, the birth and death of stars, black holes, and evolution of the universe, are possible.
+
+10. He went on to win The Nobel Prize in Physics in 1921.
+The Nobel Prize is an award for major scientific accomplishments – and by the time Albert won it, he and his discoveries were famous around the world. He continued working on theories until his death in 1955, aged 76.
+
+*A theoretical physicist is a scientist who tries to figure out how the world and universe work.
+
+
+`
+};
+
+const ANNOTATE = [
+  {
+    skill: "Word choice",
+    prompt: "Find the adjective in the introduction showing the writer <em>admires</em> Einstein.",
+    target: ["extraordinary physicist"],
+    decoys: [{ phrase: "Albert Einstein was born in Germany", why: "That is a plain fact. Look for a describing word that shows an opinion." }],
+    miss: "Look at the introduction before fact number 1.",
+    explain: "“Extraordinary” means far beyond ordinary. It tells readers from the very first line that Einstein was special, before any facts prove it."
+  },
+  {
+    skill: "Metaphor",
+    prompt: "Find the phrase showing how much <em>young Einstein loved science</em>.",
+    target: ["fell in love with physics"],
+    decoys: [{ phrase: "struggled with other subjects like languages", why: "That shows what he found hard, not what he loved." }],
+    miss: "Look at the fact about the compass.",
+    explain: "People fall in love with people, not subjects. The metaphor shows physics was a passion that excited him, not just something he was good at."
+  },
+  {
+    skill: "Detail",
+    prompt: "Find the detail showing even Einstein had <em>setbacks</em>.",
+    target: ["originally failed the entrance exam"],
+    decoys: [{ phrase: "excelled at maths, physics, and philosophy", why: "That shows his strengths. Look for something that went wrong." }],
+    miss: "Look at the fact about going to university in Zürich.",
+    explain: "Readers might expect a genius never to fail. Including this setback makes Einstein more human and shows success can come after failure."
+  },
+  {
+    skill: "Nickname",
+    prompt: "Find the nickname given to <em>one amazing year</em> in Einstein’s life.",
+    target: ["year of miracles"],
+    decoys: [{ phrase: "published four groundbreaking papers", why: "That explains what happened that year, not what the year was called." }],
+    miss: "Look at the fact about 1905.",
+    explain: "A miracle is something amazing that seems impossible. Calling 1905 a “year of miracles” shows how unbelievable it was to make so many discoveries in twelve months."
+  },
+  {
+    skill: "Informal language",
+    prompt: "Find <em>one</em> informal phrase showing Einstein became famous.",
+    target: ["a star", "wowed the world"],
+    decoys: [{ phrase: "groundbreaking papers", why: "“Groundbreaking” shows the work was important, but it isn’t about Einstein becoming famous. Look for chatty, exciting words." }],
+    miss: "Look at the facts about E=mc² and his theory of relativity.",
+    explain: "Words like “a star” and “wowed” are chatty, everyday language. They make a scientist sound as exciting as a celebrity, which suits young readers."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Structure",
+    q: "Why is the article organised as ten numbered facts?",
+    opts: [
+      { t: "It breaks a whole life into short, easy-to-find chunks", ok: true, why: "Right. Numbered facts let readers read one idea at a time or jump to the part they want." },
+      { t: "The facts are carefully ranked from the least important to the most important", why: "The facts mostly follow the order of his life, not a ranking." },
+      { t: "Einstein himself wrote these ten facts about his life before he died", why: "The article is written by National Geographic Kids about Einstein." },
+      { t: "It is a quiz that readers have to answer", why: "The facts give information; they don’t ask questions." }
+    ]
+  },
+  {
+    skill: "Purpose",
+    q: "What is the main purpose of the article?",
+    opts: [
+      { t: "To inform young readers about Einstein’s life and achievements", ok: true, why: "Right. It gives facts about his childhood, school, discoveries and prizes in an engaging way." },
+      { t: "To persuade readers that they should all become physicists when they grow up", why: "It celebrates Einstein but doesn’t tell readers what career to choose." },
+      { t: "To criticise Einstein for leaving school early", why: "The tone is admiring throughout, not critical." },
+      { t: "To explain the whole theory of relativity in full scientific detail", why: "Relativity is mentioned briefly. The focus is his life." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does the article mention the compass Einstein’s father gave him?",
+    opts: [
+      { t: "It shows a childhood experience sparked lifelong curiosity", ok: true, why: "Right. Wondering how the needle moved led him to study magnetism and, later, physics." },
+      { t: "It shows he wanted to become a sailor or an explorer when he grew up", why: "The compass made him curious about science, not travel." },
+      { t: "It explains that he often got lost as a child", why: "Nothing suggests he got lost. The compass fascinated him." },
+      { t: "It shows his family was very rich and could afford expensive gifts", why: "A compass is not evidence of wealth. The point is curiosity." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "What does Einstein leaving school at 15 suggest?",
+    opts: [
+      { t: "Being brilliant doesn’t mean enjoying every kind of school", ok: true, why: "Right. He disliked strict discipline, yet he still excelled at maths and physics." },
+      { t: "He was lazy and never really wanted to learn anything at school", why: "He wrote a scholarly paper at 16. He loved learning, just not strict rules." },
+      { t: "He failed every single subject he studied at his grammar school", why: "He excelled at maths, physics and philosophy." },
+      { t: "He became a teacher when he was 15", why: "He trained later; at 15 he left grammar school." }
+    ]
+  },
+  {
+    skill: "Tone",
+    q: "What effect do informal phrases like “wowed the world” have?",
+    opts: [
+      { t: "They create a friendly, exciting tone that suits young readers", ok: true, why: "Right. Chatty words make science feel thrilling and easy to connect with." },
+      { t: "They make the whole article sound formal, serious and academic", why: "“Wowed” is informal, the opposite of academic." },
+      { t: "They show the writer is being sarcastic and making fun of Einstein", why: "The writer clearly admires him. There is no sarcasm." },
+      { t: "They show the writer is angry", why: "Nothing about “wowed” suggests anger." }
+    ]
+  },
+  {
+    skill: "Finding information",
+    q: "Why did Einstein never return to Germany?",
+    opts: [
+      { t: "He didn’t feel safe there because of events leading to World War 2", ok: true, why: "Right. The article explains he moved to the USA in 1933 and felt unsafe in Germany." },
+      { t: "He preferred the warmer weather and the way of life in the United States", why: "The article gives safety as the reason, not weather." },
+      { t: "He had been expelled from his grammar school in Germany as a teenager", why: "He left school himself, and that isn’t why he stayed away." },
+      { t: "He did not speak German", why: "He was born in Germany. The reason was safety." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "originally failed the entrance exam",
+    opts: [
+      { t: "Setbacks didn’t stop Einstein succeeding", ok: true, why: "Right. He failed at first but was still accepted and went on to change science." },
+      { t: "Einstein was bad at maths when he was young", why: "He had exceptional maths results. The failure was in other parts of the exam." },
+      { t: "The entrance exam for the school in Zürich was unfair", why: "The quote doesn’t say anything about fairness." },
+      { t: "Einstein never went to university", why: "He was accepted in 1896 and later earned a PhD." }
+    ]
+  },
+  {
+    quote: "published four groundbreaking papers",
+    opts: [
+      { t: "1905 was an incredibly productive year for him", ok: true, why: "Right. Four major discoveries in one year is why it’s called his “year of miracles”." },
+      { t: "Einstein wrote several children’s books during 1905", why: "Scientific papers are research, not children’s books." },
+      { t: "Nobody paid attention to his papers", why: "“Groundbreaking” and becoming famous at 26 show they had huge impact." },
+      { t: "Einstein only ever wrote one paper in his whole life", why: "The quote mentions four papers in one year alone." }
+    ]
+  },
+  {
+    quote: "excelled at maths, physics, and philosophy",
+    opts: [
+      { t: "His strengths were subjects involving logic and big ideas", ok: true, why: "Right. Maths, physics and philosophy all involve deep thinking and reasoning." },
+      { t: "Einstein was excellent at every single school subject he studied", why: "The article also says he struggled with languages." },
+      { t: "Einstein worked as a philosophy teacher", why: "The quote is about his school strengths, not a job." },
+      { t: "Einstein hated maths at school", why: "“Excelled” means he was very good at it." }
+    ]
+  },
+  {
+    quote: "a star",
+    opts: [
+      { t: "He became famous young because of his work", ok: true, why: "Right. His 1905 discoveries made him famous at just 26." },
+      { t: "Einstein became a famous film star in Hollywood", why: "“A star” means famous, not an actor." },
+      { t: "Einstein studied stars through a telescope", why: "In this context, “star” means a famous person." },
+      { t: "Einstein only became famous many years after he died", why: "He became a star at 26, decades before his death." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The writer presents Einstein as special from the start.",
+    quote: "extraordinary physicist",
+    opts: [
+      { t: "“Extraordinary” means far beyond ordinary. In the introduction, it tells readers at once that Einstein was no ordinary scientist.", ok: true, why: "Strong. It explains the word and why its position matters." },
+      { t: "Albert Einstein was a physicist, which is a type of scientist who studies how things like energy, light, gravity, space and time work in the universe.", why: "A definition of “physicist”, not an explanation of the claim." },
+      { t: "The writer uses an adjective in the introduction of the article to describe the person the article is about.", why: "Which adjective, and what does it show?" },
+      { t: "This proves Einstein was the cleverest person who has ever lived on Earth and that no other scientist in history was as intelligent as he was.", why: "Overclaiming. “Extraordinary” is admiring, not a ranking of everyone." }
+    ]
+  },
+  {
+    claim: "Einstein’s interest in physics was a passion, not just a talent.",
+    quote: "fell in love with physics",
+    opts: [
+      { t: "Einstein started to study physics when he was young, after his father gave him a compass as a present and he wondered how the needle moved.", why: "Retelling. How do the words show passion?" },
+      { t: "This shows Einstein didn’t have any time for his friends or family when he was a boy, because the only thing he cared about was physics.", why: "Overclaiming. The phrase shows enthusiasm, nothing about friends." },
+      { t: "Falling in love suggests excitement and devotion. Physics was something he adored, not just a subject he was good at.", ok: true, why: "Strong. It explains the metaphor and links it to passion." },
+      { t: "The writer uses a metaphor in this sentence.", why: "Correct label, but what does it show?" }
+    ]
+  },
+  {
+    claim: "The article makes Einstein relatable to young readers.",
+    quote: "originally failed the entrance exam",
+    opts: [
+      { t: "Readers expect a genius never to fail. Showing he failed an exam makes him human and encourages readers who struggle.", ok: true, why: "Strong. It explains the surprise and the effect on readers." },
+      { t: "Einstein had to take an entrance exam to get into the Swiss Federal Polytechnic School in Zürich, and he did not pass it the first time he tried.", why: "Retelling. Why does this make him relatable?" },
+      { t: "This shows that exams are not really important and that students don’t actually need to pass any of their tests to be successful in life.", why: "Overclaiming. One example doesn’t prove exams don’t matter." },
+      { t: "I have failed tests before, so I like knowing that Einstein did too.", why: "A personal response. Explain how the article creates this effect." }
+    ]
+  },
+  {
+    claim: "1905 was an astonishing year for Einstein.",
+    quote: "year of miracles",
+    opts: [
+      { t: "In 1905, Einstein got his PhD in physics and published some important scientific papers, including the one about his famous formula, E=mc².", why: "Retelling. What does the nickname add?" },
+      { t: "A miracle seems amazing and impossible. Calling a whole year “miracles” shows how unusual it was to discover so much at once.", ok: true, why: "Strong. It explains the word and applies it to the claim." },
+      { t: "This shows that Einstein’s discoveries were a kind of magic and could not be explained by science, which is why people called them miracles.", why: "A literal misreading. “Miracles” is used for amazement." },
+      { t: "The writer uses a nickname for the year.", why: "An observation, not an explanation." }
+    ]
+  },
+  {
+    claim: "Informal language makes science exciting for young readers.",
+    quote: "wowed the world",
+    opts: [
+      { t: "Einstein’s theory of relativity became famous all over the world, and lots of people in different countries learned about it and talked about it.", why: "Retelling. How does the language create excitement?" },
+      { t: "The writer uses alliteration.", why: "A technique named with no effect." },
+      { t: "This proves that every single person in the world understood Einstein’s theory of relativity as soon as he published it in 1915.", why: "Overclaiming. Being wowed isn’t the same as understanding." },
+      { t: "“Wowed” is a chatty, exciting word, and the alliteration with “world” makes it catchy, so a science achievement sounds thrilling.", ok: true, why: "Strong. It explains word choice and sound, and links both to excitement." }
+    ]
+  }
+];
+TEXTS.push({ id: "einstein-facts", type: "Non-fiction", mode: "Informative", form: "Fact file", level: "6ème",
+  hook: "A compass, a failed exam and a year of miracles: the life of a genius.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
 {
 const TEXT = {
   title: "The Great Escape",
@@ -4222,217 +4632,485 @@ TEXTS.push({ id: "great-escape", type: "Non-fiction", mode: "Informative", form:
   TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
 }
 
-/* ---------- TEXT 19 · 10 Facts about Albert Einstein (National Geographic Kids) · 6ème ----------
-   Source: https://www.natgeokids.com/uk/discover/science/general-science/albert-einstein-facts/ */
+
+
+/* ---------- TEXT 20 · The Selfish Giant · CM2 ---------- */
 {
 const TEXT = {
-  title: "10 Facts about Albert Einstein",
-  intro: "National Geographic Kids (UK), “10 facts about Albert Einstein”. A fact file about the life of the famous physicist.",
-  raw: `
-PASTE THE TEXT HERE
-`
+  "title": "The Selfish Giant",
+  "intro": "Oscar Wilde, from The Happy Prince and Other Tales (1888). A public-domain literary fairy tale about selfishness, kindness and change.",
+  "paras": [
+    "EVERY afternoon, as they were coming from school, the children used to go and play in the Giant’s garden.",
+    "It was a large lovely garden, with soft green grass. Here and there over the grass stood beautiful flowers like stars, and there were twelve peach-trees that in the spring-time broke out into delicate blossoms of pink and pearl, and in the autumn bore rich fruit. The birds sat on the trees and sang so sweetly that the children used to stop their games in order to listen to them. “How happy we are here!” they cried to each other.",
+    "One day the Giant came back. He had been to visit his friend the Cornish ogre, and had stayed with him for seven years. After the seven years were over he had said all that he had to say, for his conversation was limited, and he determined to return to his own castle. When he arrived he saw the children playing in the garden.",
+    "“What are you doing here?” he cried in a very gruff voice, and the children ran away.",
+    "“My own garden is my own garden,” said the Giant; “any one can understand that, and I will allow nobody to play in it but myself.” So he built a high wall all round it, and put up a notice-board.",
+    "TRESPASSERS",
+    "WILL BE",
+    "PROSECUTED",
+    "He was a very selfish Giant.",
+    "The poor children had now nowhere to play. They tried to play on the road, but the road was very dusty and full of hard stones, and they did not like it. They used to wander round the high wall when their lessons were over, and talk about the beautiful garden inside. “How happy we were there,” they said to each other.",
+    "Then the Spring came, and all over the country there were little blossoms and little birds. Only in the garden of the Selfish Giant it was still winter. The birds did not care to sing in it as there were no children, and the trees forgot to blossom. Once a beautiful flower put its head out from the grass, but when it saw the notice-board it was so sorry for the children that it slipped back into the ground again, and went off to sleep. The only people who were pleased were the Snow and the Frost. “Spring has forgotten this garden,” they cried, “so we will live here all the year round.” The Snow covered up the grass with her great white cloak, and the Frost painted all the trees silver. Then they invited the North Wind to stay with them, and he came. He was wrapped in furs, and he roared all day about the garden, and blew the chimney-pots down. “This is a delightful spot,” he said, “we must ask the Hail on a visit.” So the Hail came. Every day for three hours he rattled on the roof of the castle till he broke most of the slates, and then he ran round and round the garden as fast as he could go. He was dressed in grey, and his breath was like ice.",
+    "“I cannot understand why the Spring is so late in coming,” said the Selfish Giant, as he sat at the window and looked out at his cold white garden; “I hope there will be a change in the weather.”",
+    "But the Spring never came, nor the Summer. The Autumn gave golden fruit to every garden, but to the Giant’s garden she gave none. “He is too selfish,” she said. So it was always Winter there, and the North Wind, and the Hail, and the Frost, and the Snow danced about through the trees.",
+    "One morning the Giant was lying awake in bed when he heard some lovely music. It sounded so sweet to his ears that he thought it must be the King’s musicians passing by. It was really only a little linnet singing outside his window, but it was so long since he had heard a bird sing in his garden that it seemed to him to be the most beautiful music in the world. Then the Hail stopped dancing over his head, and the North Wind ceased roaring, and a delicious perfume came to him through the open casement. “I believe the Spring has come at last,” said the Giant; and he jumped out of bed and looked out.",
+    "What did he see?",
+    "He saw a most wonderful sight. Through a little hole in the wall the children had crept in, and they were sitting in the branches of the trees. In every tree that he could see there was a little child. And the trees were so glad to have the children back again that they had covered themselves with blossoms, and were waving their arms gently above the children’s heads. The birds were flying about and twittering with delight, and the flowers were looking up through the green grass and laughing. It was a lovely scene, only in one corner it was still winter. It was the farthest corner of the garden, and in it was standing a little boy. He was so small that he could not reach up to the branches of the tree, and he was wandering all round it, crying bitterly. The poor tree was still quite covered with frost and snow, and the North Wind was blowing and roaring above it. “Climb up! little boy,” said the Tree, and it bent its branches down as low as it could; but the boy was too tiny.",
+    "And the Giant’s heart melted as he looked out. “How selfish I have been!” he said; “now I know why the Spring would not come here. I will put that poor little boy on the top of the tree, and then I will knock down the wall, and my garden shall be the children’s playground for ever and ever.” He was really very sorry for what he had done.",
+    "So he crept downstairs and opened the front door quite softly, and went out into the garden. But when the children saw him they were so frightened that they all ran away, and the garden became winter again. Only the little boy did not run, for his eyes were so full of tears that he did not see the Giant coming. And the Giant stole up behind him and took him gently in his hand, and put him up into the tree. And the tree broke at once into blossom, and the birds came and sang on it, and the little boy stretched out his two arms and flung them round the Giant’s neck, and kissed him. And the other children, when they saw that the Giant was not wicked any longer, came running back, and with them came the Spring. “It is your garden now, little children,” said the Giant, and he took a great axe and knocked down the wall. And when the people were going to market at twelve o’clock they found the Giant playing with the children in the most beautiful garden they had ever seen.",
+    "All day long they played, and in the evening they came to the Giant to bid him good-bye.",
+    "“But where is your little companion?” he said: “the boy I put into the tree.” The Giant loved him the best because he had kissed him.",
+    "“We don’t know,” answered the children; “he has gone away.”",
+    "“You must tell him to be sure and come here to-morrow,” said the Giant. But the children said that they did not know where he lived, and had never seen him before; and the Giant felt very sad.",
+    "Every afternoon, when school was over, the children came and played with the Giant. But the little boy whom the Giant loved was never seen again. The Giant was very kind to all the children, yet he longed for his first little friend, and often spoke of him. “How I would like to see him!” he used to say.",
+    "Years went over, and the Giant grew very old and feeble. He could not play about any more, so he sat in a huge armchair, and watched the children at their games, and admired his garden. “I have many beautiful flowers,” he said; “but the children are the most beautiful flowers of all.”",
+    "One winter morning he looked out of his window as he was dressing. He did not hate the Winter now, for he knew that it was merely the Spring asleep, and that the flowers were resting.",
+    "Suddenly he rubbed his eyes in wonder, and looked and looked. It certainly was a marvellous sight. In the farthest corner of the garden was a tree quite covered with lovely white blossoms. Its branches were all golden, and silver fruit hung down from them, and underneath it stood the little boy he had loved.",
+    "Downstairs ran the Giant in great joy, and out into the garden. He hastened across the grass, and came near to the child. And when he came quite close his face grew red with anger, and he said, “Who hath dared to wound thee?” For on the palms of the child’s hands were the prints of two nails, and the prints of two nails were on the little feet.",
+    "“Who hath dared to wound thee?” cried the Giant; “tell me, that I may take my big sword and slay him.”",
+    "“Nay!” answered the child; “but these are the wounds of Love.”",
+    "“Who art thou?” said the Giant, and a strange awe fell on him, and he knelt before the little child.",
+    "And the child smiled on the Giant, and said to him, “You let me play once in your garden, to-day you shall come with me to my garden, which is Paradise.”",
+    "And when the children ran in that afternoon, they found the Giant lying dead under the tree, all covered with white blossoms."
+  ]
 };
 
 const ANNOTATE = [
   {
-    skill: "Word choice",
-    prompt: "Find the adjective in the introduction showing the writer <em>admires</em> Einstein.",
-    target: ["extraordinary physicist"],
-    decoys: [{ phrase: "Albert Einstein was born in Germany", why: "That is a plain fact. Look for a describing word that shows an opinion." }],
-    miss: "Look at the introduction before fact number 1.",
-    explain: "“Extraordinary” means far beyond ordinary. It tells readers from the very first line that Einstein was special, before any facts prove it."
+    skill: "Simile",
+    prompt: "Find the simile that makes the garden’s flowers seem <em>magical</em>.",
+    target: ["beautiful flowers like stars"],
+    decoys: [{ phrase: "delicate blossoms of pink and pearl", why: "A lovely description, but there is no comparison with “like” or “as”. Look a little earlier in the paragraph." }],
+    miss: "Look in the second paragraph, where the garden is first described.",
+    explain: "Stars shine and sparkle in the dark. Comparing flowers to stars makes the garden feel bright, special and almost magical, which makes losing it later feel sadder."
+  },
+  {
+    skill: "Personification",
+    prompt: "Find where winter weather is described like a <em>person decorating</em> the garden.",
+    target: ["the Frost painted all the trees silver", "The Snow covered up the grass with her great white cloak"],
+    decoys: [{ phrase: "Only in the garden of the Selfish Giant it was still winter", why: "This tells us it is winter, but the weather isn’t doing anything human. Look for Snow or Frost acting like people." }],
+    miss: "Look for the Snow and the Frost in the long paragraph about Spring.",
+    explain: "Snow wears a “cloak” and Frost “paints” the trees, as if they are people moving in. Wilde turns the weather into characters who are happy to take over the empty garden."
+  },
+  {
+    skill: "Narrator’s judgement",
+    prompt: "Find the short sentence where the narrator <em>judges</em> the Giant.",
+    target: ["He was a very selfish Giant."],
+    decoys: [{ phrase: "My own garden is my own garden", why: "Those are the Giant’s own words. Look for the narrator’s short comment about him." }],
+    miss: "Look just after the notice-board.",
+    explain: "After the long description of the wall and sign, this sentence is short and direct. The narrator tells us exactly what to think of the Giant, the way fairy tales often do."
   },
   {
     skill: "Metaphor",
-    prompt: "Find the phrase showing how much <em>young Einstein loved science</em>.",
-    target: ["fell in love with physics"],
-    decoys: [{ phrase: "struggled with other subjects like languages", why: "That shows what he found hard, not what he loved." }],
-    miss: "Look at the fact about the compass.",
-    explain: "People fall in love with people, not subjects. The metaphor shows physics was a passion that excited him, not just something he was good at."
+    prompt: "Find the metaphor showing the Giant’s <em>feelings changing</em>.",
+    target: ["the Giant’s heart melted"],
+    decoys: [{ phrase: "How selfish I have been!", why: "That is what he says once he has changed. Look for the image that shows the change happening, just before it." }],
+    miss: "Look at the moment the Giant sees the little boy crying.",
+    explain: "A heart can’t really melt. The image links his feelings to the frozen garden: as his cold selfishness thaws, the winter in his garden can end too."
   },
   {
-    skill: "Detail",
-    prompt: "Find the detail showing even Einstein had <em>setbacks</em>.",
-    target: ["originally failed the entrance exam"],
-    decoys: [{ phrase: "excelled at maths, physics, and philosophy", why: "That shows his strengths. Look for something that went wrong." }],
-    miss: "Look at the fact about going to university in Zürich.",
-    explain: "Readers might expect a genius never to fail. Including this setback makes Einstein more human and shows success can come after failure."
-  },
-  {
-    skill: "Nickname",
-    prompt: "Find the nickname given to <em>one amazing year</em> in Einstein’s life.",
-    target: ["year of miracles"],
-    decoys: [{ phrase: "published four groundbreaking papers", why: "That explains what happened that year, not what the year was called." }],
-    miss: "Look at the fact about 1905.",
-    explain: "A miracle is something amazing that seems impossible. Calling 1905 a “year of miracles” shows how unbelievable it was to make so many discoveries in twelve months."
-  },
-  {
-    skill: "Informal language",
-    prompt: "Find <em>one</em> informal phrase showing Einstein became famous.",
-    target: ["a star", "wowed the world"],
-    decoys: [{ phrase: "groundbreaking papers", why: "“Groundbreaking” shows the work was important, but it isn’t about Einstein becoming famous. Look for chatty, exciting words." }],
-    miss: "Look at the facts about E=mc² and his theory of relativity.",
-    explain: "Words like “a star” and “wowed” are chatty, everyday language. They make a scientist sound as exciting as a celebrity, which suits young readers."
+    skill: "Metaphor",
+    prompt: "Find the metaphor showing what the old Giant <em>treasures most</em>.",
+    target: ["the children are the most beautiful flowers of all"],
+    decoys: [{ phrase: "I have many beautiful flowers", why: "Those are real flowers. Look at the rest of what he says." }],
+    miss: "Look at what the Giant says when he is old and sits in his armchair.",
+    explain: "The Giant once cared only about his garden. Now he calls the children his most beautiful flowers, showing that people matter more to him than anything he owns."
   }
 ];
 
 const QUESTIONS = [
   {
-    skill: "Structure",
-    q: "Why is the article organised as ten numbered facts?",
+    skill: "Cause and effect",
+    q: "Why does it stay winter in the Giant’s garden?",
     opts: [
-      { t: "It breaks a whole life into short, easy-to-find chunks", ok: true, why: "Right. Numbered facts let readers read one idea at a time or jump to the part they want." },
-      { t: "The facts are ranked from least to most important", why: "The facts mostly follow the order of his life, not a ranking." },
-      { t: "Einstein himself wrote the ten facts before he died", why: "The article is written by National Geographic Kids about Einstein." },
-      { t: "It is a quiz that readers have to answer", why: "The facts give information; they don’t ask questions." }
+      { t: "Spring won’t come where the children are shut out", ok: true, why: "Right. The birds won’t sing “as there were no children”, and Autumn says “He is too selfish”. The weather matches the Giant’s selfishness." },
+      { t: "The garden faces north, so it never gets any warm sunshine at all", why: "Nothing in the story mentions the direction of the garden. The reason is the Giant’s selfishness." },
+      { t: "The Snow and the Frost locked Spring outside the high wall", why: "Snow and Frost are pleased Spring has forgotten the garden, but they didn’t lock it out. Spring stays away because of the Giant." },
+      { t: "The Giant ordered winter to stay so no children would come back", why: "The Giant doesn’t understand why Spring is late: “I hope there will be a change in the weather.” He didn’t choose winter." }
     ]
   },
   {
-    skill: "Purpose",
-    q: "What is the main purpose of the article?",
+    skill: "Text type",
+    q: "What kind of story is The Selfish Giant?",
     opts: [
-      { t: "To inform young readers about Einstein’s life and achievements", ok: true, why: "Right. It gives facts about his childhood, school, discoveries and prizes in an engaging way." },
-      { t: "To persuade readers that they must all become physicists", why: "It celebrates Einstein but doesn’t tell readers what career to choose." },
-      { t: "To criticise Einstein for leaving school early", why: "The tone is admiring throughout, not critical." },
-      { t: "To explain the theory of relativity in full detail", why: "Relativity is mentioned briefly. The focus is his life." }
-    ]
-  },
-  {
-    skill: "Inference",
-    q: "Why does the article mention the compass Einstein’s father gave him?",
-    opts: [
-      { t: "It shows a childhood experience sparked lifelong curiosity", ok: true, why: "Right. Wondering how the needle moved led him to study magnetism and, later, physics." },
-      { t: "It shows he wanted to become a sailor or explorer", why: "The compass made him curious about science, not travel." },
-      { t: "It explains that he often got lost as a child", why: "Nothing suggests he got lost. The compass fascinated him." },
-      { t: "It shows his family was very rich", why: "A compass is not evidence of wealth. The point is curiosity." }
+      { t: "A fairy tale with a message", ok: true, why: "Right. It has a giant, talking trees and weather, and it teaches a lesson about selfishness and kindness." },
+      { t: "An information report explaining how the seasons change", why: "The seasons are characters in a story, not facts to learn. There are no headings or explanations." },
+      { t: "A true story about a real giant who lived in England", why: "Giants, talking trees and a North Wind who roars are not real. This is an invented tale." },
+      { t: "A poem about children playing in a garden", why: "It is told in paragraphs, with no verses or rhymes." }
     ]
   },
   {
     skill: "Inference",
-    q: "What does Einstein leaving school at 15 suggest?",
+    q: "When the kind Giant first comes outside, why do the children run away?",
     opts: [
-      { t: "Being brilliant doesn’t mean enjoying every kind of school", ok: true, why: "Right. He disliked strict discipline, yet he still excelled at maths and physics." },
-      { t: "He was lazy and never wanted to learn anything", why: "He wrote a scholarly paper at 16. He loved learning, just not strict rules." },
-      { t: "He failed every single subject at school", why: "He excelled at maths, physics and philosophy." },
-      { t: "He became a teacher when he was 15", why: "He trained later; at 15 he left grammar school." }
+      { t: "They still think he is cruel and frightening", ok: true, why: "Right. The last time they saw him he shouted “in a very gruff voice”. They don’t know he has changed yet." },
+      { t: "They are starting a chasing game and want him to follow them", why: "They are “so frightened”. This is fear, not a game." },
+      { t: "It is time for them to go home from school and have their tea", why: "They come back almost straight away, so they weren’t leaving for tea." },
+      { t: "The little boy in the tree told them all to run", why: "The little boy doesn’t even see the Giant coming, because his eyes are full of tears." }
     ]
   },
   {
-    skill: "Tone",
-    q: "What effect do informal phrases like “wowed the world” have?",
+    skill: "Personification",
+    q: "The Autumn says, “He is too selfish.” What is the effect of giving Autumn a voice?",
     opts: [
-      { t: "They create a friendly, exciting tone that suits young readers", ok: true, why: "Right. Chatty words make science feel thrilling and easy to connect with." },
-      { t: "They make the article formal and academic", why: "“Wowed” is informal, the opposite of academic." },
-      { t: "They show the writer is being sarcastic about Einstein", why: "The writer clearly admires him. There is no sarcasm." },
-      { t: "They show the writer is angry", why: "Nothing about “wowed” suggests anger." }
+      { t: "Nature itself judges the Giant", ok: true, why: "Right. Even the seasons disapprove of him. It shows how wrong his selfishness is." },
+      { t: "It shows Autumn is a real woman who lives next door to the Giant", why: "Autumn is a season given human words, not a real neighbour." },
+      { t: "It shows Autumn wants to keep all of the golden fruit for herself", why: "Autumn gives fruit to every other garden, so she isn’t being greedy." },
+      { t: "It shows Autumn is angry with the children for leaving", why: "Autumn’s comment is about the Giant, not the children." }
     ]
   },
   {
-    skill: "Finding information",
-    q: "Why did Einstein never return to Germany?",
+    skill: "Vocabulary",
+    q: "“The Giant grew very old and feeble.” What does “feeble” mean?",
     opts: [
-      { t: "He didn’t feel safe there because of events leading to World War 2", ok: true, why: "Right. The article explains he moved to the USA in 1933 and felt unsafe in Germany." },
-      { t: "He preferred the weather in the United States", why: "The article gives safety as the reason, not weather." },
-      { t: "He had been expelled from school in Germany", why: "He left school himself, and that isn’t why he stayed away." },
-      { t: "He did not speak German", why: "He was born in Germany. The reason was safety." }
+      { t: "Weak", ok: true, why: "Right. He “could not play about any more”, so he sits in an armchair. Feeble means weak." },
+      { t: "Angry and bad-tempered", why: "He is kind and happy watching the children. Nothing suggests anger." },
+      { t: "Very tall and strong", why: "He can no longer play, which shows he is weak, not strong." },
+      { t: "Cheerful", why: "He may be cheerful, but the clue “could not play about any more” shows the word means weak." }
+    ]
+  },
+  {
+    skill: "Ending",
+    q: "At the end, the Giant is found “all covered with white blossoms”. What does this suggest?",
+    opts: [
+      { t: "His death is peaceful, like a reward", ok: true, why: "Right. Blossoms mean new life and beauty. After being told he will go to “Paradise”, the flowers make his death gentle, not frightening." },
+      { t: "It has snowed in the night and the snow has covered him", why: "The story says blossoms, not snow. It was a tree covered with “lovely white blossoms”." },
+      { t: "The children covered him with flowers as a joke while he slept", why: "The children find him when they run in. They didn’t put the blossoms there." },
+      { t: "The garden is dying and all the flowers are falling off", why: "The tree is covered in beautiful blossoms. The garden is full of life." }
     ]
   }
 ];
 
 const EVIDENCE = [
   {
-    quote: "originally failed the entrance exam",
+    quote: "the children used to stop their games in order to listen to them",
     opts: [
-      { t: "Setbacks didn’t stop Einstein from succeeding", ok: true, why: "Right. He failed at first but was still accepted and went on to change science." },
-      { t: "Einstein was bad at maths", why: "He had exceptional maths results. The failure was in other parts of the exam." },
-      { t: "The entrance exam was unfair", why: "The quote doesn’t say anything about fairness." },
-      { t: "Einstein never went to university", why: "He was accepted in 1896 and later earned a PhD." }
+      { t: "The garden was a joyful place", ok: true, why: "Right. The birds sang so sweetly that the children stopped playing just to listen. Everything about the garden was delightful." },
+      { t: "The children were bored of playing their games every afternoon", why: "They stop because the birdsong is beautiful, not because they are bored." },
+      { t: "The birds were so noisy the children couldn’t hear each other", why: "The birds sang “so sweetly”. It was lovely, not too loud." },
+      { t: "The children did not enjoy playing in the garden", why: "They cry “How happy we are here!” They loved it." }
     ]
   },
   {
-    quote: "published four groundbreaking papers",
+    quote: "He was dressed in grey, and his breath was like ice.",
     opts: [
-      { t: "1905 was an extraordinarily productive year for him", ok: true, why: "Right. Four major discoveries in one year is why it’s called his “year of miracles”." },
-      { t: "Einstein wrote children’s books in 1905", why: "Scientific papers are research, not children’s books." },
-      { t: "Nobody paid attention to his papers", why: "“Groundbreaking” and becoming famous at 26 show they had huge impact." },
-      { t: "Einstein only wrote one paper in his whole life", why: "The quote mentions four papers in one year alone." }
+      { t: "The winter visitors make the garden harsh and cold", ok: true, why: "Right. The Hail is grey and icy. Wilde makes the weather feel like an unwelcome, cold guest." },
+      { t: "The Hail is a kind and friendly guest who helps the Giant", why: "The Hail breaks the slates on the roof. He isn’t helpful or friendly." },
+      { t: "The Hail is the Giant’s brother, visiting from far away", why: "The Hail is the weather, invited by the North Wind, not the Giant’s family." },
+      { t: "Spring has finally arrived in the garden", why: "Grey clothes and icy breath show winter, not spring." }
     ]
   },
   {
-    quote: "excelled at maths, physics, and philosophy",
+    quote: "he took a great axe and knocked down the wall",
     opts: [
-      { t: "Einstein was strongest in subjects involving logic and big ideas", ok: true, why: "Right. Maths, physics and philosophy all involve deep thinking and reasoning." },
-      { t: "Einstein was excellent at every school subject", why: "The article also says he struggled with languages." },
-      { t: "Einstein worked as a philosophy teacher", why: "The quote is about his school strengths, not a job." },
-      { t: "Einstein hated maths at school", why: "“Excelled” means he was very good at it." }
+      { t: "The Giant’s change is real, because he acts on it", ok: true, why: "Right. He doesn’t just say sorry. He destroys the wall that kept the children out." },
+      { t: "The Giant is still angry and wants to destroy things", why: "He says “It is your garden now, little children.” This is kindness, not anger." },
+      { t: "The wall was old and falling down, so it wasn’t safe any more", why: "Nothing says the wall was old. He knocks it down to share his garden." },
+      { t: "The Giant is about to build a bigger and stronger wall", why: "He gives the garden to the children as their “playground for ever and ever”." }
     ]
   },
   {
-    quote: "a star",
+    quote: "He did not hate the Winter now, for he knew that it was merely the Spring asleep",
     opts: [
-      { t: "Einstein became famous at a young age because of his work", ok: true, why: "Right. His 1905 discoveries made him famous at just 26." },
-      { t: "Einstein became a film star in Hollywood", why: "“A star” means famous, not an actor." },
-      { t: "Einstein studied stars through a telescope", why: "In this context, “star” means a famous person." },
-      { t: "Einstein only became famous after he died", why: "He became a star at 26, decades before his death." }
+      { t: "The Giant has grown patient and peaceful", ok: true, why: "Right. Once he hated winter; now he knows it will pass. He has become calm and wise." },
+      { t: "Winter never comes to the Giant’s garden again", why: "It is “one winter morning”, so winter still comes. He just doesn’t hate it." },
+      { t: "The Giant now hates Spring more than he hates Winter", why: "He sees Winter as Spring resting. He doesn’t hate either season." },
+      { t: "The Giant is asleep and dreaming about Spring", why: "He is awake, “dressing” by the window." }
     ]
   }
 ];
 
 const EXPLAIN = [
   {
-    claim: "The writer presents Einstein as special from the start.",
-    quote: "extraordinary physicist",
+    claim: "The garden reflects the Giant’s selfishness.",
+    quote: "Only in the garden of the Selfish Giant it was still winter",
     opts: [
-      { t: "“Extraordinary” means far beyond ordinary. Placing it in the introduction tells readers at once that Einstein was no ordinary scientist.", ok: true, why: "Strong. It explains the word and why its position matters." },
-      { t: "Albert Einstein was a physicist, which is a type of scientist who studies how things like energy, space and time work.", why: "A definition of “physicist”, not an explanation of the claim." },
-      { t: "The writer uses an adjective in the introduction of the article to describe the person the article is about.", why: "Which adjective, and what does it show?" },
-      { t: "This proves Einstein was the cleverest person who has ever lived and that no other scientist was as intelligent.", why: "Overclaiming. “Extraordinary” is admiring, not a ranking of everyone." }
+      { t: "“Only” sets his garden apart from the whole country. Winter stays where the children are shut out, matching his cold heart.", ok: true, why: "Strong. It explains “Only” and links the weather to the Giant’s character." },
+      { t: "Spring arrived in all of the other gardens across the country, but the Giant’s garden stayed covered in snow and frost for the whole year.", why: "Retelling. How does this show selfishness?" },
+      { t: "The writer describes the weather in the Giant’s garden in this sentence to tell the reader which season it is at this point in the story.", why: "Too general. What does the winter represent?" },
+      { t: "This shows the Giant’s garden is high up on a mountain, where it is always much colder than the other gardens in the rest of the country.", why: "A misreading. The winter is caused by selfishness, not height." }
     ]
   },
   {
-    claim: "Einstein’s interest in physics was a passion, not just a talent.",
-    quote: "fell in love with physics",
+    claim: "Nature is on the children’s side.",
+    quote: "it was so sorry for the children that it slipped back into the ground",
     opts: [
-      { t: "Einstein started to study physics when he was young, after his father gave him a compass and he wondered how it worked.", why: "Retelling. How do the words show passion?" },
-      { t: "This shows Einstein didn’t have time for friends or family because he only cared about physics.", why: "Overclaiming. The phrase shows enthusiasm, nothing about friends." },
-      { t: "Falling in love suggests excitement and devotion. The metaphor shows physics was something he adored, not just a subject he was good at.", ok: true, why: "Strong. It explains the metaphor and links it to passion." },
-      { t: "The writer uses a metaphor in this sentence.", why: "Correct label, but what does it show?" }
+      { t: "A flower that pokes out of the grass sees the notice-board on the wall, and then it goes back down into the ground and falls asleep again.", why: "Retelling. What does the flower’s reaction show?" },
+      { t: "A flower feeling “sorry” is given human feelings. By hiding again, it refuses to bloom anywhere the children aren’t allowed.", ok: true, why: "Strong. It explains the personification and what the flower’s choice shows." },
+      { t: "This proves that flowers can read notice-boards and understand what the words on them mean, just like people can.", why: "A literal misreading of personification." },
+      { t: "I think the flower is very kind, and I would feel sorry for the children too if they couldn’t play in their favourite garden.", why: "A personal response. Explain Wilde’s words." }
     ]
   },
   {
-    claim: "The article makes Einstein relatable to young readers.",
-    quote: "originally failed the entrance exam",
+    claim: "The Giant changes completely.",
+    quote: "the Giant’s heart melted",
     opts: [
-      { t: "Readers expect a genius never to fail. Showing he failed an exam makes him human and encourages readers who find tests hard.", ok: true, why: "Strong. It explains the surprise and the effect on readers." },
-      { t: "Einstein had to take an exam to get into a school in Zürich, and he did not pass it the first time he tried.", why: "Retelling. Why does this make him relatable?" },
-      { t: "This shows that exams are not important and that students don’t need to pass them to be successful.", why: "Overclaiming. One example doesn’t prove exams don’t matter." },
-      { t: "I have failed tests before, so I like knowing that Einstein did too.", why: "A personal response. Explain how the article creates this effect." }
+      { t: "The Giant feels very sad when he looks out of the window and sees the little boy crying in the corner of the garden, under the frozen tree.", why: "Retelling. How does the image show change?" },
+      { t: "The writer uses a metaphor about the Giant’s heart in this sentence to describe his emotions at this important moment in the story.", why: "Which emotions, and what does “melted” add?" },
+      { t: "A frozen heart melting links his feelings to the winter garden. As his cold selfishness thaws, Spring can finally return.", ok: true, why: "Strong. It connects the metaphor to the winter setting and to his change." },
+      { t: "This shows the Giant is ill, because his heart has stopped working properly and it is too warm inside his castle.", why: "A literal misreading of a metaphor." }
     ]
   },
   {
-    claim: "1905 was an astonishing year for Einstein.",
-    quote: "year of miracles",
+    claim: "Sharing the garden brings it back to life.",
+    quote: "with them came the Spring",
     opts: [
-      { t: "In 1905, Einstein got his PhD and published some important scientific papers, including one about E=mc².", why: "Retelling. What does the nickname add?" },
-      { t: "A miracle is something amazing that seems impossible. Calling a whole year “miracles” shows how unusual it was to discover so much at once.", ok: true, why: "Strong. It explains the word and applies it to the claim." },
-      { t: "This shows that Einstein’s discoveries were magic and could not be explained by science.", why: "A literal misreading. “Miracles” is used for amazement." },
-      { t: "The writer uses a nickname for the year.", why: "An observation, not an explanation." }
+      { t: "The children come running back into the garden through the hole in the wall, and at the same time the season changes from winter into spring.", why: "Retelling. Why does it matter that Spring comes “with them”?" },
+      { t: "This proves that spring always starts on the exact day that children come back to school after the winter holidays.", why: "Overclaiming, and off the text. This is about the Giant’s garden." },
+      { t: "Spring arrives with the children, not with the calendar. The phrase links the Giant’s kindness directly to new life.", ok: true, why: "Strong. It explains the timing and connects it to the story’s message." },
+      { t: "The writer puts the word “Spring” with a capital letter in this part of the story, which is interesting and makes it stand out for the reader.", why: "An observation. What does it show?" }
     ]
   },
   {
-    claim: "Informal language makes science exciting for young readers.",
-    quote: "wowed the world",
+    claim: "The ending is peaceful rather than tragic.",
+    quote: "all covered with white blossoms",
     opts: [
-      { t: "Einstein’s theory of relativity became famous all over the world and lots of people learned about it.", why: "Retelling. How does the language create excitement?" },
-      { t: "The writer uses alliteration.", why: "A technique named with no effect." },
-      { t: "This proves every person in the world understood Einstein’s theory of relativity.", why: "Overclaiming. Being wowed isn’t the same as understanding." },
-      { t: "“Wowed” is a chatty, exciting word, and the alliteration with “world” makes it catchy. It makes a science achievement sound thrilling.", ok: true, why: "Strong. It explains word choice and sound, and links both to excitement." }
+      { t: "The Giant has died under the tree in the far corner of his garden, and the children find him lying there when they run in to play that afternoon.", why: "Retelling. Why do the blossoms matter?" },
+      { t: "White blossoms suggest purity and new life. Covering the Giant with them makes his death gentle, like a reward for his kindness.", ok: true, why: "Strong. It explains what the blossoms suggest and their effect on the ending." },
+      { t: "This shows the children were upset with the Giant for being old and covered him in flowers so that nobody else could find him.", why: "A misreading. The children find him already covered." },
+      { t: "The story ends with a description of flowers, which makes it sad.", why: "Vague, and it misses that the image is peaceful." }
     ]
   }
 ];
-TEXTS.push({ id: "einstein-facts", type: "Non-fiction", mode: "Informative", form: "Fact file", level: "6ème",
-  hook: "A compass, a failed exam and a year of miracles: the life of a genius.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+TEXTS.push({ id: "selfish-giant", type: "Fiction", mode: "Creative", form: "Literary fairy tale", level: "CM2", hook: "A wall keeps the children out, and traps the Giant’s garden in winter.", TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
+/* ---------- TEXT 21 · The Open Window · 6ème ---------- */
+{
+const TEXT = {
+  "title": "The Open Window",
+  "intro": "Saki (H. H. Munro), first published in 1911 and collected in Beasts and Super-Beasts (1914). A public-domain short story about deception and appearances.",
+  "paras": [
+    "“My aunt will be down presently, Mr. Nuttel,” said a very self-possessed young lady of fifteen; “in the meantime you must try and put up with me.”",
+    "Framton Nuttel endeavoured to say the correct something which should duly flatter the niece of the moment without unduly discounting the aunt that was to come. Privately he doubted more than ever whether these formal visits on a succession of total strangers would do much towards helping the nerve cure which he was supposed to be undergoing.",
+    "“I know how it will be,” his sister had said when he was preparing to migrate to this rural retreat; “you will bury yourself down there and not speak to a living soul, and your nerves will be worse than ever from moping. I shall just give you letters of introduction to all the people I know there. Some of them, as far as I can remember, were quite nice.”",
+    "Framton wondered whether Mrs. Sappleton, the lady to whom he was presenting one of the letters of introduction, came into the nice division.",
+    "“Do you know many of the people round here?” asked the niece, when she judged that they had had sufficient silent communion.",
+    "“Hardly a soul,” said Framton. “My sister was staying here, at the rectory, you know, some four years ago, and she gave me letters of introduction to some of the people here.”",
+    "He made the last statement in a tone of distinct regret.",
+    "“Then you know practically nothing about my aunt?” pursued the self-possessed young lady.",
+    "“Only her name and address,” admitted the caller. He was wondering whether Mrs. Sappleton was in the married or widowed state. An undefinable something about the room seemed to suggest masculine habitation.",
+    "“Her great tragedy happened just three years ago,” said the child; “that would be since your sister’s time.”",
+    "“Her tragedy?” asked Framton; somehow in this restful country spot tragedies seemed out of place.",
+    "“You may wonder why we keep that window wide open on an October afternoon,” said the niece, indicating a large French window that opened on to a lawn.",
+    "“It is quite warm for the time of the year,” said Framton; “but has that window got anything to do with the tragedy?”",
+    "“Out through that window, three years ago to a day, her husband and her two young brothers went off for their day’s shooting. They never came back. In crossing the moor to their favourite snipe-shooting ground they were all three engulfed in a treacherous piece of bog. It had been that dreadful wet summer, you know, and places that were safe in other years gave way suddenly without warning. Their bodies were never recovered. That was the dreadful part of it.” Here the child’s voice lost its self-possessed note and became falteringly human. “Poor aunt always thinks that they will come back some day, they and the little brown spaniel that was lost with them, and walk in at that window just as they used to do. That is why the window is kept open every evening till it is quite dusk. Poor dear aunt, she has often told me how they went out, her husband with his white waterproof coat over his arm, and Ronnie, her youngest brother, singing ‘Bertie, why do you bound?’ as he always did to tease her, because she said it got on her nerves. Do you know, sometimes on still, quiet evenings like this, I almost get a creepy feeling that they will all walk in through that window—”",
+    "She broke off with a little shudder. It was a relief to Framton when the aunt bustled into the room with a whirl of apologies for being late in making her appearance.",
+    "“I hope Vera has been amusing you?” she said.",
+    "“She has been very interesting,” said Framton.",
+    "“I hope you don’t mind the open window,” said Mrs. Sappleton briskly; “my husband and brothers will be home directly from shooting, and they always come in this way. They’ve been out for snipe in the marshes to-day, so they’ll make a fine mess over my poor carpets. So like you men-folk, isn’t it?”",
+    "She rattled on cheerfully about the shooting and the scarcity of birds, and the prospects for duck in the winter. To Framton it was all purely horrible. He made a desperate but only partially successful effort to turn the talk on to a less ghastly topic; he was conscious that his hostess was giving him only a fragment of her attention, and her eyes were constantly straying past him to the open window and the lawn beyond. It was certainly an unfortunate coincidence that he should have paid his visit on this tragic anniversary.",
+    "“The doctors agree in ordering me complete rest, an absence of mental excitement, and avoidance of anything in the nature of violent physical exercise,” announced Framton, who laboured under the tolerably widespread delusion that total strangers and chance acquaintances are hungry for the least detail of one’s ailments and infirmities, their cause and cure. “On the matter of diet they are not so much in agreement,” he continued.",
+    "“No?” said Mrs. Sappleton, in a voice which only replaced a yawn at the last moment. Then she suddenly brightened into alert attention—but not to what Framton was saying.",
+    "“Here they are at last!” she cried. “Just in time for tea, and don’t they look as if they were muddy up to the eyes!”",
+    "Framton shivered slightly and turned towards the niece with a look intended to convey sympathetic comprehension. The child was staring out through the open window with dazed horror in her eyes. In a chill shock of nameless fear Framton swung round in his seat and looked in the same direction.",
+    "In the deepening twilight three figures were walking across the lawn towards the window; they all carried guns under their arms, and one of them was additionally burdened with a white coat hung over his shoulders. A tired brown spaniel kept close at their heels. Noiselessly they neared the house, and then a hoarse young voice chanted out of the dusk: “I said, Bertie, why do you bound?”",
+    "Framton grabbed wildly at his stick and hat; the hall-door, the gravel-drive, and the front gate were dimly-noted stages in his headlong retreat. A cyclist coming along the road had to run into the hedge to avoid an imminent collision.",
+    "“Here we are, my dear,” said the bearer of the white mackintosh, coming in through the window; “fairly muddy, but most of it’s dry. Who was that who bolted out as we came up?”",
+    "“A most extraordinary man, a Mr. Nuttel,” said Mrs. Sappleton; “could only talk about his illnesses, and dashed off without a word of good-bye or apology when you arrived. One would think he had seen a ghost.”",
+    "“I expect it was the spaniel,” said the niece calmly; “he told me he had a horror of dogs. He was once hunted into a cemetery somewhere on the banks of the Ganges by a pack of pariah dogs, and had to spend the night in a newly dug grave with the creatures snarling and grinning and foaming just above him. Enough to make anyone lose their nerve.”",
+    "Romance at short notice was her speciality."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Characterisation",
+    prompt: "Find the phrase showing the niece is <em>unusually calm and in control</em>.",
+    target: ["a very self-possessed young lady of fifteen"],
+    decoys: [{ phrase: "the niece of the moment", why: "This just refers to her. Look for the description in the very first sentence." }],
+    miss: "Look at how the niece is described in the first line.",
+    explain: "“Self-possessed” means calm and completely in charge of herself, which is unusual at fifteen. Saki signals from the first line that she will control the conversation."
+  },
+  {
+    skill: "Background detail",
+    prompt: "Find the detail explaining <em>why Framton is in the countryside</em>.",
+    target: ["the nerve cure which he was supposed to be undergoing"],
+    decoys: [{ phrase: "letters of introduction", why: "These explain why he is visiting strangers, not why he came to the countryside. Look for what is wrong with him." }],
+    miss: "Look at the second paragraph, where we learn about Framton.",
+    explain: "Framton is having a “nerve cure”: he is a nervous, anxious man sent to rest. That makes him the perfect victim for a frightening story."
+  },
+  {
+    skill: "Foreshadowing",
+    prompt: "Find <em>one detail</em> in the niece’s story that later appears for real.",
+    target: ["his white waterproof coat over his arm", "the little brown spaniel", "singing ‘Bertie, why do you bound?’"],
+    decoys: [{ phrase: "engulfed in a treacherous piece of bog", why: "This part never comes true: the men come home safe. Look for something they carry, bring or sing." }],
+    miss: "Look in the niece’s long story about the men who went shooting.",
+    explain: "The coat, the spaniel and the song all reappear exactly as described. Because she planted such specific details, Framton is sure he is seeing ghosts."
+  },
+  {
+    skill: "Performance",
+    prompt: "Find the niece’s <em>acting</em> that makes Framton turn round in fear.",
+    target: ["staring out through the open window with dazed horror in her eyes"],
+    decoys: [{ phrase: "a look intended to convey sympathetic comprehension", why: "That is Framton’s expression, not the niece’s." }],
+    miss: "Framton turns to the niece. What is she doing?",
+    explain: "The niece knows the men are alive, so her “dazed horror” is pure acting. It confirms her story at the perfect moment and makes Framton spin round."
+  },
+  {
+    skill: "Twist ending",
+    prompt: "Find the final sentence that <em>reveals the truth</em> about the niece.",
+    target: ["Romance at short notice was her speciality."],
+    decoys: [{ phrase: "I expect it was the spaniel", why: "This is another invented story, not the narrator’s reveal. Look at the very last line." }],
+    miss: "Read the last line of the story.",
+    explain: "The narrator explains everything in one dry sentence: the niece invents exciting stories (“romance”) instantly (“at short notice”), and she is expert at it."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Inference",
+    q: "Why does the niece ask, “Then you know practically nothing about my aunt?”",
+    opts: [
+      { t: "To make sure he can’t catch her lie", ok: true, why: "Right. Once she knows he has only her aunt’s name and address, she can invent anything and he can’t contradict it." },
+      { t: "Because she wants to introduce Framton properly to her aunt", why: "She never introduces anything. She uses the answer to begin her invented tragedy." },
+      { t: "Because she suspects Framton is a thief who wants to steal from them", why: "Nothing suggests suspicion. She is setting up a trick." },
+      { t: "Because she thinks he is an old friend of her aunt’s from the war", why: "He has just told her he knows “hardly a soul”." }
+    ]
+  },
+  {
+    skill: "Dramatic irony",
+    q: "Why does Mrs. Sappleton’s cheerful talk about shooting horrify Framton?",
+    opts: [
+      { t: "He believes the men she expects are dead", ok: true, why: "Right. Thanks to the niece, he thinks Mrs. Sappleton is waiting for ghosts, so her chatter seems like grief-stricken madness." },
+      { t: "He strongly disapproves of people who shoot birds for sport", why: "The story never mentions his views on shooting. His horror comes from the niece’s story." },
+      { t: "He is bored because she talks for so long about the weather", why: "The narrator says it was “purely horrible” to him, not boring." },
+      { t: "He is jealous of her husband", why: "Framton has never met her husband. Jealousy has nothing to do with it." }
+    ]
+  },
+  {
+    skill: "Irony",
+    q: "Mrs. Sappleton says, “One would think he had seen a ghost.” Why is this ironic?",
+    opts: [
+      { t: "He really thought he had, and she has no idea", ok: true, why: "Right. She means it as an expression, but it is exactly what Framton believed. The reader knows more than she does." },
+      { t: "Mrs. Sappleton is secretly a ghost and is joking about herself", why: "She is very much alive, chatting about carpets and mud." },
+      { t: "The house really is haunted by the men who died in the bog", why: "No one died. The men walk in muddy and cheerful." },
+      { t: "She knows all about the niece’s trick and is teasing her", why: "She calls Framton “extraordinary” and is genuinely puzzled." }
+    ]
+  },
+  {
+    skill: "Narrator’s tone",
+    q: "What does the narrator suggest about Framton when he talks about his illnesses?",
+    opts: [
+      { t: "He wrongly thinks strangers want to hear about his health", ok: true, why: "Right. He “laboured under the tolerably widespread delusion” that strangers are “hungry” for details of his ailments. The narrator gently mocks him." },
+      { t: "He is a doctor who likes to give people advice about their health", why: "He is the patient: “The doctors agree in ordering me complete rest.”" },
+      { t: "He is modest and never likes to talk about himself", why: "He talks about his diet and illnesses to a near stranger. That isn’t modest." },
+      { t: "He is dangerously ill and may not survive", why: "He is resting his nerves. Nothing suggests serious danger." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does the niece break off her story “with a little shudder”?",
+    opts: [
+      { t: "It makes her story feel real, just as her aunt arrives", ok: true, why: "Right. The shudder adds a final touch of fear to her performance and leaves Framton ready to believe what comes next." },
+      { t: "She is genuinely terrified of ghosts coming in through the window", why: "She invented the ghosts. Her calm at the end shows she is never really frightened." },
+      { t: "She is shivering because the window is open on an October afternoon", why: "Framton says “It is quite warm for the time of the year.” The shudder is part of her act." },
+      { t: "She has seen the men walking across the lawn", why: "The men appear much later, after the aunt has talked for a while." }
+    ]
+  },
+  {
+    skill: "Vocabulary in context",
+    q: "In the last line, what does “romance” mean?",
+    opts: [
+      { t: "Inventing exciting stories", ok: true, why: "Right. An older meaning of “romance” is a fanciful, adventurous tale. The niece makes them up instantly." },
+      { t: "Falling in love with somebody", why: "There is no love story here. Use the context: she has just invented two tales." },
+      { t: "Speaking a Romance language, such as French", why: "The niece speaks English throughout. Context shows the word is about storytelling." },
+      { t: "Being polite to visitors", why: "She is polite, but she uses it to fool the visitor. The word refers to her stories." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "Then you know practically nothing about my aunt?",
+    opts: [
+      { t: "The niece is checking her lie can’t be exposed", ok: true, why: "Right. She confirms he knows nothing before she tells a single word of her story." },
+      { t: "The niece wants to tell Framton her aunt’s life story", why: "She tells an invented tragedy, not a true life story." },
+      { t: "The niece thinks Framton is lying about who he is", why: "She believes him completely, which is exactly why she can trick him." },
+      { t: "The aunt has a dark secret that nobody is allowed to know", why: "The aunt has no secret. The niece makes one up." }
+    ]
+  },
+  {
+    quote: "her eyes were constantly straying past him to the open window",
+    opts: [
+      { t: "She is watching for her husband, but Framton misreads it", ok: true, why: "Right. She is simply waiting for the men to come home. After the niece’s story, Framton thinks she is waiting for ghosts." },
+      { t: "She is looking for a ghost she believes will come through the window", why: "She expects her real husband and brothers, “home directly from shooting”." },
+      { t: "She is being rude to Framton on purpose because she dislikes him", why: "She is distracted, not deliberately rude." },
+      { t: "She is frightened of the open window", why: "She asks him not to mind the open window. She isn’t afraid of it." }
+    ]
+  },
+  {
+    quote: "The child was staring out through the open window with dazed horror in her eyes.",
+    opts: [
+      { t: "The niece performs fear so Framton believes in ghosts", ok: true, why: "Right. She knows the men are alive, so the horror is acted, and it makes Framton turn round expecting the dead." },
+      { t: "The niece is truly terrified by the men on the lawn", why: "She knows exactly who they are. Minutes later she speaks “calmly”." },
+      { t: "The niece has just seen a terrible accident outside the house", why: "The men are walking home safely. There is no accident." },
+      { t: "The niece is tired after talking for a long time", why: "“Dazed horror” shows fear, not tiredness." }
+    ]
+  },
+  {
+    quote: "said the niece calmly",
+    opts: [
+      { t: "The niece feels no guilt about her trick", ok: true, why: "Right. Framton has just fled in terror, yet she calmly invents another story to explain it." },
+      { t: "The niece is upset that Framton ran away without saying goodbye", why: "“Calmly” shows the opposite of being upset." },
+      { t: "The niece did not notice that Framton had left the house", why: "She explains his exit immediately, so she clearly noticed." },
+      { t: "The niece is worried about Framton’s health", why: "She uses his exit for a new tale, not out of concern." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The niece is in control from the start.",
+    quote: "a very self-possessed young lady of fifteen",
+    opts: [
+      { t: "The niece of Mrs. Sappleton is fifteen years old, and she talks to Framton Nuttel while he waits for her aunt to come downstairs.", why: "Retelling. How do the words show she is in control?" },
+      { t: "“Self-possessed” means calm and in charge of herself, rare at fifteen. Saki signals from line one that she runs the conversation.", ok: true, why: "Strong. It explains the key word and why its position matters." },
+      { t: "The writer describes the age of the niece in the first sentence of the story to give the reader some information about her.", why: "Too general. Which word shows control?" },
+      { t: "This shows the niece is rude and doesn’t want Framton in the house, so she tells him he must “put up with” her until her aunt arrives.", why: "A misreading. She is polite and confident, not rude." }
+    ]
+  },
+  {
+    claim: "Framton is easy to fool.",
+    quote: "the nerve cure which he was supposed to be undergoing",
+    opts: [
+      { t: "A “nerve cure” shows Framton is anxious and fragile. A nervous man among strangers is the perfect audience for a ghost story.", ok: true, why: "Strong. It explains the phrase and links it to why the trick works." },
+      { t: "Framton has come to stay in the countryside because his doctors told him to rest, and his sister has given him letters to strangers.", why: "Retelling. Why does this make him easy to fool?" },
+      { t: "This proves Framton is seriously ill in hospital and needs to have an operation very soon, so he can’t think clearly about anything.", why: "Overclaiming. He is resting his nerves, not in hospital." },
+      { t: "I think Framton should have stayed at home instead of visiting people he didn’t know, because it made him more nervous.", why: "A personal opinion. Explain Saki’s words." }
+    ]
+  },
+  {
+    claim: "The niece’s lie is convincing.",
+    quote: "three years ago to a day",
+    opts: [
+      { t: "The niece tells Framton that her aunt’s husband and brothers went out shooting exactly three years before this afternoon.", why: "Retelling. Why is the detail convincing?" },
+      { t: "This shows that something terrible really did happen to the family exactly three years ago, which is why the window is open.", why: "A misreading. The tragedy is invented." },
+      { t: "The writer uses a time phrase here, which is a way of telling the reader when something happened in the past.", why: "What does this particular time phrase do?" },
+      { t: "“To a day” is precise, as if remembered exactly. Exact details make an invented tragedy sound like fact.", ok: true, why: "Strong. It explains the effect of precision on the lie." }
+    ]
+  },
+  {
+    claim: "The narrator hints that the niece is acting.",
+    quote: "became falteringly human",
+    opts: [
+      { t: "The niece becomes very sad while she tells the story, because she misses her uncle and her aunt’s young brothers so much.", why: "A misreading. The men are alive; the sadness is performed." },
+      { t: "Her voice only “became” human, as if switched on. “Falteringly” sounds like a practised tremble, a clue on second reading.", ok: true, why: "Strong. Both words explained and linked to the hint." },
+      { t: "The writer describes the niece’s voice in this part of the story, using an adverb to show the reader how she is speaking.", why: "Word class named, no effect explained." },
+      { t: "This proves the niece is a robot pretending to be a person, because the narrator says her voice “became” human only at this point.", why: "A literal misreading." }
+    ]
+  },
+  {
+    claim: "The ending is dryly humorous.",
+    quote: "Romance at short notice was her speciality",
+    opts: [
+      { t: "The niece is very good at romance and falls in love quickly with the young men she meets in the countryside.", why: "A misreading of “romance”." },
+      { t: "The last sentence of the story tells the reader something important about the niece’s character and what she is especially good at doing.", why: "Vague. What is funny about it?" },
+      { t: "The flat, formal line explains both lies at once. Calling lying a “speciality” treats it like a skill, which makes the twist funny.", ok: true, why: "Strong. It explains the tone and the word “speciality”." },
+      { t: "This shows the niece will get into serious trouble with her aunt and uncle when they find out about all of the lies she told Framton.", why: "Off the text. The story ends before any consequences." }
+    ]
+  }
+];
+TEXTS.push({ id: "open-window", type: "Fiction", mode: "Creative", form: "Short story", level: "6ème", hook: "An open window, a tragic story and a visitor who believes every word.", TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
 }
 
 /* ================================================================ */
@@ -4620,14 +5298,15 @@ function annotateItem() {
   const decoys = (it.decoys || []).map(d => ({ ...d, r: findRanges(d.phrase, true) }));
   let tries = 0, done = false;
   if (!target.length) {
-    panel.innerHTML = `<div class="card"><p class="num">Stage 1 &middot; Annotation ${idx + 1} of ${ANNOTATE.length}</p><h3>This item is skipped</h3><p class="tip">Its phrase wasn’t found in the text (teacher: check the pasted text).</p></div>`;
-    panel.firstChild.appendChild(nextBtn(idx === ANNOTATE.length - 1 ? "ON TO STAGE 2" : "NEXT ANNOTATION", () => {
-      if (idx === ANNOTATE.length - 1) { stage = 2; idx = 0; setStages(); mcqItem(QUESTIONS, 2); } else { idx++; annotateItem(); }
+    panel.innerHTML = `<div class="card"><p class="num">${numLine("Stage 1 &middot; Annotation", ANNOTATE.length)}</p><h3>This item is skipped</h3><p class="tip">Its phrase wasn’t found in the text (teacher: check the pasted text).</p></div>`;
+    panel.firstChild.appendChild(nextBtn(DRILL ? drillLabel() : idx === ANNOTATE.length - 1 ? "ON TO STAGE 2" : "NEXT ANNOTATION", () => {
+      if (DRILL) drillNext();
+      else if (idx === ANNOTATE.length - 1) { stage = 2; idx = 0; setStages(); mcqItem(QUESTIONS, 2); } else { idx++; annotateItem(); }
     }));
     return;
   }
   focus(target.concat(...decoys.map(d => d.r)));
-  panel.innerHTML = `<div class="card"><p class="num">Stage 1 &middot; Annotation ${idx + 1} of ${ANNOTATE.length}</p>
+  panel.innerHTML = `<div class="card"><p class="num">${numLine("Stage 1 &middot; Annotation", ANNOTATE.length)}</p>
     <h3>${it.prompt}</h3><span class="skill">${it.skill}</span><p class="tip" style="margin-top:12px">Click any word in the passage.${LONG ? " The answer is in the paragraphs shown." : ""}</p><div class="fbs"></div></div>`;
   const fbs = panel.querySelector(".fbs"), card = panel.querySelector(".card");
   passage.classList.add("picking");
@@ -4664,8 +5343,9 @@ function annotateItem() {
     if (kind === "shown") fbs.appendChild(fbBox("shown", "HERE IT IS", it.explain));
     else { if (!first) fbs.innerHTML = ""; fbs.appendChild(fbBox("good", "<span>CORRECT</span>", it.explain)); }
     const last = idx === ANNOTATE.length - 1;
-    card.appendChild(nextBtn(last ? "ON TO STAGE 2" : "NEXT ANNOTATION", () => {
-      if (last) { stage = 2; idx = 0; setStages(); mcqItem(QUESTIONS, 2); } else { idx++; annotateItem(); }
+    card.appendChild(nextBtn(DRILL ? drillLabel() : last ? "ON TO STAGE 2" : "NEXT ANNOTATION", () => {
+      if (DRILL) drillNext();
+      else if (last) { stage = 2; idx = 0; setStages(); mcqItem(QUESTIONS, 2); } else { idx++; annotateItem(); }
     }));
   }
 }
@@ -4675,19 +5355,19 @@ function mcqItem(list, st) {
   const it = list[idx]; clearMarks(); passage.classList.remove("picking");
   const letters = "ABCD";
   if (idx === 0 || !posPlan[st]) posPlan[st] = planPositions(list.length, it.opts.length);
-  const opts = placeCorrect(it.opts, posPlan[st][idx]);
+  const opts = placeCorrect(it.opts, DRILL ? DRILL.pos[DRILL.i] : posPlan[st][idx]);
   let first = true, solved = false;
   let head;
   focus(st === 2 ? quotedRanges(it.q) : findRanges(it.quote));
   if (st === 2) {
-    head = `<p class="num">Stage 2 &middot; Question ${idx + 1} of ${list.length}</p><span class="skill">${it.skill}</span><h3 style="margin-top:12px">${it.q}</h3>`;
+    head = `<p class="num">${numLine("Stage 2 &middot; Question", list.length)}</p><span class="skill">${it.skill}</span><h3 style="margin-top:12px">${it.q}</h3>`;
   } else if (st === 4) {
-    head = `<p class="num">Stage 4 &middot; Explanation ${idx + 1} of ${list.length}</p><span class="skill">Best explanation</span>
+    head = `<p class="num">${numLine("Stage 4 &middot; Explanation", list.length)}</p><span class="skill">Best explanation</span>
       <div class="claim"><b>Claim</b>${it.claim}</div><div class="evq">“${it.quote}”</div>
       <h3>Which explanation proves the claim best?</h3>`;
     eachIn(findRanges(it.quote), el => el.classList.add("quote"));
   } else {
-    head = `<p class="num">Stage 3 &middot; Evidence ${idx + 1} of ${list.length}</p><span class="skill">Evidence vs claim</span>
+    head = `<p class="num">${numLine("Stage 3 &middot; Evidence", list.length)}</p><span class="skill">Evidence vs claim</span>
       <h3 style="margin-top:12px">This quote is evidence that&hellip;</h3><div class="evq">“${it.quote}”</div>`;
     const r = findRanges(it.quote);
     eachIn(r, el => el.classList.add("quote"));
@@ -4706,8 +5386,9 @@ function mcqItem(list, st) {
         if (first) { setScore(1); results[st]++; stamp(["", "", "NAILED IT", "PROVEN", "EXPLAINED"][st]); } else stamp("GOT THERE");
         fbs.appendChild(fbBox("good", "<span>WHY IT’S RIGHT</span>", o.why));
         const last = idx === list.length - 1;
-        card.appendChild(nextBtn(last ? (st < 4 ? "ON TO STAGE " + (st + 1) : "SEE RESULTS") : "NEXT", () => {
-          if (!last) { idx++; mcqItem(list, st); }
+        card.appendChild(nextBtn(DRILL ? drillLabel() : last ? (st < 4 ? "ON TO STAGE " + (st + 1) : "SEE RESULTS") : "NEXT", () => {
+          if (DRILL) drillNext();
+          else if (!last) { idx++; mcqItem(list, st); }
           else if (st === 2) { stage = 3; idx = 0; setStages(); mcqItem(EVIDENCE, 3); }
           else if (st === 3) { stage = 4; idx = 0; setStages(); mcqItem(EXPLAIN, 4); }
           else results_();
@@ -4784,6 +5465,118 @@ TEXTS.forEach(t => {
   t.TEXT.paras = t.pending ? [] : raw.split(/\n\s*\n/).map(x => x.replace(/\s*\n\s*/g, " ").trim()).filter(Boolean);
 });
 
+
+/* ================================================================
+   SKILL DRILLS
+   The drill menu is built automatically every time the page loads.
+   Each annotation and question is sorted into a skill by its "skill:" label,
+   using the keywords below (first match wins, so order matters).
+   To force an item into a skill, add  drill: "mood"  (or any key below) to it.
+   Stage 3 (evidence) and Stage 4 (explain) items go to "evidence" unless tagged.
+   Labels that match nothing go to "Other skills" and are listed in a teacher check.
+   ================================================================ */
+const SKILL_GROUPS = [
+  { key: "viewpoint",  name: "Narrator and viewpoint",         keywords: ["point of view", "viewpoint", "narrator", "irony", "direct address"] },
+  { key: "mood",       name: "Mood and setting",               keywords: ["mood", "atmosphere", "setting", "tone", "pathetic", "sensory", "suspense"] },
+  { key: "events",     name: "Key events and structure",       keywords: ["structure", "ending", "opening", "turning point", "key moment", "twist", "foreshadow", "cause and effect", "problem", "message", "theme", "hook", "conclusion", "sequence", "plot", "technique"] },
+  { key: "character",  name: "Character and inference",        keywords: ["inference", "character", "motive", "body language", "dialogue", "performance", "detail", "show, don"] },
+  { key: "figurative", name: "Figurative language",            keywords: ["simile", "metaphor", "personification", "repetition", "exaggeration", "onomatopoeia", "imagery", "alliteration", "list", "contrast", "understatement", "comparison"] },
+  { key: "words",      name: "Word choice and vocabulary",     keywords: ["vocabulary", "word choice", "verb", "definition", "specialist", "technical", "nickname", "informal", "short sentence", "exclamation", "inverted commas", "language"] },
+  { key: "nonfiction", name: "Purpose, audience and features", keywords: ["purpose", "audience", "text type", "genre", "text feature", "fact", "opinion", "statistic", "number", "signal", "rhetorical", "counter", "argument", "certainty", "cautious", "call to action", "hypothetical", "quotation", "doubt", "finding information", "comparing words", "question", "evaluating"] },
+  { key: "evidence",   name: "Evidence and explanation",       keywords: [] }
+];
+const DRILL_SIZE = 12;
+const OTHER = { key: "other", name: "Other skills" };
+let DRILL = null;
+
+function groupForLabel(label) {
+  const l = (label || "").toLowerCase().replace(/[’']/g, "’");
+  // match whole words at the start, so "list" doesn't catch "specialist"
+  const g = SKILL_GROUPS.find(g => g.keywords.some(k => (" " + l.replace(/[^a-z’,]+/g, " ")).includes(" " + k.replace(/'/g, "’"))));
+  return g ? g.key : "other";
+}
+function drillItems() {
+  const out = [];
+  TEXTS.filter(t => !t.pending).forEach(t => {
+    t.ANNOTATE.forEach(it => out.push({ t, type: 1, it, g: it.drill || groupForLabel(it.skill), label: it.skill }));
+    t.QUESTIONS.forEach(it => out.push({ t, type: 2, it, g: it.drill || groupForLabel(it.skill), label: it.skill }));
+    t.EVIDENCE.forEach(it => out.push({ t, type: 3, it, g: it.drill || "evidence" }));
+    t.EXPLAIN.forEach(it => out.push({ t, type: 4, it, g: it.drill || "evidence" }));
+  });
+  return out;
+}
+const groupName = key => (SKILL_GROUPS.find(g => g.key === key) || OTHER).name;
+const drillLabel = () => DRILL.i === DRILL.items.length - 1 ? "SEE RESULTS" : "NEXT";
+function numLine(prefix, len) {
+  return DRILL ? `${groupName(DRILL.key)} &middot; ${DRILL.i + 1} of ${DRILL.items.length} &middot; ${CUR.TEXT.title}` : `${prefix} ${idx + 1} of ${len}`;
+}
+function renderDrillBar() {
+  const all = drillItems().filter(x => levelFilter === "all" || x.t.level === levelFilter);
+  const bar = $("#drillBar");
+  const groups = SKILL_GROUPS.concat(all.some(x => x.g === "other") ? [OTHER] : []);
+  bar.innerHTML = `<div class="drill-head"><p class="drill-title">Practise a skill</p><p class="drill-sub">${DRILL_SIZE} quick items from different texts${levelFilter === "all" ? "" : " at " + levelFilter}</p></div><div class="drill-chips"></div>`;
+  const chips = bar.querySelector(".drill-chips");
+  groups.forEach(g => {
+    const n = all.filter(x => x.g === g.key).length;
+    if (!n) return;
+    const best = getBest("drill-" + g.key + "-" + levelFilter);
+    const b = document.createElement("button");
+    b.className = "drill-chip";
+    b.innerHTML = `${g.name}<span>${n} items${best === null ? "" : " &middot; best " + best}</span>`;
+    b.addEventListener("click", () => startDrill(g.key));
+    chips.appendChild(b);
+  });
+  const unmatched = [...new Set(drillItems().filter(x => x.g === "other").map(x => x.label))];
+  if (unmatched.length) bar.insertAdjacentHTML("beforeend", `<details class="teacher-warn"><summary>Teacher check: ${unmatched.length} skill label${unmatched.length > 1 ? "s" : ""} not linked to a skill</summary><p>Add a keyword to SKILL_GROUPS, or add drill: "key" to the item:</p><ul>${unmatched.map(u => `<li>${u}</li>`).join("")}</ul></details>`);
+}
+function startDrill(key) {
+  const pool = shuffle(drillItems().filter(x => x.g === key && (levelFilter === "all" || x.t.level === levelFilter)));
+  if (!pool.length) { showPicker(); return; }
+  // spread texts out: take items round-robin by text so one story doesn't dominate
+  const byText = {}; pool.forEach(x => (byText[x.t.id] = byText[x.t.id] || []).push(x));
+  const queues = shuffle(Object.values(byText)), items = [];
+  while (items.length < DRILL_SIZE && queues.some(q => q.length)) queues.forEach(q => { if (q.length && items.length < DRILL_SIZE) items.push(q.shift()); });
+  DRILL = { key, items, i: 0, pos: planPositions(items.length, 4), texts: Object.keys(byText).length };
+  score = 0; MAX = items.length;
+  $("#score").textContent = 0; $("#max").textContent = MAX;
+  $("#stages").hidden = true;
+  $("#picker").hidden = true; $("#work").hidden = false;
+  setURL({ skill: key, level: levelFilter === "all" ? "" : levelFilter });
+  scrollTo(0, 0);
+  drillShow(true);
+}
+function drillShow(introFirst) {
+  const x = DRILL.items[DRILL.i];
+  CUR = x.t; ({ TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN } = x.t);
+  $("#ttl").textContent = TEXT.title;
+  idx = 0; fullView = false; lastRanges = null;
+  buildPassage();
+  if (introFirst) {
+    panel.innerHTML = `<div class="card intro-card"><p class="num">Skill drill</p><h3>${groupName(DRILL.key)}</h3>
+      <p>${DRILL.items.length} items from ${new Set(DRILL.items.map(i => i.t.id)).size} different texts. Each item shows the part of the text you need, and the text changes as you go.</p>
+      <p class="tip">Points only count on your first try.</p></div>`;
+    panel.firstChild.appendChild(nextBtn("START DRILL", () => drillShow(false)));
+    return;
+  }
+  stage = x.type;
+  if (x.type === 1) { ANNOTATE = [x.it]; annotateItem(); }
+  else mcqItem([x.it], x.type);
+}
+function drillNext() {
+  DRILL.i++;
+  if (DRILL.i < DRILL.items.length) { scrollTo(0, 0); drillShow(false); } else drillResults();
+}
+function drillResults() {
+  clearMarks(); focus(null);
+  const id = "drill-" + DRILL.key + "-" + levelFilter, prev = getBest(id);
+  if (prev === null || score > prev) setBest(id, score);
+  const line = prev === null ? "First attempt recorded." : score > prev ? `New best score! (previous best ${prev})` : `Your best: ${prev}/${MAX}`;
+  panel.innerHTML = `<div class="card"><p class="num">Skill drill results</p><h3>${score} / ${MAX} <em>first try</em></h3>
+    <p class="tip">${groupName(DRILL.key)}</p><p class="best-line">${line}</p></div>`;
+  const key = DRILL.key;
+  panel.firstChild.appendChild(nextBtn("NEW SET, SAME SKILL", () => startDrill(key)));
+  panel.firstChild.appendChild(nextBtn("CHOOSE ANOTHER SKILL", showPicker, true));
+}
 /* ---------- best scores (saved in this browser only) ---------- */
 function getBest(id) { try { const v = localStorage.getItem("crp-best-" + id); return v === null ? null : +v; } catch (e) { return null; } }
 function setBest(id, v) { try { localStorage.setItem("crp-best-" + id, v); } catch (e) {} }
@@ -4800,7 +5593,9 @@ function setURL(params) {
   } catch (e) {}
 }
 function showPicker() {
+  DRILL = null; $("#stages").hidden = false;
   $("#work").hidden = true; $("#picker").hidden = false;
+  renderDrillBar();
   setURL({ level: levelFilter === "all" ? "" : levelFilter });
   const grid = $("#pickGrid"); grid.innerHTML = "";
   const list = TEXTS.slice().sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level));
@@ -4824,6 +5619,7 @@ function showPicker() {
   scrollTo(0, 0);
 }
 function loadText(t) {
+  DRILL = null; $("#stages").hidden = false;
   CUR = t; ({ TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN } = t);
   MAX = ANNOTATE.length + QUESTIONS.length + EVIDENCE.length + EXPLAIN.length;
   $("#max").textContent = MAX; $("#ttl").textContent = TEXT.title;
@@ -4834,7 +5630,7 @@ function loadText(t) {
 }
 $("#backBtn").addEventListener("click", showPicker);
 $("#linkBtn").addEventListener("click", () => {
-  const url = location.origin + location.pathname + "?text=" + encodeURIComponent(CUR.id);
+  const url = location.origin + location.pathname + (DRILL ? "?skill=" + DRILL.key + (levelFilter === "all" ? "" : "&level=" + encodeURIComponent(levelFilter)) : "?text=" + encodeURIComponent(CUR.id));
   const done = () => { $("#linkBtn").textContent = "Link copied"; setTimeout(() => $("#linkBtn").textContent = "Copy link", 1800); };
   if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, () => prompt("Copy this link:", url));
   else prompt("Copy this link:", url);
@@ -4852,7 +5648,10 @@ $("#lvlFilter").querySelectorAll("button").forEach(b => b.addEventListener("clic
     $("#lvlFilter").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x.dataset.l === lv));
   }
   const t = TEXTS.find(x => x.id === q.get("text") && !x.pending);
-  if (t) loadText(t); else showPicker();
+  const sk = q.get("skill");
+  if (t) loadText(t);
+  else if (sk && (SKILL_GROUPS.some(g => g.key === sk) || sk === "other")) { renderDrillBar(); startDrill(sk); }
+  else showPicker();
 })();
 </script>
 </body>
