@@ -4902,6 +4902,1436 @@ const EXPLAIN = [
 ];
 TEXTS.push({ id: "open-window", type: "Fiction", mode: "Creative", form: "Short story", level: "6ème", hook: "An open window, a tragic story and a visitor who believes every word.", TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
 }
+{
+const TEXT = {
+  title: "Marley Was Dead",
+  intro: "Charles Dickens, the opening of A Christmas Carol (1843). Extract.",
+  paras: [
+    "Marley was dead: to begin with. There is no doubt whatever about that. The register of his burial was signed by the clergyman, the clerk, the undertaker, and the chief mourner. Scrooge signed it: and Scrooge’s name was good upon ’Change, for anything he chose to put his hand to. Old Marley was as dead as a door-nail.",
+    "Mind! I don’t mean to say that I know, of my own knowledge, what there is particularly dead about a door-nail. I might have been inclined, myself, to regard a coffin-nail as the deadest piece of ironmongery in the trade. But the wisdom of our ancestors is in the simile; and my unhallowed hands shall not disturb it, or the Country’s done for. You will therefore permit me to repeat, emphatically, that Marley was as dead as a door-nail.",
+    "Oh! But he was a tight-fisted hand at the grindstone, Scrooge! a squeezing, wrenching, grasping, scraping, clutching, covetous old sinner! Hard and sharp as flint, from which no steel had ever struck out generous fire; secret, and self-contained, and solitary as an oyster.",
+    "The cold within him froze his old features, nipped his pointed nose, shrivelled his cheek, stiffened his gait; made his eyes red, his thin lips blue; and spoke out shrewdly in his grating voice. A frosty rime was on his head, and on his eyebrows, and his wiry chin. He carried his own low temperature always about with him; he iced his office in the dog-days; and didn’t thaw it one degree at Christmas.",
+    "External heat and cold had little influence on Scrooge. No warmth could warm, no wintry weather chill him. No wind that blew was bitterer than he, no falling snow was more intent upon its purpose, no pelting rain less open to entreaty. Foul weather didn’t know where to have him. The heaviest rain, and snow, and hail, and sleet, could boast of the advantage over him in only one respect. They often came down handsomely, and Scrooge never did.",
+    "Nobody ever stopped him in the street to say, with gladsome looks, “My dear Scrooge, how are you? When will you come to see me?” No beggars implored him to bestow a trifle, no children asked him what it was o’clock, no man or woman ever once in all his life inquired the way to such and such a place, of Scrooge. Even the blind men’s dogs appeared to know him; and when they saw him coming on, would tug their owners into doorways and up courts; and then would wag their tails as though they said, “No eye at all is better than an evil eye, dark master!”",
+    "Once upon a time — of all the good days in the year, on Christmas Eve — old Scrooge sat busy in his counting-house. It was cold, bleak, biting weather: foggy withal: and he could hear the people in the court outside go wheezing up and down, beating their hands upon their breasts, and stamping their feet upon the pavement stones to warm them.",
+    "The city clocks had only just gone three, but it was quite dark already: it had not been light all day: and candles were flaring in the windows of the neighbouring offices, like ruddy smears upon the palpable brown air. The fog came pouring in at every chink and keyhole, and was so dense without, that although the court was of the narrowest, the houses opposite were mere phantoms.",
+    "The door of Scrooge’s counting-house was open that he might keep his eye upon his clerk, who in a dismal little cell beyond, a sort of tank, was copying letters. Scrooge had a very small fire, but the clerk’s fire was so very much smaller that it looked like one coal. But he couldn’t replenish it, for Scrooge kept the coal-box in his own room; and so surely as the clerk came in with the shovel, the master predicted that it would be necessary for them to part. Wherefore the clerk put on his white comforter, and tried to warm himself at the candle; in which effort, not being a man of a strong imagination, he failed."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Direct address",
+    prompt: "Find the moment the narrator speaks <em>straight to you</em>, the reader.",
+    target: ["You will therefore permit me to repeat"],
+    decoys: [{ phrase: "There is no doubt whatever about that", why: "The narrator is insisting here, but he is talking about Marley, not to you. Look for the word “you”." }],
+    miss: "Look at the last sentence of the second paragraph.",
+    explain: "The narrator turns and asks the reader’s permission, as if we were sitting with him. It makes the storyteller feel like a person in the room before the ghosts arrive."
+  },
+  {
+    skill: "Mood",
+    prompt: "Find the <em>three describing words</em> that set the weather of Christmas Eve.",
+    target: ["cold, bleak, biting weather"],
+    decoys: [{ phrase: "Once upon a time", why: "That is how the paragraph opens, and it sounds like a fairy tale, but it does not describe the weather." }],
+    miss: "Look at the sentence just after Scrooge sits down in his counting-house.",
+    explain: "Three harsh words in a row, ending on “biting”, make the cold feel like something that attacks you. The weather outside matches the man inside."
+  },
+  {
+    skill: "Atmosphere",
+    prompt: "Find where the fog turns ordinary buildings into something <em>ghostly</em>.",
+    target: ["the houses opposite were mere phantoms"],
+    decoys: [{ phrase: "candles were flaring in the windows", why: "A good detail for the gloom, but candles are still ordinary. Look for a word that belongs in a ghost story." }],
+    miss: "Look at the end of the paragraph about the fog.",
+    explain: "“Phantoms” means ghosts. Dickens makes the real street look haunted before any ghost appears, so the reader is ready to believe one."
+  },
+  {
+    skill: "Word choice",
+    prompt: "Find the <em>list of grabbing words</em> used to describe Scrooge.",
+    target: ["squeezing, wrenching, grasping, scraping, clutching"],
+    decoys: [{ phrase: "Hard and sharp as flint", why: "That is a comparison, and a good one, but it is not a list of actions. Look for several words ending in “-ing”." }],
+    miss: "Look at the paragraph that begins with “Oh!”",
+    explain: "Five verbs of holding on tight pile up one after another. We can almost feel Scrooge’s hands, so his meanness becomes physical rather than an idea."
+  },
+  {
+    skill: "Metaphor",
+    prompt: "Find the sentence that says Scrooge takes his own <em>weather</em> around with him.",
+    target: ["He carried his own low temperature always about with him"],
+    decoys: [{ phrase: "A frosty rime was on his head", why: "That describes frost on Scrooge, so it is close, but it does not say he carries the cold with him." }],
+    miss: "Look near the end of the paragraph about his frozen features.",
+    explain: "A person cannot really carry a temperature. The metaphor turns Scrooge’s coldness into something he brings into every room, which is why his office never warms up."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Point of view",
+    q: "Who is telling this part of the story?",
+    opts: [
+      { t: "A narrator outside the story who knows Scrooge and comments on him", ok: true, why: "Right. The narrator sees Scrooge from outside, judges him, and even speaks to the reader." },
+      { t: "Scrooge himself, looking back on the day from later in his life", why: "Scrooge is called “he” throughout. A narrator, not Scrooge, is describing him." },
+      { t: "The clerk in the cold little cell beyond the open door", why: "The clerk is described from outside too, and he never speaks in this extract." },
+      { t: "Marley himself, telling the story of his old partner from beyond the grave", why: "Marley is dead before the story starts, and nothing here is in his voice." }
+    ]
+  },
+  {
+    skill: "Narrator’s tone",
+    q: "What does the joke about the door-nail add to the opening?",
+    opts: [
+      { t: "A chatty, joking voice that makes the storyteller feel real", ok: true, why: "Right. He argues with himself about coffin-nails for fun. The warmth of the voice makes the ghost story easier to accept later." },
+      { t: "A serious warning that the reader should not trust the story", why: "He is playing, not warning. He then repeats the phrase “emphatically”." },
+      { t: "Proof that the narrator stood beside Marley’s coffin himself", why: "He says the opposite: he does not know “of my own knowledge”." },
+      { t: "A hint that Marley might not really be dead after all", why: "The whole point is to insist that Marley is dead, so that his ghost will matter." }
+    ]
+  },
+  {
+    skill: "Mood",
+    q: "What mood do the last three paragraphs create?",
+    opts: [
+      { t: "Shut in and gloomy, with the city closed off by fog", ok: true, why: "Right. Dark at three, fog through every keyhole, houses like phantoms. The world feels sealed and unfriendly." },
+      { t: "Peaceful and still, because the fog makes everything quiet", why: "People wheeze, beat their hands and stamp their feet. It is uncomfortable, not peaceful." },
+      { t: "Warm and busy, with neighbours calling in on each other", why: "Nobody calls on Scrooge at all. That is the point of the paragraph before." },
+      { t: "Exciting and hopeful, because Christmas is on its way", why: "Christmas is mentioned, but everything around it is cold and dark." }
+    ]
+  },
+  {
+    skill: "Setting",
+    q: "Why does Dickens make it dark at three in the afternoon?",
+    opts: [
+      { t: "So the world outside matches the coldness inside Scrooge", ok: true, why: "Right. The setting mirrors the man. Dickens has just spent two paragraphs freezing Scrooge from the inside." },
+      { t: "To show that the story happens somewhere far to the north", why: "It is London. The dark comes from winter fog, not from the far north." },
+      { t: "To explain why the clerk cannot see his letters clearly", why: "The clerk’s problem is the cold and his one coal, not the light." },
+      { t: "To warn the reader that a storm is about to break", why: "No storm arrives. The weather stays foggy and still." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "What does the clerk’s fire tell us about Scrooge?",
+    opts: [
+      { t: "He counts even a shovel of coal against his own clerk", ok: true, why: "Right. The clerk’s fire looks like “one coal”, the coal-box lives in Scrooge’s room, and asking for more risks his job." },
+      { t: "He cannot afford enough coal for two fires in the office at once", why: "Scrooge has money. His name is “good upon ’Change” for anything he signs." },
+      { t: "He has forgotten that the clerk is working next door", why: "He keeps the door open on purpose so he can watch him." },
+      { t: "He thinks the clerk works better in the cold weather", why: "Nothing suggests a reason like that. He simply guards the coal." }
+    ]
+  },
+  {
+    skill: "Irony",
+    q: "Rain and snow “often came down handsomely, and Scrooge never did”. What is the joke?",
+    opts: [
+      { t: "“Coming down” means falling, and also handing money over", ok: true, why: "Right. The weather is generous in both senses. Scrooge is generous in neither, so even the sleet beats him." },
+      { t: "Scrooge stays upstairs in his office while it rains outside", why: "There is no upstairs in this scene. The joke is in the words, not the building." },
+      { t: "Scrooge is so cold that the snow refuses to land on him", why: "The sentence says weather has little influence on him, not that snow avoids him." },
+      { t: "The narrator means that Scrooge never falls over in the ice", why: "“Handsomely” would make no sense about falling over." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "solitary as an oyster",
+    opts: [
+      { t: "Scrooge shuts himself away from other people", ok: true, why: "Right. An oyster is sealed shut and hard to open, which is how Scrooge lives." },
+      { t: "Scrooge is slippery and difficult to catch hold of", why: "That is not what an oyster suggests. Think about the closed shell." },
+      { t: "Scrooge lives near the sea and eats simple food", why: "The oyster is a comparison, not a fact about where he lives." },
+      { t: "Scrooge is rough on the outside but soft underneath", why: "That reading would make him secretly kind, which nothing here supports." }
+    ]
+  },
+  {
+    quote: "would tug their owners into doorways and up courts",
+    opts: [
+      { t: "Even animals keep out of Scrooge’s way", ok: true, why: "Right. The dogs pull their owners aside. Dickens makes his coldness so strong that animals feel it too." },
+      { t: "The streets are too narrow for people to pass", why: "The dogs move for Scrooge in particular, not for lack of room." },
+      { t: "The dogs are badly trained and pull wherever they like", why: "They pull for a reason, and the story gives it in the next line." },
+      { t: "Scrooge is kind to animals but not to people", why: "The dogs avoid him. That is the opposite of kindness." }
+    ]
+  },
+  {
+    quote: "he iced his office in the dog-days",
+    opts: [
+      { t: "His coldness has nothing to do with the season", ok: true, why: "Right. The dog-days are the hottest of the year, yet his office still freezes." },
+      { t: "He saves money by never lighting a fire in summer", why: "Money is not mentioned here. The point is his effect on a room." },
+      { t: "He keeps ice in the office to cool it down in summer", why: "A literal reading. Dickens means the chill he brings with him." },
+      { t: "His office faces away from the sun all year round", why: "The cause is Scrooge, not the direction the building faces." }
+    ]
+  },
+  {
+    quote: "the houses opposite were mere phantoms",
+    opts: [
+      { t: "The ordinary world is already turning ghostly", ok: true, why: "Right. Before any ghost appears, the fog makes solid houses look like spirits." },
+      { t: "The houses opposite have been abandoned by their owners", why: "They are hidden by fog, not empty." },
+      { t: "Scrooge’s eyesight is failing as he grows older", why: "Everyone in the court is in the same fog." },
+      { t: "The narrator is unsure whether the houses are really there", why: "He knows they are there. It is the fog that hides them." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The narrator wants us to enjoy his company.",
+    quote: "You will therefore permit me to repeat",
+    opts: [
+      { t: "The narrator says this line after his little argument about what is dead about a door-nail and about coffin-nails.", why: "Retelling. What does speaking to the reader do?" },
+      { t: "The narrator asks the reader for permission before he repeats himself, which is the polite way to say something twice.", why: "True but flat. Why does Dickens want that politeness here?" },
+      { t: "Turning to the reader makes him a storyteller in the room, not a book. We are more willing to follow him into a ghost story.", ok: true, why: "Strong. It explains the effect of direct address and links it to what comes next." },
+      { t: "The narrator uses the word “you” here, which is called direct address, a technique writers use when they speak to the reader of a book.", why: "Naming the technique is a start. Say what it does." }
+    ]
+  },
+  {
+    claim: "Scrooge’s coldness is a fact about the man, not the weather.",
+    quote: "He carried his own low temperature always about with him",
+    opts: [
+      { t: "Scrooge feels the cold more than other people do, so he is always chilly wherever he happens to go in the city.", why: "A misreading. He makes the cold, he does not suffer it." },
+      { t: "A temperature cannot be carried. The metaphor makes the chill part of Scrooge, so every room he enters cools down.", ok: true, why: "Strong. It names the impossibility and explains what it shows." },
+      { t: "Scrooge walks about the streets of London in winter, and the narrator tells us he always has a low temperature.", why: "Retelling. Which word is impossible, and why?" },
+      { t: "This sentence is an example of a metaphor, which is a comparison that says one thing is another thing rather than saying it is like it.", why: "An observation. What does the metaphor achieve?" }
+    ]
+  },
+  {
+    claim: "The opening prepares the reader for a ghost.",
+    quote: "the houses opposite were mere phantoms",
+    opts: [
+      { t: "The fog on Christmas Eve is so thick that Scrooge cannot see the buildings on the other side of the narrow court outside.", why: "Retelling. Which word matters, and why that word?" },
+      { t: "The word “phantoms” slips a ghost into an ordinary street. The real world blurs first, so a real ghost feels possible.", ok: true, why: "Strong. One word explained, and linked to the story to come." },
+      { t: "Dickens wants to say the houses were not really there at all, because the fog had made them disappear completely.", why: "A literal misreading. They are hidden, not gone." },
+      { t: "The writer describes the fog in this part of the extract.", why: "An observation. What is the effect of the word chosen?" }
+    ]
+  },
+  {
+    claim: "Dickens shows Scrooge’s meanness instead of stating it.",
+    quote: "Scrooge kept the coal-box in his own room",
+    opts: [
+      { t: "The clerk has a very small fire and cannot make it bigger, because his employer keeps the coal in a different room.", why: "Retelling. What does the arrangement show about Scrooge?" },
+      { t: "One small detail does the work of a whole speech. Guarding the coal lets the reader judge Scrooge without being told to.", ok: true, why: "Strong. It explains why a detail is stronger than a statement." },
+      { t: "Scrooge is worried that the clerk will steal the coal-box and sell it, so he keeps it locked away where he can see it.", why: "A guess. Nothing says he suspects theft." },
+      { t: "The coal-box is mentioned in the last paragraph of the extract, where Dickens describes the clerk in his cell and his fire of one coal.", why: "An observation. What does it tell us?" }
+    ]
+  },
+  {
+    claim: "The list of verbs makes Scrooge’s greed physical.",
+    quote: "squeezing, wrenching, grasping, scraping, clutching",
+    opts: [
+      { t: "Dickens uses five words in a row here to describe Scrooge, one after the other, in the paragraph that begins with “Oh!”", why: "Retelling. What do the five words have in common?" },
+      { t: "Every verb is a way of holding on tight. Piled up, they turn greed into a pair of hands the reader can almost see.", ok: true, why: "Strong. It finds the pattern and explains its effect." },
+      { t: "The words show that Scrooge worked with his hands all day and was tired out by the end of each working day.", why: "A misreading. The verbs describe his character." },
+      { t: "The writer uses a list of five verbs in this sentence.", why: "An observation. Say what the list does." }
+    ]
+  }
+];
+TEXTS.push({ id: "marley-was-dead", type: "Fiction", mode: "Creative", form: "Novel opening", level: "6ème",
+  hook: "Fog, darkness at three in the afternoon, and a man who carries his own cold with him.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+{
+const TEXT = {
+  title: "The Story-Teller",
+  intro: "Saki (H. H. Munro), 1914. Abridged.",
+  paras: [
+    "It was a hot afternoon, and the railway carriage was correspondingly sultry, and the next stop was at Templecombe, nearly an hour ahead. The occupants of the carriage were a small girl, and a smaller girl, and a small boy. An aunt belonging to the children occupied one corner seat, and the further corner seat on the opposite side was occupied by a bachelor who was a stranger to their party, but the small girls and the small boy emphatically occupied the compartment.",
+    "Both the aunt and the children were conversational in a limited, persistent way, reminding one of the attentions of a housefly that refuses to be discouraged. Most of the aunt’s remarks seemed to begin with “Don’t”, and nearly all of the children’s remarks began with “Why?” The bachelor said nothing out loud.",
+    "“Don’t, Cyril, don’t,” exclaimed the aunt, as the small boy began smacking the cushions of the seat, producing a cloud of dust at each blow. “Come and look out of the window,” she added.",
+    "The child moved reluctantly to the window. “Why is that man taking those sheep out of that field?” he asked.",
+    "“I expect he is taking them to another field where there is more grass,” said the aunt weakly.",
+    "“But there is lots of grass in that field,” protested the boy; “there’s nothing else but grass there. Aunt, there’s lots of grass in that field.”",
+    "“Perhaps the grass in the other field is better,” suggested the aunt fatuously.",
+    "“Why is it better?” came the swift, inevitable question.",
+    "The smaller girl created a diversion by beginning to recite a poem. She only knew the first line, but she put her limited knowledge to the fullest possible use. She repeated the line over and over again in a dreamy but resolute and very audible voice.",
+    "“Come over here and listen to a story,” said the aunt, when the bachelor had looked twice at her and once at the communication cord.",
+    "The children moved listlessly towards the aunt’s end of the carriage. Evidently her reputation as a story-teller did not rank high in their estimation.",
+    "In a low, confidential voice, interrupted at frequent intervals by loud, petulant questions from her listeners, she began an unenterprising and deplorably uninteresting story about a little girl who was good, and made friends with everyone on account of her goodness, and was finally saved from a mad bull by a number of rescuers who admired her moral character.",
+    "“Wouldn’t they have saved her if she hadn’t been good?” demanded the bigger of the small girls. It was exactly the question that the bachelor had wanted to ask.",
+    "“Well, yes,” admitted the aunt lamely, “but I don’t think they would have run quite so fast to her help if they had not liked her so much.”",
+    "“It’s the stupidest story I’ve ever heard,” said the bigger of the small girls, with immense conviction.",
+    "“I didn’t listen after the first bit, it was so stupid,” said Cyril.",
+    "The smaller girl made no actual comment on the story, but she had long ago recommenced a murmured repetition of her favourite line.",
+    "“You don’t seem to be a success as a story-teller,” said the bachelor suddenly from his corner.",
+    "The aunt bristled in instant defence at this unexpected attack. “It’s a very difficult thing to tell stories that children can both understand and appreciate,” she said stiffly.",
+    "“I don’t agree with you,” said the bachelor.",
+    "“Perhaps you would like to tell them a story,” was the aunt’s retort.",
+    "“Tell us a story,” demanded the bigger of the small girls.",
+    "“Once upon a time,” began the bachelor, “there was a little girl called Bertha, who was extraordinarily good.”",
+    "The children’s momentarily aroused interest began at once to flicker; all stories seemed dreadfully alike, no matter who told them.",
+    "“She did all that she was told, she was always truthful, she kept her clothes clean, ate milk puddings as though they were jam tarts, learned her lessons perfectly, and was polite in her manners.”",
+    "“Was she pretty?” asked the bigger of the small girls.",
+    "“Not as pretty as any of you,” said the bachelor, “but she was horribly good.”",
+    "There was a wave of reaction in favour of the story; the word horrible in connection with goodness was a novelty that commended itself. It seemed to introduce a ring of truth that was absent from the aunt’s tales of infant life.",
+    "“She was so good,” continued the bachelor, “that she won several medals for goodness, which she always wore, pinned on to her dress. There was a medal for obedience, another medal for punctuality, and a third for good behaviour. They were large metal medals and they clicked against one another as she walked.”",
+    "“Everybody talked about her goodness, and the Prince of the country got to hear about it, and he said that as she was so very good she might be allowed once a week to walk in his park, which was just outside the town. It was a beautiful park, and no children were ever allowed in it, so it was a great honour for Bertha to be allowed to go there.”",
+    "“Were there any sheep in the park?” demanded Cyril.",
+    "“No,” said the bachelor, “there were no sheep.”",
+    "“Why weren’t there any sheep?” came the inevitable question arising out of that answer.",
+    "The aunt permitted herself a smile, which might almost have been described as a grin.",
+    "“There were no sheep in the park,” said the bachelor, “because the Prince’s mother had once had a dream that her son would either be killed by a sheep or else by a clock falling on him. For that reason the Prince never kept a sheep in his park or a clock in his palace.”",
+    "The aunt suppressed a gasp of admiration.",
+    "“In the park there were ponds with gold and blue and green fish in them, and trees with beautiful parrots that said clever things at a moment’s notice, and humming birds that hummed all the popular tunes of the day. Bertha walked up and down and enjoyed herself immensely, and thought to herself: if I were not so extraordinarily good I should not have been allowed to come into this beautiful park. Her three medals clinked against one another as she walked and helped to remind her how very good she really was.”",
+    "“Just then an enormous wolf came prowling into the park to see if it could catch a fat little pig for its supper.”",
+    "“What colour was it?” asked the children, amid an immediate quickening of interest.",
+    "“Mud-colour all over, with a black tongue and pale grey eyes that gleamed with unspeakable ferocity. The first thing that it saw in the park was Bertha; her pinafore was so spotlessly white and clean that it could be seen from a great distance.”",
+    "“Bertha ran as hard as she could, and the wolf came after her with huge leaps and bounds. She managed to reach a shrubbery of myrtle bushes and she hid herself in one of the thickest of the bushes. The wolf came sniffing among the branches, its black tongue lolling out of its mouth and its pale grey eyes glaring with rage. Bertha was terribly frightened, and thought to herself: if I had not been so extraordinarily good I should have been safe in the town at this moment.”",
+    "“The scent of the myrtle was so strong that the wolf could not sniff out where Bertha was hiding, and the bushes were so thick that he might have hunted about in them for a long time without catching sight of her, so he thought he might as well go off and catch a little pig instead. Bertha was trembling very much at having the wolf prowling and sniffing so near her, and as she trembled the medal for obedience clinked against the medals for good conduct and punctuality.”",
+    "“The wolf was just moving away when he heard the sound of the medals clinking and stopped to listen; they clinked again in a bush quite near him. He dashed into the bush, his pale grey eyes gleaming with ferocity and triumph, and dragged Bertha out and devoured her to the last morsel. All that was left of her were her shoes, bits of clothing, and the three medals for goodness.”",
+    "“Were any of the little pigs killed?”",
+    "“No, they all escaped.”",
+    "“The story began badly,” said the smaller of the small girls, “but it had a beautiful ending.”",
+    "“It is the most beautiful story that I ever heard,” said the bigger of the small girls, with immense decision.",
+    "“It is the only beautiful story I have ever heard,” said Cyril.",
+    "A dissentient opinion came from the aunt. “A most improper story to tell to young children! You have undermined the effect of years of careful teaching.”",
+    "“At any rate,” said the bachelor, collecting his belongings preparatory to leaving the carriage, “I kept them quiet for ten minutes, which was more than you were able to do.”",
+    "“Unhappy woman!” he observed to himself as he walked down the platform of Templecombe station; “for the next six months or so those children will assail her in public with demands for an improper story!”"
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Narrator’s judgement",
+    prompt: "Find the <em>comparison</em> the narrator uses to describe how the aunt and children talk.",
+    target: ["the attentions of a housefly that refuses to be discouraged"],
+    decoys: [{ phrase: "conversational in a limited, persistent way", why: "That is the narrator’s description, but it is not the comparison. Look a little further along the same sentence." }],
+    miss: "Look in the second paragraph for the word “housefly”.",
+    explain: "Comparing their talk to a fly you cannot swat away tells us the narrator finds them irritating, long before the bachelor says anything out loud."
+  },
+  {
+    skill: "Narrator’s tone",
+    prompt: "Find the <em>one word</em> the narrator uses to judge how the aunt answers about the grass.",
+    target: ["fatuously"],
+    decoys: [{ phrase: "said the aunt weakly", why: "Also a judgement on the aunt, and a good spot, but not the word asked for. Look at her next answer." }],
+    miss: "Look at the short line about the grass in the other field being better.",
+    explain: "“Fatuously” means in a silly, empty way. One adverb lets the narrator mock the aunt without ever stopping the story to explain."
+  },
+  {
+    skill: "Point of view",
+    prompt: "Find the sentence that tells us the bachelor and the child <em>think alike</em>.",
+    target: ["It was exactly the question that the bachelor had wanted to ask"],
+    decoys: [{ phrase: "The bachelor said nothing out loud", why: "That shows he is holding back, but it does not tell us he agrees with a child." }],
+    miss: "Look just after the girl asks whether the rescuers would have saved her anyway.",
+    explain: "The narrator lets us inside the bachelor’s head for one sentence. It puts him on the children’s side against the aunt before the argument even starts."
+  },
+  {
+    skill: "Irony",
+    prompt: "Find the <em>two words</em> that the children find new and true about Bertha.",
+    target: ["horribly good"],
+    decoys: [{ phrase: "extraordinarily good", why: "Close, and it opens the tale, but the children do not react to that phrase. Look for the word that should not fit with goodness." }],
+    miss: "Look for the bachelor’s answer to “Was she pretty?”",
+    explain: "“Horribly” normally goes with something awful. Joining it to “good” makes goodness sound like a fault, which is exactly why the children start listening."
+  },
+  {
+    skill: "Suspense",
+    prompt: "Find the <em>small sound</em> that gives Bertha away to the wolf.",
+    target: ["the medal for obedience clinked against the medals for good conduct and punctuality"],
+    decoys: [{ phrase: "her pinafore was so spotlessly white and clean", why: "Her cleanliness is what the wolf sees first, but the wolf is leaving by then. Look for what he hears." }],
+    miss: "Look for the moment Bertha trembles in the bush.",
+    explain: "The medals she won for being good are the thing that kills her. Saki plants them early so the ending feels earned rather than random."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Point of view",
+    q: "Whose thoughts does the narrator let us hear?",
+    opts: [
+      { t: "The bachelor’s, and only for a moment at a time", ok: true, why: "Right. We learn what he wanted to ask, and we hear his last remark to himself. The others are shown from outside." },
+      { t: "The aunt’s, since the story follows her attempts to cope", why: "We see what the aunt does and how stiffly she speaks, but never inside her head." },
+      { t: "Cyril’s, because the questions come mostly from him", why: "His questions are out loud. The narrator never enters his thoughts." },
+      { t: "Everybody’s in the carriage, one after the other", why: "Only one character’s thoughts are opened, which is what makes the ending land." }
+    ]
+  },
+  {
+    skill: "Narrator’s voice",
+    q: "How does the narrator feel about the aunt’s story?",
+    opts: [
+      { t: "He mocks it, calling it unenterprising and uninteresting", ok: true, why: "Right. Those words are the narrator’s, not a character’s. He dismisses her story before the children do." },
+      { t: "He admires it, because the good girl is rescued in the end", why: "The rescue is described as deplorable storytelling, not as a happy ending." },
+      { t: "He stays neutral and leaves the judging to the children", why: "The judging words arrive first from the narrator." },
+      { t: "He feels sorry for her because the children interrupt", why: "He notices the interruptions but does not take her side." }
+    ]
+  },
+  {
+    skill: "Irony",
+    q: "Why is the ending of the bachelor’s tale ironic?",
+    opts: [
+      { t: "The rewards for being good are what get Bertha caught", ok: true, why: "Right. The medals clink, the wolf turns back. Her goodness causes the disaster instead of saving her." },
+      { t: "The wolf turns out to be less dangerous than it looked", why: "It eats her to the last morsel. It is exactly as dangerous as it looked." },
+      { t: "Bertha is saved by the pigs she had been kind to earlier", why: "The pigs escape. They never help her." },
+      { t: "The Prince arrives in his park at the last moment", why: "The Prince never appears in person in the tale." }
+    ]
+  },
+  {
+    skill: "Contrast",
+    q: "How do the two stories in the carriage differ?",
+    opts: [
+      { t: "One rewards goodness, and one lets goodness cause the ending", ok: true, why: "Right. The aunt’s girl is saved because people like her. Bertha is eaten because her medals rattle." },
+      { t: "One is set in a park, and the other is set on a train", why: "Both are told on the train. Only their contents differ." },
+      { t: "One is much longer than the other and has more characters", why: "Length is not the difference the children react to." },
+      { t: "One of them is true, and the other one has been completely invented", why: "Both are invented. The children call one of them truthful in feeling." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why do the children prefer the bachelor’s story?",
+    opts: [
+      { t: "It surprises them and does not try to improve them", ok: true, why: "Right. “Horribly good” rings true to them, and nothing in the tale tells them how to behave." },
+      { t: "It is about animals, and children always prefer animals", why: "The aunt’s story has a bull in it and they call it stupid." },
+      { t: "It is shorter, so it holds their attention more easily", why: "It is much longer. They still listen." },
+      { t: "The bachelor promises them sweets if they stay quiet", why: "He promises nothing. He simply tells the story." }
+    ]
+  },
+  {
+    skill: "Ending",
+    q: "What does the bachelor’s last line add?",
+    opts: [
+      { t: "A final joke at the aunt’s expense, for the reader alone", ok: true, why: "Right. He says it to himself on the platform, so only we hear it. The aunt’s punishment is still to come." },
+      { t: "A warning that he regrets telling such a violent story", why: "He sounds delighted, not sorry." },
+      { t: "A promise that he will meet the children and their aunt again", why: "He is leaving the train for good." },
+      { t: "An apology to the reader for upsetting the children", why: "The children are not upset. They loved it." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "The bachelor said nothing out loud.",
+    opts: [
+      { t: "He is judging the carriage silently from his corner", ok: true, why: "Right. “Out loud” hints that plenty is being said inside his head, which the narrator later confirms." },
+      { t: "He is asleep and has not noticed the children at all", why: "He is watching closely enough to look twice at the aunt." },
+      { t: "He is too shy to speak to strangers on a train", why: "He speaks bluntly to the aunt a few minutes later." },
+      { t: "He agrees with everything the aunt has been saying", why: "He tells her she is not a success as a story-teller." }
+    ]
+  },
+  {
+    quote: "Evidently her reputation as a story-teller did not rank high in their estimation.",
+    opts: [
+      { t: "The children have heard her stories before and expect little", ok: true, why: "Right. “Reputation” means she has form. They drag themselves over before she has even begun." },
+      { t: "The children have never travelled with this aunt before today", why: "A reputation takes time to build. They know her well." },
+      { t: "The children are too tired from the heat to listen", why: "They find plenty of energy for the bachelor’s tale." },
+      { t: "The aunt has told them she is bad at telling stories", why: "She defends herself later, so she does not think that." }
+    ]
+  },
+  {
+    quote: "The aunt permitted herself a smile, which might almost have been described as a grin.",
+    opts: [
+      { t: "She enjoys seeing the bachelor trapped by a child’s question", ok: true, why: "Right. She has just been beaten by the same kind of question, so she expects him to fail too." },
+      { t: "She has begun to find the bachelor and his story rather charming", why: "Her admiration comes later, and she keeps that quiet." },
+      { t: "She is trying to encourage Cyril to ask more questions", why: "Her aim all afternoon has been fewer questions." },
+      { t: "She is signalling to the bachelor that he should stop", why: "She invited him to tell a story herself." }
+    ]
+  },
+  {
+    quote: "A most improper story to tell to young children!",
+    opts: [
+      { t: "The aunt judges a story by its lesson, not by its effect", ok: true, why: "Right. The children are quiet and delighted, yet she measures the tale only against the teaching she wants." },
+      { t: "The aunt is frightened by the wolf in the story", why: "Her worry is about the children, not about herself." },
+      { t: "The aunt thinks the story was too long for young children", why: "Her objection is “improper”, which is about content." },
+      { t: "The aunt believes the children did not understand it", why: "They understood it well enough to praise it." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The narrator takes sides before the characters argue.",
+    quote: "the attentions of a housefly that refuses to be discouraged",
+    opts: [
+      { t: "The aunt and the children keep talking to each other in the carriage for most of the journey towards Templecombe.", why: "Retelling. What does the comparison do?" },
+      { t: "A fly you cannot wave away is annoying and pointless. The image makes us share the bachelor’s irritation before he speaks.", ok: true, why: "Strong. It explains the comparison and its effect on the reader." },
+      { t: "Saki means that there were flies in the railway carriage because the afternoon was hot and the windows were open.", why: "A literal misreading. It is a comparison." },
+      { t: "The narrator uses a simile in this part of the story, which is a comparison using the word like or as to help the reader picture something.", why: "An observation. What is the effect of it?" }
+    ]
+  },
+  {
+    claim: "One word can carry the narrator’s opinion.",
+    quote: "fatuously",
+    opts: [
+      { t: "The aunt answers Cyril’s question about the grass in the other field, and the narrator tells us how she said it.", why: "Retelling. What does the chosen word add?" },
+      { t: "“Fatuously” means silly and empty. The narrator judges her answer in one word, so the mockery never slows the scene down.", ok: true, why: "Strong. It defines the word and explains why it is efficient." },
+      { t: "The word shows the aunt is speaking very quietly, so the children at the window cannot quite hear what she says.", why: "A misreading of the word." },
+      { t: "The writer uses an adverb here to describe the way she speaks, and adverbs are the words that tell a reader how an action is carried out.", why: "An observation. Which adverb, and what does it show?" }
+    ]
+  },
+  {
+    claim: "The children judge stories by truth, not by morals.",
+    quote: "horribly good",
+    opts: [
+      { t: "The bachelor tells the children that Bertha was not as pretty as they are, and then describes how good she was.", why: "Retelling. Why do those two words work?" },
+      { t: "Putting a nasty word next to goodness matches what children suspect about being good. It sounds honest, so they listen.", ok: true, why: "Strong. It explains the clash of words and the reaction it causes." },
+      { t: "The words mean that Bertha behaved very badly indeed, which is why the wolf was able to catch her in the park.", why: "A misreading. She really is good." },
+      { t: "The bachelor puts two words together that do not normally go together, which is something writers often do to make a phrase stand out.", why: "An observation. Say what the pairing achieves." }
+    ]
+  },
+  {
+    claim: "The tale punishes the very thing the aunt would praise.",
+    quote: "All that was left of her were her shoes, bits of clothing, and the three medals for goodness.",
+    opts: [
+      { t: "The wolf eats Bertha in the park, and only a few of her things are left behind when the story comes to its end.", why: "Retelling. Why those particular things?" },
+      { t: "The medals survive her. Ending on them makes the reward for goodness the last image, and the cause of her death.", ok: true, why: "Strong. It explains the choice of final detail and its double meaning." },
+      { t: "Saki wants to show that metal lasts longer than cloth does, which is why the medals are still there at the end.", why: "A literal reading. The medals matter for what they stand for." },
+      { t: "The bachelor lists three things at the end of his story, and lists of three are used by writers because they sound complete to a reader.", why: "An observation. Why end on the medals?" }
+    ]
+  },
+  {
+    claim: "The last line is aimed at the reader, not the aunt.",
+    quote: "for the next six months or so those children will assail her in public with demands for an improper story",
+    opts: [
+      { t: "The bachelor leaves the train at Templecombe station and walks away along the platform, thinking about the children.", why: "Retelling. Who hears this, and why does that matter?" },
+      { t: "He says it to himself, so only we hear it. We are handed the aunt’s future punishment as a private joke he has won.", ok: true, why: "Strong. It explains who the audience is and what the closing joke does." },
+      { t: "The bachelor is worried that the children will get into trouble with their aunt for asking too many questions.", why: "He is delighted, not worried." },
+      { t: "The story finishes with the bachelor speaking to himself.", why: "An observation. What is the effect of ending this way?" }
+    ]
+  }
+];
+TEXTS.push({ id: "the-story-teller", type: "Fiction", mode: "Creative", form: "Short story", level: "5ème",
+  hook: "A hot train, three restless children, and a stranger who tells a better story than the aunt.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+{
+const TEXT = {
+  title: "The Red Room",
+  intro: "H. G. Wells, 1896. Shortened extract.",
+  paras: [
+    "“I can assure you,” said I, “that it will take a very tangible ghost to frighten me.” And I stood up before the fire with my glass of wine in my hand.",
+    "“It is your own choosing,” said the man with the withered arm, and glanced at me askance.",
+    "“Eight-and-twenty years,” said I, “I have lived, and never a ghost have I seen as yet.”",
+    "The old woman sat staring hard into the fire, her pale eyes wide open. “Ay,” she broke in; “and eight-and-twenty years you have lived and never seen the likes of this house, I reckon. There’s a many things to see, when one’s still but eight-and-twenty.” She swayed her head slowly from side to side. “A many things to see and sorrow for.”",
+    "The door opened, and a second old man came shuffling in, more bent, more wrinkled, more aged even than the first. He supported himself by a single crutch, his eyes were covered by a shade, and his lower lip hung pale and pink from his decaying yellow teeth. He made straight for an arm-chair on the opposite side of the table, sat down, and began to cough.",
+    "“This night of all nights!” said the old woman.",
+    "“It is my own choosing,” I answered. “If you will show me to this haunted room of yours, I will make myself comfortable there.”",
+    "“You go alone,” said the man with the withered arm.",
+    "“Very well,” I answered, “and which way do I go?”",
+    "“You go along the passage for a bit,” said he, “until you come to a door, and through that is a spiral staircase, and halfway up that is a landing and another door covered with baize. Go through that and down the long corridor to the end, and the red room is on your left up the steps.”",
+    "The long, draughty subterranean passage was chilly and dusty, and my candle flared and made the shadows cower and quiver. The echoes rang up and down the spiral staircase, and a shadow came sweeping up after me, and one fled before me into the darkness overhead.",
+    "I came to the landing and stopped there for a moment, listening to a rustling that I fancied I heard; then, satisfied of the absolute silence, I pushed open the baize-covered door and stood in the corridor.",
+    "The moonlight, coming in by the great window on the grand staircase, picked out everything in vivid black shadow or silvery illumination. Everything was in its place: the house might have been deserted on the yesterday instead of eighteen months ago. There were candles in the sockets of the sconces, and whatever dust had gathered on the carpets or upon the polished flooring was distributed so evenly as to be invisible in the moonlight.",
+    "I was about to advance, and stopped abruptly. A bronze group stood upon the landing, hidden from me by a corner of the wall; but its shadow fell with marvellous distinctness upon the white panelling, and gave me the impression of someone crouching to waylay me. I stood rigid for half a minute perhaps. Then, with my hand in the pocket that held the revolver, I advanced, only to discover a statue of Ganymede and the eagle, glistening in the moonlight.",
+    "I entered the red room, closed the door behind me, and stood with the candle held aloft, surveying the scene of my vigil, the great red room in which the young duke had died. My candle was a little tongue of light in its vastness, that failed to pierce the opposite end of the room, and left an ocean of mystery and suggestion beyond its island of light.",
+    "I began to walk about the room, peering round each article of furniture, tucking up the valances of the bed, and opening its curtains wide. I pulled back the blinds and examined the fastenings of the several windows before closing the shutters. Then, satisfied, I stirred the fire, lit the candles in the sconces, and set them about the room, so that not a corner of it was without its light.",
+    "I must confess that the oddness of these three old pensioners in whose charge the place was, and the deep-toned, old-fashioned furniture of the room in which they foregathered, had affected me curiously in spite of my efforts to keep myself at a matter-of-fact phase. To keep my mind steady I began to string some rough rhymes together, repeating them aloud, until the echoes made me stop.",
+    "It was after midnight that the candle in the alcove went out, and the black shadow sprang back to its place there. I did not see the candle go out; I simply turned and saw that the darkness was there, as one might start and find a stranger watching one’s face.",
+    "“By Jove,” said I aloud, “that draught is a strong one!” and taking the matches from the table, I walked across the room in a leisurely manner to relight the corner again. My first match would not strike, and as I succeeded with the second, something seemed to blink on the wall before me. I turned my head involuntarily, and saw that the two candles on the little table by the fireplace were extinguished.",
+    "I rose at once to my feet. “Odd,” I said. “Did I do that myself in a flash of absent-mindedness?” I walked back, relighted one, and as I did so, I saw the candle in the right sconce of one of the mirrors wink and go right out, and almost immediately its companion followed it.",
+    "There was no mistake about it now. The flame vanished, as if the wicks had been suddenly nipped between a finger and a thumb, leaving the wick neither glowing nor smoking, but black. While I stood gaping, the candle at the foot of the bed went out, and the shadows seemed to take another step towards me.",
+    "“This won’t do!” said I, and first one and then another candle on the mantelshelf followed. “What’s up?” I cried, with a queer high note getting into my voice somehow. At that the candle on the wardrobe went out, and the one I had relit in the alcove followed.",
+    "“Steady on!” I said. “These candles are wanted,” speaking with a half-hysterical facetiousness, and scratching away at a match the while for the mantel candlesticks. My hands trembled so much that twice I missed the rough paper of the matchbox. As the mantel emerged from darkness again, two candles in the remoter end of the window were eclipsed. But with the same match I also relit the larger mirror candles, and those on the floor near the doorway, so that for the moment I seemed to gain on the extinctions.",
+    "But then in a volley there vanished four lights at once in different corners of the room, and I struck another match in quivering haste, and stood hesitating whither to take it. As I hesitated, an invisible hand seemed to sweep out the two candles on the table. With a cry of terror I dashed at the alcove, then into the corner and then into the window, relighting three as two more vanished by the fireplace, and then, perceiving a better way, I dropped the matches on the iron-bound deed-box in the corner, and caught up the bedroom candlestick. With this I avoided the delay of striking matches; but for all that the steady process of extinction went on, and the shadows I feared and fought against returned, and crept in upon me.",
+    "And then the fight became a battle with darkness. I heard the last candle go, and I flung the candlestick from me. The darkness closed upon me like the shutting of an eye, and I flung out my arms and staggered forward, striking my head, I think, against the corner of the bed, and I fell headlong, and knew no more.",
+    "I opened my eyes in daylight. My head was bandaged, and the man with the withered arm was watching my face. “You believe now,” said he, “that the room is haunted?”",
+    "“Yes,” said I, “the room is haunted. But it is not a ghost that haunts it. It is fear. Fear that will not have light nor sound, that will not bear with reason, that deafens and darkens and overwhelms. It followed me through the corridor, it fought against me in the room.”"
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Atmosphere",
+    prompt: "Find where the narrator’s own candle makes the <em>shadows move</em> in the passage.",
+    target: ["my candle flared and made the shadows cower and quiver"],
+    decoys: [{ phrase: "chilly and dusty", why: "A good detail for the cold and neglect, but it does not describe the shadows moving." }],
+    miss: "Look in the paragraph about the long passage under the house.",
+    explain: "The light he carries for safety is what sets the shadows moving. “Cower” and “quiver” make them behave like frightened living things."
+  },
+  {
+    skill: "Metaphor",
+    prompt: "Find the <em>sea image</em> that describes the darkness beyond his candle.",
+    target: ["an ocean of mystery and suggestion beyond its island of light"],
+    decoys: [{ phrase: "a little tongue of light in its vastness", why: "Also an image for the candle, and a strong one, but it is not the sea. Read on to the end of the sentence." }],
+    miss: "Look at the end of the paragraph where he first enters the red room.",
+    explain: "One small island in a whole ocean shows how little of the room he can see. The word “suggestion” admits that the rest is filled in by his own mind."
+  },
+  {
+    skill: "Suspense",
+    prompt: "Find the <em>false alarm</em> that turns out to be a statue.",
+    target: ["the impression of someone crouching to waylay me"],
+    decoys: [{ phrase: "a statue of Ganymede and the eagle", why: "That is the answer to the alarm, not the alarm itself. Look for the shape he thinks he sees first." }],
+    miss: "Look for the bronze shadow on the white panelling.",
+    explain: "Wells scares the reader with nothing at all. Once a shadow has fooled us once, the real extinctions later feel far more dangerous."
+  },
+  {
+    skill: "Sensory language",
+    prompt: "Find the comparison that describes how the <em>flames die</em>.",
+    target: ["as if the wicks had been suddenly nipped between a finger and a thumb"],
+    decoys: [{ phrase: "the shadows seemed to take another step towards me", why: "That is the effect on the shadows. Look for how the flames themselves go out." }],
+    miss: "Look for the paragraph that begins “There was no mistake about it now.”",
+    explain: "Pinched wicks suggest fingers in the room. The image hints at a presence without ever showing one, which is worse than a ghost."
+  },
+  {
+    skill: "Narrator",
+    prompt: "Find the moment the narrator’s <em>voice gives him away</em>.",
+    target: ["with a queer high note getting into my voice"],
+    decoys: [{ phrase: "My hands trembled so much that twice I missed", why: "His hands betray him too, but the question asks about his voice." }],
+    miss: "Look for the line where he cries “What’s up?”",
+    explain: "He keeps talking as though he is calm, but the pitch of his own voice tells us otherwise. The first-person narrator reports the fear he is trying to deny."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Point of view",
+    q: "What does first-person narration add to this story?",
+    opts: [
+      { t: "We only know what he knows, so the dark hides as much from us", ok: true, why: "Right. We never see the room from outside. His candle is our only light, and his fear becomes ours." },
+      { t: "It proves that everything described in the story really happened", why: "A narrator can be wrong. His own ending redefines what happened." },
+      { t: "It lets us watch the three old people while he is upstairs", why: "Once he leaves the room below, we lose sight of them." },
+      { t: "It keeps us at a safe distance from the narrator’s feelings", why: "It does the opposite: we are inside them." }
+    ]
+  },
+  {
+    skill: "Mood",
+    q: "How does the mood change when he reaches the corridor?",
+    opts: [
+      { t: "It lifts briefly, because moonlight makes everything ordinary", ok: true, why: "Right. Everything is “in its place”, and the effect is “scarcely what I expected”. Wells lets the tension drop before raising it." },
+      { t: "It darkens at once, because the corridor is pitch black", why: "The great window lets in enough moonlight to see clearly." },
+      { t: "It stays exactly the same as it was down in the underground passage", why: "The passage was chilly and full of moving shadows. The corridor is still and silver." },
+      { t: "It turns comic, because he laughs at his own nerves", why: "His laughter comes much later, and it is forced." }
+    ]
+  },
+  {
+    skill: "Structure",
+    q: "Why does Wells put out the candles one at a time?",
+    opts: [
+      { t: "Each one raises the tension a little further than the last", ok: true, why: "Right. One candle is a draught. Four at once is not. The slow loss lets panic build step by step." },
+      { t: "It shows that the ghost is weak and can only manage one at a time", why: "The story ends by saying there is no ghost at all." },
+      { t: "It gives the narrator time to search for the intruder", why: "He never searches. He only relights and loses ground." },
+      { t: "It proves the windows have been left open somewhere", why: "He checked the fastenings and closed the shutters himself." }
+    ]
+  },
+  {
+    skill: "Setting",
+    q: "What part does the house itself play?",
+    opts: [
+      { t: "Its size and silence give the darkness room to work", ok: true, why: "Right. A vast room his candle cannot cross, echoes that stop his rhymes, corners he cannot watch at once." },
+      { t: "It is a small, cramped cottage that makes him feel trapped", why: "The red room is “vast”, with a grand staircase outside it." },
+      { t: "It is full of noises made by the three old people", why: "He notes “absolute silence” once he leaves them." },
+      { t: "It has been left in ruins for eighteen months", why: "Everything is in place, as if deserted yesterday." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does the narrator talk out loud to himself?",
+    opts: [
+      { t: "To hold on to a calm he no longer feels", ok: true, why: "Right. “By Jove”, “Steady on”, the rough rhymes: all attempts to sound like a man in control." },
+      { t: "To let the three old people downstairs hear him", why: "They are far away, behind two doors and a staircase." },
+      { t: "To frighten away whatever is putting out the candles", why: "He does not believe anything is there to hear him." },
+      { t: "Because the echoes in the room amuse him", why: "The echoes make him stop, rather than continue." }
+    ]
+  },
+  {
+    skill: "Ending",
+    q: "What does the last paragraph change?",
+    opts: [
+      { t: "The haunting turns out to be fear itself, not a spirit", ok: true, why: "Right. He agrees the room is haunted, then names the thing that haunts it. The threat was inside him all along." },
+      { t: "The narrator admits that he imagined the whole of that night", why: "The candles really went out. He does not take that back." },
+      { t: "The old people confess that they blew out the candles", why: "They say nothing of the sort." },
+      { t: "The narrator promises never to enter the house again", why: "He makes no such promise in this extract." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "a shadow came sweeping up after me, and one fled before me",
+    opts: [
+      { t: "The darkness behaves as if it were chasing him", ok: true, why: "Right. “After me” and “before me” surround him, so the shadows act like pursuers rather than effects of light." },
+      { t: "Somebody else is climbing the staircase behind him", why: "The shadows are made by his own candle. No one follows him." },
+      { t: "The staircase is too narrow for him to pass easily", why: "The quote is about shadows, not about space." },
+      { t: "He is walking faster than he means to admit", why: "His speed is not what the quote describes." }
+    ]
+  },
+  {
+    quote: "as one might start and find a stranger watching one’s face",
+    opts: [
+      { t: "The darkness is being described as a presence", ok: true, why: "Right. The comparison gives the dark eyes and attention, so an absence of light becomes a watcher." },
+      { t: "There is somebody hiding inside the alcove", why: "The room is empty. The image is a comparison." },
+      { t: "He has fallen asleep and woken up suddenly", why: "He is awake and pacing the room." },
+      { t: "The old man with the shade has followed him upstairs", why: "He went up alone and nobody joins him." }
+    ]
+  },
+  {
+    quote: "so that not a corner of it was without its light",
+    opts: [
+      { t: "He prepares carefully, which makes the later losses worse", ok: true, why: "Right. He fills every corner on purpose, so each candle that dies takes back ground he had won." },
+      { t: "He is frightened of the dark before anything happens", why: "He calls himself matter-of-fact here and searches the room calmly." },
+      { t: "The room is too bright for him to see the shadows", why: "The point of the light is that he can see everything." },
+      { t: "He plans to stay awake and read there until the morning comes", why: "Reading is never mentioned." }
+    ]
+  },
+  {
+    quote: "The darkness closed upon me like the shutting of an eye",
+    opts: [
+      { t: "The dark arrives suddenly and completely, like a decision", ok: true, why: "Right. An eye shuts in an instant, and the image suggests something choosing to close on him." },
+      { t: "He closes his own eyes because he is exhausted by the night", why: "He is running and striking matches, not resting." },
+      { t: "The room slowly grows dimmer over several hours", why: "“Shutting” is instant, and the final candle has just gone." },
+      { t: "He is knocked unconscious before the candles go out", why: "The order is the other way round." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "Wells makes light the enemy of calm.",
+    quote: "my candle flared and made the shadows cower and quiver",
+    opts: [
+      { t: "The narrator carries a candle along the cold underground passage on his way towards the spiral staircase of the house.", why: "Retelling. What does the candle do to the passage?" },
+      { t: "The candle he carries for safety is what animates the shadows. “Cower” and “quiver” make them frightened creatures around him.", ok: true, why: "Strong. It catches the reversal and explains the two verbs." },
+      { t: "The shadows in the passage are alive, and they move away from the candle because they are afraid of being burned by it.", why: "A literal reading. The shadows are made by the flame." },
+      { t: "The writer uses personification to describe the shadows here, which means giving human actions or feelings to something that is not alive.", why: "An observation. What does the personification achieve?" }
+    ]
+  },
+  {
+    claim: "The narrator sees less than he thinks he does.",
+    quote: "an ocean of mystery and suggestion beyond its island of light",
+    opts: [
+      { t: "The candle he is holding up is not strong enough to light the whole of the great red room from one end to the other.", why: "Retelling. What do “ocean” and “suggestion” add?" },
+      { t: "An island in an ocean is tiny and surrounded. “Suggestion” admits the dark is filled in by his mind, not by what is there.", ok: true, why: "Strong. It explains both halves of the image and what they reveal." },
+      { t: "Wells means that the red room is so large that it would take a boat to cross from one side of it to the other side.", why: "A literal misreading of the comparison." },
+      { t: "This sentence contains a metaphor about the sea, and a metaphor is a comparison in which one thing is described as though it were another.", why: "An observation. Say what it shows about him." }
+    ]
+  },
+  {
+    claim: "Small failures reveal the fear he denies.",
+    quote: "with a queer high note getting into my voice",
+    opts: [
+      { t: "The narrator calls out “What’s up?” when another of the candles in the room goes out without any warning at all.", why: "Retelling. What does his voice give away?" },
+      { t: "His words stay casual while his pitch rises. The body reports the fear that the first-person narrator will not admit yet.", ok: true, why: "Strong. It sets what he says against how he says it." },
+      { t: "The narrator is singing a song to himself in a high voice to try to keep himself company in the empty room.", why: "A misreading. He is calling out in alarm." },
+      { t: "The writer describes the sound of the narrator’s voice at this point, telling the reader how it sounded as he called out into the room.", why: "An observation. Why describe it at that moment?" }
+    ]
+  },
+  {
+    claim: "The ending re-reads everything that came before.",
+    quote: "It is fear. Fear that will not have light nor sound",
+    opts: [
+      { t: "The narrator wakes up the next morning with a bandage on his head and talks to the man with the withered arm.", why: "Retelling. What does his answer change?" },
+      { t: "He agrees the room is haunted, then names fear as the haunter. Every shadow we believed in becomes his own mind at work.", ok: true, why: "Strong. It explains the twist and how it changes the earlier scenes." },
+      { t: "The narrator explains that a real ghost appeared and that it was made of fear rather than of anything solid.", why: "He rules out a ghost entirely." },
+      { t: "The story ends with the narrator speaking about fear, which is the last thing he says to the old man with the withered arm in the morning.", why: "An observation. What does that ending do?" }
+    ]
+  },
+  {
+    claim: "Wells trains the reader to be frightened by nothing.",
+    quote: "the impression of someone crouching to waylay me",
+    opts: [
+      { t: "The narrator stops on the landing because he sees a shadow on the white panelling before he reaches the corridor.", why: "Retelling. Why include a scare that comes to nothing?" },
+      { t: "The crouching figure is only a statue’s shadow. After being fooled once, we distrust every shape the candle throws.", ok: true, why: "Strong. It explains the purpose of a false alarm." },
+      { t: "Somebody really is waiting on the landing to attack the narrator, and he escapes by drawing his revolver quickly.", why: "It is a statue of Ganymede." },
+      { t: "The narrator is nervous on the landing in this part, standing rigid for half a minute before he walks on with his hand on the revolver.", why: "An observation. Why does Wells put this here?" }
+    ]
+  }
+];
+TEXTS.push({ id: "the-red-room", type: "Fiction", mode: "Creative", form: "Ghost story", level: "5ème",
+  hook: "A young man spends a night in a haunted room, armed with a candle and his own confidence.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+{
+const TEXT = {
+  title: "The Boarded Window",
+  intro: "Ambrose Bierce, 1891. Abridged.",
+  paras: [
+    "In 1830, only a few miles away from what is now the great city of Cincinnati, lay an immense and almost unbroken forest. The whole region was sparsely settled by people of the frontier, restless souls who no sooner had hewn fairly habitable homes out of the wilderness than they abandoned all and pushed farther westward, to encounter new perils in the effort to regain the meagre comforts which they had voluntarily renounced.",
+    "Many of them had already forsaken that region for the remoter settlements, but among those who remained was one who had been of those first arrived. He lived alone in a house of logs surrounded on all sides by the great forest, of whose gloom and silence he seemed a part, for no one had ever known him to smile nor speak a needless word.",
+    "The man was Murlock. He was apparently seventy years old, actually about fifty. Something besides years had had a hand in his ageing. His hair and long, full beard were white, his grey, lustreless eyes sunken, his face singularly seamed with wrinkles which appeared to belong to two intersecting systems.",
+    "The little log house, with its chimney of sticks and its roof of warping clapboards, had a single door and, directly opposite, a window. The window, however, was boarded up. Nobody could remember a time when it was not. And none knew why it was so closed; certainly not because of the occupant’s dislike of light and air, for on those rare occasions when a hunter had passed that lonely spot the recluse had commonly been seen sunning himself on his doorstep.",
+    "I fancy there are few persons living today who ever knew the secret of that window, but I am one, as you shall see.",
+    "The man’s name was said to have been Murlock. He was evidently of the frontier type, and he had come into the forest with a young wife, whom he loved with the fierce, uncomplaining love of a man who has little else. He had built the cabin with his own hands, and had been, in his rough way, happy.",
+    "One day his wife fell ill. He was many miles from any help, and there was no help to be had. He did what he could, and when she died he was taken with a great dull amazement. He had no experience in grief; his heart could not hold it all, and his imagination could not comprehend it.",
+    "He was a woodman, and he knew what was to be done. He washed the body, combed the hair, dressed it in such clothing as he had, and laid it upon a table, binding a handkerchief about the chin to close the jaw. There were no neighbours to come; there was to be no burial until the morning.",
+    "Night came, and he sat by the table in the darkness, a candle burning at the dead woman’s head. He was not sorrowful now, only bewildered. Sometimes he was barely conscious of what was about him, and sometimes he felt a quiet, dull surprise that he was not weeping. Now and then he put out his hand and touched the cold cheek, then drew it back.",
+    "Then, without any sense of the passage of time, he fell asleep with his face in his hands upon the table.",
+    "He was awakened by what seemed, in the stillness, to be a cry. He raised his head and listened, not knowing whether he had dreamed it. Everything was in darkness; the candle had burned itself out. The night was black, and there was no wind in the trees outside.",
+    "He was intensely conscious of his own heart. Presently the table shook beneath his arms, and at the same moment he heard, or fancied that he heard, a light, soft step, and then another. The sounds seemed to come from the direction of the table itself.",
+    "He was terrified, and he could not have told what he feared. He half rose to his feet, his hands upon the edge of the table, and he listened with all his soul. Then came a sound as of the shuffling of a heavy body, and afterwards a sound that he could not explain: a sound of something dragging.",
+    "He was a hunter, and his rifle lay across his knees. Without knowing why, he lifted it, and, pointing into the darkness towards the table, he fired.",
+    "By the flash which lit up the room with a vivid illumination, he saw an enormous panther dragging the dead woman towards the window, its teeth fixed in her throat. Then all was darkness again, and silence; and when he recovered from the shock of the report he heard nothing but the beating of his own heart.",
+    "It was long before he found a match and lit it. The table had been moved from its place. In the corner of the room the body lay upon the floor, the clothing disordered, the hair in disarray, and the throat terribly torn.",
+    "Murlock did not weep. He looked, and set the candle down, and looked again.",
+    "Between the woman’s teeth was a fragment of the animal’s ear."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Narrator",
+    prompt: "Find where the narrator promises the reader a <em>secret</em>.",
+    target: ["I fancy there are few persons living today who ever knew the secret of that window"],
+    decoys: [{ phrase: "And none knew why it was so closed", why: "That tells us nobody knew. Look for the line where the narrator claims that he does." }],
+    miss: "Look for the short paragraph that uses the word “I”.",
+    explain: "The narrator steps out of the background to say that he knows something we do not. The whole story then works as the answer to that promise."
+  },
+  {
+    skill: "Setting",
+    prompt: "Find where Murlock is described as <em>part of the forest</em>.",
+    target: ["of whose gloom and silence he seemed a part"],
+    decoys: [{ phrase: "surrounded on all sides by the great forest", why: "That places him inside the forest, but it does not say he seems part of it." }],
+    miss: "Look in the second paragraph, just before the line about smiling.",
+    explain: "The forest is gloomy and silent, and so is he. Bierce blurs the man into his setting, so that the place seems to have shaped him."
+  },
+  {
+    skill: "Inference clue",
+    prompt: "Find the detail about <em>closing the jaw</em> that matters at the end.",
+    target: ["binding a handkerchief about the chin to close the jaw"],
+    decoys: [{ phrase: "He washed the body, combed the hair", why: "Part of the same careful preparation, but it is not the detail the ending depends on." }],
+    miss: "Look at the paragraph where he prepares the body.",
+    explain: "A jaw bound shut cannot bite. Bierce puts the detail in early and quietly, so the last line rewards readers who remember it."
+  },
+  {
+    skill: "Suspense",
+    prompt: "Find the sound Murlock <em>cannot explain</em>.",
+    target: ["a sound of something dragging"],
+    decoys: [{ phrase: "a light, soft step, and then another", why: "A frightening sound, but he can name that one. Look for the sound he has no name for." }],
+    miss: "Look just before he lifts the rifle.",
+    explain: "Bierce gives us only what Murlock can hear in the dark. Naming the sound would end the fear, so the sentence refuses to name it."
+  },
+  {
+    skill: "Ending image",
+    prompt: "Find the <em>final detail</em> that changes the whole story.",
+    target: ["Between the woman’s teeth was a fragment of the animal’s ear"],
+    decoys: [{ phrase: "the throat terribly torn", why: "Horrible, and true, but the panther could do that to a dead woman. Look for the detail only a living woman could leave." }],
+    miss: "Look at the last line of the story.",
+    explain: "A dead woman cannot bite. The last line tells us she was alive when the panther came, and Bierce stops there rather than spelling it out."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Point of view",
+    q: "How does the narrator know about Murlock?",
+    opts: [
+      { t: "He knows the secret and is passing on a story from years before", ok: true, why: "Right. He writes about 1830 from long afterwards, and claims to be one of the few who know the truth." },
+      { t: "He was in the cabin on the night the panther came", why: "Nothing places him there. He tells the night from outside." },
+      { t: "He is Murlock himself, telling the story of his own life in old age", why: "Murlock is “he” throughout, and the narrator outlives him." },
+      { t: "He is guessing, and admits he invented the details", why: "He claims knowledge, not invention." }
+    ]
+  },
+  {
+    skill: "Structure",
+    q: "Why does the story begin with the boarded window?",
+    opts: [
+      { t: "It sets a question the reader waits the whole story to answer", ok: true, why: "Right. We learn the window is boarded and that nobody knows why, then everything else works towards the reason." },
+      { t: "It explains why Murlock has never repaired his cabin", why: "The cabin’s condition is not the point of the opening." },
+      { t: "It shows that the forest was dangerous to travellers", why: "The danger arrives later, and from inside the cabin." },
+      { t: "It proves that Murlock disliked both daylight and fresh air in the cabin", why: "The narrator rules that out in the same paragraph." }
+    ]
+  },
+  {
+    skill: "Mood",
+    q: "What mood do the paragraphs before the panther create?",
+    opts: [
+      { t: "Numb and still, with grief that has not arrived yet", ok: true, why: "Right. He is “bewildered”, not sorrowful, and surprised he is not weeping. The stillness makes the noise later far louder." },
+      { t: "Frantic and busy, as he searches the cabin for help", why: "He is many miles from help and has stopped looking for it." },
+      { t: "Peaceful and warm, with the candle burning steadily", why: "One candle in a black forest is not warmth. He feels only dull surprise." },
+      { t: "Angry, because he blames himself for his wife’s death", why: "Blame is never mentioned in the extract." }
+    ]
+  },
+  {
+    skill: "Word choice",
+    q: "Murlock feels “a great dull amazement”. Why those words?",
+    opts: [
+      { t: "They show grief that is too big to feel properly yet", ok: true, why: "Right. “Amazement” is shock rather than sadness, and “dull” drains it of sharpness. The next line says his heart could not hold it all." },
+      { t: "They show he is secretly pleased that she has died", why: "Nothing suggests that. He loved her fiercely." },
+      { t: "They show he is confused about who she was", why: "He knows exactly who she is as he prepares the body." },
+      { t: "They show he had been expecting her death for months", why: "She fell ill suddenly, with no help nearby." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "What can we work out that Murlock never says?",
+    opts: [
+      { t: "His wife was still alive when he laid her on the table", ok: true, why: "Right. The bitten ear proves she fought. The illness had left her in a state he mistook for death." },
+      { t: "The panther had been living inside the cabin already", why: "It comes to the window, which is how it gets in and out." },
+      { t: "Murlock shot his own wife by accident in the darkness of the cabin", why: "The wounds are teeth wounds, at her throat." },
+      { t: "The cry he heard was made by a neighbour outside", why: "There are no neighbours. The narrator says so." }
+    ]
+  },
+  {
+    skill: "Ending",
+    q: "Why does Bierce stop at the fragment of ear?",
+    opts: [
+      { t: "The reader does the last step, which makes it land harder", ok: true, why: "Right. He never writes that she was alive. We assemble it, and the horror belongs to us." },
+      { t: "The story has simply run out of any more events to describe", why: "He could have described the burial, or the boarding of the window." },
+      { t: "It shows that the panther was badly hurt by the rifle", why: "The ear was bitten off, not shot off." },
+      { t: "It proves Murlock’s aim with the rifle was accurate", why: "The shot is not what the last line is about." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "no one had ever known him to smile nor speak a needless word",
+    opts: [
+      { t: "Murlock has been closed off for a very long time", ok: true, why: "Right. “Ever” covers his whole life in that place, so the change in him is old and permanent." },
+      { t: "Murlock cannot speak properly because of an old illness", why: "He speaks, but never more than he needs to." },
+      { t: "Murlock is angry with the other settlers nearby", why: "They have mostly gone, and no quarrel is mentioned." },
+      { t: "Murlock is a cheerful man who lives quietly", why: "A man who never smiles is not described as cheerful." }
+    ]
+  },
+  {
+    quote: "Something besides years had had a hand in his ageing",
+    opts: [
+      { t: "Grief has aged him faster than time could", ok: true, why: "Right. He looks seventy at fifty, and the sentence points at a cause the narrator will not name yet." },
+      { t: "He has been ill for most of his adult life", why: "No illness of his is mentioned anywhere." },
+      { t: "Hard work in the forest has worn him out", why: "The line separates the cause from ordinary years of labour." },
+      { t: "He has lied about his real age to the hunters", why: "The narrator gives both ages without any deceit." }
+    ]
+  },
+  {
+    quote: "there was to be no burial until the morning",
+    opts: [
+      { t: "The body must stay in the cabin all night with him", ok: true, why: "Right. One sentence sets up the whole night: a body, a candle, a man, and hours of darkness." },
+      { t: "Murlock is too tired to dig a grave that evening", why: "The reason given is time of day, not his strength." },
+      { t: "He is waiting for a priest to arrive from the town", why: "There are no neighbours and no one is coming." },
+      { t: "The ground outside is too hard to dig in the dark", why: "The ground is never mentioned." }
+    ]
+  },
+  {
+    quote: "The table had been moved from its place.",
+    opts: [
+      { t: "Something heavy struggled in the room while it was dark", ok: true, why: "Right. A table does not move by itself, so the plain sentence proves the fight was real." },
+      { t: "Murlock pushed the table when he fired the rifle", why: "He was seated behind it, with the rifle on his knees." },
+      { t: "The floor of the cabin slopes towards the corner", why: "Nothing about the floor is described." },
+      { t: "The shot from the rifle knocked the heavy table sideways", why: "The table is moved, not knocked over, and a bullet would not do it." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The opening makes the reader wait for an answer.",
+    quote: "I fancy there are few persons living today who ever knew the secret of that window",
+    opts: [
+      { t: "The narrator tells us that the window of the log cabin was boarded up and that nobody in the district knew the reason.", why: "Retelling. What does his claim do to the reader?" },
+      { t: "He claims to hold a secret, so the story becomes a promise. We read on to be told the one thing he says almost nobody knows.", ok: true, why: "Strong. It explains what the claim sets up and why we keep reading." },
+      { t: "The narrator means that the people who lived near the cabin in 1830 have all died and cannot tell the story now.", why: "Partly true, but it misses the promise being made." },
+      { t: "The narrator uses the word “secret” in this sentence, a word writers choose when they want something in a story to sound hidden or private.", why: "An observation. What effect does the word have?" }
+    ]
+  },
+  {
+    claim: "Bierce hides the key fact in a small, ordinary action.",
+    quote: "binding a handkerchief about the chin to close the jaw",
+    opts: [
+      { t: "Murlock gets the body ready for burial in the way a woodman would, washing it and dressing it and laying it out.", why: "Retelling. Why does this one action matter?" },
+      { t: "It reads as simple care, but it is the fact the ending needs: a bound jaw that later closes on a panther’s ear.", ok: true, why: "Strong. It shows the detail doing two jobs at once." },
+      { t: "The handkerchief shows how poor Murlock was, because he had nothing better to use on his wife’s body.", why: "A guess about his poverty, not about the detail’s purpose." },
+      { t: "The writer describes what Murlock did to the body.", why: "An observation. Say why this detail is chosen." }
+    ]
+  },
+  {
+    claim: "The darkness is the reason the scene is frightening.",
+    quote: "a sound that he could not explain: a sound of something dragging",
+    opts: [
+      { t: "Murlock hears noises in the cabin after he wakes up, and he cannot tell what is making them because the candle is out.", why: "Retelling. Why keep the cause hidden?" },
+      { t: "We are held to what one man can hear. An unexplained sound stays a threat, while a named animal would become a problem to solve.", ok: true, why: "Strong. It explains the limit on the reader’s knowledge and its effect." },
+      { t: "The sound is made by the panther pulling the dead woman across the floor towards the window of the cabin.", why: "True later, but it explains away the moment instead of the technique." },
+      { t: "The writer describes a sound in the dark here, and describing sounds is one of the ways writers help a reader imagine a scene they cannot see.", why: "An observation. Why is it left unexplained?" }
+    ]
+  },
+  {
+    claim: "The last line does its work by saying less.",
+    quote: "Between the woman’s teeth was a fragment of the animal’s ear",
+    opts: [
+      { t: "When Murlock lights a match he finds his wife’s body on the floor in the corner of the room with her throat torn.", why: "Retelling. What does the very last detail prove?" },
+      { t: "Only living teeth could hold that. The reader works out that she was alive, and Bierce stops before the thought is said aloud.", ok: true, why: "Strong. It explains the inference and why silence is stronger here." },
+      { t: "The sentence shows that the panther was injured in the struggle and ran off into the forest without its ear.", why: "True but beside the point. Whose teeth held it?" },
+      { t: "The story ends with a short sentence about the woman’s teeth, and short sentences at the end of a story are used to make a reader stop.", why: "An observation. What does the reader conclude?" }
+    ]
+  },
+  {
+    claim: "Murlock is described as belonging to the forest.",
+    quote: "of whose gloom and silence he seemed a part",
+    opts: [
+      { t: "Murlock lives by himself in a cabin made of logs, with the great forest growing on every side of the clearing.", why: "Retelling. What does the wording suggest about him?" },
+      { t: "The forest’s two qualities are given to the man. He is not just surrounded by gloom and silence, he is made of them.", ok: true, why: "Strong. It links setting and character through one phrase." },
+      { t: "Bierce means that Murlock spent most of his working days out among the trees, hunting animals for their skins.", why: "A literal reading. The phrase is about what he seems, not where he works." },
+      { t: "The writer describes the forest around the cabin here, telling the reader about the gloom and the silence of the trees on every side of it.", why: "An observation. What is the effect on our view of Murlock?" }
+    ]
+  }
+];
+TEXTS.push({ id: "the-boarded-window", type: "Fiction", mode: "Creative", form: "Gothic tale", level: "5ème",
+  hook: "A cabin in the forest, a window nailed shut, and one detail at the end that explains everything.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+{
+const TEXT = {
+  title: "The Gift of the Magi",
+  intro: "O. Henry, 1905. Abridged.",
+  paras: [
+    "One dollar and eighty-seven cents. That was all. And sixty cents of it was in pennies. Pennies saved one and two at a time by bulldozing the grocer and the vegetable man and the butcher until one’s cheeks burned with the silent imputation of parsimony that such close dealing implied. Three times Della counted it. One dollar and eighty-seven cents. And the next day would be Christmas.",
+    "There was clearly nothing to do but flop down on the shabby little couch and howl. So Della did it. Which instigates the moral reflection that life is made up of sobs, sniffles, and smiles, with sniffles predominating.",
+    "While the mistress of the home is gradually subsiding from the first stage to the second, take a look at the home. A furnished flat at eight dollars per week. In the vestibule below was a letter-box into which no letter would go, and an electric button from which no mortal finger could coax a ring. Also appertaining thereunto was a card bearing the name “Mr. James Dillingham Young”.",
+    "Whenever Mr. James Dillingham Young came home and reached his flat above he was called “Jim” and greatly hugged by Mrs. James Dillingham Young, already introduced to you as Della. Which is all very good.",
+    "Della finished her cry and attended to her cheeks with the powder rag. She stood by the window and looked out dully at a grey cat walking a grey fence in a grey backyard. Tomorrow would be Christmas Day, and she had only one dollar and eighty-seven cents with which to buy Jim a present. She had been saving every penny she could for months, with this result. Expenses had been greater than she had calculated. They always are.",
+    "Now, there were two possessions of the James Dillingham Youngs in which they both took a mighty pride. One was Jim’s gold watch that had been his father’s and his grandfather’s. The other was Della’s hair.",
+    "So now Della’s beautiful hair fell about her, rippling and shining like a cascade of brown waters. It reached below her knee and made itself almost a garment for her. And then she did it up again nervously and quickly. Once she faltered for a minute and stood still while a tear or two splashed on the worn red carpet.",
+    "On went her old brown jacket; on went her old brown hat. With a whirl of skirts and with the brilliant sparkle still in her eyes, she fluttered out the door and down the stairs to the street.",
+    "Where she stopped the sign read: “Mme. Sofronie. Hair Goods of All Kinds.” Della ran up the stairs, and collected herself, panting.",
+    "“Will you buy my hair?” asked Della.",
+    "“I buy hair,” said Madame. “Take yer hat off and let’s have a sight at the looks of it.”",
+    "Down rippled the brown cascade.",
+    "“Twenty dollars,” said Madame, lifting the mass with a practised hand.",
+    "“Give it to me quick,” said Della.",
+    "The next two hours tripped by on rosy wings. She was ransacking the stores for Jim’s present. She found it at last. It surely had been made for Jim and no one else. It was a platinum fob chain, simple and chaste in design, proclaiming its value by substance alone and not by showy ornament. As soon as she saw it she knew that it must be Jim’s. Quietness and value: the description applied to both. Twenty-one dollars they took from her for it, and she hurried home with the eighty-seven cents.",
+    "When Della reached home her intoxication gave way a little to prudence and reason. She got out her curling irons and went to work repairing the ravages made by generosity added to love. Which is always a tremendous task, dear friends, a mammoth task.",
+    "Within forty minutes her head was covered with tiny, close-lying curls that made her look wonderfully like a truant schoolboy. She looked at her reflection in the mirror long, carefully, and critically. “If Jim doesn’t kill me,” she said to herself, “before he takes a second look at me, he’ll say I look like a chorus girl. But what could I do? Oh! what could I do with a dollar and eighty-seven cents?”",
+    "Della doubled the fob chain in her hand and sat on the corner of the table near the door that he always entered. Then she heard his step on the stair away down on the first flight, and she turned white for just a moment. She had a habit of saying a little silent prayer about the simplest everyday things, and now she whispered: “Please God, make him think I am still pretty.”",
+    "The door opened and Jim stepped in and closed it. He looked thin and very serious. Poor fellow, he was only twenty-two, and to be burdened with a family! He needed a new overcoat and he was without gloves.",
+    "Jim stopped inside the door, as immovable as a setter at the scent of quail. His eyes were fixed upon Della, and there was an expression in them that she could not read, and it terrified her. It was not anger, nor surprise, nor disapproval, nor horror, nor any of the sentiments that she had been prepared for. He simply stared at her fixedly with that peculiar expression on his face.",
+    "Della wriggled off the table and went for him. “Jim, darling,” she cried, “don’t look at me that way. I had my hair cut off and sold because I couldn’t have lived through Christmas without giving you a present. It’ll grow out again. You won’t mind, will you? Say Merry Christmas, Jim, and let’s be happy. You don’t know what a nice, what a beautiful, nice gift I’ve got for you.”",
+    "“You’ve cut off your hair?” asked Jim, laboriously, as if he had not arrived at that patent fact yet even after the hardest mental labour.",
+    "“Cut it off and sold it,” said Della. “Don’t you like me just as well, anyhow? I’m me without my hair, ain’t I?”",
+    "Jim looked about the room curiously. “You say your hair is gone?” he said, with an air almost of idiocy.",
+    "“You needn’t look for it,” said Della. “It’s sold, I tell you, sold and gone, too. It’s Christmas Eve, boy. Be good to me, for it went for you.”",
+    "Out of his trance Jim seemed quickly to wake. He enfolded his Della. Then he drew a package from his overcoat pocket and threw it upon the table.",
+    "“Don’t make any mistake, Dell,” he said, “about me. I don’t think there’s anything in the way of a haircut or a shave or a shampoo that could make me like my girl any less. But if you’ll unwrap that package you may see why you had me going a while at first.”",
+    "White fingers and nimble tore at the string and paper. And then an ecstatic scream of joy; and then, alas! a quick feminine change to hysterical tears and wails, necessitating the immediate employment of all the comforting powers of the lord of the flat.",
+    "For there lay The Combs, the set of combs, side and back, that Della had worshipped long in a shop window. Beautiful combs, pure tortoise shell, with jewelled rims, just the shade to wear in the beautiful vanished hair. They were expensive combs, she knew, and her heart had simply craved and yearned over them without the least hope of possession. And now they were hers, but the tresses that should have adorned the coveted adornments were gone.",
+    "But she hugged them to her bosom, and at length she was able to look up with dim eyes and a smile and say: “My hair grows so fast, Jim!”",
+    "And then Della leaped up like a little singed cat and cried, “Oh, oh!”",
+    "Jim had not yet seen his beautiful present. She held it out to him eagerly upon her open palm. The dull precious metal seemed to flash with a reflection of her bright and ardent spirit.",
+    "“Isn’t it a dandy, Jim? I hunted all over town to find it. You’ll have to look at the time a hundred times a day now. Give me your watch. I want to see how it looks on it.”",
+    "Instead of obeying, Jim tumbled down on the couch and put his hands under the back of his head and smiled.",
+    "“Dell,” said he, “let’s put our Christmas presents away and keep them a while. They’re too nice to use just at present. I sold the watch to get the money to buy your combs. And now suppose you put the chops on.”",
+    "The magi, as you know, were wise men, wonderfully wise men, who brought gifts to the Babe in the manger. They invented the art of giving Christmas presents. Being wise, their gifts were no doubt wise ones. And here I have lamely related to you the uneventful chronicle of two foolish children in a flat who most unwisely sacrificed for each other the greatest treasures of their house. But in a last word to the wise of these days let it be said that of all who give gifts these two were the wisest. They are the magi."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Direct address",
+    prompt: "Find where the narrator invites the reader to <em>look around the flat</em>.",
+    target: ["take a look at the home"],
+    decoys: [{ phrase: "A furnished flat at eight dollars per week", why: "That is the description of the home, which comes next. Look for the words that invite you to look." }],
+    miss: "Look in the third paragraph, just after Della flops on the couch.",
+    explain: "The narrator pauses the action and turns to us, as a guide would. It makes the story feel told aloud, which matters when he judges the couple at the end."
+  },
+  {
+    skill: "Narrator’s tone",
+    prompt: "Find the narrator’s <em>joke about crying</em> in the second paragraph.",
+    target: ["life is made up of sobs, sniffles, and smiles, with sniffles predominating"],
+    decoys: [{ phrase: "flop down on the shabby little couch and howl", why: "That is what Della does. Look for the narrator’s comment about life in general." }],
+    miss: "Look at the sentence that begins with “Which instigates”.",
+    explain: "He treats Della’s misery as an excuse for a neat little saying. The lightness keeps the story from becoming sentimental, even when it is sad."
+  },
+  {
+    skill: "Mood",
+    prompt: "Find the <em>grey detail</em> outside the window.",
+    target: ["a grey cat walking a grey fence in a grey backyard"],
+    decoys: [{ phrase: "the worn red carpet", why: "A good detail for their poverty, but it is inside the flat and it is not grey." }],
+    miss: "Look for the moment Della finishes crying and stands at the window.",
+    explain: "The same word three times drains the colour out of the view. The world outside matches her mood without the narrator having to name the feeling."
+  },
+  {
+    skill: "Irony",
+    prompt: "Find Jim’s <em>reason</em> for not looking at his present.",
+    target: ["I sold the watch to get the money to buy your combs"],
+    decoys: [{ phrase: "let’s put our Christmas presents away and keep them a while", why: "That is what he suggests. Look for the sentence that explains why." }],
+    miss: "Look at Jim’s last speech.",
+    explain: "Each sold the one thing the other’s gift was made for. The line lands quietly, in the middle of a sentence about chops, which makes it funnier and sadder."
+  },
+  {
+    skill: "Characterisation",
+    prompt: "Find the <em>comparison</em> that describes Jim frozen in the doorway.",
+    target: ["as immovable as a setter at the scent of quail"],
+    decoys: [{ phrase: "He looked thin and very serious", why: "That describes him as he comes in, but it is not a comparison." }],
+    miss: "Look for the moment Jim stops just inside the door.",
+    explain: "A setter is a hunting dog that freezes when it senses a bird. The comparison holds Jim still for a long moment, so we feel Della waiting to be judged."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Point of view",
+    q: "How would you describe the narrator?",
+    opts: [
+      { t: "An outside storyteller who comments on the couple and talks to us", ok: true, why: "Right. He addresses “dear friends”, calls his own tale lame, and judges the pair in the final paragraph." },
+      { t: "Della herself, telling the story of her own Christmas Eve in the flat", why: "Della is “she” throughout, and the narrator knows Jim’s mind too." },
+      { t: "Jim, remembering the day he sold his grandfather’s watch", why: "Jim’s sale is kept from us until he says it aloud." },
+      { t: "A neighbour in the building who watched it happen", why: "No neighbour appears, and the narrator sees inside the flat." }
+    ]
+  },
+  {
+    skill: "Irony",
+    q: "What makes the ending ironic?",
+    opts: [
+      { t: "Each gift is made useless by the sacrifice that paid for the other", ok: true, why: "Right. Combs for sold hair, a chain for a sold watch. Their love causes the uselessness." },
+      { t: "Neither of them really wanted a Christmas present at all", why: "Both wanted to give one badly enough to sell a treasure." },
+      { t: "Jim turns out to be much richer than Della had thought", why: "He needs an overcoat and has no gloves." },
+      { t: "The shop refuses to take either of the two presents back afterwards", why: "No return is ever attempted." }
+    ]
+  },
+  {
+    skill: "Narrator’s judgement",
+    q: "The narrator calls them “two foolish children”, then “the wisest”. Why both?",
+    opts: [
+      { t: "Foolish about money, wise about what they were willing to lose", ok: true, why: "Right. The word changes meaning between the two halves of the last paragraph, which is the point he wants to make." },
+      { t: "He changes his mind because he feels sorry for them", why: "The turn is planned. He builds it on the magi comparison." },
+      { t: "He is being sarcastic in both halves of the sentence", why: "The final judgement is sincere, which is why it closes the story." },
+      { t: "He thinks that the two of them will be wiser when they are older", why: "He calls them wisest now, not later." }
+    ]
+  },
+  {
+    skill: "Structure",
+    q: "Why does O. Henry keep Jim’s secret from the reader?",
+    opts: [
+      { t: "So we share Della’s confusion at his strange stare", ok: true, why: "Right. We cannot read his face either. When the truth lands, it lands on us at the same moment." },
+      { t: "Because the narrator does not know about it himself", why: "He knows everything else, including Della’s prayer." },
+      { t: "Because Jim only decides to sell the watch later that night", why: "The combs are already in his pocket when he walks in." },
+      { t: "To hide that Jim is disappointed by his wife’s haircut", why: "Jim says plainly that nothing could make him like her less." }
+    ]
+  },
+  {
+    skill: "Vocabulary",
+    q: "The fob chain is “simple and chaste in design”. Why does that matter to Della?",
+    opts: [
+      { t: "Because plain and valuable is how she thinks of Jim", ok: true, why: "Right. The text says “Quietness and value: the description applied to both”. The chain suits the man." },
+      { t: "Because a plain chain was the cheapest one in the shop", why: "It costs twenty-one dollars of her twenty-one dollars and eighty-seven." },
+      { t: "Because Jim had asked her for something plain", why: "He knows nothing about it until she holds it out." },
+      { t: "Because a plain chain would be easier to sell again", why: "Selling it is never in her mind." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "What do the flat and the letter-box tell us about the couple?",
+    opts: [
+      { t: "They are poor, and the poverty is quiet and everyday", ok: true, why: "Right. A dead bell and a letter-box nothing fits into, described lightly rather than pitied." },
+      { t: "They have only just moved in and are still settling", why: "The carpet is worn and the name card is already fixed there." },
+      { t: "They live somewhere dangerous and keep the door locked", why: "Nothing suggests danger in the building." },
+      { t: "They are hiding from someone who is looking for them", why: "Their name is on a card downstairs for all to read." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "Pennies saved one and two at a time by bulldozing the grocer",
+    opts: [
+      { t: "The money was gathered slowly and with some embarrassment", ok: true, why: "Right. “One and two at a time” shows how long it took, and haggling made her cheeks burn." },
+      { t: "Della had stolen small amounts from the shopkeepers", why: "Bulldozing here means arguing over prices, not taking money." },
+      { t: "Della earns her living by working for the grocer downstairs", why: "No job of hers is mentioned in the story." },
+      { t: "The shops in the neighbourhood were unusually cheap", why: "She has to push hard for every penny off." }
+    ]
+  },
+  {
+    quote: "already introduced to you as Della",
+    opts: [
+      { t: "The narrator treats the reader as someone he is talking to", ok: true, why: "Right. He reminds us of an introduction he made, as a speaker would with a listener in the room." },
+      { t: "Della has appeared in an earlier story by the same writer", why: "The introduction he means is a few lines above." },
+      { t: "The narrator has forgotten what he has already written", why: "He is keeping track deliberately, which is why he says it." },
+      { t: "Della is about to be introduced to another character in the story", why: "The line points backwards, not forwards." }
+    ]
+  },
+  {
+    quote: "there was an expression in them that she could not read, and it terrified her",
+    opts: [
+      { t: "The story keeps Jim’s feelings hidden at its most tense moment", ok: true, why: "Right. We are held to Della’s view, so his unreadable face is all we get until he speaks." },
+      { t: "Jim is furious with Della for cutting off her hair", why: "The text rules out anger in the very next sentence." },
+      { t: "Della is frightened of her husband’s temper in general", why: "She prays that he will still find her pretty, not that he will be calm." },
+      { t: "Jim has completely forgotten that it is Christmas Eve this evening", why: "He walks in with her present in his pocket." }
+    ]
+  },
+  {
+    quote: "My hair grows so fast, Jim!",
+    opts: [
+      { t: "She protects the moment rather than her own feelings", ok: true, why: "Right. She has just cried over the combs, then finds a cheerful line so that Jim’s gift is not spoiled." },
+      { t: "She is annoyed that she cannot use any of the combs yet", why: "She hugs them and smiles through wet eyes." },
+      { t: "She expects her hair to be long again within a week", why: "The line is comfort, not a real estimate." },
+      { t: "She is hinting that Jim should buy her more combs", why: "Nothing in the scene asks for more." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The narrator keeps the story light while it hurts.",
+    quote: "life is made up of sobs, sniffles, and smiles, with sniffles predominating",
+    opts: [
+      { t: "Della lies down on the couch in the little flat and cries because she has not saved enough money for a present.", why: "Retelling. What does the narrator’s comment do?" },
+      { t: "He turns her crying into a tidy saying. The joke keeps the poverty from becoming pitiful, so we like the couple instead of pitying them.", ok: true, why: "Strong. It explains the tone and its effect on the reader." },
+      { t: "The narrator is explaining that most people spend more of their lives crying than they do smiling or laughing.", why: "A literal reading of a joke." },
+      { t: "The writer makes a comment about life in this sentence, stepping away from Della for a moment in order to say something general about people.", why: "An observation. What does the comment achieve?" }
+    ]
+  },
+  {
+    claim: "Setting carries Della’s mood without naming it.",
+    quote: "a grey cat walking a grey fence in a grey backyard",
+    opts: [
+      { t: "Della stands at the window of the flat after she has finished crying and looks down into the yard below her.", why: "Retelling. Why is one word repeated?" },
+      { t: "“Grey” three times drains the colour from everything she sees. The view reports her flatness without the narrator naming a feeling.", ok: true, why: "Strong. It explains the repetition and links it to her state." },
+      { t: "O. Henry is showing that the couple live in a dirty part of the city where nothing is ever cleaned properly.", why: "The greyness is mood, not dirt." },
+      { t: "The writer repeats the same word three times here, and repetition is a technique that writers use when they want a reader to notice something.", why: "An observation. What is the effect of the repetition?" }
+    ]
+  },
+  {
+    claim: "The reveal is placed where it will do most damage.",
+    quote: "I sold the watch to get the money to buy your combs. And now suppose you put the chops on.",
+    opts: [
+      { t: "Jim tells Della that he no longer has his gold watch, because he sold it in order to pay for her Christmas combs.", why: "Retelling. Why put it next to the chops?" },
+      { t: "The sacrifice is dropped between a plan and a request about supper. Refusing to make a speech of it makes the loss land harder.", ok: true, why: "Strong. It explains the placement and the effect of understatement." },
+      { t: "Jim is hungry after his day at work and wants Della to start cooking their supper as soon as she can.", why: "True on the surface, but it misses why the two sentences sit together." },
+      { t: "Jim explains what he did with his watch at the end of the story, which is the moment when the reader learns where the combs came from.", why: "An observation. Why is it said this way?" }
+    ]
+  },
+  {
+    claim: "The last paragraph asks the reader to change their mind.",
+    quote: "two foolish children in a flat who most unwisely sacrificed for each other",
+    opts: [
+      { t: "The narrator says at the end that Della and Jim each gave up their best possession to buy the other one a present.", why: "Retelling. Why call them foolish just before calling them wisest?" },
+      { t: "He grants the obvious judgement first, then overturns it. “Foolish” about money becomes “wisest” about love within the same paragraph.", ok: true, why: "Strong. It tracks the turn and what the two words each mean." },
+      { t: "The narrator is annoyed with the couple for wasting their money on presents they could not afford to buy.", why: "He ends by calling them the wisest of all givers." },
+      { t: "The narrator calls Della and Jim children in this sentence, and calling grown-ups children is a way of describing how they have behaved.", why: "An observation. What is he setting up?" }
+    ]
+  },
+  {
+    claim: "O. Henry hides the second sacrifice in plain sight.",
+    quote: "as immovable as a setter at the scent of quail",
+    opts: [
+      { t: "Jim comes home from work and stops just inside the door of the flat when he sees that Della has cut off her hair.", why: "Retelling. What is he actually reacting to?" },
+      { t: "We read his stillness as shock at her hair. On a second reading it is a man who has just sold his watch for combs she cannot use.", ok: true, why: "Strong. It shows how the same detail reads two ways." },
+      { t: "The comparison with a hunting dog suggests that Jim is dangerous and that Della is right to be afraid of him.", why: "The dog image is about stillness, not threat." },
+      { t: "The writer compares Jim to a dog at this point in the story, using a comparison with an animal to describe the way a person is standing.", why: "An observation. What does the comparison hide?" }
+    ]
+  }
+];
+TEXTS.push({ id: "gift-of-the-magi", type: "Fiction", mode: "Creative", form: "Short story", level: "5ème",
+  hook: "One dollar and eighty-seven cents, and two people determined to buy a Christmas present.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+{
+const TEXT = {
+  title: "The Elephant’s Child",
+  intro: "Rudyard Kipling, Just So Stories, 1902. Abridged.",
+  paras: [
+    "In the High and Far-Off Times the Elephant, O Best Beloved, had no trunk. He had only a blackish, bulgy nose, as big as a boot, that he could wriggle about from side to side; but he couldn’t pick up things with it.",
+    "But there was one Elephant, a new Elephant, an Elephant’s Child, who was full of ’satiable curtiosity, and that means he asked ever so many questions. And he lived in Africa, and he filled all Africa with his ’satiable curtiosities.",
+    "He asked his tall aunt, the Ostrich, why her tail-feathers grew just so, and his tall aunt the Ostrich spanked him with her hard, hard claw. He asked his tall uncle, the Giraffe, what made his skin spotty, and his tall uncle the Giraffe spanked him with his hard, hard hoof. And still he was full of ’satiable curtiosity!",
+    "He asked his broad aunt, the Hippopotamus, why her eyes were red, and his broad aunt the Hippopotamus spanked him with her broad, broad hoof; and he asked his hairy uncle, the Baboon, why melons tasted just so, and his hairy uncle the Baboon spanked him with his hairy, hairy paw. And still he was full of ’satiable curtiosity!",
+    "One fine morning this ’satiable Elephant’s Child asked a new fine question that he had never asked before. He asked, “What does the Crocodile have for dinner?” Then everybody said, “Hush!” in a loud and dretful tone, and they spanked him immediately and directly, without stopping, for a long time.",
+    "By and by, when that was finished, he came upon Kolokolo Bird sitting in the middle of a wait-a-bit thorn-bush, and he said, “My father has spanked me, and my mother has spanked me; all my aunts and uncles have spanked me for my ’satiable curtiosity; and still I want to know what the Crocodile has for dinner!”",
+    "Then Kolokolo Bird said, with a mournful cry, “Go to the banks of the great grey-green, greasy Limpopo River, all set about with fever-trees, and find out.”",
+    "That very next morning the Elephant’s Child took a hundred pounds of bananas, and a hundred pounds of sugar-cane, and seventeen melons, and said to all his dear families, “Goodbye. I am going to the great grey-green, greasy Limpopo River, all set about with fever-trees, to find out what the Crocodile has for dinner.” And they all spanked him once more for luck, though he asked them most politely to stop.",
+    "Then he went away, eating melons all the time, till at last he came to the banks of the great grey-green, greasy Limpopo River, all set about with fever-trees, precisely as Kolokolo Bird had said.",
+    "Now you must know and understand, O Best Beloved, that till that very week, and day, and hour, and minute, this ’satiable Elephant’s Child had never seen a Crocodile, and did not know what one was like. It was all his ’satiable curtiosity.",
+    "The first thing that he found was a Bi-Coloured-Python-Rock-Snake curled round a rock.",
+    "“’Scuse me,” said the Elephant’s Child most politely, “but have you seen such a thing as a Crocodile in these parts?”",
+    "“Have I seen a Crocodile?” said the Bi-Coloured-Python-Rock-Snake, in a voice of dretful scorn. “What will you ask me next?”",
+    "“’Scuse me,” said the Elephant’s Child, “but could you kindly tell me what he has for dinner?” Then the Bi-Coloured-Python-Rock-Snake uncoiled himself very quickly from the rock, and spanked the Elephant’s Child with his scalesome, flailsome tail.",
+    "Then the Elephant’s Child stepped on what he thought was a log of wood at the very edge of the great grey-green, greasy Limpopo River. But it was really the Crocodile, O Best Beloved, and the Crocodile winked one eye, like this.",
+    "“’Scuse me,” said the Elephant’s Child most politely, “but do you happen to have seen a Crocodile in these parts?”",
+    "Then the Crocodile winked the other eye, and lifted half his tail out of the mud; and the Elephant’s Child stepped back most politely, because he did not wish to be spanked again.",
+    "“Come hither, Little One,” said the Crocodile, “for I am the Crocodile,” and he wept crocodile-tears to show it was quite true.",
+    "Then the Elephant’s Child grew all breathless, and panted, and kneeled down on the bank and said, “You are the very person I have been looking for all these long days. Will you please tell me what you have for dinner?”",
+    "“Come hither, Little One,” said the Crocodile, “and I’ll whisper.”",
+    "Then the Elephant’s Child put his head down close to the Crocodile’s musky, tusky mouth, and the Crocodile caught him by his little nose, which up to that very week, day, hour, and minute, had been no bigger than a boot, though much more useful.",
+    "“I think,” said the Crocodile, and he said it between his teeth, like this, “I think today I will begin with Elephant’s Child!”",
+    "At this, O Best Beloved, the Elephant’s Child was much annoyed, and he said, speaking through his nose, like this, “Led go! You are hurtig be!”",
+    "Then the Bi-Coloured-Python-Rock-Snake scuffled down from the bank and said, “My young friend, if you do not now, immediately and instantly, pull as hard as ever you can, it is my opinion that your acquaintance in the large-pattern leather ulster will jerk you into yonder limpid stream before you can say Jack Robinson.” And by that he meant the Crocodile.",
+    "Then the Elephant’s Child sat back on his little haunches, and pulled, and pulled, and pulled, and his nose began to stretch. And the Crocodile floundered into the water, making it all creamy with great sweeps of his tail, and he pulled, and pulled, and pulled.",
+    "And the Elephant’s Child’s nose kept on stretching; and the Elephant’s Child spread all his little four legs and pulled, and pulled, and pulled, and his nose kept on stretching; and the Crocodile threshed his tail like an oar, and he pulled, and pulled, and pulled, and at each pull the Elephant’s Child’s nose grew longer and longer, and it hurt him hijjus!",
+    "Then the Elephant’s Child felt his legs slipping, and he said through his nose, which was now nearly five feet long, “This is too butch for be!”",
+    "Then the Bi-Coloured-Python-Rock-Snake came down from the bank, and knotted himself in a double-clove-hitch round the Elephant’s Child’s hind legs, and said, “Rash and inexperienced traveller, we will now seriously devote ourselves to a little high tension, because if we do not, it is my impression that yonder self-propelling man-of-war with the armour-plated upper deck will permanently vitiate your future career.”",
+    "So the snake pulled, and the Elephant’s Child pulled, and the Crocodile pulled; but the Elephant’s Child and the Bi-Coloured-Python-Rock-Snake pulled hardest; and at last the Crocodile let go of the Elephant’s Child’s nose with a plop that you could hear all up and down the Limpopo.",
+    "Then the Elephant’s Child sat down most hard and sudden; but first he was careful to say “Thank you” to the Bi-Coloured-Python-Rock-Snake; and next he was kind to his poor pulled nose, and wrapped it all up in cool banana leaves, and hung it in the great grey-green, greasy Limpopo to cool.",
+    "“What are you doing that for?” said the Bi-Coloured-Python-Rock-Snake.",
+    "“’Scuse me,” said the Elephant’s Child, “but my nose is badly out of shape, and I am waiting for it to shrink.”",
+    "“Then you will have to wait a long time,” said the Bi-Coloured-Python-Rock-Snake. “Some people do not know what is good for them.”",
+    "The Elephant’s Child sat there for three days waiting for his nose to shrink. But it never grew any shorter, and, besides, it made him squint. For, O Best Beloved, you will see and understand that the Crocodile had pulled it out into a really truly trunk, same as all Elephants have today."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Direct address",
+    prompt: "Find the <em>name</em> the storyteller gives the person he is telling the story to.",
+    target: ["O Best Beloved"],
+    decoys: [{ phrase: "In the High and Far-Off Times", why: "That tells us when the story happens. Look for the words that speak to the listener." }],
+    miss: "Look in the very first sentence of the story.",
+    explain: "Kipling wrote these tales to be read aloud to a child. Calling the listener “Best Beloved” turns the reader into that child, sitting and listening."
+  },
+  {
+    skill: "Repetition",
+    prompt: "Find the <em>sentence that keeps coming back</em> after each spanking.",
+    target: ["And still he was full of ’satiable curtiosity!"],
+    decoys: [{ phrase: "he asked ever so many questions", why: "That explains what curtiosity means, but it does not repeat after each spanking." }],
+    miss: "Look at the end of the paragraphs about his aunts and uncles.",
+    explain: "The same line after every spanking makes the pattern funny, and it makes the Elephant’s Child brave: nothing they do stops him wanting to know."
+  },
+  {
+    skill: "Sensory language",
+    prompt: "Find the <em>three describing words</em> that always go with the river.",
+    target: ["great grey-green, greasy Limpopo"],
+    decoys: [{ phrase: "all set about with fever-trees", why: "That always comes with the river too, but it names the trees rather than describing the water." }],
+    miss: "Look at what Kolokolo Bird tells him to go and find.",
+    explain: "The sounds are sticky and heavy, and they repeat every time the river is named, so the place feels far away and slightly dangerous before we get there."
+  },
+  {
+    skill: "Word choice",
+    prompt: "Find the moment the Elephant’s Child’s speech <em>changes</em> because his nose is held.",
+    target: ["Led go! You are hurtig be!"],
+    decoys: [{ phrase: "You are the very person I have been looking for", why: "He speaks politely there, and his nose is still free. Look for the line where the words go wrong." }],
+    miss: "Look just after the Crocodile says what he will begin with.",
+    explain: "The spelling changes so that we hear him talking through a pinched nose. The joke lets us laugh in the middle of a frightening moment."
+  },
+  {
+    skill: "Characterisation",
+    prompt: "Find the <em>long, grand words</em> the snake uses for the Crocodile.",
+    target: ["yonder self-propelling man-of-war with the armour-plated upper deck"],
+    decoys: [{ phrase: "knotted himself in a double-clove-hitch", why: "That is what the snake does, and it is a good detail, but it is not what he calls the Crocodile." }],
+    miss: "Look at the snake’s second long speech.",
+    explain: "The snake never uses a short word when a long one will do. His grand language is funny because he is giving urgent advice in the middle of a tug of war."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Narrator’s voice",
+    q: "How would you describe the storyteller in this tale?",
+    opts: [
+      { t: "A grown-up speaking aloud to a child he knows well", ok: true, why: "Right. He says “O Best Beloved”, and “like this”, as though he were acting the crocodile’s wink in the room." },
+      { t: "A scientist explaining how elephants developed trunks", why: "A scientist would not wink or call the listener Best Beloved." },
+      { t: "The Elephant’s Child, remembering his own adventure", why: "The Elephant’s Child is “he” throughout the story." },
+      { t: "A narrator who stays out of the story completely", why: "He interrupts constantly to talk to the listener." }
+    ]
+  },
+  {
+    skill: "Point of view",
+    q: "What does “you will see and understand” do at the end?",
+    opts: [
+      { t: "It lets the listener discover the point rather than be told", ok: true, why: "Right. He hands us the moment of understanding, which is more satisfying than simply announcing that the nose is now a trunk." },
+      { t: "It warns the listener that the story has not quite finished yet", why: "It arrives as the explanation lands." },
+      { t: "It shows the storyteller is unsure what happened next", why: "He knows exactly, and has been leading us here." },
+      { t: "It tells the listener to go and look at real elephants", why: "The seeing he means is understanding the story." }
+    ]
+  },
+  {
+    skill: "Humour",
+    q: "Why is the Crocodile’s “Come hither, Little One” funny and frightening at once?",
+    opts: [
+      { t: "It sounds kind, and we can see what the kindness is for", ok: true, why: "Right. He is gentle and welcoming while lifting his tail out of the mud and weeping crocodile-tears." },
+      { t: "The Crocodile is speaking in a language the child cannot understand", why: "The Elephant’s Child understands him and comes closer." },
+      { t: "The Crocodile is much smaller than the Elephant’s Child", why: "Nothing suggests that. He can nearly pull him into the river." },
+      { t: "The Crocodile is only pretending to have teeth", why: "He says his line between very real teeth." }
+    ]
+  },
+  {
+    skill: "Structure",
+    q: "Why are there so many spankings at the start?",
+    opts: [
+      { t: "They build a pattern that the journey then breaks", ok: true, why: "Right. Question, spanking, question, spanking. When he finally leaves for the Limpopo, we already know nothing will stop him." },
+      { t: "They show that the Elephant’s Child was a badly behaved child", why: "His only offence is asking questions, which the story treats as a virtue." },
+      { t: "They explain why elephants have thick skin today", why: "The story explains the trunk, not the skin." },
+      { t: "They fill space before the real story begins", why: "They set up the curiosity that drives everything after." }
+    ]
+  },
+  {
+    skill: "Vocabulary",
+    q: "Kipling invents words like “’satiable” and “hijjus”. Why?",
+    opts: [
+      { t: "They sound like a child trying out grown-up words", ok: true, why: "Right. They are near-misses for insatiable and hideous, the way a young child would say them, so the tale sounds spoken rather than written." },
+      { t: "They are old English words that nobody uses today", why: "They are inventions, not old words." },
+      { t: "They are words from the language spoken in Africa", why: "They are English words, twisted." },
+      { t: "They are printing mistakes left in by accident", why: "They repeat too neatly to be mistakes." }
+    ]
+  },
+  {
+    skill: "Message",
+    q: "What does the story suggest about asking questions?",
+    opts: [
+      { t: "Curiosity gets you into trouble, and gets you somewhere", ok: true, why: "Right. The questions earn him spankings and nearly cost him his life, and they also win him the trunk that every elephant now has." },
+      { t: "Children should stop asking questions that annoy adults", why: "The tale is on the child’s side throughout." },
+      { t: "Adults always know the answers and should be believed", why: "The adults answer nothing. They only spank." },
+      { t: "Crocodiles are the only creatures worth asking about", why: "He asks about feathers, spots, eyes and melons too." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "he filled all Africa with his ’satiable curtiosities",
+    opts: [
+      { t: "His questions are endless, and the story enjoys that", ok: true, why: "Right. Filling a whole continent with questions is a cheerful exaggeration, not a complaint." },
+      { t: "He travelled across the whole of Africa as a baby", why: "His travels start later, when he goes to the Limpopo." },
+      { t: "The other animals in Africa enjoyed answering his questions", why: "They spank him instead of answering." },
+      { t: "He was the only young elephant living in Africa", why: "The line is about questions, not about numbers." }
+    ]
+  },
+  {
+    quote: "he wept crocodile-tears to show it was quite true",
+    opts: [
+      { t: "The Crocodile is performing, and the storyteller says so", ok: true, why: "Right. Crocodile-tears are famously false, so the phrase warns us while the Elephant’s Child kneels down closer." },
+      { t: "The Crocodile is genuinely sad about being so hungry today", why: "The tears are proof of a trick, not of sadness." },
+      { t: "The Crocodile cries because the Snake spanked him", why: "The Snake spanked the Elephant’s Child, not the Crocodile." },
+      { t: "The Crocodile has something in his eye from the mud", why: "The phrase is an old expression about false tears." }
+    ]
+  },
+  {
+    quote: "And they all spanked him once more for luck",
+    opts: [
+      { t: "The spankings have become a family habit, not a punishment", ok: true, why: "Right. There is nothing to punish as he leaves. “For luck” turns it into the way this family says goodbye." },
+      { t: "The family is angry that he is leaving his home without them", why: "They spank him for luck, which is a send-off, not anger." },
+      { t: "The family believes spanking will keep him safe", why: "Luck here is a joke about their habit." },
+      { t: "The family has forgotten why they spank him", why: "The joke is that they need no reason at all." }
+    ]
+  },
+  {
+    quote: "Some people do not know what is good for them.",
+    opts: [
+      { t: "The snake can see the trunk is a gift before its owner can", ok: true, why: "Right. The Elephant’s Child is waiting for his nose to shrink. The snake already knows what it will be worth." },
+      { t: "The snake is annoyed at having to help a complete stranger", why: "He helps willingly, and stays to advise him." },
+      { t: "The snake thinks the Elephant’s Child should go home", why: "He says nothing about going home." },
+      { t: "The snake is talking about the Crocodile, not the child", why: "The Crocodile has gone by this point." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "Kipling writes as though he were speaking to a child in the room.",
+    quote: "O Best Beloved",
+    opts: [
+      { t: "The storyteller uses this phrase several times while he is telling the story about how the elephant got its trunk.", why: "Retelling. What does the phrase do to the reader?" },
+      { t: "It names a listener, so the reader becomes the child being told the tale. The story feels spoken, and the storyteller feels fond of us.", ok: true, why: "Strong. It explains direct address and the warmth it creates." },
+      { t: "The words show that the elephant in the story was loved very much by his aunts and his uncles at home.", why: "A misreading. It is the listener who is addressed." },
+      { t: "Kipling uses direct address in this story, which is when a writer speaks to the reader instead of only describing what happens to characters.", why: "Naming the technique is a start. What is the effect?" }
+    ]
+  },
+  {
+    claim: "Repetition makes the opening funny.",
+    quote: "And still he was full of ’satiable curtiosity!",
+    opts: [
+      { t: "The Elephant’s Child asks his aunts and uncles lots of questions and is spanked by each one of them in turn.", why: "Retelling. Why repeat the same line?" },
+      { t: "The line returns after every spanking, so we start expecting it. The joke grows, and it shows nothing can put him off asking.", ok: true, why: "Strong. It explains the pattern and what it tells us about him." },
+      { t: "Kipling repeats the sentence because young children forget what has happened earlier in a long story.", why: "A guess about readers, not about effect." },
+      { t: "The same sentence appears more than once in the story, and writers repeat sentences when they want a reader to remember them clearly.", why: "An observation. What does the repetition achieve?" }
+    ]
+  },
+  {
+    claim: "The sound of the river description does half the work.",
+    quote: "great grey-green, greasy Limpopo River, all set about with fever-trees",
+    opts: [
+      { t: "Kolokolo Bird tells the Elephant’s Child to go to this river, and the same words are used each time it is named.", why: "Retelling. What do the words sound like?" },
+      { t: "Grey, green and greasy stick together in the mouth, and fever-trees sound unhealthy. The river feels far away and unsafe before we arrive.", ok: true, why: "Strong. It explains sound and word choice together." },
+      { t: "The words tell us that the water of the Limpopo River is dirty because animals wash themselves in it every day.", why: "A literal reading. The words are chosen for effect." },
+      { t: "This phrase is repeated several times in the story, each time the river is mentioned, from Kolokolo Bird’s advice to the end of the adventure.", why: "An observation. Why these words?" }
+    ]
+  },
+  {
+    claim: "Kipling makes us hear the danger rather than only see it.",
+    quote: "Led go! You are hurtig be!",
+    opts: [
+      { t: "The Crocodile has caught the Elephant’s Child by the nose at the edge of the river, and the Elephant’s Child asks him to stop.", why: "Retelling. Why is it spelled that way?" },
+      { t: "The spelling squashes his consonants, so we hear a pinched nose. The comedy arrives at the same moment as the danger.", ok: true, why: "Strong. It explains the spelling and the double effect." },
+      { t: "The Elephant’s Child cannot speak English properly because he is still very young and has not learned it yet.", why: "He speaks perfectly a moment before." },
+      { t: "The writer spells these words wrongly on purpose.", why: "An observation. What does it let us hear?" }
+    ]
+  },
+  {
+    claim: "The snake’s way of speaking is a joke in itself.",
+    quote: "yonder self-propelling man-of-war with the armour-plated upper deck",
+    opts: [
+      { t: "The Bi-Coloured-Python-Rock-Snake is talking about the Crocodile while the two of them pull against each other.", why: "Retelling. Why say it in such a long way?" },
+      { t: "He describes a crocodile as a warship, in the longest words available, while a child is being eaten. The calm makes the panic funnier.", ok: true, why: "Strong. It explains the comparison and the comic timing." },
+      { t: "The snake is confused and believes that a real warship has come up the Limpopo River towards them.", why: "He knows exactly what he means." },
+      { t: "The snake uses very long words in this speech, and they are much longer than the words the other animals in the story use when they speak.", why: "An observation. What is the effect of the long words here?" }
+    ]
+  }
+];
+TEXTS.push({ id: "elephants-child", type: "Fiction", mode: "Creative", form: "Just So story", level: "CM2",
+  hook: "A young elephant with too many questions goes to find out what the Crocodile has for dinner.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
 
 /* ================================================================ */
 const $ = s => document.querySelector(s);
@@ -5267,7 +6697,7 @@ TEXTS.forEach(t => {
    ================================================================ */
 const SKILL_GROUPS = [
   { key: "viewpoint",  name: "Narrator and viewpoint",         keywords: ["point of view", "viewpoint", "narrator", "irony", "direct address"] },
-  { key: "mood",       name: "Mood and setting",               keywords: ["mood", "atmosphere", "setting", "tone", "pathetic", "sensory", "suspense"] },
+  { key: "mood",       name: "Mood and setting",               keywords: ["mood", "atmosphere", "setting", "tone", "pathetic", "sensory", "suspense", "humour"] },
   { key: "events",     name: "Key events and structure",       keywords: ["structure", "ending", "opening", "turning point", "key moment", "twist", "foreshadow", "cause and effect", "problem", "message", "theme", "hook", "conclusion", "sequence", "plot", "technique"] },
   { key: "character",  name: "Character and inference",        keywords: ["inference", "character", "motive", "body language", "dialogue", "performance", "detail", "show, don"] },
   { key: "figurative", name: "Figurative language",            keywords: ["simile", "metaphor", "personification", "repetition", "exaggeration", "onomatopoeia", "imagery", "alliteration", "list", "contrast", "understatement", "comparison"] },
