@@ -34,6 +34,10 @@
 .sheet-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:10px;border-bottom:1.5px solid var(--ink);padding-bottom:8px}
 .fullbtn{font:700 11px/1 'Courier Prime',monospace;letter-spacing:.08em;text-transform:uppercase;border:2px solid var(--ink);background:#ffffff;color:var(--ink);padding:7px 9px;cursor:pointer;white-space:nowrap}
 .fullbtn:hover{background:var(--ink);color:var(--hi)}
+.sheet-btns{display:flex;gap:8px;flex-wrap:wrap}
+.readbtn.playing{background:var(--pen);color:#fff;border-color:var(--pen)}
+.readbtn.playing:hover{background:#7a1526}
+.w.read-now{background:var(--pen);color:#fff;border-radius:3px;box-shadow:0 0 0 2px var(--pen)}
 .fullbtn[hidden]{display:none}
 .gap{display:block;width:100%;font:700 11px/1 'Courier Prime',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);background:none;border:0;border-top:1.5px dashed rgba(11,37,69,.35);border-bottom:1.5px dashed rgba(11,37,69,.35);padding:7px 0;margin:0 0 10px;cursor:pointer;text-align:center}
 .gap:hover{color:var(--ink);background:rgba(191,220,245,.7)}
@@ -217,7 +221,7 @@
   <div class="cr-grid">
     <article class="sheet">
       <div class="sheet-head"><div><p class="kicker" id="kicker">Sample text &middot; original</p><h2 id="ttl"></h2></div>
-        <button class="fullbtn" id="fullBtn" hidden>Show full text</button></div>
+        <div class="sheet-btns"><button class="fullbtn readbtn" id="readBtn" hidden>&#128266; Read aloud</button><button class="fullbtn" id="fullBtn" hidden>Show full text</button></div></div>
       <p class="ctx" id="ctx" hidden></p>
       <div class="passage" id="passage"></div>
     </article>
@@ -7047,6 +7051,7 @@ const results = { 1: 0, 2: 0, 3: 0, 4: 0 };
 let paraEls = [], LONG = false, focusSet = null, coreSet = null, fullView = false;
 
 function buildPassage() {
+  stopReading();
   passage.innerHTML = ""; tokens = []; paraEls = [];
   TEXT.paras.forEach((p, pi) => {
     let el;
@@ -7071,6 +7076,7 @@ function buildPassage() {
   const wc = tokens.filter(t => t.n).length;
   $("#kicker").innerHTML = `<span class="lvl">${CUR.level}</span>${CUR.type} &middot; ${CUR.form} &middot; ${wc} words`;
   $("#ctx").textContent = TEXT.intro || ""; $("#ctx").hidden = !TEXT.intro;
+  $("#readBtn").hidden = !speechOK || !tokens.length;
   fitCheck();
 }
 
@@ -7149,6 +7155,61 @@ function draw() {
   if (hidden) gap(hidden);
 }
 $("#fullBtn").addEventListener("click", () => { fullView = !fullView; render(); });
+
+/* ---------- read aloud (browser text-to-speech, reads the tokenised words in order) ---------- */
+const speechOK = "speechSynthesis" in window;
+let speechState = { playing: false, paused: false, rate: 1 };
+function clearReadHighlight() {
+  const cur = passage.querySelector(".w.read-now");
+  if (cur) cur.classList.remove("read-now");
+}
+function updateReadBtn() {
+  const b = $("#readBtn");
+  if (!speechOK) { b.hidden = true; return; }
+  b.classList.toggle("playing", speechState.playing && !speechState.paused);
+  b.innerHTML = speechState.paused ? "&#9654; Resume" : speechState.playing ? "&#10074;&#10074; Pause" : "&#128266; Read aloud";
+}
+function stopReading() {
+  if (speechOK) speechSynthesis.cancel();
+  clearReadHighlight();
+  speechState.playing = false; speechState.paused = false;
+  updateReadBtn();
+}
+function startReading() {
+  if (!speechOK || !tokens.length) return;
+  speechSynthesis.cancel();
+  let text = "", starts = [];
+  tokens.forEach((t, i) => { if (i) text += " "; starts.push(text.length); text += t.el.textContent; });
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = speechState.rate;
+  let lastIdx = -1;
+  u.onboundary = e => {
+    if (e.name && e.name !== "word") return;
+    let lo = 0, hi = starts.length - 1, ans = 0;
+    while (lo <= hi) { const mid = (lo + hi) >> 1; if (starts[mid] <= e.charIndex) { ans = mid; lo = mid + 1; } else hi = mid - 1; }
+    if (ans !== lastIdx) {
+      clearReadHighlight();
+      const el = tokens[ans].el;
+      el.classList.add("read-now");
+      if (fullView || !LONG) el.scrollIntoView({ block: "center", behavior: "smooth" });
+      lastIdx = ans;
+    }
+  };
+  u.onend = () => { speechState.playing = false; speechState.paused = false; clearReadHighlight(); updateReadBtn(); };
+  u.onerror = () => { speechState.playing = false; speechState.paused = false; clearReadHighlight(); updateReadBtn(); };
+  if (LONG && !fullView) { fullView = true; render(); }
+  speechState.playing = true; speechState.paused = false;
+  updateReadBtn();
+  speechSynthesis.speak(u);
+}
+$("#readBtn").addEventListener("click", () => {
+  if (!speechOK) return;
+  if (speechState.playing && !speechState.paused) { speechSynthesis.pause(); speechState.paused = true; updateReadBtn(); }
+  else if (speechState.paused) { speechSynthesis.resume(); speechState.paused = false; updateReadBtn(); }
+  else startReading();
+});
+$("#backBtn").addEventListener("click", stopReading);
+addEventListener("beforeunload", () => { if (speechOK) speechSynthesis.cancel(); });
 
 /* Phrases in curly quotes inside a question, located in the text. */
 function quotedRanges(str) {
