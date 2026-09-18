@@ -215,6 +215,59 @@
 .drill-chip:hover span{color:var(--hi)}
 .stages[hidden]{display:none}
 @media (prefers-reduced-motion:reduce){.cr *,#stamp{animation:none!important;transition:none!important}}
+
+/* ---------- export worksheet: modal + print layout ---------- */
+#printModal{position:fixed;inset:0;background:rgba(11,37,69,.55);display:flex;align-items:center;justify-content:center;z-index:120;padding:18px}
+#printModal[hidden]{display:none}
+.pm-box{background:#fff;border:2px solid var(--ink);max-width:440px;width:100%;padding:22px 22px 18px;box-shadow:8px 8px 0 var(--ink)}
+.pm-box h3{font:400 26px/1 Anton,Impact,sans-serif;margin:0 0 8px}
+.pm-box p{font:400 15px/1.5 'Courier Prime',monospace;color:var(--soft);margin:0 0 14px}
+.pm-box label{display:flex;align-items:center;gap:9px;font:400 15px/1.4 'EB Garamond',Georgia,serif;margin:0 0 9px;cursor:pointer}
+.pm-box label input{width:18px;height:18px;flex:0 0 auto}
+.pm-btns{display:flex;gap:8px;margin-top:16px}
+.pm-btns button{font:400 18px/1 Anton,Impact,sans-serif;letter-spacing:.03em;padding:10px 14px;border:3px solid var(--ink);background:var(--hi);color:var(--ink);cursor:pointer;flex:1}
+.pm-btns button:hover{background:var(--ink);color:var(--hi)}
+.pm-btns button.ghost{background:#fff;flex:0 0 auto}
+
+#printSheet{display:none}
+@media print{
+  @page{margin:15mm 14mm}
+  html,body{background:#fff!important}
+  body>*:not(#printSheet){display:none!important}
+  #printSheet{display:block!important;color:#111;font:400 12.5pt/1.5 'EB Garamond',Georgia,serif}
+  #printSheet *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ws-head{border-bottom:2px solid #0B2545;padding-bottom:8px;margin-bottom:12px}
+  .ws-brand{font:700 9pt/1 'Courier Prime',monospace;letter-spacing:.18em;text-transform:uppercase;color:#0B2545;margin:0 0 4px}
+  .ws-head h1{font:400 26pt/1 Anton,Impact,sans-serif;color:#0B2545;margin:0 0 4px}
+  .ws-meta{font:700 9.5pt/1.3 'Courier Prime',monospace;letter-spacing:.04em;text-transform:uppercase;color:#444;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .ws-name{white-space:nowrap}
+  .ws-intro{font:italic 400 11pt/1.4 'EB Garamond',Georgia,serif;color:#333;margin:8px 0 0}
+  .ws-text{border:1.2pt solid #0B2545;padding:10px 14px;margin:12px 0 16px;break-inside:auto}
+  .ws-text p{margin:0 0 7px;text-align:justify}
+  .ws-text h4{font:700 12pt/1.2 'Courier Prime',monospace;text-transform:uppercase;letter-spacing:.06em;color:#0B2545;margin:10px 0 5px}
+  .ws-text .ws-bullet{margin:0 0 3px 16px}
+  .ws-text .ws-note{font:italic 400 10.5pt/1.35 'Courier Prime',monospace;color:#666}
+  .ws-sec{margin:14px 0 6px}
+  .ws-sec-h{font:700 11pt/1 'Courier Prime',monospace;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:#0B2545;padding:5px 9px;margin:0 0 10px;break-after:avoid}
+  .ws-q{break-inside:avoid;margin:0 0 10px;padding-left:2px}
+  .ws-qn{margin:0 0 3px;font-size:12.5pt}
+  .ws-qn b{color:#0B2545}
+  .ws-skill{font:700 8pt/1 'Courier Prime',monospace;letter-spacing:.08em;text-transform:uppercase;color:#9B1B30;margin-left:6px}
+  .ws-claim{background:#eef4fb;border:.8pt solid #0B2545;padding:5px 8px;margin:4px 0;font-size:11pt}
+  .ws-claim b{display:block;font:700 8pt/1 'Courier Prime',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+  .ws-quote{font-style:italic;border-left:3pt solid #9B1B30;padding-left:9px;margin:4px 0}
+  .ws-opts{list-style:none;margin:6px 0 0;padding:0}
+  .ws-opts li{margin:0 0 4px;padding-left:2px;display:flex;align-items:flex-start;gap:8px}
+  .lett{flex:0 0 auto;width:1.5em;height:1.5em;line-height:1.42em;text-align:center;border:1.2pt solid #333;border-radius:50%;font-weight:700;font-family:'Courier Prime',monospace;font-size:11pt}
+  .ws-write{border-bottom:1pt dotted #666;height:1.15em;margin:5px 0 2px}
+  .ws-key{break-before:page;padding-top:4px}
+  .ws-key h2{font:400 22pt/1 Anton,Impact,sans-serif;color:#9B1B30;margin:0 0 4px}
+  .ws-key .ws-key-tag{font:700 9pt/1 'Courier Prime',monospace;letter-spacing:.14em;text-transform:uppercase;color:#9B1B30;margin:0 0 10px}
+  .ws-key ol{margin:0;padding-left:26px}
+  .ws-key li{margin:0 0 8px;font-size:11pt;break-inside:avoid}
+  .ws-key li b{color:#0B2545}
+  .ws-foot{margin-top:14px;border-top:1pt solid #999;padding-top:5px;font:400 8.5pt/1.3 'Courier Prime',monospace;color:#777;text-align:center}
+}
 </style>
 </head>
 <body>
@@ -239,6 +292,7 @@
     <button class="backbtn" id="backBtn">&larr; All texts</button>
     <button class="backbtn" id="linkBtn" title="Copy a direct link to this text">Copy link</button>
     <button class="backbtn teach-btn" id="teachBtn" title="Present this text to the class, question by question" hidden>&#9654; Class mode</button>
+    <button class="backbtn" id="printBtn" title="Export a printable worksheet (Save as PDF)" hidden>&#9113; Export worksheet</button>
     <h1 class="cr-title">Close Reading <span>Practice</span></h1>
     <div class="stages" id="stages"><span data-s="1">1 &middot; Annotate</span><span data-s="2">2 &middot; Questions</span><span data-s="3">3 &middot; Evidence</span><span data-s="4">4 &middot; Explain</span></div>
     <div class="score" id="scoreBox">SCORE<b id="score">0</b> / <span id="max">20</span></div>
@@ -257,6 +311,18 @@
 <div id="stamp"></div>
 
 <nav class="footer-class-switcher" aria-label="Switch class"><span>Switch class</span><a href="classroom.html?class=6LVA&amp;section=resources">6LVA</a><a href="6si-unit-1.html">6SI</a><a href="5si-unit-1.html">5SI</a></nav>
+
+<div id="printModal" hidden>
+  <div class="pm-box">
+    <h3>Export worksheet</h3>
+    <p>Opens the print dialog &mdash; choose <b>Save as PDF</b> as the destination.</p>
+    <label><input type="checkbox" id="pmText" checked> Include the passage text</label>
+    <label><input type="checkbox" id="pmAnnotate" checked> Include the annotation tasks</label>
+    <label><input type="checkbox" id="pmKey"> Add a teacher answer key (last page)</label>
+    <div class="pm-btns"><button id="pmGo">Print / Save as PDF</button><button id="pmCancel" class="ghost">Cancel</button></div>
+  </div>
+</div>
+<div id="printSheet"></div>
 
 <script>
 /* ================================================================
@@ -8725,7 +8791,7 @@ function startDrill(key) {
   const queues = shuffle(Object.values(byText)), items = [];
   while (items.length < DRILL_SIZE && queues.some(q => q.length)) queues.forEach(q => { if (q.length && items.length < DRILL_SIZE) items.push(q.shift()); });
   DRILL = { key, items, i: 0, pos: planPositions(items.length, 4), texts: Object.keys(byText).length };
-  TEACH = null; $("#teachBtn").hidden = true; $("#scoreBox").hidden = false;
+  TEACH = null; $("#teachBtn").hidden = true; $("#printBtn").hidden = true; $("#scoreBox").hidden = false;
   score = 0; MAX = items.length;
   $("#score").textContent = 0; $("#max").textContent = MAX;
   $("#stages").hidden = true;
@@ -8817,7 +8883,7 @@ function makeCard(t, n) {
 }
 function showPicker() {
   DRILL = null; TEACH = null; $("#stages").hidden = false;
-  $("#teachBtn").hidden = true; $("#scoreBox").hidden = false;
+  $("#teachBtn").hidden = true; $("#printBtn").hidden = true; $("#scoreBox").hidden = false;
   const tb = $("#teachBtn"); tb.classList.remove("on"); tb.innerHTML = "&#9654; Class mode";
   $("#work").hidden = true; $("#picker").hidden = false;
   renderDrillBar();
@@ -9052,15 +9118,81 @@ function teachDone() {
   panel.firstChild.appendChild(nextBtn("EXIT CLASS MODE", exitTeach, true));
 }
 
+/* ================================================================
+   EXPORT WORKSHEET  (print-to-PDF)
+   Builds a clean printable sheet of the current text + its questions.
+   Uses the browser's own print dialog ("Save as PDF") — no libraries,
+   works offline. Option order is fixed per item so a student sheet and
+   its answer key always match.
+   ================================================================ */
+const LETT = "ABCD";
+function wsPlaced(it) { if (!it._ws) it._ws = placeCorrect(it.opts, rand(it.opts.length)); return it._ws; }
+function wsOpts(pl) { return `<ol class="ws-opts">${pl.map((o, k) => `<li><span class="lett">${LETT[k]}</span><span>${o.t}</span></li>`).join("")}</ol>`; }
+function wsPassage() {
+  return TEXT.paras.map(p => {
+    if (p.startsWith("## ")) return `<h4>${p.slice(3)}</h4>`;
+    if (p.startsWith("[")) return `<p class="ws-note">${p}</p>`;
+    if (p.startsWith("• ")) return `<p class="ws-bullet">${p}</p>`;
+    return `<p>${p}</p>`;
+  }).join("");
+}
+function buildWorksheet(o) {
+  let n = 0; const key = []; let secs = "";
+  if (o.annotate && ANNOTATE.length) {
+    let items = "";
+    ANNOTATE.forEach(it => { n++;
+      items += `<div class="ws-q"><p class="ws-qn"><b>${n}.</b> Underline in the passage the words that match this &mdash;<span class="ws-skill">${it.skill}</span></p><p class="ws-qtext">${it.prompt}</p><div class="ws-write"></div></div>`;
+      key.push(`<li><b>${n}.</b> Underline: “${it.target.join("” / “")}” &mdash; ${it.explain}</li>`);
+    });
+    secs += `<div class="ws-sec"><p class="ws-sec-h">A &middot; Annotate the text</p>${items}</div>`;
+  }
+  const mcq = (list, head, label, quoteKind) => {
+    if (!list.length) return;
+    let items = "";
+    list.forEach(it => { n++; const pl = wsPlaced(it);
+      let body = "";
+      if (quoteKind === "evidence") body = `<p class="ws-qn"><b>${n}.</b> This quote is evidence that&hellip;<span class="ws-skill">Evidence vs claim</span></p><p class="ws-quote">“${it.quote}”</p>`;
+      else if (quoteKind === "explain") body = `<p class="ws-qn"><b>${n}.</b> Which explanation proves the claim best?<span class="ws-skill">Best explanation</span></p><div class="ws-claim"><b>Claim</b>${it.claim}</div><p class="ws-quote">“${it.quote}”</p>`;
+      else body = `<p class="ws-qn"><b>${n}.</b> ${it.q}<span class="ws-skill">${it.skill}</span></p>`;
+      items += `<div class="ws-q">${body}${wsOpts(pl)}</div>`;
+      key.push(`<li><b>${n}.</b> <b>${LETT[pl.findIndex(x => x.ok)]}</b> &mdash; ${pl.find(x => x.ok).why}</li>`);
+    });
+    secs += `<div class="ws-sec"><p class="ws-sec-h">${head}</p>${items}</div>`;
+  };
+  mcq(QUESTIONS, "B &middot; Reading questions", "q");
+  mcq(EVIDENCE, "C &middot; Evidence vs claim", "e", "evidence");
+  mcq(EXPLAIN, "D &middot; Best explanation", "x", "explain");
+  const wc = TEXT.paras.filter(p => !p.startsWith("## ") && !p.startsWith("[")).join(" ").split(/\s+/).filter(Boolean).length;
+  const head = `<div class="ws-head"><p class="ws-brand">The Learning Deck &middot; Close Reading</p><h1>${TEXT.title}</h1>
+    <div class="ws-meta"><span>${CUR.level} &middot; ${CUR.type} &middot; ${CUR.form} &middot; ${wc} words</span><span class="ws-name">Name: ________________&nbsp;&nbsp;Date: __________</span></div>
+    ${TEXT.intro ? `<p class="ws-intro">${TEXT.intro}</p>` : ""}</div>`;
+  const textBlock = o.text ? `<div class="ws-text">${wsPassage()}</div>` : "";
+  const keyBlock = o.key ? `<div class="ws-key"><h2>Answer key</h2><p class="ws-key-tag">Teacher copy &middot; ${TEXT.title}</p><ol>${key.join("")}</ol></div>` : "";
+  const foot = `<p class="ws-foot">The Learning Deck &middot; Close Reading Practice &middot; ${TEXT.title}</p>`;
+  $("#printSheet").innerHTML = head + textBlock + secs + foot + keyBlock;
+}
+function openPrintModal() { if (CUR && !DRILL) $("#printModal").hidden = false; }
+function closePrintModal() { $("#printModal").hidden = true; }
+$("#printBtn") && $("#printBtn").addEventListener("click", openPrintModal);
+$("#pmCancel") && $("#pmCancel").addEventListener("click", closePrintModal);
+$("#printModal") && $("#printModal").addEventListener("click", e => { if (e.target === $("#printModal")) closePrintModal(); });
+$("#pmGo") && $("#pmGo").addEventListener("click", () => {
+  buildWorksheet({ text: $("#pmText").checked, annotate: $("#pmAnnotate").checked, key: $("#pmKey").checked });
+  closePrintModal();
+  setTimeout(() => window.print(), 80);
+});
+
 function loadText(t) {
   DRILL = null; TEACH = null; $("#stages").hidden = false;
   $("#scoreBox").hidden = false;
   const tb = $("#teachBtn"); tb.hidden = false; tb.classList.remove("on"); tb.innerHTML = "&#9654; Class mode";
+  $("#printBtn").hidden = false;
   CUR = t; ({ TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN } = t);
   MAX = ANNOTATE.length + QUESTIONS.length + EVIDENCE.length + EXPLAIN.length;
   $("#max").textContent = MAX; $("#ttl").textContent = TEXT.title;
   $("#picker").hidden = true; $("#work").hidden = false;
   setURL({ text: t.id });
+  buildWorksheet({ text: true, annotate: true, key: false });
   scrollTo(0, 0);
   intro();
 }
