@@ -354,16 +354,7 @@ const QUESTIONS = [
       { t: "Second person, addressing the reader", why: "Second person uses “you”: “You check your phone.” This story never speaks to the reader directly." }
     ]
   },
-  {
-    skill: "Inference",
-    q: "“Tapping his watch twice, the way he did when he meant it.” What can we infer?",
-    opts: [
-      { t: "He usually keeps his promises, so his lateness is worrying", ok: true, why: "Right. “The way he did when he meant it” suggests a habit Mei trusts. If he normally means it, something must be wrong, which raises the tension." },
-      { t: "He is forgetful, and often turns up late to things he has promised", why: "The text suggests the opposite. The gesture is how he shows he is serious, so Mei has good reason to expect him." },
-      { t: "He is obsessed with time", why: "That overreads one gesture. The tapping is not about time in general, it is a signal of a promise." },
-      { t: "Mei does not really trust her grandfather to keep his word", why: "If she didn’t trust him, she wouldn’t still be waiting at nine o’clock. The detail shows trust, which is why his absence hurts." }
-    ]
-  },
+  
   {
     skill: "Effect of language",
     q: "“She checked it again, in case the first time had not counted.” What is the effect of this sentence?",
@@ -392,6 +383,16 @@ const QUESTIONS = [
       { t: "It shows Mei is still angry with him and is choosing to ignore him", why: "She doesn’t run to him, but she does make room. Ignoring someone wouldn’t include inviting them to sit. The action is small but warm." },
       { t: "It creates a cliffhanger", why: "A cliffhanger leaves the main question open. Here it is answered: he is safe and she accepts him. The ending is quiet, but it is resolved." },
       { t: "It shows the bench is too small for both of them to sit down on", why: "That is the literal action, not its purpose. Ask what moving the bag means between these two people." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "A girl waits anxiously at a ferry terminal for her late grandfather, and when he finally arrives soaked because his bus broke down, she quietly forgives him without saying a word about it.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "A girl sits alone on a bench at a ferry terminal while the departures board flickers through cancelled messages and a cleaner slowly mops the empty floor nearby. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "A girl gets stranded overnight at the terminal because the last ferry of the night leaves without her while she is still waiting there. This is one part of a longer sequence of events in the story.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "A man buys two cups of hot tea from a stall before he walks through the rain to meet a girl who has been waiting for him. This point is raised without being the central focus of the whole piece. Further events unfold elsewhere in the passage that this does not cover.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -569,16 +570,7 @@ const QUESTIONS = [
       { t: "To demand that all building near coastlines is stopped immediately by the government", why: "The article mentions that mangroves have been cleared, but it never makes this demand. Don’t invent an argument stronger than the one the writer makes." }
     ]
   },
-  {
-    skill: "Audience",
-    q: "Who is the article mainly written for?",
-    opts: [
-      { t: "General readers, including young people, with no science background", ok: true, why: "Right. Scientific terms are explained, the writer speaks to “you”, and ideas are made vivid with similes like “stilts” and “pencils”. That is writing for curious non-experts." },
-      { t: "Marine biologists who already study mangroves and coastal plants for a living", why: "Experts would not need “pneumatophores” explained or roots compared to pencils. The explanations show the writer expects readers who are new to the topic." },
-      { t: "Government officials who are deciding on new coastal planning laws", why: "There are no policy recommendations, costs or formal language. The friendly “you” and vivid images suggest a general audience." },
-      { t: "Very young children who are just learning to read", why: "Words like “carbon”, “adapted” and “waterlogged” and ideas like climate storage are too demanding for very young readers." }
-    ]
-  },
+  
   {
     skill: "Structure",
     q: "Why does the writer open with a walk along the boardwalk?",
@@ -617,6 +609,16 @@ const QUESTIONS = [
       { t: "To prove to readers that the scientific facts in the article are accurate", why: "A volunteer’s opinion is not scientific evidence. The quotation adds feeling and perspective, not proof." },
       { t: "To show that volunteers and scientists disagree about mangroves", why: "Nothing in the quotation disagrees with anything. It supports the idea that mangroves can recover over time." },
       { t: "To add some humour before the conclusion", why: "The words are thoughtful and hopeful, not funny. Look at what “fifty years” suggests: patience and care." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "The article explains how mangrove forests survive salty, flooding conditions, why they matter for coastlines and climate, and why more of them now need protecting.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "The article describes how some mangrove roots, called pneumatophores, poke up through the mud like rows of pencils so the tree can breathe. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The article argues that mangroves are the single most important habitat on the whole planet and should be protected everywhere by international law. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "The article describes a boardwalk at Sungei Buloh where visitors can walk out at low tide and see the mangrove trees up close. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -788,16 +790,7 @@ const QUESTIONS = [
       { t: "Second person, addressing the reader", why: "The story does use “you” once (“the way you follow a secret”), but that is a general “you”, like “one”. The narrator is clearly “I”." }
     ]
   },
-  {
-    skill: "Genre",
-    q: "What kind of story is this?",
-    opts: [
-      { t: "A dystopian story about a society controlled by frightening rules", ok: true, why: "Right. Rationed sound, badges that watch citizens and people who disappear after “a visit” are classic features of dystopian fiction." },
-      { t: "A fairy tale in which magic brings a happy ending", why: "Nothing here is magical, and the ending is tense, not happy. The rules come from a controlling society, not enchantment." },
-      { t: "A realistic story about annoying noisy neighbours", why: "Badges measuring decibels and neighbours vanishing are not realistic. The problem is the system, not the neighbours." },
-      { t: "A comedy about a noisy family that is bad at being quiet", why: "The family is very good at being quiet (“We have become very good at it”). The tone is fearful, not comic." }
-    ]
-  },
+  
   {
     skill: "Inference",
     q: "What most likely happened to Mr Okafor?",
@@ -836,6 +829,16 @@ const QUESTIONS = [
       { t: "It solves the problem at last, so the reader can finally relax", why: "Nothing is solved. The drip is louder than ever and the badge is already amber." },
       { t: "It proves that the pipe is really a magical creature that is alive and aware", why: "“As if” means it only seems that way. The comparison creates an eerie feeling. It does not make the drip literally alive." },
       { t: "It shows the narrator has fixed the pipe with the towel", why: "The towel is taken, but the story ends before anything is fixed. The drip is growing louder, not stopping." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "In a world where a badge punishes any noise after dark, a family that has learned to live silently is unsettled when an unexplained dripping sound threatens to get them into trouble.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "A family's badge blinks green whenever they whisper quietly and amber whenever somebody in the flat forgets themselves for a moment. It is mentioned only briefly, and is not the main focus. Elsewhere in the text, different events take centre stage.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Soldiers arrive at the family's door to arrest them the moment their badge turns red for the very first time that year. Other characters and events are also part of what happens in the text.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Tobi laughs quietly into a pillow so that his whole body shakes instead of making any noise at the dinner table. This point is raised without being the central focus of the whole piece. Further events unfold elsewhere in the passage that this does not cover.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -1000,16 +1003,7 @@ const ANNOTATE = [
 ];
 
 const QUESTIONS = [
-  {
-    skill: "Text type",
-    q: "What type of text is this?",
-    opts: [
-      { t: "A memoir: real personal experience written with literary techniques", ok: true, why: "Right. It is first person, about a real place and family, and it reflects on how the writer has changed. It also uses similes, personification and sensory language, which is what makes it creative non-fiction." },
-      { t: "An informative article giving facts about Singapore’s hawker centres", why: "There are no facts to teach, no explanations and no expert voices. The focus is the writer’s memories and feelings." },
-      { t: "A persuasive text urging readers to eat breakfast at hawker centres", why: "The writer never tries to convince the reader of anything. She reflects on her own experience." },
-      { t: "A set of instructions for making kaya toast", why: "Charcoal and butter are mentioned as description, but there are no steps or commands. It is not a recipe." }
-    ]
-  },
+  
   {
     skill: "Structure",
     q: "How does the writer’s attitude change across the text?",
@@ -1058,6 +1052,16 @@ const QUESTIONS = [
       { t: "The grandmother is full and wants somebody else to finish her food", why: "She “still eats slowly” and carefully. The push happens when she “catches me watching”, so it is about the writer, not her appetite." },
       { t: "The grandmother is annoyed that her granddaughter keeps watching her", why: "An annoyed person would not offer food. Sharing the plate is a warm response." },
       { t: "The grandmother wants the writer to leave", why: "Pushing the plate closer draws the writer in, the opposite of sending her away." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "A narrator who once found their grandmother's daily visits to a hawker stall boring has slowly come to notice and appreciate the small rituals of those early mornings.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "A grandmother walks straight past the empty tables to eat kaya toast at Uncle Lim's stall every single morning of the week. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The narrator decides to leave school and take over running Uncle Lim's stall once he finally retires from working there. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "A pigeon patrols the floor of the hawker centre like a tiny security guard, inspecting every crumb that it can find. Elsewhere in the text, different events take centre stage.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -1237,16 +1241,7 @@ const QUESTIONS = [
       { t: "To explain how to look after a pet seal", why: "There are no instructions, and fur seals are wild animals." }
     ]
   },
-  {
-    skill: "Text features",
-    q: "Why does the writer use headings like “Where do they live?”",
-    opts: [
-      { t: "To help the reader find information quickly", ok: true, why: "Right. Each heading tells you what the section is about, so you can jump straight to the part you need." },
-      { t: "To make the text look like a story", why: "Stories rarely have headings like these. Headings are a feature of information texts." },
-      { t: "Because the reader has to write an answer to each heading", why: "The heading is a question, but the writer answers it in the section below." },
-      { t: "Only to decorate the page", why: "Headings do a job: they organise the information into topics." }
-    ]
-  },
+  
   {
     skill: "Finding information",
     q: "How can you tell a fur seal from a sea lion?",
@@ -1285,6 +1280,16 @@ const QUESTIONS = [
       { t: "Fur seals are really just a type of sea lion", why: "The whole section explains they are different animals." },
       { t: "Sea lions attack fur seals by mistake when they meet", why: "Nothing in the text mentions attacks. “Mistaken for” is about people confusing them." },
       { t: "Fur seals and sea lions live together", why: "The text says they like different places on land: rocks and sandy beaches." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "The report gives key facts about New Zealand fur seals, including where they live, how the pups grow up, and how to tell them apart from sea lions nearby.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Fur seals have a pointed nose and a thick coat of fur, while sea lions have a more rounded nose and a much thinner coat. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "New Zealand fur seals are now the single most common seal species found anywhere in the whole world's oceans today. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Fur seal pups stay close to their mothers for about a year before they are able to leave and catch their own fish. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -1445,16 +1450,7 @@ const ANNOTATE = [
 ];
 
 const QUESTIONS = [
-  {
-    skill: "Text type",
-    q: "What kind of story is this?",
-    opts: [
-      { t: "A traditional tale that explains how something began", ok: true, why: "Right. It is “A Native American story” passed down over time, and it explains how the first moccasins were invented." },
-      { t: "An information report giving facts about shoes and how they are made", why: "It has characters and a story, not headings and facts." },
-      { t: "A news report about a real chief and his hunting trips", why: "It starts “Once there was”, which is how tales begin, not news." },
-      { t: "A poem about feet", why: "It is written in paragraphs, with no rhyme or verses." }
-    ]
-  },
+  
   {
     skill: "Character",
     q: "Why was the chief embarrassed?",
@@ -1503,6 +1499,16 @@ const QUESTIONS = [
       { t: "Chiefs should never go hunting if their feet are soft", why: "The story solves his problem so he can walk anywhere. It doesn’t say he should stop hunting." },
       { t: "You should always do what servants tell you", why: "The servants never give advice in the story." },
       { t: "Some problems are too big and can never be solved", why: "The problem is solved at the end with a huge smile." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "A traditional tale in which a wise man tries several solutions for a chief's tender feet, each one failing in a new way, until he finally invents the first moccasins.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Servants carry woven mats and place them on the ground just ahead of the chief so that he always has something soft to walk on. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The chief becomes the tribe's most skilled hunter of all time once he finally has his new pair of leather moccasins. It is mentioned only briefly, and is not the main focus. Elsewhere in the text, different events take centre stage.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "The chief catches sight of a beautiful maiden while he is out walking along one of his new leather paths one day. This is one part of a longer sequence of events in the story.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -1684,16 +1690,7 @@ const QUESTIONS = [
       { t: "Whether the team decides to change its plan in the end", why: "Sam clearly says they must “abandon our existing strategy” and outlines a new idea." }
     ]
   },
-  {
-    skill: "Character",
-    q: "What kind of leader is Sam?",
-    opts: [
-      { t: "Calm and fair, keeping the team focused", ok: true, why: "Right. Sam stops the blame (“Let’s not waste our energy blaming Bella”), understands Bella’s mistake and moves the team on to “what to do next”." },
-      { t: "Angry and quick to blame others for mistakes", why: "That describes Ty. Sam refuses to blame Bella." },
-      { t: "Nervous and inexperienced", why: "Sam has “been in Bella’s position” before and quickly invents a new plan. That shows experience." },
-      { t: "Uninterested in how the team members feel", why: "Sam notices Ty’s “negative feelings” and looks “directly at Ty” to deal with them." }
-    ]
-  },
+  
   {
     skill: "Character",
     q: "“He was still a novice and floundered for a minute or two.” What does this tell us about Ty?",
@@ -1722,6 +1719,16 @@ const QUESTIONS = [
       { t: "It introduces all of the characters and explains who they are", why: "The sentence names no characters. We meet them later." },
       { t: "It tells us how the story ends", why: "The ending is the new plan at the front door, not the mistake." },
       { t: "It shows the narrator was the one who made the mistake", why: "Bella gave the wrong information. Sam just recognises it." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "A team's covert mission is interrupted when the target house turns out not to be empty, and the leader calms an argument before improvising a bold new plan.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Ty is angry with Bella because he believes that she checked the intelligence about the house carefully enough before the mission began. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The team abandons the whole mission completely and quietly returns home that night, having failed to retrieve the file. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "The team gathers together at a meeting point among the shadows of the garden to consider what they should do next. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -1907,16 +1914,7 @@ const QUESTIONS = [
       { t: "Because older facts are the most important ones", why: "The order shows change over time, not importance." }
     ]
   },
-  {
-    skill: "Text features",
-    q: "What does the bulleted list show?",
-    opts: [
-      { t: "The signs that must all appear together before CCD is blamed", ok: true, why: "Right. The sentence before says the characteristics must “occur simultaneously”, at the same time. The bullets make each sign easy to see." },
-      { t: "The five main causes of Colony Collapse Disorder", why: "Careful: these are signs of CCD, not causes. The causes are still unknown, as the later paragraph explains." },
-      { t: "Steps a beekeeper should follow, in the right order", why: "The list describes what a hive looks like. It isn’t a set of instructions." },
-      { t: "Facts that are only true in Australia", why: "Australia “has been spared”. The list describes CCD where it happens." }
-    ]
-  },
+  
   {
     skill: "Cause and effect",
     q: "How can CCD affect people who buy food?",
@@ -1945,6 +1943,16 @@ const QUESTIONS = [
       { t: "It shows the problem of disappearing bees is only about money", why: "“Cannot afford to ignore” is an expression meaning it would be too dangerous to ignore. The text is also about food and nature." },
       { t: "It adds humour to end on a lighter note", why: "The tone is serious, not humorous." },
       { t: "It tells readers the problem has been solved and they can relax", why: "“Cannot afford to ignore” means it is ongoing and still needs attention." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "The article explains what Colony Collapse Disorder is, how it is identified, why disappearing bees threaten our food supply, and why the cause is still unclear.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Colony Collapse Disorder is partly identified by there being very few or no dead bees found anywhere near the hive itself. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Scientists have now finally found and completely solved the exact cause of Colony Collapse Disorder around the world. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "American farmers now have to hire honey bees from other states, and sometimes from as far away as Australia, each year. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -2155,14 +2163,15 @@ const QUESTIONS = [
       { t: "Slippery", why: "Nothing in the sentence is about grip. Use the clue “so small and light”." }
     ]
   },
+  
   {
-    skill: "Text features",
-    q: "What does the map add to the text?",
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
     opts: [
-      { t: "It shows exactly where in South America pygmy marmosets live", ok: true, why: "Right. The text says “north-west of South America”; the map lets readers see that area at a glance." },
-      { t: "It shows how many pygmy marmosets live in South America", why: "The map shows location, not population numbers." },
-      { t: "It shows where their predators, like snakes and cats, live", why: "The map is labelled as showing the distribution of the pygmy marmoset only." },
-      { t: "It shows where every kind of monkey lives", why: "The map is only about the pygmy marmoset." }
+      { t: "The article describes the pygmy marmoset, the world's smallest monkey, covering its tiny size, its diet, the dangers it faces, and how its young are raised.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Pygmy marmosets can jump more than four metres through the trees despite being small enough to fit into a human hand. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Pygmy marmosets have now become an endangered species because so many of them have been hunted by humans for their fur. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "The male pygmy marmoset carries the newborn twins around on his back for the first two weeks of their lives. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -2323,16 +2332,7 @@ const ANNOTATE = [
 ];
 
 const QUESTIONS = [
-  {
-    skill: "Text type",
-    q: "What kind of text is this?",
-    opts: [
-      { t: "A retelling of an ancient Greek myth", ok: true, why: "Right. The introduction says it comes from Greek mythology, and it includes a monster, a hero and a king." },
-      { t: "A news report about a real event", why: "Monsters like the Minotaur are mythical. News reports don’t tell myths." },
-      { t: "A fairy tale set in the present day", why: "Ships, kings and sacrifices place it in the ancient past." },
-      { t: "An information text about labyrinths", why: "The introduction gives a little information, but the rest is a story with characters and dialogue." }
-    ]
-  },
+  
   {
     skill: "Inference",
     q: "Why did the Athenians accept Minos’ bargain?",
@@ -2381,6 +2381,16 @@ const QUESTIONS = [
       { t: "Angry and insulted", why: "He is being offered help, not insulted. Nothing suggests anger." },
       { t: "Frightened", why: "The offer gives him hope. The word describes surprise, not fear." },
       { t: "Disappointed and let down", why: "He is offered a way to succeed, which is good news." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "In this myth, Ariadne secretly helps Theseus defeat the Minotaur in exchange for escaping her island home, giving him a sword and thread to find his way back.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "King Minos demands that the city of Athens send fourteen of its finest young men and women to be sacrificed each year. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Theseus falls deeply in love with Ariadne the very moment that he first steps off the ship that has carried him from Athens. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Ariadne watches closely as the young Athenians stumble off the ship, trembling and with their eyes cast down to the ground. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -2561,16 +2571,7 @@ const QUESTIONS = [
       { t: "To tell the story of one glider’s long journey around Australia", why: "The opening follows one glider briefly, but the article covers the whole fleet and gliders in general." }
     ]
   },
-  {
-    skill: "Cause and effect",
-    q: "How does the glider move up and down?",
-    opts: [
-      { t: "It pumps water in to sink, then pushes it out to rise and move forward", ok: true, why: "Right. “Water going in causes the glider to descend and its expulsion propels the glider up again and forward.”" },
-      { t: "It uses a small engine to turn a propeller at the back", why: "The text says gliders have “no engine to fuel or maintain”." },
-      { t: "It is simply carried along by the ocean currents wherever they go", why: "It uses currents, but its own pumping system makes it rise and sink." },
-      { t: "It flaps its fins like a fish", why: "The fins steer it. Movement comes from pumping water in and out." }
-    ]
-  },
+  
   {
     skill: "Vocabulary",
     q: "The article calls the glider an “autonomous underwater glider”. What does “autonomous” mean?",
@@ -2599,6 +2600,16 @@ const QUESTIONS = [
       { t: "Doubtful and critical", why: "The only doubt (“might sound like something of a novelty”) is raised to be rejected." },
       { t: "Completely neutral with no opinion", why: "Words like “potent”, “valuable” and “surprisingly” show the writer’s positive opinion." },
       { t: "Worried about the dangers of gliders", why: "No dangers are mentioned. The article focuses on benefits." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "The article explains what autonomous underwater gliders are, how they work, and why they collect ocean data more cheaply than traditional research ships.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "The gliders move through the water by pumping sea water in and then expelling it again to control their own buoyancy. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Underwater gliders have now completely replaced every single research ship used in ocean science around the world. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "A glider nicknamed the 'Scarlet Knight' once crossed the whole width of the Atlantic Ocean using very little energy. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -2758,16 +2769,7 @@ const ANNOTATE = [
 ];
 
 const QUESTIONS = [
-  {
-    skill: "Purpose",
-    q: "What is the writer’s main purpose?",
-    opts: [
-      { t: "To argue that peer pressure can be positive and should be used for good", ok: true, why: "Right. The title, the student X example and the final call to “harness its power for good” all support this argument." },
-      { t: "To argue that peer pressure is always harmful for young people", why: "The writer admits harm exists but argues against seeing it as “strictly undesirable”." },
-      { t: "To explain the science of gravity", why: "Gravity is only a comparison in the first sentence." },
-      { t: "To tell the true story of a student who joined a school band", why: "Student X is “hypothetical”, an imagined example." }
-    ]
-  },
+  
   {
     skill: "Argument",
     q: "Why does the writer say “The undesirable effect of peer pressure cannot be denied”?",
@@ -2816,6 +2818,16 @@ const QUESTIONS = [
       { t: "They make the article sound chatty, casual and friendly to read", why: "These are formal, technical words, not casual ones." },
       { t: "They show that the writer is angry and frustrated with readers", why: "The tone is calm and reasoned. Formal words don’t signal anger." },
       { t: "They make the article funny", why: "These words are serious and academic." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "The article argues that peer pressure, usually seen only as harmful, can also push people toward positive change, and explains the psychology behind it.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "A student who has always been lazy about practising the guitar is persuaded, somewhat reluctantly, to join a school band. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The article proves beyond doubt that peer pressure is always a good and entirely healthy thing for every single teenager. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Psychologists describe the process of adjusting your own personal goals to fit a group's standards as an 'identity shift'. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -3016,16 +3028,7 @@ const QUESTIONS = [
       { t: "He has no reason to trust her and simply guesses a door", why: "He walks “without the slightest hesitation”, which shows he trusts her signal completely." }
     ]
   },
-  {
-    skill: "Character",
-    q: "What is the princess’s terrible dilemma?",
-    opts: [
-      { t: "Either she lets him die, or she watches him marry her rival", ok: true, why: "Right. The tiger means his death; the lady means losing him to a woman she hates. Both outcomes are unbearable to her." },
-      { t: "She doesn’t know which door hides the tiger and which the lady", why: "She does know. “She had possessed herself of the secret of the doors.”" },
-      { t: "She is worried her father will punish her for signalling", why: "The text never suggests she fears her father. Her struggle is between jealousy and love." },
-      { t: "She wants to help the lady escape from the arena safely", why: "She “hated” the lady. Helping her is the last thing on her mind." }
-    ]
-  },
+  
   {
     skill: "Effect of structure",
     q: "What is the effect of the long sentence beginning “How her soul had burned in agony”?",
@@ -3044,6 +3047,16 @@ const QUESTIONS = [
       { t: "It shows she is completely savage and would always choose the tiger", why: "“Semi” means half. The narrator deliberately leaves her partly civilised." },
       { t: "It describes the unusual clothes and jewellery that she wears", why: "The word describes her nature and emotions, not her appearance." },
       { t: "It is simply a compliment about her beauty and her royal status", why: "It describes her “intense and fervid soul”, which is anything but a simple compliment." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "The extract ends on the story's famous unanswered question, as the princess signals which door to open, leaving the reader to decide what came out.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "A huge crowd gathers inside the great arena to watch the accused man walk forward and open one of two identical doors. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The princess secretly saves her lover's life by revealing to him exactly which door the hungry tiger is hidden behind. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "The princess hates the lady behind one of the two doors because she is bitterly jealous of how the girl looks at her lover. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -3276,16 +3289,7 @@ const QUESTIONS = [
       { t: "The knocking is meant to make the ending funny", why: "Everything about the scene is terrifying. Nothing is played for laughs." }
     ]
   },
-  {
-    skill: "Inference",
-    q: "What does Mr White most likely wish for with the third wish?",
-    opts: [
-      { t: "For whatever is outside to go away", ok: true, why: "Right. He searches “before the thing outside got in”, the knocking stops at once, and the road is “deserted”. His last wish undoes the second." },
-      { t: "For another two hundred pounds", why: "He is desperate to stop what is at the door. Money is the last thing on his mind." },
-      { t: "For his wife to calm down and go back to bed", why: "His wife gives “a long loud wail of disappointment”. The wish stopped the knocking, not her." },
-      { t: "For the knocking to be louder so he can hear it", why: "He wants the opposite. The knocking “ceased suddenly” after the wish." }
-    ]
-  },
+  
   {
     skill: "Technique",
     q: "What does the story never show the reader?",
@@ -3304,6 +3308,16 @@ const QUESTIONS = [
       { t: "Having more money always makes a family happier", why: "The money arrives with Herbert’s death. The story shows the opposite." },
       { t: "You should always do what your mother tells you", why: "Following Mrs White’s wish leads to horror. The story doesn’t support this." },
       { t: "Magic objects are fun and completely harmless", why: "The paw causes death and terror. It is anything but harmless." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "Grief-stricken over their son's death, the mother insists on using the paw's second wish to bring him back, and the story builds toward what they may have summoned.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "The mother wakes her husband suddenly in the middle of the night, insisting that the two of them use the paw again. It is mentioned only briefly, and is not the main focus.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Their son returns home again completely unharmed, and the old couple live happily together for many more years. This is one part of a longer sequence of events in the story.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "The husband gently tells his wife that she will catch a chill if she keeps standing by the open window like that. Elsewhere in the text, different events take centre stage.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -3491,16 +3505,7 @@ const QUESTIONS = [
       { t: "The narrator is making fun of the boy for owning a yacht", why: "The yacht is Miss Brill’s invention (“of course”), part of her imagined story." }
     ]
   },
-  {
-    skill: "Inference",
-    q: "Why does Miss Brill pass the baker’s by on the way home?",
-    opts: [
-      { t: "The humiliation has taken away her joy, even in small treats", ok: true, why: "Right. The honey-cake was her “Sunday treat” and a source of delight. Skipping it shows how deeply the couple’s words have hurt her." },
-      { t: "The baker’s shop is closed because it is late on a Sunday afternoon and everyone has gone home", why: "She usually buys honey-cake there every Sunday, so it must normally be open." },
-      { t: "She has spent all her money on the band and has nothing left for cake", why: "The band is free in the public gardens. Money isn’t mentioned." },
-      { t: "She has decided to eat less cake to become healthier", why: "Nothing suggests a diet. The change comes straight after the insult." }
-    ]
-  },
+  
   {
     skill: "Ending",
     q: "What does the final line, “she thought she heard something crying”, suggest?",
@@ -3529,6 +3534,16 @@ const QUESTIONS = [
       { t: "It explains that Miss Brill secretly works as a baker in the town during the rest of the week", why: "She teaches English and reads to an invalid. She buys the cake." },
       { t: "It warns readers that Miss Brill is allergic to nuts", why: "The almond is a delight to her, not a danger." },
       { t: "It gives the reader a traditional recipe for making honey-cake at home", why: "No ingredients or method are given. The detail is about her feelings." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "Miss Brill delights in feeling part of the performance of Sunday life in the gardens, but her happiness collapses when a young couple mock her fur.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Miss Brill imagines happily that everyone sitting quietly in the public gardens around her is really an actor in a play. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Miss Brill decides there and then that she will never set foot in the public gardens again after this one difficult Sunday. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Miss Brill reads the newspaper aloud to an old invalid gentleman for four afternoons every single week of the year. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -3744,16 +3759,7 @@ const QUESTIONS = [
       { t: "Boredom at having nothing to do", why: "Dread is a strong fear, the opposite of feeling bored." }
     ]
   },
-  {
-    skill: "Inference",
-    q: "Why does he turn up the collar of his raincoat?",
-    opts: [
-      { t: "So nobody sees his school uniform and stops him", ok: true, why: "Right. The text says, “so that no one could catch a glimpse of my uniform”. He is hiding that he is a runaway schoolboy." },
-      { t: "Because it is freezing cold and snowing outside", why: "It starts to rain, but the text gives a different reason: hiding his uniform." },
-      { t: "Because it is the fashion at his boarding school", why: "The reason is given clearly: not to be recognised." },
-      { t: "So that he looks older than ten years old", why: "The text says he wants to hide his uniform, not look older." }
-    ]
-  },
+  
   {
     skill: "Mood",
     q: "What mood does the rain create at the end of the extract?",
@@ -3762,6 +3768,16 @@ const QUESTIONS = [
       { t: "Cheerful and bright, like a sunny holiday", why: "Heavy rain is not cheerful. The weather matches his difficult situation." },
       { t: "Funny and silly, like a comedy show", why: "Nothing in the description is played for laughs." },
       { t: "Calm and safe, as if he is already home", why: "He is still on the road, alone, in growing rain. He is far from safe." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "A miserable boy at boarding school runs away one rainy Sunday, and as he passes a grand gateway topped with a stone lion, a car slows down behind him.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Basher Beaumont corners the narrator in the bootroom and smears black shoe polish into his hair earlier that same week. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The narrator successfully makes it all the way home to London by train before anybody at the school even notices he is gone. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "The narrator picks nervously at a loose piece of plaster in the wall while he is standing in the corner of the classroom. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -4052,16 +4068,7 @@ const QUESTIONS = [
       { t: "His best friend Michael is taking French", why: "Michael is taking Spanish." }
     ]
   },
-  {
-    skill: "Character",
-    q: "What does Michael’s scowling show about him?",
-    opts: [
-      { t: "He copies magazine models, hoping to look cool to girls", ok: true, why: "Right. He saw scowling men in GQ and believes “it works” because a girl looked at him." },
-      { t: "He is angry with Victor about something that happened between them over the summer", why: "He is friendly with Victor. The scowl is a deliberate look." },
-      { t: "He is sad because the summer holiday is over", why: "He explains the scowl as a new style, not sadness." },
-      { t: "He has toothache and can’t stop making a face, even when he is talking", why: "He chooses to scowl: “This is my face.”" }
-    ]
-  },
+  
   {
     skill: "Inference",
     q: "Why does Victor raise his hand and claim he knows French?",
@@ -4100,6 +4107,16 @@ const QUESTIONS = [
       { t: "To return the maths book he accidentally left behind in French class", why: "He had already collected his maths book. The library visit is about French." },
       { t: "To hide from Teresa in the quiet library", why: "He is happy about Teresa now. He isn’t hiding." },
       { t: "Because French has always been his favourite subject at school", why: "He knew no French that morning. His interest comes from Teresa." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "On the first day of seventh grade, Victor signs up for French hoping to be near Teresa, and after his friend's new scowl impresses a girl, he tries it too.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Michael explains to Victor that he has completely changed the whole look on his face over the summer holidays. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Victor and Teresa officially become a couple by the very end of their first day back at school together that September. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Victor and Michael talk together about the horrors of picking grapes all summer in order to buy new clothes for school. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -4324,16 +4341,7 @@ const QUESTIONS = [
       { t: "To explain the whole theory of relativity in full scientific detail", why: "Relativity is mentioned briefly. The focus is his life." }
     ]
   },
-  {
-    skill: "Inference",
-    q: "Why does the article mention the compass Einstein’s father gave him?",
-    opts: [
-      { t: "It shows a childhood experience sparked lifelong curiosity", ok: true, why: "Right. Wondering how the needle moved led him to study magnetism and, later, physics." },
-      { t: "It shows he wanted to become a sailor or an explorer when he grew up", why: "The compass made him curious about science, not travel." },
-      { t: "It explains that he often got lost as a child", why: "Nothing suggests he got lost. The compass fascinated him." },
-      { t: "It shows his family was very rich and could afford expensive gifts", why: "A compass is not evidence of wealth. The point is curiosity." }
-    ]
-  },
+  
   {
     skill: "Inference",
     q: "What does Einstein leaving school at 15 suggest?",
@@ -4362,6 +4370,16 @@ const QUESTIONS = [
       { t: "He preferred the warmer weather and the way of life in the United States", why: "The article gives safety as the reason, not weather." },
       { t: "He had been expelled from his grammar school in Germany as a teenager", why: "He left school himself, and that isn’t why he stayed away." },
       { t: "He did not speak German", why: "He was born in Germany. The reason was safety." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "The fact file lists key moments in Einstein's life, from his early struggles at school to his groundbreaking discoveries and lasting worldwide fame.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Einstein originally failed the entrance exam for the Swiss Federal Polytechnic School in Zürich when he first sat it. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Einstein himself invented the compass that first made him become interested in science when he was still a young boy. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Einstein managed to write his very first scholarly paper about the force of magnetism at just sixteen years old. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -4559,16 +4577,7 @@ const QUESTIONS = [
       { t: "The Giant ordered winter to stay so no children would come back", why: "The Giant doesn’t understand why Spring is late: “I hope there will be a change in the weather.” He didn’t choose winter." }
     ]
   },
-  {
-    skill: "Text type",
-    q: "What kind of story is The Selfish Giant?",
-    opts: [
-      { t: "A fairy tale with a message", ok: true, why: "Right. It has a giant, talking trees and weather, and it teaches a lesson about selfishness and kindness." },
-      { t: "An information report explaining how the seasons change", why: "The seasons are characters in a story, not facts to learn. There are no headings or explanations." },
-      { t: "A true story about a real giant who lived in England", why: "Giants, talking trees and a North Wind who roars are not real. This is an invented tale." },
-      { t: "A poem about children playing in a garden", why: "It is told in paragraphs, with no verses or rhymes." }
-    ]
-  },
+  
   {
     skill: "Inference",
     q: "When the kind Giant first comes outside, why do the children run away?",
@@ -4607,6 +4616,16 @@ const QUESTIONS = [
       { t: "It has snowed in the night and the snow has covered him", why: "The story says blossoms, not snow. It was a tree covered with “lovely white blossoms”." },
       { t: "The children covered him with flowers as a joke while he slept", why: "The children find him when they run in. They didn’t put the blossoms there." },
       { t: "The garden is dying and all the flowers are falling off", why: "The tree is covered in beautiful blossoms. The garden is full of life." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "After building a wall to keep children out, the Giant's garden stays locked in winter until a small boy's kindness melts his selfishness, and years later he dies peacefully under the same tree.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "The Giant builds a tall wall all the way around his garden and puts up a large sign forbidding any trespassers from entering. This point is raised without being the central focus of the whole piece. Further events unfold elsewhere in the passage that this does not cover.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The Giant goes on chasing every single child out of his garden for the whole of the rest of his very long life. Other characters and events are also part of what happens in the text. This is a smaller part of a much longer sequence of events overall.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "The North Wind and the Hail both come to visit the Giant's garden and stay there for the whole of that long winter. This detail appears alongside several others as the story unfolds. The wider text covers considerably more ground than this alone.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -4807,16 +4826,7 @@ const QUESTIONS = [
       { t: "He is jealous of her husband", why: "Framton has never met her husband. Jealousy has nothing to do with it." }
     ]
   },
-  {
-    skill: "Irony",
-    q: "Mrs. Sappleton says, “One would think he had seen a ghost.” Why is this ironic?",
-    opts: [
-      { t: "He really thought he had, and she has no idea", ok: true, why: "Right. She means it as an expression, but it is exactly what Framton believed. The reader knows more than she does." },
-      { t: "Mrs. Sappleton is secretly a ghost and is joking about herself", why: "She is very much alive, chatting about carpets and mud." },
-      { t: "The house really is haunted by the men who died in the bog", why: "No one died. The men walk in muddy and cheerful." },
-      { t: "She knows all about the niece’s trick and is teasing her", why: "She calls Framton “extraordinary” and is genuinely puzzled." }
-    ]
-  },
+  
   {
     skill: "Narrator’s tone",
     q: "What does the narrator suggest about Framton when he talks about his illnesses?",
@@ -4845,6 +4855,16 @@ const QUESTIONS = [
       { t: "Falling in love with somebody", why: "There is no love story here. Use the context: she has just invented two tales." },
       { t: "Speaking a Romance language, such as French", why: "The niece speaks English throughout. Context shows the word is about storytelling." },
       { t: "Being polite to visitors", why: "She is polite, but she uses it to fool the visitor. The word refers to her stories." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "A visitor is told an invented tragic story about an open window by a self-possessed niece, and when the supposedly dead men calmly walk in, he flees in terror.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "The niece calmly explains to Framton that her aunt's husband and two young brothers disappeared into a bog three years ago. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The aunt reveals to Framton at the very end that she made up the whole tragic story herself in order to frighten him. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Framton mentions early on that his own sister gave him several letters of introduction to people living nearby. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -5053,14 +5073,15 @@ const QUESTIONS = [
       { t: "He thinks the clerk works better in the cold weather", why: "Nothing suggests a reason like that. He simply guards the coal." }
     ]
   },
+  
   {
-    skill: "Irony",
-    q: "Rain and snow “often came down handsomely, and Scrooge never did”. What is the joke?",
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
     opts: [
-      { t: "“Coming down” means falling, and also handing money over", ok: true, why: "Right. The weather is generous in both senses. Scrooge is generous in neither, so even the sleet beats him." },
-      { t: "Scrooge stays upstairs in his office while it rains outside", why: "There is no upstairs in this scene. The joke is in the words, not the building." },
-      { t: "Scrooge is so cold that the snow refuses to land on him", why: "The sentence says weather has little influence on him, not that snow avoids him." },
-      { t: "The narrator means that Scrooge never falls over in the ice", why: "“Handsomely” would make no sense about falling over." }
+      { t: "The opening insists that Marley is definitely dead, then paints Scrooge as a coldhearted miser on a foggy Christmas Eve, guarding even his clerk's single coal.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "The narrator insists more than once, quite emphatically, that Marley really was as dead as an old door-nail. Elsewhere in the text, different events take centre stage.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Scrooge travels across the city on Christmas Eve to visit his clerk's home and apologise for his own harsh behaviour. Other parts of the story focus on different details.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Dogs belonging to blind men pull their owners into doorways and up side streets whenever they see Scrooge coming near. The rest of the text develops in a different direction.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -5273,16 +5294,7 @@ const QUESTIONS = [
       { t: "Everybody’s in the carriage, one after the other", why: "Only one character’s thoughts are opened, which is what makes the ending land." }
     ]
   },
-  {
-    skill: "Narrator’s voice",
-    q: "How does the narrator feel about the aunt’s story?",
-    opts: [
-      { t: "He mocks it, calling it unenterprising and uninteresting", ok: true, why: "Right. Those words are the narrator’s, not a character’s. He dismisses her story before the children do." },
-      { t: "He admires it, because the good girl is rescued in the end", why: "The rescue is described as deplorable storytelling, not as a happy ending." },
-      { t: "He stays neutral and leaves the judging to the children", why: "The judging words arrive first from the narrator." },
-      { t: "He feels sorry for her because the children interrupt", why: "He notices the interruptions but does not take her side." }
-    ]
-  },
+  
   {
     skill: "Irony",
     q: "Why is the ending of the bachelor’s tale ironic?",
@@ -5321,6 +5333,16 @@ const QUESTIONS = [
       { t: "A warning that he regrets telling such a violent story", why: "He sounds delighted, not sorry." },
       { t: "A promise that he will meet the children and their aunt again", why: "He is leaving the train for good." },
       { t: "An apology to the reader for upsetting the children", why: "The children are not upset. They loved it." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "When the aunt's story about a good girl fails to hold the children's attention, a bachelor tells them a darker tale in which a girl's own medals for goodness lead a wolf straight to her.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "The aunt tells the children a gentle story about a good little girl who is eventually saved by a group of rescuers. This point is raised without being the central focus of the whole piece. Further events unfold elsewhere in the passage that this does not cover.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The bachelor is scolded severely by the train guard for frightening the three young children with his strange story. Other characters and events are also part of what happens in the text. This is a smaller part of a much longer sequence of events overall.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "The smaller of the two girls sits quietly repeating the very same single line of a poem over and over again. This detail appears alongside several others as the story unfolds. The wider text covers considerably more ground than this alone.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -5539,16 +5561,7 @@ const QUESTIONS = [
       { t: "It has been left in ruins for eighteen months", why: "Everything is in place, as if deserted yesterday." }
     ]
   },
-  {
-    skill: "Inference",
-    q: "Why does the narrator talk out loud to himself?",
-    opts: [
-      { t: "To hold on to a calm he no longer feels", ok: true, why: "Right. “By Jove”, “Steady on”, the rough rhymes: all attempts to sound like a man in control." },
-      { t: "To let the three old people downstairs hear him", why: "They are far away, behind two doors and a staircase." },
-      { t: "To frighten away whatever is putting out the candles", why: "He does not believe anything is there to hear him." },
-      { t: "Because the echoes in the room amuse him", why: "The echoes make him stop, rather than continue." }
-    ]
-  },
+  
   {
     skill: "Ending",
     q: "What does the last paragraph change?",
@@ -5557,6 +5570,16 @@ const QUESTIONS = [
       { t: "The narrator admits that he imagined the whole of that night", why: "The candles really went out. He does not take that back." },
       { t: "The old people confess that they blew out the candles", why: "They say nothing of the sort." },
       { t: "The narrator promises never to enter the house again", why: "He makes no such promise in this extract." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "A confident young man spends the night alone in a supposedly haunted room, and as the candles mysteriously go out one by one he is consumed by pure terror.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Three old people warn the narrator more than once that he really should not go into the red room all alone at night. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The narrator eventually discovers a genuine ghost hiding somewhere inside the ancient walls of the red room itself. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "The narrator briefly mistakes the shadow of a bronze statue for a figure crouching low on the landing outside. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -5736,16 +5759,7 @@ const QUESTIONS = [
       { t: "He is guessing, and admits he invented the details", why: "He claims knowledge, not invention." }
     ]
   },
-  {
-    skill: "Structure",
-    q: "Why does the story begin with the boarded window?",
-    opts: [
-      { t: "It sets a question the reader waits the whole story to answer", ok: true, why: "Right. We learn the window is boarded and that nobody knows why, then everything else works towards the reason." },
-      { t: "It explains why Murlock has never repaired his cabin", why: "The cabin’s condition is not the point of the opening." },
-      { t: "It shows that the forest was dangerous to travellers", why: "The danger arrives later, and from inside the cabin." },
-      { t: "It proves that Murlock disliked both daylight and fresh air in the cabin", why: "The narrator rules that out in the same paragraph." }
-    ]
-  },
+  
   {
     skill: "Mood",
     q: "What mood do the paragraphs before the panther create?",
@@ -5784,6 +5798,16 @@ const QUESTIONS = [
       { t: "The story has simply run out of any more events to describe", why: "He could have described the burial, or the boarding of the window." },
       { t: "It shows that the panther was badly hurt by the rifle", why: "The ear was bitten off, not shot off." },
       { t: "It proves Murlock’s aim with the rifle was accurate", why: "The shot is not what the last line is about." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "A grieving frontier settler keeps watch over his wife's body through the night, and after a panther attacks in the darkness, a final chilling detail suggests she was still alive.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Murlock builds a small log cabin deep in the forest with his own hands and boards up its single window for good. This point is raised without being the central focus of the whole piece. Further events unfold elsewhere in the passage that this does not cover.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Murlock himself is dragged away and killed by the panther that breaks into his lonely cabin later that same night. Other characters and events are also part of what happens in the text. This is a smaller part of a much longer sequence of events overall.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Murlock hears a strange, unexplained sound somewhere in the pitch darkness of the cabin that he cannot identify. This detail appears alongside several others as the story unfolds. The wider text covers considerably more ground than this alone.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -5971,16 +5995,7 @@ const ANNOTATE = [
 ];
 
 const QUESTIONS = [
-  {
-    skill: "Point of view",
-    q: "How would you describe the narrator?",
-    opts: [
-      { t: "An outside storyteller who comments on the couple and talks to us", ok: true, why: "Right. He addresses “dear friends”, calls his own tale lame, and judges the pair in the final paragraph." },
-      { t: "Della herself, telling the story of her own Christmas Eve in the flat", why: "Della is “she” throughout, and the narrator knows Jim’s mind too." },
-      { t: "Jim, remembering the day he sold his grandfather’s watch", why: "Jim’s sale is kept from us until he says it aloud." },
-      { t: "A neighbour in the building who watched it happen", why: "No neighbour appears, and the narrator sees inside the flat." }
-    ]
-  },
+  
   {
     skill: "Irony",
     q: "What makes the ending ironic?",
@@ -6029,6 +6044,16 @@ const QUESTIONS = [
       { t: "They have only just moved in and are still settling", why: "The carpet is worn and the name card is already fixed there." },
       { t: "They live somewhere dangerous and keep the door locked", why: "Nothing suggests danger in the building." },
       { t: "They are hiding from someone who is looking for them", why: "Their name is on a card downstairs for all to read." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "Della sells her hair to buy her husband a gift for his prized watch, only to learn he has sold that very watch to buy the combs she wanted.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Della sells her long, beautiful hair to a wig shop nearby in exchange for exactly twenty dollars in cash. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Jim becomes absolutely furious with Della for cutting off all of her hair without asking his permission first. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Della buys her husband a plain platinum watch chain that she is convinced will suit him absolutely perfectly. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -6214,16 +6239,7 @@ const ANNOTATE = [
 ];
 
 const QUESTIONS = [
-  {
-    skill: "Narrator’s voice",
-    q: "How would you describe the storyteller in this tale?",
-    opts: [
-      { t: "A grown-up speaking aloud to a child he knows well", ok: true, why: "Right. He says “O Best Beloved”, and “like this”, as though he were acting the crocodile’s wink in the room." },
-      { t: "A scientist explaining how elephants developed trunks", why: "A scientist would not wink or call the listener Best Beloved." },
-      { t: "The Elephant’s Child, remembering his own adventure", why: "The Elephant’s Child is “he” throughout the story." },
-      { t: "A narrator who stays out of the story completely", why: "He interrupts constantly to talk to the listener." }
-    ]
-  },
+  
   {
     skill: "Point of view",
     q: "What does “you will see and understand” do at the end?",
@@ -6272,6 +6288,16 @@ const QUESTIONS = [
       { t: "Children should stop asking questions that annoy adults", why: "The tale is on the child’s side throughout." },
       { t: "Adults always know the answers and should be believed", why: "The adults answer nothing. They only spank." },
       { t: "Crocodiles are the only creatures worth asking about", why: "He asks about feathers, spots, eyes and melons too." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "An endlessly curious young elephant is spanked by his whole family for asking questions, and a crocodile's tug of war finally stretches his nose into the first trunk.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "The Elephant's Child is spanked in turn by each of his aunts and uncles for asking far too many questions. This is a smaller part of a much longer sequence of events overall.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The Crocodile becomes the Elephant's Child's very best friend for life by the happy ending of the whole story. The wider text covers considerably more ground than this alone.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "The Bi-Coloured-Python-Rock-Snake speaks throughout the whole story in very long and rather grand sentences. This detail appears alongside several others as the story unfolds.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -6466,16 +6492,7 @@ const QUESTIONS = [
       { t: "They prove that the storm is about to get worse", why: "The rain is thinning by then." }
     ]
   },
-  {
-    skill: "Inference",
-    q: "Why does the mother tell the ferry story badly?",
-    opts: [
-      { t: "So the children have something to argue about happily", ok: true, why: "Right. It is on purpose. Correcting her keeps them busy and turns the evening into a game." },
-      { t: "Because she has forgotten how the ferry story really ends", why: "The story says she gets it wrong on purpose." },
-      { t: "Because she is tired after dealing with the blackout", why: "She is calm from the start and stays that way." },
-      { t: "Because she wants the children to go to sleep early", why: "Bedtime is never mentioned in the story." }
-    ]
-  },
+  
   {
     skill: "Point of view",
     q: "Whose eyes do we see the evening through?",
@@ -6494,6 +6511,16 @@ const QUESTIONS = [
       { t: "She is worried that the power will fail a second time", why: "Nothing suggests she expects it to happen again." },
       { t: "She had wanted to keep the candles for her own bedroom instead", why: "The candles matter for the evening, not as objects." },
       { t: "She is annoyed that the storm ended as quickly as it did", why: "Her feeling is about the room, not about the weather." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "During a storm-caused blackout, an anxious flat slowly becomes a warm, candlelit shelter for a family, and Amira is a little sorry when the lights return.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "A sudden storm with heavy wind and rain knocks out all of the electricity in Amira's flat early one evening. Other parts of the story focus on different details. The rest of the text develops in a different direction.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The whole family loses power for several days in a row and has to go and stay with a neighbour until it returns. The story continues well beyond this particular moment.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Amira's mother tells the story about the ferry badly on purpose, getting the ending wrong so the children can correct her. It is mentioned only briefly, and is not the main focus.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -6697,16 +6724,7 @@ const QUESTIONS = [
       { t: "It means the water is moving faster than he can run", why: "He reaches the wall, so he is fast enough." }
     ]
   },
-  {
-    skill: "Inference",
-    q: "Why does Farid go out on the mud at all?",
-    opts: [
-      { t: "Being told not to is part of what makes him want to", ok: true, why: "Right. The story says a warning at thirteen can sound like a dare, and lists his reasons without excusing them." },
-      { t: "He is taking a shortcut home across the sandbar", why: "He heads away from the shore, not along it." },
-      { t: "He has lost something out on the mudflat earlier", why: "He only loses a shoe, and that happens later." },
-      { t: "His friends are already waiting for him on the sandbar", why: "He is alone for the whole story." }
-    ]
-  },
+  
   {
     skill: "Ending",
     q: "Why does Farid say nothing about the rest?",
@@ -6715,6 +6733,16 @@ const QUESTIONS = [
       { t: "He has already forgotten most of what happened", why: "The account we have just read is full of detail." },
       { t: "His mother would not have believed the story", why: "The story never suggests she would doubt him." },
       { t: "He is protecting a friend who was out there too", why: "There is nobody else on the mud." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "Ignoring a warning, a boy walks out onto a mudflat at low tide and has to run for his life when the sea calmly returns, later telling his mother only half the truth.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Farid watches a crab stop right in front of him, raise one claw, and then vanish sideways down into a hole. This detail appears alongside several others as the story unfolds.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Farid is spotted and rescued by a passing fishing boat after being swept far out to sea by the returning tide. The full story includes more than this single moment suggests.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Farid ends up losing one of his shoes to the mud while he is running back as fast as he can toward the shore. The wider text covers considerably more ground than this alone.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -6908,16 +6936,7 @@ const QUESTIONS = [
       { t: "It becomes angry, because the family is leaving", why: "Nobody is angry at any point in the story." }
     ]
   },
-  {
-    skill: "Inference",
-    q: "Why does Mei keep the hairclip?",
-    opts: [
-      { t: "It is proof that the years in the flat happened", ok: true, why: "Right. She cannot explain it, and that is the point. It is small enough to carry and it belongs to the version of her who lived there." },
-      { t: "She plans to wear it again once they have moved", why: "It is yellowed and the flower is broken off." },
-      { t: "She thinks it belongs to somebody else in the family", why: "The story says it had been hers at six." },
-      { t: "She does not want the landlord to find it there", why: "Nothing suggests she is hiding anything." }
-    ]
-  },
+  
   {
     skill: "Suspense",
     q: "What is the effect of the curtains moving?",
@@ -6936,6 +6955,16 @@ const QUESTIONS = [
       { t: "It shows that the whole family is glad to be leaving", why: "Gladness belongs to the rain scene, not to the last line." },
       { t: "It proves that Mei has forgotten the old flat already", why: "Her hand is closed around the hairclip." },
       { t: "It tells the reader where the family will be moving to next", why: "The destination is never mentioned." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "As her family prepares to move out, Mei does one last check of their emptied flat, noticing traces of their years there before leaving with a small keepsake.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Mei finds a small hairclip that used to belong to her as a child hidden behind the radiator pipe in her room. The rest of the text develops in a different direction.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Mei decides at the last moment that she does not want to move at all and refuses to get into the waiting van. The story continues well beyond this particular moment.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "The mynahs arguing in the rain tree outside the block finally fall silent once the heavy rain starts to fall. It is mentioned only briefly, and is not the main focus.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
     ]
   }
 ];
@@ -7465,6 +7494,7 @@ const SKILL_GROUPS = [
   { key: "figurative", name: "Figurative language",            keywords: ["simile", "metaphor", "personification", "repetition", "exaggeration", "onomatopoeia", "imagery", "alliteration", "list", "contrast", "understatement", "comparison"] },
   { key: "words",      name: "Word choice and vocabulary",     keywords: ["vocabulary", "word choice", "verb", "definition", "specialist", "technical", "nickname", "informal", "short sentence", "exclamation", "inverted commas", "language"] },
   { key: "nonfiction", name: "Purpose, audience and features", keywords: ["purpose", "audience", "text type", "genre", "text feature", "fact", "opinion", "statistic", "number", "signal", "rhetorical", "counter", "argument", "certainty", "cautious", "call to action", "hypothetical", "quotation", "doubt", "finding information", "comparing words", "question", "evaluating"] },
+  { key: "summary",    name: "Summary and main idea",          keywords: ["summary", "summarise", "summarize", "main idea", "gist"] },
   { key: "evidence",   name: "Evidence and explanation",       keywords: [] }
 ];
 const DRILL_SIZE = 12;
