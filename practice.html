@@ -97,8 +97,8 @@
 .pick-card{display:flex;flex-direction:column;text-align:left;padding:0;border:2px solid var(--ink);background:#ffffff;color:var(--ink);cursor:pointer;transition:transform .15s,box-shadow .15s;font:inherit}
 .pick-card:hover,.pick-card:focus-visible{transform:translateY(-4px);box-shadow:6px 6px 0 var(--ink);outline:none}
 .thumb{position:relative;aspect-ratio:16/10;background:var(--ink);border-bottom:2px solid var(--ink);overflow:hidden;display:flex;align-items:center;justify-content:center}
-.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
-.thumb.has-img img{display:block}
+.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s}
+.thumb.has-img img{opacity:1}
 .thumb.has-img .ph,.thumb.has-img::before{display:none}
 .thumb::before{content:attr(data-n);position:absolute;left:14px;top:10px;font:400 44px/1 Anton,Impact,sans-serif;color:var(--hi)}
 .thumb .ph{font:700 11px/1 'Courier Prime',monospace;letter-spacing:.14em;text-transform:uppercase;color:#BFDCF5;border:1.5px dashed #5A7BA3;padding:8px 10px}
@@ -138,6 +138,25 @@
 #stamp{border-radius:12px}
 .best-badge{position:absolute;left:12px;bottom:12px;z-index:2;font:700 12px/1 'Courier Prime',monospace;letter-spacing:.06em;background:rgba(255,255,255,.94);color:var(--ink);padding:6px 9px;border-radius:7px}
 .best-line{font:700 13px/1.4 'Courier Prime',monospace;color:var(--ink);background:var(--hi);padding:7px 10px;border-radius:8px;margin:10px 0 0}
+.pick-search{margin-left:auto}
+.pick-search input{font:400 13px/1 'Courier Prime',monospace;border:2px solid var(--ink);border-radius:8px;padding:9px 10px;width:190px;background:#fff;color:var(--ink)}
+.pick-search input:focus{outline:none;box-shadow:0 0 0 3px var(--hi)}
+.lvl-filter{margin-left:0}
+.band{margin:0 0 16px}
+.band-head{width:100%;display:flex;align-items:center;gap:12px;text-align:left;border:2px solid var(--ink);border-radius:12px;background:var(--hi);color:var(--ink);padding:10px 14px;cursor:pointer;font:inherit;margin-bottom:14px}
+.band-head:hover{background:#cfe6fa}
+.band-head .band-lvl{font:400 26px/1 Anton,Impact,sans-serif;letter-spacing:.03em}
+.band-head .band-n{font:700 11px/1 'Courier Prime',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.band-head .chev{margin-left:auto;font:700 15px/1 'Courier Prime',monospace;transition:transform .15s}
+.band[data-open="0"] .band-head{background:#fff}
+.band[data-open="0"] .band-head .chev{transform:rotate(-90deg)}
+.band[data-open="0"] .pick-grid{display:none}
+.band[hidden]{display:none}
+.cover{font:400 11px/1.5 'Courier Prime',monospace;letter-spacing:.04em;color:var(--soft);margin:-8px 0 12px}
+.cover b{color:var(--ink);font-weight:700}
+.cover i{font-style:normal;text-transform:uppercase;letter-spacing:.08em;font-size:10px}
+.no-hits{font:400 14px/1.4 'Courier Prime',monospace;color:var(--soft)}
+.no-hits[hidden]{display:none}
 .pick-card.pending{opacity:.6;cursor:not-allowed}
 .pick-card.pending:hover{transform:none;box-shadow:none}
 .teacher-warn{margin-top:12px;border:2px dashed var(--pen);border-radius:8px;padding:8px 10px;font:400 13px/1.45 'Courier Prime',monospace;color:var(--pen)}
@@ -166,9 +185,11 @@
     <p>Choose a text. Each one has four stages: annotate, questions, evidence and explain.</p>
     <div class="lvl-filter" id="lvlFilter" role="group" aria-label="Filter by level">
       <button data-l="all" aria-pressed="true">All levels</button><button data-l="CM2" aria-pressed="false">CM2</button><button data-l="6ème" aria-pressed="false">6ème</button><button data-l="5ème" aria-pressed="false">5ème</button>
-    </div></div>
+    </div>
+    <div class="pick-search"><input id="pickSearch" type="search" placeholder="Search titles" aria-label="Search texts by title"></div></div>
   <div class="drill-bar" id="drillBar"></div>
-  <div class="pick-grid" id="pickGrid"></div>
+  <div id="pickBands"></div>
+  <p class="no-hits" id="noHits" hidden>No text matches that search.</p>
 </div>
 <div class="cr" id="work" hidden>
   <div class="cr-top">
@@ -6812,31 +6833,82 @@ function setURL(params) {
     history.replaceState(null, "", u);
   } catch (e) {}
 }
+const GROUP_SHORT = { viewpoint: "Viewpoint", mood: "Mood", events: "Structure", character: "Inference", figurative: "Imagery", words: "Word choice", nonfiction: "Purpose", other: "Other" };
+function coverage(t) {
+  const c = {};
+  t.ANNOTATE.concat(t.QUESTIONS).forEach(i => { const g = i.drill || groupForLabel(i.skill); c[g] = (c[g] || 0) + 1; });
+  return Object.entries(c).sort((a, b) => b[1] - a[1]).map(([k]) => GROUP_SHORT[k] || k);
+}
+function bandState() {
+  let st = {};
+  try { st = JSON.parse(localStorage.getItem("crp-bands") || "{}"); } catch (e) {}
+  LEVELS.forEach(l => { if (typeof st[l] !== "boolean") st[l] = true; });
+  return st;
+}
+function saveBands(st) { try { localStorage.setItem("crp-bands", JSON.stringify(st)); } catch (e) {} }
+function makeCard(t, n) {
+  const words = t.TEXT.paras.filter(x => !x.startsWith("## ") && !x.startsWith("[")).join(" ").split(/\s+/).filter(w => norm(w)).length;
+  const pts = t.ANNOTATE.length + t.QUESTIONS.length + t.EVIDENCE.length + t.EXPLAIN.length;
+  const best = getBest(t.id);
+  const cov = coverage(t), shown = cov.slice(0, 2), extra = cov.length - shown.length;
+  const card = document.createElement("button");
+  card.className = "pick-card";
+  card.dataset.find = (t.TEXT.title + " " + t.hook + " " + t.form + " " + t.type + " " + t.mode + " " + (t.TEXT.intro || "") + " " + cov.join(" ")).toLowerCase();
+  card.innerHTML = `<div class="thumb" data-n="${String(n).padStart(2, "0")}"><span class="lvl-badge">${t.level}</span>${best === null ? "" : `<span class="best-badge">Best ${best}/${pts}</span>`}<img src="assets/practice/${t.id}.jpg" alt="" loading="lazy" decoding="async"><span class="ph">Image coming soon</span></div>
+    <div class="pick-body"><div class="tags">${tags(t)}</div><h2>${t.TEXT.title}</h2><p>${t.hook}</p>
+    <p class="cover"><i>Skills</i> <b>${shown.join("</b> &middot; <b>")}</b>${extra > 0 ? " &middot; +" + extra + " more" : ""}</p>
+    <div class="pick-meta"><span>${words} words &middot; ${pts} points</span><b>${best === null ? "Start" : "Retry"} &rarr;</b></div></div>`;
+  const img = card.querySelector("img");
+  img.addEventListener("load", () => card.querySelector(".thumb").classList.add("has-img"));
+  if (img.complete && img.naturalWidth) card.querySelector(".thumb").classList.add("has-img");
+  if (t.pending) {
+    card.classList.add("pending"); card.disabled = true;
+    card.querySelector(".pick-meta").innerHTML = `<span>Text needed</span><b>Soon</b>`;
+  } else card.addEventListener("click", () => loadText(t));
+  return card;
+}
 function showPicker() {
   DRILL = null; $("#stages").hidden = false;
   $("#work").hidden = true; $("#picker").hidden = false;
   renderDrillBar();
   setURL({ level: levelFilter === "all" ? "" : levelFilter });
-  const grid = $("#pickGrid"); grid.innerHTML = "";
-  const list = TEXTS.slice().sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level));
-  list.filter(t => levelFilter === "all" || t.level === levelFilter).forEach((t, n) => {
-    const words = t.TEXT.paras.filter(x => !x.startsWith("## ") && !x.startsWith("[")).join(" ").split(/\s+/).filter(w => norm(w)).length;
-    const pts = t.ANNOTATE.length + t.QUESTIONS.length + t.EVIDENCE.length + t.EXPLAIN.length;
-    const best = getBest(t.id);
-    const card = document.createElement("button");
-    card.className = "pick-card";
-    card.innerHTML = `<div class="thumb" data-n="${String(n + 1).padStart(2, "0")}"><span class="lvl-badge">${t.level}</span>${best === null ? "" : `<span class="best-badge">Best ${best}/${pts}</span>`}<img src="assets/practice/${t.id}.jpg" alt=""><span class="ph">Image coming soon</span></div>
-      <div class="pick-body"><div class="tags">${tags(t)}</div><h2>${t.TEXT.title}</h2><p>${t.hook}</p>
-      <div class="pick-meta"><span>${words} words &middot; ${pts} points</span><b>${best === null ? "Start" : "Retry"} &rarr;</b></div></div>`;
-    const img = card.querySelector("img");
-    img.addEventListener("load", () => card.querySelector(".thumb").classList.add("has-img"));
-    if (t.pending) {
-      card.classList.add("pending"); card.disabled = true;
-      card.querySelector(".pick-meta").innerHTML = `<span>Text needed</span><b>Soon</b>`;
-    } else card.addEventListener("click", () => loadText(t));
-    grid.appendChild(card);
+  const wrap = $("#pickBands"); wrap.innerHTML = "";
+  const open = bandState();
+  LEVELS.forEach(lv => {
+    const list = TEXTS.filter(t => t.level === lv).reverse();
+    if (!list.length) return;
+    const band = document.createElement("section");
+    band.className = "band"; band.dataset.l = lv;
+    band.dataset.open = (levelFilter === "all" ? open[lv] : levelFilter === lv) ? "1" : "0";
+    band.innerHTML = `<button class="band-head" aria-expanded="${band.dataset.open === "1"}"><span class="band-lvl">${lv}</span><span class="band-n">${list.length} text${list.length > 1 ? "s" : ""}</span><span class="chev">&#9660;</span></button><div class="pick-grid"></div>`;
+    const grid = band.querySelector(".pick-grid");
+    list.forEach((t, i) => grid.appendChild(makeCard(t, list.length - i)));
+    band.querySelector(".band-head").addEventListener("click", () => {
+      const now = band.dataset.open === "1" ? "0" : "1";
+      band.dataset.open = now;
+      band.querySelector(".band-head").setAttribute("aria-expanded", now === "1");
+      const st = bandState(); st[lv] = now === "1"; saveBands(st);
+    });
+    wrap.appendChild(band);
   });
+  applySearch();
   scrollTo(0, 0);
+}
+function applySearch() {
+  const box = $("#pickSearch"); if (!box) return;
+  const q = box.value.trim().toLowerCase();
+  let hits = 0;
+  document.querySelectorAll("#pickBands .band").forEach(band => {
+    let n = 0;
+    band.querySelectorAll(".pick-card").forEach(c => {
+      const show = !q || c.dataset.find.includes(q);
+      c.hidden = !show; if (show) n++;
+    });
+    hits += n;
+    band.hidden = q ? n === 0 : false;
+    if (q) { band.dataset.open = "1"; band.querySelector(".band-head").setAttribute("aria-expanded", "true"); }
+  });
+  $("#noHits").hidden = !(q && hits === 0);
 }
 function loadText(t) {
   DRILL = null; $("#stages").hidden = false;
@@ -6858,8 +6930,10 @@ $("#linkBtn").addEventListener("click", () => {
 $("#lvlFilter").querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
   levelFilter = b.dataset.l;
   $("#lvlFilter").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  if (levelFilter !== "all") { const st = bandState(); LEVELS.forEach(l => st[l] = l === levelFilter); saveBands(st); }
   showPicker();
 }));
+$("#pickSearch").addEventListener("input", applySearch);
 (function start() {
   const q = new URLSearchParams(location.search);
   const lv = q.get("level");
