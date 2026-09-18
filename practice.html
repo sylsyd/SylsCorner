@@ -7315,6 +7315,442 @@ TEXTS.push({ id: "owl-and-pussycat", type: "Fiction", mode: "Creative", form: "N
 }
 
 
+/* ================================================================
+   TEXT 31 · Fiction · Creative · Legend · 5ème
+   ================================================================ */
+{
+const TEXT = {
+  title: "The Gordian Knot",
+  intro: "An ancient legend from Phrygia, retold, and how Alexander the Great is said to have solved it.",
+  paras: [
+    "The ancient kingdom of Phrygia was located in what is now modern Turkey. During a time in its history, Phrygia found itself without a king. Lacking a strong ruler, the Phrygians feared for their safety. They prayed for guidance and consulted the oracle at Telmissus for advice. To their relief, the oracle declared that the next man to enter the city with an ox cart would become king.",
+    "Meanwhile, the peasant Gordius was driving his ox cart towards the Phrygian capital. As he travelled, a golden eagle landed on his cart, which Gordius interpreted as a good omen. Unable to determine its meaning, he continued his journey, trusting that the meaning would be revealed.",
+    "When Gordius entered the capital, the people greeted him with acclaim; the priests crowned him their new king. The capital of Phrygia was renamed Gordium. Now Gordius had a son, Midas, who stepped forwards to honour his father, to reassure the Phrygians and to pay homage to Zeus, king of all gods. He dedicated the ox cart to Zeus and tied it with an intricate knot. The knot was so complicated that whoever untied it would rule all of Asia, predicted the oracle. From then on, the knot was called the Gordian knot.",
+    "As word spread about the knot and its promise, challengers arrived from everywhere to try to untie it. None succeeded. The Gordian knot held fast for generations until 333 BCE. That was when, according to legend, Alexander the Great came to Gordium, curious about the famed knot, which by now was weathered ever tighter. Unable to find its loose ends, Alexander dramatically cut the knot with a single stroke of his sword. He did go on to conquer much of Asia, thus fulfilling the prophecy."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Problem",
+    prompt: "Find the sentence that states the first problem the kingdom faces.",
+    target: ["Phrygia found itself without a king"],
+    decoys: [{ phrase: "consulted the oracle at Telmissus for advice", why: "This is the Phrygians' response to the problem, not the problem itself." }],
+    miss: "Look at the second sentence of the whole legend.",
+    explain: "A kingdom with no king is the story's first problem. Everything that follows, the prayer, the oracle, Gordius's arrival, exists to solve it."
+  },
+  {
+    skill: "Cause and effect",
+    prompt: "Find the exact test the oracle sets for choosing the next king.",
+    target: ["the next man to enter the city with an ox cart would become king"],
+    decoys: [{ phrase: "a golden eagle landed on his cart", why: "This happens to Gordius on the road. It is not the oracle's original test." }],
+    miss: "Look at the end of the first paragraph, at what the oracle actually declares.",
+    explain: "This single rule is what turns an ordinary peasant driving a cart into a king. Without this exact test, Gordius's arrival would mean nothing at all."
+  },
+  {
+    skill: "Foreshadowing",
+    prompt: "Find the sign that hints Gordius is about to receive good fortune.",
+    target: ["a golden eagle landed on his cart"],
+    decoys: [{ phrase: "the priests crowned him their new king", why: "This is the result of the sign, not the sign itself." }],
+    miss: "Look near the start of the second paragraph, on the road to the capital.",
+    explain: "Gordius reads the eagle as “a good omen” before he knows why. The detail hints at what is coming, before the reader is told what it means."
+  },
+  {
+    skill: "Turning point",
+    prompt: "Find the moment that finally solves the puzzle of the knot, generations after it was tied.",
+    target: ["Alexander dramatically cut the knot with a single stroke of his sword"],
+    decoys: [{ phrase: "challengers arrived from everywhere to try to untie it", why: "This describes many earlier failed attempts, not the moment the knot is finally dealt with." }],
+    miss: "Look near the end of the final paragraph, at what Alexander actually does.",
+    explain: "Every challenger before Alexander tried and failed to untie the knot the expected way. His single stroke changes the whole problem, solving it by refusing to play by the old rules."
+  },
+  {
+    skill: "Vocabulary",
+    prompt: "Find the word that describes just how complicated the knot Midas ties really is.",
+    target: ["tied it with an intricate knot"],
+    decoys: [{ phrase: "a good omen", why: "This describes the eagle earlier in the legend, not the knot itself." }],
+    miss: "Look in the third paragraph, at what kind of knot Midas ties.",
+    explain: "“Intricate” means extremely complicated, with many parts tangled together. It sets up exactly why the knot becomes such a famous, unsolvable challenge."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Problem and solution",
+    q: "What two problems does this legend follow, one after the other?",
+    opts: [
+      { t: "First a kingdom with no king to rule it, then a knot that nobody seems able to untie", ok: true, why: "Right. The oracle's prophecy solves the first problem; Alexander's sword eventually solves the second, generations later." },
+      { t: "First a war between two kingdoms, then a famine that spreads across all of Phrygia", why: "No war or famine is mentioned anywhere. The two problems are the missing king and the unsolvable knot." },
+      { t: "First a missing eagle, then a missing sword that Alexander must search the kingdom for", why: "The eagle is not missing, and Alexander already owns his sword. Neither is a problem the legend follows." },
+      { t: "First a dishonest oracle, then a corrupt group of priests who crown the wrong man as king", why: "Nothing suggests the oracle or the priests are dishonest. The legend treats the prophecy as genuinely true." }
+    ]
+  },
+  {
+    skill: "Cause and effect",
+    q: "Why does the oracle's prophecy matter so much to everything that happens next?",
+    opts: [
+      { t: "It sets the exact test that lets an ordinary cart's arrival be read as proof of who should rule", ok: true, why: "Right. Without this specific rule, Gordius arriving by ox cart would just be a peasant passing through, not a sign from the gods." },
+      { t: "It warns the Phrygians that their new king will eventually betray and abandon them completely This detail alone does not capture everything the passage actually says.", why: "The oracle never mentions betrayal. It simply names the test for choosing the next king." },
+      { t: "It promises that the city of Gordium will never again suffer from war or from drought", why: "The oracle makes no promise about war or drought. Its prophecy is only about who will become king." },
+      { t: "It orders the Phrygians to go out and search every road for a man riding a golden eagle", why: "No one is sent searching. The Phrygians simply wait for the prophecy's exact condition to be met." }
+    ]
+  },
+  {
+    skill: "Vocabulary",
+    q: "“Midas... tied it with an intricate knot.” What does “intricate” mean here?",
+    opts: [
+      { t: "Extremely complicated, with many parts tangled tightly together", ok: true, why: "Right. This is exactly why the knot becomes such a legendary, seemingly unsolvable challenge for generations." },
+      { t: "Loose and simple, so that almost anybody could untie it in moments", why: "The opposite is true. The knot is famous precisely because nobody manages to untie it." },
+      { t: "Made entirely from gold and other rare, precious materials", why: "“Intricate” describes how the knot is tied, its complexity, not what material it is made from." },
+      { t: "Sacred, and forbidden for anyone except priests to touch at all", why: "Nothing in the legend forbids people from touching the knot. Many challengers try to untie it freely." }
+    ]
+  },
+  {
+    skill: "Structure",
+    q: "Why does the legend wait until 333 BCE, generations later, to introduce Alexander?",
+    opts: [
+      { t: "To show just how long and completely the knot had defeated every single challenger before him", ok: true, why: "Right. The long gap makes the knot's reputation for being impossible feel earned before Alexander arrives to solve it." },
+      { t: "To prove that Alexander personally knew Gordius and Midas from many years earlier", why: "Nothing links Alexander to Gordius or Midas directly. Generations separate the two parts of the legend." },
+      { t: "To hide the fact that the knot had actually already been untied by someone else first", why: "The legend states plainly that “none succeeded” before Alexander. It is not hiding an earlier solution." },
+      { t: "To explain exactly how many kings ruled Phrygia between Gordius and Alexander's arrival This detail alone does not capture everything the passage actually says.", why: "No list of kings is given. The gap in time is about the knot's reputation, not a count of rulers." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "What does cutting the knot instead of untying it suggest about Alexander?",
+    opts: [
+      { t: "He is willing to solve a problem in a bold, unconventional way rather than the expected one", ok: true, why: "Right. Where every other challenger tried to untie the knot properly, Alexander simply changes the terms of the problem." },
+      { t: "He genuinely believes that swords are the only tools worth using for any task at all", why: "This is one single decisive act, not evidence about his general beliefs on tools." },
+      { t: "He is frustrated and gives up on the challenge entirely without finishing it properly", why: "He does not give up; cutting the knot is presented as a decisive solution, not a failure to finish." },
+      { t: "He wants to destroy the knot completely so that no future challenger can ever try it again This detail alone does not capture everything the passage actually says.", why: "Nothing suggests destroying the knot for others is his goal. His aim is to solve the puzzle himself." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this legend?",
+    opts: [
+      { t: "A prophecy makes the peasant Gordius king of Phrygia, his son ties an impossibly complicated knot as an offering to Zeus, and generations later Alexander the Great solves it by cutting it with his sword.", ok: true, why: "Right. It covers the whole shape of the legend, not just one part of it." },
+      { t: "A golden eagle lands on a peasant's ox cart while he is travelling towards the Phrygian capital city. Other parts of the legend focus on different details.", why: "True, but too narrow. It only covers part of the legend and misses the main point." },
+      { t: "Ancient oracles in Phrygia were always completely honest and their prophecies about kings always came true exactly. The rest of the legend develops in a different direction. This detail alone does not capture everything the passage actually says.", why: "Too broad. This adds a claim the legend does not actually make or support." },
+      { t: "Many challengers travelled from far away to try their luck at untying the famous Gordian knot. The story continues well beyond this particular detail." , why: "A real detail, but a minor one. It is not what the legend is mainly about." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "the next man to enter the city with an ox cart would become king",
+    opts: [
+      { t: "The prophecy turns an ordinary, everyday event into unmistakable proof of who should rule", ok: true, why: "Right. Because of this exact rule, Gordius simply driving his cart into the city becomes a sign from the gods." },
+      { t: "The prophecy proves that only wealthy nobles with fine carts are allowed to become king", why: "The rule says nothing about wealth. Gordius is specifically described as a peasant." },
+      { t: "The prophecy is a trick invented by the priests to choose a king they had already picked", why: "Nothing in the legend suggests the priests rigged the test. It is presented as a genuine oracle." },
+      { t: "The prophecy means that any cart entering the city afterwards will also become royal property", why: "The rule applies only to the very next man to enter, as the one-time test for the new king." }
+    ]
+  },
+  {
+    quote: "Unable to find its loose ends, Alexander dramatically cut the knot with a single stroke of his sword",
+    opts: [
+      { t: "Alexander solves the puzzle by changing its rules rather than solving it as everyone else expected", ok: true, why: "Right. He does not untie the knot at all; he removes the whole problem with one decisive stroke instead." },
+      { t: "Alexander accidentally damages the knot while trying to examine it closely for loose ends", why: "The cutting is described as deliberate and dramatic, not an accident during examination." },
+      { t: "Alexander refuses to attempt the challenge at all and simply walks away from Gordium", why: "He does attempt it, in his own way, and famously succeeds by cutting through it." },
+      { t: "Alexander asks the priests of Gordium for special permission before touching the sacred knot This detail alone does not capture everything the passage actually says.", why: "No permission is mentioned. He acts directly and immediately with his sword." }
+    ]
+  },
+  {
+    quote: "The Gordian knot held fast for generations",
+    opts: [
+      { t: "The detail shows just how impossible the challenge had seemed before Alexander finally arrived", ok: true, why: "Right. Generations of failure make Alexander's eventual, unconventional solution feel all the more remarkable." },
+      { t: "The detail proves that the knot was actually made from an unusually strong type of rope", why: "The knot's strength is about its complexity, being “intricate”, not about any special material." },
+      { t: "The detail shows that nobody in Phrygia was ever interested in trying to untie the knot", why: "The opposite is true. Challengers “arrived from everywhere” specifically to attempt it." },
+      { t: "The detail means the knot slowly untied itself naturally over many long years of weather This detail alone does not capture everything the passage actually says.", why: "It “held fast”, meaning it stayed tied, not that it loosened by itself over time." }
+    ]
+  },
+  {
+    quote: "He did go on to conquer much of Asia, thus fulfilling the prophecy",
+    opts: [
+      { t: "This confirms that the oracle's much earlier prediction about the knot really did come true", ok: true, why: "Right. The final line ties Alexander's real conquests directly back to Midas's oracle from generations before." },
+      { t: "This shows that Alexander conquered Asia purely by chance, with no connection to the knot at all", why: "The legend explicitly links his conquest to “fulfilling the prophecy”, not to random chance." },
+      { t: "This means the prophecy only applied to Phrygia itself, not to any wider conquest beyond it", why: "The oracle's prediction was that whoever untied the knot “would rule all of Asia”, a much wider claim." },
+      { t: "This proves that Gordius himself secretly went on to conquer Asia many years earlier", why: "It is Alexander, not Gordius, who is described conquering Asia and fulfilling the prophecy." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The oracle's prophecy is what makes Gordius's arrival meaningful.",
+    quote: "the next man to enter the city with an ox cart would become king",
+    opts: [
+      { t: "Gordius happens to be driving his ox cart into the Phrygian capital at exactly this moment. This detail alone does not capture everything the passage actually says. Other parts of the text tell a rather different story from this one.", why: "Retelling. Explain why the timing of his arrival actually matters to the story." },
+      { t: "Without this exact rule from the oracle, an ordinary peasant arriving by cart would mean nothing; the prophecy is what transforms the event into proof he should be king.", ok: true, why: "Strong. It explains precisely how the prophecy converts an ordinary event into something meaningful." },
+      { t: "The oracle gives the Phrygians a rule to follow near the start of the legend.", why: "Too general. What does that particular rule actually let the Phrygians do?" },
+      { t: "This proves that anyone who owns an ox cart can eventually become king of Phrygia.", why: "A misreading. The rule applied only once, to the very next man to arrive, not to cart owners generally." }
+    ]
+  },
+  {
+    claim: "The eagle landing on the cart foreshadows Gordius's good fortune.",
+    quote: "a golden eagle landed on his cart",
+    opts: [
+      { t: "A golden eagle lands on Gordius's ox cart while he is travelling towards the capital city.", why: "Retelling. Explain what this moment hints at, rather than just describing what happens." },
+      { t: "Gordius reads the eagle as a good sign before he understands why; placing it here hints at coming fortune, well before the reader learns the reason.", ok: true, why: "Strong. It connects the omen to the later reveal and explains the foreshadowing itself." },
+      { t: "An unusual animal appears in the story at this particular point in the journey.", why: "Too general. What kind of unusual thing happens, and what does it suggest is coming?" },
+      { t: "This proves that eagles were considered sacred, protected animals throughout ancient Phrygia. This detail alone does not capture everything the passage actually says. Other parts of the text tell a rather different story from this one.", why: "A misreading. The legend never claims eagles were protected; this one eagle is simply read as a personal omen." }
+    ]
+  },
+  {
+    claim: "Alexander's solution works by changing the problem, not solving it as intended.",
+    quote: "Alexander dramatically cut the knot with a single stroke of his sword",
+    opts: [
+      { t: "Alexander arrives at Gordium and is curious about the famous, weathered knot everyone talks about. This detail alone does not capture everything the passage actually says. Other parts of the text tell a rather different story from this one.", why: "Retelling. Explain what his actual solution achieves, not just that he arrives." },
+      { t: "Every challenger before him tried to find the knot's ends and untie it properly; Alexander instead removes the whole problem with one stroke, solving it by refusing the expected method.", ok: true, why: "Strong. It contrasts his method with everyone else's and explains why that makes it a real solution." },
+      { t: "Alexander does something dramatic and unexpected near the end of the legend.", why: "Too general. What exactly does he do, and why does it count as solving the puzzle?" },
+      { t: "This proves that Alexander was actually unable to solve the puzzle the knot presented at all.", why: "A misreading. The legend presents the cut as a genuine, celebrated solution, not a failure." }
+    ]
+  },
+  {
+    claim: "The long gap before Alexander's arrival builds up the knot's reputation.",
+    quote: "The Gordian knot held fast for generations",
+    opts: [
+      { t: "The Gordian knot stays tied for a very long time, until the year 333 BCE arrives at last.", why: "Retelling. Explain what this long stretch of time actually achieves for the story." },
+      { t: "Generations of failed attempts make the knot's reputation as unsolvable feel fully earned, so that Alexander's eventual solution feels all the more remarkable when it finally comes.", ok: true, why: "Strong. It links the passage of time directly to how impressive Alexander's solution later feels." },
+      { t: "A long period of time passes at this particular point in the legend, before anything else happens. This detail alone does not capture everything the passage actually says. Other parts of the text tell a rather different story from this one.", why: "Too general. What effect does that long stretch of failure actually have on the reader?" },
+      { t: "This proves that nobody in Phrygia even remembered why the knot had originally been tied.", why: "A misreading. Nothing suggests the knot or its origin were forgotten during this time." }
+    ]
+  },
+  {
+    claim: "The final line confirms the prophecy really did come true.",
+    quote: "He did go on to conquer much of Asia, thus fulfilling the prophecy",
+    opts: [
+      { t: "Alexander the Great goes on to conquer a large part of the continent of Asia after this event.", why: "Retelling. Explain how this links back to something earlier in the legend." },
+      { t: "By naming this as “fulfilling the prophecy”, the final line directly ties Alexander's real conquests back to Midas's oracle from generations earlier, closing the legend's whole arc.", ok: true, why: "Strong. It explains exactly how the ending connects back to the earlier prophecy about the knot." },
+      { t: "The legend ends by describing something that happens to Alexander after he leaves Gordium.", why: "Too general. What specifically does this final event confirm about the earlier story?" },
+      { t: "This proves the prophecy was only ever really about military conquest, not about ruling wisely. This detail alone does not capture everything the passage actually says. Other parts of the text tell a rather different story from this one.", why: "A misreading. The prophecy simply said whoever untied the knot would rule Asia; the ending confirms that outcome, nothing more." }
+    ]
+  }
+];
+TEXTS.push({ id: "gordian-knot", type: "Fiction", mode: "Creative", form: "Legend", level: "5ème",
+  hook: "A kingdom with no king, an eagle's omen, and a knot nobody can untie, until somebody stops trying to untie it.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
+/* ================================================================
+   TEXT 32 · Fiction · Creative · Short story · 5ème
+   ================================================================ */
+{
+const TEXT = {
+  title: "New Heights",
+  paras: [
+    "Marnie had always thought of herself as meek and fearful, as scared of her own shadow as she was of bats, spiders, snakes and barking dogs. Her lack of confidence became a greater problem as she approached Year 8. Somehow, she’d let herself be talked into embarking on an adventurous alpine backpacking trip.",
+    "When Marnie and her fears arrived at the 1.6 kilometre-high base camp, she knew, as did the others on the expedition, that many obstacles lay ahead. She was anxious, but vowed to take them on. She was prepared to learn how to trust herself.",
+    "On the website, Marnie read that experienced, supportive instructors would teach the group about camping, cooking in the wilderness, rock climbing and the necessity of teamwork. She knew she would learn to apply basic first aid, use a compass and read a map. Moreover, she understood full well that she and the others would be on their own, problem-solving and cooperating to reach assigned destinations in a rugged environment.",
+    "The terrain was rough indeed. While ascending to an altitude of 3000 metres, Marnie’s team found themselves both on and off steep and rocky paths. She practised remaining calm and focused, which helped her apply what she’d learned. It surprised her how much confidence she gained with each completed task. She was learning deeper things, too – about herself. Marnie found her inner strength, which was now being tapped for the first time. She discovered that she could lead as well as follow, and she liked that feeling.",
+    "When she returned from the two-week challenge, Marnie felt proud of herself and invigorated. Sure, lightning, forest fires, mudslides and avalanches were still scary events, but Marnie was confident she could face them head on. She had developed new self-confidence and an eagerness to expand her horizons."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Problem",
+    prompt: "Find the sentence that names Marnie's problem right at the start of the story.",
+    target: ["Her lack of confidence became a greater problem as she approached Year 8"],
+    decoys: [{ phrase: "she’d let herself be talked into embarking on an adventurous alpine backpacking trip", why: "This is the challenge Marnie takes on, not the problem itself that the story is following." }],
+    miss: "Look in the first paragraph, at the sentence that uses the word “problem” directly.",
+    explain: "Naming the problem so plainly at the very start tells the reader exactly what this story is going to test: whether Marnie's fearfulness can change."
+  },
+  {
+    skill: "Turning point",
+    prompt: "Find the moment Marnie is surprised by her own growing confidence.",
+    target: ["It surprised her how much confidence she gained with each completed task"],
+    decoys: [{ phrase: "she practised remaining calm and focused", why: "This describes what she does to cope, not the moment she notices herself actually changing." }],
+    miss: "Look in the fourth paragraph, partway through the ascent.",
+    explain: "This is the moment the story's central problem starts to shift. Marnie is not just coping with fear any more; she is actively becoming someone more confident."
+  },
+  {
+    skill: "Inference",
+    prompt: "Find the line that shows Marnie has discovered a new side of herself.",
+    target: ["she could lead as well as follow, and she liked that feeling"],
+    decoys: [{ phrase: "she understood full well that she and the others would be on their own", why: "This is about what she expects before the trip, not what she discovers about herself during it." }],
+    miss: "Look near the end of the fourth paragraph.",
+    explain: "A girl who thought of herself only as “meek and fearful” discovering she can lead, and enjoying it, is a clear sign of real inner change."
+  },
+  {
+    skill: "Vocabulary",
+    prompt: "Find the word that describes how Marnie feels when she gets home from the trip.",
+    target: ["Marnie felt proud of herself and invigorated"],
+    decoys: [{ phrase: "as scared of her own shadow", why: "This describes how Marnie felt at the very start of the story, not how she feels once she returns home." }],
+    miss: "Look at the start of the final paragraph.",
+    explain: "“Invigorated” means full of new energy. Pairing it with “proud” shows the trip has changed how Marnie feels about herself, not just what she can do."
+  },
+  {
+    skill: "Structure",
+    prompt: "Find the closing line that sums up how Marnie has changed by the end of the story.",
+    target: ["She had developed new self-confidence and an eagerness to expand her horizons"],
+    decoys: [{ phrase: "lightning, forest fires, mudslides and avalanches were still scary events", why: "This reminds the reader the dangers are still real, but it is not the line that sums up Marnie's own change." }],
+    miss: "Look at the very last sentence of the story.",
+    explain: "The story ends by directly answering its opening problem: the fearful girl from paragraph one now has “new self-confidence” and wants more challenges, not fewer."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Problem and solution",
+    q: "What problem does Marnie face at the start of the story, and how is it resolved by the end?",
+    opts: [
+      { t: "She lacks confidence and is fearful; by the end, the trip has given her real self-confidence and a hunger for new challenges", ok: true, why: "Right. The story opens by naming her lack of confidence directly and closes by showing exactly how that has changed." },
+      { t: "She is afraid of heights specifically; by the end, she has completely overcome her fear of climbing forever This detail alone does not capture everything the passage actually says.", why: "Her fear at the start is general, of “her own shadow”, bats, spiders and dogs, not specifically of heights." },
+      { t: "She cannot afford the trip; by the end, her instructors have paid for the whole two-week expedition", why: "Money is never mentioned as an obstacle anywhere in the story." },
+      { t: "She dislikes her teammates; by the end, she has made close friends with everybody on the expedition", why: "Her relationships with teammates are never described as a problem to begin with." }
+    ]
+  },
+  {
+    skill: "Cause and effect",
+    q: "Why does completing small tasks during the trip change how Marnie feels about herself?",
+    opts: [
+      { t: "Each success gives her real evidence that she can cope, slowly building confidence she did not expect to have", ok: true, why: "Right. The text says it “surprised her how much confidence she gained with each completed task”, showing proof building over time." },
+      { t: "Her instructors give her a prize each time she completes a task, which motivates her to keep going This detail alone does not capture everything the passage actually says.", why: "No prizes or rewards from instructors are mentioned anywhere in the story." },
+      { t: "The tasks are extremely easy, so completing them proves almost nothing about her actual ability", why: "The terrain is described as “rough” and the paths as “steep and rocky”, not easy at all." },
+      { t: "She is simply relieved that the two-week trip is nearly finished and she can finally go home", why: "Her confidence builds during the tasks themselves, not from relief at the trip ending." }
+    ]
+  },
+  {
+    skill: "Vocabulary",
+    q: "“Marnie felt proud of herself and invigorated.” What does “invigorated” mean here?",
+    opts: [
+      { t: "Filled with new energy and feeling strengthened", ok: true, why: "Right. Paired with “proud”, it shows the trip has left Marnie feeling energised as well as accomplished." },
+      { t: "Extremely exhausted and desperate for a long rest after the trip", why: "“Invigorated” means the opposite: full of energy, not worn out." },
+      { t: "Slightly disappointed that the challenge had not been harder than expected", why: "Nothing suggests disappointment. Marnie is described as proud and energised, not let down." },
+      { t: "Nervous about the possibility of going on another difficult trip again soon", why: "The final paragraph shows eagerness for new challenges, not nervousness about them." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "What does “she discovered that she could lead as well as follow” suggest about Marnie?",
+    opts: [
+      { t: "She is finding a stronger, more capable side of herself that she did not know she had", ok: true, why: "Right. A girl introduced as “meek and fearful” discovering she can lead is strong evidence of real inner change." },
+      { t: "She has decided she prefers leading over following in absolutely every situation from now on", why: "The text only says she discovered she could do both, not that she now always prefers one over the other." },
+      { t: "She is frustrated that nobody else on the team is willing to take charge of the group", why: "Nothing suggests frustration with teammates. The focus is on Marnie's own surprising discovery." },
+      { t: "She believes leadership is the only skill that actually matters on a challenging trip like this", why: "This single discovery does not suggest she thinks leadership matters more than every other skill." }
+    ]
+  },
+  {
+    skill: "Structure",
+    q: "Why does the story mention lightning, forest fires, mudslides and avalanches again at the very end?",
+    opts: [
+      { t: "To show that real dangers still exist, but Marnie's new confidence lets her face them differently now", ok: true, why: "Right. Repeating the dangers, then saying she is “confident she could face them head on”, measures exactly how much she has changed." },
+      { t: "To warn future readers never to attempt an alpine backpacking trip under any circumstances", why: "The story ends on a note of confidence and eagerness for more, not a warning against attempting trips." },
+      { t: "To reveal that Marnie actually experienced every one of these disasters during her own trip This detail alone does not capture everything the passage actually says.", why: "These are named as things that “were still scary”, not events that actually happened to Marnie on her trip." },
+      { t: "To explain in detail exactly how instructors are trained to handle each type of emergency", why: "No training procedures are described. The line is about Marnie's own feelings, not instructor training." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this story?",
+    opts: [
+      { t: "A fearful, unconfident girl called Marnie joins a demanding two-week alpine backpacking trip, and through completing difficult tasks and discovering she can lead, she returns home with real self-confidence.", ok: true, why: "Right. It covers the whole shape of the story, not just one part of it." },
+      { t: "Marnie reads on a website that instructors will teach the group camping, cooking and rock climbing skills. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the story and misses the main point." },
+      { t: "Every student who goes on a school backpacking trip always comes back home feeling far more confident afterwards. The rest of the story develops in a different direction. This detail alone does not capture everything the passage actually says.", why: "Too broad. This adds a claim the story does not actually make or support." },
+      { t: "The base camp where Marnie's expedition begins sits at an altitude of 1.6 kilometres above sea level. The story continues well beyond this particular detail.", why: "A real detail, but a minor one. It is not what the story is mainly about." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "as scared of her own shadow as she was of bats, spiders, snakes and barking dogs",
+    opts: [
+      { t: "Marnie's fearfulness is shown as broad and general, not limited to just one specific thing", ok: true, why: "Right. Listing several unrelated fears, plus being scared of “her own shadow”, shows fear as a general trait, not a single phobia." },
+      { t: "Marnie has a specific, serious phobia of animals that will need to be professionally treated", why: "This lists ordinary childhood fears for effect; it is not presented as a medical phobia needing treatment." },
+      { t: "Marnie actually enjoys being frightened and seeks out scary situations whenever she can", why: "The opposite is shown. Being “scared” of these things is described as a problem to overcome, not enjoyed." },
+      { t: "Marnie is afraid specifically because she grew up somewhere with dangerous wild animals", why: "No reason for her fearfulness is given. It is simply stated as part of who she has always been." }
+    ]
+  },
+  {
+    quote: "It surprised her how much confidence she gained with each completed task",
+    opts: [
+      { t: "Marnie's growing confidence builds gradually, through real achievements rather than all at once", ok: true, why: "Right. “With each completed task” shows this is a steady process built from repeated small successes." },
+      { t: "Marnie becomes confident instantly, the moment she first arrives at the base camp This detail alone does not capture everything the passage actually says.", why: "Her confidence builds gradually “with each completed task”, not instantly upon arrival." },
+      { t: "Marnie is disappointed that the tasks are turning out to be far too easy for her", why: "She is described as surprised by her own confidence, not disappointed by the tasks' difficulty." },
+      { t: "Marnie's confidence only grows because her teammates keep praising her efforts", why: "No praise from teammates is mentioned. Her confidence comes from her own sense of achievement." }
+    ]
+  },
+  {
+    quote: "she could lead as well as follow, and she liked that feeling",
+    opts: [
+      { t: "Marnie discovers a capable, confident side of herself that surprises and pleases her", ok: true, why: "Right. Discovering she can lead, and enjoying it, marks a real change from the “meek and fearful” girl at the start." },
+      { t: "Marnie decides she never wants to follow anyone else's instructions ever again", why: "She discovers she is capable of both leading and following, not that she now rejects following entirely." },
+      { t: "Marnie is annoyed that she is sometimes expected to lead the rest of the group", why: "The text says she “liked that feeling”, showing pleasure rather than annoyance at leading." },
+      { t: "Marnie realises leading is much easier than any of the physical tasks on the trip This detail alone does not capture everything the passage actually says.", why: "The text compares nothing about leading being easier; it is about a discovery, not a comparison of difficulty." }
+    ]
+  },
+  {
+    quote: "an eagerness to expand her horizons",
+    opts: [
+      { t: "Marnie now wants more new experiences and challenges, not fewer, after this trip", ok: true, why: "Right. “Eagerness to expand her horizons” shows the fearful girl from paragraph one now actively seeks out more." },
+      { t: "Marnie wants to return to exactly the same mountain and repeat this identical trip again", why: "“Expand her horizons” suggests seeking new experiences broadly, not repeating this one specific trip." },
+      { t: "Marnie has decided that travelling and adventure are far too dangerous to ever attempt again", why: "The opposite is shown: eagerness for more, not a decision to avoid adventure in future." },
+      { t: "Marnie wants to become a professional mountain guide once she eventually finishes school", why: "No specific future career is mentioned. The line is about a general new eagerness, not a career plan." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "Naming the problem directly at the start sets up the whole story.",
+    quote: "Her lack of confidence became a greater problem as she approached Year 8",
+    opts: [
+      { t: "Marnie has always thought of herself as meek and fearful, scared of many ordinary things. This detail alone does not capture everything the passage actually says. Other parts of the text tell a rather different story from this one.", why: "Retelling. Explain what naming this problem so early actually sets up for the story." },
+      { t: "Stating the problem so plainly in the first paragraph tells the reader exactly what the rest of the story will test: whether this fearfulness can genuinely change.", ok: true, why: "Strong. It explains how naming the problem early shapes what the reader expects from the rest of the story." },
+      { t: "The story introduces a difficulty for the main character fairly early on.", why: "Too general. What specific difficulty, and what effect does naming it early actually have?" },
+      { t: "This proves that Marnie will definitely fail the challenge she is about to attempt.", why: "A misreading. Naming a problem at the start of a story does not predict failure; the story goes on to show her succeeding." }
+    ]
+  },
+  {
+    claim: "Marnie's growing confidence is shown as a gradual, earned process.",
+    quote: "It surprised her how much confidence she gained with each completed task",
+    opts: [
+      { t: "Marnie completes various tasks like camping, rock climbing and reading a map during the trip. This detail alone does not capture everything the passage actually says. Other parts of the text tell a rather different story from this one.", why: "Retelling. Explain how completing these tasks actually changes the way Marnie feels." },
+      { t: "Confidence arriving “with each completed task”, rather than all at once, shows it being genuinely earned through repeated small successes, not simply granted to her by the trip.", ok: true, why: "Strong. It explains exactly why the wording shows a gradual, earned process rather than a sudden change." },
+      { t: "Marnie becomes more confident at some point during the story's middle section.", why: "Too general. How does she become more confident, and why does that particular process matter?" },
+      { t: "This proves that Marnie was secretly already confident before the trip even began.", why: "A misreading. The story presents her fearfulness at the start as genuine, not as a disguise hiding hidden confidence." }
+    ]
+  },
+  {
+    claim: "Discovering she can lead marks a real change in how Marnie sees herself.",
+    quote: "she could lead as well as follow, and she liked that feeling",
+    opts: [
+      { t: "Marnie finds out during the trip that she is able to take charge of the group sometimes.", why: "Retelling. Explain why this particular discovery matters for how Marnie sees herself." },
+      { t: "A girl introduced as “meek and fearful” discovering she can lead, and enjoying it, directly overturns how she described herself at the very start of the story.", ok: true, why: "Strong. It connects this specific discovery back to the opening description of Marnie, showing genuine change." },
+      { t: "Marnie learns something new about herself at some point during the expedition.", why: "Too general. What exactly does she learn, and why does it matter for the story?" },
+      { t: "This proves that Marnie will definitely become the leader of every future group she joins. This detail alone does not capture everything the passage actually says. Other parts of the text tell a rather different story from this one.", why: "A misreading. The story shows one discovery about her own capability, not a guaranteed future role." }
+    ]
+  },
+  {
+    claim: "The final paragraph directly answers the story's opening problem.",
+    quote: "She had developed new self-confidence and an eagerness to expand her horizons",
+    opts: [
+      { t: "Marnie returns home from the trip feeling proud of herself and full of new energy.", why: "Retelling. Explain how this ending specifically connects back to the start of the story." },
+      { t: "This final line directly answers the “lack of confidence” named as Marnie's problem in the first paragraph, showing exactly how far she has come by the story's end.", ok: true, why: "Strong. It ties the ending explicitly back to the specific problem stated at the very start." },
+      { t: "The story finishes by describing how Marnie feels once the whole trip is over.", why: "Too general. What specifically has changed in how she feels, compared to the beginning?" },
+      { t: "This proves that Marnie will never feel afraid or nervous about anything again in her whole life. This detail alone does not capture everything the passage actually says. Other parts of the text tell a rather different story from this one.", why: "A misreading. The story shows growth in confidence, not a promise that fear will never return." }
+    ]
+  },
+  {
+    claim: "The opening description gives Marnie's change something to be measured against.",
+    quote: "Marnie had always thought of herself as meek and fearful",
+    opts: [
+      { t: "Marnie describes herself, right near the start of the story, as someone who has always been meek and fearful. This detail alone does not capture everything the passage actually says. Other parts of the text tell a rather different story from this one.", why: "Retelling. Explain what setting up this description so early actually achieves for the story." },
+      { t: "Establishing Marnie as “meek and fearful” from the very first line gives the reader a clear starting point, so her later growth into someone confident feels like a real, earned change rather than an unexplained one.", ok: true, why: "Strong. It explains what the early description achieves for how the ending is later read." },
+      { t: "The story describes what kind of person the main character is fairly early on.", why: "Too general. What kind of person, and why does establishing that early actually matter?" },
+      { t: "This proves that Marnie will stay meek and fearful for the whole rest of the story.", why: "A misreading. The opening sets up a starting point for change, not a fixed trait that never shifts." }
+    ]
+  }
+];
+TEXTS.push({ id: "new-heights", type: "Fiction", mode: "Creative", form: "Short story", level: "5ème",
+  hook: "A girl who is scared of almost everything signs up for a two-week trip up a mountain, and comes back someone else.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
+
+
 
 
 /* ================================================================ */
