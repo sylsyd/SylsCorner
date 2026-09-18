@@ -63,6 +63,7 @@
 .claim b{display:block;font:700 10px/1 'Courier Prime',monospace;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}
 .evq{font:italic 400 19px/1.45 'EB Garamond',Georgia,serif;border-left:5px solid var(--pink);padding:6px 0 6px 14px;margin:6px 0 14px}
 .opts{display:grid;gap:8px;margin-top:14px}
+.opts[hidden]{display:none}
 .opt{font:400 14px/1.35 'Courier Prime',monospace;text-align:left;padding:9px 11px;border:2px solid var(--ink);background:#ffffff;color:var(--ink);cursor:pointer}
 .opt:hover:not(:disabled){background:var(--ink);color:#ffffff}
 .opt .k{font-weight:700;margin-right:8px}
@@ -82,6 +83,10 @@
 .next{font:400 20px/1 Anton,Impact,sans-serif;letter-spacing:.03em;padding:10px 16px;border:3px solid var(--ink);background:var(--hi);color:var(--ink);cursor:pointer;width:100%;margin-top:16px}
 .next:hover{background:var(--ink);color:var(--hi)}
 .next.ghost{background:#ffffff}
+.teach-nav{display:flex;gap:8px;margin-top:16px}
+.teach-nav .next{margin-top:0;width:auto;flex:1}
+.teach-tag{display:inline-block;font:700 10px/1 'Courier Prime',monospace;letter-spacing:.12em;text-transform:uppercase;background:var(--pen);color:#fff;padding:5px 8px;margin-bottom:10px}
+.teach-btn.on{background:var(--pen);color:#fff;border-color:var(--pen)}
 .intro-card p{font:400 17px/1.55 'EB Garamond',Georgia,serif;margin:0 0 10px}
 .intro-card ol{font:400 14px/1.6 'Courier Prime',monospace;padding-left:20px;margin:6px 0 4px}
 .tally{display:flex;gap:22px;flex-wrap:wrap;margin:12px 0 6px;font:400 13px/1.3 'Courier Prime',monospace}
@@ -214,9 +219,10 @@
   <div class="cr-top">
     <button class="backbtn" id="backBtn">&larr; All texts</button>
     <button class="backbtn" id="linkBtn" title="Copy a direct link to this text">Copy link</button>
+    <button class="backbtn teach-btn" id="teachBtn" title="Present this text to the class, question by question" hidden>&#9654; Class mode</button>
     <h1 class="cr-title">Close Reading <span>Practice</span></h1>
     <div class="stages" id="stages"><span data-s="1">1 &middot; Annotate</span><span data-s="2">2 &middot; Questions</span><span data-s="3">3 &middot; Evidence</span><span data-s="4">4 &middot; Explain</span></div>
-    <div class="score">SCORE<b id="score">0</b> / <span id="max">20</span></div>
+    <div class="score" id="scoreBox">SCORE<b id="score">0</b> / <span id="max">20</span></div>
   </div>
   <div class="cr-grid">
     <article class="sheet">
@@ -7750,6 +7756,443 @@ TEXTS.push({ id: "new-heights", type: "Fiction", mode: "Creative", form: "Short 
 }
 
 
+/* ================================================================
+   TEXT 33 · Fiction · Creative · Descriptive story · 5ème
+   ================================================================ */
+{
+const TEXT = {
+  title: "Clock Watching",
+  paras: [
+    "Many who pass through this immense, majestic train station take an occasional glance in my direction. I, meanwhile, have been observing them all for years from my bird’s-eye perspective. I, you see, am an oversized clock perched high upon the wall.",
+    "At the moment, my hour hand is on the 10 and my minute hand is on the 12. That means the morning rush hour is winding down. But the concourse is still an obstacle course of scurrying people – some zig-zagging alone in the hall, others in pairs or groups. There’s the usual assortment of commuters, looking purposeful or befuddled, harried or calm. They scoot past each other, not making eye contact, or bump into one another and apologise. They stop and chat. They assist one another by retrieving dropped papers or luggage. It’s the same old bustling scene that plays out here every weekday.",
+    "In a short while, the station will calm down enough for me to focus on what I really like watching – the entertainment. That’s a part of life here that frequently does change. Of the collection of clowns, jugglers, musician and others that call this great hall their stage, my favourites are the people in costume. It warms my clock heart to see their plastic buckets fill with change.",
+    "I still fondly remember the guy dressed as Big Ben. His costume looked like the famed clock tower complete with chimes that rang on the hour. Sadly, he found another stage. This month’s crowd favourite seems to be the Statue of Liberty, right now encircled by onlookers seemingly bewitched by every slight, silent tilt of her crowned, green head. Ah, but what’s this I see – a newcomer? Yes, it’s a dancing hot dog coated with mustard. This fellow is siphoning away some of the statue’s gawkers. Maybe people are hungrier than they know. Oh, I love this station."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Point of view",
+    prompt: "Find the line that finally reveals <em>what</em> the narrator actually is.",
+    target: ["I, you see, am an oversized clock perched high upon the wall"],
+    decoys: [{ phrase: "take an occasional glance in my direction", why: "This hints that people look at the narrator, but it never says what the narrator is." }],
+    miss: "Look at the last sentence of the first paragraph.",
+    explain: "The writer holds the reveal back for two sentences. Once you know the narrator is a wall clock, its “bird’s-eye perspective” and its years of watching suddenly make sense."
+  },
+  {
+    skill: "Vocabulary",
+    prompt: "Find the pair of opposites that helps you work out what <em>befuddled</em> means.",
+    target: ["looking purposeful or befuddled, harried or calm"],
+    decoys: [{ phrase: "They stop and chat", why: "This describes something commuters do, but it gives no clue about the meaning of the word." }],
+    miss: "Look in the second paragraph, at how the commuters are described.",
+    explain: "The words come in contrasting pairs: harried against calm, and purposeful against befuddled. If purposeful means knowing exactly where you are going, befuddled must mean confused."
+  },
+  {
+    skill: "Word choice",
+    prompt: "Find where <em>change</em> is used to mean coins rather than things altering.",
+    target: ["plastic buckets fill with change"],
+    decoys: [{ phrase: "That’s a part of life here that frequently does change", why: "Here “change” means altering. That is the other meaning of the same word, a few lines earlier." }],
+    miss: "Look at the last sentence of the third paragraph.",
+    explain: "The same word carries two meanings in one paragraph. Reading around it is the only way to tell them apart: buckets can fill with coins, not with things altering."
+  },
+  {
+    skill: "Vocabulary",
+    prompt: "Find the earlier word that means almost the same as <em>gawkers</em>.",
+    target: ["encircled by onlookers"],
+    decoys: [{ phrase: "crowd favourite", why: "This describes the performer, not the people standing and staring at her." }],
+    miss: "Look a little earlier in the same paragraph, at the people around the Statue of Liberty.",
+    explain: "“Onlookers” and “gawkers” describe the same crowd, only a few lines apart. A nearby word with a similar meaning is one of the most useful context clues there is."
+  },
+  {
+    skill: "Vocabulary",
+    prompt: "Find the phrase showing that the hot dog is slowly pulling the crowd away from the statue.",
+    target: ["siphoning away some of the statue’s gawkers"],
+    decoys: [{ phrase: "Oh, I love this station", why: "This is the clock’s closing feeling about the station, not a clue about what the newcomer is doing." }],
+    miss: "Look near the end of the final paragraph, just after the hot dog appears.",
+    explain: "To siphon is to draw something off gradually. The word “away”, plus the word “some”, tells you the hot dog is taking part of the statue’s audience, not all of it at once."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Vocabulary in context",
+    q: "“But the concourse is still an obstacle course of scurrying people.” What is the concourse?",
+    opts: [
+      { t: "The big open hall that people walk across inside the station", ok: true, why: "Right. The next words place the people “in the hall”, and later the text calls it “this great hall”." },
+      { t: "The platform beside the tracks where passengers wait to board their trains", why: "The text places the crowd in the hall, not beside any tracks. No platform is ever mentioned." },
+      { t: "The large board that displays the departure times of all the trains that day", why: "No departure board appears anywhere in the story. The concourse is somewhere people move through." },
+      { t: "The long queue of passengers standing and waiting to buy their tickets", why: "Nobody is queuing. The people in the concourse are moving about, zig-zagging and scooting past one another." }
+    ]
+  },
+  {
+    skill: "Vocabulary",
+    q: "“…looking purposeful or befuddled, harried or calm.” What does “befuddled” mean?",
+    opts: [
+      { t: "Confused, the opposite of knowing where you are going", ok: true, why: "Right. The words come in opposite pairs, so “befuddled” must be the opposite of “purposeful”." },
+      { t: "In a great hurry, moving faster than everybody else in the station hall", why: "That is closer to “harried”, which is the other word in the second pair of opposites." },
+      { t: "Cheerful and completely relaxed about the journey they are about to take", why: "That is closer to “calm”. “Befuddled” is paired against “purposeful”, not against “harried”." },
+      { t: "Travelling together in a large group rather than alone through the station", why: "Group travel is mentioned separately, in the phrase about pairs or groups. It is not what this word means." }
+    ]
+  },
+  {
+    skill: "Word choice",
+    q: "The word “change” appears twice in the third paragraph. How do the two uses differ?",
+    opts: [
+      { t: "The first means things altering; the second means coins", ok: true, why: "Right. Entertainment “frequently does change”, meaning it alters, and buckets “fill with change”, meaning money." },
+      { t: "The first means coins in a bucket; the second means the performers altering their acts", why: "It is the other way round. The altering meaning comes first, and the coins meaning comes last." },
+      { t: "Both uses mean exactly the same thing, so the writer is simply repeating a word", why: "They cannot mean the same thing. A part of life altering and a bucket filling are different ideas." },
+      { t: "Neither use is about money at all, since the performers are not paid anything here", why: "Buckets filling with change is precisely about money being given to the street performers." }
+    ]
+  },
+  {
+    skill: "Point of view",
+    q: "How does the narrator’s position affect what it can tell us?",
+    opts: [
+      { t: "Being fixed high on one wall lets it see the whole hall, but only this one place", ok: true, why: "Right. The clock has a “bird’s-eye perspective” over everything below, yet it can never follow anyone out of the station." },
+      { t: "Being able to move freely around the station lets it follow interesting people about", why: "A wall clock cannot move. It is “perched high upon the wall” and sees only what passes beneath it." },
+      { t: "Being at ground level among the commuters lets it overhear their private conversations", why: "It is high above the crowd, not among them. It watches rather than listens in." },
+      { t: "Being outside the building lets it watch both the trains and the streets of the city", why: "The narrator is inside the great hall, watching the concourse, not the world outside." }
+    ]
+  },
+  {
+    skill: "Vocabulary",
+    q: "Which word in the final paragraph helps you most to work out what “gawkers” means?",
+    opts: [
+      { t: "“onlookers”, used a few lines earlier for the same crowd", ok: true, why: "Right. Both words describe the people standing around staring at the Statue of Liberty performer." },
+      { t: "“newcomer”, which the clock uses just before it spots the dancing hot dog arriving", why: "“Newcomer” describes the hot dog performer, not the people who are standing and watching." },
+      { t: "“costume”, which appears when the clock explains which performers it likes best of all", why: "“Costume” is about what the performers wear. It says nothing about the crowd watching them." },
+      { t: "“commuters”, used in the second paragraph for the travellers crossing the concourse", why: "The commuters are the rush-hour travellers, a different group from the crowd watching a performer." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "A station clock describes the weekday crowds passing below it, then turns to the costumed street performers it most enjoys watching, including a dancing hot dog who has just arrived.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "The clock explains that its hour hand is on the 10 and its minute hand is on the 12, which means the morning rush hour is slowly winding down. Other parts of the text focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Large city train stations are far too crowded and noisy for anybody to enjoy spending any real amount of time in them at all. The rest of the text develops in quite a different direction from this.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "A performer dressed as Big Ben, in a costume complete with chimes that rang on the hour, used to work in the great hall before moving on. The story continues well beyond this particular detail.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "an obstacle course of scurrying people",
+    opts: [
+      { t: "The hall is so crowded that crossing it takes effort and dodging", ok: true, why: "Right. An obstacle course has to be picked through carefully, which is exactly how the commuters move." },
+      { t: "The station has put up barriers and railings that block people from crossing the hall", why: "The obstacles here are the people themselves, not any physical barriers placed in the way." },
+      { t: "The people in the station are taking part in some kind of organised race or competition", why: "It is an ordinary weekday rush hour. The comparison to a course is a way of describing the crowd." },
+      { t: "The hall is almost completely empty at this time, so people can walk straight across it", why: "The opposite is true. The rush hour is winding down but the concourse is still busy." }
+    ]
+  },
+  {
+    quote: "looking purposeful or befuddled, harried or calm",
+    opts: [
+      { t: "The commuters are sorted into pairs of opposites", ok: true, why: "Right. Each pair sets one type against another, which also quietly gives the meaning of the harder words." },
+      { t: "Every single commuter in the station is feeling exactly the same way as all the others", why: "The opposites show variety among the travellers, not that everybody feels the same." },
+      { t: "The commuters are all late for their trains and rushing through the hall in a panic", why: "Some are “calm”. Being harried is only one of the states described here." },
+      { t: "The clock is describing four different named people it has come to recognise over time", why: "These describe types among the crowd generally, not four particular individuals." }
+    ]
+  },
+  {
+    quote: "encircled by onlookers seemingly bewitched",
+    opts: [
+      { t: "The performer holds her audience completely still and fascinated", ok: true, why: "Right. To be bewitched is to be held as if by a spell, which fits a crowd standing in a ring, watching." },
+      { t: "The onlookers believe that real magic is being performed in front of them in the hall", why: "“Seemingly bewitched” is a comparison. Nobody in the story thinks actual magic is happening." },
+      { t: "The crowd is becoming bored and starting to drift away towards the station exits", why: "They drift away only later, when the hot dog appears. Here they are held by the performance." },
+      { t: "The performer is moving quickly and dramatically to keep her audience entertained", why: "Her movements are “slight” and “silent”, which is what makes the crowd’s fascination striking." }
+    ]
+  },
+  {
+    quote: "This fellow is siphoning away some of the statue’s gawkers",
+    opts: [
+      { t: "The new performer is gradually drawing part of the crowd away", ok: true, why: "Right. To siphon is to draw off little by little, and “some” shows he takes only part of her audience." },
+      { t: "The new performer has taken the entire crowd away from the statue all at once", why: "The word “some” makes clear he draws off only a portion of the watching crowd." },
+      { t: "The statue performer has decided to leave the station and find herself another stage", why: "It is Big Ben who found another stage earlier. The statue is still performing right now." },
+      { t: "The two performers have agreed to work together and share whatever money they collect", why: "Nothing suggests cooperation. One is quietly taking part of the other’s audience." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The writer delays telling us what the narrator is.",
+    quote: "I, you see, am an oversized clock perched high upon the wall",
+    opts: [
+      { t: "The narrator explains that it is a large clock which has been fixed high up on the wall of the busy train station, and that it has been quietly watching the travellers below for many years now.", why: "Retelling. Explain what holding this information back until now actually does for the reader." },
+      { t: "Two sentences pass before the reveal, so the reader first pictures a person watching; the correction then makes “bird’s-eye perspective” and years of watching suddenly fit.", ok: true, why: "Strong. It explains the delay, the reader’s first assumption, and how the reveal reorganises the earlier details." },
+      { t: "The story tells us something surprising about who is speaking at the end of the first paragraph of the text.", why: "Too general. What is surprising about it, and what does the surprise achieve for the reader?" },
+      { t: "This proves that the writer forgot to explain who the narrator was and had to add the information in late.", why: "A misreading. The delay is deliberate: it sets up a small surprise and makes the earlier hints pay off." }
+    ]
+  },
+  {
+    claim: "Opposites in the sentence give away the meaning of a hard word.",
+    quote: "looking purposeful or befuddled, harried or calm",
+    opts: [
+      { t: "The commuters walking through the station hall are described using four different words in the second paragraph, which comes shortly after the clock tells us the morning rush hour is winding down.", why: "Retelling. Explain how the arrangement of those words helps a reader who is stuck." },
+      { t: "The words arrive in contrasting pairs, so “befuddled” must be the opposite of “purposeful”; the sentence quietly defines a difficult word without ever stopping to explain it.", ok: true, why: "Strong. It identifies the pattern of opposites and shows exactly how a reader can use it to unlock the word." },
+      { t: "The writer uses some words in this sentence that a reader of this age might not already know well.", why: "Too general. Which words, and what in the sentence helps with them?" },
+      { t: "This proves that all four of these words mean roughly the same thing, since they appear in one list together.", why: "A misreading. They are set against each other in pairs, which is the opposite of meaning the same thing." }
+    ]
+  },
+  {
+    claim: "One word is made to carry two different meanings.",
+    quote: "plastic buckets fill with change",
+    opts: [
+      { t: "People passing through the great hall drop coins into the plastic buckets that the costumed street performers have left out on the floor beside them for that purpose.", why: "Retelling. Explain why this particular word is worth noticing in this paragraph." },
+      { t: "“Change” meant altering a few lines earlier and means coins here; only the words around it decide which, and the bucket is what settles it.", ok: true, why: "Strong. It names both meanings and shows which clue in the sentence tells them apart." },
+      { t: "The writer uses the same word more than once within a single paragraph of the story.", why: "Too general. What are the two meanings, and how does a reader tell which is which?" },
+      { t: "This proves the performers are paid by the station itself rather than by the members of the public who watch them.", why: "A misreading. Money going into their own buckets shows the opposite: they are paid by passers-by." }
+    ]
+  },
+  {
+    claim: "A nearby word gives the meaning of an unfamiliar one.",
+    quote: "encircled by onlookers",
+    opts: [
+      { t: "A crowd of people stands in a ring around the performer who is dressed as the Statue of Liberty, watching her closely as she makes her small, slow movements in the middle of the hall.", why: "Retelling. Explain how this phrase helps with a word that appears a little later." },
+      { t: "“Onlookers” describes the same crowd that becomes “gawkers” a few lines later, so the earlier, easier word hands the reader the meaning of the harder one.", ok: true, why: "Strong. It connects the two words, notes the order they appear in, and explains how one unlocks the other." },
+      { t: "The writer describes the people who are standing around watching the statue performer at this point.", why: "Too general. Which later word does this help with, and how exactly?" },
+      { t: "This proves that “onlookers” and “gawkers” are two completely separate groups of people in the station.", why: "A misreading. Both words describe one crowd: the people watching the Statue of Liberty." }
+    ]
+  },
+  {
+    claim: "The verb shows the crowd being taken gradually, not all at once.",
+    quote: "siphoning away some of the statue’s gawkers",
+    opts: [
+      { t: "A performer dressed as a dancing hot dog covered in mustard arrives in the great hall as a newcomer, and starts attracting some of the watching people over to come and see him instead.", why: "Retelling. Explain what this particular verb choice adds to the picture." },
+      { t: "Siphoning draws something off slowly and steadily, and “some” confirms it: the hot dog is quietly bleeding part of her audience away rather than emptying it.", ok: true, why: "Strong. It explains the verb’s meaning and links it to the word “some” to show the effect is gradual and partial." },
+      { t: "The writer chooses an interesting verb here to describe what the new performer is doing to the crowd.", why: "Too general. What does that verb mean, and what does it suggest about how the crowd moves?" },
+      { t: "This proves the statue performer has now lost her whole audience and will have to leave the station.", why: "A misreading. The word “some” shows she keeps part of her crowd; nothing says she leaves." }
+    ]
+  }
+];
+TEXTS.push({ id: "clock-watching", type: "Fiction", mode: "Creative", form: "Descriptive story", level: "5ème",
+  hook: "A station clock has watched the same rush hour for years, and has opinions about the street performers below.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
+/* ================================================================
+   TEXT 34 · Fiction · Creative · Historical fiction · 5ème
+   ================================================================ */
+{
+const TEXT = {
+  title: "Bienvenue, Mr Lindbergh!",
+  intro: "Historical fiction, set in Paris in 1927, on the night Charles Lindbergh completed the first solo non-stop flight across the Atlantic.",
+  paras: [
+    "It was a good thing Marcelle’s family had left early for the airfield, since the traffic jam was the worst Paris had ever seen. Thousands were gathering on that summer night in 1927, eager to witness history being made. Many car headlights remained on, ringing the grassy field with light, illuminating it for the brave pilot and his small, unstable plane. All eyes were on the night sky, and the buzz of excitement was palpable.",
+    "Charles Lindbergh circled the Eiffel Tower before making for the lit-up target north-east of the city. When, after more than 33 non-stop hours in the air, the bold aviator safely touched down at 10:22, he encountered a scene of instant pandemonium. Exultant people toppled a chain-link fence and raced across the field for a closer look at him and his Spirit of St Louis. Marcelle was among them.",
+    "“Wow,” she exclaimed as she approached the monoplane. “Not only is it so tiny, all it’s got is a cramped, one-seat cockpit and a single engine. Plus, it’s covered only in fabric!”",
+    "“And look,” her dad added, “there’s no window in the front – he must’ve had to look out the side to see where he was going!”",
+    "While the family investigated the plane and others swarmed over it, grabbing what they could as souvenirs, hundreds of others thronged around the startled Lindbergh. The exhausted hero seemed overwhelmed as they carried him off the field, tugging at his coat and yanking at his leather helmet. Marcelle swore she spotted the famous dancer Isadora Duncan among them, caught her eye and earned a smile.",
+    "When Marcelle finally got back home, she couldn’t sleep, for witnessing the conclusion of the first transatlantic flight was the experience of a lifetime. But she didn’t mind; Lindbergh hadn’t slept either."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Vocabulary",
+    prompt: "Find the earlier phrase that tells you what an <em>aviator</em> is.",
+    target: ["the brave pilot and his small, unstable plane"],
+    decoys: [{ phrase: "eager to witness history being made", why: "This tells you why the crowd came, not what kind of person Lindbergh is." }],
+    miss: "Look in the first paragraph, at how the crowd’s hero is described before he is named.",
+    explain: "“Pilot” and “aviator” name the same man one paragraph apart. When a hard word turns up, an easier word for the same thing is often sitting nearby, already used."
+  },
+  {
+    skill: "Vocabulary",
+    prompt: "Find the actions that show what <em>pandemonium</em> looks like.",
+    target: ["toppled a chain-link fence and raced across the field"],
+    decoys: [{ phrase: "circled the Eiffel Tower", why: "This is what the plane does before landing. The pandemonium happens on the ground, afterwards." }],
+    miss: "Look at the sentence straight after the word “pandemonium”.",
+    explain: "The writer does not define the word; the next sentence acts it out instead. A fence going down and a crowd running across a field is wild, noisy disorder."
+  },
+  {
+    skill: "Vocabulary",
+    prompt: "Find the details Marcelle gives that help explain what a <em>monoplane</em> is.",
+    target: ["a cramped, one-seat cockpit and a single engine"],
+    decoys: [{ phrase: "there’s no window in the front", why: "A true detail about the plane, but it comes from her dad and describes the view, not the machine’s size." }],
+    miss: "Look at what Marcelle says as she walks up to the plane.",
+    explain: "The clues do not give a full dictionary meaning, but they give enough: a small, simple aircraft with one seat and one engine. Often that is all a context clue needs to do."
+  },
+  {
+    skill: "Vocabulary",
+    prompt: "Find the word describing the crowd around the plane that means nearly the same as <em>thronged</em>.",
+    target: ["others swarmed over it"],
+    decoys: [{ phrase: "grabbing what they could as souvenirs", why: "This says what the crowd’s hands are doing, not how many of them there are or how they move." }],
+    miss: "Look at the start of the fifth paragraph, at the people around the plane.",
+    explain: "“Swarmed” and “thronged” appear in the same sentence, describing two crowds doing the same thing. One word you know can unlock another you do not, in the same breath."
+  },
+  {
+    skill: "Vocabulary",
+    prompt: "Find the phrase that helps you work out what <em>palpable</em> means.",
+    target: ["the buzz of excitement was palpable"],
+    decoys: [{ phrase: "All eyes were on the night sky", why: "This shows where the crowd is looking, but it says nothing about how strongly the excitement is felt." }],
+    miss: "Look at the very last words of the first paragraph.",
+    explain: "A “buzz” is something you can almost feel as well as hear. Pairing it with “palpable” tells you the excitement was strong enough to seem physical, not just imagined."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Vocabulary in context",
+    q: "“Exultant people toppled a chain-link fence…” What does “exultant” mean?",
+    opts: [
+      { t: "Overjoyed and celebrating", ok: true, why: "Right. They have waited hours to see history made, and now they race across a field to reach the plane." },
+      { t: "Impatient and increasingly angry about how long the whole evening has taken", why: "Nothing suggests anger. The crowd has come to celebrate and rushes forward the moment he lands." },
+      { t: "Confused about where they were supposed to stand and wait on the airfield", why: "They are not confused; they knock down a fence deliberately to get closer to the plane." },
+      { t: "Frightened that the small, unstable plane was about to crash onto the field", why: "The plane has already “safely touched down”. Their reaction comes after a successful landing." }
+    ]
+  },
+  {
+    skill: "Vocabulary",
+    q: "A reader does not know the word “pandemonium”. Which nearby words help most?",
+    opts: [
+      { t: "A fence being toppled and people racing across the field", ok: true, why: "Right. The next sentence shows the disorder rather than explaining it, which is the clue the reader needs." },
+      { t: "The exact time of 10:22, which is given a few words before the word itself", why: "The time tells you when he landed. It says nothing about the scene that greeted him." },
+      { t: "The name of the aeroplane, the Spirit of St Louis, mentioned in the same paragraph", why: "The plane’s name identifies the aircraft; it gives no clue about the behaviour of the crowd." },
+      { t: "The Eiffel Tower, which Lindbergh circles just before he makes for the airfield", why: "That detail is about his route into Paris, not about what happened once he was on the ground." }
+    ]
+  },
+  {
+    skill: "Word choice",
+    q: "The crowd is “exultant”, but Lindbergh is “startled”, “exhausted” and “overwhelmed”. What does this contrast show?",
+    opts: [
+      { t: "The same night feels completely different to the crowd and to the man himself", ok: true, why: "Right. For them it is a celebration; for him, after 33 hours alone in the air, it is a wall of noise and hands." },
+      { t: "The crowd is disappointed by Lindbergh and quickly loses interest in meeting him", why: "The opposite happens. Hundreds press around him and carry him off the field." },
+      { t: "Lindbergh is annoyed with the crowd and refuses to let anyone come near his plane", why: "He is overwhelmed rather than angry, and the crowd swarms over the plane freely." },
+      { t: "Everybody present at the airfield that night is feeling exactly the same emotions", why: "The two sets of words are chosen precisely to show that they are not." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does Marcelle say she did not mind being unable to sleep?",
+    opts: [
+      { t: "She feels the night was worth it, and enjoys sharing a sleepless night with her hero", ok: true, why: "Right. The final joke links her excitement to Lindbergh’s 33 hours awake, making the loss of sleep part of the thrill." },
+      { t: "She is planning to sleep late the following morning, and so she has no reason at all to worry", why: "No plan for the next day is mentioned. Her reason is about the night she has just had." },
+      { t: "She is too worried about the traffic jam on the way home to think about sleeping", why: "The traffic is mentioned at the start of the evening, not as something troubling her afterwards." },
+      { t: "She had already slept during the long wait at the airfield before the plane arrived", why: "Nothing suggests she slept at the field. She was among the crowd that raced towards the plane." }
+    ]
+  },
+  {
+    skill: "Ending",
+    q: "Why does the story end with “Lindbergh hadn’t slept either”?",
+    opts: [
+      { t: "It ties the girl and the pilot together in one light closing joke", ok: true, why: "Right. Her sleepless excitement and his 33 sleepless hours are set side by side, ending the night on a smile." },
+      { t: "It warns the reader that Lindbergh’s exhaustion would soon cause him serious problems", why: "No later trouble is suggested. The line is a light, affectionate note to finish on." },
+      { t: "It explains the exact reason why the plane landed later in the evening than expected", why: "The ending is about sleep, not about timing. The landing time is given earlier as 10:22." },
+      { t: "It shows that Marcelle had stayed awake in order to meet Lindbergh the next morning", why: "There is no next-day meeting. She is simply too excited from the night to sleep." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "A girl named Marcelle joins the huge Paris crowd that greets Charles Lindbergh’s landing in 1927, gets close enough to study his tiny plane, and goes home too excited to sleep.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "Marcelle’s father points out to her that the plane has no window at the front, so the pilot must have looked out of the side to see where he was going. Other parts of the text focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "Crowds who gather to watch famous events being made almost always end up damaging the property of the people they have come to celebrate. The rest of the text develops in quite a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "Marcelle believed that she caught sight of the famous dancer Isadora Duncan somewhere in the crowd, and that the dancer smiled back at her. The story continues well beyond this particular detail.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "the buzz of excitement was palpable",
+    opts: [
+      { t: "The excitement is so strong it can almost be physically felt", ok: true, why: "Right. A “buzz” is close to something you can feel as well as hear, which is what “palpable” adds." },
+      { t: "The crowd is making so much noise that nobody can hear anything being said", why: "The “buzz” describes the mood of the crowd rather than a noise level that blocks out speech." },
+      { t: "The excitement is fading away quickly as the long wait for the plane continues", why: "The opposite is true. The excitement is at its strongest as everyone watches the sky." },
+      { t: "The crowd is mostly silent and unsure whether the pilot is really going to arrive", why: "A buzz of excitement is not silence, and the crowd has come confident that history is being made." }
+    ]
+  },
+  {
+    quote: "he encountered a scene of instant pandemonium",
+    opts: [
+      { t: "The calm of the landing turns immediately into wild disorder", ok: true, why: "Right. “Instant” marks the switch, and the next sentence shows the fence coming down and the crowd running." },
+      { t: "The airfield staff had organised the crowd carefully before the plane touched down", why: "A toppled fence and a crowd racing across the field is the opposite of an organised scene." },
+      { t: "Lindbergh had to circle the field for a long time before he was able to land safely", why: "He “safely touched down” first. The pandemonium comes after he is already on the ground." },
+      { t: "The crowd waited quietly at a distance until the pilot climbed out of his aircraft", why: "They do not wait at a distance. They break through the fence to reach him and the plane." }
+    ]
+  },
+  {
+    quote: "hundreds of others thronged around the startled Lindbergh",
+    opts: [
+      { t: "A huge crowd presses in around a man who did not expect it", ok: true, why: "Right. “Thronged” gives the size and crush of the crowd, while “startled” gives his reaction to it." },
+      { t: "A small group of officials escorts the pilot politely away from the waiting crowd", why: "It is hundreds of ordinary people, not a small official party, and they press in rather than escort." },
+      { t: "The crowd keeps a respectful distance because they can see how tired the pilot is", why: "They do not keep back. They surround him, tug at his coat and carry him off the field." },
+      { t: "Lindbergh had arranged in advance to meet this crowd of admirers after his landing", why: "He is described as “startled”, which suggests the reception was not something he expected." }
+    ]
+  },
+  {
+    quote: "tugging at his coat and yanking at his leather helmet",
+    opts: [
+      { t: "The crowd’s excitement has become physically overwhelming for him", ok: true, why: "Right. Their enthusiasm turns into hands pulling at his clothes, which is why he “seemed overwhelmed”." },
+      { t: "The crowd is attacking the pilot because they are angry that he landed so late", why: "They are celebrating him, not attacking. The grabbing comes from excitement, not anger." },
+      { t: "The pilot is removing his own flying clothes because the summer night is warm", why: "It is the crowd doing the tugging and yanking, not Lindbergh removing anything himself." },
+      { t: "Officials are helping the exhausted pilot out of his heavy flying gear after landing", why: "These are the hundreds of people who thronged around him, not officials assisting him." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "An easier word earlier in the text unlocks a harder one later.",
+    quote: "the brave pilot and his small, unstable plane",
+    opts: [
+      { t: "The first paragraph describes the man that everybody has come out to the airfield to see as a brave pilot, flying a small and unstable plane through the night sky.", why: "Retelling. Explain how this phrase helps with a word that appears in the next paragraph." },
+      { t: "“Pilot” and “aviator” name the same man a paragraph apart, so the easier word already used is what tells the reader who the “bold aviator” must be.", ok: true, why: "Strong. It links the two words, notes their order, and explains how the earlier one supplies the meaning." },
+      { t: "The writer describes Charles Lindbergh in two different ways at two points in this story.", why: "Too general. Which two ways, and how does one of them help with the other?" },
+      { t: "This proves that the pilot and the aviator mentioned in the story are two separate men at the airfield.", why: "A misreading. Both phrases describe Lindbergh; there is only one flyer in the story." }
+    ]
+  },
+  {
+    claim: "The writer shows what a hard word means instead of explaining it.",
+    quote: "toppled a chain-link fence and raced across the field",
+    opts: [
+      { t: "After Lindbergh has safely landed his aeroplane on the field, the waiting crowd knocks over a chain-link fence and runs across the grass towards him for a closer look at the machine.", why: "Retelling. Explain what this sentence does for a reader who does not know “pandemonium”." },
+      { t: "The word “pandemonium” is never defined; the sentence acts it out instead, and a fence going down with a crowd stampeding across a field is disorder made visible.", ok: true, why: "Strong. It identifies the technique of showing rather than defining and explains how the image carries the meaning." },
+      { t: "The writer describes what the crowd did immediately after the aeroplane had landed safely.", why: "Too general. What word does this description help with, and how?" },
+      { t: "This proves that the crowd at the airfield that night had come intending to cause damage and trouble.", why: "A misreading. The damage comes from excitement at a historic moment, not from any intention to cause trouble." }
+    ]
+  },
+  {
+    claim: "Dialogue can carry the clues for an unfamiliar word.",
+    quote: "a cramped, one-seat cockpit and a single engine",
+    opts: [
+      { t: "Marcelle walks up to the aeroplane after racing across the field with the rest of the crowd, and says out loud to the people nearby that the machine is tiny and that it is covered only in fabric.", why: "Retelling. Explain how what she says helps a reader stuck on the word “monoplane”." },
+      { t: "Her excited description does not define “monoplane”, but it gives enough to keep reading: a small, simple aircraft built for one. Context clues often supply enough rather than everything.", ok: true, why: "Strong. It explains what the clues do supply, and makes the honest point that clues need not give a full definition." },
+      { t: "A character in the story describes the aeroplane in some detail when she gets close to it.", why: "Too general. Which details, and what do they let the reader work out?" },
+      { t: "This proves that Marcelle already knew a great deal about how aeroplanes were built in the 1920s.", why: "A misreading. She is describing what is in front of her with surprise, not showing expert knowledge." }
+    ]
+  },
+  {
+    claim: "Words chosen for Lindbergh pull against the words chosen for the crowd.",
+    quote: "The exhausted hero seemed overwhelmed",
+    opts: [
+      { t: "Lindbergh is tired after his long flight across the ocean, and the crowd of people who have gathered at the airfield to greet him carries him away bodily across the grass of the field.", why: "Retelling. Explain what the difference between his words and the crowd’s words achieves." },
+      { t: "“Exultant” and “thronged” belong to the crowd, while “startled”, “exhausted” and “overwhelmed” belong to him; one night is split into two very different experiences.", ok: true, why: "Strong. It sets the two sets of words against each other and explains what the contrast reveals about the moment." },
+      { t: "The writer uses several different describing words in this part of the story about the pilot.", why: "Too general. Which words, and what do they show when set beside the crowd’s?" },
+      { t: "This proves that Lindbergh regretted making the flight and wished that he had stayed at home instead.", why: "A misreading. Being exhausted and overwhelmed by a crowd is not the same as regretting the journey." }
+    ]
+  },
+  {
+    claim: "The closing line connects the girl and the pilot.",
+    quote: "Lindbergh hadn’t slept either",
+    opts: [
+      { t: "Marcelle finally gets home again after the landing at the airfield, and once she is there she finds that she is still far too excited by everything she has seen to fall asleep.", why: "Retelling. Explain what the final clause adds beyond telling us she stayed awake." },
+      { t: "Her sleepless excitement is set beside his 33 sleepless hours in the air, so the word “either” quietly links an ordinary girl to the hero she has just seen.", ok: true, why: "Strong. It explains the link the final word makes and why that ends the story on a warm note." },
+      { t: "The story finishes with a short remark about the pilot after describing Marcelle’s journey home.", why: "Too general. What does that remark do, and why end there?" },
+      { t: "This proves that Marcelle actually met Lindbergh personally and spoke with him about his flight.", why: "A misreading. She never speaks to him; the link is made by the narrator, not by a meeting." }
+    ]
+  }
+];
+TEXTS.push({ id: "mr-lindbergh", type: "Fiction", mode: "Creative", form: "Historical fiction", level: "5ème",
+  hook: "Paris, 1927. A girl in the crowd gets close enough to touch the plane that has just crossed the Atlantic.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
+
+
 
 
 
@@ -8235,6 +8678,7 @@ function startDrill(key) {
   const queues = shuffle(Object.values(byText)), items = [];
   while (items.length < DRILL_SIZE && queues.some(q => q.length)) queues.forEach(q => { if (q.length && items.length < DRILL_SIZE) items.push(q.shift()); });
   DRILL = { key, items, i: 0, pos: planPositions(items.length, 4), texts: Object.keys(byText).length };
+  TEACH = null; $("#teachBtn").hidden = true; $("#scoreBox").hidden = false;
   score = 0; MAX = items.length;
   $("#score").textContent = 0; $("#max").textContent = MAX;
   $("#stages").hidden = true;
@@ -8325,7 +8769,9 @@ function makeCard(t, n) {
   return card;
 }
 function showPicker() {
-  DRILL = null; $("#stages").hidden = false;
+  DRILL = null; TEACH = null; $("#stages").hidden = false;
+  $("#teachBtn").hidden = true; $("#scoreBox").hidden = false;
+  const tb = $("#teachBtn"); tb.classList.remove("on"); tb.innerHTML = "&#9654; Class mode";
   $("#work").hidden = true; $("#picker").hidden = false;
   renderDrillBar();
   setURL({ level: levelFilter === "all" ? "" : levelFilter });
@@ -8389,8 +8835,175 @@ function applySearch() {
   $("#noHits").hidden = !(q && hits === 0);
   $("#latest").hidden = !!q || !latestOn;
 }
+/* ================================================================
+   TEACHER / CLASS MODE
+   Present a text to the whole class, one item at a time.
+   Present pass: read the question, discuss, click "Show options",
+   students write their answer (A/B/C/D) in a notebook, click "Next
+   item" to move on. No answer is forced, no score is kept. An optional
+   "Reveal answer" is there if you want to discuss it live.
+   Answer key pass: walk back through every item with the correct
+   answer shown, so students self- or peer-mark on paper.
+   ================================================================ */
+let TEACH = null;
+const STAGE_NAME = { 1: "Annotate", 2: "Question", 3: "Evidence", 4: "Explain" };
+
+function teachItems() {
+  const out = [];
+  ANNOTATE.forEach(it => out.push({ type: 1, it }));
+  QUESTIONS.forEach(it => out.push({ type: 2, st: 2, it }));
+  EVIDENCE.forEach(it => out.push({ type: 3, st: 3, it }));
+  EXPLAIN.forEach(it => out.push({ type: 4, st: 4, it }));
+  // fix each item's option order once, so the present pass and the answer key match
+  out.forEach(x => { if (x.type !== 1) x.placed = placeCorrect(x.it.opts, rand(x.it.opts.length)); });
+  return out;
+}
+function teachEnter() {
+  if (!CUR || DRILL) return;
+  TEACH = { items: teachItems(), i: 0, phase: "present" };
+  $("#scoreBox").hidden = true;
+  const b = $("#teachBtn"); b.classList.add("on"); b.innerHTML = "&#9632; Exit class mode";
+  stopReading();
+  teachIntro();
+}
+function exitTeach() {
+  TEACH = null;
+  $("#scoreBox").hidden = false;
+  const b = $("#teachBtn"); b.classList.remove("on"); b.innerHTML = "&#9654; Class mode";
+  if (CUR && !DRILL) intro();
+}
+function teachProgress() {
+  const x = TEACH.items[TEACH.i];
+  return `Item ${TEACH.i + 1} of ${TEACH.items.length} &middot; ${STAGE_NAME[x.type]}`;
+}
+function teachNav(buttons) {
+  const row = document.createElement("div");
+  row.className = "teach-nav";
+  buttons.forEach(b => b && row.appendChild(b));
+  return row;
+}
+function teachNextBtn() {
+  const last = TEACH.i === TEACH.items.length - 1;
+  return nextBtn(last ? "TO ANSWER KEY →" : "Next item →", teachNext);
+}
+function teachIntro() {
+  stage = 0; setStages(); buildPassage();
+  panel.innerHTML = `<div class="card intro-card"><span class="teach-tag">Class mode</span><p class="num">Present to the class</p>
+    <h3>Work through ${TEACH.items.length} items together</h3>
+    <p>For each item: read it aloud and discuss, then click <b>Show options</b>. Students write their answer (A, B, C or D) in their notebooks. Click <b>Next item</b> to move on &mdash; no answer is shown and no score is kept.</p>
+    <p>Once all ${TEACH.items.length} are done, an <b>answer key</b> walks back through them so students can mark their own or a partner&rsquo;s work.</p>
+    <p class="tip">You can still reveal any answer on the spot if a discussion calls for it.</p></div>`;
+  panel.firstChild.appendChild(nextBtn("START — ITEM 1 OF " + TEACH.items.length, () => { TEACH.i = 0; teachShow(); }));
+  panel.firstChild.appendChild(nextBtn("Back to normal mode", exitTeach, true));
+}
+function teachShow() {
+  const x = TEACH.items[TEACH.i];
+  stage = x.type; setStages();
+  clearMarks(); passage.classList.remove("picking"); scrollTo(0, 0);
+  if (x.type === 1) teachAnnotate(x); else teachMcq(x);
+}
+function teachHead(x) {
+  const it = x.it;
+  if (x.type === 2) { focus(quotedRanges(it.q)); return `<span class="skill">${it.skill}</span><h3 style="margin-top:12px">${it.q}</h3>`; }
+  if (x.type === 4) { focus(findRanges(it.quote)); eachIn(findRanges(it.quote), el => el.classList.add("quote")); return `<span class="skill">Best explanation</span><div class="claim"><b>Claim</b>${it.claim}</div><div class="evq">“${it.quote}”</div><h3>Which explanation proves the claim best?</h3>`; }
+  focus(findRanges(it.quote)); eachIn(findRanges(it.quote), el => el.classList.add("quote"));
+  return `<span class="skill">Evidence vs claim</span><h3 style="margin-top:12px">This quote is evidence that&hellip;</h3><div class="evq">“${it.quote}”</div>`;
+}
+function litTarget(target) {
+  if (!target.length) return;
+  eachIn(target, el => el.classList.add("lit"));
+  const [, b] = target[target.length - 1];
+  if (!tokens[b].el.querySelector("sup")) { const sup = document.createElement("sup"); sup.textContent = "✓"; tokens[b].el.appendChild(sup); }
+}
+function teachAnnotate(x) {
+  const it = x.it;
+  const target = it.target.flatMap(p => findRanges(p, it.all));
+  const decoys = (it.decoys || []).map(d => findRanges(d.phrase, true));
+  focus(target.concat(...decoys));
+  panel.innerHTML = `<div class="card"><p class="num">${teachProgress()}</p>
+    <h3>${it.prompt}</h3><span class="skill">${it.skill}</span>
+    <p class="tip" style="margin-top:12px">Students mark this on their own sheet. Reveal it when ready, or move on.</p><div class="fbs"></div></div>`;
+  const card = panel.querySelector(".card"), fbs = panel.querySelector(".fbs");
+  const reveal = nextBtn("Reveal answer", () => {
+    litTarget(target); fbs.innerHTML = "";
+    fbs.appendChild(fbBox("good", "<span>ANSWER</span>", it.explain));
+    reveal.disabled = true;
+  }, true);
+  if (!target.length) reveal.disabled = true;
+  card.appendChild(teachNav([reveal, teachNextBtn()]));
+}
+function teachMcq(x) {
+  const it = x.it, letters = "ABCD";
+  panel.innerHTML = `<div class="card"><p class="num">${teachProgress()}</p>${teachHead(x)}<div class="opts" hidden></div><div class="fbs"></div></div>`;
+  const card = panel.querySelector(".card"), box = panel.querySelector(".opts"), fbs = panel.querySelector(".fbs");
+  x.placed.forEach((o, k) => {
+    const b = document.createElement("button");
+    b.className = "opt"; b.disabled = true; b.innerHTML = `<span class="k">${letters[k]}</span>${o.t}`;
+    box.appendChild(b);
+  });
+  const reveal = nextBtn("Reveal answer", () => {
+    box.querySelectorAll(".opt").forEach((el, k) => el.classList.add(x.placed[k].ok ? "right" : "mute"));
+    fbs.innerHTML = ""; fbs.appendChild(fbBox("good", "<span>WHY IT’S RIGHT</span>", x.placed.find(o => o.ok).why));
+    reveal.disabled = true;
+  }, true);
+  const firstRow = teachNav([nextBtn("Show options", () => {
+    box.hidden = false;
+    firstRow.replaceWith(teachNav([reveal, teachNextBtn()]));
+  })]);
+  card.appendChild(firstRow);
+}
+function teachNext() {
+  if (TEACH.i < TEACH.items.length - 1) { TEACH.i++; teachShow(); }
+  else { TEACH.phase = "review"; TEACH.i = 0; teachReviewIntro(); }
+}
+function teachReviewIntro() {
+  stage = 0; setStages(); buildPassage();
+  panel.innerHTML = `<div class="card intro-card"><span class="teach-tag">Answer key</span><p class="num">Mark the work</p>
+    <h3>Answer key &mdash; ${TEACH.items.length} items</h3>
+    <p>Go back through every item with the correct answer shown. Students mark their own notebook, or swap with a partner, and total their score out of ${TEACH.items.length}.</p>
+    <p class="tip">Use &larr; Back if anyone wants to see an earlier answer again.</p></div>`;
+  panel.firstChild.appendChild(nextBtn("SHOW ANSWERS — ITEM 1 OF " + TEACH.items.length, () => { TEACH.i = 0; teachReview(); }));
+}
+function teachReview() {
+  const x = TEACH.items[TEACH.i], it = x.it, letters = "ABCD";
+  stage = x.type; setStages();
+  clearMarks(); passage.classList.remove("picking"); scrollTo(0, 0);
+  if (x.type === 1) {
+    const target = it.target.flatMap(p => findRanges(p, it.all));
+    const decoys = (it.decoys || []).map(d => findRanges(d.phrase, true));
+    focus(target.concat(...decoys)); litTarget(target);
+    panel.innerHTML = `<div class="card teach-key"><p class="num">Answer key &middot; ${teachProgress()}</p>
+      <h3>${it.prompt}</h3><span class="skill">${it.skill}</span><div class="fbs"></div></div>`;
+    panel.querySelector(".fbs").appendChild(fbBox("good", "<span>ANSWER</span>", it.explain));
+  } else {
+    panel.innerHTML = `<div class="card teach-key"><p class="num">Answer key &middot; ${teachProgress()}</p>${teachHead(x)}<div class="opts"></div><div class="fbs"></div></div>`;
+    const box = panel.querySelector(".opts");
+    x.placed.forEach((o, k) => {
+      const b = document.createElement("button");
+      b.className = "opt " + (o.ok ? "right" : "mute"); b.disabled = true;
+      b.innerHTML = `<span class="k">${letters[k]}</span>${o.t}`;
+      box.appendChild(b);
+    });
+    panel.querySelector(".fbs").appendChild(fbBox("good", "<span>WHY IT’S RIGHT</span>", x.placed.find(o => o.ok).why));
+  }
+  const last = TEACH.i === TEACH.items.length - 1;
+  const back = TEACH.i > 0 ? nextBtn("← Back", () => { TEACH.i--; teachReview(); }, true) : null;
+  const fwd = nextBtn(last ? "DONE" : "Next →", () => { if (last) teachDone(); else { TEACH.i++; teachReview(); } });
+  panel.querySelector(".card").appendChild(teachNav([back, fwd]));
+}
+function teachDone() {
+  clearMarks(); focus(null);
+  panel.innerHTML = `<div class="card"><span class="teach-tag">Class mode</span><p class="num">Finished</p>
+    <h3>That&rsquo;s all ${TEACH.items.length} items</h3>
+    <p class="tip">Students total their marks out of ${TEACH.items.length} and record them however you like.</p></div>`;
+  panel.firstChild.appendChild(nextBtn("PRESENT THIS TEXT AGAIN", () => { TEACH.phase = "present"; TEACH.i = 0; teachIntro(); }));
+  panel.firstChild.appendChild(nextBtn("EXIT CLASS MODE", exitTeach, true));
+}
+
 function loadText(t) {
-  DRILL = null; $("#stages").hidden = false;
+  DRILL = null; TEACH = null; $("#stages").hidden = false;
+  $("#scoreBox").hidden = false;
+  const tb = $("#teachBtn"); tb.hidden = false; tb.classList.remove("on"); tb.innerHTML = "&#9654; Class mode";
   CUR = t; ({ TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN } = t);
   MAX = ANNOTATE.length + QUESTIONS.length + EVIDENCE.length + EXPLAIN.length;
   $("#max").textContent = MAX; $("#ttl").textContent = TEXT.title;
@@ -8400,6 +9013,7 @@ function loadText(t) {
   intro();
 }
 $("#backBtn").addEventListener("click", showPicker);
+$("#teachBtn").addEventListener("click", () => { if (TEACH) exitTeach(); else teachEnter(); });
 $("#linkBtn").addEventListener("click", () => {
   const url = location.origin + location.pathname + (DRILL ? "?skill=" + DRILL.key + (levelFilter === "all" ? "" : "&level=" + encodeURIComponent(levelFilter)) : "?text=" + encodeURIComponent(CUR.id));
   const done = () => { $("#linkBtn").textContent = "Link copied"; setTimeout(() => $("#linkBtn").textContent = "Copy link", 1800); };
