@@ -7066,6 +7066,256 @@ TEXTS.push({ id: "nine-floors-up", type: "Fiction", mode: "Creative", form: "Sho
 }
 
 
+/* ================================================================
+   TEXT 30 · Fiction · Creative · Narrative poem · 6ème
+   ================================================================ */
+{
+const TEXT = {
+  title: "The Owl and the Pussy-cat",
+  intro: "Edward Lear, “The Owl and the Pussy-cat”, 1871. The complete poem.",
+  paras: [
+    "The Owl and the Pussy-cat went to sea",
+    "In a beautiful pea-green boat,",
+    "They took some honey, and plenty of money,",
+    "Wrapped up in a five-pound note.",
+    "The Owl looked up to the stars above,",
+    "And sang to a small guitar,",
+    "“O lovely Pussy! O Pussy, my love,",
+    "What a beautiful Pussy you are,",
+    "You are,",
+    "You are!",
+    "What a beautiful Pussy you are!”",
+    "",
+    "Pussy said to the Owl, “You elegant fowl!",
+    "How charmingly sweet you sing!",
+    "O let us be married! too long we have tarried:",
+    "But what shall we do for a ring?”",
+    "They sailed away, for a year and a day,",
+    "To the land where the Bong-tree grows",
+    "And there in a wood a Piggy-wig stood",
+    "With a ring at the end of his nose,",
+    "His nose,",
+    "His nose,",
+    "With a ring at the end of his nose.",
+    "",
+    "“Dear Pig, are you willing to sell for one shilling",
+    "Your ring?” Said the Piggy, “I will.”",
+    "So they took it away, and were married next day",
+    "By the Turkey who lives on the hill.",
+    "They dined on mince, and slices of quince,",
+    "Which they ate with a runcible spoon;",
+    "And hand in hand, on the edge of the sand,",
+    "They danced by the light of the moon,",
+    "The moon,",
+    "The moon,",
+    "They danced by the light of the moon."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Repetition",
+    prompt: "Find the line that closes the first stanza, repeated three times.",
+    target: ["What a beautiful Pussy you are"],
+    decoys: [{ phrase: "The Owl looked up to the stars above", why: "This line appears only once. Look for the line that returns three times, shrinking a little each time, at the very end of the stanza." }],
+    miss: "Look at the very end of the first stanza — a short phrase returns three times.",
+    explain: "“What a beautiful Pussy you are” closes the stanza three times, growing shorter each time (“You are, / You are!”). The repetition makes the Owl's song sound musical, like a real refrain trailing off."
+  },
+  {
+    skill: "Word choice",
+    prompt: "Find the invented word Lear uses for the spoon the couple eat with.",
+    target: ["a runcible spoon"],
+    decoys: [{ phrase: "slices of quince", why: "Quince is a real fruit. Look instead for the made-up word describing the spoon itself." }],
+    miss: "Look in the third stanza, in the line about mince and quince.",
+    explain: "“Runcible” is a word Lear invented; it does not exist outside his poems. It fits the poem's playful, nonsense world, where even an ordinary object can be given a made-up name."
+  },
+  {
+    skill: "Structure",
+    prompt: "Find the phrase that leaps the story forward in time, skipping the journey itself.",
+    target: ["for a year and a day"],
+    decoys: [{ phrase: "with a ring at the end of his nose", why: "This describes what they find when they arrive, not how much time the journey there took." }],
+    miss: "Look at the start of the second stanza, just after the proposal.",
+    explain: "“For a year and a day” compresses a whole voyage into five words. The poem skips straight past the uneventful journey to the more interesting part of the adventure: finding a ring."
+  },
+  {
+    skill: "Humour",
+    prompt: "Find the oddly practical detail packed alongside the honey for their romantic voyage.",
+    target: ["Wrapped up in a five-pound note"],
+    decoys: [{ phrase: "sang to a small guitar", why: "This is about the Owl's music, not about what the two of them packed for the journey." }],
+    miss: "Look at the third and fourth lines of the poem, about what they took with them.",
+    explain: "A neatly wrapped five-pound note is a very sensible, everyday thing to bring on a fantastical sea voyage with a singing owl. The mismatch between romance and practicality is part of the joke."
+  },
+  {
+    skill: "Mood",
+    prompt: "Find the closing image that leaves the poem on a calm, contented note.",
+    target: ["They danced by the light of the moon"],
+    decoys: [{ phrase: "were married next day", why: "This tells us an event happened, but it is not the final image the poem actually leaves us with." }],
+    miss: "Look at the very last line of the poem.",
+    explain: "After all the sailing, buying and marrying, the poem ends quietly: two figures dancing together under moonlight. The busy adventure settles into a peaceful, happy mood."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Point of view",
+    q: "What kind of narrator tells this poem?",
+    opts: [
+      { t: "An outside storyteller who narrates events like a fairy tale, without ever judging the characters", ok: true, why: "Right. The narrator simply reports what the Owl, Pussy-cat, Pig and Turkey do and say, the way a fairy tale is told, never stepping in with an opinion." },
+      { t: "The Owl, telling the story of its own adventure and marriage to Pussy-cat in the first person the whole time", why: "The poem never uses “I”. Everything about the Owl and Pussy-cat is reported from outside, not by one of them." },
+      { t: "A narrator who keeps interrupting the story to warn the reader about danger up ahead", why: "There are no warnings or interruptions anywhere. The narrator only describes what happens, calmly and in order." },
+      { t: "The Piggy-wig, telling the whole story sometime after he has sold away his own ring", why: "The Piggy-wig only appears for a few lines in the second stanza. He cannot be telling the whole story." }
+    ]
+  },
+  {
+    skill: "Effect of repetition",
+    q: "What is the effect of repeating the last line of the first stanza three times?",
+    opts: [
+      { t: "It makes the Owl's song sound musical, like a real refrain being sung out loud", ok: true, why: "Right. Shortening the line each time (“You are, / You are!”) mimics the sound of a song trailing off, fitting since the Owl is singing to a guitar." },
+      { t: "It shows that the Owl has already forgotten what it wanted to say to Pussy", why: "The Owl repeats the exact same compliment on purpose. Forgetting would mean saying something different each time instead." },
+      { t: "It proves that Pussy did not hear the Owl properly the first two times he sang", why: "Nothing in the poem suggests Pussy is hard of hearing. The repetition is simply part of the song's structure." },
+      { t: "It slows the poem right down so readers have time to learn a difficult new word", why: "There is no new or difficult word in this repeated line, just a simple compliment being sung again." }
+    ]
+  },
+  {
+    skill: "Word choice",
+    q: "Why does Lear invent words like “runcible spoon” and the “Bong-tree”?",
+    opts: [
+      { t: "To add to the poem's playful, nonsense world, where even ordinary objects can be invented", ok: true, why: "Right. Nonsense words like “runcible” and “Bong-tree” suit a story about a talking owl and cat sailing off to get married; the whole world is delightfully made up." },
+      { t: "To describe real, ordinary objects that the English language simply did not yet have proper names for", why: "“Runcible” is not a real object at all. Lear simply enjoyed inventing sounds that felt right for his nonsense world." },
+      { t: "To make the poem harder to understand for the younger readers it was written for", why: "The invented words are playful rather than difficult. Lear wrote nonsense verse to entertain children, not to confuse them." },
+      { t: "To show off how many real foreign words the writer had picked up on his travels", why: "These words are not borrowed from any real language. Lear invented them purely for the fun of the sound." }
+    ]
+  },
+  {
+    skill: "Structure",
+    q: "Why does the poem skip straight from setting sail to “a year and a day” later?",
+    opts: [
+      { t: "To move quickly past the ordinary journey and on to the next part of the adventure", ok: true, why: "Right. The poem is not interested in the details of the voyage itself; it jumps straight ahead to where the real adventure, finding a ring, begins." },
+      { t: "To show that the Owl and Pussy-cat became lost and confused somewhere out at sea", why: "There is no mention anywhere of them being lost. The time skip is simply the poem moving the story along quickly." },
+      { t: "To hint that a whole year passed before the two of them decided to fall in love", why: "They already call each other “my love” back in the first stanza, well before the year at sea begins." },
+      { t: "To prove that sea voyages in fairy tales must always take exactly one year to finish", why: "“A year and a day” is a traditional storytelling phrase for a long stretch of time, not a strict rule about voyages." }
+    ]
+  },
+  {
+    skill: "Mood",
+    q: "How does the mood change between the start of the poem and its final lines?",
+    opts: [
+      { t: "It moves from a lively, comic adventure to a calm and gently romantic close", ok: true, why: "Right. The poem opens with singing, sailing and buying a ring, full of energy and comedy, then settles into the quiet final image of dancing by moonlight." },
+      { t: "It moves from a calm, gentle beginning into a tense and frightening final stanza", why: "The ending is peaceful, not frightening at all. Nothing threatening happens at the wedding or the dance." },
+      { t: "It stays exactly the same, cheerful and busy, from the very first line to the last", why: "The ending slows right down into stillness and quiet, which is a real change from the bustle of the earlier stanzas." },
+      { t: "It moves from happiness out at sea into sadness once the wedding day is over", why: "The final image of dancing by moonlight is joyful, not sad at all. The mood stays happy, just quieter." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this poem?",
+    opts: [
+      { t: "An Owl and a Pussy-cat sail off together, buy a ring from a pig they meet on a far-off island, get married by a Turkey, and end the poem dancing happily together by moonlight.", ok: true, why: "Right. It covers the whole shape of the poem, not just one part of it." },
+      { t: "The Owl sings a love song to Pussy-cat on a small guitar while their boat sails further out to sea. Other parts of the poem focus on different details.", why: "True, but too narrow. It only covers part of the poem and misses the main point." },
+      { t: "Owls and cats in real life often travel together across the wide ocean in search of rings and other things to get married with. The rest of the poem develops in quite a different direction from this.", why: "Too broad. This adds a claim the poem does not actually make or support." },
+      { t: "They eat mince and slices of quince together using a spoon that Lear invented and named a runcible spoon. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the poem is mainly about." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "Wrapped up in a five-pound note",
+    opts: [
+      { t: "Even on a fantastical voyage, the animals pack something very ordinary and sensible", ok: true, why: "Right. A neatly wrapped banknote is a down-to-earth, practical detail amid an otherwise magical journey." },
+      { t: "The Owl and Pussy-cat are extremely poor and cannot really afford this journey at all", why: "A five-pound note was a decent sum. Nothing suggests the pair are struggling for money." },
+      { t: "Money in this poem works like a magic object that helps them sail safely across the sea", why: "The note is just something they packed. It has no magical power in the poem." },
+      { t: "The five-pound note is secretly a hidden map showing them exactly where to sail", why: "It is simply money, wrapped up for the journey. There is no mention of any map at all." }
+    ]
+  },
+  {
+    quote: "How charmingly sweet you sing!",
+    opts: [
+      { t: "The Owl's singing has successfully charmed and won Pussy-cat over", ok: true, why: "Right. Pussy's compliment shows she is delighted by the song, right before she proposes marriage." },
+      { t: "Pussy-cat secretly thinks the Owl's singing sounds terrible and badly out of tune", why: "Her words are a genuine compliment, followed immediately by a proposal of marriage." },
+      { t: "Pussy-cat is only pretending to enjoy the song out of simple politeness to the Owl", why: "Nothing in the poem hints that Pussy is being insincere here at all." },
+      { t: "The Owl cannot really sing and is only pretending while it plays the small guitar", why: "The poem never suggests the Owl's singing is fake. Pussy's reaction reads as genuine delight." }
+    ]
+  },
+  {
+    quote: "Which they ate with a runcible spoon",
+    opts: [
+      { t: "The poem invents its own playful objects, rather than only using real, ordinary ones", ok: true, why: "Right. A “runcible spoon” does not exist in real life; it belongs to the poem's own invented, nonsense world." },
+      { t: "A runcible spoon is a real, old-fashioned type of spoon once used for eating quince", why: "Lear made this word up. It is not a real historical type of spoon at all." },
+      { t: "The wedding feast is eaten with completely ordinary spoons, just like any everyday meal", why: "The spoon is specifically called “runcible”, an invented word, not an ordinary everyday one." },
+      { t: "The spoon is magical and lets whoever holds it understand what animals are saying", why: "The poem gives the spoon no magic powers. It is simply an invented, playful word." }
+    ]
+  },
+  {
+    quote: "They danced by the light of the moon",
+    opts: [
+      { t: "The poem ends on a calm, happy, and gently romantic note", ok: true, why: "Right. Quiet dancing under moonlight is a peaceful, tender image to close the poem on." },
+      { t: "The poem ends with the Owl and Pussy-cat lost and unable to find their way back home", why: "There is no sign of being lost. The dancing is calm and joyful, not anxious at all." },
+      { t: "Dancing at night shows that the wedding guests refused to go home after dark that night", why: "The poem only mentions the Owl and Pussy-cat dancing, not a crowd of reluctant guests." },
+      { t: "The moonlight makes the ending feel mysterious and slightly frightening for the reader", why: "Moonlight here creates gentle romance, not mystery or fear, closing the poem softly." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The refrain gives the poem a musical, song-like quality.",
+    quote: "What a beautiful Pussy you are",
+    opts: [
+      { t: "The Owl sings a love song to Pussy while playing a small guitar together on the boat, right at the very start of the first stanza in the poem.", why: "Retelling. Explain what repeating this particular line does, not just what happens in the scene." },
+      { t: "Repeating and shortening this line (“You are, / You are!”) mimics the fading final notes of a real song, since the Owl is singing it aloud.", ok: true, why: "Strong. It links the shrinking repetition to the sound of a song ending, and to the fact the Owl is literally singing." },
+      { t: "The writer repeats a line near the start of the poem for some kind of effect, though it is never made fully clear here.", why: "Too general. Which effect, and how exactly does the repetition create it?" },
+      { t: "This proves the Owl cannot think of anything else nice at all to say to Pussy, since it just repeats the same words.", why: "A misreading. The repetition is a musical device, not a sign the Owl has run out of things to say." }
+    ]
+  },
+  {
+    claim: "The invented word “runcible” adds to the poem's nonsense world.",
+    quote: "a runcible spoon",
+    opts: [
+      { t: "They eat their wedding feast of mince and quince together with a special spoon, right there on the edge of the sand near the calm, moonlit water at long last.", why: "Retelling. What does the made-up word itself add to the poem, beyond just naming an object?" },
+      { t: "“Runcible” is not a real word; inventing it fits a world where owls sing, cats marry, and pigs wear rings, where ordinary rules of language don't quite apply.", ok: true, why: "Strong. It explains that the word is invented and connects that to the poem's wider nonsense logic." },
+      { t: "The poem uses a fairly unusual word right here in this particular line, without ever explaining exactly why.", why: "True, but say what kind of word it is and what effect that choice actually has." },
+      { t: "This shows that Lear simply did not know the real word for the spoon they were using at their wedding feast.", why: "A misreading. Lear invented nonsense words on purpose throughout his poetry, not by mistake." }
+    ]
+  },
+  {
+    claim: "The time skip keeps the story moving quickly.",
+    quote: "for a year and a day",
+    opts: [
+      { t: "The Owl and Pussy-cat sail away together after getting engaged, right at the start of the second stanza.", why: "Retelling. Explain what skipping ahead in time like this actually achieves for the poem." },
+      { t: "Compressing a whole year of sailing into five words lets the poem skip the uneventful journey and jump straight to the more interesting part of the adventure.", ok: true, why: "Strong. It explains exactly what the compression achieves and why the journey itself is skipped." },
+      { t: "The poem simply moves forward in time a little at this particular point, for reasons left unclear.", why: "True, but say what effect that jump actually has on the pace of the story." },
+      { t: "This proves the journey itself was really the most exciting part of the whole poem, far more exciting than anything else that ever happens after it finally ends.", why: "A misreading. The poem skips past the journey precisely because it is not the interesting part." }
+    ]
+  },
+  {
+    claim: "The five-pound note is a comic, down-to-earth detail.",
+    quote: "Wrapped up in a five-pound note",
+    opts: [
+      { t: "They take some honey and plenty of money with them on their journey out to sea, right at the very start of the poem.", why: "Retelling. Explain why this particular detail feels funny in such a romantic setting." },
+      { t: "A neatly wrapped five-pound note is a very sensible, everyday detail to pack for a fantastical voyage with a singing owl, and the mismatch is part of the joke.", ok: true, why: "Strong. It names the mismatch between the ordinary detail and the fantastical setting, and calls it comic." },
+      { t: "The writer includes a rather unusual detail fairly early on in the poem, without explaining its purpose clearly.", why: "True, but say what kind of detail it is and why exactly it feels funny in this context." },
+      { t: "This shows that the Owl and Pussy-cat are secretly quite wealthy business owners, despite everything else that the poem actually tells us about the pair of them here.", why: "A misreading. A single five-pound note is just a practical detail, not proof of great wealth." }
+    ]
+  },
+  {
+    claim: "The ending creates a peaceful, contented mood.",
+    quote: "They danced by the light of the moon",
+    opts: [
+      { t: "The Owl and Pussy-cat dance together on the sand after their wedding day is finally over, right at the very end.", why: "Retelling. Explain how this particular final image works to create a mood, not just what happens." },
+      { t: "After all the sailing and searching, the poem slows to one quiet, gentle image of dancing under moonlight, leaving the reader with a calm, happy final feeling.", ok: true, why: "Strong. It links the slowing pace and the image itself to the calm feeling the ending leaves behind." },
+      { t: "The poem ends with quite a nice, pleasant image taking place out on the beach, without much more detail given.", why: "Too general. What kind of feeling does this particular final image leave the reader with?" },
+      { t: "This shows the two characters are simply too exhausted from the long wedding day to go home at all tonight, rather than being genuinely happy together at last.", why: "A misreading. Nothing suggests exhaustion here; the dancing reads as joyful, not tired." }
+    ]
+  }
+];
+TEXTS.push({ id: "owl-and-pussycat", type: "Fiction", mode: "Creative", form: "Narrative poem", level: "6ème",
+  hook: "An owl, a cat, a stolen boat, and a pig who just happens to have a ring for sale — Edward Lear's nonsense classic, complete.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
+
+
 
 /* ================================================================ */
 const $ = s => document.querySelector(s);
