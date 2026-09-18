@@ -87,6 +87,25 @@
 .teach-nav .next{margin-top:0;width:auto;flex:1}
 .teach-tag{display:inline-block;font:700 10px/1 'Courier Prime',monospace;letter-spacing:.12em;text-transform:uppercase;background:var(--pen);color:#fff;padding:5px 8px;margin-bottom:10px}
 .teach-btn.on{background:var(--pen);color:#fff;border-color:var(--pen)}
+/* ---- text-size (zoom) for classroom projection ---- */
+#work{--z:1}
+#work .passage p{font-size:calc(clamp(16px,1.35vw,18.5px) * var(--z))}
+#work .passage p.note{font-size:calc(14px * var(--z))}
+#work .passage p.bullet{font-size:calc(clamp(16px,1.35vw,18.5px) * var(--z))}
+#work .card h3{font-size:calc(clamp(20px,1.9vw,26px) * var(--z))}
+#work .opt{font-size:calc(14px * var(--z))}
+#work .evq{font-size:calc(19px * var(--z))}
+#work .claim{font-size:calc(15px * var(--z))}
+#work .tip{font-size:calc(14px * var(--z))}
+#work .intro-card p{font-size:calc(17px * var(--z))}
+#work .fb .why{font-size:calc(14px * var(--z))}
+#work .fb .who{font-size:calc(16px * var(--z))}
+#work .next{font-size:calc(20px * var(--z))}
+#work .skill{font-size:calc(11px * var(--z))}
+#work .card .num{font-size:calc(12px * var(--z))}
+.zbtn{font-weight:700;min-width:34px;text-align:center}
+.fullbtn:disabled{opacity:.4;cursor:default}
+.zlvl{font:700 11px/1 'Courier Prime',monospace;letter-spacing:.04em;color:var(--soft);align-self:center;min-width:38px;text-align:center}
 .intro-card p{font:400 17px/1.55 'EB Garamond',Georgia,serif;margin:0 0 10px}
 .intro-card ol{font:400 14px/1.6 'Courier Prime',monospace;padding-left:20px;margin:6px 0 4px}
 .tally{display:flex;gap:22px;flex-wrap:wrap;margin:12px 0 6px;font:400 13px/1.3 'Courier Prime',monospace}
@@ -227,7 +246,7 @@
   <div class="cr-grid">
     <article class="sheet">
       <div class="sheet-head"><div><p class="kicker" id="kicker">Sample text &middot; original</p><h2 id="ttl"></h2></div>
-        <div class="sheet-btns"><button class="fullbtn readbtn" id="readBtn" hidden>&#128266; Read aloud</button><button class="fullbtn" id="fullBtn" hidden>Show full text</button></div></div>
+        <div class="sheet-btns"><button class="fullbtn zbtn" id="zoomOut" title="Smaller text" aria-label="Smaller text">A&minus;</button><span class="zlvl" id="zlvl" title="Text size">100%</span><button class="fullbtn zbtn" id="zoomIn" title="Bigger text" aria-label="Bigger text">A+</button><button class="fullbtn readbtn" id="readBtn" hidden>&#128266; Read aloud</button><button class="fullbtn" id="fullBtn" hidden>Show full text</button></div></div>
       <p class="ctx" id="ctx" hidden></p>
       <div class="passage" id="passage"></div>
     </article>
@@ -8369,6 +8388,34 @@ $("#readBtn").addEventListener("click", () => {
 $("#backBtn").addEventListener("click", stopReading);
 addEventListener("beforeunload", () => { if (speechOK) speechSynthesis.cancel(); });
 
+/* ---------- text size (zoom) for classroom projection ---------- */
+const ZOOMS = [1, 1.15, 1.35, 1.6, 1.9, 2.2];
+let zoomI = 0;
+function applyZoom() {
+  $("#work").style.setProperty("--z", ZOOMS[zoomI]);
+  $("#zlvl").textContent = Math.round(ZOOMS[zoomI] * 100) + "%";
+  $("#zoomOut").disabled = zoomI === 0;
+  $("#zoomIn").disabled = zoomI === ZOOMS.length - 1;
+  fitCheck();
+}
+function setZoom(i, persist = true) {
+  zoomI = Math.max(0, Math.min(ZOOMS.length - 1, i));
+  applyZoom();
+  if (persist) { try { localStorage.setItem("crp-zoom", ZOOMS[zoomI]); } catch (e) {} }
+}
+function loadZoom() {
+  try { const v = +localStorage.getItem("crp-zoom"); const i = ZOOMS.indexOf(v); if (i >= 0) zoomI = i; } catch (e) {}
+}
+$("#zoomOut").addEventListener("click", () => setZoom(zoomI - 1));
+$("#zoomIn").addEventListener("click", () => setZoom(zoomI + 1));
+addEventListener("keydown", e => {
+  if ($("#work").hidden) return;
+  const el = document.activeElement, typing = el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA");
+  if (typing || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === "+" || e.key === "=") { setZoom(zoomI + 1); e.preventDefault(); }
+  else if (e.key === "-" || e.key === "_") { setZoom(zoomI - 1); e.preventDefault(); }
+});
+
 /* Phrases in curly quotes inside a question, located in the text. */
 function quotedRanges(str) {
   return [...str.matchAll(/\u201C([^\u201D]+)\u201D/g)].flatMap(m => findRanges(m[1]));
@@ -8845,7 +8892,7 @@ function applySearch() {
    Answer key pass: walk back through every item with the correct
    answer shown, so students self- or peer-mark on paper.
    ================================================================ */
-let TEACH = null;
+let TEACH = null, preTeachZoom = null;
 const STAGE_NAME = { 1: "Annotate", 2: "Question", 3: "Evidence", 4: "Explain" };
 
 function teachItems() {
@@ -8864,12 +8911,17 @@ function teachEnter() {
   $("#scoreBox").hidden = true;
   const b = $("#teachBtn"); b.classList.add("on"); b.innerHTML = "&#9632; Exit class mode";
   stopReading();
+  // bump text size for projection (without overwriting the saved everyday size)
+  preTeachZoom = zoomI;
+  const big = ZOOMS.indexOf(1.6);
+  if (zoomI < big) setZoom(big, false);
   teachIntro();
 }
 function exitTeach() {
   TEACH = null;
   $("#scoreBox").hidden = false;
   const b = $("#teachBtn"); b.classList.remove("on"); b.innerHTML = "&#9654; Class mode";
+  if (preTeachZoom !== null) { setZoom(preTeachZoom, false); preTeachZoom = null; }
   if (CUR && !DRILL) intro();
 }
 function teachProgress() {
@@ -9028,6 +9080,7 @@ $("#lvlFilter").querySelectorAll("button").forEach(b => b.addEventListener("clic
 }));
 $("#pickSearch").addEventListener("input", applySearch);
 (function start() {
+  loadZoom(); applyZoom();
   const q = new URLSearchParams(location.search);
   const lv = q.get("level");
   if (lv && LEVELS.includes(lv)) {
