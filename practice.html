@@ -142,6 +142,20 @@
 .pick-search input{font:400 13px/1 'Courier Prime',monospace;border:2px solid var(--ink);border-radius:8px;padding:9px 10px;width:190px;background:#fff;color:var(--ink)}
 .pick-search input:focus{outline:none;box-shadow:0 0 0 3px var(--hi)}
 .lvl-filter{margin-left:0}
+.latest{margin:0 0 20px}
+.latest h2{font:400 22px/1 Anton,Impact,sans-serif;letter-spacing:.03em;margin:0 0 10px;display:flex;align-items:baseline;gap:10px}
+.latest h2 span{font:700 10px/1 'Courier Prime',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--soft)}
+.latest-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.latest-card{display:flex;gap:12px;align-items:stretch;text-align:left;padding:0;border:2px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink);cursor:pointer;font:inherit;overflow:hidden;transition:transform .15s,box-shadow .15s}
+.latest-card:hover,.latest-card:focus-visible{transform:translateY(-3px);box-shadow:0 8px 18px rgba(11,37,69,.18);outline:none}
+.latest-card .mini{position:relative;flex:0 0 84px;background:var(--ink);overflow:hidden}
+.latest-card .mini img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s}
+.latest-card .mini.has-img img{opacity:1}
+.latest-card .lt-body{padding:10px 12px 10px 0;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.latest-card h3{font:400 19px/1.05 Anton,Impact,sans-serif;letter-spacing:.02em;margin:0}
+.latest-card p{font:400 13px/1.35 'EB Garamond',Georgia,serif;color:var(--soft);margin:0}
+.latest-card em{font:700 10px/1 'Courier Prime',monospace;letter-spacing:.08em;text-transform:uppercase;font-style:normal;color:var(--pen)}
+.latest[hidden]{display:none}
 .band{margin:0 0 16px}
 .band-head{width:100%;display:flex;align-items:center;gap:12px;text-align:left;border:2px solid var(--ink);border-radius:12px;background:var(--hi);color:var(--ink);padding:10px 14px;cursor:pointer;font:inherit;margin-bottom:14px}
 .band-head:hover{background:#cfe6fa}
@@ -188,6 +202,7 @@
     </div>
     <div class="pick-search"><input id="pickSearch" type="search" placeholder="Search titles" aria-label="Search texts by title"></div></div>
   <div class="drill-bar" id="drillBar"></div>
+  <section class="latest" id="latest" hidden></section>
   <div id="pickBands"></div>
   <p class="no-hits" id="noHits" hidden>No text matches that search.</p>
 </div>
@@ -6352,6 +6367,671 @@ TEXTS.push({ id: "elephants-child", type: "Fiction", mode: "Creative", form: "Ju
   hook: "A young elephant with too many questions goes to find out what the Crocodile has for dinner.",
   TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
 }
+{
+const TEXT = {
+  title: "The Night the Lights Went Out",
+  intro: "An original story for The Learning Deck.",
+  paras: [
+    "The storm arrived before dinner. First came the wind, pushing at the windows of the flat like someone who wanted to be let in. Then came the rain, so hard that the balcony turned into a drum.",
+    "Amira was setting the table when the lights went out. The kitchen, the corridor, the television, the humming fridge: all of it stopped at once. For a second the flat was so quiet that she could hear the rain hitting the washing line.",
+    "Her little brother, Danish, shouted from the living room. Not words, just a shout.",
+    "“It is only the power,” said their mother, in the calm voice she used for cut knees and lost shoes. “Stay where you are.”",
+    "Amira did not move. The flat she knew by heart had changed shape. The corridor, which took nine steps to cross, now seemed to have no end at all. The coat hooks made a row of shoulders against the wall. Somewhere in the dark, the tap dripped into the sink like a clock that had learned to count wrong.",
+    "Then a light swung round the corner, small and yellow, and her mother came in holding a torch under her chin so that her face looked like a mask. Danish screamed, and then laughed so hard that he fell off the sofa.",
+    "They found the candles in the drawer with the batteries and the birthday cards. Their mother stood them in saucers along the coffee table, and the room grew a new ceiling, low and gold, that moved whenever anybody breathed.",
+    "Outside, the block had turned into a cliff of black windows. Across the car park, torches were moving behind other people’s curtains, small and warm, like fish in a dark aquarium. Uncle Rafiq on the ninth floor was playing his radio through the rain. Somebody’s baby was crying, and somebody’s father was laughing at something they could not hear.",
+    "They ate dinner on the floor with the candles between them. The rice tasted exactly the same as always, which seemed strange to Amira, as though the food had not noticed the storm.",
+    "“Tell the one about the ferry,” said Danish, with his mouth full.",
+    "Their mother told it badly, on purpose, getting the ending wrong so that they had to correct her. The rain thinned. The wind stopped pushing. The candles made a small warm cave with three people inside it and nothing else.",
+    "When the lights came back an hour later, everything jumped: the fridge, the television, the bright white kitchen, the corridor that was only nine steps after all. Danish cheered.",
+    "Amira got up and blew the candles out, one by one, and was a little sorry to see them go."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Mood",
+    prompt: "Find the comparison that makes the <em>wind</em> sound like a person.",
+    target: ["like someone who wanted to be let in"],
+    decoys: [{ phrase: "the balcony turned into a drum", why: "A strong image for the rain, and a good spot, but it compares the balcony to an object, not to a person." }],
+    miss: "Look at the first sentence about the wind.",
+    explain: "A visitor who wants to come in is harmless or frightening, depending on who it is. The comparison makes the storm feel like something with a will of its own."
+  },
+  {
+    skill: "Setting",
+    prompt: "Find where the familiar <em>corridor changes</em> in the dark.",
+    target: ["now seemed to have no end at all"],
+    decoys: [{ phrase: "The flat she knew by heart had changed shape", why: "That is the general idea. Look for the detail about the corridor itself." }],
+    miss: "Look for the sentence about nine steps.",
+    explain: "Nothing about the corridor has actually changed. The dark removes the ends of things, so a short corridor becomes endless, which is how fear works on a place you know."
+  },
+  {
+    skill: "Sensory language",
+    prompt: "Find the <em>sound</em> that is compared to a clock.",
+    target: ["like a clock that had learned to count wrong"],
+    decoys: [{ phrase: "she could hear the rain hitting the washing line", why: "A good use of sound, but that one is not compared to anything." }],
+    miss: "Look at the end of the paragraph about the dark flat.",
+    explain: "A dripping tap is ordinary. Turning it into a clock that counts wrongly makes time itself feel unreliable, which keeps the unease going without adding anything frightening."
+  },
+  {
+    skill: "Atmosphere",
+    prompt: "Find the moment the candles <em>change the room</em>.",
+    target: ["the room grew a new ceiling, low and gold"],
+    decoys: [{ phrase: "They found the candles in the drawer with the batteries", why: "That is where the candles came from, not what they do to the room." }],
+    miss: "Look for what happens after the candles are stood in saucers.",
+    explain: "Candlelight only reaches so far, so the dark becomes a lower ceiling. The room shrinks, and a shrinking room turns from frightening to cosy."
+  },
+  {
+    skill: "Imagery",
+    prompt: "Find the comparison used for the <em>torches in other flats</em>.",
+    target: ["like fish in a dark aquarium"],
+    decoys: [{ phrase: "the block had turned into a cliff of black windows", why: "Also a comparison, and a good one, but it describes the whole building rather than the moving lights." }],
+    miss: "Look across the car park.",
+    explain: "Fish in a tank are calm and quiet and watched from outside. The image turns the blacked-out block into something to look at rather than something to fear."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Mood",
+    q: "How does the mood change during the story?",
+    opts: [
+      { t: "From uneasy to warm, once the candles are lit", ok: true, why: "Right. The corridor with no end gives way to a low gold ceiling and three people eating on the floor." },
+      { t: "From calm to frightening, as the storm gets worse", why: "The storm thins out near the end, and nobody is frightened by then." },
+      { t: "From excited to disappointed when the power returns", why: "Danish cheers when it returns, and Amira’s feeling is gentler than disappointment." },
+      { t: "It stays frightened the whole way through the evening", why: "The laughter starts early, when the torch turns their mother into a mask." }
+    ]
+  },
+  {
+    skill: "Setting",
+    q: "Why does the writer tell us the corridor takes nine steps?",
+    opts: [
+      { t: "So we can measure how much the dark changes it", ok: true, why: "Right. Nine steps is small and exact. The story gives us the number so that “no end at all” feels like a real change." },
+      { t: "To show that the flat is bigger than most flats", why: "Nine steps is short. The number is there to be small." },
+      { t: "To explain why Amira cannot reach the kitchen", why: "She stays still by choice, not because of distance." },
+      { t: "To tell the reader how old the building is", why: "Nothing about the age of the block is given." }
+    ]
+  },
+  {
+    skill: "Atmosphere",
+    q: "What effect do the sounds from other flats have?",
+    opts: [
+      { t: "They make the blackout feel shared rather than lonely", ok: true, why: "Right. A radio, a baby, somebody laughing. The dark is full of neighbours, so the flat stops feeling cut off." },
+      { t: "They make the block sound dangerous after dark", why: "The sounds are ordinary and homely, not threatening." },
+      { t: "They show that the family is the only one without power", why: "Every window in the block is black." },
+      { t: "They prove that the storm is about to get worse", why: "The rain is thinning by then." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does the mother tell the ferry story badly?",
+    opts: [
+      { t: "So the children have something to argue about happily", ok: true, why: "Right. It is on purpose. Correcting her keeps them busy and turns the evening into a game." },
+      { t: "Because she has forgotten how the ferry story really ends", why: "The story says she gets it wrong on purpose." },
+      { t: "Because she is tired after dealing with the blackout", why: "She is calm from the start and stays that way." },
+      { t: "Because she wants the children to go to sleep early", why: "Bedtime is never mentioned in the story." }
+    ]
+  },
+  {
+    skill: "Point of view",
+    q: "Whose eyes do we see the evening through?",
+    opts: [
+      { t: "Amira’s, though she does not tell the story herself", ok: true, why: "Right. We get her thoughts about the corridor and the rice, but she is always called “she”." },
+      { t: "Danish’s, because he reacts the most loudly", why: "We see him from outside and never enter his thoughts." },
+      { t: "The mother’s, since she stays calm and in charge", why: "Her calm is described from outside, in the voice she uses." },
+      { t: "A neighbour’s, watching the block from across the way", why: "The story is inside the flat the whole time." }
+    ]
+  },
+  {
+    skill: "Ending",
+    q: "Why is Amira “a little sorry” at the end?",
+    opts: [
+      { t: "The blackout gave her something the normal evening does not", ok: true, why: "Right. The candles made a small warm cave with the three of them in it. The bright kitchen takes that back." },
+      { t: "She is worried that the power will fail a second time", why: "Nothing suggests she expects it to happen again." },
+      { t: "She had wanted to keep the candles for her own bedroom instead", why: "The candles matter for the evening, not as objects." },
+      { t: "She is annoyed that the storm ended as quickly as it did", why: "Her feeling is about the room, not about the weather." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "The coat hooks made a row of shoulders against the wall",
+    opts: [
+      { t: "The dark turns ordinary objects into figures", ok: true, why: "Right. Hooks become shoulders, which is how a familiar hallway starts to feel occupied." },
+      { t: "There are people standing in the corridor of the flat", why: "They are coat hooks. The image is what the dark makes of them." },
+      { t: "The family keeps too many coats in the flat", why: "The number of coats is not the point of the image." },
+      { t: "Amira cannot remember where the hooks are", why: "She can see their shape, which is what unsettles her." }
+    ]
+  },
+  {
+    quote: "the calm voice she used for cut knees and lost shoes",
+    opts: [
+      { t: "The mother treats the blackout as an everyday problem", ok: true, why: "Right. The same voice as for scraped knees puts the power cut in the category of small fixable things." },
+      { t: "The mother has not noticed that the lights are out", why: "She gives an instruction about it immediately." },
+      { t: "The children are often hurt or losing their things", why: "The examples describe her voice, not their week." },
+      { t: "The mother is hiding how frightened she really is by it", why: "Nothing suggests fear behind the calm." }
+    ]
+  },
+  {
+    quote: "as though the food had not noticed the storm",
+    opts: [
+      { t: "Ordinary things carry on, which is part of the comfort", ok: true, why: "Right. The rice is unchanged while everything else is strange, and that steadiness is reassuring." },
+      { t: "The family cooked the rice before the storm began", why: "True, but the sentence is about how it tastes, not when it was cooked." },
+      { t: "Amira has lost her appetite because she is afraid", why: "She notices the taste, so she is eating." },
+      { t: "The storm was not really as bad as it had seemed at first", why: "The storm is real. The rice simply has nothing to do with it." }
+    ]
+  },
+  {
+    quote: "everything jumped: the fridge, the television, the bright white kitchen",
+    opts: [
+      { t: "The return of the power is sudden and unwelcoming", ok: true, why: "Right. “Jumped” and “bright white” are sharp after an hour of low gold light." },
+      { t: "The appliances were damaged by the power cut", why: "Nothing is broken. They simply come back on." },
+      { t: "The family is relieved that the evening is over", why: "Danish cheers, but Amira is sorry, so it is not that simple." },
+      { t: "The storm has finally reached the inside of the flat", why: "The storm has already passed by this point." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The opening makes the storm feel deliberate.",
+    quote: "pushing at the windows of the flat like someone who wanted to be let in",
+    opts: [
+      { t: "The wind blows very hard against the windows of the family’s flat before the rain starts falling on the balcony.", why: "Retelling. What does the comparison add?" },
+      { t: "Wind cannot want anything. Comparing it to a visitor gives the storm a purpose, so the evening starts with something trying to get in.", ok: true, why: "Strong. It explains the comparison and the unease it creates." },
+      { t: "Somebody was outside the flat during the storm and was knocking on the window to be let inside quickly.", why: "A literal misreading. It is the wind." },
+      { t: "The writer uses a comparison in the first paragraph here, and comparisons are used by writers to help a reader picture something clearly.", why: "An observation. Say what it does to the mood." }
+    ]
+  },
+  {
+    claim: "The dark changes a place Amira knows well.",
+    quote: "The corridor, which took nine steps to cross, now seemed to have no end at all",
+    opts: [
+      { t: "Amira stands still in the flat because the lights have gone out and she cannot see down the corridor towards the kitchen.", why: "Retelling. Why give the number of steps?" },
+      { t: "The exact number makes the corridor small, then “no end at all” stretches it. Fear changes the size of a place without changing the place.", ok: true, why: "Strong. It uses both halves of the sentence." },
+      { t: "The corridor of the flat is actually a great deal longer than nine steps, and Amira had counted the steps wrongly when she measured it before.", why: "A literal misreading. Nine steps is confirmed at the end." },
+      { t: "The writer gives a number in this sentence about the corridor, and numbers make a description feel exact rather than vague to the reader.", why: "An observation. What is the number for?" }
+    ]
+  },
+  {
+    claim: "Candlelight turns the room into a shelter.",
+    quote: "the room grew a new ceiling, low and gold, that moved whenever anybody breathed",
+    opts: [
+      { t: "The mother puts the lit candles into saucers and stands them in a row along the top of the coffee table.", why: "Retelling. What do the candles do to the room?" },
+      { t: "The dark becomes a lower ceiling, so the room shrinks to the size of the light. Small and gold and moving is a shelter, not a threat.", ok: true, why: "Strong. It explains the image and the change in mood." },
+      { t: "The ceiling of the living room is painted gold and it moves slightly whenever there is a draught in the flat.", why: "A literal reading of an image." },
+      { t: "The writer describes the candlelight in the living room here, telling the reader what the room looked like once the candles had been lit.", why: "An observation. What does the description achieve?" }
+    ]
+  },
+  {
+    claim: "The blackout connects the family to their neighbours.",
+    quote: "torches were moving behind other people’s curtains, small and warm, like fish in a dark aquarium",
+    opts: [
+      { t: "Amira looks out of the window and sees other people in the block moving about their flats holding torches in the dark.", why: "Retelling. Why compare them to fish?" },
+      { t: "Fish in a tank are calm and watched from outside. Every window holds a family doing the same thing, so the dark feels shared.", ok: true, why: "Strong. It explains the comparison and its effect." },
+      { t: "The people in the other flats have aquariums with lights in them that can be seen through the curtains at night.", why: "A literal misreading of the comparison." },
+      { t: "The writer compares the torches to fish in this sentence, which is a simile, a comparison that uses the word like to join two things.", why: "An observation. Why that comparison?" }
+    ]
+  },
+  {
+    claim: "The ending is quiet rather than happy or sad.",
+    quote: "was a little sorry to see them go",
+    opts: [
+      { t: "Amira stands up at the end of the evening and blows out all of the candles on the coffee table one after another.", why: "Retelling. What do the words “a little” do?" },
+      { t: "“A little” keeps the feeling small and honest. She is glad of the light and sorry about the cave, and the story lets both be true.", ok: true, why: "Strong. It reads the size of the feeling, not just its direction." },
+      { t: "Amira is upset that the electricity has come back on, because she had wanted the blackout to last all night.", why: "Too strong. “A little sorry” is not upset." },
+      { t: "The story ends with Amira blowing out the candles one by one, which is the last thing that anybody does in the whole of the story.", why: "An observation. What is the effect of ending there?" }
+    ]
+  }
+];
+TEXTS.push({ id: "lights-went-out", type: "Fiction", mode: "Creative", form: "Short story", level: "CM2",
+  hook: "A storm, a blackout, and a flat that changes shape when the lights go off.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+{
+const TEXT = {
+  title: "Low Tide",
+  intro: "An original story for The Learning Deck.",
+  paras: [
+    "The tide goes out a long way here, and it goes out fast. By six o’clock the sea had folded itself back almost to the horizon, and what it left behind was not sand but mud: grey, shining, and stitched all over with the small holes of crabs.",
+    "Farid had been told not to walk on it. He walked on it anyway, because the sandbar out there looked solid, and because the light was going, and because at thirteen a warning can sound a lot like a dare.",
+    "The first steps were easy. The mud held him the way a new mattress holds you, pushing back a little. Behind him, the shore lights came on one by one, orange and small. Ahead, the sandbar lay like the back of a whale, pale against the darkening water.",
+    "He had crossed half of it when the ground began to change. The mud grew softer, and colder, and his shoes came up with a sound like a kiss. A crab stopped in front of him, raised one claw, and vanished sideways into a hole. The wind, which had been at his back, now came off the sea and smelled of engine oil and salt.",
+    "He turned to look at the shore. It had moved. That was impossible, of course, but that was what it looked like: the orange lights were further off than they should have been, and between him and them lay a long grey field with the sky lying flat on it.",
+    "Then he heard it. Not a sound, exactly. A change in the sound. The mudflat, which had been ticking and popping all around him with a thousand small mouths, had gone quiet.",
+    "The water was coming back.",
+    "It came in low and quick, filling the crab holes first, running along the channels it had left behind like a hand finding its own glove. There was no wave. That was the worst part. The sea did not rush at him. It simply arrived, in the flat calm way that water has, and rose.",
+    "Farid ran. The mud held his shoes, and then it took one of them. He ran with one shoe, and the cold came up through his sock, and the shore lights shook in front of him the way lights do when you are looking at them through a run.",
+    "Ten metres out, the water was at his ankles. Five metres out, it was at his shins. When his hands finally hit the concrete of the seawall he hauled himself up on to it and lay on his back, breathing, with the whole black sky above him and the sea below going about its business, unhurried, indifferent, exactly as it had done twice a day for longer than anyone had been alive to watch it.",
+    "His mother asked him, later, why he had come home with one shoe.",
+    "He told her that it had come off in the mud, which was true, and said nothing about the rest."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Setting",
+    prompt: "Find the description of what the sea <em>leaves behind</em>.",
+    target: ["grey, shining, and stitched all over with the small holes of crabs"],
+    decoys: [{ phrase: "the sea had folded itself back almost to the horizon", why: "That describes the sea going out. Look for what is left on the ground once it has gone." }],
+    miss: "Look at the end of the first paragraph.",
+    explain: "Three details in a row, and the last one is alive. A surface full of holes is an unsteady place to walk, so the setting is already a warning."
+  },
+  {
+    skill: "Mood",
+    prompt: "Find the comparison that makes the <em>sandbar</em> look like an animal.",
+    target: ["lay like the back of a whale"],
+    decoys: [{ phrase: "the shore lights came on one by one", why: "A good detail for the failing light, but the shore is behind him and no animal is mentioned." }],
+    miss: "Look at the end of the paragraph about the first steps.",
+    explain: "A whale is huge, alive and mostly hidden under water. The comparison makes his target look solid and safe while quietly reminding us what is underneath."
+  },
+  {
+    skill: "Suspense",
+    prompt: "Find the moment the mudflat <em>goes silent</em>.",
+    target: ["had gone quiet"],
+    decoys: [{ phrase: "ticking and popping all around him with a thousand small mouths", why: "That is the sound before the change. Look for what happens to it." }],
+    miss: "Look just before the short one-line paragraph.",
+    explain: "Silence is the signal, and the writer makes us notice it before Farid understands it. For one moment the reader knows more than the character does."
+  },
+  {
+    skill: "Atmosphere",
+    prompt: "Find the comparison used for the <em>returning water</em>.",
+    target: ["like a hand finding its own glove"],
+    decoys: [{ phrase: "filling the crab holes first", why: "True, and frightening, but that is a detail rather than a comparison." }],
+    miss: "Look after the line about the water coming back.",
+    explain: "A hand into a glove is easy, familiar, exact. The sea is not attacking, it is returning to a shape it already knows, which is far worse for anybody standing in it."
+  },
+  {
+    skill: "Ending image",
+    prompt: "Find the <em>three words</em> that describe the sea at the seawall.",
+    target: ["unhurried, indifferent"],
+    decoys: [{ phrase: "the whole black sky above him", why: "Part of the same sentence, and a strong image, but it describes the sky rather than the sea." }],
+    miss: "Look near the end of the paragraph at the seawall.",
+    explain: "The sea is given no anger and no intention. Indifference is the point: the danger was never personal, and that is what makes it frightening."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Mood",
+    q: "How does the mood build through the story?",
+    opts: [
+      { t: "Slowly, through small changes in the ground and the air", ok: true, why: "Right. Softer mud, colder mud, a turned wind, a crab that vanishes. Nothing dramatic happens for a long time." },
+      { t: "Suddenly, when a large wave appears out at the sandbar", why: "The story says clearly that there was no wave." },
+      { t: "Through Farid’s thoughts about how frightened he feels", why: "He barely reflects. The tension is in the place, not in his commentary." },
+      { t: "Through a series of warnings that are shouted from the shore", why: "He is alone. The only warning came before he set out." }
+    ]
+  },
+  {
+    skill: "Setting",
+    q: "How does the setting work against Farid?",
+    opts: [
+      { t: "The ground he walks on is also the thing that traps him", ok: true, why: "Right. The mud holds him up at first, then holds him back, then takes a shoe at the worst moment." },
+      { t: "The rocks along the shore are too sharp for him to climb over", why: "He climbs a concrete seawall, and it is not described as sharp." },
+      { t: "The weather turns stormy while he is out on the mud", why: "There is no storm. The danger is the tide." },
+      { t: "The darkness makes it impossible for him to see at all", why: "He can see the shore lights and the water arriving." }
+    ]
+  },
+  {
+    skill: "Structure",
+    q: "Why is “The water was coming back” its own paragraph?",
+    opts: [
+      { t: "It lands as the moment everything before it was leading to", ok: true, why: "Right. A short line surrounded by space reads slowly, which is how the story marks the turn." },
+      { t: "It shows that Farid shouted the words out loud", why: "Nothing indicates speech. The line is the narrator’s." },
+      { t: "It separates the two halves of a conversation on the shore", why: "There is no conversation on the mudflat." },
+      { t: "It marks the point in the story where a new day begins", why: "The whole story happens in one evening." }
+    ]
+  },
+  {
+    skill: "Tone",
+    q: "What is the effect of “That was the worst part”?",
+    opts: [
+      { t: "The calm way it arrives is more frightening than a wave", ok: true, why: "Right. We expect danger to look dangerous. The narrator points out that this one does not, which is what unsettles us." },
+      { t: "It tells us that Farid has given up trying to escape", why: "He runs immediately afterwards." },
+      { t: "It shows that the narrator is exaggerating things for effect", why: "The line is plain and is backed up by what follows." },
+      { t: "It means the water is moving faster than he can run", why: "He reaches the wall, so he is fast enough." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does Farid go out on the mud at all?",
+    opts: [
+      { t: "Being told not to is part of what makes him want to", ok: true, why: "Right. The story says a warning at thirteen can sound like a dare, and lists his reasons without excusing them." },
+      { t: "He is taking a shortcut home across the sandbar", why: "He heads away from the shore, not along it." },
+      { t: "He has lost something out on the mudflat earlier", why: "He only loses a shoe, and that happens later." },
+      { t: "His friends are already waiting for him on the sandbar", why: "He is alone for the whole story." }
+    ]
+  },
+  {
+    skill: "Ending",
+    q: "Why does Farid say nothing about the rest?",
+    opts: [
+      { t: "Telling it would mean admitting what he ignored", ok: true, why: "Right. The shoe has an innocent explanation. The tide does not, and he chooses the half that costs him nothing." },
+      { t: "He has already forgotten most of what happened", why: "The account we have just read is full of detail." },
+      { t: "His mother would not have believed the story", why: "The story never suggests she would doubt him." },
+      { t: "He is protecting a friend who was out there too", why: "There is nobody else on the mud." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "his shoes came up with a sound like a kiss",
+    opts: [
+      { t: "The mud is beginning to hold on to him", ok: true, why: "Right. A sucking sound means the ground is gripping, and it is the first sign that the surface has changed." },
+      { t: "Farid is walking more quietly than before", why: "A new sound has appeared, so he is louder, not quieter." },
+      { t: "The water has already reached his feet", why: "The tide arrives later. This is still wet mud." },
+      { t: "The sandbar is closer than he had expected", why: "The quote is about the ground under him." }
+    ]
+  },
+  {
+    quote: "the orange lights were further off than they should have been",
+    opts: [
+      { t: "He has gone much further out than he realised", ok: true, why: "Right. The shore has not moved, so the distance is his own doing, and he only sees it when he turns." },
+      { t: "Some of the shore lights have been switched off", why: "They are further away, not fewer." },
+      { t: "The tide has carried him out from the beach", why: "The water has not arrived yet. He walked." },
+      { t: "Fog has come in and blurred the lights", why: "No fog is mentioned, and he sees them clearly." }
+    ]
+  },
+  {
+    quote: "There was no wave.",
+    opts: [
+      { t: "The danger does not look like danger", ok: true, why: "Right. Three flat words remove the thing we were braced for, and the flatness is the threat." },
+      { t: "The sea is calm, so Farid is safe for now", why: "The water is already filling the crab holes around him." },
+      { t: "The tide has not started to come in yet", why: "It is coming in as this is said." },
+      { t: "Farid is too far out to see the waves breaking", why: "The sentence states a fact about the water, not his view." }
+    ]
+  },
+  {
+    quote: "exactly as it had done twice a day for longer than anyone had been alive to watch it",
+    opts: [
+      { t: "The tide was never about him at all", ok: true, why: "Right. The sea has done this for ever, so his near miss counts for nothing in the sea’s account of the evening." },
+      { t: "The sea has become more dangerous in recent years", why: "The line stresses how unchanged it is." },
+      { t: "People have been drowning here for many years", why: "No other person is mentioned at any point." },
+      { t: "Farid has watched the tide here many times before", why: "The sentence is about the sea, not his habits." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The setting is dangerous before anything happens.",
+    quote: "grey, shining, and stitched all over with the small holes of crabs",
+    opts: [
+      { t: "The tide has gone out a very long way at this beach, and what it has left behind it is a wide area of soft grey mud instead of clean sand.", why: "Retelling. What do the three details suggest?" },
+      { t: "Grey and shining is wet and soft, and a surface full of holes is not solid. The ground is described as untrustworthy from the first paragraph.", ok: true, why: "Strong. It reads the description as a warning rather than scenery." },
+      { t: "The crabs that live down in the mud have made many thousands of small holes in it, and they hide inside these holes whenever somebody walks past them.", why: "True of crabs, but it explains the wildlife rather than the effect." },
+      { t: "The writer describes the mudflat at the start of the story, telling the reader what the ground looked like once the sea had gone out.", why: "An observation. What does the description do?" }
+    ]
+  },
+  {
+    claim: "Silence is used to raise the tension.",
+    quote: "had gone quiet",
+    opts: [
+      { t: "The mudflat had been making a ticking and popping noise around Farid, and then that noise stopped while he was standing on it.", why: "Retelling. Why is the silence frightening?" },
+      { t: "We have been taught what the mud sounds like, so its absence reads as an alarm. The reader understands it a beat before Farid does.", ok: true, why: "Strong. It explains why silence works and who knows what when." },
+      { t: "The crabs on the mudflat have gone into their holes, and this is why the sound of the mud has completely stopped.", why: "A guess at the cause. The effect is what matters." },
+      { t: "The writer describes a change in the sound here, and writers often use sound in a story to help a reader imagine being in the place.", why: "An observation. What does the change signal?" }
+    ]
+  },
+  {
+    claim: "The water is described as ordinary, and that is the threat.",
+    quote: "like a hand finding its own glove",
+    opts: [
+      { t: "The sea comes back in across the mudflat and fills the channels and the holes that it had left behind when it went out.", why: "Retelling. Why compare it to a hand and a glove?" },
+      { t: "A hand slides into a glove easily, because the shape is already there. The sea is not attacking, it is returning, and it cannot be talked out of it.", ok: true, why: "Strong. It explains the comparison and why calm is worse than violence here." },
+      { t: "The water is shaped like a hand as it moves along the channels in the mud towards the place where Farid is standing.", why: "A literal reading of the comparison." },
+      { t: "The writer uses a comparison to describe the water coming back in, joining two different things together so that the reader can picture one of them.", why: "An observation. What does it suggest?" }
+    ]
+  },
+  {
+    claim: "The ending refuses to make the sea a villain.",
+    quote: "unhurried, indifferent",
+    opts: [
+      { t: "Farid climbs up on to the seawall at the end and lies on his back while the sea comes in below him in the dark.", why: "Retelling. Why those two words about the sea?" },
+      { t: "Neither word gives the sea a motive. It was not hunting him, which makes his escape luck rather than victory.", ok: true, why: "Strong. It reads what the words withhold." },
+      { t: "The sea is angry with Farid for walking out on to the mudflat when he had been told that he should not.", why: "The opposite of what the words say." },
+      { t: "The writer describes the sea using two adjectives here.", why: "An observation. What is the effect of those two?" }
+    ]
+  },
+  {
+    claim: "The last line tells us something about Farid.",
+    quote: "said nothing about the rest",
+    opts: [
+      { t: "Farid explains to his mother once he is back at home that his shoe had come off while he was walking about out on the mud that evening.", why: "Retelling. What is he choosing to leave out?" },
+      { t: "He gives a true answer that hides everything. Choosing the harmless half is easier than admitting he walked out after being told not to.", ok: true, why: "Strong. It explains the choice and what it reveals." },
+      { t: "Farid cannot describe what happened to him out on the mudflat that evening, because he is still much too frightened to talk to anybody about it.", why: "Nothing suggests fear of speaking. It is a choice." },
+      { t: "The story ends with Farid talking to his mother at home, which is the only conversation that happens anywhere in the whole story.", why: "An observation. Why end on what he does not say?" }
+    ]
+  }
+];
+TEXTS.push({ id: "low-tide", type: "Fiction", mode: "Creative", form: "Short story", level: "6ème",
+  hook: "A boy walks out on the mudflat at dusk, and the sea comes back without a wave.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+{
+const TEXT = {
+  title: "Nine Floors Up",
+  intro: "An original story for The Learning Deck.",
+  paras: [
+    "The flat sounded different with nothing in it. Mei noticed it the moment she stepped inside: her own footsteps came back to her half a second late, as though the rooms had grown since yesterday.",
+    "The movers had taken everything except the curtains, and the curtains had been left because they belonged to the landlord. They hung heavy and yellow at the window, still holding the shape of a room that no longer existed.",
+    "She had been sent up for a last check. Under the sink, behind the doors, on top of the cupboards: the places you forget. The kitchen tap had a drip that her father had promised for six years to fix, and it was dripping still, marking time for an empty flat.",
+    "In the living room the walls were a museum of where they had lived. A pale rectangle where the bookcase had stood. Four dents in the floor from the legs of the table. A grey smudge beside the light switch, shoulder-height, from eleven years of hands. Somebody had drawn a pencil line on the doorframe with a date beside it, and then another, and then a third, and then stopped.",
+    "Outside, the sky had been threatening rain all afternoon and had not delivered. The heat sat on the block the way it always did in the last week of the holidays, heavy as a hand on the back of the neck. Nine floors down, the void deck was empty. The mynahs were arguing in the rain tree. Somebody was learning the same four bars on a piano, over and over, getting them wrong in the same place every time.",
+    "Mei found one thing the movers had missed: a hairclip, behind the radiator pipe, the plastic yellowed and the flower on it broken off. It had been hers when she was six. She turned it over twice, then put it in her pocket, and could not have explained why.",
+    "She stood at the window for longer than the job needed. From the ninth floor you could see the whole estate, the roofs of the market, the school field with its two goalposts leaning in opposite directions, and, past all that, a line of sea so thin that it might have been a fold in the air.",
+    "Her mother called up the stairwell. It was time.",
+    "On the landing, Mei stopped and looked back through the open door. The curtains moved, once, though the window was shut.",
+    "Then the rain arrived, all at once, the way it does here: a hiss on the roofs, a smell rising off the concrete, the mynahs going silent and the piano stopping at last. She went down the nine flights two at a time, and by the time she reached the bottom the void deck was full of people standing at the edge of the downpour, waiting it out together, laughing at the ones who were running.",
+    "The van was waiting with its engine on. Her father was holding the door for her, and he was wet, and he was grinning.",
+    "Mei got in. The estate slid backwards behind the rain on the window, blurred and grey and gone, and her hand, in her pocket, was closed around a broken hairclip."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Atmosphere",
+    prompt: "Find the detail about <em>sound</em> that shows the flat is empty.",
+    target: ["her own footsteps came back to her half a second late"],
+    decoys: [{ phrase: "The flat sounded different with nothing in it", why: "That states the idea. Look for the exact detail that proves it." }],
+    miss: "Look at the first paragraph.",
+    explain: "An echo is furniture missing, turned into sound. It also suggests that the flat is answering her, half a beat behind, which is unsettling in a place she knows."
+  },
+  {
+    skill: "Setting",
+    prompt: "Find the mark left by <em>eleven years of hands</em>.",
+    target: ["A grey smudge beside the light switch, shoulder-height"],
+    decoys: [{ phrase: "A pale rectangle where the bookcase had stood", why: "Another mark left behind, and a good one, but it was made by furniture rather than by people." }],
+    miss: "Look in the paragraph about the living room walls.",
+    explain: "The smudge is the family itself, printed on the wall by repetition. It is the only mark in the room made by living rather than by objects."
+  },
+  {
+    skill: "Mood",
+    prompt: "Find the comparison that describes the <em>heat</em>.",
+    target: ["heavy as a hand on the back of the neck"],
+    decoys: [{ phrase: "the sky had been threatening rain all afternoon and had not delivered", why: "That builds the same pressure, but it is not a comparison." }],
+    miss: "Look in the paragraph about the view outside.",
+    explain: "A hand on the neck is close, physical and slightly threatening. The weather presses on the scene in the same way the move is pressing on Mei."
+  },
+  {
+    skill: "Imagery / pathetic fallacy",
+    prompt: "Find the moment the <em>rain finally arrives</em>.",
+    target: ["a hiss on the roofs, a smell rising off the concrete"],
+    decoys: [{ phrase: "The curtains moved, once, though the window was shut", why: "A strange, quiet moment just before, but it is about the flat rather than the weather." }],
+    miss: "Look just after she is called down.",
+    explain: "The afternoon has been holding its breath for the whole story. The rain breaks the pressure at the exact moment she leaves, so the weather releases what Mei cannot say."
+  },
+  {
+    skill: "Ending image",
+    prompt: "Find what Mei is <em>holding</em> in the last line.",
+    target: ["closed around a broken hairclip"],
+    decoys: [{ phrase: "The estate slid backwards behind the rain on the window", why: "The last picture of the place, but the question asks about her hand." }],
+    miss: "Look at the very end of the story.",
+    explain: "A broken hairclip is worth nothing and she cannot explain why she kept it. Ending on it lets an object carry the feeling the story never states."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Mood",
+    q: "What mood do the first four paragraphs create?",
+    opts: [
+      { t: "Still and hollow, with the flat oddly awake", ok: true, why: "Right. Late echoes, curtains holding a shape, a tap marking time. Empty, but not quite lifeless." },
+      { t: "Frightening, as though the flat were haunted", why: "Nothing threatens her. The strangeness stays gentle." },
+      { t: "Busy and rushed, because the movers are working", why: "The movers have already gone. She is alone." },
+      { t: "Cheerful, because the family is off somewhere new", why: "The cheer only arrives with the rain at the end." }
+    ]
+  },
+  {
+    skill: "Setting",
+    q: "Why does the writer list the marks on the walls and floor?",
+    opts: [
+      { t: "They are what eleven years of living leaves behind", ok: true, why: "Right. A rectangle, four dents, a smudge, three pencil lines. The family is gone but the room still records them." },
+      { t: "They show the family did not look after the flat", why: "The marks are ordinary wear, and the story treats them tenderly." },
+      { t: "They explain why the family had to move out", why: "No reason for the move is ever given." },
+      { t: "They prove the movers were careless with the furniture", why: "The dents come from years of a table standing there." }
+    ]
+  },
+  {
+    skill: "Tone",
+    q: "How does the tone change when the rain arrives?",
+    opts: [
+      { t: "It opens out, from private stillness to shared noise", ok: true, why: "Right. One girl in a silent flat becomes a void deck full of neighbours laughing at the runners." },
+      { t: "It darkens, because the storm arrives and ruins the move", why: "The rain is a relief, and her father is grinning in it." },
+      { t: "It stays exactly as flat and quiet as before", why: "Hiss, smell, silence from the mynahs. The scene fills up." },
+      { t: "It becomes angry, because the family is leaving", why: "Nobody is angry at any point in the story." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why does Mei keep the hairclip?",
+    opts: [
+      { t: "It is proof that the years in the flat happened", ok: true, why: "Right. She cannot explain it, and that is the point. It is small enough to carry and it belongs to the version of her who lived there." },
+      { t: "She plans to wear it again once they have moved", why: "It is yellowed and the flower is broken off." },
+      { t: "She thinks it belongs to somebody else in the family", why: "The story says it had been hers at six." },
+      { t: "She does not want the landlord to find it there", why: "Nothing suggests she is hiding anything." }
+    ]
+  },
+  {
+    skill: "Suspense",
+    q: "What is the effect of the curtains moving?",
+    opts: [
+      { t: "A moment of strangeness that the story leaves alone", ok: true, why: "Right. The window is shut, and nobody explains it. The story lets the flat have one last word and moves on." },
+      { t: "It proves that somebody else is inside the flat", why: "The flat is empty, and no one appears." },
+      { t: "It shows that the window of the flat has been left open", why: "The line says clearly that it was shut." },
+      { t: "It warns the reader that the ending will be sad", why: "The ending that follows is warm and busy." }
+    ]
+  },
+  {
+    skill: "Structure",
+    q: "Why does the story end inside the van?",
+    opts: [
+      { t: "It puts the place behind glass, already turning into memory", ok: true, why: "Right. The estate slides backwards, blurred by rain, while the only solid thing left is in her pocket." },
+      { t: "It shows that the whole family is glad to be leaving", why: "Gladness belongs to the rain scene, not to the last line." },
+      { t: "It proves that Mei has forgotten the old flat already", why: "Her hand is closed around the hairclip." },
+      { t: "It tells the reader where the family will be moving to next", why: "The destination is never mentioned." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "still holding the shape of a room that no longer existed",
+    opts: [
+      { t: "The flat keeps the form of a home that has gone", ok: true, why: "Right. The curtains hang as they always did, around a room that is now only walls." },
+      { t: "The curtains are too big for the living room window", why: "Their size is not the point. Their sameness is." },
+      { t: "The family will come back for the curtains later", why: "They belong to the landlord and are staying." },
+      { t: "The room has been changed by the new owners", why: "Nobody new has arrived yet." }
+    ]
+  },
+  {
+    quote: "a drip that her father had promised for six years to fix",
+    opts: [
+      { t: "Ordinary family life is written into the flat itself", ok: true, why: "Right. Six years of a small unkept promise is a whole household habit in one detail." },
+      { t: "Her father is careless and unreliable around the home", why: "The tone is fond. It is a joke the family has lived with." },
+      { t: "The flat was in poor condition when they moved in", why: "The drip is theirs, and it is dated from inside their years there." },
+      { t: "The family could not afford to repair anything", why: "Money is never mentioned in the story." }
+    ]
+  },
+  {
+    quote: "and then another, and then a third, and then stopped",
+    opts: [
+      { t: "The record of growing up simply breaks off", ok: true, why: "Right. Three marks, then nothing. The rhythm of the sentence stops in the same way the habit did." },
+      { t: "The family moved away before Mei had grown up", why: "Eleven years of marks on the switch say otherwise." },
+      { t: "Somebody rubbed the rest of the lines off the frame", why: "Nothing suggests they were removed." },
+      { t: "The pencil lines were drawn by the family before them", why: "The marks are treated as this family’s own." }
+    ]
+  },
+  {
+    quote: "waiting it out together, laughing at the ones who were running",
+    opts: [
+      { t: "The estate is a place where people share small moments", ok: true, why: "Right. The one thing Mei is leaving that cannot be packed is a void deck full of neighbours doing this." },
+      { t: "The neighbours are being unkind about the people in the rain", why: "The laughter is shared, not cruel, and they are all sheltering." },
+      { t: "The rain has caught everyone in the block by surprise", why: "The sky had threatened all afternoon." },
+      { t: "The people are waiting for the moving van to leave", why: "They are waiting for the downpour to pass." }
+    ]
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The flat is empty but not silent.",
+    quote: "her own footsteps came back to her half a second late",
+    opts: [
+      { t: "Mei walks into the flat after the movers have finished, and she hears the sound of her footsteps in the empty rooms.", why: "Retelling. What does the delay suggest?" },
+      { t: "An echo is missing furniture made audible, and the half-second delay makes the flat seem to answer her. The place is emptied, not dead.", ok: true, why: "Strong. It reads the detail twice, physically and in mood." },
+      { t: "The rooms of the flat have become bigger since the day before, which is why the sound takes longer to come back.", why: "A literal reading. The rooms are the same size." },
+      { t: "The writer describes the sound of footsteps in the first paragraph, telling the reader what Mei heard as she walked into the empty flat.", why: "An observation. What does it establish?" }
+    ]
+  },
+  {
+    claim: "Objects are made to carry the family’s history.",
+    quote: "A grey smudge beside the light switch, shoulder-height",
+    opts: [
+      { t: "The wall of the living room has a grey mark on it near to the light switch, which was made during the years that the family were living there.", why: "Retelling. Why is this mark different from the others?" },
+      { t: "Height and greyness date it: years of the same hands in the same place. The wall records the family more exactly than a photograph.", ok: true, why: "Strong. It explains why this detail is chosen and what it holds." },
+      { t: "The family did not clean the walls of the flat properly at any point before the movers came to take all of the furniture away.", why: "Cleaning is not the point of the detail." },
+      { t: "The writer describes a mark on the living room wall here, and small details like this one are often included to make a place feel real.", why: "An observation. What does the mark stand for?" }
+    ]
+  },
+  {
+    claim: "The weather is used to hold and release the feeling.",
+    quote: "the sky had been threatening rain all afternoon and had not delivered",
+    opts: [
+      { t: "It is hot outside the block of flats, and the clouds have been building all afternoon without any rain falling yet.", why: "Retelling. Why withhold the rain?" },
+      { t: "The unbroken pressure matches a girl doing a small job instead of saying goodbye. When the rain finally falls, it breaks for both of them.", ok: true, why: "Strong. It links weather to feeling and to timing." },
+      { t: "The weather in this part of the world is often very hot before a heavy rainstorm arrives in the afternoon.", why: "True of the climate, but it is not the effect." },
+      { t: "The writer mentions the weather in this part of the story, describing the heat and the clouds over the block on that particular afternoon.", why: "An observation. Why mention it here?" }
+    ]
+  },
+  {
+    claim: "One strange moment is left unexplained on purpose.",
+    quote: "The curtains moved, once, though the window was shut",
+    opts: [
+      { t: "Mei looks back into the flat from the landing outside and sees that the curtains at the window have moved slightly.", why: "Retelling. Why leave it unexplained?" },
+      { t: "There is no draught, and no explanation follows. The story allows one small goodbye without turning the flat into a ghost story.", ok: true, why: "Strong. It explains the restraint and its effect." },
+      { t: "Somebody else is still inside the flat behind the curtains, and that person moves them as Mei is leaving.", why: "The flat is empty. Nobody else is there." },
+      { t: "The writer describes the curtains at this point in the story, which are the only things that the family have left behind in the empty flat.", why: "An observation. Why place it here?" }
+    ]
+  },
+  {
+    claim: "The last line lets an object say what Mei does not.",
+    quote: "her hand, in her pocket, was closed around a broken hairclip",
+    opts: [
+      { t: "Mei sits in the van as the family drives away, holding the hairclip that she found behind the pipe in the empty flat.", why: "Retelling. Why finish on the hairclip?" },
+      { t: "The estate blurs and disappears while the one solid thing left is worthless and hers. Holding it says the goodbye the story never writes.", ok: true, why: "Strong. It sets the vanishing place against the kept object." },
+      { t: "Mei wants to keep the hairclip so that she can have it mended once the family has arrived at the new flat.", why: "Nothing suggests she plans to repair it." },
+      { t: "The story ends with Mei holding something in her pocket as the van drives away from the estate through the heavy rain that has just started.", why: "An observation. What does ending there achieve?" }
+    ]
+  }
+];
+TEXTS.push({ id: "nine-floors-up", type: "Fiction", mode: "Creative", form: "Short story", level: "5ème",
+  hook: "An empty flat on the ninth floor, an afternoon that will not rain, and one thing the movers missed.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
 
 
 /* ================================================================ */
@@ -6891,8 +7571,29 @@ function showPicker() {
     });
     wrap.appendChild(band);
   });
+  renderLatest();
   applySearch();
   scrollTo(0, 0);
+}
+const LATEST_N = 3; let latestOn = false;
+function renderLatest() {
+  const box = $("#latest");
+  const pool = TEXTS.filter(t => !t.pending && (levelFilter === "all" || t.level === levelFilter)).slice(-LATEST_N).reverse();
+  if (pool.length < 2) { box.hidden = true; latestOn = false; return; }
+  box.hidden = false; latestOn = true;
+  box.innerHTML = `<h2>Just added <span>${levelFilter === "all" ? "newest texts on the site" : "newest at " + levelFilter}</span></h2><div class="latest-row"></div>`;
+  const row = box.querySelector(".latest-row");
+  pool.forEach(t => {
+    const b = document.createElement("button");
+    b.className = "latest-card";
+    b.innerHTML = `<span class="mini"><img src="assets/practice/${t.id}.jpg" alt="" loading="lazy" decoding="async"></span>
+      <span class="lt-body"><em>${t.level}</em><h3>${t.TEXT.title}</h3><p>${t.hook}</p></span>`;
+    const img = b.querySelector("img");
+    const mark = () => b.querySelector(".mini").classList.add("has-img");
+    img.addEventListener("load", mark); if (img.complete && img.naturalWidth) mark();
+    b.addEventListener("click", () => loadText(t));
+    row.appendChild(b);
+  });
 }
 function applySearch() {
   const box = $("#pickSearch"); if (!box) return;
@@ -6909,6 +7610,7 @@ function applySearch() {
     if (q) { band.dataset.open = "1"; band.querySelector(".band-head").setAttribute("aria-expanded", "true"); }
   });
   $("#noHits").hidden = !(q && hits === 0);
+  $("#latest").hidden = !!q || !latestOn;
 }
 function loadText(t) {
   DRILL = null; $("#stages").hidden = false;
