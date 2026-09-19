@@ -4710,7 +4710,47 @@ const EXPLAIN = [
     ]
   }
 ];
-TEXTS.push({ id: "open-window", type: "Fiction", mode: "Creative", form: "Short story", level: "6ème", hook: "An open window, a tragic story and a visitor who believes every word.", TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+const COLLECT = [
+  {
+    claim: "Vera begins by finding out how little Framton actually knows about her aunt’s household.",
+    opts: [
+      { t: "Do you know many of the people round here?", ok: true, why: "Right. This is Vera’s opening probe. Once she learns he knows almost no one, she is free to invent a story he cannot check." },
+      { t: "Only her name and address", why: "This is Framton’s own answer. It shows his ignorance, but the claim is about Vera finding it out, which is her question, not his reply." },
+      { t: "Her great tragedy happened just three years ago", why: "Here Vera is already beginning her invented story, which comes after she has checked what he knows, not the checking itself." },
+      { t: "Romance at short notice was her speciality", why: "True of Vera in general, but this is the narrator’s closing verdict, not the moment she checks his knowledge." }
+    ]
+  },
+  {
+    claim: "The story’s final line names what Vera is really good at.",
+    opts: [
+      { t: "Romance at short notice was her speciality", ok: true, why: "Right. The last line names her gift: inventing a convincing story on the spot, ‘at short notice’." },
+      { t: "I expect it was the spaniel", why: "This shows Vera inventing again, but it is a fresh example of her talent, not the line that names it." },
+      { t: "The child was staring out through the open window with dazed horror in her eyes", why: "This is her performance earlier, selling the ghost story with her face, not the line that names her talent." },
+      { t: "could only talk about his illnesses", why: "This is the aunt describing Framton. It is not about Vera’s talent at all." }
+    ]
+  },
+  {
+    claim: "Vera plants a detail about what one of the men is wearing, which the reader later sees on the figures walking back.",
+    target: ["his white waterproof coat over his arm"],
+    decoys: [
+      { phrase: "engulfed in a treacherous piece of bog", why: "A vivid part of the tragedy, but nothing about the bog is seen again. Look for a detail you later see on the figures." },
+      { phrase: "the window is kept open every evening", why: "This explains the open window, the setting for the return, not a detail worn by the men that comes back into view." }
+    ],
+    miss: "Find the specific thing one man is described wearing, which you later see on the figures crossing the lawn.",
+    explain: "Vera says the husband carried ‘his white waterproof coat over his arm’. When the figures appear, one wears ‘a white coat’, so her invented detail seems to come true."
+  },
+  {
+    claim: "The aunt, who knows nothing of Vera’s ghost story, says something that makes Framton believe the dead men are returning.",
+    target: ["they always come in this way"],
+    decoys: [
+      { phrase: "Here they are at last", why: "She says this when the figures appear, but by then Framton already believes. Look for the earlier line that plants the belief." },
+      { phrase: "don’t they look as if they were muddy up to the eyes", why: "This describes the figures after they appear, once the fright has already taken hold." }
+    ],
+    miss: "Find the aunt’s calm remark, made before anyone appears, that matches Vera’s story about the men walking back in.",
+    explain: "The aunt says her husband and brothers ‘always come in this way’, innocently echoing Vera’s ghost story and convincing Framton the dead are returning."
+  }
+];
+TEXTS.push({ id: "open-window", type: "Fiction", mode: "Creative", form: "Short story", level: "6ème", hook: "An open window, a tragic story and a visitor who believes every word.", TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 {
 const TEXT = {

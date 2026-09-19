@@ -366,8 +366,39 @@ const norm = t => t.toLowerCase().replace(/[^a-z0-9]/g, "");
 const panel = $("#panel"), passage = $("#passage");
 let onPick = () => {};
 let tokens = [], score = 0, stage = 0, idx = 0;
-let TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, CUR, MAX = 0;
-const results = { 1: 0, 2: 0, 3: 0, 4: 0 };
+let TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT, CUR, MAX = 0;
+const results = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+/* FLOW: the ordered list of stages the current text actually has.
+   type is the renderer id (1 annotate, 2 questions, 3 evidence, 5 collect, 4 explain);
+   collect sits between evidence and explain when a text has a COLLECT array. */
+let FLOW = [];
+const STAGE_LABEL = { 1: "Annotate", 2: "Questions", 3: "Evidence", 5: "Collect", 4: "Explain" };
+function buildFlow() {
+  const order = [
+    { type: 1, list: ANNOTATE }, { type: 2, list: QUESTIONS }, { type: 3, list: EVIDENCE },
+    { type: 5, list: COLLECT }, { type: 4, list: EXPLAIN }
+  ];
+  FLOW = order.filter(e => e.list && e.list.length).map((e, i) => ({ ...e, label: STAGE_LABEL[e.type], num: i + 1 }));
+}
+function flowPos() { return FLOW.findIndex(e => e.type === stage); }
+function stageAfterLabel() {
+  const nx = FLOW[flowPos() + 1];
+  return nx ? "ON TO " + nx.label.toUpperCase() : "SEE RESULTS";
+}
+function renderStage(e) {
+  if (e.type === 1) annotateItem();
+  else if (e.type === 5) collectItem();
+  else mcqItem(e.list, e.type);
+}
+function advance() {
+  const nx = FLOW[flowPos() + 1];
+  if (!nx) { results_(); return; }
+  stage = nx.type; idx = 0; setStages();
+  renderStage(nx);
+}
+function renderStageBar() {
+  $("#stages").innerHTML = FLOW.map(e => `<span data-t="${e.type}">${e.num} &middot; ${e.label}</span>`).join("");
+}
 
 let paraEls = [], LONG = false, focusSet = null, coreSet = null, fullView = false;
 
@@ -592,9 +623,12 @@ function stamp(txt, red) {
 }
 function setScore(n) { score += n; $("#score").textContent = score; }
 function setStages() {
+  const pos = flowPos();
   document.querySelectorAll("#stages span").forEach(sp => {
-    const s = +sp.dataset.s;
-    sp.className = s === stage ? "on" : s < stage ? "done" : "";
+    const t = +sp.dataset.t, p = FLOW.findIndex(e => e.type === t);
+    if (stage === 0) sp.className = "";
+    else if (pos === -1) sp.className = "done";       // results screen: all done
+    else sp.className = t === stage ? "on" : (p < pos ? "done" : "");
   });
 }
 function fbBox(kind, who, why) {
@@ -612,14 +646,23 @@ function clearMarks() { tokens.forEach(t => t.el.classList.remove("bad", "quote"
 
 /* ---------- intro ---------- */
 function intro() {
-  stage = 0; idx = 0; score = 0; results[1] = results[2] = results[3] = results[4] = 0;
+  stage = 0; idx = 0; score = 0; results[1] = results[2] = results[3] = results[4] = results[5] = 0;
+  buildFlow(); renderStageBar();
   $("#score").textContent = 0; setStages();
   buildPassage();
+  const blurb = {
+    1: `Annotate: find the words that match each description (${ANNOTATE.length})`,
+    2: `Questions: close reading multiple choice (${QUESTIONS.length})`,
+    3: `Evidence: decide what a quote actually proves (${EVIDENCE.length})`,
+    5: `Collect evidence: for a claim, find the line that best supports it (${(COLLECT || []).length})`,
+    4: `Explain: choose the explanation that best proves a claim (${EXPLAIN.length})`
+  };
+  const li = FLOW.map(e => `<li>${blurb[e.type]}</li>`).join("");
   panel.innerHTML = `<div class="card intro-card"><p class="num">Before you start</p><h3>Read the whole text <em>once</em>, slowly.</h3>
-    <p>Then work through four stages. Wrong answers are not the end: read the red pen, then try again.</p>
-    <ol><li>Annotate: find the words that match each description (${ANNOTATE.length})</li><li>Questions: close reading multiple choice (${QUESTIONS.length})</li><li>Evidence: decide what a quote actually proves (${EVIDENCE.length})</li><li>Explain: choose the explanation that best proves a claim (${EXPLAIN.length})</li></ol>
+    <p>Then work through ${FLOW.length} stages. Wrong answers are not the end: read the red pen, then try again.</p>
+    <ol>${li}</ol>
     <p class="tip">Points only count on your first try.</p>${missingReport()}</div>`;
-  panel.firstChild.appendChild(nextBtn("START ANNOTATING", () => { stage = 1; idx = 0; setStages(); annotateItem(); }));
+  panel.firstChild.appendChild(nextBtn("START ANNOTATING", advance));
 }
 
 /* ---------- stage 1 ---------- */
@@ -629,15 +672,15 @@ function annotateItem() {
   const decoys = (it.decoys || []).map(d => ({ ...d, r: findRanges(d.phrase, true) }));
   let tries = 0, done = false;
   if (!target.length) {
-    panel.innerHTML = `<div class="card"><p class="num">${numLine("Stage 1 &middot; Annotation", ANNOTATE.length)}</p><h3>This item is skipped</h3><p class="tip">Its phrase wasn’t found in the text (teacher: check the pasted text).</p></div>`;
-    panel.firstChild.appendChild(nextBtn(DRILL ? drillLabel() : idx === ANNOTATE.length - 1 ? "ON TO STAGE 2" : "NEXT ANNOTATION", () => {
+    panel.innerHTML = `<div class="card"><p class="num">${numLine("Annotation", ANNOTATE.length)}</p><h3>This item is skipped</h3><p class="tip">Its phrase wasn’t found in the text (teacher: check the pasted text).</p></div>`;
+    panel.firstChild.appendChild(nextBtn(DRILL ? drillLabel() : idx === ANNOTATE.length - 1 ? stageAfterLabel() : "NEXT ANNOTATION", () => {
       if (DRILL) drillNext();
-      else if (idx === ANNOTATE.length - 1) { stage = 2; idx = 0; setStages(); mcqItem(QUESTIONS, 2); } else { idx++; annotateItem(); }
+      else if (idx === ANNOTATE.length - 1) advance(); else { idx++; annotateItem(); }
     }));
     return;
   }
   focus(target.concat(...decoys.map(d => d.r)));
-  panel.innerHTML = `<div class="card"><p class="num">${numLine("Stage 1 &middot; Annotation", ANNOTATE.length)}</p>
+  panel.innerHTML = `<div class="card"><p class="num">${numLine("Annotation", ANNOTATE.length)}</p>
     <h3>${it.prompt}</h3><span class="skill">${it.skill}</span><p class="tip" style="margin-top:12px">Click any word in the passage.${LONG ? " The answer is in the paragraphs shown." : ""}</p><div class="fbs"></div></div>`;
   const fbs = panel.querySelector(".fbs"), card = panel.querySelector(".card");
   passage.classList.add("picking");
@@ -674,9 +717,9 @@ function annotateItem() {
     if (kind === "shown") fbs.appendChild(fbBox("shown", "HERE IT IS", it.explain));
     else { if (!first) fbs.innerHTML = ""; fbs.appendChild(fbBox("good", "<span>CORRECT</span>", it.explain)); }
     const last = idx === ANNOTATE.length - 1;
-    card.appendChild(nextBtn(DRILL ? drillLabel() : last ? "ON TO STAGE 2" : "NEXT ANNOTATION", () => {
+    card.appendChild(nextBtn(DRILL ? drillLabel() : last ? stageAfterLabel() : "NEXT ANNOTATION", () => {
       if (DRILL) drillNext();
-      else if (last) { stage = 2; idx = 0; setStages(); mcqItem(QUESTIONS, 2); } else { idx++; annotateItem(); }
+      else if (last) advance(); else { idx++; annotateItem(); }
     }));
   }
 }
@@ -691,14 +734,14 @@ function mcqItem(list, st) {
   let head;
   focus(st === 2 ? quotedRanges(it.q) : findRanges(it.quote));
   if (st === 2) {
-    head = `<p class="num">${numLine("Stage 2 &middot; Question", list.length)}</p><span class="skill">${it.skill}</span><h3 style="margin-top:12px">${it.q}</h3>`;
+    head = `<p class="num">${numLine("Question", list.length)}</p><span class="skill">${it.skill}</span><h3 style="margin-top:12px">${it.q}</h3>`;
   } else if (st === 4) {
-    head = `<p class="num">${numLine("Stage 4 &middot; Explanation", list.length)}</p><span class="skill">Best explanation</span>
+    head = `<p class="num">${numLine("Explanation", list.length)}</p><span class="skill">Best explanation</span>
       <div class="claim"><b>Claim</b>${it.claim}</div><div class="evq">“${it.quote}”</div>
       <h3>Which explanation proves the claim best?</h3>`;
     eachIn(findRanges(it.quote), el => el.classList.add("quote"));
   } else {
-    head = `<p class="num">${numLine("Stage 3 &middot; Evidence", list.length)}</p><span class="skill">Evidence vs claim</span>
+    head = `<p class="num">${numLine("Evidence", list.length)}</p><span class="skill">Evidence vs claim</span>
       <h3 style="margin-top:12px">This quote is evidence that&hellip;</h3><div class="evq">“${it.quote}”</div>`;
     const r = findRanges(it.quote);
     eachIn(r, el => el.classList.add("quote"));
@@ -717,12 +760,10 @@ function mcqItem(list, st) {
         if (first) { setScore(1); results[st]++; stamp(["", "", "NAILED IT", "PROVEN", "EXPLAINED"][st]); } else stamp("GOT THERE");
         fbs.appendChild(fbBox("good", "<span>WHY IT’S RIGHT</span>", o.why));
         const last = idx === list.length - 1;
-        card.appendChild(nextBtn(DRILL ? drillLabel() : last ? (st < 4 ? "ON TO STAGE " + (st + 1) : "SEE RESULTS") : "NEXT", () => {
+        card.appendChild(nextBtn(DRILL ? drillLabel() : last ? stageAfterLabel() : "NEXT", () => {
           if (DRILL) drillNext();
           else if (!last) { idx++; mcqItem(list, st); }
-          else if (st === 2) { stage = 3; idx = 0; setStages(); mcqItem(EVIDENCE, 3); }
-          else if (st === 3) { stage = 4; idx = 0; setStages(); mcqItem(EXPLAIN, 4); }
-          else results_();
+          else advance();
         }));
       } else {
         first = false; b.classList.add("wrong"); b.disabled = true;
@@ -732,6 +773,76 @@ function mcqItem(list, st) {
     });
     box.appendChild(b);
   });
+}
+/* ---------- stage: collect evidence (a claim, then find the line that supports it) ---------- */
+function collectItem() {
+  const it = COLLECT[idx]; clearMarks();
+  const last = idx === COLLECT.length - 1;
+  const go = () => { if (DRILL) return drillNext(); if (!last) { idx++; collectItem(); } else advance(); };
+  const label = DRILL ? drillLabel() : last ? stageAfterLabel() : "NEXT";
+  if (it.opts) collectMcq(it, go, label); else collectClick(it, go, label);
+}
+function collectMcq(it, go, label) {
+  passage.classList.remove("picking"); focus(null);
+  const letters = "ABCD";
+  if (idx === 0 || !posPlan[5]) posPlan[5] = planPositions(COLLECT.length, 4);
+  const opts = placeCorrect(it.opts, DRILL ? DRILL.pos[DRILL.i] : posPlan[5][idx]);
+  let first = true, solved = false;
+  panel.innerHTML = `<div class="card"><p class="num">${numLine("Collect", COLLECT.length)}</p><span class="skill">Collect evidence</span>
+    <div class="claim"><b>Claim</b>${it.claim}</div><h3>Which line from the text best supports this claim?</h3>
+    <div class="opts"></div><div class="fbs"></div></div>`;
+  const box = panel.querySelector(".opts"), fbs = panel.querySelector(".fbs"), card = panel.querySelector(".card");
+  opts.forEach((o, k) => {
+    const b = document.createElement("button");
+    b.className = "opt"; b.innerHTML = `<span class="k">${letters[k]}</span>“${o.t}”`;
+    b.addEventListener("click", () => {
+      if (solved) return; fbs.innerHTML = "";
+      if (o.ok) {
+        solved = true; b.classList.add("right");
+        box.querySelectorAll(".opt").forEach(x => { x.disabled = true; if (x !== b && !x.classList.contains("wrong")) x.classList.add("mute"); });
+        if (first) { setScore(1); results[5]++; stamp("GOOD FIND"); } else stamp("GOT THERE");
+        fbs.appendChild(fbBox("good", "<span>IN THE FILE</span>", o.why));
+        card.appendChild(nextBtn(label, go));
+      } else {
+        first = false; b.classList.add("wrong"); b.disabled = true;
+        stamp("RED PEN", true);
+        fbs.appendChild(fbBox("bad", "NOT THE BEST", o.why + " Try another line."));
+      }
+    });
+    box.appendChild(b);
+  });
+}
+function collectClick(it, go, label) {
+  const target = it.target.flatMap(p => findRanges(p, it.all));
+  const decoys = (it.decoys || []).map(d => ({ ...d, r: findRanges(d.phrase, true) }));
+  focus(null);                 // whole passage visible, no hint about where the answer sits
+  let tries = 0, done = false;
+  panel.innerHTML = `<div class="card"><p class="num">${numLine("Collect", COLLECT.length)}</p><span class="skill">Collect evidence</span>
+    <div class="claim"><b>Claim</b>${it.claim}</div><h3>Find the words in the passage that best support this claim, and click them.</h3>
+    <div class="fbs"></div></div>`;
+  const fbs = panel.querySelector(".fbs"), card = panel.querySelector(".card");
+  if (!target.length) { card.appendChild(nextBtn(label, go)); return; }
+  passage.classList.add("picking");
+  onPick = i => {
+    if (done) return;
+    if (inRanges(i, target)) { finish(tries === 0, false); return; }
+    tries++;
+    tokens[i].el.classList.add("bad"); setTimeout(() => tokens[i].el.classList.remove("bad"), 900);
+    const d = decoys.find(d => inRanges(i, d.r));
+    fbs.innerHTML = "";
+    if (tries >= 2) { fbs.appendChild(fbBox("bad", "RED PEN", d ? d.why : it.miss)); finish(false, true); }
+    else { stamp("RED PEN", true); fbs.appendChild(fbBox("bad", "NOT THE BEST", (d ? d.why : it.miss) + " Try again.")); }
+  };
+  function finish(first, shown) {
+    done = true; passage.classList.remove("picking");
+    eachIn(target, el => el.classList.add("lit"));
+    const [, b] = target[target.length - 1];
+    if (!tokens[b].el.querySelector("sup")) { const sup = document.createElement("sup"); sup.textContent = "✓"; tokens[b].el.appendChild(sup); }
+    if (first) { setScore(1); results[5]++; stamp("GOOD FIND"); } else if (!shown) stamp("GOT IT");
+    fbs.innerHTML = "";
+    fbs.appendChild(fbBox(shown ? "shown" : "good", shown ? "HERE IT IS" : "<span>IN THE FILE</span>", it.explain));
+    card.appendChild(nextBtn(label, go));
+  }
 }
 function rand(n) {
   if (window.crypto && crypto.getRandomValues) { const u = new Uint32Array(1); crypto.getRandomValues(u); return u[0] % n; }
@@ -761,7 +872,7 @@ function placeCorrect(options, pos) {
 
 /* ---------- results ---------- */
 function results_() {
-  stage = 4; setStages(); clearMarks(); focus(null);
+  stage = -1; setStages(); clearMarks(); focus(null);
   const prevBest = getBest(CUR.id);
   if (prevBest === null || score > prevBest) setBest(CUR.id, score);
   const bestLine = prevBest === null ? `<p class="best-line">First attempt recorded.</p>`
@@ -772,8 +883,10 @@ function results_() {
     : pct >= .6 ? "Solid. Look back at the red pen notes: the gaps are usually in explaining the effect."
     : pct >= .35 ? "You are getting there. Slow down and reread the lines around each quote."
     : "Close reading takes practice. Run it again and read every explanation carefully.";
+  const tallyLabel = { 1: "Annotation", 2: "Questions", 3: "Evidence", 5: "Collect", 4: "Explain" };
+  const tally = FLOW.map(e => `<div><b>${results[e.type]}/${e.list.length}</b>${tallyLabel[e.type]}</div>`).join("");
   panel.innerHTML = `<div class="card"><p class="num">Results</p><h3>${score} / ${MAX} <em>first try</em></h3>
-    <div class="tally"><div><b>${results[1]}/${ANNOTATE.length}</b>Annotation</div><div><b>${results[2]}/${QUESTIONS.length}</b>Questions</div><div><b>${results[3]}/${EVIDENCE.length}</b>Evidence</div><div><b>${results[4]}/${EXPLAIN.length}</b>Explain</div></div>
+    <div class="tally">${tally}</div>
     <p class="tip">${verdict}</p>${bestLine}</div>`;
   panel.firstChild.appendChild(nextBtn("TRY AGAIN", intro));
   panel.firstChild.appendChild(nextBtn("CHOOSE ANOTHER TEXT", showPicker, true));
@@ -784,6 +897,7 @@ function missingReport() {
   const miss = [];
   ANNOTATE.forEach(a => a.target.concat((a.decoys || []).map(d => d.phrase)).forEach(ph => { if (!findRanges(ph, true).length) miss.push(ph); }));
   EVIDENCE.concat(EXPLAIN).forEach(e => { if (!findRanges(e.quote).length) miss.push(e.quote); });
+  (COLLECT || []).forEach(c => { if (c.target) c.target.concat((c.decoys || []).map(d => d.phrase)).forEach(ph => { if (!findRanges(ph, true).length) miss.push(ph); }); });
   if (!miss.length) return "";
   return `<details class="teacher-warn"><summary>Teacher check: ${miss.length} phrase${miss.length > 1 ? "s" : ""} not found in the text</summary><p>Edit the text or these phrases so they match word for word:</p><ul>${miss.map(m => `<li>${m}</li>`).join("")}</ul></details>`;
 }
@@ -815,7 +929,8 @@ const SKILL_GROUPS = [
   { key: "words",      name: "Word choice and vocabulary",     keywords: ["vocabulary", "word choice", "verb", "definition", "specialist", "technical", "nickname", "informal", "short sentence", "exclamation", "inverted commas", "language"] },
   { key: "nonfiction", name: "Purpose, audience and features", keywords: ["purpose", "audience", "text type", "genre", "text feature", "fact", "opinion", "statistic", "number", "signal", "rhetorical", "counter", "argument", "certainty", "cautious", "call to action", "hypothetical", "quotation", "doubt", "finding information", "comparing words", "question", "evaluating"] },
   { key: "summary",    name: "Summary and main idea",          keywords: ["summary", "summarise", "summarize", "main idea", "gist"] },
-  { key: "evidence",   name: "Evidence and explanation",       keywords: [] }
+  { key: "evidence",   name: "Evidence and explanation",       keywords: [] },
+  { key: "collect",    name: "Collect the evidence",           keywords: [] }
 ];
 const DRILL_SIZE = 12;
 const OTHER = { key: "other", name: "Other skills" };
@@ -833,6 +948,7 @@ function drillItems() {
     t.ANNOTATE.forEach(it => out.push({ t, type: 1, it, g: it.drill || groupForLabel(it.skill), label: it.skill }));
     t.QUESTIONS.forEach(it => out.push({ t, type: 2, it, g: it.drill || groupForLabel(it.skill), label: it.skill }));
     t.EVIDENCE.forEach(it => out.push({ t, type: 3, it, g: it.drill || "evidence" }));
+    (t.COLLECT || []).forEach(it => out.push({ t, type: 5, it, g: it.drill || "collect" }));
     t.EXPLAIN.forEach(it => out.push({ t, type: 4, it, g: it.drill || "evidence" }));
   });
   return out;
@@ -840,7 +956,9 @@ function drillItems() {
 const groupName = key => (SKILL_GROUPS.find(g => g.key === key) || OTHER).name;
 const drillLabel = () => DRILL.i === DRILL.items.length - 1 ? "SEE RESULTS" : "NEXT";
 function numLine(prefix, len) {
-  return DRILL ? `${groupName(DRILL.key)} &middot; ${DRILL.i + 1} of ${DRILL.items.length} &middot; ${CUR.TEXT.title}` : `${prefix} ${idx + 1} of ${len}`;
+  if (DRILL) return `${groupName(DRILL.key)} &middot; ${DRILL.i + 1} of ${DRILL.items.length} &middot; ${CUR.TEXT.title}`;
+  const pos = flowPos();
+  return `Stage ${pos >= 0 ? pos + 1 : ""} &middot; ${prefix} ${idx + 1} of ${len}`;
 }
 function renderDrillBar() {
   const all = drillItems().filter(x => levelFilter === "all" || x.t.level === levelFilter);
@@ -880,7 +998,7 @@ function startDrill(key) {
 }
 function drillShow(introFirst) {
   const x = DRILL.items[DRILL.i];
-  CUR = x.t; ({ TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN } = x.t);
+  CUR = x.t; ({ TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT } = x.t);
   $("#ttl").textContent = TEXT.title;
   idx = 0; fullView = false; lastRanges = null;
   buildPassage();
@@ -893,6 +1011,7 @@ function drillShow(introFirst) {
   }
   stage = x.type;
   if (x.type === 1) { ANNOTATE = [x.it]; annotateItem(); }
+  else if (x.type === 5) { COLLECT = [x.it]; collectItem(); }
   else mcqItem([x.it], x.type);
 }
 function drillNext() {
@@ -1037,16 +1156,17 @@ function applySearch() {
    answer shown, so students self- or peer-mark on paper.
    ================================================================ */
 let TEACH = null, preTeachZoom = null;
-const STAGE_NAME = { 1: "Annotate", 2: "Question", 3: "Evidence", 4: "Explain" };
+const STAGE_NAME = { 1: "Annotate", 2: "Question", 3: "Evidence", 5: "Collect", 4: "Explain" };
 
 function teachItems() {
   const out = [];
   ANNOTATE.forEach(it => out.push({ type: 1, it }));
   QUESTIONS.forEach(it => out.push({ type: 2, st: 2, it }));
   EVIDENCE.forEach(it => out.push({ type: 3, st: 3, it }));
+  (COLLECT || []).forEach(it => out.push({ type: 5, st: 5, it }));
   EXPLAIN.forEach(it => out.push({ type: 4, st: 4, it }));
-  // fix each item's option order once, so the present pass and the answer key match
-  out.forEach(x => { if (x.type !== 1) x.placed = placeCorrect(x.it.opts, rand(x.it.opts.length)); });
+  // fix each MCQ item's option order once, so the present pass and the answer key match
+  out.forEach(x => { if (x.it.opts) x.placed = placeCorrect(x.it.opts, rand(x.it.opts.length)); });
   return out;
 }
 function teachEnter() {
@@ -1096,10 +1216,27 @@ function teachShow() {
   const x = TEACH.items[TEACH.i];
   stage = x.type; setStages();
   clearMarks(); passage.classList.remove("picking"); scrollTo(0, 0);
-  if (x.type === 1) teachAnnotate(x); else teachMcq(x);
+  if (x.type === 1) teachAnnotate(x);
+  else if (x.type === 5) teachCollect(x);
+  else teachMcq(x);
+}
+function teachCollect(x) {
+  const it = x.it;
+  if (it.opts) { teachMcq(x); return; }   // MCQ collect: teachHead renders the claim
+  // click-in-passage collect: present like annotate, prompt is the claim
+  const target = it.target.flatMap(p => findRanges(p, it.all));
+  focus(null);
+  panel.innerHTML = `<div class="card"><p class="num">${teachProgress()}</p><span class="skill">Collect evidence</span>
+    <div class="claim"><b>Claim</b>${it.claim}</div><h3>Find the words in the passage that best support this claim.</h3>
+    <p class="tip" style="margin-top:12px">Students mark this on their own sheet. Reveal it when ready, or move on.</p><div class="fbs"></div></div>`;
+  const card = panel.querySelector(".card"), fbs = panel.querySelector(".fbs");
+  const reveal = nextBtn("Reveal answer", () => { litTarget(target); fbs.innerHTML = ""; fbs.appendChild(fbBox("good", "<span>ANSWER</span>", it.explain)); reveal.disabled = true; }, true);
+  if (!target.length) reveal.disabled = true;
+  card.appendChild(teachNav([reveal, teachNextBtn()]));
 }
 function teachHead(x) {
   const it = x.it;
+  if (x.type === 5) { focus(null); return `<span class="skill">Collect evidence</span><div class="claim"><b>Claim</b>${it.claim}</div><h3>Which line from the text best supports this claim?</h3>`; }
   if (x.type === 2) { focus(quotedRanges(it.q)); return `<span class="skill">${it.skill}</span><h3 style="margin-top:12px">${it.q}</h3>`; }
   if (x.type === 4) { focus(findRanges(it.quote)); eachIn(findRanges(it.quote), el => el.classList.add("quote")); return `<span class="skill">Best explanation</span><div class="claim"><b>Claim</b>${it.claim}</div><div class="evq">“${it.quote}”</div><h3>Which explanation proves the claim best?</h3>`; }
   focus(findRanges(it.quote)); eachIn(findRanges(it.quote), el => el.classList.add("quote"));
@@ -1164,12 +1301,15 @@ function teachReview() {
   const x = TEACH.items[TEACH.i], it = x.it, letters = "ABCD";
   stage = x.type; setStages();
   clearMarks(); passage.classList.remove("picking"); scrollTo(0, 0);
-  if (x.type === 1) {
+  if (x.type === 1 || (x.type === 5 && !it.opts)) {
     const target = it.target.flatMap(p => findRanges(p, it.all));
-    const decoys = (it.decoys || []).map(d => findRanges(d.phrase, true));
-    focus(target.concat(...decoys)); litTarget(target);
-    panel.innerHTML = `<div class="card teach-key"><p class="num">Answer key &middot; ${teachProgress()}</p>
-      <h3>${it.prompt}</h3><span class="skill">${it.skill}</span><div class="fbs"></div></div>`;
+    if (x.type === 1) { const decoys = (it.decoys || []).map(d => findRanges(d.phrase, true)); focus(target.concat(...decoys)); }
+    else focus(null);
+    litTarget(target);
+    const heading = x.type === 1
+      ? `<h3>${it.prompt}</h3><span class="skill">${it.skill}</span>`
+      : `<span class="skill">Collect evidence</span><div class="claim"><b>Claim</b>${it.claim}</div>`;
+    panel.innerHTML = `<div class="card teach-key"><p class="num">Answer key &middot; ${teachProgress()}</p>${heading}<div class="fbs"></div></div>`;
     panel.querySelector(".fbs").appendChild(fbBox("good", "<span>ANSWER</span>", it.explain));
   } else {
     panel.innerHTML = `<div class="card teach-key"><p class="num">Answer key &middot; ${teachProgress()}</p>${teachHead(x)}<div class="opts"></div><div class="fbs"></div></div>`;
@@ -1216,13 +1356,14 @@ function wsPassage() {
 }
 function buildWorksheet(o) {
   let n = 0; const key = []; let secs = "";
+  let sec = 0; const L = () => String.fromCharCode(65 + sec++);
   if (o.annotate && ANNOTATE.length) {
     let items = "";
     ANNOTATE.forEach(it => { n++;
       items += `<div class="ws-q"><p class="ws-qn"><b>${n}.</b> Underline in the passage the words that match this &mdash;<span class="ws-skill">${it.skill}</span></p><p class="ws-qtext">${it.prompt}</p><div class="ws-write"></div></div>`;
       key.push(`<li><b>${n}.</b> Underline: “${it.target.join("” / “")}” &mdash; ${it.explain}</li>`);
     });
-    secs += `<div class="ws-sec"><p class="ws-sec-h">A &middot; Annotate the text</p>${items}</div>`;
+    secs += `<div class="ws-sec"><p class="ws-sec-h">${L()} &middot; Annotate the text</p>${items}</div>`;
   }
   const mcq = (list, head, label, quoteKind) => {
     if (!list.length) return;
@@ -1237,9 +1378,23 @@ function buildWorksheet(o) {
     });
     secs += `<div class="ws-sec"><p class="ws-sec-h">${head}</p>${items}</div>`;
   };
-  mcq(QUESTIONS, "B &middot; Reading questions", "q");
-  mcq(EVIDENCE, "C &middot; Evidence vs claim", "e", "evidence");
-  mcq(EXPLAIN, "D &middot; Best explanation", "x", "explain");
+  mcq(QUESTIONS, `${L()} &middot; Reading questions`, "q");
+  mcq(EVIDENCE, `${L()} &middot; Evidence vs claim`, "e", "evidence");
+  if (COLLECT && COLLECT.length) {
+    let items = "";
+    COLLECT.forEach(it => { n++;
+      if (it.opts) {
+        const pl = wsPlaced(it);
+        items += `<div class="ws-q"><p class="ws-qn"><b>${n}.</b> Which line best supports this claim?<span class="ws-skill">Collect evidence</span></p><div class="ws-claim"><b>Claim</b>${it.claim}</div>${wsOpts(pl.map(o => ({ t: "“" + o.t + "”", ok: o.ok })))}</div>`;
+        key.push(`<li><b>${n}.</b> <b>${LETT[pl.findIndex(x => x.ok)]}</b> &mdash; ${pl.find(x => x.ok).why}</li>`);
+      } else {
+        items += `<div class="ws-q"><p class="ws-qn"><b>${n}.</b> Underline in the passage the words that best support this claim &mdash;<span class="ws-skill">Collect evidence</span></p><div class="ws-claim"><b>Claim</b>${it.claim}</div><div class="ws-write"></div></div>`;
+        key.push(`<li><b>${n}.</b> Underline: “${it.target.join("” / “")}” &mdash; ${it.explain}</li>`);
+      }
+    });
+    secs += `<div class="ws-sec"><p class="ws-sec-h">${L()} &middot; Collect the evidence</p>${items}</div>`;
+  }
+  mcq(EXPLAIN, `${L()} &middot; Best explanation`, "x", "explain");
   const wc = TEXT.paras.filter(p => !p.startsWith("## ") && !p.startsWith("[")).join(" ").split(/\s+/).filter(Boolean).length;
   const head = `<div class="ws-head"><p class="ws-brand">The Learning Deck &middot; Close Reading</p><h1>${TEXT.title}</h1>
     <div class="ws-meta"><span>${CUR.level} &middot; ${CUR.type} &middot; ${CUR.form} &middot; ${wc} words</span><span class="ws-name">Name: ________________&nbsp;&nbsp;Date: __________</span></div>
@@ -1265,8 +1420,8 @@ function loadText(t) {
   $("#scoreBox").hidden = false;
   const tb = $("#teachBtn"); tb.hidden = false; tb.classList.remove("on"); tb.innerHTML = "&#9654; Class mode";
   $("#printBtn").hidden = false;
-  CUR = t; ({ TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN } = t);
-  MAX = ANNOTATE.length + QUESTIONS.length + EVIDENCE.length + EXPLAIN.length;
+  CUR = t; ({ TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT } = t);
+  MAX = ANNOTATE.length + QUESTIONS.length + EVIDENCE.length + EXPLAIN.length + (COLLECT ? COLLECT.length : 0);
   $("#max").textContent = MAX; $("#ttl").textContent = TEXT.title;
   $("#picker").hidden = true; $("#work").hidden = false;
   setURL({ text: t.id });
