@@ -708,17 +708,6 @@ const TEXT = {
 
 const ANNOTATE = [
   {
-    skill: "Simile",
-    prompt: "Find the simile that makes the hawker centre seem like a <em>sleepy person</em>.",
-    target: ["like eyelids that have not had enough sleep"],
-    decoys: [
-      { phrase: "like a tiny security guard", why: "A simile, but it describes the pigeon, not the hawker centre waking up. Look at the very first paragraph." },
-      { phrase: "like a missing tooth", why: "A simile, but it describes a closed stall later on. Look for the building waking up at six." }
-    ],
-    miss: "Look at the shutters in the first paragraph. What are they compared to?",
-    explain: "Shutters rolling up become eyelids opening slowly, “not enough sleep”. The whole building feels like a tired person waking, which makes the place feel alive and familiar."
-  },
-  {
     skill: "Personification",
     prompt: "Find where an <em>object</em> is given a human voice.",
     target: ["the first kettles begin to mutter"],
@@ -762,16 +751,6 @@ const QUESTIONS = [
       { t: "From loving the mornings to hating them", why: "The reverse. She was bored when younger and appreciates the mornings now." },
       { t: "Her attitude stays the same throughout", why: "“Used to” and “Now” are signposts of change. The writer tells us directly that she sees things differently." },
       { t: "From wanting pancakes to wanting to open her own stall", why: "She comes to value the tradition, but she never says she wants to become a hawker. Stay inside the text." }
-    ]
-  },
-  {
-    skill: "Inference",
-    q: "“She does not order. Uncle Lim does not ask.” What does this suggest?",
-    opts: [
-      { t: "They share a long, trusting routine that needs no words", ok: true, why: "Right. After forty years, Uncle Lim already knows her order. The matching sentences show a quiet understanding between them." },
-      { t: "Uncle Lim is rude and doesn’t bother speaking to his customers", why: "Not asking is not rude here. He knows what she wants. Read it alongside “every morning for forty years”." },
-      { t: "The grandmother is unable to speak", why: "Nothing suggests this. Not ordering is about habit and familiarity, not ability." },
-      { t: "The stall has no menu, so there is nothing for her to order from", why: "The text never mentions a menu. The point is the relationship, not the stall’s signs." }
     ]
   },
   {
@@ -827,15 +806,6 @@ const EVIDENCE = [
     ]
   },
   {
-    quote: "the brown ribbon stretching and folding without spilling a drop",
-    opts: [
-      { t: "The writer now admires the skill in everyday tasks", ok: true, why: "Right. The careful, graceful description (“ribbon”, “without spilling a drop”) shows the writer watching closely, with admiration she didn’t feel when younger." },
-      { t: "The drinks auntie is showing off to impress her customers", why: "The quote describes the pour, not her motives. Pouring from a height is how teh is made. It is skill, not showing off." },
-      { t: "Making teh is dangerous", why: "“Without spilling a drop” shows control and safety, not danger." },
-      { t: "The writer wants to work at the drinks stall when she is older", why: "Admiring a skill is not the same as wanting that job. The text never says this." }
-    ]
-  },
-  {
     quote: "nobody wanted to wake at four to boil stock",
     opts: [
       { t: "Hawker work is demanding, and fewer people are willing to do it", ok: true, why: "Right. Waking at four shows how hard the work is, and “nobody wanted” shows no one would take it on. That is why the stall closed." },
@@ -864,16 +834,6 @@ const EXPLAIN = [
       { t: "“Mutter” is how people talk when half awake or grumbling. Kettles with this voice make the centre sound like a person waking.", ok: true, why: "Strong. It explains the human meaning of “mutter” and shows how that makes the whole place feel alive." },
       { t: "At six o’clock in the morning, the stalls in the hawker centre start boiling water in their kettles to get ready for the day.", why: "Retelling. It tells us what happens but not how the word choice makes the place feel alive." },
       { t: "This shows the kettles at the hawker centre are old and broken, because they are making strange muttering noises in the morning when they start to boil.", why: "A misreading. The muttering is a playful comparison, not a sign of faulty kettles." }
-    ]
-  },
-  {
-    claim: "The grandmother’s routine is deeply familiar.",
-    quote: "She does not order. Uncle Lim does not ask.",
-    opts: [
-      { t: "The grandmother gets her breakfast from Uncle Lim every single day, but she never actually has to tell him what she wants or order it from him first.", why: "Retelling. It describes the habit but not how the sentences show familiarity." },
-      { t: "This quote tells the reader something important about these two characters and what their relationship is like.", why: "Vague. What does it tell us, and which words show it?" },
-      { t: "Two short sentences mirror each other, like a daily routine. The missing words show how well the two already understand each other.", ok: true, why: "Strong. It explains the matching structure and what the silence shows. That proves deep familiarity." },
-      { t: "This shows that Uncle Lim and the grandmother have had a big argument in the past and no longer want to speak to each other at the hawker centre.", why: "A misreading. Silence here comes from understanding, and she still visits him every day." }
     ]
   },
   {
@@ -907,9 +867,44 @@ const EXPLAIN = [
     ]
   }
 ];
+
+const COLLECT = [
+  {
+    claim: "The writer’s feelings about these mornings change over the memoir.",
+    opts: [
+      { t: "Now I notice other things.", ok: true, why: "Right. “Now” marks the turn: she has stopped being bored and started paying attention." },
+      { t: "I used to find this boring.", why: "This is how she felt before. The claim asks for the quote where her attitude turns." },
+      { t: "My grandmother has come here every morning for forty years.", why: "This tells us how long the routine is, not that the writer’s feelings change." },
+      { t: "She walks straight past the empty tables to Uncle Lim’s stall", why: "This is a detail of the routine, not the writer’s change of heart." }
+    ]
+  },
+  {
+    claim: "The grandmother and Uncle Lim share a routine so familiar it needs no words.",
+    opts: [
+      { t: "She does not order. Uncle Lim does not ask.", ok: true, why: "Right. The two matching sentences show that after forty years each already knows what the other will do." },
+      { t: "where the kaya toast is made the old way", why: "This is about how the food is made, not the wordless bond between them." },
+      { t: "My grandmother still eats slowly.", why: "This describes how she eats, not the silent understanding with Uncle Lim." },
+      { t: "bread charred over charcoal, butter cut in slabs as thick as a finger", why: "This describes the toast itself, not the routine they share." }
+    ]
+  },
+  {
+    claim: "The writer now admires the skill in ordinary tasks around the centre.",
+    target: ["the brown ribbon stretching and folding without spilling a drop"],
+    decoys: [{ phrase: "The old men at the corner table argue about football in three languages", why: "This is a lively detail she notices too, but it is not about someone’s skill. Look for the graceful way the tea is poured." }],
+    miss: "Look in the paragraph beginning “Now I notice other things.”",
+    explain: "Pouring teh from a height so the “ribbon” never spills takes real skill. Describing it so carefully shows the admiration she did not feel when she was younger."
+  },
+  {
+    claim: "The writer makes the waking hawker centre feel like a sleepy person.",
+    target: ["like eyelids that have not had enough sleep"],
+    decoys: [{ phrase: "the shutters rattle upwards one after another", why: "This describes the shutters moving, but not the sleepy-person comparison itself. Look for the words just after “like”." }],
+    miss: "Look at the shutters in the first sentence. What are they compared to?",
+    explain: "Shutters rolling up become “eyelids” opening slowly, “not enough sleep”. The whole building feels like a tired person waking, which makes the place feel alive."
+  }
+];
 TEXTS.push({ id: "hawker-centre", type: "Non-fiction", mode: "Creative", form: "Memoir", level: "6ème",
   hook: "Forty years of the same breakfast, and the morning a granddaughter finally notices.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 
 /* ================================================================
@@ -966,17 +961,6 @@ const ANNOTATE = [
     decoys: [{ phrase: "Another big difference is", why: "This tells you a difference is coming, but it doesn’t compare the two animals itself. Look for the words that join a fur seal fact to a sea lion fact." }],
     miss: "Look in the section “Fur seal or sea lion?” for words that link fur seals and sea lions.",
     explain: "“On the other hand” and “while” are comparing words. They join a fact about fur seals to a different fact about sea lions, so the reader can see the difference clearly."
-  },
-  {
-    skill: "Number fact",
-    prompt: "Find the number that shows <em>how many fur seals</em> there are today.",
-    target: ["around 100 000 fur seals"],
-    decoys: [
-      { phrase: "for about a year", why: "That is a number of years, how long pups stay with their mothers. The question asks how many seals there are." },
-      { phrase: "15–20 years", why: "That is how long a fur seal lives, not how many there are." }
-    ],
-    miss: "Look in the section “Where do they live?”.",
-    explain: "A big number like 100 000 is exact and easy to remember. It proves that fur seals have come back after nearly disappearing."
   }
 ];
 
@@ -989,17 +973,6 @@ const QUESTIONS = [
       { t: "To tell a story about one seal’s adventure", why: "There is no main character and no story. It gives facts about all fur seals." },
       { t: "To convince people to buy fur seal coats", why: "The text never tries to sell anything. It says fur seals were nearly hunted out, so it is not in favour of hunting." },
       { t: "To explain how to look after a pet seal", why: "There are no instructions, and fur seals are wild animals." }
-    ]
-  },
-  
-  {
-    skill: "Finding information",
-    q: "How can you tell a fur seal from a sea lion?",
-    opts: [
-      { t: "A fur seal has a pointed nose and a thick coat of fur", ok: true, why: "Right. The text says, “Fur seals have a pointed nose and a thick coat of fur.” They also like rocky places." },
-      { t: "A fur seal has a rounded nose and likes sandy beaches", why: "Careful: that describes sea lions. Check which animal each fact belongs to." },
-      { t: "A fur seal is not a mammal but a sea lion is", why: "The text says “Seals are mammals.” This difference is not in the text." },
-      { t: "A fur seal is always much bigger than a sea lion", why: "The text never compares their size. Only use facts from the text." }
     ]
   },
   {
@@ -1052,15 +1025,6 @@ const EVIDENCE = [
       { t: "Fur seal pups eat fish as soon as they are born", why: "The quote says they drink milk. They catch fish later, after about a year." },
       { t: "All sea animals drink milk when they are young", why: "The quote is about fur seals only. Fish, for example, don’t drink milk." },
       { t: "Pups live all alone in the sea", why: "They drink milk from their mothers, so they must stay with them." }
-    ]
-  },
-  {
-    quote: "The pups stay with their mothers for about a year.",
-    opts: [
-      { t: "Young fur seals need their mothers for a long time", ok: true, why: "Right. A whole year shows the pups need looking after before they can “leave their mothers and catch fish”." },
-      { t: "Pups never leave their mothers, even when they are grown up", why: "The next sentence says they are “then able to leave”." },
-      { t: "Fur seals only live for one year", why: "The key facts say they live 15–20 years. A year is only how long pups stay with their mothers." },
-      { t: "Mothers leave their pups on their own straight after birth", why: "The quote says the opposite: they stay together about a year." }
     ]
   },
   {
@@ -1123,21 +1087,46 @@ const EXPLAIN = [
       { t: "This proves that anyone at all can always tell the two animals apart in just one second, even if they have never seen a seal or a sea lion before.", why: "Overclaiming. “If you look carefully” means it takes attention." },
       { t: "The writer uses second person in this sentence.", why: "The right term, but no effect. Why use “you” here?" }
     ]
+  }
+];
+
+const COLLECT = [
+  {
+    claim: "The text tells you how to spot the difference between the two animals by their bodies.",
+    opts: [
+      { t: "Fur seals have a pointed nose and a thick coat of fur", ok: true, why: "Right. The shape of the nose and the thickness of the fur are body features you can look at to tell them apart." },
+      { t: "Fur seals like rocky places, while sea lions like to be on sandy beaches", why: "This is a real difference, but it is about where they live, not what their body looks like." },
+      { t: "Sometimes fur seals are mistaken for sea lions", why: "This tells us people confuse the two, not how to tell them apart." },
+      { t: "Seals are mammals.", why: "This is true of sea lions too, so it cannot help you tell the two apart." }
+    ]
   },
   {
-    claim: "The key facts section gives a quick summary.",
-    quote: "Life span: 15–20 years.",
+    claim: "Baby fur seals need their mothers for a long time before they can look after themselves.",
     opts: [
-      { t: "Fur seals usually live for between fifteen and twenty years, which is written at the bottom of the text in the part called key facts.", why: "Retelling. Explain how the layout of the fact helps the reader." },
-      { t: "Short labels like “Life span:” replace full sentences, so readers find a fact in seconds, with no extra words.", ok: true, why: "Strong. It explains the label and the number and why both make a quick summary." },
-      { t: "This shows that every single fur seal lives for exactly twenty years, no more and no less, wherever it lives in Australia or New Zealand.", why: "Overclaiming. “15–20” is a range, not an exact age." },
-      { t: "The writer gives some information in this part of the text.", why: "Vague. How is the information given, and why is it quick to read?" }
+      { t: "The pups stay with their mothers for about a year.", ok: true, why: "Right. A whole year shows how long the pups depend on their mothers before they can leave." },
+      { t: "baby fur seals (also called pups) drink milk from their mothers", why: "This shows they rely on their mother for food, but not for how long. The claim is about the length of time." },
+      { t: "The pups learn to swim in rock pools.", why: "This is something they learn to do, not how long they stay with their mothers." },
+      { t: "Life span: 15–20 years.", why: "This is how long a fur seal lives, not how long a pup stays with its mother." }
     ]
+  },
+  {
+    claim: "Fur seal numbers have recovered after they were almost wiped out.",
+    target: ["there are now around 100 000 fur seals"],
+    decoys: [{ phrase: "Fur seals were hunted until they were almost totally gone.", why: "This is the sad part, when they were nearly gone. The claim is about their recovery. Look at the next sentence." }],
+    miss: "Look in the section “Where do they live?”.",
+    explain: "After being “almost totally gone”, there are “now around 100 000”. The big, exact number is proof that the fur seals have come back."
+  },
+  {
+    claim: "The writer sets facts out as short labels so a reader can find one quickly.",
+    target: ["Length: 1.2–2.5 metres."],
+    decoys: [{ phrase: "New Zealand fur seals are found in the waters of New Zealand", why: "This is a full sentence from the main text, not a quick-reference label. Look in the “Key facts” section." }],
+    miss: "Look in the “Key facts” section at the bottom.",
+    explain: "A short label like “Length:” followed by a figure lets a reader find one fact in seconds, without reading a full sentence."
   }
 ];
 TEXTS.push({ id: "fur-seals", type: "Non-fiction", mode: "Informative", form: "Information report", level: "CM2",
   hook: "Pups, rock pools and a clever way to tell a fur seal from a sea lion.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 
 /* ================================================================
@@ -1164,14 +1153,6 @@ const ANNOTATE = [
     decoys: [{ phrase: "in terrible pain", why: "Strong words, but they are not an exaggeration: he really was in pain. Look for a word that makes it sound even worse than it was." }],
     miss: "Look in the first paragraph for a very strong word about hunting trips.",
     explain: "Hunting trips were not really torture, but the word “torture” shows the pain felt unbearable. Exaggerating helps the reader understand how big the chief’s problem is."
-  },
-  {
-    skill: "The problem",
-    prompt: "Find the words that explain <em>why</em> the chief’s feet got hurt.",
-    target: ["his feet were so soft that they would end up bruised and cut by rocks and thorns"],
-    decoys: [{ phrase: "he called a wise man and asked for help", why: "That is what the chief does about the problem. Look for the cause of the problem." }],
-    miss: "Look for the word “because” in the first paragraph.",
-    explain: "Every traditional tale needs a problem. Here, soft feet + rocks and thorns = pain. The rest of the story is about finding a solution."
   },
   {
     skill: "Definition in brackets",
@@ -1242,16 +1223,6 @@ const QUESTIONS = [
     ]
   },
   {
-    skill: "Message",
-    q: "What is the message of this story?",
-    opts: [
-      { t: "Sometimes the best solution is the simplest one", ok: true, why: "Right. Covering the whole earth was impossible, but covering just his feet was easy. The simple idea was the clever one." },
-      { t: "Chiefs should never go hunting if their feet are soft", why: "The story solves his problem so he can walk anywhere. It doesn’t say he should stop hunting." },
-      { t: "You should always do what servants tell you", why: "The servants never give advice in the story." },
-      { t: "Some problems are too big and can never be solved", why: "The problem is solved at the end with a huge smile." }
-    ]
-  },
-  {
     skill: "Summary",
     q: "Which sentence best sums up what happens in this text?",
     opts: [
@@ -1264,15 +1235,6 @@ const QUESTIONS = [
 ];
 
 const EVIDENCE = [
-  {
-    quote: "At the end of the day the servants were exhausted",
-    opts: [
-      { t: "The mats were too much hard work to be a good solution", ok: true, why: "Right. If the servants are exhausted after one day, they couldn’t do this every day." },
-      { t: "The servants were lazy and did not want to help the chief", why: "Exhausted people have worked very hard. That’s the opposite of lazy." },
-      { t: "The chief walked too slowly", why: "The quote is about the servants’ tiredness, not the chief’s speed." },
-      { t: "The servants were tired of the chief and wanted a new chief", why: "Nothing in the quote says this." }
-    ]
-  },
   {
     quote: "The women of the tribe worked long into the night",
     opts: [
@@ -1342,21 +1304,46 @@ const EXPLAIN = [
       { t: "The chief thinks about covering all of the ground in the whole world with animal skins so that he could walk everywhere he wanted to.", why: "Retelling. Why does this sentence show he realises it can never work?" },
       { t: "This sentence has an exclamation mark at the end.", why: "True, but what does the exclamation mark show?" }
     ]
+  }
+];
+
+const COLLECT = [
+  {
+    claim: "The mats failed as a solution because they wore the servants out.",
+    opts: [
+      { t: "At the end of the day the servants were exhausted", ok: true, why: "Right. If carrying the mats leaves the servants exhausted after one day, it cannot be done every day." },
+      { t: "The women of the tribe worked long into the night", why: "This is the hard work behind the second solution, the paths, not the mats." },
+      { t: "servants put one of the mats ahead of him so he always had something to walk on", why: "This is how the mats worked, not why they failed." },
+      { t: "in terrible pain, he called a wise man and asked for help", why: "This is the chief seeking help at the start, not the reason the mats failed." }
+    ]
   },
   {
-    claim: "The last idea solves the whole problem.",
-    quote: "Now I will have hide under my feet wherever I walk.",
+    claim: "The story’s lesson is that the simplest solution can be the best one.",
     opts: [
-      { t: "The chief is going to hide somewhere under his feet so that nobody can find him, because he is still sad about losing the maiden.", why: "A misreading. “Hide” here means animal skin, as the brackets explained earlier." },
-      { t: "“Wherever I walk” solves every earlier problem: mats and paths only covered some places, but hide on his feet goes everywhere.", ok: true, why: "Strong. It links the key words back to the earlier solutions and shows why this one works." },
-      { t: "The chief puts his feet into the moccasins that the wise man brings him, and he is very happy because they fit him well.", why: "Retelling. What do the words show about solving the problem?" },
-      { t: "The chief says this with speech marks.", why: "An observation, not an explanation." }
+      { t: "Now I will have hide under my feet wherever I walk.", ok: true, why: "Right. Covering just his feet is tiny and simple, yet it does what mats and paths could not." },
+      { t: "used them to make many pathways leading in different directions", why: "This is a bigger, more complicated solution, the opposite of the simple one." },
+      { t: "This time the wise man called for all the tribe’s animal hides", why: "This sets up the paths, not the simple fix that finally works." },
+      { t: "he saw a beautiful maiden ahead of him", why: "This is a plot detail, not the lesson of the story." }
     ]
+  },
+  {
+    claim: "The story explains exactly why the chief’s feet get hurt.",
+    target: ["his feet were so soft that they would end up bruised and cut by rocks and thorns"],
+    decoys: [{ phrase: "he called a wise man and asked for help", why: "This is what the chief does about the problem, not the cause of it. Look for why his feet got hurt." }],
+    miss: "Look in the first paragraph for what happens to his feet.",
+    explain: "His feet are “so soft” that rocks and thorns “bruised and cut” them. Soft feet in a hard, sharp world is the problem the whole tale sets out to solve."
+  },
+  {
+    claim: "The path of hides fails the chief at the worst moment.",
+    target: ["the maiden disappeared across a rocky creek bed"],
+    decoys: [{ phrase: "he saw a beautiful maiden ahead of him", why: "This is when he first spots her, full of hope, not the moment the path lets him down. Look for where she gets away." }],
+    miss: "Look at the paragraph where he follows the maiden.",
+    explain: "The path runs out at a “rocky creek bed”, exactly where his soft feet cannot follow, so the maiden crosses and vanishes. The paths fail him just when it matters."
   }
 ];
 TEXTS.push({ id: "first-moccasins", type: "Fiction", mode: "Creative", form: "Traditional tale", level: "CM2",
   hook: "A brave chief with tender feet, and a wise man with three ideas.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 
 /* ================================================================
@@ -1602,14 +1589,6 @@ const TEXT = {
 
 const ANNOTATE = [
   {
-    skill: "Understatement",
-    prompt: "Find the phrase that means “has happened before”, said in a <em>careful, indirect</em> way.",
-    target: ["is not unknown"],
-    decoys: [{ phrase: "from as long ago as the 1800s", why: "This gives the evidence that it has happened before. The question asks for the indirect phrase in the first sentence." }],
-    miss: "Look at the end of the very first sentence.",
-    explain: "“Not unknown” uses two negatives to mean “known” or “it has happened”. It sounds calm and careful, which suits a scientific topic, and it prepares the reader for the evidence that follows."
-  },
-  {
     skill: "Definition in brackets",
     prompt: "Find where a <em>technical term</em> is explained in brackets.",
     target: ["apiarists (beekeepers)"],
@@ -1676,16 +1655,6 @@ const QUESTIONS = [
     ]
   },
   {
-    skill: "Certainty",
-    q: "The writer says “current thinking suggests” a combination of factors. What does this show?",
-    opts: [
-      { t: "Scientists aren’t certain yet; this is the best explanation so far", ok: true, why: "Right. “Current” means it could change, and “suggests” is weaker than “proves”. It matches “No-one knows exactly why”." },
-      { t: "Scientists have now proved exactly what causes CCD", why: "“Suggests” is not “proves”, and scientists are still “racing” to find the cause." },
-      { t: "Scientists have given up trying to understand CCD", why: "They are “racing against time”, which is the opposite of giving up." },
-      { t: "The writer disagrees with what the scientists are saying", why: "The writer reports the scientists’ view without arguing against it." }
-    ]
-  },
-  {
     skill: "Conclusion",
     q: "What is the effect of ending with “a problem we cannot afford to ignore”?",
     opts: [
@@ -1708,15 +1677,6 @@ const QUESTIONS = [
 ];
 
 const EVIDENCE = [
-  {
-    quote: "No-one knows exactly why, or why so far, Australia has been spared.",
-    opts: [
-      { t: "CCD is still a mystery to scientists", ok: true, why: "Right. “No-one knows exactly” shows there is no clear answer yet. It explains the word “mystery” in the title." },
-      { t: "Australia has been badly affected by CCD", why: "“Spared” means Australia has avoided it, so far." },
-      { t: "Australian beekeepers have found the cure", why: "Nothing says Australians found a cure. No-one knows why Australia is spared." },
-      { t: "There are no bees in Australia", why: "Farmers hire bees from Australia, so there are plenty." }
-    ]
-  },
   {
     quote: "there is plenty of food",
     opts: [
@@ -1768,16 +1728,6 @@ const EXPLAIN = [
     ]
   },
   {
-    claim: "Bees matter to everyone, not just honey-lovers.",
-    quote: "bees are a vital link in the production of our food",
-    opts: [
-      { t: "I love honey and eat it every morning, so I would be very sad if all the bees disappeared and there was no more honey in the shops.", why: "A personal response, and it stays with honey, which the writer says is not the main point." },
-      { t: "“Vital” means essential to life, and “link” suggests a chain that breaks if one part is missing. “Our food” includes every reader.", ok: true, why: "Strong. Three word choices explained and linked to “everyone”." },
-      { t: "Bees help to make food for people to eat.", why: "Retelling in simpler words. Explain the writer’s choices." },
-      { t: "This shows that bees are the only thing needed to produce food, and that farmers would not be able to grow anything at all without them.", why: "Overclaiming. A “link” is one part of a chain, not the whole chain." }
-    ]
-  },
-  {
     claim: "Scientists are under pressure.",
     quote: "racing against time",
     opts: [
@@ -1798,9 +1748,44 @@ const EXPLAIN = [
     ]
   }
 ];
+
+const COLLECT = [
+  {
+    claim: "The writer stresses that bees matter to everyone, not just honey-lovers.",
+    opts: [
+      { t: "bees are a vital link in the production of our food", ok: true, why: "Right. “Vital” means essential, and “our food” includes every reader, not only people who like honey." },
+      { t: "up to half of their bee colonies", why: "This is how many colonies are lost, not why bees matter to everyone." },
+      { t: "unusual weather conditions were blamed", why: "This is an old idea about the cause, not a reason bees are important to us." },
+      { t: "higher prices for consumers", why: "This is one knock-on effect for shoppers, but the claim asks for the quote saying bees themselves are essential to our food." }
+    ]
+  },
+  {
+    claim: "Scientists still do not know for certain what causes CCD.",
+    opts: [
+      { t: "No-one knows exactly why", ok: true, why: "Right. This states plainly that there is no clear answer yet, which is why the title calls it a mystery." },
+      { t: "current thinking suggests that it is a combination of all these factors", why: "This is the tentative best theory so far, not the plain statement that no-one knows." },
+      { t: "There are written records of cases in North America and Europe", why: "This is evidence the problem is old, not that its cause is unknown." },
+      { t: "unusual weather conditions were blamed", why: "This is an old explanation that was later abandoned, not proof the cause is still unknown." }
+    ]
+  },
+  {
+    claim: "The writer uses a careful, indirect phrase to say this has happened before.",
+    target: ["is not unknown"],
+    decoys: [{ phrase: "from as long ago as the 1800s", why: "This is the evidence that it has happened before, not the careful, indirect way of saying so. Look at the end of the first sentence." }],
+    miss: "Look at the end of the very first sentence.",
+    explain: "“Not unknown” uses two negatives to mean “known”: it has happened. The calm, indirect phrasing suits the careful, scientific tone."
+  },
+  {
+    claim: "The writer ends by insisting the problem is too serious to ignore.",
+    target: ["a problem we cannot afford to ignore"],
+    decoys: [{ phrase: "put bees firmly in the scientific spotlight", why: "This says bees are now being studied, not that we must not ignore the problem. Look for the final warning." }],
+    miss: "Read the last sentence of the text.",
+    explain: "“Cannot afford to ignore” warns of a cost, and “we” includes the reader. The ending turns information into a call to take the problem seriously."
+  }
+];
 TEXTS.push({ id: "honey-bee-mystery", type: "Non-fiction", mode: "Informative", form: "Explanation", level: "6ème",
   hook: "Whole colonies vanish overnight, and no-one knows exactly why.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 
 /* ================================================================
@@ -2048,14 +2033,6 @@ const ANNOTATE = [
     explain: "Cargo is what ships carry: boxes, grain, goods. Calling the young people “human cargo” shows they are being delivered like objects, which makes the bargain feel even crueller."
   },
   {
-    skill: "Body language",
-    prompt: "Find the body language that shows the young Athenians are <em>terrified</em>.",
-    target: ["trembling and with eyes downcast", "stumbled from the ship"],
-    decoys: [{ phrase: "observed them without pity", why: "That describes Minos, not the Athenians. Look at how they move and look." }],
-    miss: "Look at the start of the second paragraph.",
-    explain: "The writer never says “they were afraid”. Stumbling, trembling and looking down show their fear and hopelessness through their bodies, so the reader feels it."
-  },
-  {
     skill: "Characterisation",
     prompt: "Find the phrase that shows Minos is <em>cruel</em>.",
     target: ["observed them without pity"],
@@ -2082,17 +2059,6 @@ const ANNOTATE = [
 ];
 
 const QUESTIONS = [
-  
-  {
-    skill: "Inference",
-    q: "Why did the Athenians accept Minos’ bargain?",
-    opts: [
-      { t: "To end the war and protect the rest of their city", ok: true, why: "Right. They were “shocked by the cruelty” but accepted “for the sake of peace”, so that Minos would “spare the rest of Athens”." },
-      { t: "Because they believed the Minotaur was friendly and wouldn’t hurt them", why: "They were “shocked by the cruelty”. They knew the young people would die." },
-      { t: "Because Athens had won the war and could choose peace", why: "Minos was the one making the offer to “spare” Athens. Athens was in the weaker position." },
-      { t: "Because the young people wanted to visit Crete", why: "The young Athenians arrive “trembling”. They clearly did not want to go." }
-    ]
-  },
   {
     skill: "Character",
     q: "What does “He had volunteered to take the place of one of his young countrymen” show about Theseus?",
@@ -2147,15 +2113,6 @@ const QUESTIONS = [
 
 const EVIDENCE = [
   {
-    quote: "for the sake of peace they reluctantly accepted it",
-    opts: [
-      { t: "The Athenians felt they had no good choice", ok: true, why: "Right. “Reluctantly” shows they didn’t want to, and “for the sake of peace” shows they accepted to avoid something worse." },
-      { t: "The Athenians were happy with the bargain", why: "“Reluctantly” means unwillingly, the opposite of happy." },
-      { t: "Athens had won the war", why: "Accepting a cruel bargain for peace suggests Athens was the weaker side." },
-      { t: "The Athenians didn’t care about their young people", why: "They were “shocked by the cruelty”, which shows they cared deeply." }
-    ]
-  },
-  {
     quote: "Ariadne sensed he was the leader of the group",
     opts: [
       { t: "Ariadne is observant and chooses her helper carefully", ok: true, why: "Right. She “gazed intently at each of them” before deciding. She picks the person most likely to succeed." },
@@ -2196,16 +2153,6 @@ const EXPLAIN = [
     ]
   },
   {
-    claim: "The Athenians are terrified.",
-    quote: "trembling and with eyes downcast",
-    opts: [
-      { t: "The young Athenians are shivering because they are cold and tired after their long journey across the sea on the ship from Athens to Crete.", why: "A misreading. The trembling comes from fear of what awaits them." },
-      { t: "I would be very scared too if I was going to be sacrificed to a monster, so I understand why the young people look so frightened here.", why: "A personal response. Explain the writer’s words." },
-      { t: "“Trembling” shows physical fear and “eyes downcast” shows hopelessness. Their bodies reveal feelings without naming them.", ok: true, why: "Strong. Two details explained, each linked to a feeling." },
-      { t: "The writer describes how the young people look when they get off the ship.", why: "An observation. What do those details show?" }
-    ]
-  },
-  {
     claim: "Minos is cold and cruel.",
     quote: "Minos observed them without pity",
     opts: [
@@ -2236,9 +2183,44 @@ const EXPLAIN = [
     ]
   }
 ];
+
+const COLLECT = [
+  {
+    claim: "The Athenians agreed to the terrible bargain only to avoid something worse.",
+    opts: [
+      { t: "for the sake of peace they reluctantly accepted it", ok: true, why: "Right. “Reluctantly” shows they did not want to, and “for the sake of peace” shows they gave in to avoid war." },
+      { t: "The Athenians had been shocked by the cruelty of the proposal", why: "This shows how much they hated the offer, not the reason they still said yes." },
+      { t: "seven of its finest young men and seven of its finest young women to be sacrificed", why: "This is the price they had to pay, not the reason they accepted it." },
+      { t: "Minos was weary of war with Athens", why: "This is why Minos made the offer, not why the Athenians agreed to it." }
+    ]
+  },
+  {
+    claim: "The young Athenians are shown to be terrified, without the word “afraid” being used.",
+    opts: [
+      { t: "trembling and with eyes downcast", ok: true, why: "Right. Shaking bodies and lowered eyes show their fear and hopelessness without naming the feeling." },
+      { t: "Ariadne gazed intently at each of them", why: "This is Ariadne watching them, not the Athenians’ fear." },
+      { t: "the powerful King of Crete", why: "This describes Minos, not how the young Athenians feel." },
+      { t: "the handsome Prince Theseus", why: "This describes how Theseus looks, not the fear of the group." }
+    ]
+  },
+  {
+    claim: "Theseus is brave and puts others before himself.",
+    target: ["He had volunteered to take the place of one of his young countrymen"],
+    decoys: [{ phrase: "Theseus was astounded", why: "This is his surprise when Ariadne offers help, not the brave choice he made. Look in the second paragraph for what he volunteered to do." }],
+    miss: "Look in the second paragraph, at what Theseus chose to do.",
+    explain: "As a prince he did not have to go, yet he “volunteered to take the place” of another young Athenian. Choosing danger to save someone else is what makes him brave."
+  },
+  {
+    claim: "Ariadne fixes exactly where and when she will help Theseus.",
+    target: ["I will meet you inside the entrance to the labyrinth tomorrow"],
+    decoys: [{ phrase: "That night she went to where Theseus and the others were being held", why: "This is when she first comes to make her offer, not the meeting she arranges for the next day. Look for where and when she promises to meet him." }],
+    miss: "Look at Ariadne’s longer speech to Theseus.",
+    explain: "She sets the place (“inside the entrance to the labyrinth”) and the time (“tomorrow”). Her help is a concrete plan, not a vague promise."
+  }
+];
 TEXTS.push({ id: "the-minotaur", type: "Fiction", mode: "Creative", form: "Greek myth", level: "6ème",
   hook: "Fourteen young Athenians, a monster in a maze, and a princess with a plan.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 
 /* ================================================================
@@ -2267,14 +2249,6 @@ const ANNOTATE = [
     explain: "Calling it only “a sleek shape” keeps the reader guessing. It could be a shark or a dolphin. The mystery hooks the reader before the article reveals it is a machine."
   },
   {
-    skill: "Metaphor",
-    prompt: "Find the metaphor that makes the glider sound like a <em>ghost</em>.",
-    target: ["This oceanic spectre"],
-    decoys: [{ phrase: "one of the most potent research tools", why: "That describes the glider literally, as a tool. Look for the word that means ghost." }],
-    miss: "Look at the start of the second paragraph.",
-    explain: "A spectre is a ghost. The metaphor continues the mysterious opening: something silent, alone and appearing from the deep, before the writer reveals the scientific truth."
-  },
-  {
     skill: "Personification",
     prompt: "Find where the glider is described like a <em>lonely living creature</em>.",
     target: ["it has roamed the ocean alone"],
@@ -2301,16 +2275,6 @@ const ANNOTATE = [
 ];
 
 const QUESTIONS = [
-  {
-    skill: "Structure",
-    q: "Why does the article begin by describing “a sleek shape” without saying what it is?",
-    opts: [
-      { t: "To create mystery so the reader wants to find out before the technical facts", ok: true, why: "Right. The reader imagines a sea creature, then paragraph two reveals a machine. Curiosity carries the reader into the harder information." },
-      { t: "To prove to readers that gliders are really a type of sea animal", why: "The next paragraph says it “is not a natural part of the marine environment”." },
-      { t: "To give the most important statistic first", why: "The opening builds a picture and a mystery. The key efficiency statistic comes at the end." },
-      { t: "To explain in detail how the glider moves up and down in the ocean", why: "How it moves is explained in the second paragraph, after the reveal." }
-    ]
-  },
   {
     skill: "Purpose",
     q: "What is the main purpose of this article?",
@@ -2375,15 +2339,6 @@ const EVIDENCE = [
     ]
   },
   {
-    quote: "for a fraction of the cost",
-    opts: [
-      { t: "Gliders are much cheaper than ship-based research", ok: true, why: "Right. A fraction is a small part of the old cost of “expensive and time-consuming” ship observations." },
-      { t: "Gliders cost nothing at all to send out", why: "A fraction is still something. They are cheaper, not free." },
-      { t: "The Coral Sea is an expensive place to visit", why: "The quote compares research methods, not places." },
-      { t: "Ships are no longer used anywhere for ocean research", why: "Overclaiming. The article shows gliders are cheaper, not that ships have disappeared." }
-    ]
-  },
-  {
     quote: "can be launched and recovered cheaply and quickly from small two-person boats",
     opts: [
       { t: "Gliders are simple and practical to use", ok: true, why: "Right. Needing only small boats and two people shows how little support gliders require." },
@@ -2412,16 +2367,6 @@ const EXPLAIN = [
       { t: "“A shape” won’t say what it is, so readers guess. “Sleek” and “glides” suggest a sea creature, later revealed as a machine.", ok: true, why: "Strong. It explains the vague noun and the animal-like words, and links them to the later reveal." },
       { t: "The writer uses description at the start of the article to hook the reader.", why: "Too general. Which words hook the reader, and how?" },
       { t: "This proves the writer did not actually know what the object in the water was when they started writing the first paragraph of the article.", why: "A misreading. The writer hides it on purpose to create suspense." }
-    ]
-  },
-  {
-    claim: "The writer makes a machine sound eerie.",
-    quote: "This oceanic spectre",
-    opts: [
-      { t: "A spectre is a ghost. An “oceanic spectre” fits how the glider silently appears and disappears, alone in the deep.", ok: true, why: "Strong. It defines the word and links it to the glider’s behaviour described earlier." },
-      { t: "The writer uses a difficult word to describe the glider.", why: "True, but what does the word mean and suggest?" },
-      { t: "The glider is a machine that scientists use in the ocean to collect data on things like water temperature, salinity and depth.", why: "Retelling. How does “spectre” make it eerie?" },
-      { t: "This shows that people who work at sea believe the ocean is haunted by ghosts, which is why the writer calls the glider a spectre.", why: "Overclaiming a metaphor. The glider is compared to a ghost; no one believes it is one." }
     ]
   },
   {
@@ -2455,9 +2400,44 @@ const EXPLAIN = [
     ]
   }
 ];
+
+const COLLECT = [
+  {
+    claim: "The writer stresses that gliders are far cheaper than the old way of doing research.",
+    opts: [
+      { t: "for a fraction of the cost", ok: true, why: "Right. A fraction is a small part of the old price, so this states the saving directly." },
+      { t: "expensive and time-consuming ship-based oceanic observations", why: "This is the costly old method the gliders replace, not the saving itself." },
+      { t: "gather data on water temperature, salinity, depth, chlorophyll and dissolved oxygen", why: "This is what gliders measure, not what they cost." },
+      { t: "operate for extended periods", why: "This is how long they can work, which helps explain the saving but is not the comparison of cost." }
+    ]
+  },
+  {
+    claim: "The glider is introduced as something mysterious before we learn it is a machine.",
+    opts: [
+      { t: "This oceanic spectre", ok: true, why: "Right. A “spectre” is a ghost, so the glider is still eerie and unexplained at this point." },
+      { t: "one of the most potent research tools", why: "This is the moment the mystery is solved and it is called a tool, the opposite of mysterious." },
+      { t: "an autonomous underwater glider", why: "This is its plain, scientific name, not a mysterious description." },
+      { t: "its half-metre-long fins steering it through the current", why: "This is a concrete, mechanical detail, not part of the mystery." }
+    ]
+  },
+  {
+    claim: "The writer explains how the glider moves without an engine.",
+    target: ["The glider moves by pumping in and then expelling sea water."],
+    decoys: [{ phrase: "Zigzagging up and down utilising ocean currents", why: "This describes the path it follows, not the mechanism that drives it. Look for the sentence about pumping sea water." }],
+    miss: "Look in the second paragraph, at how the glider is powered.",
+    explain: "It moves “by pumping in and then expelling sea water”: taking water in to sink and pushing it out to rise. That buoyancy trick replaces an engine."
+  },
+  {
+    claim: "One striking comparison shows how little energy the glider uses.",
+    target: ["the same amount of energy it takes for the average car to travel just 10 km"],
+    decoys: [{ phrase: "crossed the Atlantic Ocean (7409 km)", why: "This is the huge distance it travelled, which is impressive, but not the point about energy. Look for what it is compared to a car." }],
+    miss: "Look at the final paragraph about the ‘Scarlet Knight’.",
+    explain: "Crossing the whole Atlantic (7409 km) on the energy a car uses in just 10 km turns the glider’s efficiency into a vivid, familiar comparison."
+  }
+];
 TEXTS.push({ id: "gliding-deep", type: "Non-fiction", mode: "Informative", form: "Feature article", level: "5ème",
   hook: "A silent shape roams the ocean for 100 days. It isn’t alive.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 
 /* ================================================================
@@ -2507,29 +2487,10 @@ const ANNOTATE = [
     decoys: [{ phrase: "A scroll through the scientific literature", why: "This refers to real research, not an imagined example." }],
     miss: "Look in the third paragraph for the word “hypothetical”.",
     explain: "“Hypothetical” means imagined. The writer creates student X to show how positive peer pressure could work in everyday life, turning abstract science into a relatable scenario."
-  },
-  {
-    skill: "Call to action",
-    prompt: "Find the sentence that tells readers <em>what should be done</em>.",
-    target: ["Instead we should be exploring ways to harness its power for good."],
-    decoys: [{ phrase: "Providing a one-dimensional view of the concept", why: "This criticises the current view. Look for what the writer recommends instead." }],
-    miss: "Read the final sentence of the article.",
-    explain: "“We should” is a clear recommendation, and “we” includes the reader. Ending with a call to action turns the argument into something readers can act on."
   }
 ];
 
 const QUESTIONS = [
-  
-  {
-    skill: "Argument",
-    q: "Why does the writer say “The undesirable effect of peer pressure cannot be denied”?",
-    opts: [
-      { t: "To admit the other side first, so the argument seems fair and balanced", ok: true, why: "Right. This is a concession. By accepting some harm, the writer seems reasonable, which makes the positive argument more believable." },
-      { t: "Because the writer believes peer pressure is only ever negative", why: "The next words, “but is it also possible…”, show the writer wants to look at positive effects." },
-      { t: "To change the topic of the article", why: "The sentence stays on peer pressure and leads into the main argument." },
-      { t: "To show that the writer disagrees with the rest of the article", why: "The writer is building their argument, not rejecting it. A concession is a common persuasive technique." }
-    ]
-  },
   {
     skill: "Inference",
     q: "Why is the student called “student X” instead of being given a name?",
@@ -2593,15 +2554,6 @@ const EVIDENCE = [
     ]
   },
   {
-    quote: "Humans, after all, are highly social beings",
-    opts: [
-      { t: "Wanting to fit in with others is a natural part of being human", ok: true, why: "Right. The writer uses this to explain why the desire to conform is “simply a part of being human”." },
-      { t: "People should always do whatever their group wants them to do", why: "That is a recommendation the writer never makes. Being social doesn’t mean always following." },
-      { t: "Social media is the main cause of peer pressure today", why: "Social media is not mentioned. “Social” here means living in groups." },
-      { t: "Only teenagers are social", why: "The quote says “humans”, meaning everyone." }
-    ]
-  },
-  {
     quote: "she is willingly making the same commitment of time and effort",
     opts: [
       { t: "Positive peer pressure can change behaviour without force", ok: true, why: "Right. “Willingly” shows she chooses to work harder. The group’s example motivates her, rather than forcing her." },
@@ -2661,21 +2613,46 @@ const EXPLAIN = [
       { t: "This proves that student X eventually becomes the best guitar player in the whole band and practises more than anyone else in it.", why: "Overclaiming. She matches the others’ commitment; nothing says she becomes the best." },
       { t: "The writer uses an adverb at the start of this sentence.", why: "Correct observation, but what does the adverb show?" }
     ]
+  }
+];
+
+const COLLECT = [
+  {
+    claim: "Before making his own case, the writer admits the other side has a point.",
+    opts: [
+      { t: "The undesirable effect of peer pressure cannot be denied", ok: true, why: "Right. This is the concession: he grants the harm first, which makes the positive argument that follows sound fair." },
+      { t: "Scientific investigations of peer pressure which go beyond investigating negative impacts are typically overlooked", why: "This complains that positive research is ignored. It attacks the other side rather than conceding to it." },
+      { t: "Providing a one-dimensional view of the concept", why: "This criticises how others discuss peer pressure. It is not the writer admitting they are partly right." },
+      { t: "Some psychologists describe this realignment of personal goals or standards", why: "This is a detail about how the process works, not a concession to the opposing view." }
+    ]
   },
   {
-    claim: "The writer’s conclusion is optimistic.",
-    quote: "harness its power for good",
+    claim: "The writer presents the urge to conform as natural, not a weakness.",
     opts: [
-      { t: "The writer thinks that we should try to use peer pressure in good ways in the future, instead of only talking about the bad side of it.", why: "Retelling. How do the words create optimism?" },
-      { t: "The writer ends the article with a call to action.", why: "Correct label, but it doesn’t explain the optimism." },
-      { t: "This shows that the problem of peer pressure will definitely be solved in the future once people start to use it in good ways.", why: "Overclaiming. The writer suggests exploring ways, not a guaranteed solution." },
-      { t: "To “harness” is to control a strong force, like a horse or the wind: peer pressure becomes energy steered towards good.", ok: true, why: "Strong. It explains the image in “harness” and why it makes the ending hopeful." }
+      { t: "an advantageous response to our highly socialised environment", ok: true, why: "Right. Calling it “advantageous” frames conforming as a useful, built-in trait rather than a flaw." },
+      { t: "the biased presumption that peer pressure is a strictly undesirable feature", why: "This is the negative view the writer argues against, the opposite of the claim." },
+      { t: "she risks rejection", why: "This is a consequence inside the example, not evidence that conforming is natural." },
+      { t: "Peer pressure—both positive and negative—follows a recognisable psychological process", why: "This says the process is predictable, not that the urge to conform is natural." }
     ]
+  },
+  {
+    claim: "Peer pressure works by creating discomfort that a person then acts to remove.",
+    target: ["To eliminate this tension, student X alters her habits and increases the amount of time and energy she devotes to practice"],
+    decoys: [{ phrase: "she risks rejection", why: "This names the discomfort, but the claim is about the action she takes to escape it. Look at the next sentence." }],
+    miss: "Look in the paragraph that begins “So how does it work?”.",
+    explain: "Not conforming “risks rejection”, and to remove that tension she “alters her habits”. The sentence shows the whole mechanism: discomfort in, changed behaviour out."
+  },
+  {
+    claim: "The writer ends by recommending what people should actually do.",
+    target: ["Instead we should be exploring ways to harness its power for good."],
+    decoys: [{ phrase: "Providing a one-dimensional view of the concept", why: "This names the mistake he wants us to stop making, not what we should do instead. Look at the final sentence." }],
+    miss: "Read the last sentence of the article.",
+    explain: "“We should be exploring” is a direct recommendation, and “harness … for good” turns the argument into a plan of action. It leaves the reader with something to do."
   }
 ];
 TEXTS.push({ id: "peer-pressure", type: "Non-fiction", mode: "Persuasive", form: "Opinion article", level: "5ème",
   hook: "Everyone says peer pressure is bad. This writer disagrees.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 
 /* ================================================================
@@ -2730,14 +2707,6 @@ const ANNOTATE = [
     explain: "Despair and jealousy become two fires heating her soul “at a white heat”. The image suggests emotions so intense they could lead her to something destructive."
   },
   {
-    skill: "Narrator’s doubt",
-    prompt: "Find the phrase suggesting the princess’s jealousy may be <em>imagined</em>.",
-    target: ["Often had she seen, or imagined that she had seen"],
-    decoys: [{ phrase: "and the princess hated her", why: "This states her hatred, but doesn’t question whether it is justified. Look at the next sentence." }],
-    miss: "Look in the paragraph about the lady behind the door.",
-    explain: "The narrator corrects himself: she had “seen, or imagined that she had seen”. This plants doubt about the lady’s guilt, and makes the princess’s choice even harder to judge."
-  },
-  {
     skill: "Key moment",
     prompt: "Find the <em>tiny action</em> on which the whole story turns.",
     target: ["made a slight, quick movement toward the right"],
@@ -2748,16 +2717,6 @@ const ANNOTATE = [
 ];
 
 const QUESTIONS = [
-  {
-    skill: "Ending",
-    q: "What kind of ending does the story have?",
-    opts: [
-      { t: "An open ending: the reader must decide", ok: true, why: "Right. The narrator refuses to answer and leaves it “with all of you”. The story is built to make readers argue about the princess’s choice." },
-      { t: "The tiger comes out, and the narrator describes it in detail", why: "The door opens, but the story stops before anything comes out. The narrator never tells us." },
-      { t: "The lady comes out and the youth marries her in the arena", why: "The princess imagines this, but it is never shown happening. The narrator refuses to reveal the outcome." },
-      { t: "The king explains which door it was after the trial is over", why: "The king never speaks. The only voice at the end is the narrator, and he leaves the answer to us." }
-    ]
-  },
   {
     skill: "Narrator",
     q: "What kind of narrator tells this story?",
@@ -2831,15 +2790,6 @@ const EVIDENCE = [
     ]
   },
   {
-    quote: "he saw she had succeeded, as in his soul he knew she would succeed",
-    opts: [
-      { t: "The youth has complete faith in the princess’s determination", ok: true, why: "Right. He “knew” she would succeed before he even looked at her. His faith in her is total." },
-      { t: "The youth doubts that she has discovered anything at all", why: "“He knew she would succeed” shows certainty, not doubt." },
-      { t: "The princess had given him a sign before the trial began", why: "He reads her success in her face in the arena. No earlier sign is mentioned." },
-      { t: "The princess told him out loud which door to choose", why: "She only makes a “slight, quick movement”. Nothing is said aloud." }
-    ]
-  },
-  {
     quote: "but it had been made after days and nights of anguished deliberation",
     opts: [
       { t: "Her quick signal was planned carefully, not decided on impulse", ok: true, why: "Right. The gesture took “an instant”, but the decision behind it took “days and nights”. It was not a snap judgement." },
@@ -2859,16 +2809,6 @@ const EXPLAIN = [
       { t: "When the youth walks out into the arena, the people in the crowd make a quiet noise because they are all surprised to see such a handsome young man.", why: "Retelling. It never explains how “admiration and anxiety” show mixed feelings." },
       { t: "The writer uses alliteration in the phrase “admiration and anxiety”, repeating the letter a, which is a sound technique that makes the description stand out.", why: "It names a sound effect but ignores what the two words mean together." },
       { t: "This proves that everyone in the crowd secretly wants the youth to be eaten by the tiger, because they are anxious to see a bloody show in the arena.", why: "A misreading. Their anxiety is fear for him, alongside admiration." }
-    ]
-  },
-  {
-    claim: "The narrator hints the princess’s jealousy may be unfounded.",
-    quote: "Often had she seen, or imagined that she had seen",
-    opts: [
-      { t: "The princess has often watched the lady looking at her lover with admiration, and she has seen them talking together at court more than once.", why: "Retelling. It treats the glances as certain and misses the doubt in “or imagined”." },
-      { t: "The narrator corrects “seen” to “imagined that she had seen”, planting doubt. Her hatred may rest on suspicion, which makes her choice harder to predict.", ok: true, why: "Strong. It explains the self-correction and why the doubt matters for the ending." },
-      { t: "This shows the lady was definitely in love with the youth and was trying to take him away from the princess, so the princess is right to hate her.", why: "Overclaiming. The narrator deliberately leaves this uncertain." },
-      { t: "The writer uses repetition of the word “seen” in this sentence to describe what the princess noticed at court, which is an effective technique.", why: "It notices repetition but never explains what the change to “imagined” suggests." }
     ]
   },
   {
@@ -2902,9 +2842,44 @@ const EXPLAIN = [
     ]
   }
 ];
+
+const COLLECT = [
+  {
+    claim: "The story ends without ever telling us what came out of the door.",
+    opts: [
+      { t: "Which came out of the opened door – the lady, or the tiger?", ok: true, why: "Right. The story stops on this unanswered question and leaves the reader to decide." },
+      { t: "he went to the door on the right, and opened it", why: "This is the moment he opens the door, but the story stops here without showing the result." },
+      { t: "she had moved her hand to the right", why: "This is the princess’s secret signal, not the withheld outcome." },
+      { t: "it was impossible that any noise or suggestion should come from within", why: "This describes the silent, sealed doors, not the ending the narrator refuses to give." }
+    ]
+  },
+  {
+    claim: "The narrator hints the princess’s jealousy may not even be justified.",
+    opts: [
+      { t: "Often had she seen, or imagined that she had seen", ok: true, why: "Right. Correcting “seen” to “imagined that she had seen” plants doubt about whether the lady is really guilty." },
+      { t: "the princess hated her", why: "This states the hatred plainly, but not the narrator’s hint that it may be unfounded." },
+      { t: "she had dared to raise her eyes to the loved one of the princess", why: "This gives the supposed offence as if it were certain fact, not as doubtful." },
+      { t: "with all the intensity of the savage blood transmitted to her", why: "This describes her fierce nature, not any doubt about her jealousy." }
+    ]
+  },
+  {
+    claim: "The youth trusts the princess completely to guide his choice.",
+    target: ["he saw she had succeeded, as in his soul he knew she would succeed"],
+    decoys: [{ phrase: "No one but her lover saw her", why: "This tells us only he saw her signal, not that he trusts her judgement. Look for where he is certain she has succeeded." }],
+    miss: "Look at the paragraph where their eyes meet in the arena.",
+    explain: "Even before he looks, “in his soul he knew she would succeed”. His only hope rests entirely on her determination to uncover the secret."
+  },
+  {
+    claim: "The whole crowd is frozen with tension as he walks to the door.",
+    target: ["every eye was fixed immovably upon that man"],
+    decoys: [{ phrase: "walked across the empty space", why: "This describes him crossing to the door, not the crowd frozen in tension. Look for what every eye is doing." }],
+    miss: "Look at the paragraph where he walks to the door.",
+    explain: "“Every eye … fixed immovably” freezes the whole crowd on one man. Nobody moves, which makes the moment before the door opens feel unbearably tense."
+  }
+];
 TEXTS.push({ id: "lady-or-tiger", type: "Fiction", mode: "Creative", form: "Short story (extract)", level: "5ème",
   hook: "Two doors. A tiger or a bride. And a princess who knows which is which.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 
 /* ================================================================
@@ -2967,14 +2942,6 @@ const TEXT = {
 
 const ANNOTATE = [
   {
-    skill: "Atmosphere",
-    prompt: "Find the description that shows <em>grief filling the house</em>.",
-    target: ["a house steeped in shadow and silence"],
-    decoys: [{ phrase: "In the huge new cemetery", why: "That is where Herbert is buried. The question asks how the house feels when they come home." }],
-    miss: "Look at the end of the first sentence.",
-    explain: "“Steeped” means soaked through, like tea in water. The house is soaked in shadow and silence, so grief seems to fill every corner. The soft “s” sounds add to the hush."
-  },
-  {
     skill: "Dialogue",
     prompt: "Find the reply showing the mother <em>cannot stop thinking about Herbert’s grave</em>.",
     target: ["It is colder for my son"],
@@ -3030,17 +2997,6 @@ const QUESTIONS = [
     ]
   },
   {
-    skill: "Structure",
-    q: "How does Jacobs build suspense with the knocking?",
-    opts: [
-      { t: "It grows from “scarcely audible” to a “fusillade”", ok: true, why: "Right. First one quiet knock, then a second, a third, a “loud knock”, “another, and another”, then a “perfect fusillade”. Each step raises the tension." },
-      { t: "The knocking shows that Herbert is being polite", why: "The mood is horror, not politeness. The knocking becomes violent." },
-      { t: "The knocking tells the reader exactly who is outside", why: "The writer never reveals what is outside. That uncertainty is the source of the fear." },
-      { t: "The knocking is meant to make the ending funny", why: "Everything about the scene is terrifying. Nothing is played for laughs." }
-    ]
-  },
-  
-  {
     skill: "Technique",
     q: "What does the story never show the reader?",
     opts: [
@@ -3080,15 +3036,6 @@ const EVIDENCE = [
       { t: "Mr White wishes he had asked for more money", why: "He is horrified by the idea of another wish. “Fiercely” shows anger, not greed." },
       { t: "Mr White is angry his wife woke him up", why: "His anger is about the wishes, not being woken." },
       { t: "Mr White has forgotten about the first wish", why: "“Was not that enough?” shows he remembers it all too well." }
-    ]
-  },
-  {
-    quote: "I could only recognize him by his clothing.",
-    opts: [
-      { t: "Herbert’s body was terribly damaged in the accident", ok: true, why: "Right. If his own father couldn’t recognise his face, the injuries must have been horrific." },
-      { t: "Herbert always wore very unusual clothes", why: "The point is that his face couldn’t be recognised, not that his clothes were unusual." },
-      { t: "Herbert’s body was never found after the accident", why: "Mr White saw the body: that is how he knows about the clothing." },
-      { t: "Mr White has very poor eyesight", why: "Nothing suggests poor eyesight. The problem was the injuries." }
     ]
   },
   {
@@ -3143,16 +3090,6 @@ const EXPLAIN = [
     ]
   },
   {
-    claim: "The knocking reaches a terrifying peak.",
-    quote: "A perfect fusillade of knocks reverberated through the house",
-    opts: [
-      { t: "A “fusillade” is a burst of gunfire, so the knocks become violent and relentless. After the first “scarcely audible” knock, the noise peaks.", ok: true, why: "Strong. It defines the metaphor and links it to how the knocking has built." },
-      { t: "Somebody outside starts shooting at the house with a gun, which is why there is so much noise echoing through all the rooms at the end.", why: "A literal misreading of a metaphor." },
-      { t: "The knocking on the front door gets louder and louder, and the sound of it can be heard all over the house while Mrs White tries to open the door.", why: "Retelling. What does “fusillade” add?" },
-      { t: "The writer uses a difficult word here to describe the sound of the knocking, which makes the scene more interesting for the reader of the story.", why: "Vague. Explain what the word suggests." }
-    ]
-  },
-  {
     claim: "The ending is chilling because of what it doesn’t show.",
     quote: "shone on a quiet and deserted road",
     opts: [
@@ -3163,9 +3100,44 @@ const EXPLAIN = [
     ]
   }
 ];
+
+const COLLECT = [
+  {
+    claim: "Mr White is terrified of what might come back if he wishes his son alive.",
+    opts: [
+      { t: "I could only recognize him by his clothing.", ok: true, why: "Right. If his own father could not recognise his face, the injuries must have been horrific: that is what he dreads returning." },
+      { t: "He has been dead ten days", why: "This tells us how long he has been dead, not how terrible he would be to see. Read the rest of the sentence." },
+      { t: "Good God, you are mad!", why: "This is his shock at her plan, not the reason his son would be terrible to see." },
+      { t: "It is foolish and wicked", why: "This is his moral objection to the wish, not his fear of the body coming back." }
+    ]
+  },
+  {
+    claim: "The knocking grows from almost nothing into an overwhelming assault.",
+    opts: [
+      { t: "A perfect fusillade of knocks reverberated through the house", ok: true, why: "Right. A “fusillade” is a burst of gunfire, so the knocking has built to a violent, overwhelming peak." },
+      { t: "A loud knock resounded through the house", why: "This is a single loud knock partway through, not the overwhelming burst at the peak." },
+      { t: "A stair creaked, and a squeaky mouse scurried noisily", why: "These are ordinary night sounds, not the knocking at all." },
+      { t: "after lying for some time screwing up his courage, the husband took the box of matches", why: "This is Mr White nerving himself to go downstairs, not the knocking." }
+    ]
+  },
+  {
+    claim: "The house feels soaked in grief when the couple return from the funeral.",
+    target: ["a house steeped in shadow and silence"],
+    decoys: [{ phrase: "their days were long to weariness", why: "This shows their empty grief in the days that follow, but the claim is about the house as they come home. Look at the end of the first sentence." }],
+    miss: "Look at the end of the first sentence, as they come home.",
+    explain: "“Steeped” means soaked through, like tea in water. The house is soaked in “shadow and silence”, so grief seems to fill every room. The soft “s” sounds add to the hush."
+  },
+  {
+    claim: "Mr White is desperate to stop the door from being opened.",
+    target: ["For God’s sake, don’t let it in"],
+    decoys: [{ phrase: "It’s my boy; it’s Herbert!", why: "This is Mrs White’s certainty that their son has returned, the opposite of wanting the door shut. Look for what the old man cries." }],
+    miss: "Look at the struggle at the door, near the end.",
+    explain: "While his wife cries out for Herbert, the old man begs “don’t let it in”. His terror of what may be outside makes him fight to keep the door shut."
+  }
+];
 TEXTS.push({ id: "monkeys-paw", type: "Fiction", mode: "Creative", form: "Horror story (extract)", level: "5ème",
   hook: "Three wishes. One dead son. And a knock at the door in the middle of the night.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 
 /* ================================================================
@@ -3427,14 +3399,6 @@ To be caught would mean a caning, four strokes, maybe six, across the back of th
 
 const ANNOTATE = [
   {
-    skill: "List",
-    prompt: "Find the long list that shows <em>everything the narrator dislikes</em> about school.",
-    target: ["a diet of Latin and stew and rugby and detentions"],
-    decoys: [{ phrase: "boarding school in deepest Wiltshire", why: "That tells us where the school is, not what life there is like. Look for the list joined by lots of “and”s." }],
-    miss: "Look in the second paragraph for a sentence with the word “and” again and again.",
-    explain: "The list keeps going with “and… and… and…”, as if the narrator can’t stop complaining. Mixing lessons, food and punishments together makes school feel like one long, unpleasant meal he is forced to eat."
-  },
-  {
     skill: "Short sentences",
     prompt: "Find a short sentence showing this memory is <em>very important</em> to the narrator.",
     target: ["I mustn’t forget.", "But I don’t forget."],
@@ -3500,17 +3464,6 @@ const QUESTIONS = [
     ]
   },
   {
-    skill: "Vocabulary",
-    q: "“I lived every waking moment of my life in dread of him.” What does “dread” mean?",
-    opts: [
-      { t: "Great fear of something that might happen", ok: true, why: "Right. He is always afraid of what Basher might do next." },
-      { t: "Excitement about seeing someone soon", why: "Basher “terrorised and tormented” him. There is nothing exciting about it." },
-      { t: "Anger that makes you want to fight", why: "The narrator never fights back. The word describes fear, not anger." },
-      { t: "Boredom at having nothing to do", why: "Dread is a strong fear, the opposite of feeling bored." }
-    ]
-  },
-  
-  {
     skill: "Mood",
     q: "What mood does the rain create at the end of the extract?",
     opts: [
@@ -3559,15 +3512,6 @@ const EVIDENCE = [
       { t: "His friends helped him plan the escape", why: "He goes alone, and no friends are mentioned." },
       { t: "The teachers knew about his plan", why: "He hopes not to be “missed till supper”, so it is secret." }
     ]
-  },
-  {
-    quote: "those heavy hard drops that mean there’s more of the same on the way",
-    opts: [
-      { t: "The weather is about to get worse", ok: true, why: "Right. “More of the same on the way” means heavier rain is coming." },
-      { t: "It has just stopped raining", why: "“Beginning to rain now” shows it is only starting." },
-      { t: "The narrator enjoys walking in the rain", why: "Nothing suggests he enjoys it. He shelters “under the trees”." },
-      { t: "It is starting to snow", why: "The text describes rain drops, not snow." }
-    ]
   }
 ];
 
@@ -3603,16 +3547,6 @@ const EXPLAIN = [
     ]
   },
   {
-    claim: "The narrator is desperate to escape.",
-    quote: "I ran as if bloodhounds were after me",
-    opts: [
-      { t: "There were real dogs from the school chasing the narrator through the park, so he had to run as fast as he could to get away from them.", why: "A literal misreading. “As if” shows it’s a comparison." },
-      { t: "Bloodhounds are dogs used to hunt people. The simile makes him feel like a hunted prisoner, running in fear, not just for fun.", ok: true, why: "Strong. It explains what bloodhounds are and what the simile suggests." },
-      { t: "The narrator runs very quickly out of the school park and through Innocents Breach so that he can get to the road on the other side.", why: "Retelling. What does the simile add?" },
-      { t: "This is a simile, because the writer uses the words “as if” to compare the narrator to something else while he is running.", why: "A definition, not an explanation." }
-    ]
-  },
-  {
     claim: "Home means safety and freedom to the narrator.",
     quote: "home, home and free",
     opts: [
@@ -3623,9 +3557,44 @@ const EXPLAIN = [
     ]
   }
 ];
+
+const COLLECT = [
+  {
+    claim: "The narrator knows exactly what punishment he faces if he is caught.",
+    opts: [
+      { t: "a caning, four strokes, maybe six, across the back of the knees", ok: true, why: "Right. He spells out the exact punishment, right down to the number of strokes." },
+      { t: "I turned up the collar of my raincoat so that no one could catch a glimpse of my uniform", why: "This shows him hiding so he won’t be spotted, not the punishment waiting for him." },
+      { t: "back to detentions, back to Basher Beaumont", why: "This is the miserable life he would return to, not the punishment for being caught." },
+      { t: "I had often thought of running away", why: "This is about his old wish to escape, not what happens if he is caught." }
+    ]
+  },
+  {
+    claim: "The narrator makes the stone lion sound fierce and alive.",
+    opts: [
+      { t: "roaring in the rain, his lip curled, his teeth bared", ok: true, why: "Right. “Roaring”, “lip curled” and “teeth bared” give a carved stone lion the actions of a living, angry animal." },
+      { t: "A great stone lion bestrode the gateway", why: "This tells us the lion is there and where it stands, but not that it seems fierce or alive." },
+      { t: "a high brick wall, much of it covered in ivy", why: "This describes the wall, not the lion." },
+      { t: "I stopped and stared up at him for a moment", why: "This is the narrator’s reaction, not a description that brings the lion to life." }
+    ]
+  },
+  {
+    claim: "The narrator hides the instant he realises a car is coming.",
+    target: ["I pushed open the iron gate, darted through, and flattened myself behind the stone pillar"],
+    decoys: [{ phrase: "That was when I heard a car slowing down behind me", why: "This is what makes him hide, but the claim asks for the hiding itself. Look at the next sentence." }],
+    miss: "Look for the moment just after he hears the car.",
+    explain: "The car makes him hide: he darts through the gate and flattens himself behind the pillar. Three quick actions in a row show how fast fear moves him."
+  },
+  {
+    claim: "One bad thing after another finally pushes the narrator to run.",
+    target: ["I was more miserable than I had ever been before."],
+    decoys: [{ phrase: "I had often thought of running away", why: "He had thought about it before, but this is not the moment that finally decided him. Look for where his misery peaks." }],
+    miss: "Look at the end of the third paragraph, after the spelling test and the shoe-polish.",
+    explain: "The homesick letter, Basher’s bullying and Mr Carter’s punishment stack up until he is “more miserable than I had ever been”. That peak is what makes him decide “there and then” to run."
+  }
+];
 TEXTS.push({ id: "butterfly-lion", type: "Fiction", mode: "Creative", form: "Novel opening", level: "CM2",
   hook: "A miserable ten-year-old runs away from boarding school in the rain.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 
 /* ---------- TEXT 17 · Seventh Grade · 6ème ---------- */
@@ -4530,14 +4499,6 @@ const ANNOTATE = [
     explain: "Framton is having a “nerve cure”: he is a nervous, anxious man sent to rest. That makes him the perfect victim for a frightening story."
   },
   {
-    skill: "Foreshadowing",
-    prompt: "Find <em>one detail</em> in the niece’s story that later appears for real.",
-    target: ["his white waterproof coat over his arm", "the little brown spaniel", "singing ‘Bertie, why do you bound?’"],
-    decoys: [{ phrase: "engulfed in a treacherous piece of bog", why: "This part never comes true: the men come home safe. Look for something they carry, bring or sing." }],
-    miss: "Look in the niece’s long story about the men who went shooting.",
-    explain: "The coat, the spaniel and the song all reappear exactly as described. Because she planted such specific details, Framton is sure he is seeing ghosts."
-  },
-  {
     skill: "Performance",
     prompt: "Find the niece’s <em>acting</em> that makes Framton turn round in fear.",
     target: ["staring out through the open window with dazed horror in her eyes"],
@@ -4556,16 +4517,6 @@ const ANNOTATE = [
 ];
 
 const QUESTIONS = [
-  {
-    skill: "Inference",
-    q: "Why does the niece ask, “Then you know practically nothing about my aunt?”",
-    opts: [
-      { t: "To make sure he can’t catch her lie", ok: true, why: "Right. Once she knows he has only her aunt’s name and address, she can invent anything and he can’t contradict it." },
-      { t: "Because she wants to introduce Framton properly to her aunt", why: "She never introduces anything. She uses the answer to begin her invented tragedy." },
-      { t: "Because she suspects Framton is a thief who wants to steal from them", why: "Nothing suggests suspicion. She is setting up a trick." },
-      { t: "Because she thinks he is an old friend of her aunt’s from the war", why: "He has just told her he knows “hardly a soul”." }
-    ]
-  },
   {
     skill: "Dramatic irony",
     q: "Why does Mrs. Sappleton’s cheerful talk about shooting horrify Framton?",
@@ -4639,15 +4590,6 @@ const EVIDENCE = [
     ]
   },
   {
-    quote: "The child was staring out through the open window with dazed horror in her eyes.",
-    opts: [
-      { t: "The niece performs fear so Framton believes in ghosts", ok: true, why: "Right. She knows the men are alive, so the horror is acted, and it makes Framton turn round expecting the dead." },
-      { t: "The niece is truly terrified by the men on the lawn", why: "She knows exactly who they are. Minutes later she speaks “calmly”." },
-      { t: "The niece has just seen a terrible accident outside the house", why: "The men are walking home safely. There is no accident." },
-      { t: "The niece is tired after talking for a long time", why: "“Dazed horror” shows fear, not tiredness." }
-    ]
-  },
-  {
     quote: "said the niece calmly",
     opts: [
       { t: "The niece feels no guilt about her trick", ok: true, why: "Right. Framton has just fled in terror, yet she calmly invents another story to explain it." },
@@ -4659,16 +4601,6 @@ const EVIDENCE = [
 ];
 
 const EXPLAIN = [
-  {
-    claim: "The niece is in control from the start.",
-    quote: "a very self-possessed young lady of fifteen",
-    opts: [
-      { t: "The niece of Mrs. Sappleton is fifteen years old, and she talks to Framton Nuttel while he waits for her aunt to come downstairs.", why: "Retelling. How do the words show she is in control?" },
-      { t: "“Self-possessed” means calm and in charge of herself, rare at fifteen. Saki signals from line one that she runs the conversation.", ok: true, why: "Strong. It explains the key word and why its position matters." },
-      { t: "The writer describes the age of the niece in the first sentence of the story to give the reader some information about her.", why: "Too general. Which word shows control?" },
-      { t: "This shows the niece is rude and doesn’t want Framton in the house, so she tells him he must “put up with” her until her aunt arrives.", why: "A misreading. She is polite and confident, not rude." }
-    ]
-  },
   {
     claim: "Framton is easy to fool.",
     quote: "the nerve cure which he was supposed to be undergoing",
@@ -4801,14 +4733,6 @@ const ANNOTATE = [
     decoys: [{ phrase: "Hard and sharp as flint", why: "That is a comparison, and a good one, but it is not a list of actions. Look for several words ending in “-ing”." }],
     miss: "Look at the paragraph that begins with “Oh!”",
     explain: "Five verbs of holding on tight pile up one after another. We can almost feel Scrooge’s hands, so his meanness becomes physical rather than an idea."
-  },
-  {
-    skill: "Metaphor",
-    prompt: "Find the sentence that says Scrooge takes his own <em>weather</em> around with him.",
-    target: ["He carried his own low temperature always about with him"],
-    decoys: [{ phrase: "A frosty rime was on his head", why: "That describes frost on Scrooge, so it is close, but it does not say he carries the cold with him." }],
-    miss: "Look near the end of the paragraph about his frozen features.",
-    explain: "A person cannot really carry a temperature. The metaphor turns Scrooge’s coldness into something he brings into every room, which is why his office never warms up."
   }
 ];
 
@@ -4841,16 +4765,6 @@ const QUESTIONS = [
       { t: "Peaceful and still, because the fog makes everything quiet", why: "People wheeze, beat their hands and stamp their feet. It is uncomfortable, not peaceful." },
       { t: "Warm and busy, with neighbours calling in on each other", why: "Nobody calls on Scrooge at all. That is the point of the paragraph before." },
       { t: "Exciting and hopeful, because Christmas is on its way", why: "Christmas is mentioned, but everything around it is cold and dark." }
-    ]
-  },
-  {
-    skill: "Setting",
-    q: "Why does Dickens make it dark at three in the afternoon?",
-    opts: [
-      { t: "So the world outside matches the coldness inside Scrooge", ok: true, why: "Right. The setting mirrors the man. Dickens has just spent two paragraphs freezing Scrooge from the inside." },
-      { t: "To show that the story happens somewhere far to the north", why: "It is London. The dark comes from winter fog, not from the far north." },
-      { t: "To explain why the clerk cannot see his letters clearly", why: "The clerk’s problem is the cold and his one coal, not the light." },
-      { t: "To warn the reader that a storm is about to break", why: "No storm arrives. The weather stays foggy and still." }
     ]
   },
   {
@@ -4903,15 +4817,6 @@ const EVIDENCE = [
       { t: "He keeps ice in the office to cool it down in summer", why: "A literal reading. Dickens means the chill he brings with him." },
       { t: "His office faces away from the sun all year round", why: "The cause is Scrooge, not the direction the building faces." }
     ]
-  },
-  {
-    quote: "the houses opposite were mere phantoms",
-    opts: [
-      { t: "The ordinary world is already turning ghostly", ok: true, why: "Right. Before any ghost appears, the fog makes solid houses look like spirits." },
-      { t: "The houses opposite have been abandoned by their owners", why: "They are hidden by fog, not empty." },
-      { t: "Scrooge’s eyesight is failing as he grows older", why: "Everyone in the court is in the same fog." },
-      { t: "The narrator is unsure whether the houses are really there", why: "He knows they are there. It is the fog that hides them." }
-    ]
   }
 ];
 
@@ -4937,16 +4842,6 @@ const EXPLAIN = [
     ]
   },
   {
-    claim: "The opening prepares the reader for a ghost.",
-    quote: "the houses opposite were mere phantoms",
-    opts: [
-      { t: "The fog on Christmas Eve is so thick that Scrooge cannot see the buildings on the other side of the narrow court outside.", why: "Retelling. Which word matters, and why that word?" },
-      { t: "The word “phantoms” slips a ghost into an ordinary street. The real world blurs first, so a real ghost feels possible.", ok: true, why: "Strong. One word explained, and linked to the story to come." },
-      { t: "Dickens wants to say the houses were not really there at all, because the fog had made them disappear completely.", why: "A literal misreading. They are hidden, not gone." },
-      { t: "The writer describes the fog in this part of the extract.", why: "An observation. What is the effect of the word chosen?" }
-    ]
-  },
-  {
     claim: "Dickens shows Scrooge’s meanness instead of stating it.",
     quote: "Scrooge kept the coal-box in his own room",
     opts: [
@@ -4967,9 +4862,44 @@ const EXPLAIN = [
     ]
   }
 ];
+
+const COLLECT = [
+  {
+    claim: "The narrator gives solid proof that Marley is really dead.",
+    opts: [
+      { t: "signed by the clergyman, the clerk, the undertaker, and the chief mourner", ok: true, why: "Right. A burial register witnessed by four people is real proof, not just an assertion." },
+      { t: "and my unhallowed hands shall not disturb it, or the Country’s done for", why: "This is part of the narrator’s playful door-nail joke, not evidence that Marley is dead." },
+      { t: "Scrooge’s name was good upon ’Change", why: "This tells us Scrooge’s signature was trusted in business, not that Marley is dead." },
+      { t: "as dead as a door-nail", why: "This asserts he is dead with a simile, but it offers no proof. The signed register does." }
+    ]
+  },
+  {
+    claim: "Scrooge’s coldness comes from inside him, not from the weather.",
+    opts: [
+      { t: "No warmth could warm, no wintry weather chill him.", ok: true, why: "Right. Neither warmth nor cold weather can change him: the chill is his own, not the air’s." },
+      { t: "candles were flaring in the windows of the neighbouring offices", why: "This describes the gloom outside, not where Scrooge’s coldness comes from." },
+      { t: "The fog came pouring in at every chink and keyhole", why: "This is the weather in the street, not proof that his coldness is his own." },
+      { t: "it was quite dark already", why: "This sets the dark afternoon, but says nothing about Scrooge himself." }
+    ]
+  },
+  {
+    claim: "Dickens jokes that Scrooge is less generous even than the weather.",
+    target: ["They often came down handsomely, and Scrooge never did."],
+    decoys: [{ phrase: "No wind that blew was bitterer than he", why: "This compares his temper to the wind, but the claim is about generosity. Look for the sentence about rain and snow coming down." }],
+    miss: "Look at the end of the paragraph that begins “External heat and cold”.",
+    explain: "Rain and snow “came down handsomely” (generously), “and Scrooge never did”. The pun on “came down” turns the weather into a joke about how he never gives anything away."
+  },
+  {
+    claim: "Scrooge is described as so hard that no kindness can be struck out of him.",
+    target: ["Hard and sharp as flint, from which no steel had ever struck out generous fire"],
+    decoys: [{ phrase: "The cold within him froze his old features", why: "This describes the cold in his face, not his hardness. Look for the comparison to flint and steel." }],
+    miss: "Look in the short paragraph that begins “Oh!”.",
+    explain: "Scrooge is “hard and sharp as flint”, and “no steel had ever struck out generous fire” from him. The image says nobody has ever managed to strike a spark of kindness out of him."
+  }
+];
 TEXTS.push({ id: "marley-was-dead", type: "Fiction", mode: "Creative", form: "Novel opening", level: "6ème",
   hook: "Fog, darkness at three in the afternoon, and a man who carries his own cold with him.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 {
 const TEXT = {
@@ -5767,14 +5697,6 @@ const ANNOTATE = [
     explain: "The same word three times drains the colour out of the view. The world outside matches her mood without the narrator having to name the feeling."
   },
   {
-    skill: "Irony",
-    prompt: "Find Jim’s <em>reason</em> for not looking at his present.",
-    target: ["I sold the watch to get the money to buy your combs"],
-    decoys: [{ phrase: "let’s put our Christmas presents away and keep them a while", why: "That is what he suggests. Look for the sentence that explains why." }],
-    miss: "Look at Jim’s last speech.",
-    explain: "Each sold the one thing the other’s gift was made for. The line lands quietly, in the middle of a sentence about chops, which makes it funnier and sadder."
-  },
-  {
     skill: "Characterisation",
     prompt: "Find the <em>comparison</em> that describes Jim frozen in the doorway.",
     target: ["as immovable as a setter at the scent of quail"],
@@ -5827,16 +5749,6 @@ const QUESTIONS = [
     ]
   },
   {
-    skill: "Inference",
-    q: "What do the flat and the letter-box tell us about the couple?",
-    opts: [
-      { t: "They are poor, and the poverty is quiet and everyday", ok: true, why: "Right. A dead bell and a letter-box nothing fits into, described lightly rather than pitied." },
-      { t: "They have only just moved in and are still settling", why: "The carpet is worn and the name card is already fixed there." },
-      { t: "They live somewhere dangerous and keep the door locked", why: "Nothing suggests danger in the building." },
-      { t: "They are hiding from someone who is looking for them", why: "Their name is on a card downstairs for all to read." }
-    ]
-  },
-  {
     skill: "Summary",
     q: "Which sentence best sums up what happens in this text?",
     opts: [
@@ -5856,15 +5768,6 @@ const EVIDENCE = [
       { t: "Della had stolen small amounts from the shopkeepers", why: "Bulldozing here means arguing over prices, not taking money." },
       { t: "Della earns her living by working for the grocer downstairs", why: "No job of hers is mentioned in the story." },
       { t: "The shops in the neighbourhood were unusually cheap", why: "She has to push hard for every penny off." }
-    ]
-  },
-  {
-    quote: "already introduced to you as Della",
-    opts: [
-      { t: "The narrator treats the reader as someone he is talking to", ok: true, why: "Right. He reminds us of an introduction he made, as a speaker would with a listener in the room." },
-      { t: "Della has appeared in an earlier story by the same writer", why: "The introduction he means is a few lines above." },
-      { t: "The narrator has forgotten what he has already written", why: "He is keeping track deliberately, which is why he says it." },
-      { t: "Della is about to be introduced to another character in the story", why: "The line points backwards, not forwards." }
     ]
   },
   {
@@ -5909,16 +5812,6 @@ const EXPLAIN = [
     ]
   },
   {
-    claim: "The reveal is placed where it will do most damage.",
-    quote: "I sold the watch to get the money to buy your combs. And now suppose you put the chops on.",
-    opts: [
-      { t: "Jim tells Della that he no longer has his gold watch, because he sold it in order to pay for her Christmas combs.", why: "Retelling. Why put it next to the chops?" },
-      { t: "The sacrifice is dropped between a plan and a request about supper. Refusing to make a speech of it makes the loss land harder.", ok: true, why: "Strong. It explains the placement and the effect of understatement." },
-      { t: "Jim is hungry after his day at work and wants Della to start cooking their supper as soon as she can.", why: "True on the surface, but it misses why the two sentences sit together." },
-      { t: "Jim explains what he did with his watch at the end of the story, which is the moment when the reader learns where the combs came from.", why: "An observation. Why is it said this way?" }
-    ]
-  },
-  {
     claim: "The last paragraph asks the reader to change their mind.",
     quote: "two foolish children in a flat who most unwisely sacrificed for each other",
     opts: [
@@ -5939,9 +5832,44 @@ const EXPLAIN = [
     ]
   }
 ];
+
+const COLLECT = [
+  {
+    claim: "The couple’s poverty is shown through small, everyday details rather than stated outright.",
+    opts: [
+      { t: "a letter-box into which no letter would go", ok: true, why: "Right. A dead letter-box and a broken bell quietly show their poverty without the narrator naming it." },
+      { t: "there were two possessions of the James Dillingham Youngs in which they both took a mighty pride", why: "This introduces their two treasures, not the everyday poverty of the flat." },
+      { t: "Twenty-one dollars they took from her for it", why: "This is the price of the chain, not a detail of the flat’s poverty." },
+      { t: "With a whirl of skirts and with the brilliant sparkle still in her eyes", why: "This describes Della leaving the flat, not how poor it is." }
+    ]
+  },
+  {
+    claim: "Della is afraid Jim will stop loving her once her hair is gone.",
+    opts: [
+      { t: "Please God, make him think I am still pretty.", ok: true, why: "Right. Her whispered prayer shows she fears the haircut will change how Jim sees her." },
+      { t: "She had a habit of saying a little silent prayer about the simplest everyday things", why: "This tells us she often prays, but not what she is afraid of here." },
+      { t: "she turned white for just a moment", why: "This shows she is nervous, but not that she fears losing Jim’s love." },
+      { t: "Then she heard his step on the stair away down on the first flight", why: "This is just Jim arriving home, not Della’s fear." }
+    ]
+  },
+  {
+    claim: "Della gives up her most treasured possession to buy Jim’s gift.",
+    target: ["“Will you buy my hair?” asked Della."],
+    decoys: [{ phrase: "Della’s beautiful hair fell about her, rippling and shining like a cascade of brown waters", why: "This shows how beautiful her hair is, which makes the sacrifice bigger, but the claim asks for the moment she gives it up. Look for what she says in the shop." }],
+    miss: "Look at the scene inside Madame Sofronie’s shop.",
+    explain: "The thing she prizes most is her hair, and she walks into the shop and offers it: “Will you buy my hair?” Selling her treasure to afford Jim’s gift is her sacrifice."
+  },
+  {
+    claim: "Both gifts are made useless by the very sacrifices that paid for them.",
+    target: ["I sold the watch to get the money to buy your combs."],
+    decoys: [{ phrase: "the tresses that should have adorned the coveted adornments were gone", why: "This shows the combs are useless now her hair is gone, but the claim needs the line that reveals both sacrifices at once. Look at Jim’s last speech." }],
+    miss: "Look at Jim’s final speech, near the end.",
+    explain: "Della sold her hair for a watch chain; Jim “sold the watch” to buy her combs. Each gift is now useless, and it is the love behind each sacrifice that ruined the other."
+  }
+];
 TEXTS.push({ id: "gift-of-the-magi", type: "Fiction", mode: "Creative", form: "Short story", level: "5ème",
   hook: "One dollar and eighty-seven cents, and two people determined to buy a Christmas present.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 {
 const TEXT = {
