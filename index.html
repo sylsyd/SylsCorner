@@ -6,43 +6,29 @@
   <meta name="description" content="Lesson materials and classroom resources for Syl's middle school classes.">
   <title>The Learning Deck | Middle School English</title>
   <link rel="stylesheet" href="css/styles.css">
-  <script src="js/main.js" defer></script>
 </head>
-<body>
+<body class="cover">
   <header>
-    <a class="wordmark" href="#top" aria-label="The Learning Deck home">
+    <a class="wordmark" href="index.html" aria-label="The Learning Deck home">
       <img class="mark" src="assets/syl-corner-mark.png" alt="">
     </a>
-    <nav aria-label="Main navigation"><a href="#classes">Classes</a><a href="practice.html">Practice</a><a href="tools.html">Tools</a></nav>
+    <nav aria-label="Main navigation"><a href="classes.html">Classes</a><a href="practice.html">Practice</a><a href="tools.html">Tools</a></nav>
   </header>
 
   <main>
     <section class="hero" id="top" aria-label="The Learning Deck">
       <div class="hero-visual" aria-hidden="true">
         <picture>
-          <source media="(max-width: 650px)" srcset="assets/learning-deck-hero-mobile.png">
+          <source media="(max-width: 650px)" srcset="assets/learning-deck-hero-mobile-cover.png">
           <img src="assets/learning-deck-hero.png" alt="">
         </picture>
       </div>
       <nav class="hero-actions" aria-label="Main sections">
-        <a class="hero-btn" href="#classes">Classes<span class="hero-btn-arrow" aria-hidden="true">&darr;</span></a>
+        <a class="hero-btn" href="classes.html">Classes</a>
         <a class="hero-btn" href="practice.html">Practice</a>
         <a class="hero-btn" href="tools.html">Tools</a>
       </nav>
     </section>
-
-    <section class="classes" id="classes">
-      <div class="tabs">
-        <div class="tab-list" role="tablist" aria-label="Choose your class">
-          <button class="tab" role="tab" id="tab-6LVA" aria-controls="panel-6LVA" aria-selected="true" data-class="6LVA"><span class="tab-name">6LVA</span><span class="tab-detail">1 game ready.</span></button>
-          <button class="tab" role="tab" id="tab-6SI" aria-controls="panel-6SI" aria-selected="false" data-class="6SI" tabindex="-1"><span class="tab-name">6SI</span><span class="tab-detail">6 lessons available.</span></button>
-          <button class="tab" role="tab" id="tab-5SI" aria-controls="panel-5SI" aria-selected="false" data-class="5SI" tabindex="-1"><span class="tab-name">5SI</span><span class="tab-detail">7 lessons available.</span></button>
-        </div>
-        <div id="panels"></div>
-      </div>
-    </section>
   </main>
-
-  <footer><p>© <span id="year"></span> The Learning Deck</p></footer>
-<nav class="footer-class-switcher" aria-label="Switch class"><span>Switch class</span><a href="classroom.html?class=6LVA&amp;section=resources">6LVA</a><a href="6si-unit-1.html">6SI</a><a href="5si-unit-1.html">5SI</a></nav></body>
+</body>
 </html>

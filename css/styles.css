@@ -79,25 +79,61 @@ footer { background: var(--ink); color: #b9cad0; font-size: 10px; letter-spacing
 .footer-class-switcher a:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
 @media (max-width: 620px) { .footer-class-switcher { gap: 7px; padding: 17px 12px; }.footer-class-switcher > span { flex-basis: 100%; margin: 0 0 2px; text-align: center; }.footer-class-switcher a { font-size: 16px; padding: 8px 13px; } }
 
-/* ---------------------------------------------------------------
-   Cover-page hero: the artwork owns the first screen, and the three
-   destinations sit at its foot. This replaces the earlier
-   "single-screen class hub" sizing above; to go back, delete this
-   block and restore the .scroll link in index.html.
-   --------------------------------------------------------------- */
-.hero { height: 100svh; min-height: 520px; }
-.hero-actions a:first-child::after { display: none; }  /* cancel the global nav "current page" underline */
+/* ===============================================================
+   COVER PAGE (index.html)
+   The artwork is the whole first screen. Nothing below, nothing to
+   scroll. The three destinations sit at the foot of the image.
+   =============================================================== */
+body.cover { height: 100svh; overflow: hidden; }
+body.cover main, body.cover .hero { height: 100svh; min-height: 0; }
 .hero-actions { bottom: clamp(40px,7vh,86px); display: flex; flex-wrap: wrap; gap: clamp(10px,1.5vw,16px); left: clamp(22px,5vw,100px); position: absolute; right: clamp(22px,5vw,100px); z-index: 1; }
-.hero-btn { align-items: center; background: rgba(7,29,53,.34); border: 1px solid rgba(215,175,98,.66); color: #fffdf8; display: inline-flex; font-size: 11px; font-weight: 800; gap: 10px; letter-spacing: .18em; padding: 17px 28px; text-transform: uppercase; transition: background .18s ease, color .18s ease, border-color .18s ease; }
+.hero-actions a:first-child::after { display: none; }  /* cancel the global nav "current page" underline */
+.hero-btn { align-items: center; background: rgba(7,29,53,.34); border: 1px solid rgba(215,175,98,.66); border-radius: 10px; color: #fffdf8; display: inline-flex; font-size: 11px; font-weight: 800; justify-content: center; letter-spacing: .18em; padding: 17px 30px; text-transform: uppercase; transition: background .18s ease, color .18s ease, border-color .18s ease; }
 .hero-btn:hover, .hero-btn:focus-visible { background: var(--gold); border-color: var(--gold); color: var(--ink); }
 .hero-btn:focus-visible { outline: 2px solid #fffdf8; outline-offset: 3px; }
-.hero-btn-arrow { color: var(--gold); font-size: 15px; transition: transform .2s ease, color .18s ease; }
-.hero-btn:hover .hero-btn-arrow, .hero-btn:focus-visible .hero-btn-arrow { color: var(--ink); transform: translateY(3px); }
+
 @media (max-width: 650px) {
-  /* Portrait art is 1024x1536; a full-height phone viewport is narrower than that,
-     so 100svh would crop the title's edges. 78svh frames it fully and lets the
-     class tabs peek, which signals that there is more below. */
-  .hero { height: 78svh; min-height: 440px; }
-  .hero-actions { bottom: 26px; gap: 8px; left: 16px; right: 16px; }
-  .hero-btn { flex: 1 1 auto; font-size: 9.5px; justify-content: center; letter-spacing: .12em; padding: 14px 8px; }
+  /* The portrait art is 1024x1536; a full-height phone screen is narrower than
+     that, so "cover" would slice the title's edges off. Contain it instead and
+     fill behind it with the image's own edge colours, so the join is invisible. */
+  /* learning-deck-hero-mobile-cover.png is the portrait art padded out to a
+     0.42 ratio with its own edge colours, so "cover" only ever trims the
+     padding and the title is never sliced. */
+  body.cover .hero-visual { background: #071d35; }
+  .hero-actions { bottom: 30px; gap: 8px; left: 16px; right: 16px; }
+  .hero-btn { flex: 1 1 0; font-size: 9.5px; letter-spacing: .12em; padding: 15px 6px; }
+}
+
+/* ===============================================================
+   SUB PAGES (classes.html)
+   No hero behind the header, so it becomes a solid bar in the flow.
+   =============================================================== */
+body.subpage { display: flex; flex-direction: column; min-height: 100svh; }
+body.subpage main { display: flex; flex: 1 0 auto; flex-direction: column; }
+body.subpage .classes { flex: 1 0 auto; }
+body.subpage header { background: var(--ink); position: static; }
+.chooser-label { color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .22em; margin: 0 0 14px; text-transform: uppercase; }
+
+/* ---------------------------------------------------------------
+   Class chooser: rounded cards, not a flush bar.
+   --------------------------------------------------------------- */
+.tab-list { background: none; border: 0; display: grid; gap: clamp(12px,1.6vw,20px); grid-template-columns: repeat(3,minmax(0,1fr)); }
+.tabs { margin: 0 auto; max-width: 1500px; padding: clamp(26px,3.5vw,48px) clamp(24px,5vw,100px) 0; width: 100%; }
+.tab { background: rgba(255,253,248,.74); border: 1px solid rgba(7,29,53,.16); border-radius: 16px; box-shadow: 0 2px 10px rgba(7,29,53,.06); color: var(--ink); min-height: 0; overflow: hidden; padding: clamp(18px,2vw,28px); position: relative; text-align: left; transition: transform .16s ease, box-shadow .16s ease, background .16s ease, border-color .16s ease; }
+.tab:hover { background: rgba(255,253,248,.95); box-shadow: 0 10px 22px rgba(7,29,53,.15); transform: translateY(-3px); }
+.tab[aria-selected="true"] { background: var(--ink); border-color: var(--ink); box-shadow: 0 10px 26px rgba(7,29,53,.28); color: #fffdf8; transform: none; }
+.tab[aria-selected="true"]::after { background: var(--gold); bottom: 0; content: ""; height: 5px; left: 0; position: absolute; right: 0; }
+.tab[aria-selected="true"] .tab-detail { color: #c4d2d9; }
+.tab:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.tab-name { display: block; font: 400 clamp(30px,2.9vw,46px)/1 Georgia, serif; }
+.tab-detail { color: var(--muted); display: block; font: 400 clamp(13px,1.05vw,17px)/1.35 Georgia, serif; margin-top: 8px; }
+
+@media (max-width: 650px) {
+  .tabs { padding: 18px 16px 0; }
+  .tab-list { gap: 8px; }
+  .tab { border-radius: 12px; padding: 12px 10px; }
+  .tab-name { font-size: 26px; }
+  .tab-detail { font-size: 11.5px; line-height: 1.25; margin-top: 5px; }
+  /* the old bar hid this on unselected tabs to save room; the cards have space for it */
+  .tab[aria-selected="false"] .tab-detail { display: block; }
 }

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Choose your class: lessons and resources for 6LVA, 6SI and 5SI.">
+  <title>Classes | The Learning Deck</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body class="subpage">
+  <header>
+    <a class="wordmark" href="index.html" aria-label="The Learning Deck home">
+      <img class="mark" src="assets/syl-corner-mark.png" alt="">
+    </a>
+    <nav aria-label="Main navigation"><a href="classes.html" aria-current="page">Classes</a><a href="practice.html">Practice</a><a href="tools.html">Tools</a></nav>
+  </header>
+
+  <main>
+    <section class="classes" id="classes">
+      <div class="tabs">
+        <p class="chooser-label">Choose your class</p>
+        <div class="tab-list" role="tablist" aria-label="Choose your class">
+          <button class="tab" role="tab" id="tab-6LVA" aria-controls="panel-6LVA" aria-selected="true" data-class="6LVA"><span class="tab-name">6LVA</span><span class="tab-detail">1 game ready.</span></button>
+          <button class="tab" role="tab" id="tab-6SI" aria-controls="panel-6SI" aria-selected="false" data-class="6SI" tabindex="-1"><span class="tab-name">6SI</span><span class="tab-detail">6 lessons available.</span></button>
+          <button class="tab" role="tab" id="tab-5SI" aria-controls="panel-5SI" aria-selected="false" data-class="5SI" tabindex="-1"><span class="tab-name">5SI</span><span class="tab-detail">7 lessons available.</span></button>
+        </div>
+        <div id="panels"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><p>&copy; <span id="year"></span> The Learning Deck</p></footer>
+<nav class="footer-class-switcher" aria-label="Switch class"><span>Switch class</span><a href="classroom.html?class=6LVA&amp;section=resources">6LVA</a><a href="6si-unit-1.html">6SI</a><a href="5si-unit-1.html">5SI</a></nav></body>
+</html>
