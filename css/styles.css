@@ -78,3 +78,26 @@ footer { background: var(--ink); color: #b9cad0; font-size: 10px; letter-spacing
 .footer-class-switcher a { background: rgba(255,253,248,.10); border: 1px solid rgba(255,255,255,.26); border-radius: 5px; color: #fffdf8; font: 400 18px/1 Georgia,serif; padding: 8px 15px; }
 .footer-class-switcher a:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
 @media (max-width: 620px) { .footer-class-switcher { gap: 7px; padding: 17px 12px; }.footer-class-switcher > span { flex-basis: 100%; margin: 0 0 2px; text-align: center; }.footer-class-switcher a { font-size: 16px; padding: 8px 13px; } }
+
+/* ---------------------------------------------------------------
+   Cover-page hero: the artwork owns the first screen, and the three
+   destinations sit at its foot. This replaces the earlier
+   "single-screen class hub" sizing above; to go back, delete this
+   block and restore the .scroll link in index.html.
+   --------------------------------------------------------------- */
+.hero { height: 100svh; min-height: 520px; }
+.hero-actions a:first-child::after { display: none; }  /* cancel the global nav "current page" underline */
+.hero-actions { bottom: clamp(40px,7vh,86px); display: flex; flex-wrap: wrap; gap: clamp(10px,1.5vw,16px); left: clamp(22px,5vw,100px); position: absolute; right: clamp(22px,5vw,100px); z-index: 1; }
+.hero-btn { align-items: center; background: rgba(7,29,53,.34); border: 1px solid rgba(215,175,98,.66); color: #fffdf8; display: inline-flex; font-size: 11px; font-weight: 800; gap: 10px; letter-spacing: .18em; padding: 17px 28px; text-transform: uppercase; transition: background .18s ease, color .18s ease, border-color .18s ease; }
+.hero-btn:hover, .hero-btn:focus-visible { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+.hero-btn:focus-visible { outline: 2px solid #fffdf8; outline-offset: 3px; }
+.hero-btn-arrow { color: var(--gold); font-size: 15px; transition: transform .2s ease, color .18s ease; }
+.hero-btn:hover .hero-btn-arrow, .hero-btn:focus-visible .hero-btn-arrow { color: var(--ink); transform: translateY(3px); }
+@media (max-width: 650px) {
+  /* Portrait art is 1024x1536; a full-height phone viewport is narrower than that,
+     so 100svh would crop the title's edges. 78svh frames it fully and lets the
+     class tabs peek, which signals that there is more below. */
+  .hero { height: 78svh; min-height: 440px; }
+  .hero-actions { bottom: 26px; gap: 8px; left: 16px; right: 16px; }
+  .hero-btn { flex: 1 1 auto; font-size: 9.5px; justify-content: center; letter-spacing: .12em; padding: 14px 8px; }
+}
