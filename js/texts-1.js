@@ -1372,6 +1372,14 @@ const ANNOTATE = [
     explain: "Curtains twitch when someone moves them slightly to peek out. The detail implies a person is looking, without saying so, which is why Sam knows the plan is ruined."
   },
   {
+    skill: "Specialist vocabulary",
+    prompt: "Find <em>one</em> piece of vocabulary that makes the team sound like professional agents.",
+    target: ["abandon the operation", "analyse the intelligence", "our existing strategy"],
+    decoys: [{ phrase: "the suburban street came alive", why: "This describes the setting in the morning. Look for the formal language of spies or the military." }],
+    miss: "Look for words you might hear in a spy film, like “operation” or “intelligence”.",
+    explain: "Words like “operation”, “intelligence” and “strategy” belong to spies and soldiers. They make the team sound organised and serious, and they make an ordinary garden feel like a secret mission."
+  },
+  {
     skill: "Inverted commas",
     prompt: "Find the word in inverted commas that <em>hides</em> what the team really does.",
     target: ["another ‘visit’"],
@@ -1422,6 +1430,16 @@ const QUESTIONS = [
     ]
   },
   {
+    skill: "Inference",
+    q: "What is Sam’s new plan, judging by the final paragraph?",
+    opts: [
+      { t: "To disguise themselves and walk in openly in daylight", ok: true, why: "Right. They change out of “night-time black” into “uniforms” and go “up to the front door” as the street wakes up. They will pretend to belong there." },
+      { t: "To break into the house again the next night instead", why: "Sam says another ‘visit’ is “out of the question”, and the action happens in the morning." },
+      { t: "To give up and go home", why: "They march up “to finish the job”." },
+      { t: "To wait for Bella to check the intelligence again first", why: "Sam says they must “come up with something new”, not wait." }
+    ]
+  },
+  {
     skill: "Structure",
     q: "Why does the story open with “I knew there had been a mistake.”?",
     opts: [
@@ -1451,6 +1469,15 @@ const EVIDENCE = [
       { t: "Ty and Bella are close friends who work well together", why: "“Negative feelings” shows the opposite." },
       { t: "The mission has already completely failed because of Ty", why: "“Threatened to disrupt” means it could have, not that it did. The team goes on to finish the job." },
       { t: "Ty wants to leave the team", why: "The quote is about his feelings towards Bella, not about leaving." }
+    ]
+  },
+  {
+    quote: "I’d been in Bella’s position myself",
+    opts: [
+      { t: "Sam understands Bella’s mistake from experience", ok: true, why: "Right. Sam has made similar errors under time pressure, which explains why Sam defends her." },
+      { t: "Sam made the mistake about the house this time", why: "Bella gave the information. Sam is remembering the past." },
+      { t: "Sam and Bella are the same person", why: "“Been in her position” means being in a similar situation, not being her." },
+      { t: "Sam secretly dislikes Bella and doesn’t trust her", why: "Sam defends her. The quote shows sympathy." }
     ]
   },
   {
@@ -1485,6 +1512,16 @@ const EXPLAIN = [
     ]
   },
   {
+    claim: "Sam is a strong leader.",
+    quote: "I said, asserting my authority",
+    opts: [
+      { t: "Sam tells the team that they should not blame Bella for making a mistake about the house being empty, and then looks directly at Ty.", why: "Retelling. What do the words “asserting my authority” show?" },
+      { t: "“Asserting my authority” shows Sam deliberately takes control. Turning from blame to “what to do next” keeps the team focused.", ok: true, why: "Strong. It explains the phrase and links it to Sam’s actions." },
+      { t: "This shows Sam is bossy and doesn’t listen to anybody else in the team, because Sam always wants to be in charge and give the orders.", why: "A misreading. Sam listens to Ty, understands Bella and explains the plan." },
+      { t: "The narrator describes how they speak in this sentence.", why: "Vague. What does the description reveal?" }
+    ]
+  },
+  {
     claim: "The writer keeps the team’s real purpose mysterious.",
     quote: "Organising another ‘visit’",
     opts: [
@@ -1515,43 +1552,9 @@ const EXPLAIN = [
     ]
   }
 ];
-const COLLECT = [
-  {
-    claim: "The writer uses spy-and-military words to make an ordinary break-in sound like a serious mission.",
-    opts: [
-      { t: "analyse the intelligence", ok: true, why: "Right. “Intelligence” is a spy word for secret information. It makes checking facts sound like professional espionage." },
-      { t: "the suburban street came alive", why: "This describes an ordinary morning street, not spy language." },
-      { t: "a dog bark", why: "An everyday sound that ruins the plan, not a military word." },
-      { t: "put on the uniforms", why: "Part of the disguise, but “uniforms” alone is ordinary. Look for spy vocabulary like “intelligence”." }
-    ]
-  },
-  {
-    claim: "Sam deliberately takes control of the team.",
-    opts: [
-      { t: "I said, asserting my authority", ok: true, why: "Right. “Asserting my authority” states plainly that Sam is taking charge of the situation." },
-      { t: "Let’s concentrate on what to do next", why: "This is how Sam leads, but it doesn’t name the taking of control. Look for the phrase about authority." },
-      { t: "Ty was angry", why: "This is Ty’s feeling, not Sam taking control." },
-      { t: "How could anyone make such a fundamental error again?", why: "These are Ty’s angry words about Bella, not Sam asserting control." }
-    ]
-  },
-  {
-    claim: "The final plan is daring: they walk in openly instead of hiding.",
-    target: ["marched boldly up to the front door"],
-    decoys: [{ phrase: "shed our night-time black", why: "This is changing out of dark clothes, part of the disguise. Look for the bold walk to the door." }],
-    miss: "Look at the very last sentence of the story.",
-    explain: "After a night of hiding in shadows, the team “marched boldly” straight to the front door in daylight. Walking in openly is the opposite of sneaking, which is what makes the new plan so daring."
-  },
-  {
-    claim: "Sam defends Bella because Sam understands her mistake from experience.",
-    target: ["I’d been in Bella’s position myself"],
-    decoys: [{ phrase: "sometimes there simply wasn’t enough time to recheck intelligence", why: "This explains why the mistake happens, but the proof that Sam sympathises is the line about having been there too." }],
-    miss: "Look in the third paragraph, where Sam thinks about the past.",
-    explain: "Sam says “I’d been in Bella’s position myself”, remembering making the same kind of error. Because Sam knows the mistake from the inside, Sam defends Bella instead of blaming her."
-  }
-];
 TEXTS.push({ id: "the-mission", type: "Fiction", mode: "Creative", form: "Short story", level: "5ème",
   hook: "The house was supposed to be empty. Time for a new plan.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, COLLECT, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
 }
 
 /* ================================================================
@@ -6340,6 +6343,14 @@ const ANNOTATE = [
     explain: "Three details in a row, and the last one is alive. A surface full of holes is an unsteady place to walk, so the setting is already a warning."
   },
   {
+    skill: "Mood",
+    prompt: "Find the comparison that makes the <em>sandbar</em> look like an animal.",
+    target: ["lay like the back of a whale"],
+    decoys: [{ phrase: "the shore lights came on one by one", why: "A good detail for the failing light, but the shore is behind him and no animal is mentioned." }],
+    miss: "Look at the end of the paragraph about the first steps.",
+    explain: "A whale is huge, alive and mostly hidden under water. The comparison makes his target look solid and safe while quietly reminding us what is underneath."
+  },
+  {
     skill: "Suspense",
     prompt: "Find the moment the mudflat <em>goes silent</em>.",
     target: ["had gone quiet"],
@@ -6397,6 +6408,17 @@ const QUESTIONS = [
     ]
   },
   {
+    skill: "Tone",
+    q: "What is the effect of “That was the worst part”?",
+    opts: [
+      { t: "The calm way it arrives is more frightening than a wave", ok: true, why: "Right. We expect danger to look dangerous. The narrator points out that this one does not, which is what unsettles us." },
+      { t: "It tells us that Farid has given up trying to escape", why: "He runs immediately afterwards." },
+      { t: "It shows that the narrator is exaggerating things for effect", why: "The line is plain and is backed up by what follows." },
+      { t: "It means the water is moving faster than he can run", why: "He reaches the wall, so he is fast enough." }
+    ]
+  },
+  
+  {
     skill: "Ending",
     q: "Why does Farid say nothing about the rest?",
     opts: [
@@ -6445,6 +6467,15 @@ const EVIDENCE = [
       { t: "The tide has not started to come in yet", why: "It is coming in as this is said." },
       { t: "Farid is too far out to see the waves breaking", why: "The sentence states a fact about the water, not his view." }
     ]
+  },
+  {
+    quote: "exactly as it had done twice a day for longer than anyone had been alive to watch it",
+    opts: [
+      { t: "The tide was never about him at all", ok: true, why: "Right. The sea has done this for ever, so his near miss counts for nothing in the sea’s account of the evening." },
+      { t: "The sea has become more dangerous in recent years", why: "The line stresses how unchanged it is." },
+      { t: "People have been drowning here for many years", why: "No other person is mentioned at any point." },
+      { t: "Farid has watched the tide here many times before", why: "The sentence is about the sea, not his habits." }
+    ]
   }
 ];
 
@@ -6480,6 +6511,16 @@ const EXPLAIN = [
     ]
   },
   {
+    claim: "The ending refuses to make the sea a villain.",
+    quote: "unhurried, indifferent",
+    opts: [
+      { t: "Farid climbs up on to the seawall at the end and lies on his back while the sea comes in below him in the dark.", why: "Retelling. Why those two words about the sea?" },
+      { t: "Neither word gives the sea a motive. It was not hunting him, which makes his escape luck rather than victory.", ok: true, why: "Strong. It reads what the words withhold." },
+      { t: "The sea is angry with Farid for walking out on to the mudflat when he had been told that he should not.", why: "The opposite of what the words say." },
+      { t: "The writer describes the sea using two adjectives here.", why: "An observation. What is the effect of those two?" }
+    ]
+  },
+  {
     claim: "The last line tells us something about Farid.",
     quote: "said nothing about the rest",
     opts: [
@@ -6490,43 +6531,9 @@ const EXPLAIN = [
     ]
   }
 ];
-const COLLECT = [
-  {
-    claim: "The sea is frightening because it arrives calmly, not as a crashing wave.",
-    opts: [
-      { t: "There was no wave.", ok: true, why: "Right. Three flat words remove the thing we braced for. The calm is the threat." },
-      { t: "It came in low and quick", why: "This shows speed, but it doesn’t make the point about there being no wave at all." },
-      { t: "filling the crab holes first", why: "This is how the water returns, a detail rather than the calm-not-crashing idea." },
-      { t: "the cold came up through his sock", why: "This is Farid running afterwards, not the calm way the sea arrives." }
-    ]
-  },
-  {
-    claim: "The last sentence stresses that the sea has been doing this for an enormous length of time.",
-    opts: [
-      { t: "exactly as it had done twice a day for longer than anyone had been alive to watch it", ok: true, why: "Right. It reaches back beyond any living memory: the sea’s routine dwarfs his one bad evening." },
-      { t: "unhurried, indifferent", why: "This is the sea’s manner, not its age. Look for the words about time." },
-      { t: "going about its business", why: "Also the sea’s manner, calm and uncaring, not how long it has done this." },
-      { t: "the whole black sky above him", why: "This is the sky over Farid, not the sea’s long history." }
-    ]
-  },
-  {
-    claim: "Farid realises he has walked much further out than he thought.",
-    target: ["the orange lights were further off than they should have been"],
-    decoys: [{ phrase: "It had moved.", why: "This is his first impression of the shore. The real proof of the distance is what he notices about the lights." }],
-    miss: "Look in the paragraph where he turns to look at the shore.",
-    explain: "The shore has not moved; Farid has. The lights being “further off than they should have been” is the moment he sees how far out he has walked."
-  },
-  {
-    claim: "The first sign the ground is turning against him is a change in the mud itself.",
-    target: ["The mud grew softer, and colder"],
-    decoys: [{ phrase: "A crab stopped in front of him", why: "This happens in the same moment, but a crab pausing is not the ground changing. Look at what the mud does." }],
-    miss: "Look at the paragraph where he has crossed half the sandbar.",
-    explain: "Before the tide comes, the mud gives the first warning: it “grew softer, and colder”. The ground he trusted is quietly changing under him."
-  }
-];
 TEXTS.push({ id: "low-tide", type: "Fiction", mode: "Creative", form: "Short story", level: "6ème",
   hook: "A boy walks out on the mudflat at dusk, and the sea comes back without a wave.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, COLLECT, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
 }
 {
 const TEXT = {
@@ -7024,6 +7031,14 @@ const ANNOTATE = [
     explain: "A kingdom with no king is the story's first problem. Everything that follows, the prayer, the oracle, Gordius's arrival, exists to solve it."
   },
   {
+    skill: "Cause and effect",
+    prompt: "Find the exact test the oracle sets for choosing the next king.",
+    target: ["the next man to enter the city with an ox cart would become king"],
+    decoys: [{ phrase: "a golden eagle landed on his cart", why: "This happens to Gordius on the road. It is not the oracle's original test." }],
+    miss: "Look at the end of the first paragraph, at what the oracle actually declares.",
+    explain: "This single rule is what turns an ordinary peasant driving a cart into a king. Without this exact test, Gordius's arrival would mean nothing at all."
+  },
+  {
     skill: "Foreshadowing",
     prompt: "Find the sign that hints Gordius is about to receive good fortune.",
     target: ["a golden eagle landed on his cart"],
@@ -7058,6 +7073,16 @@ const QUESTIONS = [
       { t: "First choosing a king, then choosing which challenger should be allowed to try the knot", why: "Anyone could try the knot — challengers “arrived from everywhere”. The second problem is the knot resisting them, not choosing who attempts it." },
       { t: "First how best to honour the god Zeus, then how to reward whoever rules all of Asia", why: "Honouring Zeus is Midas’s reason for the offering, not a problem the legend sets out to solve." },
       { t: "First a peasant with no way to reach the city, then a king left with no heir behind him", why: "Gordius reaches the city easily by ox cart, and he does leave an heir, his son Midas. Both halves misread the text." }
+    ]
+  },
+  {
+    skill: "Cause and effect",
+    q: "Why does the oracle’s prophecy matter so much to everything that happens next?",
+    opts: [
+      { t: "It sets the test that turns an ordinary cart’s arrival into proof of who should rule", ok: true, why: "Right. Without this rule, Gordius arriving by ox cart is just a peasant passing through, not a sign from the gods." },
+      { t: "It is the sign that makes Gordius trust the golden eagle and keep travelling to the city", why: "It is the eagle, not the prophecy, that Gordius reads as an omen; he has not yet heard the oracle’s words as he travels." },
+      { t: "It is the reason Midas later dedicates the ox cart to Zeus and ties his famous knot", why: "Midas ties the knot to honour his father and Zeus; a separate prophecy, not this one, is attached to the knot." },
+      { t: "It points the Phrygians to the one man among them who was the rightful king all along", why: "The prophecy names a condition, not a man, and the new king is Gordius arriving from outside, not one of them." }
     ]
   },
   {
@@ -7122,6 +7147,15 @@ const EVIDENCE = [
     ]
   },
   {
+    quote: "The Gordian knot held fast for generations",
+    opts: [
+      { t: "It shows how impossible the challenge had come to seem before Alexander arrived", ok: true, why: "Right. Generations of failure make his eventual, unconventional solution feel all the more remarkable." },
+      { t: "It shows the knot was guarded so that no one was allowed to attempt it", why: "Challengers “arrived from everywhere” to try it freely; it held fast because it was so complex, not because it was guarded." },
+      { t: "It shows the knot slowly loosened over the passing years until it was finally ready to undo", why: "“Held fast” means it stayed firmly tied; if anything it “weathered ever tighter”." },
+      { t: "It shows people had forgotten the knot until Alexander made it famous again", why: "Its fame spread early and challengers kept coming; Alexander is drawn by a knot already “famed”." }
+    ]
+  },
+  {
     quote: "He did go on to conquer much of Asia, thus fulfilling the prophecy",
     opts: [
       { t: "It confirms that the oracle’s much earlier prediction about the knot really did come true", ok: true, why: "Right. The final line ties Alexander’s real conquests directly back to the oracle from generations before." },
@@ -7141,6 +7175,16 @@ const EXPLAIN = [
       { t: "Without this exact rule from the oracle, an ordinary peasant arriving by cart would mean nothing; the prophecy is what transforms the event into proof he should be king.", ok: true, why: "Strong. It explains precisely how the prophecy converts an ordinary event into something meaningful." },
       { t: "The oracle gives the Phrygians a rule to follow near the start of the legend.", why: "Too general. What does that particular rule actually let the Phrygians do?" },
       { t: "This proves that anyone who owns an ox cart can eventually become king of Phrygia.", why: "A misreading. The rule applied only once, to the very next man to arrive, not to cart owners generally." }
+    ]
+  },
+  {
+    claim: "The eagle landing on the cart foreshadows Gordius's good fortune.",
+    quote: "a golden eagle landed on his cart",
+    opts: [
+      { t: "A golden eagle lands on Gordius's ox cart while he is travelling towards the capital city.", why: "Retelling. Explain what this moment hints at, rather than just describing what happens." },
+      { t: "Gordius reads the eagle as a good sign before he understands why; placing it here hints at coming fortune, well before the reader learns the reason.", ok: true, why: "Strong. It connects the omen to the later reveal and explains the foreshadowing itself." },
+      { t: "An unusual animal appears in the story at this particular point in the journey.", why: "Too general. What kind of unusual thing happens, and what does it suggest is coming?" },
+      { t: "This proves that eagles were considered sacred, protected animals throughout ancient Phrygia. This detail alone does not capture everything the passage actually says. Other parts of the text tell a rather different story from this one.", why: "A misreading. The legend never claims eagles were protected; this one eagle is simply read as a personal omen." }
     ]
   },
   {
@@ -7174,43 +7218,9 @@ const EXPLAIN = [
     ]
   }
 ];
-const COLLECT = [
-  {
-    claim: "The oracle’s rule is what turns an ordinary peasant into a king.",
-    opts: [
-      { t: "the next man to enter the city with an ox cart would become king", ok: true, why: "Right. This single rule makes Gordius, simply arriving by cart, the chosen king." },
-      { t: "a golden eagle landed on his cart", why: "This is a personal omen on the road, not the oracle’s rule for choosing a king." },
-      { t: "the priests crowned him their new king", why: "This is the result of the rule, not the rule that made his arrival mean anything." },
-      { t: "consulted the oracle at Telmissus for advice", why: "This is the Phrygians seeking help, not the rule the oracle actually gives them." }
-    ]
-  },
-  {
-    claim: "The knot’s long record of defeating challengers makes Alexander’s solution more impressive.",
-    opts: [
-      { t: "The Gordian knot held fast for generations", ok: true, why: "Right. Generations of failure build the knot’s unbeatable reputation before Alexander arrives." },
-      { t: "challengers arrived from everywhere to try to untie it", why: "This shows people tried, but the proof it beat them all is that it “held fast for generations”." },
-      { t: "weathered ever tighter", why: "This is a physical detail about the knot, not its long record of defeating people." },
-      { t: "curious about the famed knot", why: "This is Alexander’s motive for coming, not the knot’s history of resisting everyone." }
-    ]
-  },
-  {
-    claim: "The very last line confirms the oracle’s prophecy really came true.",
-    target: ["He did go on to conquer much of Asia, thus fulfilling the prophecy"],
-    decoys: [{ phrase: "whoever untied it would rule all of Asia", why: "This is the prophecy’s promise. The proof it came true is the line about Alexander actually conquering Asia." }],
-    miss: "Look at the very last sentence of the legend.",
-    explain: "The prophecy said whoever undid the knot would rule Asia. The closing line, that Alexander “did go on to conquer much of Asia, thus fulfilling the prophecy”, confirms it happened."
-  },
-  {
-    claim: "Gordius treats a chance event as a lucky sign before he knows what it means.",
-    target: ["which Gordius interpreted as a good omen"],
-    decoys: [{ phrase: "trusting that the meaning would be revealed", why: "This shows he waits patiently, but it is reading the eagle as lucky that makes it a hopeful sign. Look for the word “omen”." }],
-    miss: "Look in the second paragraph, at how Gordius reacts to the eagle.",
-    explain: "Gordius does not yet know why the eagle matters, but he “interpreted [it] as a good omen”. He reads the sign as fortunate before its meaning is revealed."
-  }
-];
 TEXTS.push({ id: "gordian-knot", type: "Fiction", mode: "Creative", form: "Legend", level: "5ème",
   hook: "A kingdom with no king, an eagle's omen, and a knot nobody can untie, until somebody stops trying to untie it.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, COLLECT, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
 }
 
 /* ================================================================
@@ -7696,6 +7706,14 @@ const ANNOTATE = [
     decoys: [{ phrase: "grabbing what they could as souvenirs", why: "This says what the crowd’s hands are doing, not how many of them there are or how they move." }],
     miss: "Look at the start of the fifth paragraph, at the people around the plane.",
     explain: "“Swarmed” and “thronged” appear in the same sentence, describing two crowds doing the same thing. One word you know can unlock another you do not, in the same breath."
+  },
+  {
+    skill: "Vocabulary",
+    prompt: "Find the phrase that helps you work out what <em>palpable</em> means.",
+    target: ["the buzz of excitement was palpable"],
+    decoys: [{ phrase: "All eyes were on the night sky", why: "This shows where the crowd is looking, but it says nothing about how strongly the excitement is felt." }],
+    miss: "Look at the very last words of the first paragraph.",
+    explain: "A “buzz” is something you can almost feel as well as hear. Pairing it with “palpable” tells you the excitement was strong enough to seem physical, not just imagined."
   }
 ];
 
@@ -7718,6 +7736,16 @@ const QUESTIONS = [
       { t: "The pilot “safely” landing his plane just moments before", why: "A safe landing is calm; “pandemonium” is the wild scene that follows, shown by the fence and the running crowd." },
       { t: "The “buzz of excitement” felt in the paragraph before", why: "The buzz comes before he lands; “pandemonium” is defined by the disorder right after, in the next sentence." },
       { t: "The “33 non-stop hours” the long flight had taken", why: "The hours describe the flight’s length, not the scene on the ground that “pandemonium” names." }
+    ]
+  },
+  {
+    skill: "Word choice",
+    q: "The crowd is “exultant”, but Lindbergh is “startled”, “exhausted” and “overwhelmed”. What does this contrast show?",
+    opts: [
+      { t: "One night feels utterly different to the crowd and to the man at its centre", ok: true, why: "Right. For them it is a celebration; for him, after 33 hours alone, it is a wall of noise and hands." },
+      { t: "The crowd’s bright mood slowly spreads across to Lindbergh too as they carry him off the field", why: "His words stay “startled” and “overwhelmed”; the contrast is kept, not blended into one shared mood." },
+      { t: "Lindbergh is angry at the crowd for damaging his precious aircraft", why: "He is overwhelmed, not angry, and the crowd swarms over the plane freely without his protest." },
+      { t: "The crowd’s joy fades once they see how exhausted the pilot really is", why: "Their joy does not fade; hundreds keep pressing in and carry him off the field." }
     ]
   },
   {
@@ -7779,6 +7807,15 @@ const EVIDENCE = [
       { t: "The crowd hangs back out of respect once they see he is tired", why: "They do not hang back; they surround him and carry him off the field." },
       { t: "Lindbergh had planned this welcome and was ready for the crowd", why: "He is “startled”, which shows the size of the welcome caught him off guard." }
     ]
+  },
+  {
+    quote: "tugging at his coat and yanking at his leather helmet",
+    opts: [
+      { t: "The crowd’s excitement has turned into something physically overwhelming", ok: true, why: "Right. Their enthusiasm becomes hands pulling at his clothes, which is why he “seemed overwhelmed”." },
+      { t: "The crowd has suddenly turned hostile and is furious that he arrived late", why: "They celebrate him; the grabbing is eager enthusiasm, not anger." },
+      { t: "The pilot is stripping off his own flying gear in the warm night", why: "It is the crowd’s hands doing the tugging and yanking, not Lindbergh undressing." },
+      { t: "Helpers are carefully easing the exhausted pilot out of his kit", why: "These are the hundreds who “thronged” around him, not helpers gently assisting." }
+    ]
   }
 ];
 
@@ -7822,45 +7859,21 @@ const EXPLAIN = [
       { t: "The writer uses several different describing words in this part of the story about the pilot.", why: "Too general. Which words, and what do they show when set beside the crowd’s?" },
       { t: "This proves that Lindbergh regretted making the flight and wished that he had stayed at home instead.", why: "A misreading. Being exhausted and overwhelmed by a crowd is not the same as regretting the journey." }
     ]
-  }
-];
-const COLLECT = [
+  },
   {
-    claim: "The words chosen for Lindbergh clash with the words chosen for the joyful crowd.",
+    claim: "The closing line connects the girl and the pilot.",
+    quote: "Lindbergh hadn’t slept either",
     opts: [
-      { t: "The exhausted hero seemed overwhelmed", ok: true, why: "Right. After 33 hours alone, the man at the centre feels the opposite of the crowd’s celebration." },
-      { t: "Exultant people toppled a chain-link fence", why: "This is the crowd’s joy, not the pilot’s worn-out reaction that clashes with it." },
-      { t: "raced across the field for a closer look", why: "This is the crowd’s eager rush, the celebrating side, not the tired man at its centre." },
-      { t: "All eyes were on the night sky", why: "This is the crowd watching and waiting, again the crowd’s side, not Lindbergh’s." }
+      { t: "Marcelle finally gets home again after the landing at the airfield, and once she is there she finds that she is still far too excited by everything she has seen to fall asleep.", why: "Retelling. Explain what the final clause adds beyond telling us she stayed awake." },
+      { t: "Her sleepless excitement is set beside his 33 sleepless hours in the air, so the word “either” quietly links an ordinary girl to the hero she has just seen.", ok: true, why: "Strong. It explains the link the final word makes and why that ends the story on a warm note." },
+      { t: "The story finishes with a short remark about the pilot after describing Marcelle’s journey home.", why: "Too general. What does that remark do, and why end there?" },
+      { t: "This proves that Marcelle actually met Lindbergh personally and spoke with him about his flight.", why: "A misreading. She never speaks to him; the link is made by the narrator, not by a meeting." }
     ]
-  },
-  {
-    claim: "The crowd’s excitement turns into something physically overwhelming for the tired pilot.",
-    opts: [
-      { t: "tugging at his coat and yanking at his leather helmet", ok: true, why: "Right. Their enthusiasm becomes hands pulling at him, which is why he “seemed overwhelmed”." },
-      { t: "carried him off the field", why: "They do move him, but the overwhelming part is the hands pulling at his clothes and helmet." },
-      { t: "grabbing what they could as souvenirs", why: "This is hands on the plane for keepsakes, not the crowd pressing on Lindbergh himself." },
-      { t: "circled the Eiffel Tower", why: "This is the plane before it lands, nothing to do with the crowd around the pilot." }
-    ]
-  },
-  {
-    claim: "The excitement is shown as something the crowd can almost physically feel.",
-    target: ["the buzz of excitement was palpable"],
-    decoys: [{ phrase: "ringing the grassy field with light", why: "This describes the car headlights around the field, not how the excitement felt. Look for the word meaning almost touchable." }],
-    miss: "Look at the very last words of the first paragraph.",
-    explain: "A “buzz” is something you nearly feel as well as hear. Calling it “palpable” tells you the excitement was strong enough to seem physical, not just imagined."
-  },
-  {
-    claim: "The last line quietly links the ordinary girl to the famous pilot.",
-    target: ["Lindbergh hadn’t slept either"],
-    decoys: [{ phrase: "the experience of a lifetime", why: "This says how much the night meant to Marcelle, but the link to the pilot is the final clause about him. Look at the very last words." }],
-    miss: "Look at the very last words of the story.",
-    explain: "The word “either” ties Marcelle’s sleepless excitement to Lindbergh’s 33 hours awake, ending the night by linking an ordinary girl to her hero."
   }
 ];
 TEXTS.push({ id: "mr-lindbergh", type: "Fiction", mode: "Creative", form: "Historical fiction", level: "5ème",
   hook: "Paris, 1927. A girl in the crowd gets close enough to touch the plane that has just crossed the Atlantic.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, COLLECT, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
 }
 
 /* ================================================================
