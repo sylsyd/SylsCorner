@@ -298,14 +298,6 @@ const ANNOTATE = [
     decoys: [{ phrase: "They are also climate heroes", why: "The opposite: this is a bold, confident claim with no softening at all. Look for words like “some”, “may” or “estimate”." }],
     miss: "Look for small words that soften a claim, such as “may”, “some” or “estimate”.",
     explain: "Phrases like “some studies suggested”, “scientists estimate” and “may be one of” show the writer is being honest about how certain the evidence is. Careful language makes an informative text more trustworthy, not less."
-  },
-  {
-    skill: "Metaphor / list of three",
-    prompt: "Find the <em>list of metaphors</em> that sums up the whole article in one sentence.",
-    target: ["a coastline’s bodyguard, a carbon vault and a nursery for young fish"],
-    decoys: [{ phrase: "climate heroes", why: "A metaphor, yes, but it covers only one idea (carbon). The conclusion gathers every job mangroves do into one list." }],
-    miss: "Read the final paragraph. What three things does the writer say you are really looking at?",
-    explain: "Each metaphor recalls one section of the article: protection (“bodyguard”), carbon storage (“vault”) and wildlife (“nursery”). The list of three is a memorable summary, and it leaves the reader with a new picture of what looked like mud."
   }
 ];
 
@@ -329,16 +321,6 @@ const QUESTIONS = [
       { t: "Because the whole article describes one trip to a nature reserve", why: "The walk lasts one paragraph. The rest of the article moves to general facts about mangroves around the world." },
       { t: "To prove that mangroves are found only in Singapore", why: "The article says mangroves have been cleared “across the world”. Singapore is a local example, not the only place." },
       { t: "To give the reader the most important statistic first", why: "There are no numbers in the opening at all. It works through description and surprise, not data." }
-    ]
-  },
-  {
-    skill: "Tone",
-    q: "The article moves from “They are also climate heroes” to “Yet this remarkable habitat is disappearing.” How does the tone change?",
-    opts: [
-      { t: "From admiring and enthusiastic to serious and concerned", ok: true, why: "Right. “Heroes” celebrates the mangroves. Then “Yet” signals a turn, and “disappearing” introduces worry. The shift makes the loss feel bigger because we have just learned how valuable they are." },
-      { t: "From angry and frustrated to calm and relaxed", why: "Nothing in “climate heroes” is angry, and the paragraph about disappearing habitat is not relaxed. Check the emotional weight of the key words." },
-      { t: "From humorous to heartbroken", why: "Calling mangroves heroes is admiring, not a joke. And the later paragraph is concerned but factual, not heartbroken." },
-      { t: "The tone stays exactly the same throughout the article", why: "The word “Yet” is a signpost that the direction changes. Positive facts about carbon give way to a problem." }
     ]
   },
   {
@@ -374,15 +356,6 @@ const QUESTIONS = [
 ];
 
 const EVIDENCE = [
-  {
-    quote: "Most plants would die in these conditions, but mangroves have adapted.",
-    opts: [
-      { t: "Mangroves are specially suited to a harsh environment", ok: true, why: "Right. The contrast between “most plants would die” and “mangroves have adapted” proves exactly this: they survive where others cannot." },
-      { t: "Mangroves are the strongest and toughest plants in the whole world", why: "Overclaiming. Being adapted to salt water is not the same as being the strongest plant anywhere. The quote only compares them with plants in these conditions." },
-      { t: "Salt water is dangerous for people to swim in", why: "The quote is about plants, not people. You can’t use it to prove something it never mentions." },
-      { t: "Most of the world’s plants are slowly dying out", why: "A misreading. “Would die in these conditions” means if they grew here, not that they are dying now." }
-    ]
-  },
   {
     quote: "villages sheltered behind healthy mangroves suffered less damage than those left exposed",
     opts: [
@@ -444,16 +417,6 @@ const EXPLAIN = [
     ]
   },
   {
-    claim: "The writer is careful and honest with evidence.",
-    quote: "some studies suggested",
-    opts: [
-      { t: "This shows the writer is not sure whether the tsunami really happened in 2004 and is warning the reader that the date given in the article might be wrong.", why: "A misreading. The caution is about how much mangroves helped, not about whether the tsunami happened." },
-      { t: "“Some” admits not every study agrees, and “suggested” is softer than “proved”. Not exaggerating makes the writer more trustworthy.", ok: true, why: "Strong. It explains two words precisely and connects them to honesty and trust." },
-      { t: "The writer uses hedging language in this sentence, which is a common feature of informative writing that readers should look out for.", why: "Correct term, no explanation of how these words show honesty. Name it, then say what it does." },
-      { t: "The writer is not confident about the facts here, which means the reader should not believe anything else that the article says about mangroves or the tsunami.", why: "Overclaiming, and backwards. Being careful about one claim makes a writer more believable, not less." }
-    ]
-  },
-  {
     claim: "The ending gives the reader a new way of seeing mangroves.",
     quote: "all disguised as a swamp",
     opts: [
@@ -464,9 +427,44 @@ const EXPLAIN = [
     ]
   }
 ];
+
+const COLLECT = [
+  {
+    claim: "Mangroves survive conditions that would kill most other plants.",
+    opts: [
+      { t: "Most plants would die in these conditions, but mangroves have adapted.", ok: true, why: "Right. The contrast between what most plants can't do and what mangroves can proves they survive where others fail." },
+      { t: "filter salt out of the water before it reaches their leaves", why: "This is one clever adaptation, but the claim asks for the quote showing they live where other plants can't." },
+      { t: "Twice a day, salt water floods their roots and then drains away", why: "This describes the harsh condition, not the fact that mangroves survive it." },
+      { t: "young fish and crabs shelter from predators", why: "This is the nursery role, not about surviving salt and flooding." }
+    ]
+  },
+  {
+    claim: "The final sentence sums up every job that mangroves do.",
+    opts: [
+      { t: "a coastline’s bodyguard, a carbon vault and a nursery for young fish", ok: true, why: "Right. Three metaphors in a row gather protection, carbon storage and wildlife into one memorable summary." },
+      { t: "climate heroes", why: "This is a metaphor too, but it names only one job (carbon). The final sentence covers all three." },
+      { t: "nurseries of the sea", why: "This names only one job (shelter for young fish), not the whole summary." },
+      { t: "protected areas give young trees time to grow", why: "This is about recovery, not a summary of the jobs mangroves do." }
+    ]
+  },
+  {
+    claim: "Mangroves store carbon for a very long time.",
+    target: ["where it can stay locked away for centuries"],
+    decoys: [{ phrase: "several times more carbon than many tropical forests", why: "This shows how much carbon they store, not how long it stays locked away. Look for the word 'centuries'." }],
+    miss: "Look in the paragraph that calls mangroves 'climate heroes'.",
+    explain: "Carbon in the waterlogged soil can 'stay locked away for centuries'. Storing it for so long is what makes mangroves matter for the climate."
+  },
+  {
+    claim: "The writer warns that mangroves are now in danger of vanishing.",
+    target: ["Yet this remarkable habitat is disappearing"],
+    decoys: [{ phrase: "The good news is that mangroves can recover", why: "This is the hopeful turn that comes after the problem, not the warning that they are being lost. Look for the sentence beginning 'Yet'." }],
+    miss: "Look for the paragraph that turns from praise to a problem.",
+    explain: "The word 'Yet' flips the mood: after all the praise, 'this remarkable habitat is disappearing' warns that mangroves are being lost."
+  }
+];
 TEXTS.push({ id: "mangroves", type: "Non-fiction", mode: "Informative", form: "Feature article", level: "6ème",
   hook: "A forest that stands in the sea, and why it matters more than it looks.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 
 /* ================================================================
@@ -3743,14 +3741,6 @@ const ANNOTATE = [
     explain: "Siberia is known as a freezing, lonely place of hardship. Soto compares grape-picking to it, then twists the comparison (“except hot and more boring”), which makes the misery funny."
   },
   {
-    skill: "Metaphor",
-    prompt: "Find the metaphor showing Victor <em>blushing with embarrassment</em> in French class.",
-    target: ["Great rosebushes of red bloomed on Victor’s cheeks"],
-    decoys: [{ phrase: "His brown face blushed.", why: "That describes blushing plainly, earlier in the story. Look for the flower image in French class." }],
-    miss: "Look at the moment Mr. Bueller asks Victor to speak up.",
-    explain: "His blush isn’t just pink: whole “rosebushes” of red “bloom” across his face. The exaggerated flower image shows how hot and huge his embarrassment feels."
-  },
-  {
     skill: "Exaggeration",
     prompt: "Find the exaggeration showing how <em>nervous</em> Victor is.",
     target: ["A river of nervous sweat ran down his palms"],
@@ -3799,16 +3789,6 @@ const QUESTIONS = [
     ]
   },
   {
-    skill: "Inference",
-    q: "Why does Mr. Bueller keep Victor’s secret?",
-    opts: [
-      { t: "He once pretended to be someone he wasn’t to impress a girl", ok: true, why: "Right. He remembers borrowing cars so a girlfriend thought he was rich. He understands Victor." },
-      { t: "He didn’t notice that Victor was speaking nonsense", why: "He “understood that the boy didn’t know French”." },
-      { t: "He wants Victor to be embarrassed again later in the year in front of the whole class", why: "He smiles and hums, which suggests kindness, not a plan to embarrass him." },
-      { t: "He thinks honesty is not important in school", why: "The story shows sympathy, not a view that honesty doesn’t matter." }
-    ]
-  },
-  {
     skill: "Irony",
     q: "Teresa says, “I didn’t know you knew French. That was good.” Why is this ironic?",
     opts: [
@@ -3851,15 +3831,6 @@ const EVIDENCE = [
     ]
   },
   {
-    quote: "He moved his lips as if he were reading, but his mind was somewhere else.",
-    opts: [
-      { t: "Victor is pretending, to hide that he is searching for Teresa", ok: true, why: "Right. He fakes reading while “snooping” for her. It’s his second pretence of the day." },
-      { t: "Victor is studying very hard because he is worried about his first maths test", why: "“His mind was somewhere else”: he isn’t studying." },
-      { t: "Victor has trouble reading the words in his new maths book", why: "The point is pretending, not difficulty reading." },
-      { t: "Victor loves maths and can’t stop thinking about it", why: "Maths is “his weakest subject” and the problems “scared him”." }
-    ]
-  },
-  {
     quote: "Oh please, don’t say anything, Victor pleaded with his eyes.",
     opts: [
       { t: "Victor is terrified of being exposed in front of Teresa", ok: true, why: "Right. He silently begs Mr. Bueller not to reveal the truth, even offering to wash his car." },
@@ -3880,16 +3851,6 @@ const EVIDENCE = [
 ];
 
 const EXPLAIN = [
-  {
-    claim: "Victor is easily influenced.",
-    quote: "He scowled with greater conviction.",
-    opts: [
-      { t: "Victor thought scowling was “weird”, yet one girl’s glance makes him scowl “with greater conviction”. One look changes his mind.", ok: true, why: "Strong. It contrasts his earlier opinion with his reaction and explains “conviction”." },
-      { t: "Victor starts making the same face as Michael while he is walking to his homeroom on the first day of seventh grade.", why: "Retelling. How does this show he is easily influenced?" },
-      { t: "This shows that scowling really does work and that every single girl at the school finds boys attractive when they make an angry face at them.", why: "Overclaiming. One glance proves nothing about every girl." },
-      { t: "The writer uses the word “conviction” in this sentence, which is a strong and interesting piece of vocabulary for the reader.", why: "It notices the word but doesn’t explain what it shows." }
-    ]
-  },
   {
     claim: "Victor becomes tongue-tied around Teresa.",
     quote: "Yeah, that’s me.",
@@ -3931,9 +3892,44 @@ const EXPLAIN = [
     ]
   }
 ];
+
+const COLLECT = [
+  {
+    claim: "Victor is easily influenced by other people.",
+    opts: [
+      { t: "He scowled with greater conviction.", ok: true, why: "Right. He thought scowling was weird, yet one girl's glance makes him do it harder. One look changes his mind." },
+      { t: "Victor didn’t say anything, though he thought his friend looked pretty strange", why: "Here he thinks scowling is strange; the claim needs the moment he copies it anyway." },
+      { t: "man, that’s weird. Michael thinks making a face makes him handsome", why: "This is his private opinion that scowling is weird, not the moment he is influenced." },
+      { t: "They talked about recent movies, baseball, their parents", why: "This is just a neutral detail of their chat, not about being influenced." }
+    ]
+  },
+  {
+    claim: "Victor keeps pretending to be something he is not.",
+    opts: [
+      { t: "He moved his lips as if he were reading, but his mind was somewhere else.", ok: true, why: "Right. He fakes reading to hide that he is really searching the yard for Teresa." },
+      { t: "Victor raised his hand, wanting to impress Teresa", why: "This gives the reason he pretends, but the claim asks for a moment of the pretending itself." },
+      { t: "math, his weakest subject", why: "This is a fact about maths, not a moment of Victor pretending." },
+      { t: "He felt himself blushing again", why: "This shows his embarrassment, not an act of pretence." }
+    ]
+  },
+  {
+    claim: "Soto pictures Victor’s embarrassment as flowers blooming on his face.",
+    target: ["Great rosebushes of red bloomed on Victor’s cheeks"],
+    decoys: [{ phrase: "His brown face blushed", why: "This describes an earlier, plainer blush; the claim asks for the flower image in French class." }],
+    miss: "Look at the moment Mr. Bueller asks Victor to speak up.",
+    explain: "His blush is not just pink: whole 'rosebushes' of red 'bloom' on his cheeks. The flower image makes the embarrassment feel hot and enormous."
+  },
+  {
+    claim: "Mr. Bueller quietly chooses not to expose Victor’s lie.",
+    target: ["Mr. Bueller understood that the boy didn’t know French and turned away"],
+    decoys: [{ phrase: "He walked to the blackboard and pointed to the words on the board", why: "This is just what he does next in the lesson, not his choice to protect Victor. Look for where he 'understood' and 'turned away'." }],
+    miss: "Look for the moment Mr. Bueller realises Victor cannot speak French.",
+    explain: "Mr. Bueller 'understood that the boy didn’t know French' and simply 'turned away', saying nothing. He spares Victor in front of Teresa instead of exposing him."
+  }
+];
 TEXTS.push({ id: "seventh-grade", type: "Fiction", mode: "Creative", form: "Short story", level: "6ème",
   hook: "First day of seventh grade, one crush, and a very bad idea in French class.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 
 /* ---------- TEXT 19 · 10 Facts about Albert Einstein (National Geographic Kids) · 6ème ----------
@@ -5215,14 +5211,6 @@ const ANNOTATE = [
     explain: "One small island in a whole ocean shows how little of the room he can see. The word “suggestion” admits that the rest is filled in by his own mind."
   },
   {
-    skill: "Suspense",
-    prompt: "Find the <em>false alarm</em> that turns out to be a statue.",
-    target: ["the impression of someone crouching to waylay me"],
-    decoys: [{ phrase: "a statue of Ganymede and the eagle", why: "That is the answer to the alarm, not the alarm itself. Look for the shape he thinks he sees first." }],
-    miss: "Look for the bronze shadow on the white panelling.",
-    explain: "Wells scares the reader with nothing at all. Once a shadow has fooled us once, the real extinctions later feel far more dangerous."
-  },
-  {
     skill: "Sensory language",
     prompt: "Find the comparison that describes how the <em>flames die</em>.",
     target: ["as if the wicks had been suddenly nipped between a finger and a thumb"],
@@ -5259,16 +5247,6 @@ const QUESTIONS = [
       { t: "It darkens at once, because the corridor is pitch black", why: "The great window lets in enough moonlight to see clearly." },
       { t: "It stays exactly the same as it was down in the underground passage", why: "The passage was chilly and full of moving shadows. The corridor is still and silver." },
       { t: "It turns comic, because he laughs at his own nerves", why: "His laughter comes much later, and it is forced." }
-    ]
-  },
-  {
-    skill: "Structure",
-    q: "Why does Wells put out the candles one at a time?",
-    opts: [
-      { t: "Each one raises the tension a little further than the last", ok: true, why: "Right. One candle is a draught. Four at once is not. The slow loss lets panic build step by step." },
-      { t: "It shows that the ghost is weak and can only manage one at a time", why: "The story ends by saying there is no ghost at all." },
-      { t: "It gives the narrator time to search for the intruder", why: "He never searches. He only relights and loses ground." },
-      { t: "It proves the windows have been left open somewhere", why: "He checked the fastenings and closed the shutters himself." }
     ]
   },
   {
@@ -5315,15 +5293,6 @@ const EVIDENCE = [
     ]
   },
   {
-    quote: "as one might start and find a stranger watching one’s face",
-    opts: [
-      { t: "The darkness is being described as a presence", ok: true, why: "Right. The comparison gives the dark eyes and attention, so an absence of light becomes a watcher." },
-      { t: "There is somebody hiding inside the alcove", why: "The room is empty. The image is a comparison." },
-      { t: "He has fallen asleep and woken up suddenly", why: "He is awake and pacing the room." },
-      { t: "The old man with the shade has followed him upstairs", why: "He went up alone and nobody joins him." }
-    ]
-  },
-  {
     quote: "so that not a corner of it was without its light",
     opts: [
       { t: "He prepares carefully, which makes the later losses worse", ok: true, why: "Right. He fills every corner on purpose, so each candle that dies takes back ground he had won." },
@@ -5344,16 +5313,6 @@ const EVIDENCE = [
 ];
 
 const EXPLAIN = [
-  {
-    claim: "Wells makes light the enemy of calm.",
-    quote: "my candle flared and made the shadows cower and quiver",
-    opts: [
-      { t: "The narrator carries a candle along the cold underground passage on his way towards the spiral staircase of the house.", why: "Retelling. What does the candle do to the passage?" },
-      { t: "The candle he carries for safety is what animates the shadows. “Cower” and “quiver” make them frightened creatures around him.", ok: true, why: "Strong. It catches the reversal and explains the two verbs." },
-      { t: "The shadows in the passage are alive, and they move away from the candle because they are afraid of being burned by it.", why: "A literal reading. The shadows are made by the flame." },
-      { t: "The writer uses personification to describe the shadows here, which means giving human actions or feelings to something that is not alive.", why: "An observation. What does the personification achieve?" }
-    ]
-  },
   {
     claim: "The narrator sees less than he thinks he does.",
     quote: "an ocean of mystery and suggestion beyond its island of light",
@@ -5395,9 +5354,44 @@ const EXPLAIN = [
     ]
   }
 ];
+
+const COLLECT = [
+  {
+    claim: "The narrator’s own candlelight is what makes the shadows seem alive.",
+    opts: [
+      { t: "made the shadows cower and quiver", ok: true, why: "Right. His own candle sets the shadows moving, and 'cower' and 'quiver' make them behave like frightened creatures." },
+      { t: "The long, draughty subterranean passage was chilly and dusty", why: "This describes the cold, neglected passage, not the shadows coming to life." },
+      { t: "The echoes rang up and down the spiral staircase", why: "This is about sound in the stairwell, not the moving shadows." },
+      { t: "listening to a rustling that I fancied I heard", why: "This is a sound he half-imagines, not the shadows his candle makes." }
+    ]
+  },
+  {
+    claim: "Wells describes the darkness as if it were a living presence.",
+    opts: [
+      { t: "as one might start and find a stranger watching one’s face", ok: true, why: "Right. The comparison gives the dark eyes and attention, so an absence of light becomes a watcher." },
+      { t: "the candle in the alcove went out", why: "This states plainly that a candle failed, without giving the darkness any life." },
+      { t: "My first match would not strike", why: "This is his own fumbling with the matches, not the darkness as a presence." },
+      { t: "a little tongue of light in its vastness", why: "This describes his small candle, not the darkness around it." }
+    ]
+  },
+  {
+    claim: "A frightening shape on the landing turns out to be only a statue.",
+    target: ["the impression of someone crouching to waylay me"],
+    decoys: [{ phrase: "a statue of Ganymede and the eagle", why: "This is what the shape really is, the answer to the scare, not the frightening impression itself. Look for what he thinks he sees first." }],
+    miss: "Look for the bronze shadow on the white panelling.",
+    explain: "The crouching figure is only a statue’s shadow. Once a shadow has fooled us, every later shape the candle throws feels dangerous."
+  },
+  {
+    claim: "The candles going out one by one is what builds the terror.",
+    target: ["the candle at the foot of the bed went out, and the shadows seemed to take another step towards me"],
+    decoys: [{ phrase: "something seemed to blink on the wall before me", why: "This is one small movement early on, not the steady loss that builds the dread. Look for the shadows taking 'another step'." }],
+    miss: "Look for the paragraph where several candles have gone out and the shadows advance.",
+    explain: "Losing candles 'one and then another' lets the fear grow: each one gone is a step the shadows 'take towards' him, so dread builds instead of arriving all at once."
+  }
+];
 TEXTS.push({ id: "the-red-room", type: "Fiction", mode: "Creative", form: "Ghost story", level: "5ème",
   hook: "A young man spends a night in a haunted room, armed with a candle and his own confidence.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 {
 const TEXT = {
@@ -5945,14 +5939,6 @@ const ANNOTATE = [
     decoys: [{ phrase: "You are the very person I have been looking for", why: "He speaks politely there, and his nose is still free. Look for the line where the words go wrong." }],
     miss: "Look just after the Crocodile says what he will begin with.",
     explain: "The spelling changes so that we hear him talking through a pinched nose. The joke lets us laugh in the middle of a frightening moment."
-  },
-  {
-    skill: "Characterisation",
-    prompt: "Find the <em>long, grand words</em> the snake uses for the Crocodile.",
-    target: ["yonder self-propelling man-of-war with the armour-plated upper deck"],
-    decoys: [{ phrase: "knotted himself in a double-clove-hitch", why: "That is what the snake does, and it is a good detail, but it is not what he calls the Crocodile." }],
-    miss: "Look at the snake’s second long speech.",
-    explain: "The snake never uses a short word when a long one will do. His grand language is funny because he is giving urgent advice in the middle of a tug of war."
   }
 ];
 
@@ -5966,16 +5952,6 @@ const QUESTIONS = [
       { t: "It warns the listener that the story has not quite finished yet", why: "It arrives as the explanation lands." },
       { t: "It shows the storyteller is unsure what happened next", why: "He knows exactly, and has been leading us here." },
       { t: "It tells the listener to go and look at real elephants", why: "The seeing he means is understanding the story." }
-    ]
-  },
-  {
-    skill: "Humour",
-    q: "Why is the Crocodile’s “Come hither, Little One” funny and frightening at once?",
-    opts: [
-      { t: "It sounds kind, and we can see what the kindness is for", ok: true, why: "Right. He is gentle and welcoming while lifting his tail out of the mud and weeping crocodile-tears." },
-      { t: "The Crocodile is speaking in a language the child cannot understand", why: "The Elephant’s Child understands him and comes closer." },
-      { t: "The Crocodile is much smaller than the Elephant’s Child", why: "Nothing suggests that. He can nearly pull him into the river." },
-      { t: "The Crocodile is only pretending to have teeth", why: "He says his line between very real teeth." }
     ]
   },
   {
@@ -6031,15 +6007,6 @@ const EVIDENCE = [
     ]
   },
   {
-    quote: "he wept crocodile-tears to show it was quite true",
-    opts: [
-      { t: "The Crocodile is performing, and the storyteller says so", ok: true, why: "Right. Crocodile-tears are famously false, so the phrase warns us while the Elephant’s Child kneels down closer." },
-      { t: "The Crocodile is genuinely sad about being so hungry today", why: "The tears are proof of a trick, not of sadness." },
-      { t: "The Crocodile cries because the Snake spanked him", why: "The Snake spanked the Elephant’s Child, not the Crocodile." },
-      { t: "The Crocodile has something in his eye from the mud", why: "The phrase is an old expression about false tears." }
-    ]
-  },
-  {
     quote: "And they all spanked him once more for luck",
     opts: [
       { t: "The spankings have become a family habit, not a punishment", ok: true, why: "Right. There is nothing to punish as he leaves. “For luck” turns it into the way this family says goodbye." },
@@ -6091,16 +6058,6 @@ const EXPLAIN = [
     ]
   },
   {
-    claim: "Kipling makes us hear the danger rather than only see it.",
-    quote: "Led go! You are hurtig be!",
-    opts: [
-      { t: "The Crocodile has caught the Elephant’s Child by the nose at the edge of the river, and the Elephant’s Child asks him to stop.", why: "Retelling. Why is it spelled that way?" },
-      { t: "The spelling squashes his consonants, so we hear a pinched nose. The comedy arrives at the same moment as the danger.", ok: true, why: "Strong. It explains the spelling and the double effect." },
-      { t: "The Elephant’s Child cannot speak English properly because he is still very young and has not learned it yet.", why: "He speaks perfectly a moment before." },
-      { t: "The writer spells these words wrongly on purpose.", why: "An observation. What does it let us hear?" }
-    ]
-  },
-  {
     claim: "The snake’s way of speaking is a joke in itself.",
     quote: "yonder self-propelling man-of-war with the armour-plated upper deck",
     opts: [
@@ -6111,9 +6068,44 @@ const EXPLAIN = [
     ]
   }
 ];
+
+const COLLECT = [
+  {
+    claim: "The Crocodile is only pretending to be friendly.",
+    opts: [
+      { t: "he wept crocodile-tears to show it was quite true", ok: true, why: "Right. Crocodile-tears are famously false, so weeping them proves the friendliness is an act." },
+      { t: "Come hither, Little One", why: "This is the gentle-sounding invitation; the claim asks for the detail that shows the kindness is fake." },
+      { t: "I will begin with Elephant’s Child", why: "This is his real, hungry intention, the threat itself, not the pretended kindness." },
+      { t: "the Crocodile caught him by his little nose", why: "This is the moment he grabs the child, an action, not the pretending." }
+    ]
+  },
+  {
+    claim: "The snake speaks in grand, over-long language even in an emergency.",
+    opts: [
+      { t: "yonder self-propelling man-of-war with the armour-plated upper deck", ok: true, why: "Right. He calls a crocodile a warship in the longest words he can find, while a child is being pulled into the river." },
+      { t: "knotted himself in a double-clove-hitch round the Elephant’s Child’s hind legs", why: "This is what the snake does, not the grand way he speaks." },
+      { t: "Some people do not know what is good for them.", why: "This is the snake speaking, but plainly and simply, not in grand language." },
+      { t: "scuffled down from the bank", why: "This is the snake's movement, not his speech." }
+    ]
+  },
+  {
+    claim: "The pinched-nose spelling lets us hear the danger, not just see it.",
+    target: ["Led go! You are hurtig be!"],
+    decoys: [{ phrase: "You are the very person I have been looking for", why: "Here he speaks politely, with his nose still free; the claim needs the words that go wrong once it is caught. Look for the pinched-nose line." }],
+    miss: "Look just after the Crocodile says what he will begin with.",
+    explain: "The spelling squashes his consonants ('Led go' for 'Let go'), so we hear him speak through a pinched nose. The joke and the danger arrive together."
+  },
+  {
+    claim: "The Elephant’s Child stays polite even in the middle of danger.",
+    target: ["first he was careful to say “Thank you” to the Bi-Coloured-Python-Rock-Snake"],
+    decoys: [{ phrase: "he was kind to his poor pulled nose", why: "This is him caring for his sore nose, not thanking the snake who saved him. Look for his 'Thank you'." }],
+    miss: "Look right after the Crocodile lets go.",
+    explain: "Even sitting down 'most hard and sudden', he 'was careful to say Thank you'. His good manners in a crisis are part of the comedy and show his good nature."
+  }
+];
 TEXTS.push({ id: "elephants-child", type: "Fiction", mode: "Creative", form: "Just So story", level: "CM2",
   hook: "A young elephant with too many questions goes to find out what the Crocodile has for dinner.",
-  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
 {
 const TEXT = {
@@ -7901,4 +7893,223 @@ const EXPLAIN = [
 TEXTS.push({ id: "mr-lindbergh", type: "Fiction", mode: "Creative", form: "Historical fiction", level: "5ème",
   hook: "Paris, 1927. A girl in the crowd gets close enough to touch the plane that has just crossed the Atlantic.",
   TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN });
+}
+
+/* ================================================================
+   TEXT · Fiction · Compare & contrast · 5ème
+   Scholastic, Close Reading Fiction Ages 11+, pp. 44–45
+   Annotate stage focuses on compare-and-contrast signal words,
+   similarities and differences.
+   ================================================================ */
+{
+const TEXT = {
+  title: "Theatres New and Old",
+  intro: "Scholastic, Close Reading Fiction Ages 11+. On the same April day, Zack watches a play in the modern Milton Keynes Theatre while his aunt Viola explores the ancient outdoor theatre at Epidaurus in Greece.",
+  paras: [
+    "Like his classmates, Zack was eager for the show to begin. They sat in the Milton Keynes Theatre, there to see The Frogs, a play by the Greek playwright Aristophanes. Inside the theatre, most of the comfortable seats were filled; the room was abuzz. The large, modern theatre, which opened in 1999, was colourful and welcoming. Compared to the storm raging outside, it was cosy.",
+    "On the same April day, Zack’s aunt Viola was 3400 kilometres away exploring the ancient outdoor theatre at Epidaurus, Greece. That symmetrical stone venue, built nearly 2400 years ago, was carved into a natural hillside, where warm spring breezes rustled the leaves of trees that formed a living backdrop. This amphitheatre, which can accommodate over 12,000 visitors on its hard stone benches, is still used for plays and events. However, no play was being performed that day.",
+    "Back in Milton Keynes, an announcer asked everyone to turn off all electronic devices as the house lights dimmed. Actors quietly entered to take their places. Zack took a last glance at his programme and focused on the stage.",
+    "The simple theatre at Epidaurus had no programmes, no speaker system and no house lights – just daylight. Its most remarkable feature was its near-perfect natural acoustics. Viola’s tour guide stood on stage and spoke to visitors 30 rows away. Everyone could make out every word. By contrast, actors in Milton Keynes wore body microphones to amplify their voices.",
+    "Zack enjoyed the centuries-old play performed in the Buckinghamshire venue. Meanwhile, his aunt appreciated a centuries-old Greek venue with her tour guide as the sole performer, with perhaps a chorus of ghosts for atmosphere."
+  ]
+};
+
+const ANNOTATE = [
+  {
+    skill: "Signal words",
+    prompt: "Find a <em>signal word or phrase</em> that warns the reader a contrast is coming.",
+    target: ["However", "By contrast", "Meanwhile"],
+    decoys: [{ phrase: "On the same April day", why: "This links the two visits in time, but it does not flag a difference. Look for a word like “However” or “By contrast”." }],
+    miss: "Look for a linking word that sets one venue against the other, especially in paragraphs 2, 4 and 5.",
+    explain: "Words like “However”, “By contrast” and “Meanwhile” tell the reader a difference is coming. Boxing these signal words is the first step in comparing the two theatres."
+  },
+  {
+    skill: "Spotting a similarity",
+    prompt: "Find the word that shows the two theatre experiences are <em>alike</em>.",
+    target: ["centuries-old"],
+    decoys: [{ phrase: "no play was being performed that day", why: "This is a difference (Epidaurus had no performance), not something the two venues share. Look for a word used about both experiences." }],
+    miss: "Look at the final paragraph. What word describes both what Zack saw and what his aunt appreciated?",
+    explain: "Both Zack’s play and Viola’s venue are “centuries-old”. Repeating the word circles a real similarity: both experiences reach back across time, even though the places are so different."
+  },
+  {
+    skill: "Spotting a difference",
+    prompt: "Underline a detail that shows how <em>old</em> each venue is, so the reader can compare their ages.",
+    target: ["built nearly 2400 years ago", "which opened in 1999"],
+    decoys: [{ phrase: "3400 kilometres away", why: "This is how far apart the two places are, not how old they are. Look for a year or an age." }],
+    miss: "One theatre opened recently; the other was built long ago. Underline one of those facts.",
+    explain: "The Milton Keynes theatre “opened in 1999”; Epidaurus was “built nearly 2400 years ago”. Setting a modern date against an ancient one is one of the clearest contrasts in the text."
+  },
+  {
+    skill: "Spotting a difference",
+    prompt: "Find a difference in how the audience <em>hears</em> the actors at each venue.",
+    target: ["near-perfect natural acoustics", "wore body microphones to amplify their voices"],
+    decoys: [{ phrase: "the house lights dimmed", why: "This is about lighting, not about how the actors are heard. Look for acoustics or microphones." }],
+    miss: "At Epidaurus the sound is natural; at Milton Keynes it is helped by technology. Underline one of these.",
+    explain: "Epidaurus relies on “near-perfect natural acoustics”, while the Milton Keynes actors “wore body microphones”. The same need, being heard, is met in opposite ways: nature versus technology."
+  }
+];
+
+const QUESTIONS = [
+  {
+    skill: "Retrieval",
+    q: "Who wrote the play that Zack’s class went to see?",
+    opts: [
+      { t: "Aristophanes", ok: true, why: "Right. The text says The Frogs is “a play by the Greek playwright Aristophanes”." },
+      { t: "Milton Keynes", why: "That is the theatre where they watched the play, not a person." },
+      { t: "Viola", why: "That is Zack’s aunt, who is 3400 kilometres away in Greece." },
+      { t: "Epidaurus", why: "That is the ancient Greek theatre, a place, not a playwright." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Why do you think the room was “abuzz” at the Milton Keynes theatre?",
+    opts: [
+      { t: "The audience was excited to see the play", ok: true, why: "Right. “Abuzz” pictures the buzz of an excited crowd, like Zack, who “was eager for the show to begin”." },
+      { t: "An annoying noise was coming from the speakers", why: "Microphones are mentioned later, and nothing says the speakers made an annoying noise." },
+      { t: "There were real bees in the audience", why: "“Abuzz” compares the crowd’s chatter to bees; there are no real bees." },
+      { t: "The acoustics were so clear that the audience could hear everything", why: "The clear natural acoustics belong to Epidaurus, not Milton Keynes." }
+    ]
+  },
+  {
+    skill: "Structure",
+    q: "How does the writer organise the whole text?",
+    opts: [
+      { t: "By moving back and forth between the two theatres to compare them", ok: true, why: "Right. The text keeps switching between Milton Keynes and Epidaurus, so the reader constantly compares the modern venue with the ancient one." },
+      { t: "By telling Zack’s whole story first and then Viola’s separately", why: "The two visits are cut together; “On the same April day” and “Back in Milton Keynes” keep switching between them." },
+      { t: "By listing every fact about ancient Greek theatre in order", why: "It follows two people on the same day, not a list of facts." },
+      { t: "By describing one evening at a single theatre", why: "There are two theatres, 3400 kilometres apart." }
+    ]
+  },
+  {
+    skill: "Inference",
+    q: "Does Aunt Viola watch a real play at Epidaurus?",
+    opts: [
+      { t: "No; no play was on, so she enjoyed the ancient venue itself", ok: true, why: "Right. The text says “no play was being performed that day”. She “appreciated” the venue, with the tour guide as the only “performer”." },
+      { t: "Yes; she watches The Frogs at the same time as Zack", why: "The Frogs is Zack’s play in England, 3400 kilometres away." },
+      { t: "Yes; her tour guide performs a whole play on the stage", why: "The guide speaks to visitors and is only jokingly called the “sole performer”; he does not act a play." },
+      { t: "No; the play was cancelled because of the storm", why: "The storm is in Milton Keynes, not Greece, where “warm spring breezes” blow." }
+    ]
+  },
+  {
+    skill: "Summary",
+    q: "Which sentence best sums up what happens in this text?",
+    opts: [
+      { t: "On the same day, Zack watches a play in a modern theatre while his aunt explores an ancient Greek amphitheatre, and the text compares the two venues.", ok: true, why: "Right. It covers the whole shape of the text, not just one part of it." },
+      { t: "The amphitheatre at Epidaurus can hold over 12,000 visitors on its hard stone benches. Other parts of the story focus on different details.", why: "True, but too narrow. It only covers part of the text and misses the main point." },
+      { t: "The text proves that ancient Greek theatres are far better than modern ones in every possible way. The rest of the text develops in a different direction.", why: "Too broad. This adds a claim the text does not actually make or support." },
+      { t: "An announcer asks the Milton Keynes audience to turn off all their electronic devices. The story continues well beyond this particular moment.", why: "A real detail, but a minor one. It is not what the text is mainly about." }
+    ]
+  }
+];
+
+const EVIDENCE = [
+  {
+    quote: "no play was being performed that day",
+    opts: [
+      { t: "Viola’s visit is about the ancient venue, not about seeing a performance", ok: true, why: "Right. With no play on, what she “appreciated” was the theatre itself, its stone, its setting and its history." },
+      { t: "The theatre at Epidaurus is broken and can no longer be used", why: "The text says it “is still used for plays and events”. It just was not in use that day." },
+      { t: "It was raining too hard for the play to go ahead", why: "The storm is in Milton Keynes. In Greece there are “warm spring breezes”." },
+      { t: "Viola arrived too late to watch the play", why: "Nothing says a play was scheduled at all that day." }
+    ]
+  },
+  {
+    quote: "Everyone could make out every word",
+    opts: [
+      { t: "The natural acoustics at Epidaurus are remarkably good", ok: true, why: "Right. A guide on the stage is heard clearly 30 rows away, with no microphone, which is the “most remarkable feature” of the venue." },
+      { t: "The tour guide was shouting very loudly", why: "He simply “spoke”. The point is the acoustics, not how loud he was." },
+      { t: "The audience used the speaker system to hear him", why: "Epidaurus has “no speaker system”." },
+      { t: "Everyone in Greece speaks the same language", why: "The quote is about hearing the words, not about understanding a language." }
+    ]
+  },
+  {
+    quote: "Compared to the storm raging outside, it was cosy",
+    opts: [
+      { t: "The modern indoor theatre keeps its audience comfortable whatever the weather", ok: true, why: "Right. The storm stays “outside”, while inside it is warm and “cosy”, one advantage of an enclosed modern venue." },
+      { t: "The play the class watched was about a terrible storm at sea", why: "The storm is real weather outside the building, not part of the play." },
+      { t: "The theatre was cold and uncomfortable inside", why: "“Cosy” means warm and comfortable, the opposite." },
+      { t: "The storm forced the whole audience to leave early", why: "They stay; the show begins as the house lights dim." }
+    ]
+  }
+];
+
+const COLLECT = [
+  {
+    claim: "At Epidaurus the audience sits on far less comfortable seating than at Milton Keynes.",
+    opts: [
+      { t: "hard stone benches", ok: true, why: "Right. Bare stone is uncomfortable, unlike the padded seats of a modern theatre." },
+      { t: "most of the comfortable seats were filled", why: "This is the comfortable seating at Milton Keynes; the claim asks for the harder seating at Epidaurus." },
+      { t: "carved into a natural hillside", why: "This is how the theatre was shaped from the land, not how comfortable the seats are." },
+      { t: "over 12,000 visitors", why: "This is how many people it holds, not how comfortable the seating is." }
+    ]
+  },
+  {
+    claim: "The modern theatre relies on technology that the ancient one does without.",
+    opts: [
+      { t: "an announcer asked everyone to turn off all electronic devices", ok: true, why: "Right. Electronic devices, dimming house lights and body microphones all show the modern theatre runs on technology Epidaurus lacks." },
+      { t: "no programmes, no speaker system and no house lights", why: "This lists what the ancient theatre does without; the claim asks for the technology the modern one uses." },
+      { t: "warm spring breezes rustled the leaves", why: "This describes the natural setting at Epidaurus, not technology at Milton Keynes." },
+      { t: "Actors quietly entered to take their places", why: "This is a stage detail, not a piece of technology." }
+    ]
+  },
+  {
+    claim: "At Epidaurus, nature itself is used as part of the theatre.",
+    target: ["the leaves of trees that formed a living backdrop"],
+    decoys: [{ phrase: "carved into a natural hillside", why: "This is how the seating was shaped from the land, not the living scenery behind the stage. Look for the trees that act as a backdrop." }],
+    miss: "Look in paragraph 2 for what grows behind the stage.",
+    explain: "At Epidaurus the trees themselves form a “living backdrop”. Nature does the job that painted scenery or a built set would do in a modern theatre."
+  },
+  {
+    claim: "The ending hints the ancient venue still seems full of its long past.",
+    target: ["perhaps a chorus of ghosts for atmosphere"],
+    decoys: [{ phrase: "her tour guide as the sole performer", why: "This is the guide talking on the empty stage, meant literally. Look for the playful image that fills the old theatre with its past." }],
+    miss: "Look at the very last line of the text.",
+    explain: "There are no real ghosts. A “chorus” was part of ancient Greek plays, so “a chorus of ghosts” imagines the theatre still echoing with the actors of 2400 years ago. It evokes the venue’s history, not a haunting."
+  }
+];
+
+const EXPLAIN = [
+  {
+    claim: "The writer stresses that the two visits happen at the very same time.",
+    quote: "On the same April day",
+    opts: [
+      { t: "Zack’s aunt Viola was in Greece, 3400 kilometres away, while Zack was at the theatre in Milton Keynes.", why: "Retelling. Why does the writer stress that it is the same day?" },
+      { t: "“On the same April day” ties Viola’s visit to Zack’s, so every difference we read is happening at one shared moment, which sharpens the comparison.", ok: true, why: "Strong. It explains what the time link does for the compare-and-contrast structure." },
+      { t: "The writer gives the reader some information about the time and date in this sentence.", why: "Vague. What does “the same day” do for the comparison?" },
+      { t: "This proves that Zack and Viola had planned for months to visit two theatres on exactly the same day.", why: "Overclaiming. The text never says they planned it together." }
+    ]
+  },
+  {
+    claim: "The word “abuzz” makes the modern theatre feel alive with excitement.",
+    quote: "the room was abuzz",
+    opts: [
+      { t: "Most of the comfortable seats in the theatre were filled with people who had come to watch the play.", why: "Retelling. What does the word “abuzz” add?" },
+      { t: "“Abuzz” compares the crowd’s chatter to a hive of bees, so the whole room seems to hum with the audience’s excitement before the show.", ok: true, why: "Strong. It explains the buzzing image and links it to the crowd’s excitement." },
+      { t: "This shows there were insects buzzing around inside the theatre while the audience waited.", why: "A literal misreading. “Abuzz” is a metaphor for the buzz of talk." },
+      { t: "The writer uses an interesting word here to describe the noise in the theatre.", why: "Which word, and what does it make the reader picture?" }
+    ]
+  },
+  {
+    claim: "The phrase “By contrast” does the work of comparing for the reader.",
+    quote: "By contrast",
+    opts: [
+      { t: "The actors at the Milton Keynes theatre wore body microphones so the audience could hear their voices.", why: "Retelling. What job does “By contrast” do?" },
+      { t: "“By contrast” warns the reader the next fact is the opposite of the one before, hinging Epidaurus’s natural acoustics against Milton Keynes’s microphones in one phrase.", ok: true, why: "Strong. It explains the signal phrase and the exact contrast it sets up." },
+      { t: "This is a connective, which is a word that joins one idea in a text to another idea.", why: "Correct label. What does this connective actually show the reader?" },
+      { t: "This proves that natural acoustics are always better than microphones in every theatre in the world.", why: "Overclaiming. The phrase compares two venues; it does not rank them for all theatres." }
+    ]
+  },
+  {
+    claim: "The last paragraph balances Zack’s experience against his aunt’s.",
+    quote: "Meanwhile, his aunt appreciated a centuries-old Greek venue",
+    opts: [
+      { t: "At the end of the day Zack liked the play he saw and his aunt liked the Greek theatre she visited.", why: "Retelling. How does the wording tie the two together?" },
+      { t: "“Meanwhile” sets the two side by side one last time: Zack “enjoyed” a centuries-old play, his aunt “appreciated” a centuries-old venue. The matching wording shows both valued something old.", ok: true, why: "Strong. It explains the parallel structure and what the balance achieves." },
+      { t: "The writer uses the word “Meanwhile” at the start of the sentence to join it to the one before.", why: "Correct, but what does putting the two side by side achieve?" },
+      { t: "This proves that Zack and his aunt both wish they had visited the other person’s theatre instead.", why: "Overclaiming. Both are happy with what they experienced." }
+    ]
+  }
+];
+TEXTS.push({ id: "theatres-new-old", type: "Fiction", mode: "Creative", form: "Compare-and-contrast story", level: "5ème",
+  hook: "Same April day, two theatres: a modern one in Milton Keynes and an ancient one in Greece.",
+  TEXT, ANNOTATE, QUESTIONS, EVIDENCE, EXPLAIN, COLLECT });
 }
