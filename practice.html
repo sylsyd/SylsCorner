@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/unit.css">
 <style>
+:root{--read:'EB Garamond',Georgia,serif;--mono:'Courier Prime',monospace}
 .cr{--paper:#EAF2FA;--ink:#0B2545;--soft:#4A5F78;--hi:#BFDCF5;--pink:#9B1B30;--pen:#9B1B30;--ok:#17636c;
   max-width:1280px;margin:0 auto;padding:clamp(20px,4vw,48px) clamp(16px,4vw,64px) 60px;color:var(--ink)}
 .cr *{box-sizing:border-box}
@@ -58,15 +59,15 @@
 .card h3{font:400 clamp(20px,1.9vw,26px)/1.1 Anton,Impact,sans-serif;margin:8px 0 8px}
 .card h3 em{font-style:normal;background:var(--hi);padding:0 3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .skill{display:inline-block;font:700 11px/1 'Courier Prime',monospace;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--hi);padding:5px 7px;margin-top:8px}
-.tip{font:400 14px/1.5 'Courier Prime',monospace;color:var(--soft);margin:0}
-.claim{font:400 15px/1.45 'Courier Prime',monospace;background:var(--hi);padding:8px 10px;margin:12px 0 8px}
+.tip{font:400 16px/1.55 var(--read);color:var(--soft);margin:0}
+.claim{font:400 17px/1.5 var(--read);background:var(--hi);padding:9px 11px;margin:12px 0 8px}
 .claim b{display:block;font:700 10px/1 'Courier Prime',monospace;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}
 .evq{font:italic 400 19px/1.45 'EB Garamond',Georgia,serif;border-left:5px solid var(--pink);padding:6px 0 6px 14px;margin:6px 0 14px}
 .opts{display:grid;gap:8px;margin-top:14px}
 .opts[hidden]{display:none}
-.opt{font:400 14px/1.35 'Courier Prime',monospace;text-align:left;padding:9px 11px;border:2px solid var(--ink);background:#ffffff;color:var(--ink);cursor:pointer}
+.opt{font:400 16.5px/1.4 var(--read);text-align:left;padding:10px 12px;border:2px solid var(--ink);background:#ffffff;color:var(--ink);cursor:pointer}
 .opt:hover:not(:disabled){background:var(--ink);color:#ffffff}
-.opt .k{font-weight:700;margin-right:8px}
+.opt .k{font:700 12px/1 var(--mono);letter-spacing:.08em;margin-right:9px;opacity:.75}
 .opt.right{background:var(--hi)}
 .opt.wrong{background:var(--pen);border-color:var(--pen);color:#fff}
 .opt:disabled{cursor:default}
@@ -74,7 +75,7 @@
 .fb{margin-top:14px;padding:11px 0 11px 13px;animation:penin .22s ease-out}
 @keyframes penin{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
 .fb .who{font:400 16px/1 Anton,Impact,sans-serif;letter-spacing:.03em;margin-bottom:6px}
-.fb .why{font:400 14px/1.55 'Courier Prime',monospace}
+.fb .why{font:400 16px/1.55 var(--read)}
 .fb.bad{border-left:5px solid var(--pen)}.fb.bad .who{color:var(--pen)}
 .fb.good{border-left:5px solid var(--ink)}.fb.good .who{color:var(--ink)}
 .fb.good .who span{background:var(--hi);padding:0 4px}
@@ -90,15 +91,16 @@
 /* ---- text-size (zoom) for classroom projection ---- */
 #work{--z:1}
 #work .passage p{font-size:calc(clamp(16px,1.35vw,18.5px) * var(--z))}
-#work .passage p.note{font-size:calc(14px * var(--z))}
+#work .passage p.note{font-size:calc(16px * var(--z))}
 #work .passage p.bullet{font-size:calc(clamp(16px,1.35vw,18.5px) * var(--z))}
 #work .card h3{font-size:calc(clamp(20px,1.9vw,26px) * var(--z))}
-#work .opt{font-size:calc(14px * var(--z))}
+#work .opt{font-size:calc(16.5px * var(--z))}
 #work .evq{font-size:calc(19px * var(--z))}
-#work .claim{font-size:calc(15px * var(--z))}
-#work .tip{font-size:calc(14px * var(--z))}
+#work .claim{font-size:calc(17px * var(--z))}
+#work .tip{font-size:calc(16px * var(--z))}
 #work .intro-card p{font-size:calc(17px * var(--z))}
-#work .fb .why{font-size:calc(14px * var(--z))}
+#work .intro-card ol{font-size:calc(16px * var(--z))}
+#work .fb .why{font-size:calc(16px * var(--z))}
 #work .fb .who{font-size:calc(16px * var(--z))}
 #work .next{font-size:calc(20px * var(--z))}
 #work .skill{font-size:calc(11px * var(--z))}
@@ -107,7 +109,7 @@
 .fullbtn:disabled{opacity:.4;cursor:default}
 .zlvl{font:700 11px/1 'Courier Prime',monospace;letter-spacing:.04em;color:var(--soft);align-self:center;min-width:38px;text-align:center}
 .intro-card p{font:400 17px/1.55 'EB Garamond',Georgia,serif;margin:0 0 10px}
-.intro-card ol{font:400 14px/1.6 'Courier Prime',monospace;padding-left:20px;margin:6px 0 4px}
+.intro-card ol{font:400 16px/1.65 var(--read);padding-left:20px;margin:6px 0 4px}
 .tally{display:flex;gap:22px;flex-wrap:wrap;margin:12px 0 6px;font:400 13px/1.3 'Courier Prime',monospace}
 .tally b{display:block;font:400 34px/1.05 Anton,Impact,sans-serif}
 #stamp{position:fixed;left:50%;top:36%;transform:translate(-50%,-50%) rotate(-6deg);font:400 clamp(34px,9vw,70px)/.9 Anton,Impact,sans-serif;color:#0B2545;pointer-events:none;z-index:80;opacity:0;padding:6px 16px;border:5px solid #0B2545;background:#BFDCF5}
@@ -120,7 +122,7 @@
 .backbtn:hover{background:var(--ink);color:var(--hi)}
 .cr[hidden]{display:none}
 .pick-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;margin:6px 0 18px;border-bottom:2px solid var(--ink);padding-bottom:12px}
-.pick-head p{font:400 14px/1.4 'Courier Prime',monospace;color:var(--soft);margin:0}
+.pick-head p{font:400 16.5px/1.45 var(--read);color:var(--soft);margin:0}
 .pick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
 .pick-card{display:flex;flex-direction:column;text-align:left;padding:0;border:2px solid var(--ink);background:#ffffff;color:var(--ink);cursor:pointer;transition:transform .15s,box-shadow .15s;font:inherit}
 .pick-card:hover,.pick-card:focus-visible{transform:translateY(-4px);box-shadow:6px 6px 0 var(--ink);outline:none}
@@ -143,7 +145,7 @@
 .lvl-filter button[aria-pressed="true"]{background:var(--ink);color:#fff}
 .passage h3.sub{font:400 clamp(17px,1.5vw,20px)/1.1 Anton,Impact,sans-serif;color:var(--ink);margin:12px 0 5px;letter-spacing:.02em}
 .passage h3.sub:first-child{margin-top:0}
-.passage p.note{font:italic 400 14px/1.45 'Courier Prime',monospace;color:var(--soft);border-left:3px solid var(--hi);padding-left:10px}
+.passage p.note{font:italic 400 16px/1.5 var(--read);color:var(--soft);border-left:3px solid var(--hi);padding-left:10px}
 .passage p.bullet{margin:0 0 3px 18px}
 .passage .off{display:none}
 .ctx{font:italic 400 15px/1.45 'EB Garamond',Georgia,serif;color:var(--soft);margin:-2px 0 10px;padding:6px 10px;background:rgba(191,220,245,.45);border-left:3px solid var(--ink)}
@@ -165,7 +167,7 @@
 .gap{border-radius:6px}
 #stamp{border-radius:12px}
 .best-badge{position:absolute;left:12px;bottom:12px;z-index:2;font:700 12px/1 'Courier Prime',monospace;letter-spacing:.06em;background:rgba(255,255,255,.94);color:var(--ink);padding:6px 9px;border-radius:7px}
-.best-line{font:700 13px/1.4 'Courier Prime',monospace;color:var(--ink);background:var(--hi);padding:7px 10px;border-radius:8px;margin:10px 0 0}
+.best-line{font:400 16px/1.45 var(--read);color:var(--ink);background:var(--hi);padding:7px 10px;border-radius:8px;margin:10px 0 0}
 .pick-search{margin-left:auto}
 .pick-search input{font:400 13px/1 'Courier Prime',monospace;border:2px solid var(--ink);border-radius:8px;padding:9px 10px;width:190px;background:#fff;color:var(--ink)}
 .pick-search input:focus{outline:none;box-shadow:0 0 0 3px var(--hi)}
@@ -197,7 +199,7 @@
 .cover{font:400 11px/1.5 'Courier Prime',monospace;letter-spacing:.04em;color:var(--soft);margin:-8px 0 12px}
 .cover b{color:var(--ink);font-weight:700}
 .cover i{font-style:normal;text-transform:uppercase;letter-spacing:.08em;font-size:10px}
-.no-hits{font:400 14px/1.4 'Courier Prime',monospace;color:var(--soft)}
+.no-hits{font:400 16px/1.45 var(--read);color:var(--soft)}
 .no-hits[hidden]{display:none}
 .pick-card.pending{opacity:.6;cursor:not-allowed}
 .pick-card.pending:hover{transform:none;box-shadow:none}
@@ -207,7 +209,7 @@
 .drill-bar{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:14px 16px;margin-bottom:20px}
 .drill-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-bottom:10px}
 .drill-title{font:400 22px/1 Anton,Impact,sans-serif;margin:0}
-.drill-sub{font:400 13px/1.3 'Courier Prime',monospace;color:var(--soft);margin:0}
+.drill-sub{font:400 15.5px/1.4 var(--read);color:var(--soft);margin:0}
 .drill-chips{display:flex;flex-wrap:wrap;gap:8px}
 .drill-chip{font:700 13px/1.2 'Courier Prime',monospace;text-align:left;border:2px solid var(--ink);border-radius:10px;background:var(--hi);color:var(--ink);padding:8px 12px;cursor:pointer}
 .drill-chip span{display:block;font-weight:400;font-size:11px;color:var(--soft);margin-top:3px}
@@ -216,12 +218,42 @@
 .stages[hidden]{display:none}
 @media (prefers-reduced-motion:reduce){.cr *,#stamp{animation:none!important;transition:none!important}}
 
+/* ---------- keyboard focus: match the pick-card treatment ---------- */
+.opt:focus-visible,.next:focus-visible,.fullbtn:focus-visible,.backbtn:focus-visible,
+.lvl-filter button:focus-visible,.drill-chip:focus-visible,.gap:focus-visible,
+.band-head:focus-visible,.latest-card:focus-visible,.tools-menu>summary:focus-visible,
+.pm-btns button:focus-visible{outline:3px solid var(--pen);outline-offset:2px}
+
+/* ---------- stage bar: make "done" unmistakable ---------- */
+.stages span.done::before{content:"\2713\00a0";font-weight:700}
+
+/* ---------- results: colour the per-stage tally ---------- */
+.tally div{padding-left:10px;border-left:3px solid var(--soft)}
+.tally div.full{border-left-color:var(--ok)}
+.tally div.full b{color:var(--ok)}
+.tally div.part{border-left-color:var(--pen)}
+.tally div.part b{color:var(--pen)}
+
+/* ---------- teacher tools, folded out of the student's way ---------- */
+.tools-menu{position:relative}
+.tools-menu>summary{list-style:none;display:inline-block;font:700 11px/1 var(--mono);letter-spacing:.08em;
+  text-transform:uppercase;border:2px solid var(--ink);border-radius:8px;background:#fff;color:var(--ink);
+  padding:9px 10px;cursor:pointer;white-space:nowrap}
+.tools-menu>summary::-webkit-details-marker{display:none}
+.tools-menu>summary:hover,.tools-menu[open]>summary{background:var(--ink);color:var(--hi)}
+.tools-menu.live>summary{background:var(--pen);color:#fff;border-color:var(--pen)}
+.tools-menu-pop{position:absolute;z-index:60;top:calc(100% + 6px);left:0;display:flex;flex-direction:column;
+  gap:6px;background:#fff;border:2px solid var(--ink);border-radius:10px;padding:8px;
+  box-shadow:0 10px 22px rgba(11,37,69,.2);min-width:210px}
+.tools-menu-pop .backbtn{width:100%;text-align:left}
+@media (max-width:640px){.tools-menu-pop{left:auto;right:0}}
+
 /* ---------- export worksheet: modal + print layout ---------- */
 #printModal{position:fixed;inset:0;background:rgba(11,37,69,.55);display:flex;align-items:center;justify-content:center;z-index:120;padding:18px}
 #printModal[hidden]{display:none}
 .pm-box{background:#fff;border:2px solid var(--ink);max-width:440px;width:100%;padding:22px 22px 18px;box-shadow:8px 8px 0 var(--ink)}
 .pm-box h3{font:400 26px/1 Anton,Impact,sans-serif;margin:0 0 8px}
-.pm-box p{font:400 15px/1.5 'Courier Prime',monospace;color:var(--soft);margin:0 0 14px}
+.pm-box p{font:400 16.5px/1.5 var(--read);color:var(--soft);margin:0 0 14px}
 .pm-box label{display:flex;align-items:center;gap:9px;font:400 15px/1.4 'EB Garamond',Georgia,serif;margin:0 0 9px;cursor:pointer}
 .pm-box label input{width:18px;height:18px;flex:0 0 auto}
 .pm-btns{display:flex;gap:8px;margin-top:16px}
@@ -290,9 +322,14 @@
 <div class="cr" id="work" hidden>
   <div class="cr-top">
     <button class="backbtn" id="backBtn">&larr; All texts</button>
-    <button class="backbtn" id="linkBtn" title="Copy a direct link to this text">Copy link</button>
-    <button class="backbtn teach-btn" id="teachBtn" title="Present this text to the class, question by question" hidden>&#9654; Class mode</button>
-    <button class="backbtn" id="printBtn" title="Export a printable worksheet (Save as PDF)" hidden>&#9113; Export worksheet</button>
+    <details class="tools-menu" id="toolsMenu">
+      <summary title="Teacher tools">Teacher tools &#9662;</summary>
+      <div class="tools-menu-pop">
+        <button class="backbtn" id="linkBtn" title="Copy a direct link to this text">Copy link</button>
+        <button class="backbtn teach-btn" id="teachBtn" title="Present this text to the class, question by question" hidden>&#9654; Class mode</button>
+        <button class="backbtn" id="printBtn" title="Export a printable worksheet (Save as PDF)" hidden>&#9113; Export worksheet</button>
+      </div>
+    </details>
     <h1 class="cr-title">Close Reading <span>Practice</span></h1>
     <div class="stages" id="stages"><span data-s="1">1 &middot; Annotate</span><span data-s="2">2 &middot; Questions</span><span data-s="3">3 &middot; Evidence</span><span data-s="4">4 &middot; Explain</span></div>
     <div class="score" id="scoreBox">SCORE<b id="score">0</b> / <span id="max">20</span></div>
@@ -884,7 +921,7 @@ function results_() {
     : pct >= .35 ? "You are getting there. Slow down and reread the lines around each quote."
     : "Close reading takes practice. Run it again and read every explanation carefully.";
   const tallyLabel = { 1: "Annotation", 2: "Questions", 3: "Evidence", 5: "Collect", 4: "Explain" };
-  const tally = FLOW.map(e => `<div><b>${results[e.type]}/${e.list.length}</b>${tallyLabel[e.type]}</div>`).join("");
+  const tally = FLOW.map(e => `<div class="${results[e.type] === e.list.length ? "full" : "part"}"><b>${results[e.type]}/${e.list.length}</b>${tallyLabel[e.type]}</div>`).join("");
   panel.innerHTML = `<div class="card"><p class="num">Results</p><h3>${score} / ${MAX} <em>first try</em></h3>
     <div class="tally">${tally}</div>
     <p class="tip">${verdict}</p>${bestLine}</div>`;
@@ -1181,6 +1218,7 @@ function teachEnter() {
   TEACH = { items: teachItems(), i: 0, phase: "present" };
   $("#scoreBox").hidden = true;
   const b = $("#teachBtn"); b.classList.add("on"); b.innerHTML = "&#9632; Exit class mode";
+  $("#toolsMenu") && $("#toolsMenu").classList.add("live");
   stopReading();
   // bump text size for projection (without overwriting the saved everyday size)
   preTeachZoom = zoomI;
@@ -1192,6 +1230,7 @@ function exitTeach() {
   TEACH = null;
   $("#scoreBox").hidden = false;
   const b = $("#teachBtn"); b.classList.remove("on"); b.innerHTML = "&#9654; Class mode";
+  $("#toolsMenu") && $("#toolsMenu").classList.remove("live");
   if (preTeachZoom !== null) { setZoom(preTeachZoom, false); preTeachZoom = null; }
   if (CUR && !DRILL) intro();
 }
@@ -1438,6 +1477,13 @@ function loadText(t) {
 }
 $("#backBtn").addEventListener("click", showPicker);
 $("#teachBtn").addEventListener("click", () => { if (TEACH) exitTeach(); else teachEnter(); });
+/* tools menu: close after a choice, on outside click, or on Esc */
+(function toolsMenuBehaviour() {
+  const m = $("#toolsMenu"); if (!m) return;
+  m.querySelectorAll("button").forEach(b => b.addEventListener("click", () => { m.open = false; }));
+  document.addEventListener("click", e => { if (m.open && !m.contains(e.target)) m.open = false; });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && m.open) m.open = false; });
+})();
 $("#linkBtn").addEventListener("click", () => {
   const url = location.origin + location.pathname + (DRILL ? "?skill=" + DRILL.key + (levelFilter === "all" ? "" : "&level=" + encodeURIComponent(levelFilter)) : "?text=" + encodeURIComponent(CUR.id));
   const done = () => { $("#linkBtn").textContent = "Link copied"; setTimeout(() => $("#linkBtn").textContent = "Copy link", 1800); };
