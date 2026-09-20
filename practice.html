@@ -277,7 +277,7 @@
 
 <div class="cr" id="picker">
   <div class="pick-head"><h1 class="cr-title">Close Reading <span>Practice</span></h1>
-    <p>Choose a text. Each one has four stages: annotate, questions, evidence and explain.</p>
+    <p>Choose a text. Each one has up to five stages: annotate, questions, evidence, collect and explain.</p>
     <div class="lvl-filter" id="lvlFilter" role="group" aria-label="Filter by level">
       <button data-l="all" aria-pressed="true">All levels</button><button data-l="CM2" aria-pressed="false">CM2</button><button data-l="6ème" aria-pressed="false">6ème</button><button data-l="5ème" aria-pressed="false">5ème</button>
     </div>
@@ -893,7 +893,14 @@ function results_() {
 }
 
 /* ---------- teacher check: phrases that don't match the text ---------- */
+/* Author-only diagnostics. Hidden from students; show them by adding ?check=1
+   to the URL, or once via localStorage.setItem('ld-check','1'). */
+const TEACHER_CHECK = (() => {
+  try { if (/[?&]check=1/.test(location.search)) return true; } catch (e) {}
+  try { return localStorage.getItem('ld-check') === '1'; } catch (e) { return false; }
+})();
 function missingReport() {
+  if (!TEACHER_CHECK) return "";
   const miss = [];
   ANNOTATE.forEach(a => a.target.concat((a.decoys || []).map(d => d.phrase)).forEach(ph => { if (!findRanges(ph, true).length) miss.push(ph); }));
   EVIDENCE.concat(EXPLAIN).forEach(e => { if (!findRanges(e.quote).length) miss.push(e.quote); });
@@ -977,7 +984,7 @@ function renderDrillBar() {
     chips.appendChild(b);
   });
   const unmatched = [...new Set(drillItems().filter(x => x.g === "other").map(x => x.label))];
-  if (unmatched.length) bar.insertAdjacentHTML("beforeend", `<details class="teacher-warn"><summary>Teacher check: ${unmatched.length} skill label${unmatched.length > 1 ? "s" : ""} not linked to a skill</summary><p>Add a keyword to SKILL_GROUPS, or add drill: "key" to the item:</p><ul>${unmatched.map(u => `<li>${u}</li>`).join("")}</ul></details>`);
+  if (TEACHER_CHECK && unmatched.length) bar.insertAdjacentHTML("beforeend", `<details class="teacher-warn"><summary>Teacher check: ${unmatched.length} skill label${unmatched.length > 1 ? "s" : ""} not linked to a skill</summary><p>Add a keyword to SKILL_GROUPS, or add drill: "key" to the item:</p><ul>${unmatched.map(u => `<li>${u}</li>`).join("")}</ul></details>`);
 }
 function startDrill(key) {
   const pool = shuffle(drillItems().filter(x => x.g === key && (levelFilter === "all" || x.t.level === levelFilter)));
