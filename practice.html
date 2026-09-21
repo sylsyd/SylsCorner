@@ -88,6 +88,15 @@
 .teach-nav .next{margin-top:0;width:auto;flex:1}
 .teach-tag{display:inline-block;font:700 10px/1 'Courier Prime',monospace;letter-spacing:.12em;text-transform:uppercase;background:var(--pen);color:#fff;padding:5px 8px;margin-bottom:10px}
 .teach-btn.on{background:var(--pen);color:#fff;border-color:var(--pen)}
+/* class-mode control strip: projection zoom + questions-only toggle */
+.teach-bar{display:flex;align-items:center;gap:6px}
+.teach-bar[hidden]{display:none}
+#soloBtn.on{background:var(--ink);color:var(--hi)}
+#soloBtn.pinned{opacity:.45}
+/* questions only: the passage steps aside and the card takes the whole board */
+.cr-grid.solo{grid-template-columns:minmax(0,1fr)}
+.cr-grid.solo .sheet{display:none}
+.cr-grid.solo #panel{width:100%;max-width:1100px;margin-inline:auto}
 /* ---- text-size (zoom) for classroom projection ---- */
 #work{--z:1}
 #work .passage p{font-size:calc(clamp(16px,1.35vw,18.5px) * var(--z))}
@@ -332,9 +341,15 @@
     </details>
     <h1 class="cr-title">Close Reading <span>Practice</span></h1>
     <div class="stages" id="stages"><span data-s="1">1 &middot; Annotate</span><span data-s="2">2 &middot; Questions</span><span data-s="3">3 &middot; Evidence</span><span data-s="4">4 &middot; Explain</span></div>
+    <div class="teach-bar" id="teachBar" hidden>
+      <button class="fullbtn zbtn" id="tZoomOut" title="Smaller text" aria-label="Smaller text">A&minus;</button>
+      <span class="zlvl" id="tZlvl" title="Text size">100%</span>
+      <button class="fullbtn zbtn" id="tZoomIn" title="Bigger text" aria-label="Bigger text">A+</button>
+      <button class="fullbtn" id="soloBtn" title="Hide the text so the question and answers fill the board">Hide text</button>
+    </div>
     <div class="score" id="scoreBox">SCORE<b id="score">0</b> / <span id="max">20</span></div>
   </div>
-  <div class="cr-grid">
+  <div class="cr-grid" id="crGrid">
     <article class="sheet">
       <div class="sheet-head"><div><p class="kicker" id="kicker">Sample text &middot; original</p><h2 id="ttl"></h2></div>
         <div class="sheet-btns"><button class="fullbtn zbtn" id="zoomOut" title="Smaller text" aria-label="Smaller text">A&minus;</button><span class="zlvl" id="zlvl" title="Text size">100%</span><button class="fullbtn zbtn" id="zoomIn" title="Bigger text" aria-label="Bigger text">A+</button><button class="fullbtn readbtn" id="readBtn" hidden>&#128266; Read aloud</button><button class="fullbtn" id="fullBtn" hidden>Show full text</button></div></div>
@@ -472,6 +487,7 @@ function buildPassage() {
 /* Does the full text fit in the window? Re-checked when fonts load and on resize. */
 function fitCheck() {
   if (!CUR || $("#work").hidden) return;
+  if ($("#crGrid") && $("#crGrid").classList.contains("solo")) return;  // sheet is hidden: nothing to measure
   if (FORCE_FOCUS !== null) { LONG = FORCE_FOCUS; focus(lastRanges); return; }
   LONG = false; focus(null);
   const bottom = document.querySelector(".sheet").getBoundingClientRect().bottom + scrollY;
@@ -605,9 +621,16 @@ const ZOOMS = [1, 1.15, 1.35, 1.6, 1.9, 2.2];
 let zoomI = 0;
 function applyZoom() {
   $("#work").style.setProperty("--z", ZOOMS[zoomI]);
-  $("#zlvl").textContent = Math.round(ZOOMS[zoomI] * 100) + "%";
-  $("#zoomOut").disabled = zoomI === 0;
-  $("#zoomIn").disabled = zoomI === ZOOMS.length - 1;
+  const pct = Math.round(ZOOMS[zoomI] * 100) + "%";
+  const first = zoomI === 0, last = zoomI === ZOOMS.length - 1;
+  $("#zlvl").textContent = pct;
+  $("#zoomOut").disabled = first;
+  $("#zoomIn").disabled = last;
+  // twin controls in the class-mode strip, so zoom stays reachable with the text hidden
+  const tz = $("#tZlvl"), to = $("#tZoomOut"), ti = $("#tZoomIn");
+  if (tz) tz.textContent = pct;
+  if (to) to.disabled = first;
+  if (ti) ti.disabled = last;
   fitCheck();
 }
 function setZoom(i, persist = true) {
@@ -620,6 +643,8 @@ function loadZoom() {
 }
 $("#zoomOut").addEventListener("click", () => setZoom(zoomI - 1));
 $("#zoomIn").addEventListener("click", () => setZoom(zoomI + 1));
+$("#tZoomOut").addEventListener("click", () => setZoom(zoomI - 1));
+$("#tZoomIn").addEventListener("click", () => setZoom(zoomI + 1));
 addEventListener("keydown", e => {
   if ($("#work").hidden) return;
   const el = document.activeElement, typing = el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA");
@@ -1032,6 +1057,7 @@ function startDrill(key) {
   while (items.length < DRILL_SIZE && queues.some(q => q.length)) queues.forEach(q => { if (q.length && items.length < DRILL_SIZE) items.push(q.shift()); });
   DRILL = { key, items, i: 0, pos: planPositions(items.length, 4), texts: Object.keys(byText).length };
   TEACH = null; $("#teachBtn").hidden = true; $("#printBtn").hidden = true; $("#scoreBox").hidden = false;
+  $("#teachBar").hidden = true; applySolo();
   score = 0; MAX = items.length;
   $("#score").textContent = 0; $("#max").textContent = MAX;
   $("#stages").hidden = true;
@@ -1123,7 +1149,8 @@ function makeCard(t, n) {
   return card;
 }
 function showPicker() {
-  DRILL = null; TEACH = null; $("#stages").hidden = false;
+  DRILL = null; TEACH = null; $("#teachBar").hidden = true; applySolo();
+  $("#stages").hidden = false;
   $("#teachBtn").hidden = true; $("#printBtn").hidden = true; $("#scoreBox").hidden = false;
   const tb = $("#teachBtn"); tb.classList.remove("on"); tb.innerHTML = "&#9654; Class mode";
   $("#work").hidden = true; $("#picker").hidden = false;
@@ -1202,6 +1229,38 @@ function applySearch() {
 let TEACH = null, preTeachZoom = null;
 const STAGE_NAME = { 1: "Annotate", 2: "Question", 3: "Evidence", 5: "Collect", 4: "Explain" };
 
+/* ---------- questions only ----------
+   Side by side, the passage takes the wide column and the question is squeezed
+   into the narrow one, which is unreadable from the back of a classroom once the
+   options run long. "Hide text" drops the passage and gives the card the whole
+   board. Annotate items and click-in-the-text collect items are answered IN the
+   passage, so those pull it back automatically for as long as they are on screen.  */
+let teachSolo = (() => { try { return localStorage.getItem("ld-teach-solo") === "1"; } catch (e) { return false; } })();
+function itemNeedsText(x) { return !!x && (x.type === 1 || (x.type === 5 && !x.it.opts)); }
+function applySolo() {
+  const grid = $("#crGrid"), b = $("#soloBtn");
+  if (!grid) return;
+  const x = TEACH ? TEACH.cur : null, needs = itemNeedsText(x), pinned = !!TEACH && teachSolo && needs;
+  const was = grid.classList.contains("solo");
+  grid.classList.toggle("solo", !!TEACH && teachSolo && !needs);
+  if (b) {
+    b.textContent = teachSolo ? "Show text" : "Hide text";
+    b.classList.toggle("on", teachSolo);
+    b.classList.toggle("pinned", pinned);
+    b.title = pinned
+      ? "This item is answered in the text, so the text stays up for it"
+      : "Hide the text so the question and answers fill the board";
+  }
+  if (was && !grid.classList.contains("solo")) fitCheck();  // re-measure now the sheet is back
+}
+function toggleSolo() {
+  teachSolo = !teachSolo;
+  try { localStorage.setItem("ld-teach-solo", teachSolo ? "1" : "0"); } catch (e) {}
+  applySolo();
+  scrollTo(0, 0);
+}
+$("#soloBtn").addEventListener("click", toggleSolo);
+
 function teachItems() {
   const out = [];
   ANNOTATE.forEach(it => out.push({ type: 1, it }));
@@ -1215,8 +1274,9 @@ function teachItems() {
 }
 function teachEnter() {
   if (!CUR || DRILL) return;
-  TEACH = { items: teachItems(), i: 0, phase: "present" };
+  TEACH = { items: teachItems(), i: 0, phase: "present", cur: null };
   $("#scoreBox").hidden = true;
+  $("#teachBar").hidden = false;
   const b = $("#teachBtn"); b.classList.add("on"); b.innerHTML = "&#9632; Exit class mode";
   $("#toolsMenu") && $("#toolsMenu").classList.add("live");
   stopReading();
@@ -1228,6 +1288,8 @@ function teachEnter() {
 }
 function exitTeach() {
   TEACH = null;
+  applySolo();                      // drops the solo class now TEACH is gone
+  $("#teachBar").hidden = true;
   $("#scoreBox").hidden = false;
   const b = $("#teachBtn"); b.classList.remove("on"); b.innerHTML = "&#9654; Class mode";
   $("#toolsMenu") && $("#toolsMenu").classList.remove("live");
@@ -1249,22 +1311,24 @@ function teachNextBtn() {
   return nextBtn(last ? "TO ANSWER KEY →" : "Next item →", teachNext);
 }
 function teachIntro() {
-  stage = 0; setStages(); buildPassage();
+  stage = 0; setStages(); buildPassage(); TEACH.cur = null; applySolo();
   panel.innerHTML = `<div class="card intro-card"><span class="teach-tag">Class mode</span><p class="num">Present to the class</p>
     <h3>Work through ${TEACH.items.length} items together</h3>
     <p>For each item: read it aloud and discuss, then click <b>Show options</b>. Students write their answer (A, B, C or D) in their notebooks. Click <b>Next item</b> to move on &mdash; no answer is shown and no score is kept.</p>
     <p>Once all ${TEACH.items.length} are done, an <b>answer key</b> walks back through them so students can mark their own or a partner&rsquo;s work.</p>
-    <p class="tip">You can still reveal any answer on the spot if a discussion calls for it.</p></div>`;
+    <p class="tip">You can still reveal any answer on the spot if a discussion calls for it.</p>
+    <p class="tip"><b>Hide text</b> (top right) drops the passage so the question and answers fill the whole board &mdash; easier to read from the back. Items that are answered in the text bring it back on their own.</p></div>`;
   panel.firstChild.appendChild(nextBtn("START — ITEM 1 OF " + TEACH.items.length, () => { TEACH.i = 0; teachShow(); }));
   panel.firstChild.appendChild(nextBtn("Back to normal mode", exitTeach, true));
 }
 function teachShow() {
   const x = TEACH.items[TEACH.i];
-  stage = x.type; setStages();
+  stage = x.type; setStages(); TEACH.cur = x;
   clearMarks(); passage.classList.remove("picking"); scrollTo(0, 0);
   if (x.type === 1) teachAnnotate(x);
   else if (x.type === 5) teachCollect(x);
   else teachMcq(x);
+  applySolo();
 }
 function teachCollect(x) {
   const it = x.it;
@@ -1336,7 +1400,7 @@ function teachNext() {
   else { TEACH.phase = "review"; TEACH.i = 0; teachReviewIntro(); }
 }
 function teachReviewIntro() {
-  stage = 0; setStages(); buildPassage();
+  stage = 0; setStages(); buildPassage(); TEACH.cur = null; applySolo();
   panel.innerHTML = `<div class="card intro-card"><span class="teach-tag">Answer key</span><p class="num">Mark the work</p>
     <h3>Answer key &mdash; ${TEACH.items.length} items</h3>
     <p>Go back through every item with the correct answer shown. Students mark their own notebook, or swap with a partner, and total their score out of ${TEACH.items.length}.</p>
@@ -1345,7 +1409,7 @@ function teachReviewIntro() {
 }
 function teachReview() {
   const x = TEACH.items[TEACH.i], it = x.it, letters = "ABCD";
-  stage = x.type; setStages();
+  stage = x.type; setStages(); TEACH.cur = x; applySolo();
   clearMarks(); passage.classList.remove("picking"); scrollTo(0, 0);
   if (x.type === 1 || (x.type === 5 && !it.opts)) {
     const target = it.target.flatMap(p => findRanges(p, it.all));
@@ -1374,7 +1438,7 @@ function teachReview() {
   panel.querySelector(".card").appendChild(teachNav([back, fwd]));
 }
 function teachDone() {
-  clearMarks(); focus(null);
+  clearMarks(); focus(null); TEACH.cur = null; applySolo();
   panel.innerHTML = `<div class="card"><span class="teach-tag">Class mode</span><p class="num">Finished</p>
     <h3>That&rsquo;s all ${TEACH.items.length} items</h3>
     <p class="tip">Students total their marks out of ${TEACH.items.length} and record them however you like.</p></div>`;
@@ -1462,7 +1526,8 @@ $("#pmGo") && $("#pmGo").addEventListener("click", () => {
 });
 
 function loadText(t) {
-  DRILL = null; TEACH = null; $("#stages").hidden = false;
+  DRILL = null; TEACH = null; $("#teachBar").hidden = true; applySolo();
+  $("#stages").hidden = false;
   $("#scoreBox").hidden = false;
   const tb = $("#teachBtn"); tb.hidden = false; tb.classList.remove("on"); tb.innerHTML = "&#9654; Class mode";
   $("#printBtn").hidden = false;
