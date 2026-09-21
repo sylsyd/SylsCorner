@@ -1470,7 +1470,7 @@ function buildWorksheet(o) {
   if (o.annotate && ANNOTATE.length) {
     let items = "";
     ANNOTATE.forEach(it => { n++;
-      items += `<div class="ws-q"><p class="ws-qn"><b>${n}.</b> Underline in the passage the words that match this &mdash;<span class="ws-skill">${it.skill}</span></p><p class="ws-qtext">${it.prompt}</p><div class="ws-write"></div></div>`;
+      items += `<div class="ws-q"><p class="ws-qn"><b>${n}.</b> Underline in the passage the words that match this &mdash;<span class="ws-skill">${it.skill}</span></p><p class="ws-qtext">${it.prompt}</p></div>`;
       key.push(`<li><b>${n}.</b> Underline: “${it.target.join("” / “")}” &mdash; ${it.explain}</li>`);
     });
     secs += `<div class="ws-sec"><p class="ws-sec-h">${L()} &middot; Annotate the text</p>${items}</div>`;
@@ -1498,7 +1498,7 @@ function buildWorksheet(o) {
         items += `<div class="ws-q"><p class="ws-qn"><b>${n}.</b> Which line best supports this claim?<span class="ws-skill">Collect evidence</span></p><div class="ws-claim"><b>Claim</b>${it.claim}</div>${wsOpts(pl.map(o => ({ t: "“" + o.t + "”", ok: o.ok })))}</div>`;
         key.push(`<li><b>${n}.</b> <b>${LETT[pl.findIndex(x => x.ok)]}</b> &mdash; ${pl.find(x => x.ok).why}</li>`);
       } else {
-        items += `<div class="ws-q"><p class="ws-qn"><b>${n}.</b> Underline in the passage the words that best support this claim &mdash;<span class="ws-skill">Collect evidence</span></p><div class="ws-claim"><b>Claim</b>${it.claim}</div><div class="ws-write"></div></div>`;
+        items += `<div class="ws-q"><p class="ws-qn"><b>${n}.</b> Underline in the passage the words that best support this claim &mdash;<span class="ws-skill">Collect evidence</span></p><div class="ws-claim"><b>Claim</b>${it.claim}</div></div>`;
         key.push(`<li><b>${n}.</b> Underline: “${it.target.join("” / “")}” &mdash; ${it.explain}</li>`);
       }
     });
