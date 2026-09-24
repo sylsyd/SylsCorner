@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Year 8 English: Figurative Language, Name It, Explain It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Figtree:wght@400;600;800&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f1e7; --paper:#fffdf8; --ink:#1d2433; --ink2:#5a6275; --line:#e4dccb;
+  --rose:#f7d9dc; --rose-ink:#9b2f3f; --teal:#d3ece8; --teal-ink:#1d6b62;
+  --amber:#fbe7c0; --amber-ink:#8a5a09; --lav:#e3def5; --lav-ink:#4b3d8f;
+  --acc:#7a2231; --shadow:0 2px 0 rgba(0,0,0,.04),0 8px 24px rgba(40,30,10,.08);
+  --sans:'Figtree',system-ui,sans-serif; --serif:'Literata',Georgia,serif; --hand:'Caveat',cursive;
+}
+[data-theme="dark"]{
+  --bg:#171a22; --paper:#212532; --ink:#eef0f5; --ink2:#a9b0c2; --line:#343a4b;
+  --rose:#4a2830; --rose-ink:#f3a9b5; --teal:#1f3d3a; --teal-ink:#8fdcd0;
+  --amber:#463715; --amber-ink:#f5cf7d; --lav:#2f2a4c; --lav-ink:#c3b8f7;
+  --acc:#f09aa8; --shadow:0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:clamp(16px,1.25vw,22px)}
+button{font:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;align-items:center;padding:.6rem 1.4rem}
+.brand{font-weight:800;color:var(--acc);font-size:.95rem;line-height:1.2}
+.brand small{display:block;color:var(--ink2);font-weight:600}
+nav{display:flex;gap:.4rem;flex:1}
+nav button{border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:.45em 1.2em;font-weight:700}
+nav button.on{background:var(--acc);border-color:var(--acc);color:var(--paper)}
+.tools{display:flex;gap:.4rem;align-items:center}
+.tb{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:.6rem;padding:.35em .7em;font-weight:600}
+.timer{font-variant-numeric:tabular-nums;font-weight:800;min-width:3.4em;text-align:center}
+.timer.flash{animation:fl .6s 6}
+@keyframes fl{50%{background:var(--rose);color:var(--rose-ink)}}
+main{max-width:70rem;margin:0 auto;padding:1.6rem 1.4rem 4rem}
+h1{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.8rem);margin:.2rem 0 .8rem;line-height:1.15}
+.lead{font-size:1.25rem;color:var(--ink2);margin:0 0 1.4rem;max-width:48rem}
+.card{background:var(--paper);border-radius:1.1rem;box-shadow:var(--shadow);padding:1.5rem 1.8rem;margin-bottom:1.2rem}
+.eq{display:flex;flex-wrap:wrap;gap:.6rem;margin:0 0 1.6rem}
+.eq .box{flex:1;min-width:11rem;border-radius:1rem;padding:1rem 1.2rem;text-align:center;font-weight:800;font-size:1.35rem}
+.eq .box span{display:block;font-weight:600;font-size:.85rem;margin-top:.3rem;opacity:.9}
+.b-point{background:var(--amber);color:var(--amber-ink)}
+.b-ev{background:var(--lav);color:var(--lav-ink)}
+.b-ex{background:var(--teal);color:var(--teal-ink)}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.8rem;color:var(--ink2);font-weight:700}
+.level{border-radius:999px;padding:.15em .8em;font-size:.85rem}
+.lv-Easy{background:var(--teal);color:var(--teal-ink)}
+.lv-Medium{background:var(--amber);color:var(--amber-ink)}
+.lv-Hard{background:var(--rose);color:var(--rose-ink)}
+.lv-Fun{background:var(--lav);color:var(--lav-ink)}
+.text{font-family:var(--serif);font-size:clamp(1.5rem,2.4vw,2.2rem);line-height:1.45;margin:0 0 .8rem}
+.q{font-style:italic;font-size:1.3rem;color:var(--acc);margin:0 0 1.2rem;font-weight:600}
+.clue{border-radius:.25em;transition:background .25s,box-shadow .25s}
+.show-clue .clue{background:var(--lav);box-shadow:0 0 0 .12em var(--lav-ink) inset;color:var(--lav-ink)}
+.steps{display:grid;gap:.6rem}
+.step{display:none;border-radius:.9rem;padding:.8rem 1.1rem;font-size:1.2rem;align-items:baseline;gap:.8rem}
+.step.on{display:flex;animation:up .3s ease}
+.step b{flex:0 0 9.5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em}
+@keyframes up{from{opacity:0;transform:translateY(6px)}}
+.s-point{background:var(--amber);color:var(--amber-ink)}
+.s-ev{background:var(--lav);color:var(--lav-ink)}
+.s-ex{background:var(--teal);color:var(--teal-ink)}
+.s-bad{background:var(--rose);color:var(--rose-ink)}
+.s-say{background:var(--rose);color:var(--rose-ink);font-family:var(--hand);font-size:1.6rem}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem;align-items:center}
+.btn{border:none;border-radius:.8rem;padding:.65em 1.3em;font-weight:800;background:var(--line);color:var(--ink)}
+.btn.main{background:var(--acc);color:var(--paper)}
+.btn:disabled{opacity:.35;cursor:default}
+.spacer{flex:1}
+.count{color:var(--ink2);font-weight:700}
+.frame{font-family:var(--hand);font-size:1.5rem;color:var(--rose-ink);background:var(--rose);border-radius:.9rem;padding:.5rem 1.1rem;margin:0 .6rem 1.2rem 0;display:inline-block}
+.parts{display:flex;gap:.4rem;margin:0 0 1rem;flex-wrap:wrap}
+.parts button{border:2px solid var(--line);background:var(--paper);color:var(--ink);border-radius:.8rem;padding:.5em 1.1em;font-weight:800}
+.parts button.on{border-color:var(--acc);color:var(--acc)}
+.phead{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center;margin-bottom:1rem}
+.phead h2{font-family:var(--serif);margin:0;font-size:1.8rem}
+.phead .task{color:var(--ink2);font-weight:600;flex:1;min-width:14rem}
+.item{display:grid;grid-template-columns:3.4rem 1fr;gap:.2rem 1rem;padding:1rem 0;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:none}
+.num{background:var(--teal);color:var(--teal-ink);font-weight:800;border-radius:.6rem;text-align:center;padding:.35em 0;height:max-content}
+.item .t{font-family:var(--serif);font-size:1.3rem;line-height:1.45}
+.item .qq{font-style:italic;color:var(--acc);font-weight:600;margin-top:.3rem}
+.item .reveal{grid-column:2;margin-top:.5rem}
+.sub{grid-column:1/-1;font-weight:800;color:var(--ink2);margin-top:.4rem}
+.ans{display:none;margin-top:.5rem;background:var(--teal);color:var(--teal-ink);border-radius:.8rem;padding:.6rem 1rem;font-size:1.05rem}
+.ans.on{display:block}
+.mini{border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:.6rem;padding:.3em .8em;font-weight:700;font-size:.85rem}
+.big .item .t{font-size:clamp(1.5rem,2.4vw,2.2rem)}
+/* quote golf */
+.holes,.draws{display:grid;gap:1rem}
+.draws{grid-template-columns:repeat(auto-fit,minmax(24rem,1fr))}
+.hole{border:2px dashed var(--line);border-radius:1rem;padding:1rem 1.2rem}
+.hole .hh{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:baseline;margin-bottom:.5rem}
+.hole .hn{background:var(--amber);color:var(--amber-ink);font-weight:800;border-radius:999px;padding:.15em .9em}
+.hole .pt{font-weight:800;font-size:1.2rem}
+.hole .par{margin-left:auto;font-weight:800;color:var(--ink2)}
+.hole .sent{font-family:var(--serif);font-size:1.3rem;line-height:1.45}
+.strokes{display:none;margin-top:.6rem;background:var(--lav);color:var(--lav-ink);border-radius:.8rem;padding:.6rem 1rem;font-weight:700}
+.strokes.on{display:block}
+@media (max-width:700px){.step b{flex-basis:6rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Year 8 English · Week 1, Lesson 3<small>Figurative Language: Name It, Explain It</small></div>
+  <nav id="nav"></nav>
+  <div class="tools">
+    <button class="tb" data-t="30">30s</button><button class="tb" data-t="60">1m</button><button class="tb" data-t="300">5m</button><button class="tb" data-t="600">10m</button>
+    <span class="tb timer" id="timer">0:00</span>
+    <button class="tb" id="theme" title="Light or dark">◐</button>
+    <button class="tb" id="fs" title="Full screen">⛶</button>
+  </div>
+</header>
+<main id="main"></main>
+
+<script>
+/* ---------- content ---------- */
+const R = {
+  N:['s-point','Name it'], L:['s-ev','Literally'], X:['s-ex','Effect'],
+  BAD:['s-bad','Too weak'], FIX:['s-ex','Stronger'], SAY:['s-say','Say it'],
+  PICK:['s-ev','The figurative one'], WHY:['s-ex','Why']
+};
+
+const SKILL = {
+  text:'All night, the old fridge [grumbled] in the corner of the kitchen.',
+  q:'Name the device and explain its effect.',
+  rows:[
+    ['N','Personification. A fridge cannot grumble. Only a person can.'],
+    ['L','It really means the fridge made a low, rattling noise that would not stop.'],
+    ['X','It makes the reader picture a grumpy old man in the corner, because grumbling is what someone does when they are fed up but will not shut up.'],
+    ['SAY','Name it. Say what it really means. Say what it makes you picture or feel, and why.']
+  ]
+};
+
+const TOGETHER = [
+  {lv:'Easy', text:'The new boy stood in the doorway, [as still as a statue].',
+   q:'Name the device and explain the effect.',
+   rows:[['N','Simile. It compares him to a statue using “as”.'],
+     ['L','He did not move at all.'],
+     ['X','It makes the reader picture him frozen solid, because statues are stone: cold, stuck and stared at.']]},
+  {lv:'Easy', text:'By Friday afternoon, [the classroom was a swamp] of paper, crumbs and lost jumpers.',
+   q:'Name the device and explain the effect.',
+   rows:[['N','Metaphor. It says the classroom IS a swamp.'],
+     ['L','The room was messy and everything had been left everywhere.'],
+     ['X','It makes the reader picture sinking into mess, because a swamp is thick, sticky and nobody wants to wade through it.']]},
+  {lv:'Easy', text:'The wind [rattled the windows] and [howled] down the chimney all night.',
+   q:'Name the device and explain the effect.',
+   rows:[['N','Personification. “Howled” is something a person or an animal does.'],
+     ['L','The wind was very loud and blew hard against the house.'],
+     ['X','It makes the reader feel uneasy, because a howl sounds like something alive and angry outside in the dark.']]},
+  {lv:'Medium', text:'A: “The soup was as hot as the oven it came out of.”   B: “Her temper was as hot as boiling oil.”',
+   q:'Both use “as … as”. Which one is figurative?',
+   rows:[['PICK','B. A temper cannot really be hot.'],
+     ['WHY','A is literal: the soup really was hot. Figurative language is only figurative when the thing being described cannot really be that way.'],
+     ['X','B makes the reader picture something that spits and burns anyone standing near, because boiling oil is dangerous to be around.']]},
+  {lv:'Medium', text:'Quote: “the alarm clock screamed at me”.   Weak effect: “It makes it sound better and more interesting.”',
+   q:'Effect doctor: what is wrong, and how do we fix it?',
+   rows:[['BAD','“More interesting” says nothing. It could be written under any quote on earth.'],
+     ['FIX','It makes the reader picture being shouted awake by someone furious, because a scream is a human sound of panic, not a beep.'],
+     ['X','Test your effect: does it say what you picture or feel? Does it explain why those words do it?']]},
+  {lv:'Hard', text:'[The fog swallowed the village whole], and [the last lamp blinked like a dying torch].',
+   q:'Two devices. Name both, then explain the stronger one.',
+   rows:[['N','“Swallowed” is personification (or a metaphor for eating). “blinked like a dying torch” is a simile.'],
+     ['L','The fog covered everything, and the lamp flickered on and off, growing weaker.'],
+     ['X','“Swallowed” is the stronger image, because it makes the fog sound like a creature eating the village, so the reader feels the village is gone, not just hidden.']]},
+  {lv:'Fun', text:'“My little brother is glued to the screen.”',
+   q:'Draw it literally: what would the picture show?',
+   rows:[['L','A boy stuck to a television with a bottle of glue beside him.'],
+     ['N','Metaphor. He is not really glued to anything.'],
+     ['X','It makes the reader picture someone who cannot be pulled away, because glue means you would have to rip him off to move him.']]},
+  {lv:'Fun', text:'“It is raining cats and dogs.”',
+   q:'Draw it literally: what would the picture show?',
+   rows:[['L','Cats and dogs falling out of the sky onto a street.'],
+     ['N','An idiom built on a metaphor: nothing is really falling but rain.'],
+     ['X','It makes the reader picture rain heavy enough to be dangerous, because animals dropping from the sky would be loud, fast and impossible to ignore.']]}
+];
+
+const SHEET = {
+  A:{title:'Part A: Do Now', task:'5 min, on your own. Last lesson: quoting. Write the shortest quote that proves the point.', time:300, items:[
+    {n:'A1', t:'Point: Ben is exhausted. Ben dragged himself up the stairs, collapsed onto the bed fully dressed and was snoring before his head touched the pillow.',
+     a:'“dragged himself” (2 words). Also accept “collapsed” (1 word). “fully dressed” alone does not prove exhaustion on its own.'},
+    {n:'A2', t:'Point: the shop is unwelcoming. The shop assistant didn’t look up from her phone, and a hand-written sign on the counter read: DON’T TOUCH ANYTHING.',
+     a:'“DON’T TOUCH ANYTHING” (3 words), or “didn’t look up” (3 words). Both prove the point on their own.'}
+  ]},
+  B:{title:'Part B: Draw It Literally', task:'Pairs. One draws the literal meaning in 30 seconds, no words. The other guesses. Then name the device and say what it really means. Swap.', time:60, draw:true, cards:[
+    {n:'1', t:'My little brother is a couch potato.', dev:'Metaphor', a:'He is lazy and spends all day sitting on the sofa. Draw: a potato lying on a sofa.'},
+    {n:'2', t:'The classroom was a zoo.', dev:'Metaphor', a:'It was noisy and out of control. Draw: animals at desks.'},
+    {n:'3', t:'Time flew.', dev:'Personification', a:'Time passed very quickly. Draw: a clock with wings.'},
+    {n:'4', t:'Her words cut like a knife.', dev:'Simile', a:'What she said hurt sharply and suddenly. Draw: words as a blade.'},
+    {n:'5', t:'The alarm clock screamed at me.', dev:'Personification', a:'It was loud and startling. Draw: a clock with a mouth, shouting.'},
+    {n:'6', t:'He has a heart of stone.', dev:'Metaphor', a:'He shows no kindness or feeling. Draw: a rock inside a chest.'},
+    {n:'7', t:'The stars were diamonds scattered across the sky.', dev:'Metaphor', a:'The stars were bright, sparkling and precious. Draw: jewels thrown across the night.'},
+    {n:'8', t:'The traffic crawled like a snail.', dev:'Simile', a:'The traffic moved painfully slowly. Draw: cars with snail shells.'}
+  ]},
+  C:{title:'Part C: Drill', task:'C1 to C6: name the device, quick fire. C7 to C9: quote it, name it, explain the effect.', time:600, items:[
+    {sub:'C1 to C6: simile, metaphor or personification?'},
+    {n:'C1', t:'The old car coughed and spluttered up the hill.', a:'Personification. Cars do not cough: it makes the car sound old and ill.'},
+    {n:'C2', t:'The playground was a battlefield at lunchtime.', a:'Metaphor. It says the playground IS a battlefield: chaotic and rough.'},
+    {n:'C3', t:'Her hands were as cold as ice.', a:'Simile. “as … as” compares her hands to ice.'},
+    {n:'C4', t:'The leaves danced across the empty car park.', a:'Personification. Leaves cannot dance: it makes the movement look light and playful.'},
+    {n:'C5', t:'Grief was a heavy coat she could not take off.', a:'Metaphor. Grief IS a coat: something worn, weighing her down, impossible to remove.'},
+    {n:'C6', t:'He ran like a startled rabbit.', a:'Simile. “like” compares him to a rabbit: fast, panicked, zigzagging.'},
+    {sub:'C7 to C9: quote it, name it, explain: “It makes the reader picture … / feel … because …”'},
+    {n:'C7', t:'The fog crept into the harbour on silent feet, swallowing the boats one by one until only the lighthouse remained, blinking nervously in the dark.',
+     a:'Quote: “crept into the harbour on silent feet”. Personification. It makes the reader picture the fog sneaking in like a burglar, because creeping on silent feet is something done deliberately and secretly, so the harbour feels unsafe. (Also accept “swallowing the boats” or “blinking nervously”.)'},
+    {n:'C8', t:'Dad’s snoring was a freight train roaring through the house, rattling the windows and shaking the pictures on the wall.',
+     a:'Quote: “a freight train roaring through the house”. Metaphor. It makes the reader picture a noise so huge the whole house shakes, because a freight train is deafening, unstoppable and impossible to sleep through.'},
+    {n:'C9', t:'When the bell rang, the students poured out of the classroom like water from a burst pipe.',
+     a:'Quote: “like water from a burst pipe”. Simile. It makes the reader picture a sudden flood of students that nobody could hold back, because a burst pipe gushes all at once and cannot be stopped.'}
+  ]},
+  D:{title:'Part D: Exit Ticket', task:'On your own, 2 marks: 1 for naming the device, 1 for explaining the effect.', time:300, items:[
+    {n:'D', t:'The deadline hung over Maya like a storm cloud, dark and heavy, following her wherever she went.',
+     q:'Name the device and explain its effect on the reader.',
+     a:'Simile: “like a storm cloud” (also accept personification in “following her wherever she went”). It makes the reader feel Maya’s dread is constant and inescapable, because a storm cloud is dark, heavy and threatens to break at any moment, and this one moves with her.'}
+  ]}
+};
+
+/* ---------- helpers ---------- */
+const $ = s=>document.querySelector(s);
+function el(tag, attrs={}, ...kids){
+  const e=document.createElement(tag);
+  for(const k in attrs){ if(k==='html') e.innerHTML=attrs[k]; else if(k.startsWith('on')) e.addEventListener(k.slice(2),attrs[k]); else e.setAttribute(k,attrs[k]); }
+  kids.flat().forEach(c=>{ if(c!=null) e.append(c); });
+  return e;
+}
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const marked = s => esc(s).replace(/\[([^\]]+)\]/g,'<span class="clue">$1</span>');
+
+const S = {tab:0, card:0, part:'A'};
+const TABS = ['1  The skill','2  Together','3  Worksheet'];
+function nav(){
+  const n=$('#nav'); n.innerHTML='';
+  TABS.forEach((t,i)=>n.append(el('button',{class:i===S.tab?'on':'',onclick:()=>{S.tab=i;render();}},t)));
+}
+
+function stepCard(d, meta){
+  const box=el('div',{class:'card'});
+  if(meta) box.append(meta);
+  const text=el('p',{class:'text',html:marked(d.text)});
+  box.append(text, el('p',{class:'q'},d.q));
+  const steps=el('div',{class:'steps'});
+  const nodes=d.rows.map(([key,t])=>{const [c,h]=R[key]; const s=el('div',{class:'step '+c},el('b',{},h),el('span',{},t)); steps.append(s); return s;});
+  box.append(steps);
+  const labels=d.rows.map(([k])=>R[k][1]);
+  let k=0;
+  const next=el('button',{class:'btn main'},labels[0]);
+  const hide=el('button',{class:'btn'},'Hide all');
+  function upd(){
+    text.classList.toggle('show-clue',k>0);
+    nodes.forEach((s,i)=>s.classList.toggle('on',i<k));
+    next.textContent = k>=labels.length ? 'Done' : labels[k];
+    next.disabled = k>=labels.length;
+  }
+  next.onclick=()=>{k=Math.min(labels.length,k+1);upd();};
+  hide.onclick=()=>{k=0;upd();};
+  box.append(el('div',{class:'row'},next,hide));
+  box._next=()=>{ if(k<labels.length){k++;upd();return true;} return false; };
+  upd();
+  return box;
+}
+
+function render(){
+  nav();
+  const m=$('#main'); m.innerHTML=''; window._active=null;
+  if(S.tab===0){
+    m.append(el('h1',{},'Name it. Say what it really means. Explain the effect.'),
+      el('p',{class:'lead'},'Figurative language says something that is not literally true, so the reader pictures it more strongly.'),
+      el('div',{class:'eq'},
+        el('div',{class:'box b-point'},'Simile',el('span',{},'compares using like or as: as brave as a lion')),
+        el('div',{class:'box b-ev'},'Metaphor',el('span',{},'says something IS something else: the classroom was a zoo')),
+        el('div',{class:'box b-ex'},'Personification',el('span',{},'a non-human thing acts or feels like a person: the wind whispered'))));
+    window._active=stepCard(SKILL);
+    m.append(window._active,
+      el('div',{class:'frame'},'It makes the reader picture … because …'),
+      el('div',{class:'frame'},'It makes the reader feel … because …'));
+  }
+  if(S.tab===1){
+    const d=TOGETHER[S.card];
+    m.append(el('h1',{},'Together'),
+      el('div',{class:'frame'},'It makes the reader picture … because …'),
+      el('div',{class:'frame'},'Never just say “it makes it more interesting”.'));
+    const meta=el('div',{class:'meta'},el('span',{class:'count'},`${S.card+1} of ${TOGETHER.length}`),
+      el('span',{class:'level lv-'+d.lv},d.lv==='Fun'?'Draw it literally':d.lv));
+    window._active=stepCard(d,meta);
+    m.append(window._active);
+    const prev=el('button',{class:'btn',onclick:()=>{S.card--;render();}},'← Previous');
+    const nxt=el('button',{class:'btn main',onclick:()=>{S.card++;render();}},'Next example →');
+    prev.disabled=S.card===0; nxt.disabled=S.card===TOGETHER.length-1;
+    m.append(el('div',{class:'row'},prev,el('span',{class:'spacer'}),nxt));
+  }
+  if(S.tab===2){
+    m.append(el('h1',{},'Your turn: the worksheet'), el('p',{class:'lead'},'Write all answers in your book. Number each one.'));
+    const parts=el('div',{class:'parts'});
+    Object.keys(SHEET).forEach(k=>parts.append(el('button',{class:k===S.part?'on':'',onclick:()=>{S.part=k;render();}},SHEET[k].title)));
+    m.append(parts);
+    const P=SHEET[S.part];
+    const card=el('div',{class:'card'+(S.part==='D'?' big':'')});
+    card.append(el('div',{class:'phead'},el('h2',{},P.title),el('span',{class:'task'},P.task),
+      el('button',{class:'mini',onclick:()=>startTimer(P.time)},`Start ${P.time/60} min timer`),
+      el('button',{class:'mini',onclick:()=>{card.querySelectorAll('.ans,.strokes').forEach(a=>a.classList.add('on'));card.querySelectorAll('.sent').forEach(t=>t.classList.add('show-clue'));}},'Show all answers'),
+      el('button',{class:'mini',onclick:()=>{card.querySelectorAll('.ans,.strokes').forEach(a=>a.classList.remove('on'));card.querySelectorAll('.sent').forEach(t=>t.classList.remove('show-clue'));}},'Hide all')));
+    if(P.draw){
+      const grid=el('div',{class:'draws'});
+      P.cards.forEach(c=>{
+        const ans=el('div',{class:'strokes'},el('b',{},c.dev+'. '),c.a);
+        grid.append(el('div',{class:'hole'},
+          el('div',{class:'hh'},el('span',{class:'hn'},c.n),el('span',{class:'pt'},c.t)),
+          el('div',{class:'row'},
+            el('button',{class:'mini',onclick:()=>startTimer(30)},'30 sec'),
+            el('button',{class:'mini',onclick:()=>ans.classList.toggle('on')},'Device and meaning')),
+          ans));
+      });
+      card.append(grid);
+    }
+    (P.items||[]).forEach(it=>{
+      if(it.sub){ card.append(el('div',{class:'item'},el('div',{class:'sub'},it.sub))); return; }
+      const ans=el('div',{class:'ans'},it.a);
+      card.append(el('div',{class:'item'},
+        el('div',{class:'num'},it.n),
+        el('div',{},el('div',{class:'t'},it.t), it.q?el('div',{class:'qq'},it.q):null,
+          el('div',{class:'reveal'},el('button',{class:'mini',onclick:()=>ans.classList.toggle('on')},'Model answer'),ans))));
+    });
+    m.append(card, el('div',{class:'frame'},'Name it. Explain it.'));
+  }
+}
+
+/* ---------- timer ---------- */
+let tLeft=0, tId=null;
+function drawT(){ $('#timer').textContent=`${Math.floor(tLeft/60)}:${String(tLeft%60).padStart(2,'0')}`; }
+function startTimer(s){
+  clearInterval(tId); tLeft=s; drawT(); $('#timer').classList.remove('flash');
+  tId=setInterval(()=>{ tLeft--; drawT(); if(tLeft<=0){ clearInterval(tId); $('#timer').classList.add('flash'); } },1000);
+}
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>startTimer(+b.dataset.t));
+$('#timer').onclick=()=>{ clearInterval(tId); tLeft=0; drawT(); };
+
+/* ---------- theme, full screen, keys ---------- */
+const mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):{matches:false};
+document.documentElement.dataset.theme=mq.matches?'dark':'light';
+$('#theme').onclick=()=>{ const r=document.documentElement; r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'; };
+$('#fs').onclick=()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); else document.exitFullscreen(); };
+document.addEventListener('keydown',e=>{
+  if(e.target.closest&&e.target.closest('input,textarea,button')) return;
+  if(e.key===' '||e.key==='Enter'){ if(window._active&&window._active._next){ e.preventDefault(); window._active._next(); } }
+  if(e.key==='ArrowRight'){ if(S.tab===1&&S.card<TOGETHER.length-1){S.card++;render();} else if(S.tab<2){S.tab++;render();} }
+  if(e.key==='ArrowLeft'){ if(S.tab===1&&S.card>0){S.card--;render();} else if(S.tab>0){S.tab--;render();} }
+});
+render();
+</script>
+</body>
+</html>

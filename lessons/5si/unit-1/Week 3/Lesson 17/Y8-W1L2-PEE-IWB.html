@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Year 8 English: PEE, Proving It and Explaining It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Figtree:wght@400;600;800&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f1e7; --paper:#fffdf8; --ink:#1d2433; --ink2:#5a6275; --line:#e4dccb;
+  --rose:#f7d9dc; --rose-ink:#9b2f3f; --teal:#d3ece8; --teal-ink:#1d6b62;
+  --amber:#fbe7c0; --amber-ink:#8a5a09; --lav:#e3def5; --lav-ink:#4b3d8f;
+  --acc:#7a2231; --shadow:0 2px 0 rgba(0,0,0,.04),0 8px 24px rgba(40,30,10,.08);
+  --sans:'Figtree',system-ui,sans-serif; --serif:'Literata',Georgia,serif; --hand:'Caveat',cursive;
+}
+[data-theme="dark"]{
+  --bg:#171a22; --paper:#212532; --ink:#eef0f5; --ink2:#a9b0c2; --line:#343a4b;
+  --rose:#4a2830; --rose-ink:#f3a9b5; --teal:#1f3d3a; --teal-ink:#8fdcd0;
+  --amber:#463715; --amber-ink:#f5cf7d; --lav:#2f2a4c; --lav-ink:#c3b8f7;
+  --acc:#f09aa8; --shadow:0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:clamp(16px,1.25vw,22px)}
+button{font:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;align-items:center;padding:.6rem 1.4rem}
+.brand{font-weight:800;color:var(--acc);font-size:.95rem;line-height:1.2}
+.brand small{display:block;color:var(--ink2);font-weight:600}
+nav{display:flex;gap:.4rem;flex:1}
+nav button{border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:.45em 1.2em;font-weight:700}
+nav button.on{background:var(--acc);border-color:var(--acc);color:var(--paper)}
+.tools{display:flex;gap:.4rem;align-items:center}
+.tb{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:.6rem;padding:.35em .7em;font-weight:600}
+.timer{font-variant-numeric:tabular-nums;font-weight:800;min-width:3.4em;text-align:center}
+.timer.flash{animation:fl .6s 6}
+@keyframes fl{50%{background:var(--rose);color:var(--rose-ink)}}
+main{max-width:70rem;margin:0 auto;padding:1.6rem 1.4rem 4rem}
+h1{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.8rem);margin:.2rem 0 .8rem;line-height:1.15}
+.lead{font-size:1.25rem;color:var(--ink2);margin:0 0 1.4rem;max-width:48rem}
+.card{background:var(--paper);border-radius:1.1rem;box-shadow:var(--shadow);padding:1.5rem 1.8rem;margin-bottom:1.2rem}
+.eq{display:flex;flex-wrap:wrap;gap:.6rem;margin:0 0 1.6rem}
+.eq .box{flex:1;min-width:11rem;border-radius:1rem;padding:1rem 1.2rem;text-align:center;font-weight:800;font-size:1.35rem}
+.eq .box span{display:block;font-weight:600;font-size:.85rem;margin-top:.3rem;opacity:.9}
+.b-point{background:var(--amber);color:var(--amber-ink)}
+.b-ev{background:var(--lav);color:var(--lav-ink)}
+.b-ex{background:var(--teal);color:var(--teal-ink)}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.8rem;color:var(--ink2);font-weight:700}
+.level{border-radius:999px;padding:.15em .8em;font-size:.85rem}
+.lv-Easy{background:var(--teal);color:var(--teal-ink)}
+.lv-Medium{background:var(--amber);color:var(--amber-ink)}
+.lv-Hard{background:var(--rose);color:var(--rose-ink)}
+.lv-Fun{background:var(--lav);color:var(--lav-ink)}
+.text{font-family:var(--serif);font-size:clamp(1.5rem,2.4vw,2.2rem);line-height:1.45;margin:0 0 .8rem}
+.q{font-style:italic;font-size:1.3rem;color:var(--acc);margin:0 0 1.2rem;font-weight:600}
+.clue{border-radius:.25em;transition:background .25s,box-shadow .25s}
+.show-clue .clue{background:var(--lav);box-shadow:0 0 0 .12em var(--lav-ink) inset;color:var(--lav-ink)}
+.steps{display:grid;gap:.6rem}
+.step{display:none;border-radius:.9rem;padding:.8rem 1.1rem;font-size:1.2rem;align-items:baseline;gap:.8rem}
+.step.on{display:flex;animation:up .3s ease}
+.step b{flex:0 0 9.5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em}
+@keyframes up{from{opacity:0;transform:translateY(6px)}}
+.s-point{background:var(--amber);color:var(--amber-ink)}
+.s-ev{background:var(--lav);color:var(--lav-ink)}
+.s-ex{background:var(--teal);color:var(--teal-ink)}
+.s-bad{background:var(--rose);color:var(--rose-ink)}
+.s-say{background:var(--rose);color:var(--rose-ink);font-family:var(--hand);font-size:1.6rem}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem;align-items:center}
+.btn{border:none;border-radius:.8rem;padding:.65em 1.3em;font-weight:800;background:var(--line);color:var(--ink)}
+.btn.main{background:var(--acc);color:var(--paper)}
+.btn:disabled{opacity:.35;cursor:default}
+.spacer{flex:1}
+.count{color:var(--ink2);font-weight:700}
+.frame{font-family:var(--hand);font-size:1.5rem;color:var(--rose-ink);background:var(--rose);border-radius:.9rem;padding:.5rem 1.1rem;margin:0 .6rem 1.2rem 0;display:inline-block}
+.parts{display:flex;gap:.4rem;margin:0 0 1rem;flex-wrap:wrap}
+.parts button{border:2px solid var(--line);background:var(--paper);color:var(--ink);border-radius:.8rem;padding:.5em 1.1em;font-weight:800}
+.parts button.on{border-color:var(--acc);color:var(--acc)}
+.phead{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center;margin-bottom:1rem}
+.phead h2{font-family:var(--serif);margin:0;font-size:1.8rem}
+.phead .task{color:var(--ink2);font-weight:600;flex:1;min-width:14rem}
+.item{display:grid;grid-template-columns:3.4rem 1fr;gap:.2rem 1rem;padding:1rem 0;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:none}
+.num{background:var(--teal);color:var(--teal-ink);font-weight:800;border-radius:.6rem;text-align:center;padding:.35em 0;height:max-content}
+.item .t{font-family:var(--serif);font-size:1.3rem;line-height:1.45}
+.item .qq{font-style:italic;color:var(--acc);font-weight:600;margin-top:.3rem}
+.item .reveal{grid-column:2;margin-top:.5rem}
+.sub{grid-column:1/-1;font-weight:800;color:var(--ink2);margin-top:.4rem}
+.ans{display:none;margin-top:.5rem;background:var(--teal);color:var(--teal-ink);border-radius:.8rem;padding:.6rem 1rem;font-size:1.05rem}
+.ans.on{display:block}
+.mini{border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:.6rem;padding:.3em .8em;font-weight:700;font-size:.85rem}
+.big .item .t{font-size:clamp(1.5rem,2.4vw,2.2rem)}
+/* quote golf */
+.holes{display:grid;gap:1rem}
+.hole{border:2px dashed var(--line);border-radius:1rem;padding:1rem 1.2rem}
+.hole .hh{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:baseline;margin-bottom:.5rem}
+.hole .hn{background:var(--amber);color:var(--amber-ink);font-weight:800;border-radius:999px;padding:.15em .9em}
+.hole .pt{font-weight:800;font-size:1.2rem}
+.hole .par{margin-left:auto;font-weight:800;color:var(--ink2)}
+.hole .sent{font-family:var(--serif);font-size:1.3rem;line-height:1.45}
+.strokes{display:none;margin-top:.6rem;background:var(--lav);color:var(--lav-ink);border-radius:.8rem;padding:.6rem 1rem;font-weight:700}
+.strokes.on{display:block}
+@media (max-width:700px){.step b{flex-basis:6rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Year 8 English · Week 1, Lesson 2<small>PEE: Proving It and Explaining It</small></div>
+  <nav id="nav"></nav>
+  <div class="tools">
+    <button class="tb" data-t="60">1m</button><button class="tb" data-t="240">4m</button><button class="tb" data-t="480">8m</button><button class="tb" data-t="600">10m</button>
+    <span class="tb timer" id="timer">0:00</span>
+    <button class="tb" id="theme" title="Light or dark">◐</button>
+    <button class="tb" id="fs" title="Full screen">⛶</button>
+  </div>
+</header>
+<main id="main"></main>
+
+<script>
+/* ---------- content ---------- */
+const R = {
+  P:['s-point','Point'], E:['s-ev','Evidence'], X:['s-ex','Explain'],
+  BAD:['s-bad','What is wrong'], FIX:['s-ex','Fixed'], SAY:['s-say','Say it'],
+  PAR:['s-point','Par'], BEST:['s-ev','Best quote'], WHY:['s-ex','Why']
+};
+
+const SKILL = {
+  text:'The new boy sat alone at the end of the bench, eating his lunch [with his coat still zipped up].',
+  q:'How does the writer show the new boy does not feel at home?',
+  rows:[
+    ['P','The writer shows that the new boy does not feel at home yet.'],
+    ['E','We see this when he eats his lunch “with his coat still zipped up”.'],
+    ['X','This suggests he is not ready to settle, because people take their coat off once they feel comfortable somewhere.'],
+    ['SAY','Point. Evidence inside your own sentence. Explain. That is it.']
+  ]
+};
+
+const TOGETHER = [
+  {lv:'Easy', text:'Ella read the first question twice, then [put her pen down] without writing anything.',
+   q:'How does the writer show Ella is stuck?',
+   rows:[['P','The writer shows that Ella has no idea how to answer.'],
+     ['E','This is clear when she “put her pen down” without writing.'],
+     ['X','This suggests she cannot even begin, because somebody who knew the answer would have started writing straight away.']]},
+  {lv:'Easy', text:'The kitchen was spotless, and [every tin in the cupboard faced the same way].',
+   q:'What does this suggest about the person who lives here?',
+   rows:[['P','The writer suggests this person needs everything under control.'],
+     ['E','We see it when “every tin in the cupboard faced the same way”.'],
+     ['X','This suggests the order is deliberate, because tins do not line themselves up: somebody turned every single one.']]},
+  {lv:'Medium', text:'Every morning he made [two cups of tea], drank his own slowly, and left the other on the windowsill to go cold.',
+   q:'Point to prove: the old man misses his wife. Which quote proves it best?',
+   rows:[['E','“two cups of tea”'],
+     ['BAD','“Every morning” only tells us it is a habit. “to go cold” shows the tea is untouched, but not who it was for.'],
+     ['X','This suggests he still makes a drink for someone who is not there, because two cups means he has not changed the habit of a life together.']]},
+  {lv:'Medium', text:'Point: Sara is determined. Evidence: “climbed back on”. Explain: “This shows Sara is really determined.”',
+   q:'Explain doctor: what is wrong, and how do we fix it?',
+   rows:[['BAD','It repeats the point in the same words and adds “really”. It never says why the quote proves anything.'],
+     ['FIX','This suggests she refuses to be beaten, because she chooses to get back on the thing that has just hurt her.'],
+     ['X','Test your explain: does it contain the word “because”? Does it add something the quote does not already say?']]},
+  {lv:'Hard', text:'“I don’t mind at all,” said Mum, and [scrubbed the same pan] for five minutes.',
+   q:'How does the writer show Mum does mind?',
+   rows:[['P','The writer shows that Mum is annoyed, even though she says she is not.'],
+     ['E','We see this when she “scrubbed the same pan” for five minutes.'],
+     ['X','This suggests her temper is coming out in her hands, because one pan does not need five minutes: her words and her actions do not match.']]},
+  {lv:'Fun', text:'The cat sat beside the knocked-over vase, licking its paw and [refusing to look] at anyone.',
+   q:'Quote golf warm-up. Point to prove: the cat is guilty. Par 3.',
+   rows:[['PAR','3 strokes. Every word you quote costs one.'],
+     ['BEST','“refusing to look” = 3 strokes. Par.'],
+     ['WHY','“licking its paw” is also 3 strokes, but it is disqualified: cats do that all the time, so it proves nothing.']]},
+  {lv:'Fun', text:'Dad said the film was “fine”, then [watched it twice more] that weekend.',
+   q:'Quote golf: Dad secretly loved it. Par 3. Can you beat it?',
+   rows:[['PAR','3 strokes.'],
+     ['BEST','“twice more” = 2 strokes. Under par.'],
+     ['WHY','It proves he went back to it again and again, which “fine” never would. Short, but it still does the job.']]}
+];
+
+const SHEET = {
+  A:{title:'Part A: Do Now', task:'4 min, on your own. Last lesson: inference. What can you work out? How do you know?', time:240, items:[
+    {n:'A1', t:'Jake’s football boots sat by the door, still caked in mud, and a new trophy was already on the shelf.',
+     a:'Jake has just come back from a match on a wet, muddy pitch, and his team won (or he did). Clues: “still caked in mud”, “a new trophy”.'},
+    {n:'A2', t:'Nobody laughed at Mr Kent’s joke. Somewhere at the back, a chair creaked.',
+     a:'The joke fell flat and the room is awkwardly silent. Clue: you can only hear a chair creak if nobody is making any other sound.'}
+  ]},
+  B:{title:'Part B: Quote Golf', task:'Pairs, 8 min. Prove the point using the FEWEST words. Every word is one stroke. A quote that does not prove the point is disqualified, however short.', time:480, golf:true, holes:[
+    {n:'1', pt:'The dog is terrified.', par:1,
+     sent:'The small brown dog crouched under the kitchen table, [trembling] all over and whimpering every time the thunder cracked outside.',
+     a:'“trembling” = 1 stroke. Par. Disqualified: “under the kitchen table” (3 strokes and dogs sit there anyway).'},
+    {n:'2', pt:'Mr Hale is lonely.', par:2,
+     sent:'Every evening Mr Hale set the table for two, then ate his dinner in silence, facing [the empty chair].',
+     a:'“empty chair” = 2 strokes. Par. “for two” also works at 2 strokes. Disqualified: “in silence” (quiet is not the same as lonely).'},
+    {n:'3', pt:'Sara is determined.', par:2,
+     sent:'Even after falling for the third time, Sara wiped the blood from her knee, gritted her teeth and [climbed back] onto the bike.',
+     a:'“climbed back” = 2 strokes. Par. “gritted her teeth” = 3, over par. Disqualified: “wiped the blood” (that is just tidying up).'},
+    {n:'4★', pt:'Mrs Park is secretly pleased.', par:3,
+     sent:'“Well, I suppose that will have to do,” said Mrs Park, but the corner of her mouth [twitched upward] as she handed back the essay.',
+     a:'“twitched upward” = 2 strokes. Under par. “mouth twitched upward” = 3, par. Disqualified: “that will have to do” (it says the opposite).'}
+  ]},
+  C:{title:'Part C: Drill', task:'C1 to C3 finish the Explain. C4 to C5 Explain doctor. C6 to C7 full PEE.', time:600, items:[
+    {sub:'C1 to C3: write the Explain only, in two clauses: This suggests … because …'},
+    {n:'C1', t:'Amir is nervous about the test. We can see this when he “jumped when the door opened”.',
+     a:'This suggests Amir is already on edge, because a calm person does not jump at an everyday sound like a door.'},
+    {n:'C2', t:'The captain is hiding his fear. This is clear when his “knuckles had turned white”.',
+     a:'This suggests he is gripping something far harder than he needs to, because knuckles only turn white under real pressure, and that is the fear his face is not showing.'},
+    {n:'C3', t:'The writer is angry at the council. He points out the “same broken swing since 2019”.',
+     a:'This suggests the council has ignored the problem for years, because giving the date proves nothing has been repaired in all that time.'},
+    {sub:'C4 to C5: say what is wrong, then rewrite it properly.'},
+    {n:'C4', t:'Point: the dog is terrified. Evidence: “trembling all over”. Explain: “This shows that the dog is really, really scared.”',
+     a:'Wrong: it just repeats the point and adds “really, really”. No “because”, nothing new. Rewrite: This suggests the fear is beyond the dog’s control, because trembling is something the body does without choosing to.'},
+    {n:'C5', t:'Point: Mr Hale is lonely. Evidence: “the empty chair”. Explain: “This quote shows that there is a chair with nobody sitting in it.”',
+     a:'Wrong: it only translates the quote into other words. Rewrite: This suggests Mr Hale still keeps a place for someone who is gone, because he could eat anywhere, yet he chooses to sit facing that chair every evening.'},
+    {sub:'C6 to C7: full PEE. Point, evidence inside your sentence, then explain.'},
+    {n:'C6', t:'Grandma’s kitchen always smelled of cinnamon. There was a drawer that never quite closed, stuffed with birthday cards from forty years of grandchildren.',
+     q:'How does the writer show that Grandma is loved?',
+     a:'Point: the writer shows Grandma has been loved by her family for a very long time. Evidence: the drawer is “stuffed with birthday cards from forty years of grandchildren”. Explain: This suggests the love has never stopped arriving, because a drawer too full to close holds decades of cards she chose to keep.'},
+    {n:'C7', t:'Every Saturday, Mr Ofori opened the shop an hour early so the night-shift nurses could buy their bread before bed.',
+     q:'What does this suggest about Mr Ofori?',
+     a:'Point: the writer shows that Mr Ofori puts other people first. Evidence: he opened “an hour early” for the night-shift nurses. Explain: This suggests he thinks about people whose lives run at odd hours, because the early hour costs him his own time and he does it every single Saturday.'}
+  ]},
+  D:{title:'Part D: Exit Ticket', task:'On your own. 3 marks: 1 point, 1 evidence, 1 explain.', time:300, items:[
+    {n:'D', t:'When the results were read out, Lily smiled politely and clapped for the winner, then walked quickly to the bathroom and locked the door.',
+     q:'How does Lily really feel? Write one full PEE answer.',
+     a:'Point: Lily is far more upset than she lets anyone see. Evidence: she “locked the door”. Explain: This suggests she is hiding her disappointment, because she holds the smile until she is out of the room, then makes sure nobody can follow her.'}
+  ]}
+};
+
+/* ---------- helpers ---------- */
+const $ = s=>document.querySelector(s);
+function el(tag, attrs={}, ...kids){
+  const e=document.createElement(tag);
+  for(const k in attrs){ if(k==='html') e.innerHTML=attrs[k]; else if(k.startsWith('on')) e.addEventListener(k.slice(2),attrs[k]); else e.setAttribute(k,attrs[k]); }
+  kids.flat().forEach(c=>{ if(c!=null) e.append(c); });
+  return e;
+}
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const marked = s => esc(s).replace(/\[([^\]]+)\]/g,'<span class="clue">$1</span>');
+
+const S = {tab:0, card:0, part:'A'};
+const TABS = ['1  The skill','2  Together','3  Worksheet'];
+function nav(){
+  const n=$('#nav'); n.innerHTML='';
+  TABS.forEach((t,i)=>n.append(el('button',{class:i===S.tab?'on':'',onclick:()=>{S.tab=i;render();}},t)));
+}
+
+function stepCard(d, meta){
+  const box=el('div',{class:'card'});
+  if(meta) box.append(meta);
+  const text=el('p',{class:'text',html:marked(d.text)});
+  box.append(text, el('p',{class:'q'},d.q));
+  const steps=el('div',{class:'steps'});
+  const nodes=d.rows.map(([key,t])=>{const [c,h]=R[key]; const s=el('div',{class:'step '+c},el('b',{},h),el('span',{},t)); steps.append(s); return s;});
+  box.append(steps);
+  const labels=d.rows.map(([k])=>R[k][1]);
+  let k=0;
+  const next=el('button',{class:'btn main'},labels[0]);
+  const hide=el('button',{class:'btn'},'Hide all');
+  function upd(){
+    text.classList.toggle('show-clue',k>0);
+    nodes.forEach((s,i)=>s.classList.toggle('on',i<k));
+    next.textContent = k>=labels.length ? 'Done' : labels[k];
+    next.disabled = k>=labels.length;
+  }
+  next.onclick=()=>{k=Math.min(labels.length,k+1);upd();};
+  hide.onclick=()=>{k=0;upd();};
+  box.append(el('div',{class:'row'},next,hide));
+  box._next=()=>{ if(k<labels.length){k++;upd();return true;} return false; };
+  upd();
+  return box;
+}
+
+function render(){
+  nav();
+  const m=$('#main'); m.innerHTML=''; window._active=null;
+  if(S.tab===0){
+    m.append(el('h1',{},'PEE: say it, prove it, explain it.'),
+      el('p',{class:'lead'},'Your opinion on its own is just an opinion. Quote a few words to prove it, then say what those words show.'),
+      el('div',{class:'eq'},
+        el('div',{class:'box b-point'},'Point',el('span',{},'answer the question in one sentence')),
+        el('div',{class:'box b-ev'},'Evidence',el('span',{},'2 to 5 words, quoted inside your sentence')),
+        el('div',{class:'box b-ex'},'Explain',el('span',{},'what the words show, and why'))));
+    window._active=stepCard(SKILL);
+    m.append(window._active,
+      el('div',{class:'frame'},'This suggests … because …'),
+      el('div',{class:'frame'},'The word “___” makes the reader feel …'));
+  }
+  if(S.tab===1){
+    const d=TOGETHER[S.card];
+    m.append(el('h1',{},'Together'),
+      el('div',{class:'frame'},'This suggests … because …'),
+      el('div',{class:'frame'},'Never repeat the quote or the point in other words.'));
+    const meta=el('div',{class:'meta'},el('span',{class:'count'},`${S.card+1} of ${TOGETHER.length}`),
+      el('span',{class:'level lv-'+d.lv},d.lv==='Fun'?'Quote golf':d.lv));
+    window._active=stepCard(d,meta);
+    m.append(window._active);
+    const prev=el('button',{class:'btn',onclick:()=>{S.card--;render();}},'← Previous');
+    const nxt=el('button',{class:'btn main',onclick:()=>{S.card++;render();}},'Next example →');
+    prev.disabled=S.card===0; nxt.disabled=S.card===TOGETHER.length-1;
+    m.append(el('div',{class:'row'},prev,el('span',{class:'spacer'}),nxt));
+  }
+  if(S.tab===2){
+    m.append(el('h1',{},'Your turn: the worksheet'), el('p',{class:'lead'},'Write all answers in your book. Number each one.'));
+    const parts=el('div',{class:'parts'});
+    Object.keys(SHEET).forEach(k=>parts.append(el('button',{class:k===S.part?'on':'',onclick:()=>{S.part=k;render();}},SHEET[k].title)));
+    m.append(parts);
+    const P=SHEET[S.part];
+    const card=el('div',{class:'card'+(S.part==='D'?' big':'')});
+    card.append(el('div',{class:'phead'},el('h2',{},P.title),el('span',{class:'task'},P.task),
+      el('button',{class:'mini',onclick:()=>startTimer(P.time)},`Start ${P.time/60} min timer`),
+      el('button',{class:'mini',onclick:()=>{card.querySelectorAll('.ans,.strokes').forEach(a=>a.classList.add('on'));card.querySelectorAll('.sent').forEach(t=>t.classList.add('show-clue'));}},'Show all answers'),
+      el('button',{class:'mini',onclick:()=>{card.querySelectorAll('.ans,.strokes').forEach(a=>a.classList.remove('on'));card.querySelectorAll('.sent').forEach(t=>t.classList.remove('show-clue'));}},'Hide all')));
+    if(P.golf){
+      const holes=el('div',{class:'holes'});
+      P.holes.forEach(h=>{
+        const sent=el('div',{class:'sent',html:marked(h.sent)});
+        const ans=el('div',{class:'strokes'},h.a);
+        holes.append(el('div',{class:'hole'},
+          el('div',{class:'hh'},el('span',{class:'hn'},'Hole '+h.n),el('span',{class:'pt'},h.pt),el('span',{class:'par'},'Par '+h.par)),
+          sent,
+          el('div',{class:'row'},el('button',{class:'mini',onclick:()=>{sent.classList.toggle('show-clue');ans.classList.toggle('on');}},'Reveal the best quote')),
+          ans));
+      });
+      card.append(holes);
+    }
+    (P.items||[]).forEach(it=>{
+      if(it.sub){ card.append(el('div',{class:'item'},el('div',{class:'sub'},it.sub))); return; }
+      const ans=el('div',{class:'ans'},it.a);
+      card.append(el('div',{class:'item'},
+        el('div',{class:'num'},it.n),
+        el('div',{},el('div',{class:'t'},it.t), it.q?el('div',{class:'qq'},it.q):null,
+          el('div',{class:'reveal'},el('button',{class:'mini',onclick:()=>ans.classList.toggle('on')},'Model answer'),ans))));
+    });
+    m.append(card, el('div',{class:'frame'},'Point. Evidence. Explain.'));
+  }
+}
+
+/* ---------- timer ---------- */
+let tLeft=0, tId=null;
+function drawT(){ $('#timer').textContent=`${Math.floor(tLeft/60)}:${String(tLeft%60).padStart(2,'0')}`; }
+function startTimer(s){
+  clearInterval(tId); tLeft=s; drawT(); $('#timer').classList.remove('flash');
+  tId=setInterval(()=>{ tLeft--; drawT(); if(tLeft<=0){ clearInterval(tId); $('#timer').classList.add('flash'); } },1000);
+}
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>startTimer(+b.dataset.t));
+$('#timer').onclick=()=>{ clearInterval(tId); tLeft=0; drawT(); };
+
+/* ---------- theme, full screen, keys ---------- */
+const mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):{matches:false};
+document.documentElement.dataset.theme=mq.matches?'dark':'light';
+$('#theme').onclick=()=>{ const r=document.documentElement; r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'; };
+$('#fs').onclick=()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); else document.exitFullscreen(); };
+document.addEventListener('keydown',e=>{
+  if(e.target.closest&&e.target.closest('input,textarea,button')) return;
+  if(e.key===' '||e.key==='Enter'){ if(window._active&&window._active._next){ e.preventDefault(); window._active._next(); } }
+  if(e.key==='ArrowRight'){ if(S.tab===1&&S.card<TOGETHER.length-1){S.card++;render();} else if(S.tab<2){S.tab++;render();} }
+  if(e.key==='ArrowLeft'){ if(S.tab===1&&S.card>0){S.card--;render();} else if(S.tab>0){S.tab--;render();} }
+});
+render();
+</script>
+</body>
+</html>

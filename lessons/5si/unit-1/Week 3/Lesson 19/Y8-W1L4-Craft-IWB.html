@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Year 8 English: Author’s Craft, Why Did the Writer Do That?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Figtree:wght@400;600;800&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f1e7; --paper:#fffdf8; --ink:#1d2433; --ink2:#5a6275; --line:#e4dccb;
+  --rose:#f7d9dc; --rose-ink:#9b2f3f; --teal:#d3ece8; --teal-ink:#1d6b62;
+  --amber:#fbe7c0; --amber-ink:#8a5a09; --lav:#e3def5; --lav-ink:#4b3d8f;
+  --acc:#7a2231; --shadow:0 2px 0 rgba(0,0,0,.04),0 8px 24px rgba(40,30,10,.08);
+  --sans:'Figtree',system-ui,sans-serif; --serif:'Literata',Georgia,serif; --hand:'Caveat',cursive;
+}
+[data-theme="dark"]{
+  --bg:#171a22; --paper:#212532; --ink:#eef0f5; --ink2:#a9b0c2; --line:#343a4b;
+  --rose:#4a2830; --rose-ink:#f3a9b5; --teal:#1f3d3a; --teal-ink:#8fdcd0;
+  --amber:#463715; --amber-ink:#f5cf7d; --lav:#2f2a4c; --lav-ink:#c3b8f7;
+  --acc:#f09aa8; --shadow:0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:clamp(16px,1.25vw,22px)}
+button{font:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;align-items:center;padding:.6rem 1.4rem}
+.brand{font-weight:800;color:var(--acc);font-size:.95rem;line-height:1.2}
+.brand small{display:block;color:var(--ink2);font-weight:600}
+nav{display:flex;gap:.4rem;flex:1}
+nav button{border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:.45em 1.2em;font-weight:700}
+nav button.on{background:var(--acc);border-color:var(--acc);color:var(--paper)}
+.tools{display:flex;gap:.4rem;align-items:center}
+.tb{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:.6rem;padding:.35em .7em;font-weight:600}
+.timer{font-variant-numeric:tabular-nums;font-weight:800;min-width:3.4em;text-align:center}
+.timer.flash{animation:fl .6s 6}
+@keyframes fl{50%{background:var(--rose);color:var(--rose-ink)}}
+main{max-width:70rem;margin:0 auto;padding:1.6rem 1.4rem 4rem}
+h1{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.8rem);margin:.2rem 0 .8rem;line-height:1.15}
+.lead{font-size:1.25rem;color:var(--ink2);margin:0 0 1.4rem;max-width:48rem}
+.card{background:var(--paper);border-radius:1.1rem;box-shadow:var(--shadow);padding:1.5rem 1.8rem;margin-bottom:1.2rem}
+.eq{display:flex;flex-wrap:wrap;gap:.6rem;margin:0 0 1.6rem}
+.eq .box{flex:1;min-width:11rem;border-radius:1rem;padding:1rem 1.2rem;text-align:center;font-weight:800;font-size:1.35rem}
+.eq .box span{display:block;font-weight:600;font-size:.85rem;margin-top:.3rem;opacity:.9}
+.b-point{background:var(--amber);color:var(--amber-ink)}
+.b-ev{background:var(--lav);color:var(--lav-ink)}
+.b-ex{background:var(--teal);color:var(--teal-ink)}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.8rem;color:var(--ink2);font-weight:700}
+.level{border-radius:999px;padding:.15em .8em;font-size:.85rem}
+.lv-Easy{background:var(--teal);color:var(--teal-ink)}
+.lv-Medium{background:var(--amber);color:var(--amber-ink)}
+.lv-Hard{background:var(--rose);color:var(--rose-ink)}
+.lv-Fun{background:var(--lav);color:var(--lav-ink)}
+.text{font-family:var(--serif);font-size:clamp(1.5rem,2.4vw,2.2rem);line-height:1.45;margin:0 0 .8rem}
+.q{font-style:italic;font-size:1.3rem;color:var(--acc);margin:0 0 1.2rem;font-weight:600}
+.clue{border-radius:.25em;transition:background .25s,box-shadow .25s}
+.show-clue .clue{background:var(--lav);box-shadow:0 0 0 .12em var(--lav-ink) inset;color:var(--lav-ink)}
+.steps{display:grid;gap:.6rem}
+.step{display:none;border-radius:.9rem;padding:.8rem 1.1rem;font-size:1.2rem;align-items:baseline;gap:.8rem}
+.step.on{display:flex;animation:up .3s ease}
+.step b{flex:0 0 9.5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em}
+@keyframes up{from{opacity:0;transform:translateY(6px)}}
+.s-point{background:var(--amber);color:var(--amber-ink)}
+.s-ev{background:var(--lav);color:var(--lav-ink)}
+.s-ex{background:var(--teal);color:var(--teal-ink)}
+.s-bad{background:var(--rose);color:var(--rose-ink)}
+.s-say{background:var(--rose);color:var(--rose-ink);font-family:var(--hand);font-size:1.6rem}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem;align-items:center}
+.btn{border:none;border-radius:.8rem;padding:.65em 1.3em;font-weight:800;background:var(--line);color:var(--ink)}
+.btn.main{background:var(--acc);color:var(--paper)}
+.btn:disabled{opacity:.35;cursor:default}
+.spacer{flex:1}
+.count{color:var(--ink2);font-weight:700}
+.frame{font-family:var(--hand);font-size:1.5rem;color:var(--rose-ink);background:var(--rose);border-radius:.9rem;padding:.5rem 1.1rem;margin:0 .6rem 1.2rem 0;display:inline-block}
+.parts{display:flex;gap:.4rem;margin:0 0 1rem;flex-wrap:wrap}
+.parts button{border:2px solid var(--line);background:var(--paper);color:var(--ink);border-radius:.8rem;padding:.5em 1.1em;font-weight:800}
+.parts button.on{border-color:var(--acc);color:var(--acc)}
+.phead{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center;margin-bottom:1rem}
+.phead h2{font-family:var(--serif);margin:0;font-size:1.8rem}
+.phead .task{color:var(--ink2);font-weight:600;flex:1;min-width:14rem}
+.item{display:grid;grid-template-columns:3.4rem 1fr;gap:.2rem 1rem;padding:1rem 0;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:none}
+.num{background:var(--teal);color:var(--teal-ink);font-weight:800;border-radius:.6rem;text-align:center;padding:.35em 0;height:max-content}
+.item .t{font-family:var(--serif);font-size:1.3rem;line-height:1.45}
+.item .qq{font-style:italic;color:var(--acc);font-weight:600;margin-top:.3rem}
+.item .reveal{grid-column:2;margin-top:.5rem}
+.sub{grid-column:1/-1;font-weight:800;color:var(--ink2);margin-top:.4rem}
+.ans{display:none;margin-top:.5rem;background:var(--teal);color:var(--teal-ink);border-radius:.8rem;padding:.6rem 1rem;font-size:1.05rem}
+.ans.on{display:block}
+.mini{border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:.6rem;padding:.3em .8em;font-weight:700;font-size:.85rem}
+.big .item .t{font-size:clamp(1.5rem,2.4vw,2.2rem)}
+/* quote golf */
+.holes,.draws{display:grid;gap:1rem}
+.draws{grid-template-columns:repeat(auto-fit,minmax(24rem,1fr))}
+.hole{border:2px dashed var(--line);border-radius:1rem;padding:1rem 1.2rem}
+.hole .hh{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:baseline;margin-bottom:.5rem}
+.hole .hn{background:var(--amber);color:var(--amber-ink);font-weight:800;border-radius:999px;padding:.15em .9em}
+.hole .pt{font-weight:800;font-size:1.2rem}
+.hole .par{margin-left:auto;font-weight:800;color:var(--ink2)}
+.hole .sent{font-family:var(--serif);font-size:1.3rem;line-height:1.45}
+.strokes{display:none;margin-top:.6rem;background:var(--lav);color:var(--lav-ink);border-radius:.8rem;padding:.6rem 1rem;font-weight:700}
+.strokes.on{display:block}
+@media (max-width:700px){.step b{flex-basis:6rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Year 8 English · Week 1, Lesson 4<small>Author’s Craft: Why Did the Writer Do That?</small></div>
+  <nav id="nav"></nav>
+  <div class="tools">
+    <button class="tb" data-t="20">20s</button><button class="tb" data-t="60">1m</button><button class="tb" data-t="300">5m</button><button class="tb" data-t="600">10m</button>
+    <span class="tb timer" id="timer">0:00</span>
+    <button class="tb" id="theme" title="Light or dark">◐</button>
+    <button class="tb" id="fs" title="Full screen">⛶</button>
+  </div>
+</header>
+<main id="main"></main>
+
+<script>
+/* ---------- content ---------- */
+const R = {
+  N:['s-point','Name the choice'], L:['s-ev','What it does'], X:['s-ex','So that the reader…'],
+  BAD:['s-bad','Too weak'], FIX:['s-ex','Stronger'], SAY:['s-say','Say it'],
+  PICK:['s-ev','The better one'], WHY:['s-ex','Why']
+};
+
+const SKILL = {
+  text:'Mum put the phone down. She [wiped the same patch of counter], then [wiped it again].',
+  q:'The writer never says Mum is worried. Why did she do that?',
+  rows:[
+    ['N','Show, don’t tell. The feeling is in the actions, not in a label.'],
+    ['L','Cleaning something already clean is what people do when their mind is somewhere else.'],
+    ['X','The writer shows Mum wiping the same patch twice so that the reader works out she is worried, which lands harder than being told.'],
+    ['SAY','Answer frame: The writer ___ so that the reader ___.']
+  ]
+};
+
+const TOGETHER = [
+  {lv:'Easy', text:'A: “Hello, my name is Ana and I am thirteen years old.”   B: “[They found the second note] on a Thursday.”',
+   q:'Which opening hooks you, and why?',
+   rows:[['PICK','B.'],
+     ['WHY','“The second note” means there was a first one we did not see, and “they found” tells us somebody is looking. A just lists facts.'],
+     ['X','The writer starts in the middle and holds information back so that the reader has to keep reading to find out what the notes are.']]},
+  {lv:'Easy', text:'A: “Tom was very embarrassed.”   B: “[Tom studied his shoelaces] while everyone laughed.”',
+   q:'Which is more effective, and why?',
+   rows:[['PICK','B.'],
+     ['WHY','“Very” adds nothing. Studying his shoelaces is something you only do when you cannot look up.'],
+     ['X','The writer shows Tom avoiding every face so that the reader feels the embarrassment instead of reading the word for it.']]},
+  {lv:'Easy', text:'She turned the key, pushed the door and reached for the light switch. [Nothing.]',
+   q:'Why is “Nothing.” on its own?',
+   rows:[['N','A one-word sentence, used for effect.'],
+     ['L','The long sentence builds up a sequence, then everything stops dead.'],
+     ['X','The writer cuts the sentence short so that the reader stops too, and the silence in the house lands on that single word.']]},
+  {lv:'Medium', text:'Only one person had a key to the shed [— her own father].',
+   q:'Why the dash?',
+   rows:[['N','A dash used to hold back a reveal.'],
+     ['L','It makes a pause, then drops the surprise at the end of the sentence.'],
+     ['X','The writer delays the name so that the reader gets the shock at the same moment the character does.']]},
+  {lv:'Medium', text:'The label on the jar said Poison [— or so we thought —] in thin black letters.',
+   q:'Why a pair of dashes this time?',
+   rows:[['N','A pair of dashes, holding an aside.'],
+     ['L','The extra information is dropped into the middle without breaking the sentence.'],
+     ['X','The writer sets the doubt apart so that the reader reads it like a whisper from the narrator, and starts to distrust the label.']]},
+  {lv:'Medium', text:'Weak answer: “The writer does this to make the reader want to read on and make it more interesting.”',
+   q:'Answer doctor: what is wrong, and how do we fix it?',
+   rows:[['BAD','It would fit any text ever written. It never names the choice or the effect on this reader, here.'],
+     ['FIX','The writer withholds what was in the box so that the reader keeps guessing and feels as much in the dark as the narrator.'],
+     ['X','Test your answer: does it name the choice? Does it say what the reader pictures, feels or works out?']]},
+  {lv:'Hard', text:'[By the time the tide turned], the boat was a mile out and [nobody on the beach was shouting any more].',
+   q:'Two choices at once. Name them and explain.',
+   rows:[['N','A hook opening that starts after the event, plus show, don’t tell.'],
+     ['L','We arrive too late to see what happened, and the silence on the beach tells us how it ended.'],
+     ['X','The writer begins after the worst has happened so that the reader has to work backwards, and shows the crowd falling silent so that the reader understands the outcome without being told.']]},
+  {lv:'Fun', text:'“He checked the door handle three times, then sat on the very edge of the sofa.”',
+   q:'Charades warm-up: what is the feeling?',
+   rows:[['PICK','Nervous, or on edge.'],
+     ['WHY','Two clues: checking three times, and sitting on the edge rather than settling back.'],
+     ['X','The writer gives two actions so that the reader names the feeling themselves, which is exactly what your partner must do in Part B.']]},
+  {lv:'Fun', text:'“She clapped along with everyone else, but her eyes never left the trophy.”',
+   q:'Charades warm-up: what is the feeling?',
+   rows:[['PICK','Jealous.'],
+     ['WHY','The clapping says one thing, the staring says another. The gap between them is the feeling.'],
+     ['X','The writer lets the actions contradict each other so that the reader sees what she is hiding.']]}
+];
+
+const SHEET = {
+  A:{title:'Part A: Do Now', task:'5 min, on your own. Last lesson: figurative language. Name the device and explain its effect.', time:300, items:[
+    {n:'A1', t:'The thunder grumbled in the distance like an old man woken too early.',
+     a:'Personification (“grumbled”) and a simile (“like an old man woken too early”). It makes the reader picture a low, bad-tempered rumble that is not fully awake yet, because a grumbling old man is annoyed but has not started shouting: the storm is still to come.'},
+    {n:'A2', t:'The exam hall was a freezer.',
+     a:'Metaphor. It makes the reader feel the cold, bare silence of the room, because a freezer is white, empty and unwelcoming, and nobody stays in one for long.'}
+  ]},
+  B:{title:'Part B: Show, Don’t Tell Charades', task:'An actor picks a feeling and acts it for 20 seconds, silently. To score, the class must name the feeling AND two actions that gave it away. Then write a sentence that shows a feeling without naming it.', time:20, draw:true, btnTime:20, revealLabel:'Clues and a model sentence', cards:[
+    {n:'1', t:'Nervous', dev:'Look for', a:'fiddling with something, checking the door, sitting on the edge of the seat. Model: “He turned his pen over and over and kept glancing at the door.”'},
+    {n:'2', t:'Bored', dev:'Look for', a:'slumping, sighing, watching the clock. Model: “She rested her chin on her hand and watched the second hand crawl.”'},
+    {n:'3', t:'Guilty', dev:'Look for', a:'avoiding eyes, hiding hands, answering too quickly. Model: “He answered before anyone had asked, and kept his hands in his pockets.”'},
+    {n:'4', t:'Excited', dev:'Look for', a:'fast movements, bouncing, doing everything twice. Model: “She read the letter twice, then took the stairs three at a time.”'},
+    {n:'5', t:'Jealous', dev:'Look for', a:'staring at what someone else has, a smile that arrives late. Model: “She clapped with everyone else, but her eyes never left the trophy.”'},
+    {n:'6', t:'Exhausted', dev:'Look for', a:'slow movements, heavy sitting, rubbing eyes. Model: “He sat down on the bottom step and did not take his coat off.”'},
+    {n:'7', t:'Proud', dev:'Look for', a:'straightening up, looking back at the work, showing it to someone. Model: “She kept glancing back at the wall where her painting hung.”'},
+    {n:'8', t:'Suspicious', dev:'Look for', a:'narrowed eyes, checking twice, keeping a distance. Model: “He counted the money twice and looked at her a moment too long.”'}
+  ]},
+  C:{title:'Part C: Drill', task:'Answer each one with the frame: The writer ___ so that the reader ___.', time:600, items:[
+    {sub:'Openings'},
+    {n:'C1', t:'(a) My name is Josh and I am twelve and I live in a house with my family. (b) Nobody believed me about the thing in the basement. Not until Tuesday.',
+     q:'Which opening hooks the reader better? Why?',
+     a:'(b). The writer withholds what “the thing” is and hints that something changed on Tuesday, so that the reader needs answers. (a) only lists facts that raise no questions at all.'},
+    {n:'C2', t:'By the time the police arrived, it was already too late.',
+     q:'Why does the writer begin the story this way?',
+     a:'The writer starts after the event, at the worst possible moment, so that the reader has to keep reading to find out what happened and already feels the damage cannot be undone.'},
+    {sub:'Show, don’t tell'},
+    {n:'C3', t:'Kai slammed his bag on the desk, jaw clenched, and refused to look at anyone.',
+     q:'The writer never says Kai is angry. Why not?',
+     a:'The writer gives three actions so that the reader works the anger out and pictures it. Naming it would be one flat word; showing it lets the reader see the clenched jaw and hear the bag.'},
+    {n:'C4', t:'(a) Nina was very scared. (b) Nina’s breath came in short gasps and she pressed her back against the door.',
+     q:'Which is more effective? Why?',
+     a:'(b). The writer shows Nina’s body reacting so that the reader feels the fear with her. In (a), “very” adds nothing: it tells the reader what to think instead of proving it.'},
+    {sub:'Punctuation for effect'},
+    {n:'C5', t:'He lifted the lid of the box. Empty.',
+     q:'Why is “Empty.” a sentence on its own?',
+     a:'The writer cuts the sentence down to one word so that the reader stops dead, exactly as the character does. After the long build-up, the short sentence hits like a slammed door.'},
+    {n:'C6', t:'Only one person knew the code — her own brother.',
+     q:'Why does the writer use a dash here?',
+     a:'The writer uses the dash to pause before the reveal so that the reader gets the shock at the end of the sentence, and the words “her own brother” are left standing on their own.'},
+    {n:'C7', t:'The sign on the gate read Défense d’entrer — No entry — in faded red paint.',
+     q:'Why are the words “No entry” placed between dashes?',
+     a:'The pair of dashes holds the translation apart so that the reader who does not read French still understands the warning, while the French words stay on the gate exactly as they were painted.'}
+  ]},
+  D:{title:'Part D: Exit Ticket', task:'On your own, 2 marks: 1 for naming the choice, 1 for explaining the effect.', time:300, items:[
+    {n:'D', t:'Mum read the letter twice, folded it very carefully, and walked out of the kitchen without a word.',
+     q:'The writer does not tell us how Mum feels. Why is this effective?',
+     a:'Show, don’t tell. The writer gives us three actions (reading it twice, folding it carefully, leaving without a word) so that the reader works out the news is bad and feels the silence. Naming the feeling would close it down; the silence leaves the reader as shut out as the child watching her.'}
+  ]}
+};
+
+/* ---------- helpers ---------- */
+const $ = s=>document.querySelector(s);
+function el(tag, attrs={}, ...kids){
+  const e=document.createElement(tag);
+  for(const k in attrs){ if(k==='html') e.innerHTML=attrs[k]; else if(k.startsWith('on')) e.addEventListener(k.slice(2),attrs[k]); else e.setAttribute(k,attrs[k]); }
+  kids.flat().forEach(c=>{ if(c!=null) e.append(c); });
+  return e;
+}
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const marked = s => esc(s).replace(/\[([^\]]+)\]/g,'<span class="clue">$1</span>');
+
+const S = {tab:0, card:0, part:'A'};
+const TABS = ['1  The skill','2  Together','3  Worksheet'];
+function nav(){
+  const n=$('#nav'); n.innerHTML='';
+  TABS.forEach((t,i)=>n.append(el('button',{class:i===S.tab?'on':'',onclick:()=>{S.tab=i;render();}},t)));
+}
+
+function stepCard(d, meta){
+  const box=el('div',{class:'card'});
+  if(meta) box.append(meta);
+  const text=el('p',{class:'text',html:marked(d.text)});
+  box.append(text, el('p',{class:'q'},d.q));
+  const steps=el('div',{class:'steps'});
+  const nodes=d.rows.map(([key,t])=>{const [c,h]=R[key]; const s=el('div',{class:'step '+c},el('b',{},h),el('span',{},t)); steps.append(s); return s;});
+  box.append(steps);
+  const labels=d.rows.map(([k])=>R[k][1]);
+  let k=0;
+  const next=el('button',{class:'btn main'},labels[0]);
+  const hide=el('button',{class:'btn'},'Hide all');
+  function upd(){
+    text.classList.toggle('show-clue',k>0);
+    nodes.forEach((s,i)=>s.classList.toggle('on',i<k));
+    next.textContent = k>=labels.length ? 'Done' : labels[k];
+    next.disabled = k>=labels.length;
+  }
+  next.onclick=()=>{k=Math.min(labels.length,k+1);upd();};
+  hide.onclick=()=>{k=0;upd();};
+  box.append(el('div',{class:'row'},next,hide));
+  box._next=()=>{ if(k<labels.length){k++;upd();return true;} return false; };
+  upd();
+  return box;
+}
+
+function render(){
+  nav();
+  const m=$('#main'); m.innerHTML=''; window._active=null;
+  if(S.tab===0){
+    m.append(el('h1',{},'Every choice the writer makes does a job.'),
+      el('p',{class:'lead'},'Name the choice. Then say what it does to you, the reader.'),
+      el('div',{class:'eq'},
+        el('div',{class:'box b-point'},'Hook opening',el('span',{},'starts mid-action or holds information back')),
+        el('div',{class:'box b-ev'},'Show, don’t tell',el('span',{},'actions reveal the feeling instead of naming it')),
+        el('div',{class:'box b-ex'},'Punctuation for effect',el('span',{},'a short sentence hits hard; dashes set words apart'))));
+    window._active=stepCard(SKILL);
+    m.append(window._active,
+      el('div',{class:'frame'},'The writer … so that the reader …'));
+  }
+  if(S.tab===1){
+    const d=TOGETHER[S.card];
+    m.append(el('h1',{},'Together'),
+      el('div',{class:'frame'},'The writer … so that the reader …'),
+      el('div',{class:'frame'},'Never just say “it makes you want to read on”.'));
+    const meta=el('div',{class:'meta'},el('span',{class:'count'},`${S.card+1} of ${TOGETHER.length}`),
+      el('span',{class:'level lv-'+d.lv},d.lv==='Fun'?'Charades warm-up':d.lv));
+    window._active=stepCard(d,meta);
+    m.append(window._active);
+    const prev=el('button',{class:'btn',onclick:()=>{S.card--;render();}},'← Previous');
+    const nxt=el('button',{class:'btn main',onclick:()=>{S.card++;render();}},'Next example →');
+    prev.disabled=S.card===0; nxt.disabled=S.card===TOGETHER.length-1;
+    m.append(el('div',{class:'row'},prev,el('span',{class:'spacer'}),nxt));
+  }
+  if(S.tab===2){
+    m.append(el('h1',{},'Your turn: the worksheet'), el('p',{class:'lead'},'Write all answers in your book. Number each one.'));
+    const parts=el('div',{class:'parts'});
+    Object.keys(SHEET).forEach(k=>parts.append(el('button',{class:k===S.part?'on':'',onclick:()=>{S.part=k;render();}},SHEET[k].title)));
+    m.append(parts);
+    const P=SHEET[S.part];
+    const card=el('div',{class:'card'+(S.part==='D'?' big':'')});
+    card.append(el('div',{class:'phead'},el('h2',{},P.title),el('span',{class:'task'},P.task),
+      el('button',{class:'mini',onclick:()=>startTimer(P.time)},`Start ${P.time/60} min timer`),
+      el('button',{class:'mini',onclick:()=>{card.querySelectorAll('.ans,.strokes').forEach(a=>a.classList.add('on'));card.querySelectorAll('.sent').forEach(t=>t.classList.add('show-clue'));}},'Show all answers'),
+      el('button',{class:'mini',onclick:()=>{card.querySelectorAll('.ans,.strokes').forEach(a=>a.classList.remove('on'));card.querySelectorAll('.sent').forEach(t=>t.classList.remove('show-clue'));}},'Hide all')));
+    if(P.draw){
+      const grid=el('div',{class:'draws'});
+      P.cards.forEach(c=>{
+        const ans=el('div',{class:'strokes'},el('b',{},c.dev+'. '),c.a);
+        grid.append(el('div',{class:'hole'},
+          el('div',{class:'hh'},el('span',{class:'hn'},c.n),el('span',{class:'pt'},c.t)),
+          el('div',{class:'row'},
+            el('button',{class:'mini',onclick:()=>startTimer(P.btnTime||30)},(P.btnTime||30)+' sec'),
+            el('button',{class:'mini',onclick:()=>ans.classList.toggle('on')},P.revealLabel||'Device and meaning')),
+          ans));
+      });
+      card.append(grid);
+    }
+    (P.items||[]).forEach(it=>{
+      if(it.sub){ card.append(el('div',{class:'item'},el('div',{class:'sub'},it.sub))); return; }
+      const ans=el('div',{class:'ans'},it.a);
+      card.append(el('div',{class:'item'},
+        el('div',{class:'num'},it.n),
+        el('div',{},el('div',{class:'t'},it.t), it.q?el('div',{class:'qq'},it.q):null,
+          el('div',{class:'reveal'},el('button',{class:'mini',onclick:()=>ans.classList.toggle('on')},'Model answer'),ans))));
+    });
+    m.append(card, el('div',{class:'frame'},'The writer … so that the reader …'));
+  }
+}
+
+/* ---------- timer ---------- */
+let tLeft=0, tId=null;
+function drawT(){ $('#timer').textContent=`${Math.floor(tLeft/60)}:${String(tLeft%60).padStart(2,'0')}`; }
+function startTimer(s){
+  clearInterval(tId); tLeft=s; drawT(); $('#timer').classList.remove('flash');
+  tId=setInterval(()=>{ tLeft--; drawT(); if(tLeft<=0){ clearInterval(tId); $('#timer').classList.add('flash'); } },1000);
+}
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>startTimer(+b.dataset.t));
+$('#timer').onclick=()=>{ clearInterval(tId); tLeft=0; drawT(); };
+
+/* ---------- theme, full screen, keys ---------- */
+const mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):{matches:false};
+document.documentElement.dataset.theme=mq.matches?'dark':'light';
+$('#theme').onclick=()=>{ const r=document.documentElement; r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'; };
+$('#fs').onclick=()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); else document.exitFullscreen(); };
+document.addEventListener('keydown',e=>{
+  if(e.target.closest&&e.target.closest('input,textarea,button')) return;
+  if(e.key===' '||e.key==='Enter'){ if(window._active&&window._active._next){ e.preventDefault(); window._active._next(); } }
+  if(e.key==='ArrowRight'){ if(S.tab===1&&S.card<TOGETHER.length-1){S.card++;render();} else if(S.tab<2){S.tab++;render();} }
+  if(e.key==='ArrowLeft'){ if(S.tab===1&&S.card>0){S.card--;render();} else if(S.tab>0){S.tab--;render();} }
+});
+render();
+</script>
+</body>
+</html>

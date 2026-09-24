@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Close reading skills: Clock Watching</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e8efec; --paper:#fbfdfc; --paper-2:#eff4f2; --ink:#1d3147; --ink-2:#52636f; --line:#cddad5;
+  --amber:#f5dba8; --amber-ink:#8d5b0c; --teal:#b6e1d8; --teal-ink:#1b6a60;
+  --rose:#f5c6ca; --rose-ink:#9a3342; --lav:#dcd5f4; --lav-ink:#51458f;
+  --good:#cdeac6; --good-ink:#2f6a2a; --bad:#f7d0d0; --bad-ink:#9a2d2d;
+  --acc:#bddbb5; --acc-ink:#2e5a2a;
+  --shadow:0 16px 36px -24px rgba(29,49,71,.5);
+  --serif:"Literata", Georgia, "Times New Roman", serif;
+  --sans:"Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --hand:"Caveat", "Segoe Print", "Comic Sans MS", cursive;
+  color-scheme:light;
+}
+body[data-lesson="l11"]{ --acc:#f0c6d0; --acc-ink:#7d2c41; }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161e28; --paper:#202b37; --paper-2:#28353f; --ink:#e6edf2; --ink-2:#a9b8c3; --line:#374654;
+    --amber:#5a4a2c; --amber-ink:#f2d49b; --teal:#274f49; --teal-ink:#a8e2d7;
+    --rose:#58313a; --rose-ink:#f4b8bf; --lav:#3d3960; --lav-ink:#d5ccf6;
+    --good:#2d4c2c; --good-ink:#c2e7ba; --bad:#553032; --bad-ink:#f5c3c3;
+    --acc:#3b5739; --acc-ink:#c7e8bf; --shadow:0 16px 36px -24px rgba(0,0,0,.8); color-scheme:dark;
+  }
+  :root:not([data-theme="light"]) body[data-lesson="l11"]{ --acc:#5a3542; --acc-ink:#f3c4cf; }
+}
+:root[data-theme="dark"]{
+  --bg:#161e28; --paper:#202b37; --paper-2:#28353f; --ink:#e6edf2; --ink-2:#a9b8c3; --line:#374654;
+  --amber:#5a4a2c; --amber-ink:#f2d49b; --teal:#274f49; --teal-ink:#a8e2d7;
+  --rose:#58313a; --rose-ink:#f4b8bf; --lav:#3d3960; --lav-ink:#d5ccf6;
+  --good:#2d4c2c; --good-ink:#c2e7ba; --bad:#553032; --bad-ink:#f5c3c3;
+  --acc:#3b5739; --acc-ink:#c7e8bf; --shadow:0 16px 36px -24px rgba(0,0,0,.8); color-scheme:dark;
+}
+:root[data-theme="dark"] body[data-lesson="l11"]{ --acc:#5a3542; --acc-ink:#f3c4cf; }
+
+*{box-sizing:border-box}
+html{font-size:clamp(15px, .85vw + 8px, 25px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;line-height:1.45}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--lav-ink);outline-offset:2px}
+
+/* header */
+.bar{display:flex;align-items:center;gap:1rem;padding:.55rem 1.2rem;background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10;flex-wrap:wrap}
+.lessons{display:flex;gap:.4rem}
+.lessons button{border:1.5px solid var(--line);background:var(--paper-2);border-radius:.7rem;padding:.35rem .8rem;cursor:pointer;text-align:left;line-height:1.15}
+.lessons button small{display:block;font-size:.72rem;color:var(--ink-2)}
+.lessons button b{font-weight:700;font-size:.95rem}
+.lessons button[aria-selected="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+.lessons button[aria-selected="true"] small{color:inherit}
+.bar-title{flex:1;min-width:10rem;font-family:var(--serif);font-weight:600;font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tools{display:flex;gap:.4rem;align-items:center;position:relative}
+.icon-btn{border:1.5px solid var(--line);background:var(--paper);border-radius:.6rem;padding:.4rem .7rem;cursor:pointer;font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:.4rem}
+.icon-btn svg{width:1.1em;height:1.1em}
+.timer-pop{position:absolute;right:0;top:calc(100% + .4rem);background:var(--paper);border:1px solid var(--line);border-radius:.8rem;padding:.6rem;display:flex;gap:.35rem;box-shadow:var(--shadow)}
+.timer-pop[hidden]{display:none}
+#timerBtn.ring{background:var(--bad);border-color:var(--bad-ink);animation:pulse 1s ease-in-out 4}
+@keyframes pulse{50%{transform:scale(1.08)}}
+
+/* shell */
+.shell{display:grid;grid-template-columns:15.5rem minmax(0,1fr);min-height:calc(100vh - 3.8rem)}
+body.rail-off .shell{grid-template-columns:minmax(0,1fr)}
+body.rail-off .rail{display:none}
+.rail{padding:1rem .7rem;border-right:1px solid var(--line);background:var(--paper-2);overflow:auto}
+.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:.2rem}
+.rail button{display:grid;grid-template-columns:1.8rem 1fr;gap:.4rem;align-items:start;text-align:left;padding:.55rem .6rem;border-radius:.6rem;border:0;background:transparent;cursor:pointer;width:100%}
+.rail button:hover{background:var(--paper)}
+.rail .num{font-family:var(--serif);font-weight:700;font-size:1.25rem;line-height:1;color:var(--ink-2);padding-top:.1rem}
+.rail .bt{font-weight:600;font-size:.98rem;line-height:1.2;display:block}
+.rail .bs{font-size:.8rem;color:var(--ink-2);display:block;margin-top:.1rem}
+.rail button[aria-current="true"]{background:var(--acc);color:var(--acc-ink)}
+.rail button[aria-current="true"] .num,.rail button[aria-current="true"] .bs{color:inherit}
+
+main{display:flex;flex-direction:column;padding:1rem 2rem 1.2rem;min-width:0}
+.stages{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:.4rem}
+.stage-tab{display:flex;align-items:center;gap:.5em;padding:.35em .95em .35em .35em;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);font-weight:600;cursor:pointer;font-size:.95rem}
+.stage-tab .n{width:1.7em;height:1.7em;border-radius:50%;display:grid;place-items:center;background:var(--paper-2);font-size:.85em}
+.stage-tab[aria-current="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+.stage-tab[aria-current="true"] .n{background:var(--paper);color:var(--ink)}
+#stage{flex:1;width:100%;max-width:80rem;margin:0 auto;padding:1.1rem 0 1.4rem}
+#stage.enter{animation:enter .28s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(6px)}}
+@media (prefers-reduced-motion: reduce){#stage.enter{animation:none}#timerBtn.ring{animation:none}}
+.pager{display:flex;justify-content:space-between;align-items:center;gap:1rem;max-width:80rem;width:100%;margin:0 auto;border-top:1px solid var(--line);padding-top:.8rem}
+
+/* type */
+h2.title{font-family:var(--serif);font-weight:700;font-size:clamp(1.75rem,2.5vw,2.9rem);line-height:1.12;letter-spacing:-.015em;margin:0 0 .35em;max-width:32ch;text-wrap:balance}
+.prompt{font-size:1.2rem;color:var(--ink-2);max-width:64ch;margin:0 0 1.2rem}
+.hand{font-family:var(--hand);font-size:1.5em;line-height:1.15;font-weight:500}
+mark{background:var(--lav);color:inherit;border-radius:.2em;padding:0 .15em;box-shadow:inset 0 -.12em 0 var(--lav-ink)}
+
+/* buttons */
+.row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-top:1rem}
+.btn{font-weight:600;font-size:1rem;padding:.55em 1.05em;border-radius:.6em;border:1.5px solid var(--line);background:var(--paper);cursor:pointer}
+.btn:hover{border-color:var(--ink-2)}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.ghost{background:transparent}
+.btn:disabled{opacity:.4;cursor:default}
+.subtabs{display:flex;gap:.4rem;margin:-.2rem 0 1rem}
+.subtabs .btn[aria-pressed="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+
+/* passage */
+.passage{font-family:var(--serif);font-size:1.32rem;line-height:1.95;background:var(--paper);border-radius:.4rem;padding:1.2rem 1.6rem 1.2rem 3rem;box-shadow:var(--shadow);position:relative;max-width:50rem}
+.passage::before{content:"";position:absolute;left:1.9rem;top:0;bottom:0;width:2px;background:var(--rose)}
+.passage p{margin:0 0 .7em}
+.passage p:last-child{margin-bottom:0}
+.passage.small{font-size:1.15rem;margin-bottom:1rem}
+.split{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.6rem;align-items:start}
+@media (max-width:900px){.split{grid-template-columns:1fr}.shell{grid-template-columns:1fr}.rail{display:none}main{padding:1rem}}
+
+.chunk{padding:.04em .22em;margin:0 -.22em;border-radius:.3em;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:box-shadow .18s,background-color .18s}
+.markable .chunk{cursor:pointer}
+.markable .chunk:not(.mk):hover{background-color:var(--paper-2);box-shadow:inset 0 -2px 0 var(--line)}
+.mk-when{box-shadow:inset 0 0 0 .13em var(--amber-ink);background-color:var(--amber);border-radius:.1em}
+.mk-where{box-shadow:inset 0 0 0 .13em var(--teal-ink);border-radius:1em}
+.mk-event{box-shadow:inset 0 0 0 .13em var(--rose-ink);border-radius:1em}
+.mk-mood,.mk-detail,.mk-verb,.mk-after,.mk-feel,.mk-happen,.mk-clue{background-image:linear-gradient(var(--u),var(--u));background-repeat:no-repeat;background-size:calc(100% - .44em) .13em;background-position:.22em 95%}
+.mk-mood{--u:var(--rose-ink)}
+.mk-detail,.mk-after,.mk-happen,.mk-clue{--u:var(--teal-ink)}
+.mk-signal{box-shadow:inset 0 0 0 .13em var(--rose-ink);background-color:var(--rose);border-radius:.1em}
+.mk-verb,.mk-feel{--u:var(--lav-ink)}
+.mk-trap{text-decoration:line-through;text-decoration-color:var(--amber-ink);text-decoration-thickness:.1em;background-color:var(--amber)}
+.mk-turn{background-color:var(--amber)}
+.mk-evidence{background-color:var(--lav);box-shadow:inset 0 -.13em 0 var(--lav-ink)}
+.mk-reveal{box-shadow:inset 0 0 0 .13em var(--rose-ink);background-color:var(--rose);border-radius:.1em}
+.nb{font:700 .62em var(--sans);background:var(--ink);color:var(--paper);border-radius:999px;padding:.05em .45em;vertical-align:super;margin-left:.25em}
+.ck-ok::after,.ck-bad::after{font:700 .7em var(--sans);vertical-align:super;margin-left:.2em}
+.ck-ok::after{content:"\2713";color:var(--good-ink)}
+.ck-bad::after{content:"\2717";color:var(--bad-ink)}
+.ck-miss{outline:2px dashed var(--bad-ink);outline-offset:1px}
+
+.notes{list-style:none;padding:0;margin:0;display:grid;gap:.65rem}
+.notes li{font-family:var(--hand);font-size:1.7rem;line-height:1.1;display:flex;gap:.55rem;align-items:baseline}
+.notes li .nb{font-size:.9rem;vertical-align:baseline;flex:none;position:relative;top:-.15em}
+.notes li.k-when{color:var(--amber-ink)} .notes li.k-where{color:var(--teal-ink)} .notes li.k-mood{color:var(--rose-ink)}
+.notes li.k-event,.notes li.k-signal{color:var(--rose-ink)} .notes li.k-happen,.notes li.k-clue{color:var(--teal-ink)} .notes li.k-reveal{color:var(--rose-ink)} .notes li.k-detail{color:var(--teal-ink)} .notes li.k-verb,.notes li.k-feel{color:var(--lav-ink)} .notes li.k-trap{color:var(--amber-ink)}
+.notes-empty{color:var(--ink-2);font-size:1rem}
+
+/* toolbox */
+.toolbox{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1rem}
+.tool{display:flex;align-items:center;gap:.55rem;border:2px solid var(--line);background:var(--paper);border-radius:.7rem;padding:.45rem .85rem;cursor:pointer;font-weight:600;font-size:1.02rem}
+.tool[aria-pressed="true"]{border-color:var(--ink);background:var(--paper-2)}
+.tool svg{width:2.1rem;height:1.2rem;flex:none}
+.summary{font-size:1.1rem;margin-top:1rem;padding:.7rem 1rem;border-radius:.6rem;background:var(--paper-2)}
+
+/* concept */
+.points{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1rem 0 1.4rem}
+.point{background:var(--paper);border-radius:.8rem;padding:1.1rem 1.2rem 1.15rem;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.point::before{content:"";position:absolute;left:0;right:0;top:0;height:.4rem;background:var(--tone)}
+.point h3{font-family:var(--serif);font-size:1.45rem;margin:.15em 0 .25em;color:var(--tone-ink)}
+.point p{font-size:1.1rem;margin:0}
+.demo-wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.4rem;align-items:center}
+@media (max-width:900px){.demo-wrap{grid-template-columns:1fr}}
+.demo-note{font-size:1.1rem;color:var(--ink-2);max-width:60ch;margin-top:.8rem}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:62rem}
+.compare > div{background:var(--paper);border-radius:.8rem;padding:1rem 1.2rem;box-shadow:var(--shadow)}
+.compare .lab{font-weight:700;font-size:1rem}
+.compare .weak .lab{color:var(--bad-ink)} .compare .strong .lab{color:var(--good-ink)}
+.compare .phrase{font-family:var(--serif);font-size:1.2rem;margin:.3rem 0}
+.moodline{max-width:44rem;width:100%;height:auto;background:var(--paper);border-radius:.8rem;box-shadow:var(--shadow)}
+
+/* steps */
+.steps{margin:0;padding-left:1.6rem;display:grid;gap:.75rem;font-size:1.2rem}
+.steps li{padding-left:.3rem}
+.steps li::marker{font-weight:700;color:var(--ink-2)}
+.steps s{text-decoration-color:var(--bad-ink);text-decoration-thickness:.1em}
+
+/* sort */
+.pool{display:flex;flex-wrap:wrap;gap:.5rem;min-height:3.2rem;padding:.8rem;border:2px dashed var(--line);border-radius:.8rem;margin-bottom:1rem}
+.pool-empty{color:var(--ink-2);align-self:center}
+.bins{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:.8rem}
+@media (max-width:900px){.bins{grid-template-columns:1fr}}
+.bin{background:var(--paper);border-radius:.8rem;padding:.7rem;min-height:9rem;cursor:pointer;box-shadow:var(--shadow);border:2px solid transparent}
+.bin.ready{border-color:var(--acc-ink)}
+.bin-label{font-family:var(--serif);font-weight:700;font-size:1.3rem;margin:0 0 .5rem .2rem}
+.bin-body{display:flex;flex-wrap:wrap;gap:.45rem}
+.chip{border:1.5px solid var(--line);background:var(--paper-2);border-radius:.6rem;padding:.45rem .75rem;cursor:pointer;font-size:1.05rem;font-family:var(--serif);text-align:left}
+.chip.sel{border-color:var(--ink);background:var(--acc);color:var(--acc-ink);box-shadow:0 0 0 3px var(--acc)}
+.chip.ok{background:var(--good);border-color:var(--good-ink)}
+.chip.bad{background:var(--bad);border-color:var(--bad-ink)}
+.whys{margin:.8rem 0 0;padding-left:1.2rem;font-size:1.05rem;display:grid;gap:.3rem}
+
+/* questions */
+.qpanel{background:var(--paper);border-radius:1rem;padding:1.2rem 1.4rem;box-shadow:var(--shadow)}
+.single .qpanel{max-width:56rem}
+.qnav{display:flex;gap:.35rem;align-items:center;margin-bottom:.8rem;flex-wrap:wrap}
+.dot{width:2rem;height:2rem;border-radius:50%;border:1.5px solid var(--line);background:var(--paper-2);cursor:pointer;font-weight:700;font-size:.85rem}
+.dot[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.dot.done{background:var(--good);border-color:var(--good-ink)}
+.q{font-family:var(--serif);font-size:1.35rem;line-height:1.35;margin-bottom:.9rem}
+.opts{display:grid;gap:.5rem}
+.opt{display:flex;gap:.75em;align-items:center;text-align:left;font-size:1.12rem;padding:.6em .9em;border-radius:.7em;border:2px solid var(--line);background:var(--paper);cursor:pointer;width:100%}
+.opt:hover{border-color:var(--ink-2)}
+.opt .letter{font-weight:700;width:1.8em;height:1.8em;border-radius:50%;background:var(--paper-2);display:grid;place-items:center;flex:none;font-size:.9em}
+.opt.ok{background:var(--good);border-color:var(--good-ink)}
+.opt.bad{background:var(--bad);border-color:var(--bad-ink)}
+.opt.bad .otext{text-decoration:line-through;text-decoration-color:var(--bad-ink)}
+.fb{margin-top:.9rem;padding:.75rem 1rem;border-radius:.6rem;font-size:1.1rem}
+.fb.ok{background:var(--good);color:var(--good-ink)}
+.fb.bad{background:var(--bad);color:var(--bad-ink)}
+.fb.info{background:var(--paper-2)}
+.helped{margin-top:.8rem;color:var(--lav-ink)}
+
+/* frame */
+.frame-para{font-family:var(--serif);font-size:1.4rem;line-height:2.1;background:var(--paper);border-radius:.8rem;padding:1.2rem 1.6rem;box-shadow:var(--shadow);max-width:62rem;margin:0 0 1rem}
+.gap{font-family:var(--hand);font-size:1.45em;line-height:1;border:0;border-bottom:2.5px solid var(--ink-2);background:var(--paper-2);border-radius:.3em .3em 0 0;padding:.05em .4em;cursor:pointer;min-width:5em}
+.gap.active{background:var(--acc);border-bottom-color:var(--acc-ink)}
+.gap.ok{border-bottom-color:var(--good-ink);background:var(--good)}
+.gap.bad{border-bottom-color:var(--bad-ink);background:var(--bad)}
+.gap.active.ok,.gap.active.bad{box-shadow:0 0 0 3px var(--acc)}
+.chooser{max-width:62rem}
+.chooser-label{font-weight:700;margin:.2rem 0 .5rem}
+
+/* wordswap */
+.scene{font-family:var(--serif);font-size:1.55rem;line-height:1.9;background:var(--paper);border-radius:.8rem;padding:1.3rem 1.7rem;box-shadow:var(--shadow);max-width:60rem;margin:1rem 0}
+.swap{background:var(--lav);border-radius:.25em;padding:0 .2em;box-shadow:inset 0 -.12em 0 var(--lav-ink);transition:background-color .2s}
+.tag{font:700 .55em var(--sans);vertical-align:super;margin-left:.2em;padding:.05em .45em;border-radius:999px;background:var(--paper-2);color:var(--ink-2)}
+.btn[aria-pressed="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+
+/* drills */
+.qf{background:var(--paper);border-radius:1rem;padding:1.4rem 1.8rem;box-shadow:var(--shadow);max-width:62rem}
+.qf-count{color:var(--ink-2);font-weight:600;margin-bottom:.5rem;max-width:62rem}
+.qf-q{font-family:var(--serif);font-size:clamp(1.5rem,2.2vw,2.3rem);line-height:1.3;margin-bottom:1.1rem}
+.qf-q .small{font-size:.62em;display:block;color:var(--ink-2);margin-top:.45rem;font-family:var(--sans)}
+.qf .opts{grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))}
+.qf .opt{font-size:1.2rem;padding:.75em 1em}
+
+/* infer */
+.slotline{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-bottom:.8rem}
+.slabel{font-weight:700;width:100%}
+.pill{border:1.5px dashed var(--line);border-radius:.6rem;padding:.35rem .7rem;color:var(--ink-2);font-size:1rem}
+.pill.on{border-style:solid;border-color:var(--teal-ink);background:var(--teal);color:var(--teal-ink);font-family:var(--serif)}
+.qpanel .opts .opt{font-size:1rem;padding:.5em .8em}
+.result{margin-top:.9rem;color:var(--good-ink)}
+
+/* sheet & intro */
+.sheet{background:var(--paper);border-radius:1rem;padding:1.5rem 2rem;max-width:70rem;box-shadow:var(--shadow);border-top:.5rem solid var(--acc)}
+.sheet h3{font-family:var(--serif);font-size:1.7rem;margin:0 0 .5rem}
+.sheet blockquote{font-family:var(--serif);font-style:italic;font-size:1.4rem;line-height:1.4;margin:0 0 1.3rem;padding-left:1rem;border-left:4px solid var(--acc-ink)}
+.sheet-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem}
+@media (max-width:900px){.sheet-cols{grid-template-columns:1fr}}
+.sheet h4{font-size:1.1rem;margin:0 0 .5rem}
+.todo{list-style:none;margin:0;padding:0;display:grid;gap:.45rem;counter-reset:t}
+.todo li{counter-increment:t}
+.todo button{display:flex;gap:.7rem;align-items:flex-start;border:0;background:var(--paper-2);border-radius:.6rem;padding:.55rem .8rem;cursor:pointer;text-align:left;width:100%;font-size:1.1rem}
+.todo button::before{content:counter(t);font-weight:700;width:1.7em;height:1.7em;border-radius:50%;background:var(--paper);display:grid;place-items:center;flex:none;font-size:.9em}
+.todo button.done{background:var(--good);color:var(--good-ink)}
+.todo button.done::before{content:"\2713"}
+.remember{margin:0;padding-left:1.2rem;display:grid;gap:.4rem;font-size:1.08rem}
+.frame-box{margin-top:1.2rem;padding:.8rem 1.1rem;border-radius:.7rem;background:var(--paper-2)}
+.map{display:grid;gap:.5rem;max-width:58rem;margin-top:1.2rem}
+.map-row{display:grid;grid-template-columns:1.2fr 1fr;gap:1rem;align-items:center;text-align:left;background:var(--paper);border:0;border-radius:.8rem;padding:.8rem 1.1rem;cursor:pointer;box-shadow:var(--shadow);font-size:1.12rem}
+.map-row:hover{outline:2px solid var(--acc-ink)}
+.map-skill{font-family:var(--serif);font-weight:600;color:var(--acc-ink)}
+.flow{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-top:1.4rem;color:var(--ink-2);font-size:1.02rem}
+.flow span{background:var(--paper);border-radius:999px;padding:.25rem .8rem;border:1.5px solid var(--line)}
+</style>
+</head>
+<body data-lesson="l13">
+<header class="bar">
+  <div class="lessons" role="tablist" aria-label="Lessons" id="lessonTabs"></div>
+  <div class="bar-title" id="barTitle"></div>
+  <div class="tools">
+    <button class="icon-btn" id="timerBtn" type="button" aria-haspopup="true">Timer</button>
+    <div class="timer-pop" id="timerPop" hidden>
+      <button class="btn" data-min="1" type="button">1 min</button>
+      <button class="btn" data-min="2" type="button">2 min</button>
+      <button class="btn" data-min="3" type="button">3 min</button>
+      <button class="btn" data-min="5" type="button">5 min</button>
+      <button class="btn ghost" data-min="0" type="button">Stop</button>
+    </div>
+    <button class="icon-btn" id="railBtn" type="button" title="Show or hide the block list">Blocks</button>
+    <button class="icon-btn" id="themeBtn" type="button" title="Switch light or dark">Theme</button>
+    <button class="icon-btn" id="fsBtn" type="button" title="Full screen">Full screen</button>
+  </div>
+</header>
+<div class="shell">
+  <nav class="rail" aria-label="Blocks"><ol id="rail"></ol></nav>
+  <main>
+    <div class="stages" id="stageTabs" role="tablist" aria-label="Stages"></div>
+    <section id="stage" aria-live="polite"></section>
+    <footer class="pager">
+      <button class="btn" id="prevBtn" type="button">Back</button>
+      <button class="btn primary" id="nextBtn" type="button">Next</button>
+    </footer>
+  </main>
+</div>
+
+<script>
+/* ================= CONTENT ================= */
+const L13 = {
+  id:'l13', code:'Close reading', title:'Clues, evidence and explanations', sheet:'Clock Watching',
+  blocks:[
+    { title:'Start here', short:'Six skills, then the sheet', intro:true, stages:{ intro:{
+      title:'Clock Watching: the skills',
+      lead:'Short rules, then drills that get harder.',
+      map:[
+        {part:'A1 and Q9: who is speaking?', skill:'Who is telling this?', block:1},
+        {part:'A2, A4, Q7 and Q10: hard words', skill:'Context clues', block:2},
+        {part:'A3 and Q8: the word “change”', skill:'One word, two meanings', block:3},
+        {part:'C: Q12 to Q15', skill:'What the quote proves', block:4},
+        {part:'B: Q11', skill:'Summary', block:5},
+        {part:'D: Q16 to Q20', skill:'Best explanation', block:6}
+      ]}}},
+
+    /* ---------- 1 ---------- */
+    { title:'Who is telling this?', short:'Narrator and reveal', stages:{
+      concept:{
+        title:'The narrator is not always a person.',
+        lead:'Two questions: what is it, and what can it see?',
+        points:[
+          {tone:'teal', h:'Clues', t:'What it watches, what it cannot do, what it calls itself.'},
+          {tone:'amber', h:'The reveal', t:'Writers hold it back a few lines on purpose.'},
+          {tone:'rose', h:'Limits', t:'Fixed in one spot means it cannot follow anyone out.'}
+        ]},
+      practise:[
+        { kind:'drill', label:'Drill 1', title:'Who is speaking?', prompt:'Fast. Use the clue in the words.',
+          items:[
+            {q:'“From up here my light sweeps the water every eight seconds.”', o:['a lighthouse','a sailor','a seagull'], a:0, why:'A sweeping light on a cliff.'},
+            {q:'“They post their letters through me all day and never say thank you.”', o:['a postman','a postbox','a dog'], a:1, why:'Letters go through it.'},
+            {q:'“I hold twelve rows of snacks and swallow their coins.”', o:['a shopkeeper','a vending machine','a lunchbox'], a:1, why:'Rows of snacks and a coin slot.'},
+            {q:'“My hands say quarter past. Nobody looks up.”', o:['a clock','a teacher','a statue'], a:0, why:'Hands that show a time.'},
+            {q:'“Boots all day, cold all night, and never once a thank you.”', o:['a soldier','a doormat','a dog'], a:1, why:'Stepped on, left outside.'},
+            {q:'“Up they go, down they come, and still they press me twice.”', o:['a lift','a bus driver','a rucksack'], a:0, why:'Buttons pressed, up and down.'}
+          ]},
+        { kind:'drill', label:'Drill 2', title:'Can this narrator know it?', prompt:'The narrator is a clock fixed high on a station wall.',
+          options:['It can know','It cannot know'],
+          items:[
+            {q:'what the hall looks like from above', a:0, why:'It looks down on everything.'},
+            {q:'what a commuter dreamed last night', a:1, why:'It cannot read minds.'},
+            {q:'which performers come back each week', a:0, why:'It watches the same spot every day.'},
+            {q:'where a performer goes after work', a:1, why:'It cannot leave the wall.'},
+            {q:'how crowded the hall is at 10am', a:0, why:'It can see and it can tell the time.'},
+            {q:'what the weather is doing outside', a:1, why:'It only sees inside the hall.'},
+            {q:'whether a performer is popular today', a:0, why:'It can see the size of the crowd.'},
+            {q:'why a commuter looks worried', a:1, why:'It sees the face, not the reason.'}
+          ]},
+        { kind:'annotate', mode:'mark', tools:['reveal','clue'], label:'Drill 3',
+          title:'Find the reveal', prompt:'Box the line that reveals what the narrator is. Underline the clues that fit once you know.',
+          passage:'[For eleven years I have watched this pier|clue]. [I never blink|clue], and [I have never once moved|clue]. [I am the old weather vane on the boathouse roof|reveal]. [People look up at me when the wind turns|clue].'
+        },
+        { kind:'annotate', mode:'mark', tools:['reveal','clue'], label:'Drill 4',
+          title:'Later reveal, false lead', prompt:'Harder: the first lines make you picture a person. Box the reveal, underline the clues.',
+          passage:'[I have stood on this street longer than anyone|clue]. Children [run past me every morning|x] and nobody says hello. [In winter my joints ache with frost|clue] and [my head buzzes all night|clue]. [I am the lamp post outside number nine|reveal]. [Only the moths keep me company|clue].'
+        }
+      ],
+      sheet:{ part:'A1 and Question 9', task:'Underline the line that reveals what the narrator is. Explain how its position affects what it can tell us.',
+        do:['Find the reveal in paragraph 1.','Ask: what can it see from there?','Ask: what can it never do?'],
+        remember:['A fixed narrator sees a lot, but cannot follow anyone.'] }
+    }},
+
+    /* ---------- 2 ---------- */
+    { title:'Context clues', short:'Meaning from nearby words', stages:{
+      concept:{
+        title:'The words around a hard word give you its meaning.',
+        lead:'Four clue types. Spot which one you have.',
+        points:[
+          {tone:'amber', h:'Opposite', t:'“purposeful or befuddled”: one is the opposite of the other.'},
+          {tone:'teal', h:'Nearby synonym', t:'An easier word for the same thing, a line earlier or later.'},
+          {tone:'rose', h:'Definition', t:'The sentence explains it as it goes.'},
+          {tone:'lav', h:'Example', t:'A list that shows what it covers.'}
+        ]},
+      practise:[
+        { kind:'drill', label:'Drill 1', title:'Which clue type?', prompt:'Name the clue that unlocks the word in capitals.',
+          options:['Opposite','Nearby synonym','Definition','Example'],
+          items:[
+            {q:'The hall was RAUCOUS, not quiet like the library next door.', a:0, why:'“not quiet” is the opposite.'},
+            {q:'A crowd of onlookers gathered. Every one of those GAWKERS stared.', a:1, why:'“onlookers” means the same.'},
+            {q:'She crossed the CONCOURSE, the big open hall inside the station.', a:2, why:'The sentence defines it.'},
+            {q:'The stall sold CONFECTIONERY: toffees, mints and chocolate bars.', a:3, why:'A list of examples.'},
+            {q:'He looked HARRIED, while his sister strolled along calmly.', a:0, why:'Set against “calmly”.'},
+            {q:'The guard was VIGILANT. Watchful people make good guards.', a:1, why:'“Watchful” repeats the idea.'},
+            {q:'The queue was INTERMINABLE, meaning it never seemed to end.', a:2, why:'Explained straight away.'},
+            {q:'Bring your OUTDOOR KIT: boots, a coat and a torch.', a:3, why:'Examples listed.'}
+          ]},
+        { kind:'drill', label:'Drill 2', title:'So what does it mean?', prompt:'Use the clue, then choose.',
+          items:[
+            {q:'He looked BEFUDDLED, not purposeful like the others.', o:['confused','in a hurry','relaxed'], a:0, why:'Opposite of purposeful.'},
+            {q:'The children SCURRIED across the hall, darting between the adults.', o:['moved quickly','argued','waited'], a:0, why:'“darting” gives it away.'},
+            {q:'She was BEWITCHED by the dancer, unable to look away.', o:['bored','held as if by a spell','frightened'], a:1, why:'“unable to look away”.'},
+            {q:'The hall was BUSTLING, far from the empty platform next door.', o:['full of movement','silent','cold'], a:0, why:'Opposite of empty.'},
+            {q:'My PERCH is high on the wall, where I have sat for years.', o:['a place to sit','a kind of fish','a ladder'], a:0, why:'“where I have sat”.'},
+            {q:'He is SIPHONING off some of her audience, a few at a time.', o:['taking all of it at once','drawing it away gradually','giving it back'], a:1, why:'“a few at a time”.'},
+            {q:'The station was IMMENSE: it took four minutes to walk across.', o:['very old','very large','very loud'], a:1, why:'Four minutes to cross.'},
+            {q:'The commuters were ASSORTED: young, old, smart, scruffy.', o:['all the same','of many kinds','in a hurry'], a:1, why:'The list shows variety.'}
+          ]},
+        { kind:'annotate', mode:'mark', tools:['clue'], label:'Drill 3',
+          title:'Underline the clue', prompt:'One clue for each word in capitals.',
+          passage:'The hall was RAUCOUS, [not the quiet hum of the library next door|clue]. The guard looked VIGILANT, [watching every door at once|clue]. The queue was INTERMINABLE: [it never seemed to end|clue]. She thanked the SPECTATORS, [the same watchers who had cheered an hour before|clue].'
+        },
+        { kind:'annotate', mode:'mark', tools:['clue'], label:'Drill 4',
+          title:'Pick the clue that works', prompt:'Harder: some nearby words look helpful but explain nothing.',
+          passage:'The platform was DESERTED. [A single pigeon walked down the middle of it|clue], and [the ticket office was shuttered|clue]. [It had rained in the night|x]. The guard was TACITURN: [he answered every question with one word|clue]. [His coat was navy blue|x]. Later the hall grew CLAMOROUS, [after the silence of the early train|clue], [loud enough to drown the announcements|clue].'
+        }
+      ],
+      sheet:{ part:'A2, A4, Questions 7 and 10', task:'Find the pair of opposites that unlocks befuddled. Find the earlier word that means almost the same as gawkers.',
+        do:['For befuddled: look for the word it is set against.','For gawkers: look a few lines earlier for an easier word.','Underline the clue, not the hard word.'],
+        remember:['Name the clue type when you explain your answer.'] }
+    }},
+
+    /* ---------- 3 ---------- */
+    { title:'One word, two meanings', short:'The word “change”', stages:{
+      concept:{
+        title:'The same word can mean two things on one page.',
+        lead:'Only the words around it decide which.',
+        points:[
+          {tone:'teal', h:'Test it', t:'Try each meaning in the sentence.'},
+          {tone:'amber', h:'The giveaway', t:'One nearby word settles it: buckets fill with change means coins.'},
+          {tone:'rose', h:'Watch for', t:'change, light, watch, fair, present, right, second'}
+        ]},
+      practise:[
+        { kind:'drill', label:'Drill 1', title:'Which meaning here?', prompt:'Read the whole sentence first.',
+          items:[
+            {q:'The acts CHANGE every month.', o:['coins','alter'], a:1, why:'Acts alter.'},
+            {q:'His bucket filled with CHANGE.', o:['coins','alter'], a:0, why:'A bucket holds coins.'},
+            {q:'She sat by the LIGHT of the window.', o:['not heavy','brightness'], a:1, why:'Light from a window.'},
+            {q:'The bag was LIGHT enough to carry upstairs.', o:['not heavy','brightness'], a:0, why:'Easy to carry.'},
+            {q:'He checked his WATCH.', o:['look at','a small clock'], a:1, why:'You check a wristwatch.'},
+            {q:'I WATCH the crowd all day.', o:['look at','a small clock'], a:0, why:'An action.'},
+            {q:'The FAIR came to town in July.', o:['just and equal','a funfair'], a:1, why:'It comes to town.'},
+            {q:'That decision was not FAIR.', o:['just and equal','a funfair'], a:0, why:'About justice.'},
+            {q:'She gave him a PRESENT.', o:['a gift','here, not absent'], a:0, why:'You give a gift.'},
+            {q:'All the pupils were PRESENT.', o:['a gift','here, not absent'], a:1, why:'Attendance.'}
+          ]},
+        { kind:'drill', label:'Drill 2', title:'Which word decides it?', prompt:'One nearby word gives the meaning away.',
+          items:[
+            {q:'“Their plastic buckets fill with change.”', o:['plastic','buckets','fill'], a:1, why:'A bucket holds coins, not alterations.'},
+            {q:'“The entertainment frequently does change.”', o:['entertainment','frequently','does'], a:1, why:'Frequently: it keeps altering.'},
+            {q:'“He struck a light and held it to the wick.”', o:['struck','held','wick'], a:2, why:'A wick needs a flame.'},
+            {q:'“The second runner crossed the line.”', o:['runner','crossed','second'], a:0, why:'Runners are ranked, so it means 2nd.'},
+            {q:'“Wait a second,” she said, “I am nearly ready.”', o:['Wait','ready','she said'], a:0, why:'Waiting means a moment of time.'}
+          ]},
+        { kind:'questions', label:'Drill 3', title:'How do the two uses differ?',
+          prompt:'Read the paragraph, then answer. Press “Show what helped”.',
+          passage:'The street acts [change|c1] every few weeks, which is why I watch them. The juggler has been here longest. Her hat slowly fills with [change|c2] while the crowd claps.',
+          items:[
+            {q:'1. How do the two uses of “change” differ?', evidence:['c1','c2'], helped:'“every few weeks” points to altering; “hat fills with” points to coins.', options:[
+              {t:'The first means coins; the second means altering.', tag:'Swapped', why:'Read the order again.'},
+              {t:'The first means altering; the second means coins.', ok:true, tag:'Supported', why:'Acts alter, hats fill with coins.'},
+              {t:'Both mean coins.', tag:'Doesn’t fit', why:'Acts cannot fill with coins.'}]},
+            {q:'2. Which word settles the second meaning?', evidence:['c2'], options:[
+              {t:'“claps”', tag:'Not the clue', why:'It tells you the crowd is pleased.'},
+              {t:'“hat”', ok:true, tag:'Supported', why:'A hat can hold coins.'},
+              {t:'“juggler”', tag:'Not the clue', why:'It names the performer.'}]},
+            {q:'3. Which word settles the first meaning?', evidence:['c1'], options:[
+              {t:'“every few weeks”', ok:true, tag:'Supported', why:'A pattern in time means things alter.'},
+              {t:'“street”', tag:'Not the clue', why:'It tells you where.'},
+              {t:'“longest”', tag:'Not the clue', why:'That is about the juggler.'}]}
+          ]}
+      ],
+      sheet:{ part:'A3 and Question 8', task:'Find where change means coins rather than things altering. Explain how the two uses differ.',
+        do:['Find both uses in paragraph three.','Name the word beside each one that settles it.','Say which is which, in that order.'],
+        remember:['Quote the word that gives it away.'] }
+    }},
+
+    /* ---------- 4 ---------- */
+    { title:'What the quote proves', short:'Evidence vs claim', stages:{
+      concept:{
+        title:'A quote proves one thing, not everything.',
+        lead:'Say only what the words actually show.',
+        points:[
+          {tone:'teal', h:'Just right', t:'Matches the words exactly.'},
+          {tone:'amber', h:'Claims too much', t:'all, whole, everyone, never, completely.'},
+          {tone:'rose', h:'Too literal', t:'Takes a comparison as a real fact.'}
+        ]},
+      practise:[
+        { kind:'drill', label:'Drill 1', title:'Just right, too much, or too literal?', prompt:'The quote is first, the claim is underneath.',
+          options:['Just right','Claims too much','Too literal'],
+          items:[
+            {q:'“an obstacle course of scurrying people”<span class="small">The hall is crowded and hard to cross.</span>', a:0, why:'Exactly what it shows.'},
+            {q:'“an obstacle course of scurrying people”<span class="small">The station has set up barriers across the hall.</span>', a:2, why:'It is a comparison, not real barriers.'},
+            {q:'“an obstacle course of scurrying people”<span class="small">Everyone in the station is running.</span>', a:1, why:'“Everyone” is too much.'},
+            {q:'“siphoning away some of the statue’s gawkers”<span class="small">The newcomer draws part of the crowd away.</span>', a:0, why:'“some” means part.'},
+            {q:'“siphoning away some of the statue’s gawkers”<span class="small">The statue has lost her whole audience.</span>', a:1, why:'“some”, not all.'},
+            {q:'“encircled by onlookers seemingly bewitched”<span class="small">The crowd truly believes real magic is happening.</span>', a:2, why:'“seemingly bewitched” is a comparison.'},
+            {q:'“encircled by onlookers seemingly bewitched”<span class="small">The performer holds the crowd still and staring.</span>', a:0, why:'Exactly that.'},
+            {q:'“They stop and chat.”<span class="small">All the commuters know each other well.</span>', a:1, why:'A chat is not friendship.'}
+          ]},
+        { kind:'drill', label:'Drill 2', title:'What does this quote prove?', prompt:'Pick the claim the words support.',
+          items:[
+            {q:'“my hour hand is on the 10”', o:['It is ten in the morning.','The clock is broken.','The station is closing.'], a:0, why:'That is what the hands show.'},
+            {q:'“It warms my clock heart”', o:['The clock is overheating.','The clock enjoys watching them.','The clock is made of metal.'], a:1, why:'A feeling, said playfully.'},
+            {q:'“Sadly, he found another stage.”', o:['The performer moved on.','The performer was sacked.','The performer died.'], a:0, why:'Moved somewhere else to perform.'},
+            {q:'“not making eye contact, or bump into one another and apologise”', o:['The commuters are rude.','People behave in different ways.','The hall is empty.'], a:1, why:'Two different behaviours, side by side.'},
+            {q:'“the same old bustling scene that plays out here every weekday”', o:['This crowd is unusual.','Weekdays here are always busy.','The station closes at weekends.'], a:1, why:'“every weekday”.'}
+          ]},
+        { kind:'questions', label:'Drill 3', title:'Prove it from the text',
+          prompt:'Answer, then press “Show what helped”.',
+          passage:'The market is [a river of elbows on a Saturday|e1]. Stallholders [call out prices|e2] while shoppers [edge past each other|e3], [some laughing, some scowling|e4]. By four o’clock [half the stalls are packed away|e5].',
+          items:[
+            {q:'1. “a river of elbows” is evidence that…', evidence:['e1','e3'], helped:'People have to edge past each other.', options:[
+              {t:'the market is beside a river', tag:'Too literal', why:'It is a comparison.'},
+              {t:'the market is crowded and people must squeeze through', ok:true, tag:'Supported', why:'A river of elbows plus edging past.'},
+              {t:'everyone at the market is angry', tag:'Claims too much', why:'Nothing about anger.'}]},
+            {q:'2. “some laughing, some scowling” is evidence that…', evidence:['e4'], options:[
+              {t:'the shoppers are all enjoying themselves', tag:'Claims too much', why:'Some are scowling.'},
+              {t:'the shoppers are in different moods', ok:true, tag:'Supported', why:'Two opposite reactions.'},
+              {t:'the shoppers are arguing with stallholders', tag:'Not in the text', why:'Never said.'}]},
+            {q:'3. “half the stalls are packed away” is evidence that…', evidence:['e5'], options:[
+              {t:'the market is winding down by late afternoon', ok:true, tag:'Supported', why:'Half packed away by four.'},
+              {t:'the market has completely closed', tag:'Claims too much', why:'Half, not all.'},
+              {t:'the stalls were never opened', tag:'Doesn’t fit', why:'They are being packed away.'}]}
+          ]}
+      ],
+      sheet:{ part:'C: Questions 12 to 15', task:'Decide what each quote is evidence of.',
+        do:['Reread the quote on its own.','Cross out options with all, whole or everyone.','Cross out options that take a comparison literally.'],
+        remember:['“Some” never means all.'] }
+    }},
+
+    /* ---------- 5 ---------- */
+    { title:'Summary', short:'The whole text, not one bit', stages:{
+      concept:{
+        title:'A summary covers the whole text, in order.',
+        lead:'Three traps: one detail, too general, or something not in the text.',
+        points:[
+          {tone:'teal', h:'Whole shape', t:'Start, middle, end in one sentence.'},
+          {tone:'amber', h:'One detail', t:'True, but only a small part.'},
+          {tone:'rose', h:'Too general', t:'If it could describe any text, it is too vague.'}
+        ]},
+      practise:[
+        { kind:'drill', label:'Drill 1', title:'Summary, detail or too general?',
+          prompt:'Text: a lighthouse describes the empty winter sea, then the boats that return in spring, and the one boat that never came back.',
+          options:['Good summary','Only one detail','Too general'],
+          items:[
+            {q:'A lighthouse describes the empty winter sea, the boats returning in spring, and the one that never returned.', a:0, why:'Whole shape, in order.'},
+            {q:'The lighthouse keeps its light on all winter.', a:1, why:'A small part.'},
+            {q:'The sea can be a dangerous place for people who work on it.', a:2, why:'Could describe any sea story.'},
+            {q:'One boat did not come home.', a:1, why:'The ending only.'},
+            {q:'Life by the coast changes with the seasons and is sometimes sad.', a:2, why:'Too vague.'},
+            {q:'A lighthouse narrator moves from a deserted winter, to the spring fleet, to a single missing boat.', a:0, why:'Whole shape.'}
+          ]},
+        { kind:'drill', label:'Drill 2', title:'Harder: pick the summary',
+          prompt:'Text: a school photocopier lists the jobs it did on Monday, remembers a teacher who once fixed it, and refuses to print anything after 3pm.',
+          options:['Good summary','Only one detail','Too general','Not in the text'],
+          items:[
+            {q:'A photocopier describes Monday’s work, recalls the teacher who once repaired it, then stops printing after three.', a:0, why:'All three parts, in order.'},
+            {q:'The photocopier jams because nobody maintains school equipment properly.', a:3, why:'The text never says why.'},
+            {q:'A teacher once fixed the photocopier.', a:1, why:'One memory.'},
+            {q:'Machines have a hard life in busy schools.', a:2, why:'Too vague.'},
+            {q:'The photocopier refuses to print after 3pm.', a:1, why:'The ending only.'},
+            {q:'Monday in a school is a very busy day for everyone who works there.', a:2, why:'Could describe any school text.'}
+          ]}
+      ],
+      sheet:{ part:'B: Question 11', task:'Which sentence best sums up what happens in this text?',
+        do:['Check each option covers the whole text.','Cross out options that give one detail only.','Cross out options too vague to be about this text.'],
+        remember:['The best summary follows the order of the text.'] }
+    }},
+
+    /* ---------- 6 ---------- */
+    { title:'Best explanation', short:'Section D', stages:{
+      concept:{
+        title:'A strong explanation shows HOW the words work.',
+        lead:'Name the clue, then say what it does to the reader.',
+        points:[
+          {tone:'rose', h:'Retelling', t:'Says what happened again, in longer words.'},
+          {tone:'amber', h:'Too vague', t:'“The writer uses an interesting word.”'},
+          {tone:'teal', h:'Overstated', t:'Claims more than the quote shows.'},
+          {tone:'lav', h:'Strong', t:'Clue plus effect: what it makes the reader think.'}
+        ]},
+      practise:[
+        { kind:'drill', label:'Drill 1', title:'Name the weakness', prompt:'Claim: the verb shows the crowd leaving gradually. Quote: “siphoning away some of the gawkers”.',
+          options:['Retelling','Too vague','Overstated','Strong'],
+          items:[
+            {q:'A performer dressed as a hot dog arrives and people go over to watch him instead.', a:0, why:'Just says it again.'},
+            {q:'The writer chooses an interesting verb here.', a:1, why:'Says nothing about how it works.'},
+            {q:'This proves the statue has lost her whole audience and must leave.', a:2, why:'“Some” means part.'},
+            {q:'Siphoning draws liquid off slowly, and “some” confirms it: he is taking part of her crowd, bit by bit.', a:3, why:'Meaning of the word plus its effect.'},
+            {q:'The word siphoning is used to describe the crowd.', a:1, why:'No explanation.'},
+            {q:'The hot dog is coated in mustard and dances in the great hall.', a:0, why:'Retells a detail.'}
+          ]},
+        { kind:'drill', label:'Drill 2', title:'Which explanation is strongest?', prompt:'One clue, one effect. That is what you are looking for.',
+          items:[
+            {q:'Claim: opposites in the sentence give away a hard word.<span class="small">“purposeful or befuddled, harried or calm”</span>',
+             o:['Four words describe the commuters in this paragraph.','The words come in opposite pairs, so befuddled must mean the opposite of purposeful: confused.','The writer uses words a reader may not know.'], a:1, why:'Names the pattern and uses it.'},
+            {q:'Claim: the writer delays telling us what the narrator is.<span class="small">“I, you see, am an oversized clock”</span>',
+             o:['The narrator is a big clock high on the wall of the station.','Two sentences pass first, so we picture a person; the reveal then makes “bird’s-eye perspective” fit.','Something surprising is revealed in the first paragraph.'], a:1, why:'Explains the delay and its effect on the reader.'},
+            {q:'Claim: a nearby word unlocks a harder one.<span class="small">“encircled by onlookers”</span>',
+             o:['Onlookers and gawkers are two different groups.','People stand in a ring around the performer, watching her closely.','Onlookers names the same crowd that becomes gawkers later, so the easier word hands you the meaning.'], a:2, why:'Links the two words and says what that does.'},
+            {q:'Claim: one word carries two meanings.<span class="small">“plastic buckets fill with change”</span>',
+             o:['Change meant altering a few lines earlier and means coins here; the bucket is what settles it.','The writer uses the same word twice in one paragraph.','People drop coins into the buckets the performers leave out.'], a:0, why:'Both meanings plus the deciding clue.'}
+          ]},
+        { kind:'frame', label:'Drill 3', title:'Build a strong explanation',
+          prompt:'Claim: the comparison shows how hard the hall is to cross. Quote: “an obstacle course of scurrying people”.',
+          template:'The clue is {0}. It shows {1}, because {2}. This makes the reader {3}.',
+          slots:[
+            [{t:'the phrase “obstacle course”', ok:true, why:'The clue is the comparison itself.'},
+             {t:'the word “people”', why:'Nothing to explain there.'},
+             {t:'the whole paragraph', why:'Too wide to be a clue.'}],
+            [{t:'the hall must be picked through carefully', ok:true, why:'What the comparison shows.'},
+             {t:'the station has real barriers', why:'Too literal.'},
+             {t:'everyone is running a race', why:'Claims too much.'}],
+            [{t:'an obstacle course is something you dodge and weave through', ok:true, why:'Explains the comparison.'},
+             {t:'the writer likes interesting words', why:'Too vague.'},
+             {t:'the commuters are described in the second paragraph', why:'Retelling.'}],
+            [{t:'picture the crowd as something to be dodged, not simply walked past', ok:true, why:'Names the effect.'},
+             {t:'read the sentence twice', why:'Not an effect.'},
+             {t:'think the station is closed', why:'Not supported.'}]
+          ]}
+      ],
+      sheet:{ part:'D: Questions 16 to 20', task:'Which explanation proves the claim best?',
+        do:['Cross out any option that only retells the quote.','Cross out any option that is too vague.','Cross out any option that claims more than the quote shows.','Keep the one that names a clue and its effect.'],
+        remember:['Strong = clue plus effect.'] }
+    }}
+  ]
+};
+
+const LESSONS = [L13];
+
+
+
+
+
+/* ================= ENGINE ================= */
+const STAGE_ORDER = ['intro','concept','model','practise','sheet'];
+const STAGE_LABEL = {intro:'Overview', concept:'Rules', model:'Model', practise:'Drills', sheet:'On the sheet'};
+const MARKS = {
+  when:{label:'Box: when', shape:'box', color:'--amber-ink'},
+  where:{label:'Circle: where', shape:'circle', color:'--teal-ink'},
+  mood:{label:'Underline: mood', shape:'under', color:'--rose-ink'},
+  event:{label:'Circle: event', shape:'circle', color:'--rose-ink'},
+  detail:{label:'Underline: detail', shape:'under', color:'--teal-ink'},
+  feel:{label:'Underline: feeling', shape:'under', color:'--lav-ink'},
+  signal:{label:'Box: time signal', shape:'box', color:'--rose-ink'},
+  happen:{label:'Underline: key event', shape:'under', color:'--teal-ink'},
+  reveal:{label:'Box: the reveal', shape:'box', color:'--rose-ink'},
+  clue:{label:'Underline: the clue', shape:'under', color:'--teal-ink'}
+};
+const S = { lesson:0, block:0, stage:0, sub:0, scores:{}, rail:true, theme:null };
+
+function h(tag, attrs, ...kids){
+  const el = document.createElement(tag);
+  if (attrs) for (const [k,v] of Object.entries(attrs)){
+    if (v == null || v === false) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'html') el.innerHTML = v;
+    else if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  for (const kid of kids.flat()){
+    if (kid == null || kid === false) continue;
+    el.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+  }
+  return el;
+}
+const btn = (label, fn, cls='') => h('button', {class:'btn '+cls, type:'button', onclick:fn}, label);
+const $ = id => document.getElementById(id);
+function shuffle(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]]; } return b; }
+
+function load(){ try{ const s = JSON.parse(localStorage.getItem('5si-close-reading-clock') || '{}'); ['lesson','block','stage','rail','theme'].forEach(k=>{ if (s[k] !== undefined) S[k]=s[k]; }); }catch(e){} }
+function save(){ try{ localStorage.setItem('5si-u1w2-l12-golf-iwb', JSON.stringify({lesson:S.lesson,block:S.block,stage:S.stage,rail:S.rail,theme:S.theme})); }catch(e){} }
+
+function head(root, d){
+  if (d.title) root.append(h('h2', {class:'title'}, d.title));
+  if (d.prompt) root.append(h('p', {class:'prompt'}, d.prompt));
+}
+
+function shapeSvg(shape, colorVar){
+  const c = `var(${colorVar})`;
+  if (shape === 'box') return `<svg viewBox="0 0 40 22" aria-hidden="true"><rect x="3" y="4" width="34" height="14" rx="2" fill="none" stroke="${c}" stroke-width="3"/></svg>`;
+  if (shape === 'circle') return `<svg viewBox="0 0 40 22" aria-hidden="true"><ellipse cx="20" cy="11" rx="17" ry="8" fill="none" stroke="${c}" stroke-width="3"/></svg>`;
+  return `<svg viewBox="0 0 40 22" aria-hidden="true"><line x1="3" y1="15" x2="37" y2="15" stroke="${c}" stroke-width="3.5" stroke-linecap="round"/></svg>`;
+}
+
+/* passages: [text|key1/key2|note]  ?key = optional, x = distractor */
+function parsePassage(src){
+  const out=[]; const re=/\[([^\]|]+)\|([^\]|]*)(?:\|([^\]]*))?\]/g; let last=0, m, i=0;
+  while ((m = re.exec(src))){
+    if (m.index > last) out.push({text:src.slice(last, m.index)});
+    const keys = m[2] ? m[2].split('/') : [];
+    out.push({ text:m[1], keys, note:m[3]||'', id:i++,
+      req: keys.filter(k=>k && k[0] !== '?' && k !== 'x'),
+      opt: keys.filter(k=>k[0] === '?').map(k=>k.slice(1)) });
+    last = re.lastIndex;
+  }
+  if (last < src.length) out.push({text:src.slice(last)});
+  return out;
+}
+function buildPassage(src, cls){
+  const tokens = parsePassage(src);
+  const el = h('div', {class:'passage' + (cls ? ' '+cls : '')});
+  let p = h('p'); el.append(p);
+  const chunks = [];
+  tokens.forEach(t=>{
+    if (t.id == null){
+      t.text.split('\n\n').forEach((part, i)=>{ if (i>0){ p = h('p'); el.append(p); } if (part) p.append(document.createTextNode(part)); });
+    } else {
+      t.el = h('span', {class:'chunk', 'data-i':t.id}, t.text);
+      chunks.push(t); p.append(t.el);
+    }
+  });
+  return {el, chunks};
+}
+function setMark(c, key){ c.el.className = 'chunk' + (key ? ' mk mk-'+key : ''); c.el.querySelectorAll('.nb').forEach(n=>n.remove()); }
+
+/* ---------- concept ---------- */
+function rConcept(d, root){
+  root.append(h('h2', {class:'title'}, d.title));
+  if (d.lead) root.append(h('p', {class:'prompt'}, d.lead));
+  const pts = h('div', {class:'points'});
+  (d.points||[]).forEach(p => pts.append(h('div', {class:'point', style:`--tone:var(--${p.tone});--tone-ink:var(--${p.tone}-ink)`}, h('h3', null, p.h), h('p', null, p.t))));
+  root.append(pts);
+  if (d.demo){
+    const P = buildPassage(d.demo, 'small');
+    const notes = h('ol', {class:'notes'});
+    let n = 0;
+    P.chunks.forEach(c=>{ if (c.req[0]){ setMark(c, c.req[0]); if (c.note){ n++; c.el.append(h('span',{class:'nb'}, n)); notes.append(h('li', {class:'k-'+c.req[0]}, h('span',{class:'nb'}, n), c.note)); } } });
+    root.append(h('div', {class:'demo-wrap'}, P.el, notes));
+    if (d.demoNote) root.append(h('p', {class:'demo-note'}, d.demoNote));
+  }
+  if (d.compare){
+    const c = d.compare;
+    root.append(h('div', {class:'compare'},
+      h('div', {class:'weak'}, h('div',{class:'lab'}, 'Weak note'), h('div',{class:'phrase'}, c.phrase), h('div',{class:'hand'}, c.weak), h('div',{class:'demo-note'}, c.weakWhy)),
+      h('div', {class:'strong'}, h('div',{class:'lab'}, 'Strong note'), h('div',{class:'phrase'}, c.phrase), h('div',{class:'hand'}, c.strong), h('div',{class:'demo-note'}, c.strongWhy))));
+  }
+  if (d.moodline){
+    root.append(h('div', {html:`<svg class="moodline" viewBox="0 0 640 200" role="img" aria-label="A mood line: low before the turning point, rising sharply after it">
+      <line x1="40" y1="170" x2="610" y2="170" stroke="var(--line)" stroke-width="2"/>
+      <path d="M40 140 C120 150, 200 135, 290 148 L330 60 C400 45, 520 40, 610 36" fill="none" stroke="var(--rose-ink)" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="310" cy="104" r="11" fill="var(--amber)" stroke="var(--amber-ink)" stroke-width="3"/>
+      <text x="100" y="118" font-family="Figtree, sans-serif" font-size="20" font-weight="700" fill="var(--rose-ink)">Before</text>
+      <text x="330" y="112" font-family="Figtree, sans-serif" font-size="20" font-weight="700" fill="var(--amber-ink)">Turning point</text>
+      <text x="480" y="80" font-family="Figtree, sans-serif" font-size="20" font-weight="700" fill="var(--teal-ink)">After</text>
+      <text x="40" y="194" font-family="Figtree, sans-serif" font-size="15" fill="var(--ink-2)">Same place, same time. Different feeling.</text></svg>`}));
+  }
+}
+
+/* ---------- annotate ---------- */
+function toolbox(tools, current, onPick){
+  const box = h('div', {class:'toolbox', role:'toolbar', 'aria-label':'Pens'});
+  tools.forEach(k=>{
+    const m = MARKS[k];
+    box.append(h('button', {class:'tool', type:'button', 'aria-pressed': String(current()===k), onclick:()=>onPick(k)}, h('span',{html:shapeSvg(m.shape, m.color)}), m.label));
+  });
+  return box;
+}
+function rAnnotate(d, root){
+  head(root, d);
+  if (d.mode === 'reveal'){
+    const legend = h('div', {class:'toolbox'});
+    d.tools.forEach(k=>{ const m=MARKS[k]; legend.append(h('span',{class:'tool', style:'cursor:default'}, h('span',{html:shapeSvg(m.shape,m.color)}), m.label)); });
+    root.append(legend);
+    const P = buildPassage(d.passage);
+    const targets = P.chunks.filter(c=>c.req.length);
+    const notes = h('ol', {class:'notes'});
+    root.append(h('div', {class:'split'}, P.el, h('div', null, notes)));
+    let k = 0;
+    const next = btn('Show next mark', ()=>{ k=Math.min(targets.length,k+1); draw(); }, 'primary');
+    const all = btn('Show all', ()=>{ k=targets.length; draw(); });
+    const reset = btn('Clear', ()=>{ k=0; draw(); }, 'ghost');
+    root.append(h('div', {class:'row'}, next, all, reset));
+    function draw(){
+      notes.innerHTML='';
+      targets.forEach((c,i)=>{
+        setMark(c, i<k ? c.req[0] : null);
+        if (i<k){ c.el.append(h('span',{class:'nb'}, i+1)); notes.append(h('li', {class:'k-'+c.req[0]}, h('span',{class:'nb'}, i+1), c.note || MARKS[c.req[0]].label)); }
+      });
+      if (!k) notes.append(h('li', {class:'notes-empty'}, 'Notes appear here as each mark goes on.'));
+      next.disabled = k>=targets.length;
+    }
+    draw();
+    return;
+  }
+  // mark mode
+  let tool = d.tools[0];
+  const marks = new Map();
+  let checked = false;
+  const tbWrap = h('div');
+  const P = buildPassage(d.passage, 'markable');
+  const side = h('div');
+  root.append(tbWrap, h('div', {class:'split'}, P.el, side));
+  const summary = h('div', {class:'summary', hidden:true});
+  root.append(h('div', {class:'row'},
+    btn('Check', ()=>{ checked=true; draw(); }, 'primary'),
+    btn('Show suggested marks', ()=>{ P.chunks.forEach(c=>{ if (c.req[0]) marks.set(c.id, c.req[0]); else marks.delete(c.id); }); checked=true; draw(); }),
+    btn('Clear', ()=>{ marks.clear(); checked=false; draw(); }, 'ghost')), summary);
+  P.chunks.forEach(c=> c.el.addEventListener('click', ()=>{
+    if (marks.get(c.id) === tool) marks.delete(c.id); else marks.set(c.id, tool);
+    checked=false; draw();
+  }));
+  function draw(){
+    tbWrap.innerHTML=''; tbWrap.append(toolbox(d.tools, ()=>tool, k=>{ tool=k; draw(); }));
+    let found=0, need=0, wrong=0;
+    P.chunks.forEach(c=>{
+      const mk = marks.get(c.id);
+      setMark(c, mk);
+      if (c.req.length) need++;
+      if (!checked) return;
+      const okKeys = c.req.concat(c.opt);
+      if (mk){
+        if (okKeys.includes(mk)){ c.el.classList.add('ck-ok'); if (c.req.length) found++; }
+        else { c.el.classList.add('ck-bad'); wrong++; }
+      } else if (c.req.length){ c.el.classList.add('ck-miss'); }
+    });
+    side.innerHTML='';
+    side.append(h('p', {class:'prompt'}, 'Tap a phrase to mark it with the pen you picked. Tap it again to remove the mark.'));
+    if (checked){
+      summary.hidden=false;
+      summary.textContent = `Found ${found} of ${need}. ` + (wrong ? `${wrong} mark${wrong>1?'s need':' needs'} another look (crossed). ` : '') + (found<need ? 'Dashed outlines show phrases still to mark.' : 'Every key phrase is marked.');
+    } else summary.hidden=true;
+  }
+  draw();
+}
+
+/* ---------- sort ---------- */
+function rSort(d, root){
+  head(root, d);
+  if (d.text) root.append(h('div', {class:'passage small'}, h('p', null, d.text)));
+  const placed = d.items.map(()=>null);
+  let sel = null, checked = false;
+  const pool = h('div', {class:'pool'});
+  const bins = h('div', {class:'bins', style:`--n:${d.bins.length}`});
+  const binBody = {}, binEl = {};
+  d.bins.forEach(b=>{
+    const body = h('div', {class:'bin-body'});
+    const el = h('div', {class:'bin', role:'button', tabindex:'0', 'aria-label':'Place in '+b.label, onclick:()=>drop(b.id), onkeydown:e=>{ if (e.key==='Enter'||e.key===' '){ e.preventDefault(); drop(b.id); } }}, h('div', {class:'bin-label'}, b.label), body);
+    binBody[b.id]=body; binEl[b.id]=el; bins.append(el);
+  });
+  const fb = h('div');
+  root.append(pool, bins, h('div', {class:'row'},
+    btn('Check', ()=>{ checked=true; draw(); }, 'primary'),
+    btn('Show answers', ()=>{ d.items.forEach((it,i)=>placed[i]=it.bin); sel=null; checked=true; draw(); }),
+    btn('Reset', ()=>{ placed.fill(null); sel=null; checked=false; draw(); }, 'ghost')), fb);
+  function drop(id){ if (sel == null) return; placed[sel]=id; sel=null; checked=false; draw(); }
+  function draw(){
+    pool.innerHTML=''; Object.values(binBody).forEach(b=>b.innerHTML='');
+    Object.values(binEl).forEach(b=>b.classList.toggle('ready', sel!=null));
+    d.items.forEach((it,i)=>{
+      let cls = 'chip';
+      if (sel===i) cls+=' sel';
+      if (checked && placed[i]) cls += placed[i]===it.bin ? ' ok' : ' bad';
+      const chip = h('button', {class:cls, type:'button', onclick:e=>{ e.stopPropagation(); if (placed[i]){ placed[i]=null; checked=false; } else sel = sel===i ? null : i; draw(); }}, it.t);
+      (placed[i] ? binBody[placed[i]] : pool).append(chip);
+    });
+    if (!pool.children.length) pool.append(h('span', {class:'pool-empty'}, 'All placed. Press Check.'));
+    fb.innerHTML='';
+    if (checked){
+      const right = d.items.filter((it,i)=>placed[i]===it.bin).length;
+      const box = h('div', {class:'fb '+(right===d.items.length?'ok':'info')}, h('strong', null, `${right} of ${d.items.length} in the right place. `));
+      const whys = h('ul', {class:'whys'});
+      d.items.forEach((it,i)=>{ if (placed[i] && placed[i]!==it.bin) whys.append(h('li', null, `“${it.t}” belongs in ${d.bins.find(b=>b.id===it.bin).label}: ${it.why}`)); });
+      if (right===d.items.length) d.items.forEach(it=> whys.append(h('li', null, `“${it.t}”: ${it.why}`)));
+      box.append(whys);
+      if (right===d.items.length && d.after) box.append(h('p', {class:'hand', style:'margin:.6rem 0 0'}, d.after));
+      fb.append(box);
+    }
+  }
+  draw();
+}
+
+/* ---------- questions ---------- */
+function rQuestions(d, root){
+  head(root, d);
+  const P = d.passage ? buildPassage(d.passage) : null;
+  const panel = h('div', {class:'qpanel'});
+  root.append(P ? h('div', {class:'split'}, P.el, panel) : h('div', {class:'single'}, panel));
+  const st = d.items.map(()=>({picked:new Set(), last:null, help:false}));
+  let qi = 0;
+  const optsFor = it => it.options || d.options.map((t,i)=>({t, ok:i===it.a, why: i===it.a ? it.why : (d.wrong || 'Not this one.')}));
+  function draw(){
+    panel.innerHTML='';
+    const it = d.items[qi], s = st[qi], O = optsFor(it);
+    if (P) P.chunks.forEach(c=>setMark(c, null));
+    const nav = h('div', {class:'qnav'});
+    d.items.forEach((_,i)=>{
+      const solved = optsFor(d.items[i]).some((o,j)=>o.ok && st[i].picked.has(j));
+      nav.append(h('button', {class:'dot'+(solved?' done':''), type:'button', 'aria-current':String(i===qi), 'aria-label':'Question '+(i+1), onclick:()=>{ qi=i; draw(); }}, i+1));
+    });
+    panel.append(nav, h('div', {class:'q', html:it.q}));
+    const list = h('div', {class:'opts'});
+    O.forEach((o,j)=>{
+      const picked = s.picked.has(j);
+      list.append(h('button', {class:'opt'+(picked ? (o.ok?' ok':' bad') : ''), type:'button', onclick:()=>{ s.picked.add(j); s.last=j; draw(); }},
+        h('span', {class:'letter'}, 'ABCDEF'[j]), h('span', {class:'otext', html:o.t})));
+    });
+    panel.append(list);
+    if (s.last != null){
+      const o = O[s.last];
+      panel.append(h('div', {class:'fb '+(o.ok?'ok':'bad')}, h('strong', null, (o.tag ? o.tag : (o.ok ? 'Yes' : 'Not quite')) + '. '), h('span', {html:o.why || ''})));
+    }
+    const row = h('div', {class:'row'});
+    if (it.evidence || it.helped) row.append(btn(s.help ? 'Hide what helped' : 'Show what helped', ()=>{ s.help=!s.help; draw(); }));
+    row.append(btn('Previous', ()=>{ qi=Math.max(0,qi-1); draw(); }, 'ghost'));
+    const nx = btn('Next question', ()=>{ qi=Math.min(d.items.length-1,qi+1); draw(); }, 'primary');
+    nx.disabled = qi>=d.items.length-1;
+    row.append(nx);
+    panel.append(row);
+    if (s.help){
+      if (P && it.evidence) P.chunks.forEach(c=>{ if (c.keys.some(k=>it.evidence.includes(k))) setMark(c, 'evidence'); });
+      if (it.helped) panel.append(h('div', {class:'helped hand'}, it.helped));
+    }
+  }
+  draw();
+}
+
+/* ---------- frame ---------- */
+function rFrame(d, root){
+  head(root, d);
+  const order = d.slots.map(s=>shuffle(s.map((_,j)=>j)));
+  const picks = d.slots.map(()=>null);
+  let active = 0, last = null;
+  const para = h('p', {class:'frame-para'});
+  const chooser = h('div', {class:'chooser'});
+  root.append(para, chooser, h('div', {class:'row'}, btn('Start again', ()=>{ picks.fill(null); active=0; last=null; draw(); }, 'ghost')));
+  function draw(){
+    para.innerHTML='';
+    d.template.split(/(\{\d+\})/).forEach(part=>{
+      const m = part.match(/^\{(\d+)\}$/);
+      if (!m){ if (part) para.append(document.createTextNode(part)); return; }
+      const i = +m[1], o = picks[i]!=null ? d.slots[i][picks[i]] : null;
+      para.append(h('button', {class:'gap'+(i===active?' active':'')+(o?(o.ok?' ok':' bad'):''), type:'button', onclick:()=>{ active=i; draw(); }}, o ? o.t : `gap ${i+1}`));
+    });
+    chooser.innerHTML='';
+    const done = picks.every((p,i)=>p!=null && d.slots[i][p].ok);
+    chooser.append(h('div', {class:'chooser-label'}, `Choose for gap ${active+1}`));
+    const row = h('div', {class:'opts'});
+    const slot = active;
+    order[slot].forEach(j=>{
+      const o = d.slots[slot][j];
+      row.append(h('button', {class:'opt'+(picks[slot]===j?(o.ok?' ok':' bad'):''), type:'button', onclick:()=>{
+        picks[slot]=j; last={i:slot,j};
+        if (o.ok){ const nxt = picks.findIndex((p,i)=>p==null || !d.slots[i][p].ok); if (nxt>=0) active=nxt; }
+        draw();
+      }}, h('span', {class:'otext'}, o.t)));
+    });
+    chooser.append(row);
+    if (last){
+      const o = d.slots[last.i][last.j];
+      chooser.append(h('div', {class:'fb '+(o.ok?'ok':'bad')}, h('strong', null, `Gap ${last.i+1}: ${o.ok?'yes':'not quite'}. `), o.why || ''));
+    }
+    if (done) chooser.append(h('div', {class:'fb ok'}, h('strong', null, 'Complete. '), 'Read it aloud. Does every sentence do one job?'));
+  }
+  draw();
+}
+
+/* ---------- drill ---------- */
+function rDrill(d, root){
+  head(root, d);
+  const card = h('div', {class:'qf'});
+  const bar = h('div', {class:'qf-count'});
+  root.append(bar, card);
+  let i = 0, picked = null, first = 0, done = 0, items = d.items.slice();
+  function draw(){
+    bar.textContent = i < items.length ? `Card ${i+1} of ${items.length}  \u00b7  ${first} right first time` : '';
+    card.innerHTML = '';
+    if (i >= items.length){
+      card.append(h('div', {class:'qf-q'}, `${first} of ${items.length} right first time.`),
+        h('div', {class:'row'}, btn('Again', ()=>{ i=0; picked=null; first=0; draw(); }, 'primary'),
+          btn('Shuffle and repeat', ()=>{ items=shuffle(d.items); i=0; picked=null; first=0; draw(); })));
+      return;
+    }
+    const it = items[i], O = it.o || d.options;
+    card.append(h('div', {class:'qf-q', html:it.q}));
+    const list = h('div', {class:'opts'});
+    O.forEach((t,j)=>{
+      let cls = 'opt';
+      if (picked!=null){ if (j===it.a) cls+=' ok'; else if (j===picked) cls+=' bad'; }
+      list.append(h('button', {class:cls, type:'button', onclick:()=>{ if (picked==null && j===it.a) first++; picked=j; draw(); }}, h('span',{class:'otext'}, t)));
+    });
+    card.append(list);
+    if (picked!=null) card.append(h('div', {class:'fb '+(picked===it.a?'ok':'bad')}, h('strong', null, `${picked===it.a?'Yes':'No'}: ${O[it.a]}. `), it.why || ''));
+    card.append(h('div', {class:'row'}, picked==null ? btn('Reveal', ()=>{ picked=it.a; draw(); }, 'ghost') : null,
+      btn(i===items.length-1 ? 'Finish' : 'Next card', ()=>{ i++; picked=null; draw(); }, 'primary')));
+  }
+  draw();
+}
+
+/* ---------- sheet & intro ---------- */
+function rSheet(d, root){
+  const L = LESSONS[S.lesson];
+  const card = h('div', {class:'sheet'});
+  card.append(h('h2', {class:'title', style:'font-size:clamp(1.5rem,2.1vw,2.2rem)'}, `Now on your sheet: ${L.sheet}`), h('h3', null, d.part), h('blockquote', null, d.task));
+  const todo = h('ol', {class:'todo'});
+  d.do.forEach(t=>{ const b = h('button', {type:'button', onclick:()=>b.classList.toggle('done')}, t); todo.append(h('li', null, b)); });
+  const rem = h('ul', {class:'remember'});
+  (d.remember||[]).forEach(t=>rem.append(h('li', null, t)));
+  card.append(h('div', {class:'sheet-cols'}, h('div', null, h('h4', null, 'What to do'), todo), h('div', null, h('h4', null, 'Remember'), rem,
+    d.frame ? h('div', {class:'frame-box'}, h('h4', null, 'Sentence frame'), h('div', {class:'hand'}, d.frame)) : null)));
+  root.append(card);
+}
+function rIntro(d, root){
+  const L = LESSONS[S.lesson];
+  root.append(h('h2', {class:'title'}, d.title), h('p', {class:'prompt'}, d.lead));
+  const map = h('div', {class:'map'});
+  d.map.forEach(m=> map.append(h('button', {class:'map-row', type:'button', onclick:()=>go(S.lesson, m.block, 0)}, h('span', null, m.part), h('span', {class:'map-skill'}, m.skill))));
+  root.append(map, h('div', {class:'flow'}, 'Every block:', ['Rules','Drills','On the sheet'].map(t=>h('span', null, t))));
+}
+
+/* ---------- navigation ---------- */
+function stagesOf(b){ return STAGE_ORDER.filter(k=>b.stages[k]); }
+function go(l, b, s){ S.lesson=l; S.block=b; S.stage=s; S.sub=0; render(); }
+function next(){
+  const L = LESSONS[S.lesson], st = stagesOf(L.blocks[S.block]);
+  if (S.stage < st.length-1) go(S.lesson, S.block, S.stage+1);
+  else if (S.block < L.blocks.length-1) go(S.lesson, S.block+1, 0);
+}
+function prev(){
+  const L = LESSONS[S.lesson];
+  if (S.stage > 0) go(S.lesson, S.block, S.stage-1);
+  else if (S.block > 0) go(S.lesson, S.block-1, stagesOf(L.blocks[S.block-1]).length-1);
+}
+function renderActivity(key, d, root){
+  if (key==='intro') return rIntro(d, root);
+  if (key==='concept') return rConcept(d, root);
+  if (key==='sheet') return rSheet(d, root);
+  const R = {annotate:rAnnotate, sort:rSort, questions:rQuestions, frame:rFrame, drill:rDrill}[d.kind];
+  if (R) R(d, root); else root.append(h('p', null, 'Unknown activity.'));
+}
+function render(){
+  const L = LESSONS[S.lesson];
+  if (S.block >= L.blocks.length) S.block = 0;
+  const B = L.blocks[S.block], st = stagesOf(B);
+  if (S.stage >= st.length) S.stage = 0;
+  document.body.dataset.lesson = L.id;
+  document.body.classList.toggle('rail-off', !S.rail);
+  if (S.theme) document.documentElement.setAttribute('data-theme', S.theme); else document.documentElement.removeAttribute('data-theme');
+
+  const tabs = $('lessonTabs'); tabs.innerHTML='';
+  LESSONS.forEach((l,i)=> tabs.append(h('button', {type:'button', role:'tab', 'aria-selected':String(i===S.lesson), onclick:()=>go(i,0,0)}, h('small', null, `${l.code}: ${l.sheet}`), h('b', null, l.title))));
+  $('barTitle').textContent = B.intro ? L.title : B.title;
+
+  const rail = $('rail'); rail.innerHTML='';
+  L.blocks.forEach((b,i)=> rail.append(h('li', null, h('button', {type:'button', 'aria-current':String(i===S.block), onclick:()=>go(S.lesson,i,0)},
+    h('span', {class:'num'}, b.intro ? '' : i), h('span', null, h('span', {class:'bt'}, b.title), h('span', {class:'bs'}, b.short))))));
+
+  const stTabs = $('stageTabs'); stTabs.innerHTML='';
+  st.forEach((k,i)=> stTabs.append(h('button', {class:'stage-tab', type:'button', role:'tab', 'aria-current':String(i===S.stage), onclick:()=>go(S.lesson,S.block,i)}, h('span', {class:'n'}, i+1), STAGE_LABEL[k])));
+
+  const root = $('stage'); root.innerHTML='';
+  root.classList.remove('enter'); void root.offsetWidth; root.classList.add('enter');
+  const key = st[S.stage]; const d = B.stages[key];
+  if (Array.isArray(d)){
+    if (S.sub >= d.length) S.sub = 0;
+    const sub = h('div', {class:'subtabs'});
+    d.forEach((a,i)=> sub.append(h('button', {class:'btn', type:'button', 'aria-pressed':String(i===S.sub), onclick:()=>{ S.sub=i; render(); }}, a.label || `Part ${i+1}`)));
+    root.append(sub);
+    renderActivity(key, d[S.sub], root);
+  } else renderActivity(key, d, root);
+
+  const atStart = S.block===0 && S.stage===0;
+  const atEnd = S.block===L.blocks.length-1 && S.stage===st.length-1;
+  $('prevBtn').disabled = atStart;
+  $('nextBtn').disabled = atEnd;
+  let nextLabel = 'Next';
+  if (!atEnd){ nextLabel = S.stage < st.length-1 ? `Next: ${STAGE_LABEL[st[S.stage+1]]}` : `Next: ${L.blocks[S.block+1].title}`; }
+  $('nextBtn').textContent = nextLabel;
+  save();
+}
+
+/* ---------- chrome ---------- */
+let timerId = null, timerEnd = 0;
+function fmt(ms){ const s=Math.max(0,Math.ceil(ms/1000)); return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; }
+function startTimer(min){
+  clearInterval(timerId); const b=$('timerBtn'); b.classList.remove('ring');
+  if (!min){ b.textContent='Timer'; return; }
+  timerEnd = Date.now() + min*60000; b.textContent = fmt(min*60000);
+  timerId = setInterval(()=>{ const left = timerEnd-Date.now(); b.textContent = fmt(left); if (left<=0){ clearInterval(timerId); b.textContent='Time!'; b.classList.add('ring'); } }, 250);
+}
+$('timerBtn').addEventListener('click', e=>{ e.stopPropagation(); $('timerPop').hidden = !$('timerPop').hidden; });
+$('timerPop').addEventListener('click', e=>{ const m = e.target.closest('[data-min]'); if (!m) return; startTimer(+m.dataset.min); $('timerPop').hidden = true; });
+document.addEventListener('click', e=>{ if (!e.target.closest('.tools')) $('timerPop').hidden = true; });
+$('railBtn').addEventListener('click', ()=>{ S.rail=!S.rail; render(); });
+$('themeBtn').addEventListener('click', ()=>{
+  const dark = S.theme ? S.theme==='dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  S.theme = dark ? 'light' : 'dark'; render();
+});
+$('fsBtn').addEventListener('click', ()=>{ try{ if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }catch(e){} });
+$('prevBtn').addEventListener('click', prev);
+$('nextBtn').addEventListener('click', next);
+document.addEventListener('keydown', e=>{
+  if (e.target.closest && e.target.closest('input,textarea')) return;
+  if (e.key==='ArrowRight' || e.key==='PageDown'){ e.preventDefault(); next(); }
+  if (e.key==='ArrowLeft' || e.key==='PageUp'){ e.preventDefault(); prev(); }
+});
+load();
+render();
+</script>
+</body>
+</html>

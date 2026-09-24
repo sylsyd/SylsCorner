@@ -1,0 +1,417 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Polar Explorers: Hero's Journey</title>
+<meta name="description" content="Year 7 lesson mapping Bradfield's 'In the Polar Regions' onto the hero's journey: recap, practise together, then reading and writing tasks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Public+Sans:wght@400;600;700;800&family=Newsreader:ital,opsz@0,6..72;1,6..72&display=swap">
+<style>
+:root{
+  --frost:#eef4f7; --panel:#ffffff; --panel-2:#f4f9fb;
+  --ink:#0e2028; --ink-soft:#3f5a68; --ink-faint:#6f8b9b;
+  --ice:#dcecf4; --ice-line:#bcd8e7; --glacier:#1a6c93; --glacier-deep:#0e485f;
+  --signal:#d9741f; --signal-soft:#fbe4cd; --danger:#c0392b; --danger-soft:#f6d6d0;
+  --good:#1c7a56; --good-soft:#d7ece0; --misery:#8f6c10; --misery-soft:#f3e7c2;
+  --shadow:0 2px 0 rgba(14,32,40,.03),0 10px 30px rgba(14,32,40,.08);
+  --sans:'Public Sans',system-ui,sans-serif; --display:'Bricolage Grotesque',var(--sans); --serif:'Newsreader',Georgia,serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --frost:#08141c; --panel:#0f222d; --panel-2:#0c1c25;
+    --ink:#eaf2f7; --ink-soft:#a9c1cf; --ink-faint:#728d9d;
+    --ice:#123141; --ice-line:#265066; --glacier:#5fb4da; --glacier-deep:#93d3ef;
+    --signal:#f19d55; --signal-soft:#3a2917; --danger:#e5756a; --danger-soft:#3a1e1a;
+    --good:#5ccb9d; --good-soft:#16302a; --misery:#dcb85e; --misery-soft:#332a12;
+    --shadow:0 8px 26px rgba(0,0,0,.45);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --frost:#08141c; --panel:#0f222d; --panel-2:#0c1c25;
+  --ink:#eaf2f7; --ink-soft:#a9c1cf; --ink-faint:#728d9d;
+  --ice:#123141; --ice-line:#265066; --glacier:#5fb4da; --glacier-deep:#93d3ef;
+  --signal:#f19d55; --signal-soft:#3a2917; --danger:#e5756a; --danger-soft:#3a1e1a;
+  --good:#5ccb9d; --good-soft:#16302a; --misery:#dcb85e; --misery-soft:#332a12;
+  --shadow:0 8px 26px rgba(0,0,0,.45);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--frost);color:var(--ink);font-family:var(--sans);font-size:clamp(16px,1.25vw,22px);-webkit-text-size-adjust:100%}
+button{font:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.1;text-wrap:balance;font-weight:700}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border-bottom:1px solid var(--ice-line);
+  display:flex;flex-wrap:wrap;gap:.6rem 1.1rem;align-items:center;padding:.6rem 1.2rem}
+.brand{font-family:var(--display);font-weight:800;color:var(--glacier-deep);font-size:.95rem;line-height:1.15;display:flex;align-items:center;gap:.5rem}
+.brand small{display:block;color:var(--ink-faint);font-weight:700}
+nav{display:flex;gap:.4rem;flex:1;flex-wrap:wrap}
+nav button{border:2px solid var(--ice-line);background:transparent;color:var(--ink);border-radius:999px;padding:.4em 1.1em;font-weight:800}
+nav button.on{background:var(--glacier-deep);border-color:var(--glacier-deep);color:#fff}
+.tools{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
+.tb{border:1px solid var(--ice-line);background:var(--panel-2);color:var(--ink);border-radius:.6rem;padding:.35em .7em;font-weight:700}
+.tb:hover{border-color:var(--glacier)}
+.timer{font-variant-numeric:tabular-nums;font-weight:800;min-width:3.4em;text-align:center}
+.timer.flash{animation:fl .6s 6}
+@keyframes fl{50%{background:var(--danger-soft);color:var(--danger)}}
+
+main{max-width:70rem;margin:0 auto;padding:1.5rem 1.3rem 4rem}
+h1{font-size:clamp(1.9rem,3.4vw,3rem);margin:.1rem 0 .7rem}
+.lead{font-size:1.2rem;color:var(--ink-soft);margin:0 0 1.3rem;max-width:50rem}
+.card{background:var(--panel);border-radius:1.1rem;box-shadow:var(--shadow);padding:1.4rem 1.7rem;margin-bottom:1.1rem;border:1px solid var(--ice-line)}
+.tagline{font-family:var(--display);font-weight:800;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em;font-size:.8rem;margin:0 0 .55rem}
+
+/* recap chips */
+.recap{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.1rem}
+@media(max-width:720px){.recap{grid-template-columns:1fr}}
+.rc{background:var(--panel);border:1px solid var(--ice-line);border-left:.45rem solid currentColor;border-radius:.9rem;padding:.9rem 1.1rem;box-shadow:var(--shadow)}
+.rc b{display:block;font-family:var(--display);font-size:1.05rem}
+.rc span{display:block;color:var(--ink-soft);font-weight:600;font-size:.95rem;margin-top:.2rem}
+.rc.c1{color:var(--glacier)} .rc.c2{color:var(--danger)} .rc.c3{color:var(--signal)}
+
+/* hero's journey strip */
+.journey-wrap{background:var(--panel);border:1px solid var(--ice-line);border-radius:1.1rem;box-shadow:var(--shadow);padding:1.2rem 1.5rem;margin-bottom:1.1rem}
+.journey{display:flex;flex-wrap:wrap;gap:.55rem;align-items:stretch}
+.jst{flex:1;min-width:8.6rem;border-radius:.85rem;padding:.7rem .85rem;border:2px solid var(--ice-line);background:var(--panel-2)}
+.jst .n{font-family:var(--display);font-weight:800;font-size:.8rem;color:var(--ink-faint)}
+.jst b{display:block;font-family:var(--display);font-size:1rem;margin-top:.1rem;line-height:1.1}
+.jst small{display:block;font-weight:700;font-size:.74rem;margin-top:.35rem;opacity:.85}
+.jst.core{background:var(--ice);border-color:var(--glacier);color:var(--glacier-deep)}
+.jst.edge{color:var(--ink-soft)}
+.jst.gone{border-style:dashed;border-color:var(--danger);background:transparent;color:var(--danger)}
+.jkey{margin-top:.8rem;display:flex;gap:1.1rem;flex-wrap:wrap;font-size:.85rem;font-weight:700;color:var(--ink-soft)}
+.jkey i{font-style:normal;display:inline-flex;align-items:center;gap:.4rem}
+.jkey .sw{width:.9rem;height:.9rem;border-radius:.25rem;display:inline-block}
+
+/* staircase */
+.stair-wrap{background:var(--panel);border:1px solid var(--ice-line);border-radius:1.1rem;box-shadow:var(--shadow);padding:1.2rem 1.5rem;margin-bottom:1.1rem}
+.stair{display:flex;flex-wrap:wrap;gap:.7rem}
+.stair .st{flex:1;min-width:11rem;border-radius:.9rem;padding:.9rem 1.1rem;border-left:.5rem solid currentColor}
+.stair .st b{display:block;font-family:var(--display);font-size:1.15rem}
+.stair .st span{display:block;font-weight:600;font-size:.9rem;margin-top:.2rem;opacity:.92}
+.st-p{background:var(--ice);color:var(--glacier-deep)}
+.st-e{background:var(--signal-soft);color:var(--signal)}
+.st-x{background:var(--good-soft);color:var(--good)}
+.st-f{background:var(--danger-soft);color:var(--danger)}
+
+/* worked example */
+.meta{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.7rem;color:var(--ink-faint);font-weight:800}
+.level{border-radius:999px;padding:.15em .8em;font-size:.82rem}
+.lv-Warm-up{background:var(--ice);color:var(--glacier-deep)}
+.lv-Build{background:var(--signal-soft);color:var(--signal)}
+.lv-Stretch{background:var(--danger-soft);color:var(--danger)}
+.text{font-family:var(--serif);font-size:clamp(1.5rem,2.5vw,2.3rem);line-height:1.4;margin:0 0 .7rem}
+.q{font-style:italic;font-size:1.2rem;color:var(--glacier-deep);margin:0 0 1.1rem;font-weight:600}
+.clue{border-radius:.2em;transition:background .25s,box-shadow .25s}
+.show-clue .clue{background:var(--signal-soft);box-shadow:0 0 0 .1em var(--signal) inset;color:var(--signal)}
+.steps{display:grid;gap:.55rem}
+.step{display:none;border-radius:.85rem;padding:.75rem 1.05rem;font-size:1.15rem;align-items:baseline;gap:.8rem}
+.step.on{display:flex;animation:up .3s ease}
+.step b{flex:0 0 9.5rem;font-size:.9rem;font-family:var(--display);text-transform:uppercase;letter-spacing:.03em}
+@keyframes up{from{opacity:0;transform:translateY(6px)}}
+.s-stage{background:var(--ice);color:var(--glacier-deep)}
+.s-why{background:var(--signal-soft);color:var(--signal)}
+.s-theme{background:var(--good-soft);color:var(--good)}
+.s-write{background:var(--danger-soft);color:var(--danger);font-family:var(--serif);font-size:1.15rem;line-height:1.5}
+.s-write b{font-family:var(--display)}
+.row{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.1rem;align-items:center}
+.btn{border:none;border-radius:.8rem;padding:.6em 1.25em;font-weight:800;background:var(--ice);color:var(--glacier-deep)}
+.btn.main{background:var(--signal);color:#fff}
+.btn:disabled{opacity:.35;cursor:default}
+.spacer{flex:1}
+.count{color:var(--ink-faint);font-weight:800}
+.frame{font-family:var(--serif);font-size:1.15rem;color:var(--glacier-deep);background:var(--ice);border:1px solid var(--ice-line);
+  border-radius:.9rem;padding:.8rem 1.2rem;margin:0 0 1.1rem;line-height:1.55}
+.frame b{font-family:var(--display);color:var(--signal)}
+
+/* worksheet */
+.parts{display:flex;gap:.4rem;margin:0 0 1rem;flex-wrap:wrap}
+.parts button{border:2px solid var(--ice-line);background:var(--panel);color:var(--ink);border-radius:.8rem;padding:.5em 1.05em;font-weight:800}
+.parts button.on{border-color:var(--signal);color:var(--signal)}
+.phead{display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:center;margin-bottom:.9rem}
+.phead h2{font-family:var(--display);margin:0;font-size:1.7rem}
+.phead .task{color:var(--ink-soft);font-weight:600;flex-basis:100%}
+.tmpl{background:var(--good-soft);color:var(--good);border-radius:.8rem;padding:.7rem 1rem;font-weight:700;margin:0 0 1rem;font-size:1rem}
+.tmpl b{font-family:var(--display)}
+.item{display:grid;grid-template-columns:3rem 1fr;gap:.2rem 1rem;padding:.95rem 0;border-top:1px solid var(--ice-line)}
+.item:first-of-type{border-top:none}
+.num{background:var(--ice);color:var(--glacier-deep);font-weight:800;border-radius:.55rem;text-align:center;padding:.35em 0;height:max-content}
+.item .t{font-family:var(--serif);font-size:1.3rem;line-height:1.45}
+.item .qq{font-style:italic;color:var(--glacier-deep);font-weight:600;margin-top:.3rem}
+.item .reveal{grid-column:2;margin-top:.5rem}
+.crit{grid-column:2;margin-top:.5rem;background:var(--panel-2);border:1px solid var(--ice-line);border-radius:.8rem;padding:.7rem 1rem}
+.crit .lead{font-family:var(--display);text-transform:uppercase;letter-spacing:.05em;font-size:.75rem;color:var(--ink-faint);margin-bottom:.3rem}
+.crit ul{margin:.2rem 0 0;padding-left:1.2rem}
+.crit li{margin:.25rem 0;font-size:1rem;font-weight:600;color:var(--ink-soft)}
+.ans{display:none;margin-top:.5rem;background:var(--good-soft);color:var(--good);border-radius:.8rem;padding:.6rem 1rem;font-size:1.02rem;line-height:1.5}
+.ans.on{display:block}
+.mini{border:1px solid var(--ice-line);background:transparent;color:var(--ink-soft);border-radius:.6rem;padding:.3em .8em;font-weight:700;font-size:.85rem}
+.mini:hover{border-color:var(--glacier)}
+.big .item .t{font-size:clamp(1.5rem,2.6vw,2.2rem)}
+@media (max-width:700px){.step b{flex-basis:6.5rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header>
+  <div class="brand">
+    <svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><path d="M2 22 L9 8 L13 15 L16 4 L24 22 Z" fill="none" stroke="var(--glacier)" stroke-width="2.2" stroke-linejoin="round"/></svg>
+    <div>Year 7 English &middot; Polar Explorers, Lesson 3<small>The hero&rsquo;s journey in &lsquo;In the Polar Regions&rsquo;</small></div>
+  </div>
+  <nav id="nav"></nav>
+  <div class="tools">
+    <button class="tb" data-t="60">1m</button><button class="tb" data-t="180">3m</button><button class="tb" data-t="300">5m</button><button class="tb" data-t="600">10m</button>
+    <span class="tb timer" id="timer">0:00</span>
+    <button class="tb" id="theme" title="Light or dark">&#9680;</button>
+    <button class="tb" id="fs" title="Full screen">&#9974;</button>
+  </div>
+</header>
+<main id="main"></main>
+
+<script>
+/* ---------- content ---------- */
+const SKILL = {
+  text:'There are other signs this place is [foreign].',
+  q:'Which stage of the hero&rsquo;s journey is this, and how do you know?',
+  stage:'Into the Unknown.',
+  why:'The explorer has left the familiar world and stepped into a strange, "foreign" place.',
+  theme:'Facing the unknown, entering a hostile new world.',
+  write:'This belongs to "Into the Unknown". Bradfield writes that "this place is foreign", which shows the explorer has left home behind and entered a strange, dangerous world. This connects to the theme of facing the unknown.'
+};
+
+const TOGETHER = [
+  {lv:'Warm-up', text:'Long from home ... any [news of home], any first-born or failing parent.', q:'What does this tell us about where he is on the journey?',
+   stage:'Deep in Into the Unknown.', why:'He is "long from home" and cut off from all news, showing how deep into the unknown world he has travelled.',
+   theme:'Isolation and leaving home behind.',
+   write:'This shows how deep into the unknown the explorer has gone. Bradfield writes he is "long from home" with no "news of home". This connects to the theme of isolation, as he is completely cut off from everything familiar.'},
+  {lv:'Warm-up', text:'The ship converses with ice packed around it, groans and squeaks, an [outraged] crack.', q:'Which stage is this? What is being tested?',
+   stage:'Trials and Testing.', why:'The frozen world tests the crew day after day; the ice behaves like an enemy.',
+   theme:'The environment as a living enemy, and endurance.',
+   write:'This belongs to "Trials and Testing". Bradfield personifies the ice with an "outraged crack", which shows the crew are being worn down by a hostile world. This connects to the theme of survival against a place that seems alive and against them.'},
+  {lv:'Build', text:'Salt of iron [seeping] from my weakened gums.', q:'Which stage, and what does it show about the hero?',
+   stage:'Trials and Testing.', why:'Scurvy is one of the ongoing hardships he must endure on the journey.',
+   theme:'The fragile body, suffering, endurance.',
+   write:'This is part of "Trials and Testing". Bradfield writes of iron "seeping" from his gums, which shows his body is slowly breaking down. This connects to the theme of endurance, as the hero must keep going while falling apart.'},
+  {lv:'Build', text:'Walking west, five of us have [fallen] to dangle alongside cliffs of ice.', q:'Which stage is this? Why is it the turning point?',
+   stage:'The Final Challenge.', why:'This is the most dangerous moment, where the explorers come face to face with death.',
+   theme:'Facing death, the peak of danger in the journey.',
+   write:'This is "The Final Challenge", the most dangerous point of the journey. Bradfield writes that "five of us have fallen" to "dangle" over the ice, which shows the men now face death directly. This connects to the theme of survival on a knife-edge.'},
+  {lv:'Stretch', text:'Only a thin rope holds us to the surface. ... wait for a [tug] from the ones left above.', q:'The poem ends here. What is strange about that?',
+   stage:'Still inside the Final Challenge.', why:'They hang between life and death, and the poem stops before we learn if they are saved.',
+   theme:'An unfinished journey; survival is never guaranteed.',
+   write:'The poem ends inside "The Final Challenge". The men are left to "wait for a tug from the ones left above", and Bradfield never shows a rescue. This connects to the theme of an unfinished journey, leaving the reader tense and uncertain.'},
+  {lv:'Stretch', text:'[Rewards and Return]: the hero comes home, changed, with something gained.', q:'Which stage never appears in the poem? Why leave it out?',
+   stage:'Rewards and Return, which is missing.', why:'The poem ends with the men still hanging, so they never come home and gain nothing.',
+   theme:'Not every hero returns; the bleakness of real exploration.',
+   write:'The poem is missing "Rewards and Return". Bradfield ends with the men "hanging", waiting, so we never see them reach safety. This makes the journey feel bleak and unfinished, reminding us that not every explorer comes home.'}
+];
+
+const SHEET = {
+  A:{title:'Part A: Match it', task:'5 min. For each quote or event, name the stage of the hero&rsquo;s journey.', time:300, items:[
+    {n:'A1', t:'&ldquo;any news of home, any first-born or failing parent&rdquo;', q:'Which stage does this point back to?',
+     a:'The Call to Adventure: it recalls the home and family he left behind to set out.'},
+    {n:'A2', t:'&ldquo;There are other signs this place is foreign&rdquo;', q:'Which stage?',
+     a:'Into the Unknown, entering the strange new world.'},
+    {n:'A3', t:'&ldquo;my mouth, too, tastes of metal&rdquo; (cold, scurvy, hardship)', q:'Which stage?',
+     a:'Trials and Testing, the run of hardships he must endure.'},
+    {n:'A4', t:'&ldquo;Only a thin rope holds us to the surface&rdquo;', q:'Which stage?',
+     a:'The Final Challenge, the moment of facing death.'},
+    {n:'A5', t:'The men are pulled up, treated, and sail home changed forever.', q:'Which stage? And where is it in the poem?',
+     a:'Rewards and Return. Trick question: it never appears in the poem. Bradfield leaves the ending open.'}
+  ]},
+  B:{title:'Part B: Explain it', task:'12 min. Write a full answer for each using the template. Name the stage, prove it, link a theme.', time:720, tmpl:true, items:[
+    {n:'B1', t:'&ldquo;five of us have fallen / to dangle alongside cliffs of ice&rdquo;', q:'Which stage is this, and how do you know?',
+     a:'This belongs to "The Final Challenge". Bradfield writes that five men "dangle alongside cliffs of ice", which shows they are facing death at the most dangerous point of the journey. This connects to the theme of survival on a knife-edge.'},
+    {n:'B2', t:'&ldquo;The air is constantly aluminum with snow&rdquo;', q:'Which stage does this belong to, and why?',
+     a:'This belongs to "Trials and Testing". Bradfield describes the air as "aluminum", which shows even the air is a cold, metallic hardship to endure. This connects to the theme of a hostile world that tests the hero constantly.'},
+    {n:'B3', t:'Which stage does the WHOLE poem mostly sit in?', q:'Write a developed answer about the poem as a whole.',
+     a:'The poem mostly sits in "Trials and Testing" and "The Final Challenge". Almost every line describes hardship or danger, from the scurvy of "weakened gums" to the men left to "dangle" over the ice. This connects to the themes of endurance and facing death, because Bradfield keeps the reader trapped in the hardest, most dangerous part of the journey.'},
+    {n:'B4', t:'Which stage is MISSING, and why might Bradfield leave it out? (challenge)', q:'Write a developed answer about the effect.',
+     a:'The poem is missing "Rewards and Return". Bradfield ends with the men still "hanging", waiting for "a tug from the ones left above", so we never see them reach home or gain a reward. This connects to the theme that not every hero returns, and it leaves the reader tense and uneasy, unsure if anyone survives.'}
+  ]},
+  C:{title:'Part C: Rewards and Return', task:'12 min, on your own. Write the stage the poem never shows.', time:720, items:[
+    {n:'C', t:'Write &ldquo;Rewards and Return&rdquo;. In 5 to 6 sentences, continue the explorer&rsquo;s story: he survives and comes home, changed by what he saw.', q:'Use the poem&rsquo;s themes and imagery. Write in the first person.',
+     check:['First person (&ldquo;I&rdquo;), like the poem','A reference to the cold, ice, or his body (teeth, gums, frozen)','A sense that he is changed by the journey','A contrast between the &ldquo;foreign&rdquo; polar world and home','At least one image, simile or metaphor'],
+     a:'Model: I am home, but home no longer feels like mine. My hands still expect the cold, and my tongue still finds the gaps where teeth used to be. At the table everyone talks of small, warm things, while I stare out at the grey sky and think of the blue contours of the freeze. They ask what it was like out there. I open my mouth, taste iron, and find I have no words for a place that tried to swallow me whole.'}
+  ]}
+};
+
+/* ---------- helpers ---------- */
+const $ = s=>document.querySelector(s);
+function el(tag, attrs={}, ...kids){
+  const e=document.createElement(tag);
+  for(const k in attrs){ if(k==='html') e.innerHTML=attrs[k]; else if(k.startsWith('on')) e.addEventListener(k.slice(2),attrs[k]); else e.setAttribute(k,attrs[k]); }
+  kids.flat().forEach(c=>{ if(c!=null) e.append(c); });
+  return e;
+}
+const marked = s => s.replace(/\[([^\]]+)\]/g,'<span class="clue">$1</span>');
+
+/* ---------- state ---------- */
+const S = {tab:0, card:0, part:'A'};
+const TABS = ['1  Recap','2  Together','3  Your turn'];
+
+function nav(){
+  const n=$('#nav'); n.innerHTML='';
+  TABS.forEach((t,i)=>n.append(el('button',{class:i===S.tab?'on':'',onclick:()=>{S.tab=i;render();}},t)));
+}
+
+/* worked example card with stepped reveal */
+function stepCard(d, meta){
+  const box=el('div',{class:'card'});
+  if(meta) box.append(meta);
+  const text=el('p',{class:'text',html:marked(d.text)});
+  box.append(text, el('p',{class:'q',html:d.q}));
+  const rows=[
+    ['s-stage','1 &middot; The stage','The stage',d.stage],
+    ['s-why','2 &middot; How I know','How I know',d.why],
+    ['s-theme','3 &middot; The theme','The theme',d.theme],
+    ['s-write','4 &middot; Write it up','Write it up',d.write]
+  ].filter(r=>r[3]!=null);
+  const N=rows.length;
+  const steps=el('div',{class:'steps'});
+  const nodes=rows.map(function(r){
+    const c=r[0], h=r[1], t=r[3];
+    const s=el('div',{class:'step '+c});
+    if(c==='s-write'){ s.append(el('b',{html:h}), el('span',{html:'<b>Model:</b> '+t})); }
+    else { s.append(el('b',{html:h}), el('span',{html:t})); }
+    steps.append(s); return s;
+  });
+  box.append(steps);
+  let k=0;
+  const next=el('button',{class:'btn main',html:rows[0][2]});
+  const back=el('button',{class:'btn'},'Hide all');
+  function upd(){
+    text.classList.toggle('show-clue',k>0);
+    nodes.forEach(function(s,i){ s.classList.toggle('on',i<k); });
+    next.innerHTML = k<N ? rows[k][2] : 'Done';
+    next.disabled = k>=N;
+  }
+  next.onclick=function(){ k=Math.min(N,k+1); upd(); };
+  back.onclick=function(){ k=0; upd(); };
+  box.append(el('div',{class:'row'},next,back));
+  box._next=function(){ if(k<N){ k++; upd(); return true; } return false; };
+  upd();
+  return box;
+}
+
+function recap(){
+  return el('div',{class:'recap'},
+    el('div',{class:'rc c1'},el('b',{},'The narrator'),el('span',{},'a weary explorer, part of a team, speaking in the present tense')),
+    el('div',{class:'rc c2'},el('b',{},'The dangers'),el('span',{},'crevasses, a single thin rope, cracking ice, scurvy')),
+    el('div',{class:'rc c3'},el('b',{},'The themes'),el('span',{},'survival, isolation, the unknown, a hostile world, the fragile body')));
+}
+
+const JOURNEY=[
+  {n:'1',b:'Call to Adventure',c:'edge',s:'the pull to leave home'},
+  {n:'2',b:'Into the Unknown',c:'core',s:'in the poem'},
+  {n:'3',b:'Trials and Testing',c:'core',s:'in the poem'},
+  {n:'4',b:'Final Challenge',c:'core',s:'the poem ends here'},
+  {n:'5',b:'Rewards and Return',c:'gone',s:'never shown'}
+];
+function journey(){
+  const strip=el('div',{class:'journey'});
+  JOURNEY.forEach(function(j){
+    strip.append(el('div',{class:'jst '+j.c},
+      el('span',{class:'n'},'Stage '+j.n),
+      el('b',{},j.b),
+      el('small',{},j.s)));
+  });
+  return el('div',{class:'journey-wrap'},
+    el('div',{class:'tagline'},'The hero&rsquo;s journey, and where this poem lives'),
+    strip,
+    el('div',{class:'jkey'},
+      el('i',{},el('span',{class:'sw',style:'background:var(--glacier)'}),'in the poem'),
+      el('i',{},el('span',{class:'sw',style:'background:var(--ink-faint)'}),'before the poem'),
+      el('i',{},el('span',{class:'sw',style:'background:var(--danger)'}),'missing from the poem')));
+}
+function stair(){
+  return el('div',{class:'stair-wrap'},
+    el('div',{class:'tagline'},'How to write about a stage'),
+    el('div',{class:'stair'},
+      el('div',{class:'st st-p'},el('b',{},'1. Stage'),el('span',{},'This belongs to …')),
+      el('div',{class:'st st-e'},el('b',{},'2. Evidence'),el('span',{},'Bradfield writes &ldquo;…&rdquo;')),
+      el('div',{class:'st st-x'},el('b',{},'3. Explain'),el('span',{},'which shows …')),
+      el('div',{class:'st st-f'},el('b',{},'4. Theme'),el('span',{},'This connects to the theme of …'))));
+}
+
+let active=null;
+function render(){
+  nav();
+  const m=$('#main'); m.innerHTML=''; active=null;
+  if(S.tab===0){
+    m.append(el('h1',{},'The hero&rsquo;s journey: where does the explorer stand?'),
+      el('p',{class:'lead'},'Every adventure story follows the same map. Today we place Bradfield&rsquo;s poem on that map, and notice where it stops.'),
+      el('div',{class:'tagline'},'What we already know'),
+      recap(),
+      journey(),
+      stair());
+    active=stepCard(SKILL);
+    m.append(active, el('div',{class:'frame',html:'This belongs to <b>___</b>. Bradfield writes &ldquo;<b>___</b>&rdquo;, which shows <b>___</b>. This connects to the theme of <b>___</b>.'}));
+  }
+  if(S.tab===1){
+    const d=TOGETHER[S.card];
+    m.append(el('h1',{},'Together'),
+      el('div',{class:'frame',html:'This belongs to <b>___</b>. Bradfield writes &ldquo;<b>___</b>&rdquo;, which shows <b>___</b>. This connects to the theme of <b>___</b>.'}));
+    const meta=el('div',{class:'meta'},el('span',{class:'count'},(S.card+1)+' of '+TOGETHER.length),el('span',{class:'level lv-'+d.lv.replace(/[^A-Za-z]/g,'-')},d.lv));
+    active=stepCard(d,meta);
+    m.append(active);
+    const prev=el('button',{class:'btn',onclick:function(){S.card--;render();}},'← Previous');
+    const nxt=el('button',{class:'btn main',onclick:function(){S.card++;render();}},'Next quotation →');
+    prev.disabled=S.card===0; nxt.disabled=S.card===TOGETHER.length-1;
+    m.append(el('div',{class:'row'},prev,el('span',{class:'spacer'}),nxt));
+  }
+  if(S.tab===2){
+    m.append(el('h1',{},'Your turn'), el('p',{class:'lead'},'Write your answers in your book. Number each one. Use the template to help.'));
+    const parts=el('div',{class:'parts'});
+    Object.keys(SHEET).forEach(function(k){ parts.append(el('button',{class:k===S.part?'on':'',onclick:function(){S.part=k;render();}},SHEET[k].title)); });
+    m.append(parts);
+    const P=SHEET[S.part];
+    const card=el('div',{class:'card'+(S.part==='C'?' big':'')});
+    card.append(el('div',{class:'phead'},el('h2',{},P.title),
+      el('button',{class:'mini',onclick:function(){startTimer(P.time);}},'Start '+(P.time/60)+' min timer'),
+      el('button',{class:'mini',onclick:function(){card.querySelectorAll('.ans').forEach(function(a){a.classList.add('on');});}},'Show all answers'),
+      el('button',{class:'mini',onclick:function(){card.querySelectorAll('.ans').forEach(function(a){a.classList.remove('on');});}},'Hide all'),
+      el('span',{class:'task'},P.task)));
+    if(P.tmpl) card.append(el('div',{class:'tmpl',html:'Template: This belongs to <b>___</b>. Bradfield writes &ldquo;<b>___</b>&rdquo;, which shows <b>___</b>. This connects to the theme of <b>___</b>.'}));
+    P.items.forEach(function(it){
+      const ans=el('div',{class:'ans'},it.a);
+      const body=el('div',{},el('div',{class:'t',html:it.t}), it.q?el('div',{class:'qq',html:it.q}):null);
+      if(it.check){
+        const ul=el('ul',{});
+        it.check.forEach(function(c){ ul.append(el('li',{html:c})); });
+        body.append(el('div',{class:'crit'},el('div',{class:'lead'},'Success criteria'),ul));
+      }
+      body.append(el('div',{class:'reveal'},el('button',{class:'mini',onclick:function(){ans.classList.toggle('on');}},'Model answer'),ans));
+      card.append(el('div',{class:'item'},el('div',{class:'num'},it.n),body));
+    });
+    m.append(card);
+  }
+}
+
+/* ---------- timer ---------- */
+let tLeft=0, tId=null;
+function drawT(){ const t=$('#timer'); t.textContent=Math.floor(tLeft/60)+':'+String(tLeft%60).padStart(2,'0'); }
+function startTimer(s){
+  clearInterval(tId); tLeft=s; drawT(); $('#timer').classList.remove('flash');
+  tId=setInterval(function(){ tLeft--; drawT(); if(tLeft<=0){ clearInterval(tId); $('#timer').classList.add('flash'); } },1000);
+}
+document.querySelectorAll('[data-t]').forEach(function(b){ b.onclick=function(){ startTimer(+b.dataset.t); }; });
+$('#timer').onclick=function(){ clearInterval(tId); tLeft=0; drawT(); };
+
+/* ---------- theme, fullscreen, keys ---------- */
+$('#theme').onclick=function(){ const r=document.documentElement; const dark=r.getAttribute('data-theme')==='dark'||(!r.getAttribute('data-theme')&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches); r.setAttribute('data-theme',dark?'light':'dark'); };
+$('#fs').onclick=function(){ try{ if(!document.fullscreenElement) document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); else document.exitFullscreen(); }catch(e){} };
+document.addEventListener('keydown',function(e){
+  if(e.target.closest&&e.target.closest('input,textarea,button')) return;
+  if(e.key===' '||e.key==='Enter'){ if(active&&active._next){ e.preventDefault(); active._next(); } }
+  if(e.key==='ArrowRight'){
+    if(S.tab===1 && S.card<TOGETHER.length-1){ S.card++; render(); }
+    else if(S.tab<2){ S.tab++; render(); }
+  }
+  if(e.key==='ArrowLeft'){
+    if(S.tab===1 && S.card>0){ S.card--; render(); }
+    else if(S.tab>0){ S.tab--; render(); }
+  }
+});
+render();
+</script>
+
+</body></html>

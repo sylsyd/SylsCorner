@@ -1,0 +1,806 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Polar Explorers Field Log</title>
+<meta name="description" content="Projected front-of-class lesson deck for Elizabeth Bradfield's poem 'In the Polar Regions', Year 7.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Public+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Newsreader:ital,opsz@0,6..72;1,6..72&display=swap">
+<style>
+  :root{
+    --frost:#eef4f7;
+    --panel:#ffffff;
+    --panel-2:#f4f9fb;
+    --ink:#0e2028;
+    --ink-soft:#3f5a68;
+    --ink-faint:#6f8b9b;
+    --ice:#d8ebf4;
+    --ice-line:#b6d5e6;
+    --glacier:#1a6c93;
+    --glacier-deep:#0e485f;
+    --signal:#d9741f;
+    --signal-soft:#fbe4cd;
+    --danger:#c0392b;
+    --danger-soft:#f6d6d0;
+    --misery:#8f6c10;
+    --misery-soft:#f3e7c2;
+    --good:#1c7a56;
+    --shadow:0 2px 4px rgba(14,32,40,.06), 0 14px 40px rgba(14,32,40,.09);
+    --radius:16px;
+    --sans:"Public Sans", ui-sans-serif, system-ui, sans-serif;
+    --display:"Bricolage Grotesque", var(--sans);
+    --serif:"Newsreader", Georgia, serif;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --frost:#08141c;
+      --panel:#0f222d;
+      --panel-2:#0c1c25;
+      --ink:#eaf2f7;
+      --ink-soft:#a9c1cf;
+      --ink-faint:#728d9d;
+      --ice:#123141;
+      --ice-line:#265066;
+      --glacier:#5fb4da;
+      --glacier-deep:#93d3ef;
+      --signal:#f19d55;
+      --signal-soft:#3a2917;
+      --danger:#e5756a;
+      --danger-soft:#3a1e1a;
+      --misery:#dcb85e;
+      --misery-soft:#332a12;
+      --good:#5ccb9d;
+      --shadow:0 2px 4px rgba(0,0,0,.4), 0 16px 44px rgba(0,0,0,.5);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --frost:#08141c;
+    --panel:#0f222d;
+    --panel-2:#0c1c25;
+    --ink:#eaf2f7;
+    --ink-soft:#a9c1cf;
+    --ink-faint:#728d9d;
+    --ice:#123141;
+    --ice-line:#265066;
+    --glacier:#5fb4da;
+    --glacier-deep:#93d3ef;
+    --signal:#f19d55;
+    --signal-soft:#3a2917;
+    --danger:#e5756a;
+    --danger-soft:#3a1e1a;
+    --misery:#dcb85e;
+    --misery-soft:#332a12;
+    --good:#5ccb9d;
+    --shadow:0 2px 4px rgba(0,0,0,.4), 0 16px 44px rgba(0,0,0,.5);
+    color-scheme:dark;
+  }
+
+  html,body{height:100%}
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--frost);color:var(--ink);
+    font-family:var(--sans);font-size:20px;line-height:1.5;-webkit-text-size-adjust:100%;
+  }
+  h1,h2,h3{font-family:var(--display);line-height:1.06;text-wrap:balance;margin:0;font-weight:700}
+  p{margin:0}
+  b{font-weight:800}
+  button{font-family:inherit}
+
+  .app{height:100%;display:flex;flex-direction:column;min-height:0}
+
+  /* ---- top bar ---- */
+  .bar{
+    flex:0 0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    padding:10px 18px;background:var(--panel);border-bottom:1px solid var(--ice-line);
+  }
+  .brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+  .brand b{font-family:var(--display);font-size:17px;white-space:nowrap}
+  .brand span{color:var(--ink-faint);font-size:13px;font-weight:700;display:block}
+
+  .timer{
+    display:flex;align-items:center;gap:6px;background:var(--panel-2);
+    border:1px solid var(--ice-line);border-radius:12px;padding:5px 8px;
+  }
+  .timer .tdisplay{
+    font-family:var(--display);font-weight:800;font-size:24px;font-variant-numeric:tabular-nums;
+    min-width:74px;text-align:center;letter-spacing:.02em;
+  }
+  .timer.done .tdisplay{color:var(--danger);animation:flash 1s steps(1) infinite}
+  @keyframes flash{50%{opacity:.35}}
+  .tbtn{
+    border:1px solid var(--ice-line);background:var(--panel);color:var(--ink);
+    border-radius:9px;padding:6px 9px;font-size:13px;font-weight:700;cursor:pointer;line-height:1;
+  }
+  .tbtn:hover{border-color:var(--glacier)}
+  .tbtn.preset{padding:6px 8px;font-size:12.5px}
+  .tbtn.primary{background:var(--glacier);color:#fff;border-color:var(--glacier)}
+  .count{font-family:var(--display);font-weight:800;font-size:16px;color:var(--ink-soft);white-space:nowrap;
+    font-variant-numeric:tabular-nums}
+  .iconbtn{
+    border:1px solid var(--ice-line);background:var(--panel);color:var(--ink);border-radius:9px;
+    padding:7px 11px;font-size:13px;font-weight:700;cursor:pointer;
+  }
+  .iconbtn:hover{border-color:var(--glacier)}
+
+  /* ---- stage ---- */
+  .stage{flex:1 1 auto;min-height:0;position:relative;overflow:hidden}
+  .slide{
+    position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;
+    padding:26px 24px 30px;display:flex;flex-direction:column;align-items:center;
+  }
+  .slide[hidden]{display:none!important}
+  .inner{width:100%;max-width:min(1080px,94vw);margin:auto 0;display:flex;flex-direction:column;gap:18px}
+
+  .kick{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .bnum{
+    width:52px;height:52px;flex:0 0 auto;border-radius:14px;display:grid;place-items:center;
+    background:var(--glacier-deep);color:#fff;font-family:var(--display);font-weight:800;font-size:26px;
+  }
+  .kick .chip{font-size:14px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;padding:5px 11px;border-radius:999px}
+  .chip.time{background:var(--signal-soft);color:var(--signal)}
+  .chip.links{background:var(--ice);color:var(--glacier-deep)}
+  .chip.mode{background:var(--panel-2);color:var(--ink-soft);border:1px solid var(--ice-line)}
+
+  h2.stitle{font-size:clamp(28px,4.4vw,46px)}
+  .task{font-size:clamp(19px,2.3vw,24px);line-height:1.42}
+  .task .em{color:var(--glacier-deep);font-weight:800}
+
+  .quote{
+    font-family:var(--serif);font-size:clamp(20px,2.6vw,27px);line-height:1.42;
+    background:var(--panel);border-left:6px solid var(--glacier);border-radius:0 12px 12px 0;
+    padding:16px 20px;color:var(--ink);box-shadow:var(--shadow);
+  }
+  .note-cue{
+    display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:800;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--signal);
+  }
+  .note-cue svg{flex:0 0 auto}
+
+  .starters{background:var(--panel);border:1px solid var(--ice-line);border-radius:14px;padding:16px 20px;box-shadow:var(--shadow)}
+  .starters ul{margin:8px 0 0;padding-left:22px}
+  .starters li{margin:7px 0;font-size:clamp(18px,2.1vw,22px)}
+  .starters .lead{font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint)}
+
+  .bank{display:flex;flex-wrap:wrap;gap:9px}
+  .pill{background:var(--ice);color:var(--glacier-deep);border-radius:999px;padding:7px 14px;font-size:16px;font-weight:700}
+
+  /* reveal */
+  .reveal-btn{
+    align-self:flex-start;border:2px dashed var(--glacier);background:transparent;color:var(--glacier-deep);
+    border-radius:12px;padding:12px 20px;font-size:18px;font-weight:800;cursor:pointer;display:inline-flex;gap:9px;align-items:center;
+  }
+  .reveal-btn:hover{background:var(--ice)}
+  .reveal-box{background:var(--ice);border:1px solid var(--ice-line);border-radius:14px;padding:18px 20px;font-size:clamp(17px,2vw,21px);line-height:1.45}
+  .reveal-box.model{background:var(--signal-soft);border-color:color-mix(in srgb,var(--signal) 45%,transparent)}
+  .reveal-box .lead{display:block;font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--signal);margin-bottom:7px}
+  .reveal-box.plain .lead{color:var(--glacier-deep)}
+
+  /* decode list */
+  .decode{display:flex;flex-direction:column;gap:11px}
+  .decode-item{border:1px solid var(--ice-line);border-radius:13px;overflow:hidden;background:var(--panel)}
+  .decode-q{width:100%;text-align:left;background:transparent;border:0;cursor:pointer;padding:15px 18px;
+    font-family:var(--serif);font-size:clamp(18px,2.1vw,22px);color:var(--ink);display:flex;gap:12px;align-items:center}
+  .decode-q .plus{margin-left:auto;font-family:var(--display);font-weight:800;color:var(--glacier);font-size:24px;flex:0 0 auto}
+  .decode-a{padding:14px 18px;font-size:clamp(16px,1.9vw,20px);background:var(--ice);border-top:1px solid var(--ice-line)}
+
+  /* chips (sort / select / find) */
+  .tags{display:flex;flex-wrap:wrap;gap:11px}
+  .tag{
+    border:2px solid var(--ice-line);background:var(--panel);color:var(--ink);border-radius:999px;
+    padding:11px 18px;font-size:clamp(16px,1.9vw,20px);font-weight:600;cursor:pointer;transition:.12s;
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .tag .badge{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:3px 8px;border-radius:7px;
+    background:var(--ice-line);color:var(--ink-soft)}
+  .tag[data-state="danger"]{border-color:var(--danger);background:var(--danger-soft)}
+  .tag[data-state="danger"] .badge{background:var(--danger);color:#fff}
+  .tag[data-state="misery"]{border-color:var(--misery);background:var(--misery-soft)}
+  .tag[data-state="misery"] .badge{background:var(--misery);color:#fff}
+  .tag.found{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,var(--panel))}
+  .tag.found .badge{background:var(--good);color:#fff}
+  .tag.on{background:var(--glacier);border-color:var(--glacier);color:#fff}
+  .sortkey{display:flex;gap:18px;flex-wrap:wrap;font-size:15px;color:var(--ink-soft);font-weight:700}
+  .sortkey i{font-style:normal;display:inline-flex;align-items:center;gap:7px}
+  .sortkey .sw{width:16px;height:16px;border-radius:5px;display:inline-block}
+
+  /* teeth trail */
+  .trail{display:flex;flex-direction:column}
+  .trail-step{display:flex;gap:14px;align-items:flex-start}
+  .trail-num{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:var(--ice);color:var(--glacier-deep);
+    font-weight:800;font-size:16px;display:grid;place-items:center;position:relative;z-index:1}
+  .trail-rail{position:relative;display:flex;flex-direction:column;align-items:center}
+  .trail-rail .line{width:2px;flex:1;background:var(--ice-line);min-height:16px}
+  .trail-txt{font-family:var(--serif);font-size:clamp(18px,2.1vw,23px);padding:3px 0 14px;color:var(--ink)}
+  .trail-step[hidden]{display:none}
+
+  /* mark-up key */
+  .keys{display:flex;flex-wrap:wrap;gap:10px 20px;background:var(--panel);border:1px solid var(--ice-line);
+    border-radius:14px;padding:15px 18px;font-size:clamp(16px,1.9vw,20px)}
+  .keys span{white-space:nowrap;display:inline-flex;align-items:center;gap:8px}
+  .keys .sym{background:var(--ink);color:var(--panel);border-radius:7px;padding:2px 9px;font-family:var(--display);font-weight:800;font-size:.9em}
+
+  /* poem slide */
+  .poem-cols{background:var(--panel);border:1px solid var(--ice-line);border-radius:16px;box-shadow:var(--shadow);
+    padding:8px 24px 20px}
+  .poem-cols pre{font-family:var(--serif);font-size:clamp(15px,1.75vw,19px);line-height:1.5;white-space:pre-wrap;margin:0}
+  .poem-cols .stanza{margin:14px 0}
+  .gloss{font-size:15px;color:var(--ink-soft);border-top:1px dashed var(--ice-line);padding-top:12px;margin-top:6px}
+  .gloss b{color:var(--ink)}
+
+  /* rating criteria */
+  .rubric{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:760px){.rubric{grid-template-columns:1fr}}
+  .rcard{background:var(--panel);border:1px solid var(--ice-line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+  .rcard h3{font-size:22px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+  .rcard .score5{background:var(--good);color:#fff;border-radius:8px;font-size:14px;padding:3px 9px;font-family:var(--display)}
+  .rcard ul{margin:6px 0 0;padding-left:20px}
+  .rcard li{margin:5px 0;font-size:17px}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.cols{grid-template-columns:1fr}}
+
+  /* title slide */
+  .title-hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+  .title-hero .eyebrow{font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:15px;color:var(--signal)}
+  .title-hero h1{font-size:clamp(40px,8vw,80px);color:var(--ink)}
+  .title-hero .by{font-family:var(--serif);font-style:italic;font-size:clamp(19px,2.6vw,26px);color:var(--ink-soft)}
+  .howto{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:6px}
+  .howto .k{background:var(--panel);border:1px solid var(--ice-line);border-radius:12px;padding:10px 16px;font-size:16px;box-shadow:var(--shadow)}
+  .howto .k b{color:var(--glacier-deep)}
+
+  .stretch{background:var(--panel-2);border:2px dashed var(--signal);border-radius:16px;padding:20px 22px}
+  .stretch .lead{font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--signal)}
+  .stretch h2{font-size:clamp(26px,3.5vw,38px);margin:6px 0 10px}
+  .stretch ul{margin:8px 0 0;padding-left:22px;font-size:clamp(17px,2vw,21px)}
+  .stretch li{margin:7px 0}
+
+  /* bottom nav */
+  .nav{flex:0 0 auto;display:flex;align-items:center;gap:14px;padding:12px 18px;
+    padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));
+    background:var(--panel);border-top:1px solid var(--ice-line)}
+  .nav .spacer{flex:1}
+  .navbtn{
+    border:1px solid var(--ice-line);background:var(--panel);color:var(--ink);border-radius:12px;
+    padding:12px 22px;font-size:17px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:9px;
+  }
+  .navbtn:hover:not(:disabled){border-color:var(--glacier)}
+  .navbtn.primary{background:var(--glacier);color:#fff;border-color:var(--glacier)}
+  .navbtn:disabled{opacity:.4;cursor:default}
+  .progress{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:50vw}
+  .pdot{width:12px;height:12px;border-radius:50%;background:var(--ice-line);border:0;cursor:pointer;padding:0}
+  .pdot.cur{background:var(--signal);transform:scale(1.3)}
+  .pdot.seen{background:var(--glacier)}
+
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="app">
+
+  <!-- TOP BAR -->
+  <div class="bar">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 26 26" aria-hidden="true"><path d="M2 22 L9 8 L13 15 L16 4 L24 22 Z" fill="none" stroke="var(--glacier)" stroke-width="2.2" stroke-linejoin="round"/></svg>
+      <div style="min-width:0"><b>In the Polar Regions</b><span>Year 7 &middot; Elizabeth Bradfield</span></div>
+    </div>
+
+    <div class="timer" id="timer">
+      <span class="tdisplay" id="tdisplay">3:00</span>
+      <button class="tbtn primary" id="tStart" type="button">Start</button>
+      <button class="tbtn" id="tReset" type="button" title="Reset timer">Reset</button>
+      <button class="tbtn preset" data-min="1" type="button">1m</button>
+      <button class="tbtn preset" data-min="3" type="button">3m</button>
+      <button class="tbtn preset" data-min="5" type="button">5m</button>
+    </div>
+
+    <span class="count" id="count">1 / 12</span>
+    <button class="iconbtn" id="fsBtn" type="button" title="Fullscreen">Fullscreen</button>
+    <button class="iconbtn" id="themeBtn" type="button" title="Light / dark">Theme</button>
+  </div>
+
+  <!-- STAGE -->
+  <div class="stage" id="stage">
+
+    <!-- 0 TITLE -->
+    <section class="slide">
+      <div class="inner">
+        <div class="title-hero">
+          <div class="eyebrow">Unit 4 &middot; Polar Explorers</div>
+          <h1>In the Polar Regions</h1>
+          <div class="by">a poem by Elizabeth Bradfield</div>
+          <div class="howto">
+            <div class="k"><b>&#8594; / Space</b> next</div>
+            <div class="k"><b>&#8592;</b> back</div>
+            <div class="k"><b>Tap a card</b> to reveal answers</div>
+            <div class="k"><b>Timer</b> up top for each burst</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1 POEM -->
+    <section class="slide">
+      <div class="inner">
+        <div class="kick"><h2 class="stitle">The poem</h2><span class="chip mode">Read aloud</span></div>
+        <div class="poem-cols">
+          <pre><span class="stanza">Long from home. Glaciers capping the hills
+like false teeth. It&rsquo;s not just the odd meat
+we&rsquo;re carving, clawed flippers and flightless
+wings, or the long-churned distance to any news of home,
+any first-born or failing parent. There
+are other signs this place is foreign. The ship
+converses with ice packed around it, groans
+and squeaks, an occasional outraged crack.</span><span class="stanza">It takes a particular man for this, you know,
+able to be short-sighted for months on end.
+The air is constantly aluminum with snow,
+and my mouth, too, tastes of metal. Salt
+of iron seeping from my weakened gums.
+Each morning, I pack drift around my tongue
+to freeze the soft flesh holding my teeth.</span><span class="stanza">It all goes to slush&mdash;ground underneath
+our tents, my mouth, the knack for conversation.
+Walking west, five of us have fallen
+to dangle alongside cliffs of ice, the thin crust
+breaking into chasm easily, as if such sudden transformations
+were to be expected and we&rsquo;re the fools to be surprised.
+Only a thin rope holds us to the surface. Hanging,
+there&rsquo;s nothing to do but stare at the blue contours of freeze
+and tongue our loosening teeth, test the stringy roots
+that hold them, wait for a tug from the ones left above.</span></pre>
+          <div class="gloss"><b>aluminum</b> = US spelling of aluminium &middot; <b>drift</b> = blown snow &middot; <b>chasm</b> = a deep crack in the ice &middot; <b>flightless wings</b> = penguins</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 BURST 1 -->
+    <section class="slide" data-min="1">
+      <div class="inner">
+        <div class="kick"><div class="bnum">1</div><span class="chip time">1 min</span><span class="chip links">Activity 1</span><span class="chip mode">Verbal</span></div>
+        <h2 class="stitle">First 60 seconds</h2>
+        <p class="task">We&rsquo;ve heard it once. <span class="em">Don&rsquo;t worry about the hard words yet.</span> Just react.</p>
+        <div class="starters">
+          <span class="lead">Talk to your partner</span>
+          <ul>
+            <li>This poem <b>feels</b>&hellip;</li>
+            <li>It seems to be <b>about</b>&hellip;</li>
+            <li>One line that <b>stuck</b> in my head is&hellip;</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 BURST 2 -->
+    <section class="slide" data-min="5">
+      <div class="inner">
+        <div class="kick"><div class="bnum">2</div><span class="chip time">5 min</span><span class="chip links">Activity 1</span><span class="chip mode">Class</span></div>
+        <h2 class="stitle">Crack the code</h2>
+        <p class="task">What might each line mean? Take a guess, then tap to reveal.</p>
+        <div class="decode">
+          <div class="decode-item">
+            <button class="decode-q" type="button">&ldquo;Glaciers capping the hills like false teeth&rdquo; <span class="plus">+</span></button>
+            <div class="decode-a" hidden>White ice sitting on the hilltops looks like a mouth full of false teeth. <b>Remember this,</b> teeth come back again and again.</div>
+          </div>
+          <div class="decode-item">
+            <button class="decode-q" type="button">&ldquo;clawed flippers and flightless wings&rdquo; <span class="plus">+</span></button>
+            <div class="decode-a" hidden>Seals (clawed flippers) and penguins (flightless wings). The explorers are killing and eating them to survive.</div>
+          </div>
+          <div class="decode-item">
+            <button class="decode-q" type="button">&ldquo;The air is constantly aluminum with snow&rdquo; <span class="plus">+</span></button>
+            <div class="decode-a" hidden>The air looks like dull grey metal, thick with falling snow. It even makes his mouth taste of metal.</div>
+          </div>
+          <div class="decode-item">
+            <button class="decode-q" type="button">&ldquo;Salt of iron seeping from my weakened gums&rdquo; <span class="plus">+</span></button>
+            <div class="decode-a" hidden>His gums are bleeding (the salty, iron taste is blood). This is <b>scurvy:</b> a disease from having no fresh food for months.</div>
+          </div>
+          <div class="decode-item">
+            <button class="decode-q" type="button">&ldquo;Only a thin rope holds us to the surface&rdquo; <span class="plus">+</span></button>
+            <div class="decode-a" hidden>They have fallen into a crevasse (a huge crack in the ice). One thin rope is all that stops them dropping to their deaths.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 BURST 3 -->
+    <section class="slide" data-min="4">
+      <div class="inner">
+        <div class="kick"><div class="bnum">3</div><span class="chip time">4 min</span><span class="chip links">Activity 2 &middot; voice</span><span class="chip mode">Class</span></div>
+        <h2 class="stitle">Meet the narrator</h2>
+        <p class="task">Who is speaking? Find the clues in the poem. Tap each one as we spot it.</p>
+        <div class="tags" id="clues">
+          <button class="tag" data-clue type="button"><span class="badge">find</span>a phrase that talks to us like a friend</button>
+          <button class="tag" data-clue type="button"><span class="badge">find</span>the word &ldquo;we&rdquo; or &ldquo;us&rdquo;</button>
+          <button class="tag" data-clue type="button"><span class="badge">find</span>the word &ldquo;I&rdquo; or &ldquo;my&rdquo;</button>
+          <button class="tag" data-clue type="button"><span class="badge">find</span>a verb happening right now</button>
+        </div>
+        <button class="reveal-btn" data-reveal="#b3rev" type="button">Reveal the clues &#9662;</button>
+        <div class="reveal-box plain" id="b3rev" hidden>
+          <span class="lead">Clues</span>
+          &ldquo;you know&rdquo; talks to us like a mate. &ldquo;we&rsquo;re carving&rdquo;, &ldquo;five of us&rdquo; show he is in a <b>team</b>, not alone. &ldquo;my mouth&rdquo;, &ldquo;my teeth&rdquo; are first person. The <b>present tense</b> (&ldquo;it all goes to slush&rdquo;) makes it feel like it is happening <b>now</b>, with us right beside him.
+        </div>
+        <div class="starters">
+          <span class="lead">In your notebook, finish this</span>
+          <ul><li>The narrator is a <b>polar explorer</b> who speaks in a ______ voice. He says &ldquo;we&rdquo; because ______. The present tense makes us feel ______.</li></ul>
+          <div class="bank" style="margin-top:10px">
+            <span class="pill">calm</span><span class="pill">matter-of-fact</span><span class="pill">weary</span>
+            <span class="pill">part of a team</span><span class="pill">as if we are there with him</span><span class="pill">the danger is happening now</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 BURST 4 -->
+    <section class="slide" data-min="4">
+      <div class="inner">
+        <div class="kick"><div class="bnum">4</div><span class="chip time">4 min</span><span class="chip links">Activity 2 &middot; dangers</span><span class="chip mode">Class vote</span></div>
+        <h2 class="stitle">Danger or discomfort?</h2>
+        <p class="task">Tap once for <b style="color:var(--danger)">Danger</b> (could kill him), tap again for <b style="color:var(--misery)">Discomfort</b> (just miserable), tap again to clear.</p>
+        <div class="sortkey">
+          <i><span class="sw" style="background:var(--danger)"></span>Danger = deadly</i>
+          <i><span class="sw" style="background:var(--misery)"></span>Discomfort = grim but survivable</i>
+        </div>
+        <div class="tags" id="sorters">
+          <button class="tag" data-sort type="button"><span class="badge">tap</span>falling into a crevasse</button>
+          <button class="tag" data-sort type="button"><span class="badge">tap</span>only a thin rope holding them</button>
+          <button class="tag" data-sort type="button"><span class="badge">tap</span>the ice crust cracking underfoot</button>
+          <button class="tag" data-sort type="button"><span class="badge">tap</span>bleeding gums</button>
+          <button class="tag" data-sort type="button"><span class="badge">tap</span>metallic taste in his mouth</button>
+          <button class="tag" data-sort type="button"><span class="badge">tap</span>teeth working loose</button>
+          <button class="tag" data-sort type="button"><span class="badge">tap</span>far from home, no news</button>
+          <button class="tag" data-sort type="button"><span class="badge">tap</span>the ship groaning in the ice</button>
+        </div>
+        <button class="reveal-btn" data-reveal="#b4rev" type="button">Reveal our answer &#9662;</button>
+        <div class="reveal-box plain" id="b4rev" hidden>
+          <span class="lead">Suggested answer</span>
+          <b>Danger:</b> falling into a crevasse, only a thin rope holding them, the ice cracking underfoot.<br>
+          <b>Discomfort:</b> metallic taste, far from home, the groaning ship (eerie, not deadly).<br>
+          <b>Tricky:</b> bleeding gums and loosening teeth feel like discomfort, but they are signs of scurvy, which could kill him in the end. Great if you argued that.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 BURST 5 -->
+    <section class="slide" data-min="6">
+      <div class="inner">
+        <div class="kick"><div class="bnum">5</div><span class="chip time">6 min</span><span class="chip links">Activity 2 &middot; extended metaphor</span></div>
+        <h2 class="stitle">The teeth trail</h2>
+        <p class="task">A <span class="em">metaphor</span> describes one thing as another. An <span class="em">extended metaphor</span> keeps that idea running all the way through. Bradfield&rsquo;s idea is <b>teeth and mouths</b>. Tap to build the trail.</p>
+        <div class="trail" id="teethTrail">
+          <div class="trail-step"><div class="trail-rail"><div class="trail-num">1</div><div class="line"></div></div><div class="trail-txt">Glaciers capping the hills like <b>false teeth</b></div></div>
+          <div class="trail-step" hidden><div class="trail-rail"><div class="trail-num">2</div><div class="line"></div></div><div class="trail-txt">my <b>mouth</b>, too, tastes of metal</div></div>
+          <div class="trail-step" hidden><div class="trail-rail"><div class="trail-num">3</div><div class="line"></div></div><div class="trail-txt">Salt of iron seeping from my weakened <b>gums</b></div></div>
+          <div class="trail-step" hidden><div class="trail-rail"><div class="trail-num">4</div><div class="line"></div></div><div class="trail-txt">freeze the soft flesh holding my <b>teeth</b></div></div>
+          <div class="trail-step" hidden><div class="trail-rail"><div class="trail-num">5</div><div class="line"></div></div><div class="trail-txt">tongue our loosening <b>teeth</b>, test the stringy <b>roots</b></div></div>
+          <div class="trail-step" hidden><div class="trail-rail"><div class="trail-num">6</div></div><div class="trail-txt">wait for a <b>tug</b> from the ones left above</div></div>
+        </div>
+        <button class="reveal-btn" data-seq="#teethTrail" type="button">Reveal next line &#9662;</button>
+        <div class="cols">
+          <div class="starters">
+            <span class="lead">Big question &middot; notebook</span>
+            <ul><li>The land <b>looks</b> like teeth at the start. By the end, <b>whose</b> teeth are actually falling out, and <b>why</b> does Bradfield link the frozen land to his rotting mouth?</li></ul>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <button class="reveal-btn" data-reveal="#b5rev" type="button">Model answer &#9662;</button>
+            <div class="reveal-box model" id="b5rev" hidden>
+              <span class="lead">Model answer</span>
+              The explorer&rsquo;s <b>own</b> teeth are loosening because of scurvy. Bradfield ties the icy land to his failing body so the danger feels total: the place is slowly <b>eating him</b>. The hills looked like false teeth at the start; by the end his real teeth are being tugged out by cold and disease. Even the rescue rope, &ldquo;a tug from the ones left above,&rdquo; sounds like pulling a tooth.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 BURST 6 -->
+    <section class="slide" data-min="4">
+      <div class="inner">
+        <div class="kick"><div class="bnum">6</div><span class="chip time">4 min</span><span class="chip links">Support box</span><span class="chip mode">Class</span></div>
+        <h2 class="stitle">Two meanings in one line</h2>
+        <div class="quote">It takes a particular man for this, you know,<br>able to be short-sighted for months on end.</div>
+        <p class="task"><span class="em">&ldquo;Short-sighted&rdquo; means two things here.</span> Can you find both?</p>
+        <button class="reveal-btn" data-reveal="#b6rev" type="button">Reveal both meanings &#9662;</button>
+        <div class="reveal-box model" id="b6rev" hidden>
+          <span class="lead">Both meanings</span>
+          <b>1. Literally (his eyes):</b> his eyesight is damaged, he cannot see far. Bright snow glare wrecks explorers&rsquo; eyes.<br><br>
+          <b>2. In his mind:</b> to survive he must <i>not</i> look ahead. He can&rsquo;t dwell on home, family or the future, only on getting through today. Being &ldquo;short-sighted&rdquo; on purpose keeps him going.
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 BURST 7 -->
+    <section class="slide" data-min="8">
+      <div class="inner">
+        <div class="kick"><div class="bnum">7</div><span class="chip time">8 min</span><span class="chip links">Activity 3 &middot; tone + intonation</span></div>
+        <h2 class="stitle">Prepare the dramatic reading</h2>
+        <div class="reveal-box plain" style="background:var(--panel);border-color:var(--ice-line)">
+          <span class="lead">Words we need</span>
+          <b>Tone</b> = the feeling in your voice (serious, calm, grim). &nbsp; <b>Intonation</b> = the rise and fall of your voice as you speak.
+        </div>
+        <p class="task"><b>Which tones fit?</b> Tap the words that suit this poem. Careful, some do not belong.</p>
+        <div class="tags" id="tonebank">
+          <button class="tag" data-tone type="button">weary</button>
+          <button class="tag" data-tone type="button">calm</button>
+          <button class="tag" data-tone type="button">matter-of-fact</button>
+          <button class="tag" data-tone type="button">grim</button>
+          <button class="tag" data-tone type="button">haunting</button>
+          <button class="tag" data-tone type="button">tense</button>
+          <button class="tag" data-tone type="button">resigned</button>
+          <button class="tag" data-tone type="button">eerie</button>
+          <button class="tag" data-tone type="button">cheerful</button>
+          <button class="tag" data-tone type="button">excited</button>
+          <button class="tag" data-tone type="button">silly</button>
+        </div>
+        <p class="task" style="font-size:18px;color:var(--ink-soft)">The last three do not fit: a dying man in the ice is not cheerful, excited or silly.</p>
+        <p class="task"><b>Mark up the ending in your notebook</b> using these symbols:</p>
+        <div class="keys">
+          <span><span class="sym">//</span> pause</span>
+          <span><span class="sym">WORD</span> stress it</span>
+          <span><span class="sym">&#8595;</span> voice falls</span>
+          <span><span class="sym">(quiet)</span> almost a whisper</span>
+          <span><span class="sym">slow</span> stretch it out</span>
+        </div>
+        <div class="quote" style="font-size:clamp(17px,2vw,22px)">Example: &ldquo;Only a thin rope <b>//</b> holds us to the surface.&rdquo; pause after <b>rope</b>, stress <b>thin</b>, then go <b>(quiet)</b>.</div>
+      </div>
+    </section>
+
+    <!-- 9 STRETCH -->
+    <section class="slide">
+      <div class="inner">
+        <div class="stretch">
+          <span class="lead">Stretch &middot; Tableaux</span>
+          <h2>Add three freeze-frames</h2>
+          <p class="task" style="font-size:19px">Groups hold a frozen picture while one person reads. Suggested moments:</p>
+          <ul>
+            <li>The ship trapped, the crew listening to the ice &ldquo;groan and squeak&rdquo;.</li>
+            <li>The instant five of them fall into the crevasse.</li>
+            <li>Hanging on the rope, tonguing loose teeth, waiting for the tug from above.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 BURST 8 -->
+    <section class="slide">
+      <div class="inner">
+        <div class="kick"><div class="bnum">8</div><span class="chip links">Progress Check</span></div>
+        <h2 class="stitle">What makes a strong reading?</h2>
+        <p class="task">Peers rate each performance <b>1 to 5</b> (5 is best) on these two things. Aim for a 5.</p>
+        <div class="rubric">
+          <div class="rcard">
+            <h3>Intonation <span class="score5">a 5 =</span></h3>
+            <ul>
+              <li>Voice clearly <b>rises and falls</b>, never flat.</li>
+              <li><b>Slows down</b> on the fall and the loose teeth.</li>
+              <li>Drops to a <b>whisper</b> on the final line.</li>
+            </ul>
+          </div>
+          <div class="rcard">
+            <h3>Tone <span class="score5">a 5 =</span></h3>
+            <ul>
+              <li>Sounds <b>weary and grim</b>, matching the poem.</li>
+              <li>Makes the class <b>feel</b> the cold and danger.</li>
+              <li>Never slips into cheerful or silly.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="starters">
+          <span class="lead">Exit ticket &middot; notebook</span>
+          <ul><li>One thing I will do to make my reading even better is&hellip;</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 END -->
+    <section class="slide">
+      <div class="inner">
+        <div class="title-hero">
+          <div class="eyebrow">Recap</div>
+          <h1 style="font-size:clamp(30px,6vw,54px)">What we found</h1>
+          <div class="howto" style="max-width:900px">
+            <div class="k"><b>Narrator:</b> a weary explorer, part of a team, present tense</div>
+            <div class="k"><b>Dangers:</b> crevasses, thin ice, one rope</div>
+            <div class="k"><b>Extended metaphor:</b> teeth, the ice eats him alive</div>
+            <div class="k"><b>Short-sighted:</b> damaged eyes and refusing to look ahead</div>
+            <div class="k"><b>Reading:</b> weary, grim, slow, quiet at the end</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <button class="navbtn" id="prevBtn" type="button">&#8592; Back</button>
+    <div class="spacer"></div>
+    <div class="progress" id="progress"></div>
+    <div class="spacer"></div>
+    <button class="navbtn primary" id="nextBtn" type="button">Next &#8594;</button>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- slides ---------- */
+  var slides=Array.prototype.slice.call(document.querySelectorAll(".slide"));
+  var total=slides.length;
+  var cur=0;
+  var count=document.getElementById("count");
+  var prog=document.getElementById("progress");
+  var prevBtn=document.getElementById("prevBtn");
+  var nextBtn=document.getElementById("nextBtn");
+  var stage=document.getElementById("stage");
+  var seen={};
+
+  for(var i=0;i<total;i++){
+    (function(idx){
+      var d=document.createElement("button");
+      d.className="pdot"; d.type="button";
+      d.setAttribute("aria-label","Go to slide "+(idx+1));
+      d.addEventListener("click",function(){ go(idx); });
+      prog.appendChild(d);
+    })(i);
+  }
+  var dots=prog.children;
+
+  function render(){
+    for(var i=0;i<total;i++){ slides[i].hidden = (i!==cur); }
+    count.textContent=(cur+1)+" / "+total;
+    prevBtn.disabled=(cur===0);
+    nextBtn.disabled=(cur===total-1);
+    seen[cur]=true;
+    for(var j=0;j<dots.length;j++){
+      dots[j].className="pdot"+(j===cur?" cur":(seen[j]?" seen":""));
+    }
+    // reset scroll of the shown slide
+    slides[cur].scrollTop=0;
+    // auto-load this slide's suggested minutes into the timer (paused)
+    var m=slides[cur].getAttribute("data-min");
+    if(m){ setPreset(parseInt(m,10)*60, false); }
+  }
+  function go(n){ cur=Math.max(0,Math.min(total-1,n)); render(); }
+  function next(){ go(cur+1); }
+  function prev(){ go(cur-1); }
+
+  prevBtn.addEventListener("click",prev);
+  nextBtn.addEventListener("click",next);
+
+  document.addEventListener("keydown",function(e){
+    var t=e.target.tagName;
+    if(t==="INPUT"||t==="TEXTAREA")return;
+    if(e.key==="ArrowRight"||e.key==="PageDown"||e.key===" "){ e.preventDefault(); next(); }
+    else if(e.key==="ArrowLeft"||e.key==="PageUp"){ e.preventDefault(); prev(); }
+    else if(e.key==="Home"){ e.preventDefault(); go(0); }
+    else if(e.key==="End"){ e.preventDefault(); go(total-1); }
+    else if(e.key==="f"||e.key==="F"){ toggleFs(); }
+  });
+
+  /* ---------- reveal buttons ---------- */
+  document.querySelectorAll("[data-reveal]").forEach(function(btn){
+    var target=document.querySelector(btn.getAttribute("data-reveal"));
+    if(!target)return;
+    btn.setAttribute("aria-expanded","false");
+    btn.addEventListener("click",function(){
+      var show=target.hidden; target.hidden=!show;
+      btn.setAttribute("aria-expanded",show?"true":"false");
+      btn.innerHTML=btn.innerHTML.replace(show?"▾":"▴",show?"▴":"▾");
+    });
+  });
+
+  /* ---------- sequential reveal (teeth trail) ---------- */
+  document.querySelectorAll("[data-seq]").forEach(function(btn){
+    var box=document.querySelector(btn.getAttribute("data-seq"));
+    if(!box)return;
+    var steps=box.querySelectorAll(".trail-step");
+    btn.addEventListener("click",function(){
+      for(var i=0;i<steps.length;i++){
+        if(steps[i].hidden){ steps[i].hidden=false; break; }
+      }
+      var anyHidden=false;
+      for(var j=0;j<steps.length;j++){ if(steps[j].hidden){anyHidden=true;break;} }
+      if(!anyHidden){ btn.disabled=true; btn.style.opacity=".45"; btn.textContent="Trail complete ✓"; }
+    });
+  });
+
+  /* ---------- decode click-to-reveal ---------- */
+  document.querySelectorAll(".decode-q").forEach(function(q){
+    var a=q.nextElementSibling, plus=q.querySelector(".plus");
+    q.addEventListener("click",function(){
+      var show=a.hidden; a.hidden=!show; if(plus)plus.textContent=show?"–":"+";
+    });
+  });
+
+  /* ---------- find/clue chips ---------- */
+  document.querySelectorAll("[data-clue]").forEach(function(chip){
+    var b=chip.querySelector(".badge"), orig=b?b.textContent:"";
+    chip.addEventListener("click",function(){
+      var on=chip.classList.toggle("found");
+      if(b)b.textContent=on?"✓":orig;
+    });
+  });
+
+  /* ---------- sort chips: none -> danger -> discomfort -> none ---------- */
+  document.querySelectorAll("[data-sort]").forEach(function(chip){
+    var b=chip.querySelector(".badge");
+    chip.addEventListener("click",function(){
+      var s=chip.getAttribute("data-state")||"";
+      s = s===""?"danger" : s==="danger"?"misery" : "";
+      if(s){ chip.setAttribute("data-state",s); if(b)b.textContent=(s==="danger"?"danger":"discomfort"); }
+      else { chip.removeAttribute("data-state"); if(b)b.textContent="tap"; }
+    });
+  });
+
+  /* ---------- tone words ---------- */
+  document.querySelectorAll("[data-tone]").forEach(function(chip){
+    chip.addEventListener("click",function(){ chip.classList.toggle("on"); });
+  });
+
+  /* ---------- countdown timer ---------- */
+  var tdisplay=document.getElementById("tdisplay");
+  var tStart=document.getElementById("tStart");
+  var tReset=document.getElementById("tReset");
+  var timerWrap=document.getElementById("timer");
+  var remaining=180, base=180, running=false, tick=null;
+
+  function fmt(s){ var m=Math.floor(s/60), ss=s%60; return m+":"+(ss<10?"0":"")+ss; }
+  function paint(){ tdisplay.textContent=fmt(remaining); }
+  function stop(){ running=false; if(tick){clearInterval(tick);tick=null;} tStart.textContent="Start"; tStart.classList.add("primary"); }
+  function beep(){
+    try{
+      var C=window.AudioContext||window.webkitAudioContext; if(!C)return;
+      var ctx=new C(); var o=ctx.createOscillator(), g=ctx.createGain();
+      o.type="sine"; o.frequency.value=880; o.connect(g); g.connect(ctx.destination);
+      g.gain.setValueAtTime(.001,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(.25,ctx.currentTime+.02);
+      g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.6);
+      o.start(); o.stop(ctx.currentTime+.62);
+    }catch(e){}
+  }
+  function setPreset(sec,autostart){
+    base=sec; remaining=sec; timerWrap.classList.remove("done"); paint();
+    if(autostart){ start(); } else { stop(); }
+  }
+  function start(){
+    if(remaining<=0){ remaining=base; }
+    timerWrap.classList.remove("done");
+    running=true; tStart.textContent="Pause"; tStart.classList.remove("primary");
+    if(tick)clearInterval(tick);
+    tick=setInterval(function(){
+      remaining--; if(remaining<=0){ remaining=0; paint(); stop(); timerWrap.classList.add("done"); beep(); return; }
+      paint();
+    },1000);
+  }
+  tStart.addEventListener("click",function(){ if(running){ stop(); } else { start(); } });
+  tReset.addEventListener("click",function(){ stop(); remaining=base; timerWrap.classList.remove("done"); paint(); });
+  document.querySelectorAll(".tbtn.preset").forEach(function(b){
+    b.addEventListener("click",function(){ setPreset(parseInt(b.getAttribute("data-min"),10)*60, true); });
+  });
+  paint();
+
+  /* ---------- fullscreen ---------- */
+  var fsBtn=document.getElementById("fsBtn");
+  function toggleFs(){
+    try{
+      var el=document.documentElement;
+      if(!document.fullscreenElement){ (el.requestFullscreen||el.webkitRequestFullscreen||function(){}).call(el); }
+      else { (document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document); }
+    }catch(e){}
+  }
+  fsBtn.addEventListener("click",toggleFs);
+
+  /* ---------- theme ---------- */
+  var THEME="polar-theme";
+  var themeBtn=document.getElementById("themeBtn");
+  try{var t=localStorage.getItem(THEME); if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}
+  themeBtn.addEventListener("click",function(){
+    var c=document.documentElement.getAttribute("data-theme");
+    var dark=c==="dark"||(!c&&window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches);
+    var n=dark?"light":"dark";
+    document.documentElement.setAttribute("data-theme",n);
+    try{localStorage.setItem(THEME,n);}catch(e){}
+  });
+
+  render();
+})();
+</script>
+
+</body></html>

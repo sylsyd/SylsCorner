@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Year 8 English: Inference, Reading Between the Lines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Figtree:wght@400;600;800&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f1e7; --paper:#fffdf8; --ink:#1d2433; --ink2:#5a6275; --line:#e4dccb;
+  --rose:#f7d9dc; --rose-ink:#9b2f3f; --teal:#d3ece8; --teal-ink:#1d6b62;
+  --amber:#fbe7c0; --amber-ink:#8a5a09; --lav:#e3def5; --lav-ink:#4b3d8f;
+  --acc:#7a2231; --shadow:0 2px 0 rgba(0,0,0,.04),0 8px 24px rgba(40,30,10,.08);
+  --sans:'Figtree',system-ui,sans-serif; --serif:'Literata',Georgia,serif; --hand:'Caveat',cursive;
+}
+[data-theme="dark"]{
+  --bg:#171a22; --paper:#212532; --ink:#eef0f5; --ink2:#a9b0c2; --line:#343a4b;
+  --rose:#4a2830; --rose-ink:#f3a9b5; --teal:#1f3d3a; --teal-ink:#8fdcd0;
+  --amber:#463715; --amber-ink:#f5cf7d; --lav:#2f2a4c; --lav-ink:#c3b8f7;
+  --acc:#f09aa8; --shadow:0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:clamp(16px,1.25vw,22px)}
+button{font:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;align-items:center;padding:.6rem 1.4rem}
+.brand{font-weight:800;color:var(--acc);font-size:.95rem;line-height:1.2}
+.brand small{display:block;color:var(--ink2);font-weight:600}
+nav{display:flex;gap:.4rem;flex:1}
+nav button{border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:.45em 1.2em;font-weight:700}
+nav button.on{background:var(--acc);border-color:var(--acc);color:var(--paper)}
+.tools{display:flex;gap:.4rem;align-items:center}
+.tb{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:.6rem;padding:.35em .7em;font-weight:600}
+.timer{font-variant-numeric:tabular-nums;font-weight:800;min-width:3.4em;text-align:center}
+.timer.flash{animation:fl .6s 6}
+@keyframes fl{50%{background:var(--rose);color:var(--rose-ink)}}
+main{max-width:70rem;margin:0 auto;padding:1.6rem 1.4rem 4rem}
+h1{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.8rem);margin:.2rem 0 .8rem;line-height:1.15}
+.lead{font-size:1.25rem;color:var(--ink2);margin:0 0 1.4rem;max-width:48rem}
+.card{background:var(--paper);border-radius:1.1rem;box-shadow:var(--shadow);padding:1.5rem 1.8rem;margin-bottom:1.2rem}
+/* equation */
+.eq{display:flex;flex-wrap:wrap;align-items:stretch;gap:.6rem;margin:0 0 1.6rem}
+.eq .box{flex:1;min-width:10rem;border-radius:1rem;padding:1rem 1.2rem;text-align:center;font-weight:800;font-size:1.35rem}
+.eq .box span{display:block;font-weight:600;font-size:.85rem;margin-top:.3rem;opacity:.85}
+.eq .op{align-self:center;font-size:2rem;font-weight:800;color:var(--ink2)}
+.b-clue{background:var(--amber);color:var(--amber-ink)}
+.b-know{background:var(--lav);color:var(--lav-ink)}
+.b-inf{background:var(--teal);color:var(--teal-ink)}
+/* extract */
+.meta{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.8rem;color:var(--ink2);font-weight:700}
+.level{border-radius:999px;padding:.15em .8em;font-size:.85rem}
+.lv-Easy{background:var(--teal);color:var(--teal-ink)}
+.lv-Medium{background:var(--amber);color:var(--amber-ink)}
+.lv-Hard{background:var(--rose);color:var(--rose-ink)}
+.lv-Fun{background:var(--lav);color:var(--lav-ink)}
+.text{font-family:var(--serif);font-size:clamp(1.5rem,2.4vw,2.3rem);line-height:1.45;margin:0 0 .8rem}
+.q{font-style:italic;font-size:1.3rem;color:var(--acc);margin:0 0 1.2rem;font-weight:600}
+.clue{border-radius:.25em;transition:background .25s,box-shadow .25s}
+.show-clue .clue{background:var(--amber);box-shadow:0 0 0 .12em var(--amber-ink) inset;color:var(--amber-ink)}
+.steps{display:grid;gap:.6rem}
+.step{display:none;border-radius:.9rem;padding:.8rem 1.1rem;font-size:1.2rem;align-items:baseline;gap:.8rem}
+.step.on{display:flex;animation:up .3s ease}
+.step b{flex:0 0 9.5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em}
+@keyframes up{from{opacity:0;transform:translateY(6px)}}
+.s-clue{background:var(--amber);color:var(--amber-ink)}
+.s-know{background:var(--lav);color:var(--lav-ink)}
+.s-inf{background:var(--teal);color:var(--teal-ink)}
+.s-say{background:var(--rose);color:var(--rose-ink);font-family:var(--hand);font-size:1.7rem}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem;align-items:center}
+.btn{border:none;border-radius:.8rem;padding:.65em 1.3em;font-weight:800;background:var(--line);color:var(--ink)}
+.btn.main{background:var(--acc);color:var(--paper)}
+.btn:disabled{opacity:.35;cursor:default}
+.spacer{flex:1}
+.count{color:var(--ink2);font-weight:700}
+.frame{font-family:var(--hand);font-size:1.6rem;color:var(--rose-ink);background:var(--rose);border-radius:.9rem;padding:.5rem 1.1rem;margin:0 0 1.2rem;display:inline-block}
+/* worksheet */
+.parts{display:flex;gap:.4rem;margin:0 0 1rem;flex-wrap:wrap}
+.parts button{border:2px solid var(--line);background:var(--paper);color:var(--ink);border-radius:.8rem;padding:.5em 1.1em;font-weight:800}
+.parts button.on{border-color:var(--acc);color:var(--acc)}
+.phead{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center;margin-bottom:1rem}
+.phead h2{font-family:var(--serif);margin:0;font-size:1.8rem}
+.phead .task{color:var(--ink2);font-weight:600}
+.item{display:grid;grid-template-columns:3.2rem 1fr;gap:.2rem 1rem;padding:1rem 0;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:none}
+.num{background:var(--teal);color:var(--teal-ink);font-weight:800;border-radius:.6rem;text-align:center;padding:.35em 0;height:max-content}
+.item .t{font-family:var(--serif);font-size:1.35rem;line-height:1.45}
+.item .qq{font-style:italic;color:var(--acc);font-weight:600;margin-top:.3rem}
+.item .reveal{grid-column:2;margin-top:.5rem}
+.ans{display:none;margin-top:.5rem;background:var(--teal);color:var(--teal-ink);border-radius:.8rem;padding:.6rem 1rem;font-size:1.05rem}
+.ans.on{display:block}
+.mini{border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:.6rem;padding:.3em .8em;font-weight:700;font-size:.85rem}
+.big .item .t{font-size:clamp(1.6rem,2.6vw,2.4rem)}
+@media (max-width:700px){.step b{flex-basis:6rem}.eq .op{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Year 8 English · Week 1, Lesson 1<small>Inference: Reading Between the Lines</small></div>
+  <nav id="nav"></nav>
+  <div class="tools">
+    <button class="tb" data-t="60">1m</button><button class="tb" data-t="180">3m</button><button class="tb" data-t="300">5m</button><button class="tb" data-t="600">10m</button>
+    <span class="tb timer" id="timer">0:00</span>
+    <button class="tb" id="theme" title="Light or dark">◐</button>
+    <button class="tb" id="fs" title="Full screen">⛶</button>
+  </div>
+</header>
+<main id="main"></main>
+
+<script>
+/* ---------- content ---------- */
+const SKILL = {
+  text:'Jake walked in, dropped his [dripping umbrella] by the door and kicked off his [wet shoes].',
+  q:'What is the weather like?',
+  clue:'“dripping umbrella”, “wet shoes”',
+  know:'Umbrellas and shoes get wet when it rains.',
+  inf:'It is raining outside.',
+  say:'I can infer it is raining because the text says “dripping umbrella”.'
+};
+
+const TOGETHER = [
+  {lv:'Easy', text:'Sam [squinted], pulled his cap lower and [wiped the sweat] from his forehead.', q:'What is the weather like?',
+   clue:'“squinted”, “wiped the sweat”', know:'Bright sun makes you squint. Heat makes you sweat.', inf:'It is hot and sunny.',
+   say:'I can infer it is hot and sunny because the text says Sam “wiped the sweat” from his forehead.'},
+  {lv:'Easy', text:'Aisha’s [hands trembled] as she opened the envelope with her exam results.', q:'How does Aisha feel?',
+   clue:'“hands trembled”', know:'People shake when they are nervous.', inf:'Aisha is nervous about her results.',
+   say:'I can infer Aisha is nervous because the text says her “hands trembled”.'},
+  {lv:'Medium', text:'[HURRY!] [Last day] of the sale. [Doors close at 6pm!]', q:'What does the writer want you to do? How?',
+   clue:'“HURRY!”, “Last day”, “Doors close at 6pm”', know:'When time is running out, people rush so they do not miss out.', inf:'The writer wants you to go shopping today, by making you feel time is running out.',
+   say:'I can infer the writer wants me to shop today because the text says “Last day” and “Doors close at 6pm”.'},
+  {lv:'Medium', text:'The picnic went ahead, but everyone was told to [bring a coat] and [sit under the big tree].', q:'What weather was expected?',
+   clue:'“bring a coat”, “sit under the big tree”', know:'Coats are for cold. Trees give shelter from rain.', inf:'Cold, rainy weather was expected.',
+   say:'I can infer rain was expected because people were told to “sit under the big tree”.'},
+  {lv:'Medium', text:'“Great,” [muttered] Nina, as the bus [drove past without stopping].', q:'What does Nina really think?',
+   clue:'“muttered”, “drove past without stopping”', know:'People say “great” when things go wrong, to sound annoyed. Muttering is grumpy.', inf:'Nina is annoyed. She does not think it is great at all.',
+   say:'I can infer Nina is annoyed because she “muttered” and the bus “drove past without stopping”.'},
+  {lv:'Hard', text:'I’m totally fine that I wasn’t picked for the team. I’ve only [reread the list six times].', q:'How does the writer really feel?',
+   clue:'“reread the list six times”', know:'You only reread something again and again when it upsets you. The words say fine, the actions say not fine.', inf:'The writer is upset and disappointed.',
+   say:'I can infer the writer is upset because they have “reread the list six times”.'},
+  {lv:'Hard', text:'Since the new cycle lane opened, the bike shop on the high street has had to [hire three more staff].', q:'What can you infer?',
+   clue:'“hire three more staff”', know:'Shops hire more staff when they get busier.', inf:'More people are cycling, so the bike shop is selling more.',
+   say:'I can infer more people are cycling because the bike shop “has had to hire three more staff”.'},
+  {lv:'Fun', text:'The cake tin was [empty], there were [crumbs on the stairs], and the dog was asleep in Leo’s bedroom with [icing on his nose].', q:'Detective case: what happened?',
+   clue:'“empty”, “crumbs on the stairs”, “icing on his nose”', know:'Crumbs leave a trail. Icing on a nose means someone ate cake.', inf:'The dog ate the cake and carried it upstairs.',
+   say:'I can infer the dog ate the cake because he has “icing on his nose” and there are “crumbs on the stairs”.'},
+  {lv:'Fun', text:'I can hear [waves]. My feet are [sandy]. Someone is [selling ice creams] and a [seagull] just stole my chips.', q:'Where am I?',
+   clue:'“waves”, “sandy”, “selling ice creams”, “seagull”', know:'You find all of these at the seaside.', inf:'You are at the beach.',
+   say:'I can infer I am at the beach because I can hear “waves” and my feet are “sandy”.'},
+  {lv:'Fun', text:'Everyone [whispered]. A man [stamped my book]. The shelves went [up to the ceiling].', q:'Where am I?',
+   clue:'“whispered”, “stamped my book”, “shelves”', know:'Libraries are quiet, full of shelves, and stamp borrowed books.', inf:'You are in a library.',
+   say:'I can infer I am in a library because everyone “whispered” and a man “stamped my book”.'}
+];
+
+const SHEET = {
+  A:{title:'Part A: Do Now', task:'10 min, on your own. Answer the question and say how you know.', time:600, items:[
+    {n:'A1', t:'Mia pulled her hood up, shoved her hands deep into her pockets and watched her breath drift away in small clouds.', q:'What is the weather like? How do you know?',
+     a:'It is very cold. Clue: “watched her breath drift away in small clouds”, plus the hood and hands in pockets.'},
+    {n:'A2', t:'ONLY 3 LEFT AT THIS PRICE! Offer ends at midnight tonight.', q:'What does the writer want you to do? How are they trying to make it happen?',
+     a:'Buy now. They make you rush: “ONLY 3 LEFT” (it might sell out) and “ends at midnight tonight” (time running out).'},
+    {n:'A3', t:'The school sports day went ahead as planned, although parents were advised to bring umbrellas and a change of shoes.', q:'What was the weather forecast? How do you know?',
+     a:'Rain was forecast. Clues: “bring umbrellas” and “a change of shoes” (for wet or muddy ground).'},
+    {n:'A4', t:'“Lovely,” said Dad, staring at the burnt toast. He pushed the plate an inch further away.', q:'What does Dad really think of the toast? How do you know?',
+     a:'He does not like it. He says “Lovely” but “pushed the plate an inch further away”: his actions say the opposite of his words.'},
+    {n:'A5', t:'Day 14. Still no reply from Sam. I have checked my phone forty times today. Not that I’m counting.', q:'How is the writer feeling? How do you know?',
+     a:'Anxious, hurt, desperate for a reply. “checked my phone forty times”; “Not that I’m counting” shows they clearly are.'}
+  ]},
+  B:{title:'Part B: Drill', task:'Easy to hard. One inference and quote the clue. B5 and B6 need more than one clue.', time:600, items:[
+    {n:'B1', t:'Leo’s knees shook as he stepped onto the stage and looked out at the rows of faces.',
+     a:'Leo is nervous or scared. Clue: “knees shook”.'},
+    {n:'B2', t:'The fridge was empty apart from half a lemon and a jar of pickles. Mum sighed and reached for her car keys.',
+     a:'There is no food in the house, so Mum is going shopping. Clues: “empty apart from half a lemon”, “reached for her car keys”.'},
+    {n:'B3', t:'Grandpa’s garden was the only one on the street with no weeds, and his hedges were trimmed into perfect squares.',
+     a:'Grandpa is proud of his garden and works hard on it. Clues: “no weeds”, “perfect squares”.'},
+    {n:'B4', t:'Visitor numbers at the city aquarium have halved since the new theme park opened across the river.',
+     a:'The theme park is taking the aquarium’s visitors. Clue: “halved since the new theme park opened”.'},
+    {n:'B5', t:'Priya read the message twice, put her phone face down on the desk, and suddenly became very interested in her maths homework.',
+     a:'The message upset or embarrassed her and she is avoiding it. Clues: “read the message twice”, “face down”, “suddenly became very interested”.'},
+    {n:'B6', t:'The house was exactly as they had left it, except for the back door, which stood open, and the muddy footprints that crossed the kitchen and stopped at the empty space where the television used to be.',
+     a:'Someone broke in and stole the television. Clues: “back door, which stood open”, “muddy footprints”, “empty space where the television used to be”.'}
+  ]},
+  C:{title:'Part C: Exit Ticket', task:'On your own, 2 marks.', time:180, items:[
+    {n:'C', t:'Tom glanced at the clock for the fifth time, tapping his pen faster and faster against the desk.', q:'What can you infer about Tom? Prove it with a quote.',
+     a:'Tom is impatient or anxious, waiting for something (the end of the lesson?). Clues: “glanced at the clock for the fifth time”, “tapping his pen faster and faster”. 1 mark inference, 1 mark quote.'}
+  ]}
+};
+
+/* ---------- helpers ---------- */
+const $ = s=>document.querySelector(s);
+function el(tag, attrs={}, ...kids){
+  const e=document.createElement(tag);
+  for(const k in attrs){ if(k==='html') e.innerHTML=attrs[k]; else if(k.startsWith('on')) e.addEventListener(k.slice(2),attrs[k]); else e.setAttribute(k,attrs[k]); }
+  kids.flat().forEach(c=>{ if(c!=null) e.append(c); });
+  return e;
+}
+const marked = s => s.replace(/\[([^\]]+)\]/g,'<span class="clue">$1</span>');
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+/* ---------- state ---------- */
+const S = {tab:0, card:0, part:'A'};
+const TABS = ['1  The skill','2  Together','3  Worksheet'];
+
+function nav(){
+  const n=$('#nav'); n.innerHTML='';
+  TABS.forEach((t,i)=>n.append(el('button',{class:i===S.tab?'on':'',onclick:()=>{S.tab=i;render();}},t)));
+}
+
+/* one worked example card with stepped reveal */
+function stepCard(d, meta){
+  const box=el('div',{class:'card'});
+  if(meta) box.append(meta);
+  const text=el('p',{class:'text',html:marked(esc(d.text))});
+  box.append(text, el('p',{class:'q'},d.q));
+  const rows=[['s-clue','1. Find the clue',d.clue],['s-know','2. What I know',d.know],['s-inf','3. Inference',d.inf],['s-say','Say it',d.say]];
+  const steps=el('div',{class:'steps'});
+  const nodes=rows.map(([c,h,t])=>{const s=el('div',{class:'step '+c},el('b',{},h),el('span',{},t)); steps.append(s); return s;});
+  box.append(steps);
+  let k=0;
+  const next=el('button',{class:'btn main'},'Find the clue');
+  const labels=['What I know','Inference','Say it','Done'];
+  const back=el('button',{class:'btn'},'Hide all');
+  function upd(){
+    text.classList.toggle('show-clue',k>0);
+    nodes.forEach((s,i)=>s.classList.toggle('on',i<k));
+    next.textContent = k===0 ? 'Find the clue' : labels[k-1];
+    next.disabled = k>=4;
+  }
+  next.onclick=()=>{k=Math.min(4,k+1);upd();};
+  back.onclick=()=>{k=0;upd();};
+  box.append(el('div',{class:'row'},next,back));
+  box._next=()=>{ if(k<4){k++;upd();return true;} return false; };
+  upd();
+  return box;
+}
+
+function eq(){
+  return el('div',{class:'eq'},
+    el('div',{class:'box b-clue'},'Clue',el('span',{},'what the text says')),
+    el('div',{class:'op'},'+'),
+    el('div',{class:'box b-know'},'What I know',el('span',{},'from real life')),
+    el('div',{class:'op'},'='),
+    el('div',{class:'box b-inf'},'Inference',el('span',{},'what it really means')));
+}
+
+let active=null;
+function render(){
+  nav();
+  const m=$('#main'); m.innerHTML=''; active=null;
+  if(S.tab===0){
+    m.append(el('h1',{},'Inference = working out what the writer does not say.'),
+      el('p',{class:'lead'},'The writer gives you a clue. You add what you already know. That is an inference.'),
+      eq());
+    active=stepCard(SKILL);
+    m.append(active, el('div',{class:'frame'},'I can infer that … because the text says “…”.'));
+  }
+  if(S.tab===1){
+    const d=TOGETHER[S.card];
+    m.append(el('h1',{},'Together'), el('div',{class:'frame'},'I can infer that … because the text says “…”.'));
+    const meta=el('div',{class:'meta'},el('span',{class:'count'},`${S.card+1} of ${TOGETHER.length}`),el('span',{class:'level lv-'+d.lv},d.lv==='Fun'?'Fun round':d.lv));
+    active=stepCard(d,meta);
+    m.append(active);
+    const prev=el('button',{class:'btn',onclick:()=>{S.card--;render();}},'← Previous');
+    const nxt=el('button',{class:'btn main',onclick:()=>{S.card++;render();}},'Next example →');
+    prev.disabled=S.card===0; nxt.disabled=S.card===TOGETHER.length-1;
+    m.append(el('div',{class:'row'},prev,el('span',{class:'spacer'}),nxt));
+  }
+  if(S.tab===2){
+    m.append(el('h1',{},'Your turn: the worksheet'), el('p',{class:'lead'},'Write all answers in your book. Number each one.'));
+    const parts=el('div',{class:'parts'});
+    Object.keys(SHEET).forEach(k=>parts.append(el('button',{class:k===S.part?'on':'',onclick:()=>{S.part=k;render();}},SHEET[k].title)));
+    m.append(parts);
+    const P=SHEET[S.part];
+    const card=el('div',{class:'card'+(S.part==='C'?' big':'')});
+    card.append(el('div',{class:'phead'},el('h2',{},P.title),el('span',{class:'task'},P.task),
+      el('button',{class:'mini',onclick:()=>startTimer(P.time)},`Start ${P.time/60} min timer`),
+      el('button',{class:'mini',onclick:()=>card.querySelectorAll('.ans').forEach(a=>a.classList.add('on'))},'Show all answers'),
+      el('button',{class:'mini',onclick:()=>card.querySelectorAll('.ans').forEach(a=>a.classList.remove('on'))},'Hide all')));
+    P.items.forEach(it=>{
+      const ans=el('div',{class:'ans'},it.a);
+      card.append(el('div',{class:'item'},
+        el('div',{class:'num'},it.n),
+        el('div',{},el('div',{class:'t'},it.t), it.q?el('div',{class:'qq'},it.q):null,
+          el('div',{class:'reveal'},el('button',{class:'mini',onclick:()=>ans.classList.toggle('on')},'Model answer'),ans))));
+    });
+    m.append(card, el('div',{class:'frame'},'I can infer that … because the text says “…”.'));
+  }
+}
+
+/* ---------- timer ---------- */
+let tLeft=0, tId=null;
+function drawT(){ const t=$('#timer'); t.textContent=`${Math.floor(tLeft/60)}:${String(tLeft%60).padStart(2,'0')}`; }
+function startTimer(s){
+  clearInterval(tId); tLeft=s; drawT(); $('#timer').classList.remove('flash');
+  tId=setInterval(()=>{ tLeft--; drawT(); if(tLeft<=0){ clearInterval(tId); $('#timer').classList.add('flash'); } },1000);
+}
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>startTimer(+b.dataset.t));
+$('#timer').onclick=()=>{ clearInterval(tId); tLeft=0; drawT(); };
+
+/* ---------- theme, fullscreen, keys ---------- */
+const mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):{matches:false};
+document.documentElement.dataset.theme=mq.matches?'dark':'light';
+$('#theme').onclick=()=>{ const r=document.documentElement; r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'; };
+$('#fs').onclick=()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); else document.exitFullscreen(); };
+document.addEventListener('keydown',e=>{
+  if(e.target.closest&&e.target.closest('input,textarea,button')) return;
+  if(e.key===' '||e.key==='Enter'){ if(active&&active._next){ e.preventDefault(); active._next(); } }
+  if(e.key==='ArrowRight'){
+    if(S.tab===1 && S.card<TOGETHER.length-1){ S.card++; render(); }
+    else if(S.tab<2){ S.tab++; render(); }
+  }
+  if(e.key==='ArrowLeft'){
+    if(S.tab===1 && S.card>0){ S.card--; render(); }
+    else if(S.tab>0){ S.tab--; render(); }
+  }
+});
+render();
+</script>
+</body>
+</html>

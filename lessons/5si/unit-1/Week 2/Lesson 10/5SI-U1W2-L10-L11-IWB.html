@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5SI English: Setting, mood, events and details</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e8efec; --paper:#fbfdfc; --paper-2:#eff4f2; --ink:#1d3147; --ink-2:#52636f; --line:#cddad5;
+  --amber:#f5dba8; --amber-ink:#8d5b0c; --teal:#b6e1d8; --teal-ink:#1b6a60;
+  --rose:#f5c6ca; --rose-ink:#9a3342; --lav:#dcd5f4; --lav-ink:#51458f;
+  --good:#cdeac6; --good-ink:#2f6a2a; --bad:#f7d0d0; --bad-ink:#9a2d2d;
+  --acc:#bddbb5; --acc-ink:#2e5a2a;
+  --shadow:0 16px 36px -24px rgba(29,49,71,.5);
+  --serif:"Literata", Georgia, "Times New Roman", serif;
+  --sans:"Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --hand:"Caveat", "Segoe Print", "Comic Sans MS", cursive;
+  color-scheme:light;
+}
+body[data-lesson="l11"]{ --acc:#f0c6d0; --acc-ink:#7d2c41; }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161e28; --paper:#202b37; --paper-2:#28353f; --ink:#e6edf2; --ink-2:#a9b8c3; --line:#374654;
+    --amber:#5a4a2c; --amber-ink:#f2d49b; --teal:#274f49; --teal-ink:#a8e2d7;
+    --rose:#58313a; --rose-ink:#f4b8bf; --lav:#3d3960; --lav-ink:#d5ccf6;
+    --good:#2d4c2c; --good-ink:#c2e7ba; --bad:#553032; --bad-ink:#f5c3c3;
+    --acc:#3b5739; --acc-ink:#c7e8bf; --shadow:0 16px 36px -24px rgba(0,0,0,.8); color-scheme:dark;
+  }
+  :root:not([data-theme="light"]) body[data-lesson="l11"]{ --acc:#5a3542; --acc-ink:#f3c4cf; }
+}
+:root[data-theme="dark"]{
+  --bg:#161e28; --paper:#202b37; --paper-2:#28353f; --ink:#e6edf2; --ink-2:#a9b8c3; --line:#374654;
+  --amber:#5a4a2c; --amber-ink:#f2d49b; --teal:#274f49; --teal-ink:#a8e2d7;
+  --rose:#58313a; --rose-ink:#f4b8bf; --lav:#3d3960; --lav-ink:#d5ccf6;
+  --good:#2d4c2c; --good-ink:#c2e7ba; --bad:#553032; --bad-ink:#f5c3c3;
+  --acc:#3b5739; --acc-ink:#c7e8bf; --shadow:0 16px 36px -24px rgba(0,0,0,.8); color-scheme:dark;
+}
+:root[data-theme="dark"] body[data-lesson="l11"]{ --acc:#5a3542; --acc-ink:#f3c4cf; }
+
+*{box-sizing:border-box}
+html{font-size:clamp(15px, .85vw + 8px, 25px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;line-height:1.45}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--lav-ink);outline-offset:2px}
+
+/* header */
+.bar{display:flex;align-items:center;gap:1rem;padding:.55rem 1.2rem;background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10;flex-wrap:wrap}
+.lessons{display:flex;gap:.4rem}
+.lessons button{border:1.5px solid var(--line);background:var(--paper-2);border-radius:.7rem;padding:.35rem .8rem;cursor:pointer;text-align:left;line-height:1.15}
+.lessons button small{display:block;font-size:.72rem;color:var(--ink-2)}
+.lessons button b{font-weight:700;font-size:.95rem}
+.lessons button[aria-selected="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+.lessons button[aria-selected="true"] small{color:inherit}
+.bar-title{flex:1;min-width:10rem;font-family:var(--serif);font-weight:600;font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tools{display:flex;gap:.4rem;align-items:center;position:relative}
+.icon-btn{border:1.5px solid var(--line);background:var(--paper);border-radius:.6rem;padding:.4rem .7rem;cursor:pointer;font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:.4rem}
+.icon-btn svg{width:1.1em;height:1.1em}
+.timer-pop{position:absolute;right:0;top:calc(100% + .4rem);background:var(--paper);border:1px solid var(--line);border-radius:.8rem;padding:.6rem;display:flex;gap:.35rem;box-shadow:var(--shadow)}
+.timer-pop[hidden]{display:none}
+#timerBtn.ring{background:var(--bad);border-color:var(--bad-ink);animation:pulse 1s ease-in-out 4}
+@keyframes pulse{50%{transform:scale(1.08)}}
+
+/* shell */
+.shell{display:grid;grid-template-columns:15.5rem minmax(0,1fr);min-height:calc(100vh - 3.8rem)}
+body.rail-off .shell{grid-template-columns:minmax(0,1fr)}
+body.rail-off .rail{display:none}
+.rail{padding:1rem .7rem;border-right:1px solid var(--line);background:var(--paper-2);overflow:auto}
+.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:.2rem}
+.rail button{display:grid;grid-template-columns:1.8rem 1fr;gap:.4rem;align-items:start;text-align:left;padding:.55rem .6rem;border-radius:.6rem;border:0;background:transparent;cursor:pointer;width:100%}
+.rail button:hover{background:var(--paper)}
+.rail .num{font-family:var(--serif);font-weight:700;font-size:1.25rem;line-height:1;color:var(--ink-2);padding-top:.1rem}
+.rail .bt{font-weight:600;font-size:.98rem;line-height:1.2;display:block}
+.rail .bs{font-size:.8rem;color:var(--ink-2);display:block;margin-top:.1rem}
+.rail button[aria-current="true"]{background:var(--acc);color:var(--acc-ink)}
+.rail button[aria-current="true"] .num,.rail button[aria-current="true"] .bs{color:inherit}
+
+main{display:flex;flex-direction:column;padding:1rem 2rem 1.2rem;min-width:0}
+.stages{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:.4rem}
+.stage-tab{display:flex;align-items:center;gap:.5em;padding:.35em .95em .35em .35em;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);font-weight:600;cursor:pointer;font-size:.95rem}
+.stage-tab .n{width:1.7em;height:1.7em;border-radius:50%;display:grid;place-items:center;background:var(--paper-2);font-size:.85em}
+.stage-tab[aria-current="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+.stage-tab[aria-current="true"] .n{background:var(--paper);color:var(--ink)}
+#stage{flex:1;width:100%;max-width:80rem;margin:0 auto;padding:1.1rem 0 1.4rem}
+#stage.enter{animation:enter .28s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(6px)}}
+@media (prefers-reduced-motion: reduce){#stage.enter{animation:none}#timerBtn.ring{animation:none}}
+.pager{display:flex;justify-content:space-between;align-items:center;gap:1rem;max-width:80rem;width:100%;margin:0 auto;border-top:1px solid var(--line);padding-top:.8rem}
+
+/* type */
+h2.title{font-family:var(--serif);font-weight:700;font-size:clamp(1.75rem,2.5vw,2.9rem);line-height:1.12;letter-spacing:-.015em;margin:0 0 .35em;max-width:32ch;text-wrap:balance}
+.prompt{font-size:1.2rem;color:var(--ink-2);max-width:64ch;margin:0 0 1.2rem}
+.hand{font-family:var(--hand);font-size:1.5em;line-height:1.15;font-weight:500}
+mark{background:var(--lav);color:inherit;border-radius:.2em;padding:0 .15em;box-shadow:inset 0 -.12em 0 var(--lav-ink)}
+
+/* buttons */
+.row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-top:1rem}
+.btn{font-weight:600;font-size:1rem;padding:.55em 1.05em;border-radius:.6em;border:1.5px solid var(--line);background:var(--paper);cursor:pointer}
+.btn:hover{border-color:var(--ink-2)}
+.btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.ghost{background:transparent}
+.btn:disabled{opacity:.4;cursor:default}
+.subtabs{display:flex;gap:.4rem;margin:-.2rem 0 1rem}
+.subtabs .btn[aria-pressed="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+
+/* passage */
+.passage{font-family:var(--serif);font-size:1.32rem;line-height:1.95;background:var(--paper);border-radius:.4rem;padding:1.2rem 1.6rem 1.2rem 3rem;box-shadow:var(--shadow);position:relative;max-width:50rem}
+.passage::before{content:"";position:absolute;left:1.9rem;top:0;bottom:0;width:2px;background:var(--rose)}
+.passage p{margin:0 0 .7em}
+.passage p:last-child{margin-bottom:0}
+.passage.small{font-size:1.15rem;margin-bottom:1rem}
+.split{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.6rem;align-items:start}
+@media (max-width:900px){.split{grid-template-columns:1fr}.shell{grid-template-columns:1fr}.rail{display:none}main{padding:1rem}}
+
+.chunk{padding:.04em .22em;margin:0 -.22em;border-radius:.3em;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:box-shadow .18s,background-color .18s}
+.markable .chunk{cursor:pointer}
+.markable .chunk:not(.mk):hover{background-color:var(--paper-2);box-shadow:inset 0 -2px 0 var(--line)}
+.mk-when{box-shadow:inset 0 0 0 .13em var(--amber-ink);background-color:var(--amber);border-radius:.1em}
+.mk-where{box-shadow:inset 0 0 0 .13em var(--teal-ink);border-radius:1em}
+.mk-event{box-shadow:inset 0 0 0 .13em var(--rose-ink);border-radius:1em}
+.mk-mood,.mk-detail,.mk-verb,.mk-after{background-image:linear-gradient(var(--u),var(--u));background-repeat:no-repeat;background-size:calc(100% - .44em) .13em;background-position:.22em 95%}
+.mk-mood{--u:var(--rose-ink)}
+.mk-detail,.mk-after{--u:var(--teal-ink)}
+.mk-verb{--u:var(--lav-ink)}
+.mk-trap{text-decoration:line-through;text-decoration-color:var(--amber-ink);text-decoration-thickness:.1em;background-color:var(--amber)}
+.mk-turn{background-color:var(--amber)}
+.mk-evidence{background-color:var(--lav);box-shadow:inset 0 -.13em 0 var(--lav-ink)}
+.mk-clue{background-color:var(--teal);box-shadow:inset 0 -.13em 0 var(--teal-ink)}
+.nb{font:700 .62em var(--sans);background:var(--ink);color:var(--paper);border-radius:999px;padding:.05em .45em;vertical-align:super;margin-left:.25em}
+.ck-ok::after,.ck-bad::after{font:700 .7em var(--sans);vertical-align:super;margin-left:.2em}
+.ck-ok::after{content:"\2713";color:var(--good-ink)}
+.ck-bad::after{content:"\2717";color:var(--bad-ink)}
+.ck-miss{outline:2px dashed var(--bad-ink);outline-offset:1px}
+
+.notes{list-style:none;padding:0;margin:0;display:grid;gap:.65rem}
+.notes li{font-family:var(--hand);font-size:1.7rem;line-height:1.1;display:flex;gap:.55rem;align-items:baseline}
+.notes li .nb{font-size:.9rem;vertical-align:baseline;flex:none;position:relative;top:-.15em}
+.notes li.k-when{color:var(--amber-ink)} .notes li.k-where{color:var(--teal-ink)} .notes li.k-mood{color:var(--rose-ink)}
+.notes li.k-event{color:var(--rose-ink)} .notes li.k-detail{color:var(--teal-ink)} .notes li.k-verb{color:var(--lav-ink)} .notes li.k-trap{color:var(--amber-ink)}
+.notes-empty{color:var(--ink-2);font-size:1rem}
+
+/* toolbox */
+.toolbox{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1rem}
+.tool{display:flex;align-items:center;gap:.55rem;border:2px solid var(--line);background:var(--paper);border-radius:.7rem;padding:.45rem .85rem;cursor:pointer;font-weight:600;font-size:1.02rem}
+.tool[aria-pressed="true"]{border-color:var(--ink);background:var(--paper-2)}
+.tool svg{width:2.1rem;height:1.2rem;flex:none}
+.summary{font-size:1.1rem;margin-top:1rem;padding:.7rem 1rem;border-radius:.6rem;background:var(--paper-2)}
+
+/* concept */
+.points{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin:1rem 0 1.4rem}
+.point{background:var(--paper);border-radius:.8rem;padding:1.1rem 1.2rem 1.15rem;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.point::before{content:"";position:absolute;left:0;right:0;top:0;height:.4rem;background:var(--tone)}
+.point h3{font-family:var(--serif);font-size:1.45rem;margin:.15em 0 .25em;color:var(--tone-ink)}
+.point p{font-size:1.1rem;margin:0}
+.demo-wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.4rem;align-items:center}
+@media (max-width:900px){.demo-wrap{grid-template-columns:1fr}}
+.demo-note{font-size:1.1rem;color:var(--ink-2);max-width:60ch;margin-top:.8rem}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:62rem}
+.compare > div{background:var(--paper);border-radius:.8rem;padding:1rem 1.2rem;box-shadow:var(--shadow)}
+.compare .lab{font-weight:700;font-size:1rem}
+.compare .weak .lab{color:var(--bad-ink)} .compare .strong .lab{color:var(--good-ink)}
+.compare .phrase{font-family:var(--serif);font-size:1.2rem;margin:.3rem 0}
+.moodline{max-width:44rem;width:100%;height:auto;background:var(--paper);border-radius:.8rem;box-shadow:var(--shadow)}
+
+/* steps */
+.steps{margin:0;padding-left:1.6rem;display:grid;gap:.75rem;font-size:1.2rem}
+.steps li{padding-left:.3rem}
+.steps li::marker{font-weight:700;color:var(--ink-2)}
+.steps s{text-decoration-color:var(--bad-ink);text-decoration-thickness:.1em}
+
+/* sort */
+.pool{display:flex;flex-wrap:wrap;gap:.5rem;min-height:3.2rem;padding:.8rem;border:2px dashed var(--line);border-radius:.8rem;margin-bottom:1rem}
+.pool-empty{color:var(--ink-2);align-self:center}
+.bins{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:.8rem}
+@media (max-width:900px){.bins{grid-template-columns:1fr}}
+.bin{background:var(--paper);border-radius:.8rem;padding:.7rem;min-height:9rem;cursor:pointer;box-shadow:var(--shadow);border:2px solid transparent}
+.bin.ready{border-color:var(--acc-ink)}
+.bin-label{font-family:var(--serif);font-weight:700;font-size:1.3rem;margin:0 0 .5rem .2rem}
+.bin-body{display:flex;flex-wrap:wrap;gap:.45rem}
+.chip{border:1.5px solid var(--line);background:var(--paper-2);border-radius:.6rem;padding:.45rem .75rem;cursor:pointer;font-size:1.05rem;font-family:var(--serif);text-align:left}
+.chip.sel{border-color:var(--ink);background:var(--acc);color:var(--acc-ink);box-shadow:0 0 0 3px var(--acc)}
+.chip.ok{background:var(--good);border-color:var(--good-ink)}
+.chip.bad{background:var(--bad);border-color:var(--bad-ink)}
+.whys{margin:.8rem 0 0;padding-left:1.2rem;font-size:1.05rem;display:grid;gap:.3rem}
+
+/* questions */
+.qpanel{background:var(--paper);border-radius:1rem;padding:1.2rem 1.4rem;box-shadow:var(--shadow)}
+.single .qpanel{max-width:56rem}
+.qnav{display:flex;gap:.35rem;align-items:center;margin-bottom:.8rem;flex-wrap:wrap}
+.dot{width:2rem;height:2rem;border-radius:50%;border:1.5px solid var(--line);background:var(--paper-2);cursor:pointer;font-weight:700;font-size:.85rem}
+.dot[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.dot.done{background:var(--good);border-color:var(--good-ink)}
+.q{font-family:var(--serif);font-size:1.35rem;line-height:1.35;margin-bottom:.9rem}
+.opts{display:grid;gap:.5rem}
+.opt{display:flex;gap:.75em;align-items:center;text-align:left;font-size:1.12rem;padding:.6em .9em;border-radius:.7em;border:2px solid var(--line);background:var(--paper);cursor:pointer;width:100%}
+.opt:hover{border-color:var(--ink-2)}
+.opt .letter{font-weight:700;width:1.8em;height:1.8em;border-radius:50%;background:var(--paper-2);display:grid;place-items:center;flex:none;font-size:.9em}
+.opt.ok{background:var(--good);border-color:var(--good-ink)}
+.opt.bad{background:var(--bad);border-color:var(--bad-ink)}
+.opt.bad .otext{text-decoration:line-through;text-decoration-color:var(--bad-ink)}
+.fb{margin-top:.9rem;padding:.75rem 1rem;border-radius:.6rem;font-size:1.1rem}
+.fb.ok{background:var(--good);color:var(--good-ink)}
+.fb.bad{background:var(--bad);color:var(--bad-ink)}
+.fb.info{background:var(--paper-2)}
+.helped{margin-top:.8rem;color:var(--lav-ink)}
+
+/* frame */
+.frame-para{font-family:var(--serif);font-size:1.4rem;line-height:2.1;background:var(--paper);border-radius:.8rem;padding:1.2rem 1.6rem;box-shadow:var(--shadow);max-width:62rem;margin:0 0 1rem}
+.gap{font-family:var(--hand);font-size:1.45em;line-height:1;border:0;border-bottom:2.5px solid var(--ink-2);background:var(--paper-2);border-radius:.3em .3em 0 0;padding:.05em .4em;cursor:pointer;min-width:5em}
+.gap.active{background:var(--acc);border-bottom-color:var(--acc-ink)}
+.gap.ok{border-bottom-color:var(--good-ink);background:var(--good)}
+.gap.bad{border-bottom-color:var(--bad-ink);background:var(--bad)}
+.gap.active.ok,.gap.active.bad{box-shadow:0 0 0 3px var(--acc)}
+.chooser{max-width:62rem}
+.chooser-label{font-weight:700;margin:.2rem 0 .5rem}
+
+/* wordswap */
+.scene{font-family:var(--serif);font-size:1.55rem;line-height:1.9;background:var(--paper);border-radius:.8rem;padding:1.3rem 1.7rem;box-shadow:var(--shadow);max-width:60rem;margin:1rem 0}
+.swap{background:var(--lav);border-radius:.25em;padding:0 .2em;box-shadow:inset 0 -.12em 0 var(--lav-ink);transition:background-color .2s}
+.tag{font:700 .55em var(--sans);vertical-align:super;margin-left:.2em;padding:.05em .45em;border-radius:999px;background:var(--paper-2);color:var(--ink-2)}
+.btn[aria-pressed="true"]{background:var(--acc);border-color:var(--acc-ink);color:var(--acc-ink)}
+
+/* games */
+.score{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.team{display:flex;align-items:center;gap:.5rem;padding:.3rem .5rem .3rem .9rem;border-radius:999px;font-weight:700}
+.team.t0{background:var(--teal);color:var(--teal-ink)}
+.team.t1{background:var(--amber);color:var(--amber-ink)}
+.tscore{font-family:var(--serif);font-size:1.6rem;min-width:1.6em;text-align:center}
+.sbtn{width:2rem;height:2rem;border-radius:50%;border:0;background:var(--paper);cursor:pointer;font-weight:700;font-size:1.1rem}
+.qf{background:var(--paper);border-radius:1rem;padding:1.5rem 2rem;box-shadow:var(--shadow);max-width:60rem}
+.qf-count{color:var(--ink-2);font-weight:600;margin-bottom:.5rem}
+.qf-q{font-family:var(--serif);font-size:clamp(1.5rem,2.2vw,2.3rem);line-height:1.3;margin-bottom:1.1rem}
+.qf-q ol.abcd{list-style:upper-alpha;margin:.3rem 0 0;padding-left:2rem;font-size:.72em;display:grid;gap:.25rem}
+.qf-q .small{font-size:.65em;display:block;color:var(--ink-2);margin-top:.35rem}
+.qf .opts{grid-template-columns:repeat(auto-fit,minmax(13rem,1fr))}
+.qf .opt{font-size:1.25rem;padding:.8em 1em}
+.clues{list-style:none;padding:0;margin:0 0 1rem;display:grid;gap:.6rem}
+.clues li{font-family:var(--serif);font-size:1.6rem;background:var(--paper-2);border-radius:.7rem;padding:.6rem 1rem;display:flex;gap:.8rem;align-items:baseline}
+.clues li b{font-family:var(--sans);font-size:1rem;color:var(--ink-2)}
+.worth{font-weight:700;color:var(--acc-ink);background:var(--acc);padding:.2rem .7rem;border-radius:999px;margin-left:.5rem}
+.answer{font-family:var(--serif);font-size:1.8rem;font-weight:700;margin:.4rem 0}
+
+/* infer */
+.slotline{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-bottom:.8rem}
+.slabel{font-weight:700;width:100%}
+.pill{border:1.5px dashed var(--line);border-radius:.6rem;padding:.35rem .7rem;color:var(--ink-2);font-size:1rem}
+.pill.on{border-style:solid;border-color:var(--teal-ink);background:var(--teal);color:var(--teal-ink);font-family:var(--serif)}
+.qpanel .opts .opt{font-size:1rem;padding:.5em .8em}
+.result{margin-top:.9rem;color:var(--good-ink)}
+
+/* sheet & intro */
+.sheet{background:var(--paper);border-radius:1rem;padding:1.5rem 2rem;max-width:70rem;box-shadow:var(--shadow);border-top:.5rem solid var(--acc)}
+.sheet h3{font-family:var(--serif);font-size:1.7rem;margin:0 0 .5rem}
+.sheet blockquote{font-family:var(--serif);font-style:italic;font-size:1.4rem;line-height:1.4;margin:0 0 1.3rem;padding-left:1rem;border-left:4px solid var(--acc-ink)}
+.sheet-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem}
+@media (max-width:900px){.sheet-cols{grid-template-columns:1fr}}
+.sheet h4{font-size:1.1rem;margin:0 0 .5rem}
+.todo{list-style:none;margin:0;padding:0;display:grid;gap:.45rem;counter-reset:t}
+.todo li{counter-increment:t}
+.todo button{display:flex;gap:.7rem;align-items:flex-start;border:0;background:var(--paper-2);border-radius:.6rem;padding:.55rem .8rem;cursor:pointer;text-align:left;width:100%;font-size:1.1rem}
+.todo button::before{content:counter(t);font-weight:700;width:1.7em;height:1.7em;border-radius:50%;background:var(--paper);display:grid;place-items:center;flex:none;font-size:.9em}
+.todo button.done{background:var(--good);color:var(--good-ink)}
+.todo button.done::before{content:"\2713"}
+.remember{margin:0;padding-left:1.2rem;display:grid;gap:.4rem;font-size:1.08rem}
+.frame-box{margin-top:1.2rem;padding:.8rem 1.1rem;border-radius:.7rem;background:var(--paper-2)}
+.map{display:grid;gap:.5rem;max-width:58rem;margin-top:1.2rem}
+.map-row{display:grid;grid-template-columns:1.2fr 1fr;gap:1rem;align-items:center;text-align:left;background:var(--paper);border:0;border-radius:.8rem;padding:.8rem 1.1rem;cursor:pointer;box-shadow:var(--shadow);font-size:1.12rem}
+.map-row:hover{outline:2px solid var(--acc-ink)}
+.map-skill{font-family:var(--serif);font-weight:600;color:var(--acc-ink)}
+.flow{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-top:1.4rem;color:var(--ink-2);font-size:1.02rem}
+.flow span{background:var(--paper);border-radius:999px;padding:.25rem .8rem;border:1.5px solid var(--line)}
+</style>
+</head>
+<body data-lesson="l10">
+<header class="bar">
+  <div class="lessons" role="tablist" aria-label="Lessons" id="lessonTabs"></div>
+  <div class="bar-title" id="barTitle"></div>
+  <div class="tools">
+    <button class="icon-btn" id="timerBtn" type="button" aria-haspopup="true">Timer</button>
+    <div class="timer-pop" id="timerPop" hidden>
+      <button class="btn" data-min="1" type="button">1 min</button>
+      <button class="btn" data-min="2" type="button">2 min</button>
+      <button class="btn" data-min="3" type="button">3 min</button>
+      <button class="btn" data-min="5" type="button">5 min</button>
+      <button class="btn ghost" data-min="0" type="button">Stop</button>
+    </div>
+    <button class="icon-btn" id="railBtn" type="button" title="Show or hide the block list">Blocks</button>
+    <button class="icon-btn" id="themeBtn" type="button" title="Switch light or dark">Theme</button>
+    <button class="icon-btn" id="fsBtn" type="button" title="Full screen">Full screen</button>
+  </div>
+</header>
+<div class="shell">
+  <nav class="rail" aria-label="Blocks"><ol id="rail"></ol></nav>
+  <main>
+    <div class="stages" id="stageTabs" role="tablist" aria-label="Stages"></div>
+    <section id="stage" aria-live="polite"></section>
+    <footer class="pager">
+      <button class="btn" id="prevBtn" type="button">Back</button>
+      <button class="btn primary" id="nextBtn" type="button">Next</button>
+    </footer>
+  </main>
+</div>
+
+<script>
+/* ================= CONTENT ================= */
+const L10 = {
+  id:'l10', code:'Lesson 10', title:'Setting and mood', sheet:'The Case',
+  blocks:[
+    { title:'Start here', short:'What today builds towards', intro:true, stages:{ intro:{
+      title:'Setting and mood',
+      lead:'Today’s sheet is The Case, a hiking story with a surprise in the middle. Each block practises one skill on a different story first, so the sheet makes sense the moment you see it.',
+      map:[
+        {part:'Part 1: box, circle and underline', skill:'Setting and mood', block:1},
+        {part:'Part 1: past, present or future', skill:'Past, present or future?', block:2},
+        {part:'Part 1: notes explaining effects', skill:'Annotating for effect', block:3},
+        {part:'Explain the shift', skill:'The mood shift', block:4},
+        {part:'Part 2: questions with evidence', skill:'Questions with evidence', block:5},
+        {part:'Part 3: rewrite with a new mood', skill:'Changing the mood', block:6}
+      ]}}},
+
+    /* ---------- 1 ---------- */
+    { title:'Setting and mood', short:'When, where, how it feels', stages:{
+      concept:{
+        title:'Setting is when and where. Mood is how it feels.',
+        lead:'Writers build both at once, often in the same sentence. Your job is to pull them apart.',
+        points:[
+          {tone:'amber', h:'When', t:'Time of day, season, year or era: “just before dawn”, “that winter”, “one wet Tuesday”.'},
+          {tone:'teal', h:'Where', t:'The place the action happens. It changes as characters move: “the station”, then “the train”.'},
+          {tone:'rose', h:'Mood', t:'The atmosphere the reader feels. Built from weather, sounds, word choice and the characters’ feelings.'}
+        ],
+        demo:'[Just before dawn|when|When: time of day.], we reached [the edge of the moor|where|Where: the place.]. [Fog swallowed the path|mood|Mood: the fog feels threatening.] and [nobody spoke|mood|Mood: silence adds tension.].',
+        demoNote:'“The moor” is the place. “Fog swallowed the path” is how that place feels. Keep them apart.'
+      },
+      model:{ kind:'annotate', mode:'reveal', tools:['when','where','mood'],
+        title:'Watch the marks go on',
+        prompt:'Box when. Circle where. Underline mood details. Each mark gets a short note.',
+        passage:'[Late one winter evening|when|The season and the time of day.], the ferry [groaned|mood|Sounds strained, almost in pain: uneasy.] away from [the harbour at Port Ellis|where|The starting place.]. [Rain needled|mood|Sharp, attacking rain: hostile weather.] the deck, and [the lights of the town shrank to a smudge|mood|Safety is disappearing behind them.]. I gripped [the cold railing|mood|“Cold” adds discomfort.] and wondered [why nobody else had come outside|mood|Being alone adds unease.].'
+      },
+      practise:{ kind:'annotate', mode:'mark', tools:['when','where','mood'],
+        title:'Your turn at the board',
+        prompt:'Pick a pen, then tap phrases in the text. Tap a mark again to remove it. Check when you’re done.',
+        passage:'[On the first morning of the summer holidays|when], [the market square in Vallon|where] was [already buzzing|mood]. [Sunlight warmed the cobbles|mood] and [the smell of fresh bread|mood] drifted from [the bakery|where]. [Children laughed|mood] as they chased pigeons [past the fountain|where]. Mum bought [two loaves|x] and [a jar of honey|x]. [Nobody was in a hurry|mood]. [By noon|when], [the stalls|?where] were [nearly empty|?mood].'
+      },
+      game:{ kind:'quickfire', title:'When, where or mood?', prompt:'Read the phrase aloud. Which does it mainly give you?',
+        options:['When','Where','Mood'],
+        items:[
+          {q:'“just after midnight”', a:0, why:'A time of day.'},
+          {q:'“in the school attic”', a:1, why:'A place.'},
+          {q:'“the wind howled like a trapped animal”', a:2, why:'A simile that makes the weather feel wild and frightening.'},
+          {q:'“during the summer of 1998”', a:0, why:'A season and a year.'},
+          {q:'“at the edge of the frozen lake”', a:1, why:'Mainly a place. “Frozen” adds a touch of atmosphere, but the phrase tells you where.'},
+          {q:'“my heart hammered against my ribs”', a:2, why:'A character’s feeling. Feelings build mood.'},
+          {q:'“the following Tuesday”', a:0, why:'A day: that is time.'},
+          {q:'“on platform 9 at York station”', a:1, why:'A place.'},
+          {q:'“a sickly yellow light flickered”', a:2, why:'“Sickly” and “flickered” create an uneasy atmosphere.'},
+          {q:'“as the sun came up”', a:0, why:'A time of day.'},
+          {q:'“beside the motorway services”', a:1, why:'A place.'},
+          {q:'“our laughter echoed round the cave”', a:2, why:'The cave is a place, but the phrase is mostly about happy, echoing laughter. Discuss: which words would you circle and which would you underline?'}
+        ]},
+      sheet:{ part:'Part 1: Text marking', task:'Box WHEN it takes place. Circle WHERE it takes place. Underline details that set the mood.',
+        do:['Read the whole story once without marking.','Box the time phrases.','Circle each place. The hikers move, so look for more than one.','Underline details that show how the journey feels, including the hikers’ feelings.'],
+        remember:['Mark short phrases, not whole sentences.','A place is where. How that place feels is mood.','Keep reading to the end: mood details can change later.'] }
+    }},
+
+    /* ---------- 2 ---------- */
+    { title:'Past, present or future?', short:'Narration tells you when', stages:{
+      concept:{
+        title:'Listen to the narrator’s verbs, not the dates.',
+        lead:'A story can mention very old or very futuristic things. That tells you about the objects. The narrator’s verbs tell you when the story is told.',
+        points:[
+          {tone:'amber', h:'Past', t:'we walked, she had opened, I was running'},
+          {tone:'teal', h:'Present', t:'we walk, she opens, I am running'},
+          {tone:'lav', h:'Future', t:'we will walk, she is going to open'}
+        ],
+        demo:'Mia [found|verb|“found”: the narrator’s verb. Past.] a diary [from 1850|trap|“from 1850”: when the diary was written, not when Mia reads it.] and [read|verb|“read”: past again.] it by torchlight.',
+        demoNote:'Verdict: past. The date is a trap.'
+      },
+      model:{ kind:'steps', title:'Two sentences, three traps',
+        prompt:'Follow the thinking, one step at a time.',
+        passage:'Ben’s grandmother [gives|v1] him a coin [from 1066|t1]. He [turns|v1] it over in his palm.\n\nNext summer, we [will open|v2] the time capsule Dad [buried|b2] [in 1995|t2].',
+        steps:[
+          {t:'Spot the date: <b>from 1066</b>. That is when the coin was made. It isn’t when this scene happens.', hl:['t1'], mk:'trap'},
+          {t:'Find the narrator’s verbs: <b>gives</b>, <b>turns</b>. Both are present tense.', hl:['v1'], mk:'verb'},
+          {t:'Verdict: <b>present</b>. The scene is told as if it is happening now.'},
+          {t:'Second sentence. Ignore <b>in 1995</b>: that is when the capsule was buried.', hl:['t2'], mk:'trap'},
+          {t:'<b>buried</b> is past, but it only explains the capsule’s history. Another trap.', hl:['b2'], mk:'trap'},
+          {t:'The main action is <b>will open</b>. Verdict: <b>future</b>.', hl:['v2'], mk:'verb'}
+        ]},
+      practise:{ kind:'questions', title:'Tick the box',
+        prompt:'Past, present or future? Find the main verbs first, then decide.',
+        options:['Past','Present','Future'], wrong:'Not this one. Find the narrator’s main verbs and ignore any dates.',
+        items:[
+          {q:'The 1920s car rattled up the hill as we held our breath.', a:0, why:'Main verbs: rattled, held. “The 1920s” only describes the car.'},
+          {q:'I pull the Roman helmet from the display case and try it on.', a:1, why:'Main verbs: pull, try. Roman is the helmet’s age.'},
+          {q:'Tomorrow the museum will unveil a dinosaur egg that is seventy million years old.', a:2, why:'Main verb: will unveil.'},
+          {q:'We are unpacking Grandad’s records from the 1960s.', a:1, why:'Main verb: are unpacking. The 1960s is when the records were made.'},
+          {q:'By the time the bell rang, she had already hidden the medieval map.', a:0, why:'Main verbs: rang, had hidden.'},
+          {q:'Next week, you will hike to a castle built in 1402.', a:2, why:'Main verb: will hike. “Built” is the castle’s history.'},
+          {q:'Lina wipes dust from a Victorian clock that still ticks.', a:1, why:'Main verb: wipes.'},
+          {q:'He was reading a newspaper from 1978 when the lights went out.', a:0, why:'Main verbs: was reading, went.'}
+        ]},
+      game:{ kind:'quickfire', title:'Date trap', prompt:'Past, present or future? First team to call it with the verb wins the point.',
+        options:['Past','Present','Future'],
+        items:[
+          {q:'Aria finds a fossil that is millions of years old.', a:1, why:'Main verb: finds.'},
+          {q:'We had never seen a spaceship until the airshow last May.', a:0, why:'Main verb: had seen.'},
+          {q:'Dad is going to fix the 1950s jukebox this weekend.', a:2, why:'Main verb: is going to fix.'},
+          {q:'The knight’s armour shines as I polish it for the exhibition.', a:1, why:'Main verbs: shines, polish.'},
+          {q:'The robot waiter from 2099 brought us the wrong soup.', a:0, why:'Main verb: brought. A futuristic robot, but the story is told in the past.'},
+          {q:'You will find the ancient scroll behind the third shelf.', a:2, why:'Main verb: will find.'},
+          {q:'Sam discovered his great-great-grandfather’s letters in a drawer.', a:0, why:'Main verb: discovered.'},
+          {q:'In the year 2140, historians will study the phones we use today.', a:2, why:'Main verb: will study.'}
+        ]},
+      sheet:{ part:'Part 1: Past, present or future?', task:'Cross the box that shows WHEN the story is set: past, present or future.',
+        do:['Choose two or three sentences the narrator tells.','Find the main verbs.','Decide their tense.','Cross the matching box.'],
+        remember:['Dates of things the characters find are traps.','Speech can use a different tense. Check the narration.'] }
+    }},
+
+    /* ---------- 3 ---------- */
+    { title:'Annotating for effect', short:'Short phrase, sharp note', stages:{
+      concept:{
+        title:'Mark a short phrase. Say what it suggests.',
+        lead:'A good annotation picks the exact words doing the work, then explains the effect on the reader.',
+        points:[
+          {tone:'rose', h:'Keep it short', t:'Two to five words. “Rain needled the deck”, not the whole paragraph.'},
+          {tone:'teal', h:'Say what it suggests', t:'Start your note with “suggests”, “makes the place feel” or “shows”.'},
+          {tone:'lav', h:'Name the mood', t:'tense, eerie, peaceful, gloomy, hopeful, exhausting, cosy, joyful, desperate, triumphant'}
+        ],
+        compare:{ phrase:'“the icy lane”', weak:'The lane is icy.', weakWhy:'Repeats the words.', strong:'Suggests every step is risky, so the walk feels tense.', strongWhy:'Explains the effect and names the mood.' }
+      },
+      model:{ kind:'annotate', mode:'reveal', tools:['mood'],
+        title:'A model paragraph',
+        prompt:'Each underline gets a note. Watch how the notes explain instead of repeat.',
+        passage:'The corridor [stretched ahead|mood|The end feels out of reach: a long, lonely walk.], [silent except for the drip|mood|One small sound in the silence makes the quiet feel tense.] of a leaking pipe. Paint hung from the walls [in long grey strips|mood|Decay: nobody has cared for this place in years.]. Somewhere behind a closed door, a radio [muttered to itself|mood|Personification: the radio seems alive, which is unsettling.].'
+      },
+      practise:{ kind:'questions', title:'Which note is strongest?',
+        prompt:'Each phrase has three notes. Pick the one that explains an effect.',
+        items:[
+          {q:'“the icy wind clawed at our coats”', options:[
+            {t:'The wind was icy.', why:'This repeats the text. It doesn’t explain anything.'},
+            {t:'“Clawed” makes the wind sound like an animal attacking, so the weather feels dangerous.', ok:true, why:'Names the key word, explains the image and links it to mood.'},
+            {t:'It was cold and windy outside.', why:'A summary, not an effect.'}]},
+          {q:'“the kitchen hummed with chatter”', options:[
+            {t:'“Hummed” is a verb.', why:'Correct, but so what? Say what the word suggests.'},
+            {t:'People were talking in the kitchen.', why:'This retells the text.'},
+            {t:'“Hummed” suggests a steady, comfortable buzz, so the mood is warm and busy.', ok:true, why:'Explains the sound and names the mood.'}]},
+          {q:'“the lake lay flat and grey”', options:[
+            {t:'Suggests nothing is moving, which creates a dull, lifeless mood.', ok:true, why:'Explains what the image suggests and names the mood.'},
+            {t:'The lake was grey.', why:'Repeats the text.'},
+            {t:'This describes the lake.', why:'True, but every description does. What does this one make us feel?'}]},
+          {q:'“we crept past the gate”', options:[
+            {t:'They walked past a gate.', why:'Retells, and loses the key word.'},
+            {t:'Crept is a good word.', why:'Why is it good? Explain the effect.'},
+            {t:'“Crept” suggests careful, quiet steps, so we sense they are afraid of being caught.', ok:true, why:'Zooms in on one word and explains the feeling it creates.'}]}
+        ]},
+      game:{ kind:'quickfire', title:'Name that mood', prompt:'Which mood does the phrase create? Be ready to name the word that tells you.',
+        items:[
+          {q:'“the clock ticked louder and louder”', o:['tense','peaceful','joyful','cosy'], a:0, why:'The growing sound makes the waiting feel unbearable.'},
+          {q:'“waves lapped gently at our toes”', o:['exhausting','peaceful','eerie','desperate'], a:1, why:'“Lapped gently”: soft, slow, calm.'},
+          {q:'“an empty swing creaked in the wind”', o:['triumphant','joyful','eerie','cosy'], a:2, why:'Empty and creaking: something missing, something moving on its own.'},
+          {q:'“we collapsed onto the grass, gasping”', o:['exhausting','eerie','cosy','peaceful'], a:0, why:'“Collapsed” and “gasping” show total tiredness.'},
+          {q:'“confetti rained down as the crowd roared”', o:['gloomy','triumphant','tense','lonely'], a:1, why:'Celebration and noise: victory.'},
+          {q:'“a single candle guttered in the dark”', o:['joyful','cosy','eerie','hopeful'], a:2, why:'“Guttered” means flickering, about to go out. One small light in the dark feels eerie.'},
+          {q:'“the scent of cinnamon filled the warm kitchen”', o:['desperate','cosy','tense','eerie'], a:1, why:'Warmth and a sweet smell feel safe and comfortable.'},
+          {q:'“the last boat left without us”', o:['triumphant','desperate','peaceful','cosy'], a:1, why:'Stranded, with no way out.'}
+        ]},
+      sheet:{ part:'Part 1: Mark and explain', task:'Mark short phrases and add notes explaining their effects.',
+        do:['Choose a phrase of two to five words.','Draw a line to the margin.','Write what it suggests about the place or the journey.','Name the mood.'],
+        remember:['Your sheet has a model annotation. Copy its shape, not its words.','Then find a mood detail from after the discovery and explain how it contrasts.'],
+        frame:'“_____” suggests _____, so the mood feels _____.' }
+    }},
+
+    /* ---------- 4 ---------- */
+    { title:'The mood shift', short:'Before, turning point, after', stages:{
+      concept:{
+        title:'Moods can change. Find the moment they turn.',
+        lead:'Many stories start with one feeling and end with another. The place and time often stay the same. The atmosphere and the characters’ feelings are what change.',
+        points:[
+          {tone:'rose', h:'Before', t:'Which details set the first mood?'},
+          {tone:'amber', h:'Turning point', t:'Which event makes things change?'},
+          {tone:'teal', h:'After', t:'Which details show the new mood? How do they contrast with the earlier ones?'}
+        ],
+        moodline:true
+      },
+      model:{ kind:'steps', title:'Tracking a shift',
+        prompt:'Watch how the explanation is built from marked details.',
+        passage:'[The rain had not stopped all weekend.|w] Tom [slumped on the sofa|b], [scrolling through the same boring channels|b] while [the windows rattled|b]. [Then his phone buzzed: his cousin had two tickets for the final.|t] Suddenly [the rattling windows sounded like applause|a]. Tom [leapt up, grinning|a], and grabbed his coat.',
+        steps:[
+          {t:'<b>Setting:</b> Tom’s living room on a rainy weekend. This stays the same all the way through.', hl:['w'], mk:'where'},
+          {t:'<b>Before:</b> “slumped”, “the same boring channels” and the rattling windows create a gloomy, bored mood.', hl:['b'], mk:'mood'},
+          {t:'<b>Turning point:</b> the phone call about the tickets.', hl:['t'], mk:'turn'},
+          {t:'<b>After:</b> the same windows now “sounded like applause”, and Tom “leapt up, grinning”. The mood is excited.', hl:['a'], mk:'after'},
+          {t:'<span class="hand">At first, the mood is gloomy. The detail “slumped on the sofa” shows this because Tom seems heavy and bored. After the phone call, the mood becomes excited: the rattling windows now “sounded like applause”, which contrasts with the dull weekend.</span>'}
+        ]},
+      practise:[
+        { kind:'sort', label:'A: Sort the details', title:'Before or after?',
+          prompt:'Read Amira’s story. Tap a detail, then tap where it belongs.',
+          text:'The library was stuffy and silent. Amira stared at the maths problem until the numbers blurred. Her pencil had been chewed flat. Then, all at once, she saw it: the pattern she had been missing. Her pencil flew across the page. The quiet room felt like her own private workshop, and she almost laughed out loud.',
+          bins:[{id:'before',label:'Before'},{id:'turn',label:'Turning point'},{id:'after',label:'After'}],
+          items:[
+            {t:'stuffy and silent', bin:'before', why:'Airless and quiet: uncomfortable.'},
+            {t:'her pencil flew across the page', bin:'after', why:'Speed and energy replace being stuck.'},
+            {t:'stared until the numbers blurred', bin:'before', why:'She is stuck and strained.'},
+            {t:'she saw it: the pattern', bin:'turn', why:'The breakthrough changes everything.'},
+            {t:'almost laughed out loud', bin:'after', why:'Joy and relief.'},
+            {t:'chewed flat', bin:'before', why:'Shows anxiety over a long time.'},
+            {t:'her own private workshop', bin:'after', why:'The same quiet room now feels welcoming.'}
+          ]},
+        { kind:'frame', label:'B: Explain the shift', title:'Build the explanation',
+          prompt:'Tap a gap, then choose. Wrong choices explain themselves.',
+          template:'At first, the mood is {0}. The detail {1} shows this because {2}. After the breakthrough, the mood becomes {3}: {4} contrasts with the earlier detail because {5}.',
+          slots:[
+            [{t:'tense and frustrating', ok:true, why:'Matches “stuffy”, “blurred” and “chewed flat”.'},{t:'joyful', why:'That is the mood after the turning point.'},{t:'in the library', why:'That is the place, not the mood.'}],
+            [{t:'“chewed flat”', ok:true, why:'A precise detail that shows her stress.'},{t:'“the library”', why:'This is the setting. It doesn’t show a feeling.'},{t:'“the maths problem”', why:'This names the task, not the atmosphere.'}],
+            [{t:'it suggests she has been stuck and anxious for a long time', ok:true, why:'Explains the effect.'},{t:'it tells us about her pencil', why:'Repeats the text instead of explaining.'}],
+            [{t:'triumphant', ok:true, why:'She has solved it and almost laughs.'},{t:'gloomy', why:'That fits before, not after.'},{t:'silent', why:'Silent describes the room, not the new feeling.'}],
+            [{t:'“her pencil flew across the page”', ok:true, why:'A detail from after the turning point.'},{t:'“stared at the maths problem”', why:'This comes before the turning point.'}],
+            [{t:'fast, free movement replaces the stuck, chewed pencil', ok:true, why:'Links the two details and names the change.'},{t:'it is in the same room', why:'True, but the place isn’t the contrast. The feeling is.'}]
+          ]}
+      ],
+      game:{ kind:'quickfire', title:'Find the turning point', prompt:'Which sentence changes the mood?',
+        options:['A','B','C','D'],
+        items:[
+          {q:'<ol class="abcd"><li>The campsite was dark and cold.</li><li>Our tent leaked and my sleeping bag was soaked.</li><li>Then the clouds parted and the sky blazed with stars.</li><li>We lay back, forgetting the damp, and traced the constellations.</li></ol>', a:2, why:'Misery before C, wonder after it.'},
+          {q:'<ol class="abcd"><li>The party was in full swing, music thumping.</li><li>Suddenly the power cut out.</li><li>In the silence, someone screamed.</li><li>Nobody dared move.</li></ol>', a:1, why:'Fun becomes fear at B.'},
+          {q:'<ol class="abcd"><li>Grandpa’s garden was overgrown and forgotten.</li><li>Weeds choked the flower beds.</li><li>Brambles hid the old bench.</li><li>Then we found a tiny, perfect rose blooming by the wall.</li></ol>', a:3, why:'Neglect gives way to hope at D.'},
+          {q:'<ol class="abcd"><li>Sports day began in bright sunshine.</li><li>Our team won every race before lunch.</li><li>Then Jaya tripped at the final hurdle.</li><li>A hush fell over the field.</li></ol>', a:2, why:'Triumph turns to shock at C.'},
+          {q:'<ol class="abcd"><li>The exam hall was silent.</li><li>My mind went blank at question one.</li><li>I glanced at the clock and panicked.</li><li>Then I remembered the trick Ms Okafor taught us, and the answers began to flow.</li></ol>', a:3, why:'Panic becomes confidence at D.'}
+        ]},
+      sheet:{ part:'Explain the shift', task:'At first, the mood is … The detail … shows this. After the discovery, …',
+        do:['Find the first mood and one precise detail.','Find the discovery: that is the turning point.','Find a detail from after the discovery.','Explain how the two details contrast.'],
+        remember:['Separate the place and time from the atmosphere and the hikers’ feelings.','Question 4 asks you to summarise setting and mood: setting first, then the mood and how it shifts.','Question 3 is an inference: how did the discovery change what the hikers felt and did?'] }
+    }},
+
+    /* ---------- 5 ---------- */
+    { title:'Questions with evidence', short:'Narrator, word meaning, inference', stages:{
+      concept:{
+        title:'Every answer needs a reason from the text.',
+        lead:'Your sheet asks “What helped you answer?” That means: quote a short phrase and say what it proves.',
+        points:[
+          {tone:'teal', h:'Who is telling it?', t:'“I” or “we” in the narration means a character is telling the story. Anyone the narrator names is someone else.'},
+          {tone:'amber', h:'Word in context', t:'Reread the sentence. Try each option in the word’s place. Keep the one that fits the clues around it.'},
+          {tone:'rose', h:'Inference', t:'The text doesn’t say it directly. Compare what characters feel and do before and after an event.'},
+          {tone:'lav', h:'What helped you?', t:'I chose … because the text says “…”, which shows …'}
+        ]},
+      model:{ kind:'steps', title:'Three questions, worked through',
+        prompt:'One passage, three question types.',
+        passage:'[Priya and I|p] had searched the beach for an hour when she held up a small glass bottle. Inside, rolled tightly, was a letter in [faded|f] ink. We [read it twice|i], then [ran all the way home without stopping|i2] to show Mum.',
+        steps:[
+          {t:'<b>Who is telling the story?</b> A. Priya &nbsp; B. a friend of Priya &nbsp; C. the bottle &nbsp; D. a fisherman'},
+          {t:'Clue: “Priya and I”. The narrator says “I” and names Priya as someone else. Answer: <b>B</b>.', hl:['p'], mk:'evidence'},
+          {t:'<b>“Faded” ink means:</b> A. bright &nbsp; B. pale and worn &nbsp; C. wet &nbsp; D. new'},
+          {t:'Swap test: “a letter in <s>bright</s> ink” doesn’t fit an old letter in a bottle. “Pale and worn” does. Answer: <b>B</b>.', hl:['f'], mk:'evidence'},
+          {t:'<b>How did the find affect them?</b> The text never says “they were excited”.'},
+          {t:'Clues: they “read it twice” and “ran all the way home without stopping”. Inference: they were thrilled and couldn’t wait to share it.', hl:['i','i2'], mk:'evidence'},
+          {t:'<span class="hand">I chose B because the text says “Priya and I”, which shows the narrator is with Priya, not Priya herself.</span>'}
+        ]},
+      practise:{ kind:'questions', title:'Try it: the stadium',
+        prompt:'Answer, then press “Show what helped” to see the evidence light up.',
+        passage:'[We had been queuing outside the stadium for three hours|q1], and [my toes were numb|n]. [Leo kept checking his watch and sighing|l]. When the gates finally opened, a steward handed each of us a free scarf. Leo [whooped|w]. [We sprinted up the steps two at a time|s], [singing|s].',
+        items:[
+          {q:'1. Who is telling the story?', evidence:['q1','n'], helped:'“We had been queuing” and “my toes”: the narrator is in the queue, and talks about Leo as someone else.', options:[
+            {t:'Leo', why:'The narrator talks about Leo as “Leo” and “his”, so Leo is someone else.'},
+            {t:'the steward', why:'The steward is mentioned once, from outside.'},
+            {t:'a fan queuing with Leo', ok:true, why:'“We had been queuing” and “my toes” put the narrator in the queue beside Leo.'},
+            {t:'a journalist', why:'Nothing suggests a journalist.'}]},
+          {q:'2. “Whooped” means:', evidence:['w','s'], helped:'The next sentence shows sprinting and singing: happy energy.', options:[
+            {t:'shouted with joy', ok:true, why:'Fits the sprinting and singing that follow.'},
+            {t:'cried quietly', why:'Try it in the sentence. It clashes with the celebration that follows.'},
+            {t:'coughed', why:'“Leo coughed” doesn’t match what happens next.'},
+            {t:'whispered', why:'Nothing quiet happens here.'}]},
+          {q:'3. What does “kept checking his watch and sighing” suggest about Leo before the gates open?', evidence:['l'], helped:'Checking the time again and again, plus sighing, shows he wants the wait to end.', options:[
+            {t:'He is asleep.', why:'He is checking his watch, so he is awake.'},
+            {t:'He is impatient.', ok:true, why:'Repeated checking and sighing show frustration at waiting.'},
+            {t:'He is proud of his watch.', why:'Too literal. Why does someone keep checking the time?'},
+            {t:'He is lost.', why:'Not in the text.'}]},
+          {q:'4. Make an inference. How did the gates opening affect the two fans?', evidence:['l','s'], helped:'Before: sighing and numb toes. After: sprinting and singing.', options:[
+            {t:'They became more tired.', why:'The opposite: they sprint.'},
+            {t:'They argued with the steward.', why:'Not in the text.'},
+            {t:'They decided to go home.', why:'They go up the steps into the stadium.'},
+            {t:'Their impatience turned into excitement.', ok:true, why:'Compare the sighing before with the sprinting and singing after.'}]}
+        ]},
+      game:{ kind:'quickfire', title:'Word detective', prompt:'Use the clues in the sentence. What does the underlined word mean?',
+        items:[
+          {q:'The old bridge was so <mark>rickety</mark> that we crossed one at a time.', o:['brand new','unsteady and likely to break','very long','beautifully painted'], a:1, why:'Crossing one at a time suggests it might not hold everyone.'},
+          {q:'Starving after training, Sam <mark>devoured</mark> three sandwiches in minutes.', o:['refused','shared','ate quickly and hungrily','made'], a:2, why:'“Starving” and “in minutes” are the clues.'},
+          {q:'The museum’s <mark>replica</mark> of the crown looked real, but the original was locked away.', o:['copy','thief','guard','box'], a:0, why:'“Looked real, but the original…” tells you it isn’t the real one.'},
+          {q:'Her reply was so <mark>curt</mark> that I knew she was annoyed.', o:['long and friendly','funny','rudely short','whispered'], a:2, why:'Annoyed people often answer briefly.'},
+          {q:'Mist <mark>shrouded</mark> the valley, hiding the village below.', o:['lit up','covered and hid','flooded','warmed'], a:1, why:'“Hiding the village” explains it.'},
+          {q:'The crowd <mark>dispersed</mark> once the rain began.', o:['gathered','cheered','spread out and left','sang'], a:2, why:'People leave when it rains.'},
+          {q:'He was <mark>elated</mark> when his name was called for the team.', o:['extremely happy','embarrassed','bored','late'], a:0, why:'Being picked for the team is good news.'},
+          {q:'After the storm, the garden was a <mark>jumble</mark> of broken branches and scattered pots.', o:['neat row','messy mix','song','map'], a:1, why:'“Broken” and “scattered” suggest mess.'}
+        ]},
+      sheet:{ part:'Part 2: Questions', task:'Give details from the discovery story.',
+        do:['Questions 1 and 2: choose, then answer “What helped you answer?” with a short quotation.','Question 3: compare what the hikers feel and do before and after.','Question 4: setting first (when and where), then the mood and how it shifts.'],
+        remember:['Pronouns reveal the narrator.','For a word in context, try every option in the sentence.'],
+        frame:'I chose … because the text says “…”, which shows …' }
+    }},
+
+    /* ---------- 6 ---------- */
+    { title:'Changing the mood', short:'Same place, new feeling', stages:{
+      concept:{
+        title:'Keep the place. Change the feeling.',
+        lead:'The extension asks you to rewrite a scene with a different mood. The setting stays. What is found, what is sensed and the words you choose all change.',
+        points:[
+          {tone:'teal', h:'What is found', t:'Change the object at the centre of the scene and the feeling follows.'},
+          {tone:'amber', h:'Sensory details', t:'Sight, sound, smell, touch, taste. Two strong ones beat five vague ones.'},
+          {tone:'rose', h:'Chosen words', t:'Verbs and adjectives do the heavy lifting: “swung open” and “prised open” feel very different.'}
+        ]},
+      model:{ kind:'wordswap', title:'One shed, three moods',
+        prompt:'Switch the mood and watch which words change. Then show the senses.',
+        moods:[{id:'cosy',label:'Cosy'},{id:'sinister',label:'Sinister'},{id:'sad',label:'Sad'}],
+        template:'We {0} the shed door. Inside, {1} across {2} tools, and the air smelled of {3}. Somewhere in the corner, {4}.',
+        slots:[
+          {sense:'verb', v:{cosy:'swung open', sinister:'prised open', sad:'slowly pulled open'}, n:{cosy:'Easy movement: nothing to fear.', sinister:'Force: something doesn’t want us in.', sad:'Hesitation: we don’t really want to go in.'}},
+          {sense:'sight', v:{cosy:'golden sunlight spilled', sinister:'a thin grey light crept', sad:'dust drifted in a pale beam'}, n:{cosy:'Warm colour, generous verb.', sinister:'“Crept” makes the light sneaky.', sad:'Dust suggests time has passed.'}},
+          {sense:'sight', v:{cosy:'a tidy row of', sinister:'a row of rusted', sad:'Grandad’s untouched'}, n:{cosy:'Someone cares for this place.', sinister:'Neglect and decay.', sad:'“Untouched” hints that someone is gone.'}},
+          {sense:'smell', v:{cosy:'cut grass and warm wood', sinister:'damp and rot', sad:'engine oil, just like his hands used to'}, n:{cosy:'Summer smells.', sinister:'Something is decaying.', sad:'A smell that brings back a memory.'}},
+          {sense:'sound', v:{cosy:'a radio hummed a tune', sinister:'something scratched', sad:'a clock had stopped ticking'}, n:{cosy:'Company and comfort.', sinister:'An unseen creature: fear.', sad:'A missing sound: stillness and loss.'}}
+        ]},
+      practise:[
+        { kind:'sort', label:'A: Which sense?', title:'Sort the senses',
+          prompt:'These details describe a box left on a doorstep. Tap a detail, then tap its sense.',
+          bins:[{id:'sight',label:'Sight'},{id:'sound',label:'Sound'},{id:'smell',label:'Smell'},{id:'touch',label:'Touch'}],
+          items:[
+            {t:'the cardboard was soft with rain', bin:'touch', why:'You feel softness.'},
+            {t:'a faint ticking from inside', bin:'sound', why:'You hear ticking.'},
+            {t:'a smell of burnt sugar', bin:'smell', why:'Smell.'},
+            {t:'my name in shaky red letters', bin:'sight', why:'You see the letters.'},
+            {t:'the lid was warm under my fingers', bin:'touch', why:'Temperature is touch.'},
+            {t:'a rustle, then silence', bin:'sound', why:'You hear a rustle.'},
+            {t:'a whiff of lavender', bin:'smell', why:'Smell.'},
+            {t:'a ribbon the colour of a bruise', bin:'sight', why:'Colour is sight.'}
+          ]},
+        { kind:'frame', label:'B: Remix it', title:'Remix for an eerie mood',
+          prompt:'Target mood: eerie. Choose the words that build it.',
+          template:'The box {0} on the step. When I lifted the lid, {1}, and a smell of {2} {3} out. My fingers {4}.',
+          slots:[
+            [{t:'waited', ok:true, why:'Personification: the box seems to expect me. Unsettling.'},{t:'sat happily', why:'“Happily” pulls towards a cheerful mood.'},{t:'was', why:'Correct but flat. It creates no mood.'}],
+            [{t:'something inside shifted', ok:true, why:'Movement with no clear cause.'},{t:'a puppy yapped hello', why:'Joyful, not eerie.'},{t:'there were some things', why:'Vague: nothing to sense.'}],
+            [{t:'old, wet earth', ok:true, why:'Suggests something buried.'},{t:'fresh cupcakes', why:'Cosy, not eerie.'}],
+            [{t:'crept', ok:true, why:'Slow, sneaky movement.'},{t:'burst', why:'Sudden and energetic: more surprise than eerie.'},{t:'came', why:'Neutral: no effect.'}],
+            [{t:'went cold', ok:true, why:'A touch detail that shows fear.'},{t:'tingled with excitement', why:'Wrong mood.'}]
+          ]}
+      ],
+      game:{ kind:'quickfire', title:'Mood remix', prompt:'Hit the target mood. Which word fits?',
+        items:[
+          {q:'Target: <b>menacing</b><br>“The door ______.”', o:['creaked open','flew open cheerfully','opened','popped open'], a:0, why:'A slow creak suggests something unwelcome.'},
+          {q:'Target: <b>peaceful</b><br>“The river ______ past the bank.”', o:['raged','drifted','crashed','hurtled'], a:1, why:'“Drifted” is slow and gentle.'},
+          {q:'Target: <b>joyful</b><br>“Music ______ from the hall.”', o:['leaked','moaned','burst','seeped'], a:2, why:'“Burst” is full of energy.'},
+          {q:'Target: <b>lonely</b><br>“The café was empty except for one ______.”', o:['cold cup of tea','birthday party','laughing family','crowded table'], a:0, why:'One forgotten, cold cup: nobody is there.'},
+          {q:'Target: <b>tense</b><br>“We ______ along the corridor.”', o:['skipped','crept','strolled','bounced'], a:1, why:'Creeping means trying not to be heard.'},
+          {q:'Target: <b>hopeful</b><br>“Through the clouds, a thin line of ______ appeared.”', o:['smoke','blue sky','ash','fog'], a:1, why:'Blue sky promises better weather ahead.'}
+        ]},
+      sheet:{ part:'Part 3: Extension', task:'Rewrite the discovery in 120–150 words. Keep the mountain trail, brook and suitcase, but change its contents to create a different mood.',
+        do:['Pick your new mood first.','Decide what is inside the case.','Add two sensory details.','Choose three precise words and underline them.','Explain how their effects differ from the original.','Label your scene: alternative version.'],
+        remember:['Check: time, place, mood shift, precise evidence.'] }
+    }}
+  ]
+};
+
+const L11 = {
+  id:'l11', code:'Lesson 11', title:'Key events and details', sheet:'A World Away',
+  blocks:[
+    { title:'Start here', short:'What today builds towards', intro:true, stages:{ intro:{
+      title:'Key events and details',
+      lead:'Today’s sheet is A World Away, a fantasy where something strange happens at a fair. Each block practises one skill on a different story first.',
+      map:[
+        {part:'Part 1: circle events, underline details', skill:'Events and details', block:1},
+        {part:'Part 1: margin notes on why events matter', skill:'Why an event matters', block:2},
+        {part:'Question 1: choosing the best answer', skill:'Ruling out wrong answers', block:3},
+        {part:'Question 2: a phrase in context', skill:'Phrases in context', block:4},
+        {part:'Questions 3 and 4, build an inference', skill:'Building an inference', block:5},
+        {part:'Part 3: leave a trail of clues', skill:'A trail of clues', block:6}
+      ]}}},
+
+    /* ---------- 1 ---------- */
+    { title:'Events and details', short:'What happens, and what we learn about it', stages:{
+      concept:{
+        title:'An event is something that happens. A detail tells you more about it.',
+        lead:'Events move the story forward. Details add colour: where, how, what it looks like, who is there.',
+        points:[
+          {tone:'rose', h:'Event', t:'An action that changes the story. Usually built around a verb: ran, found, shouted, arrived.'},
+          {tone:'teal', h:'Detail', t:'Information about the event: where, when, how, with what, what it looks or sounds like.'},
+          {tone:'amber', h:'The delete test', t:'Delete a detail and you lose colour. Delete an event and you lose the story.'}
+        ],
+        demo:'Kofi [grabbed his skateboard|event|Event: he sets off.] [from the hallway|detail|Detail: where it was.] and [raced|event|Event: the ride begins.] [down the steep hill|detail|Detail: shows speed and risk.].',
+        demoNote:'Circle the action. Underline what it tells you about the action.'
+      },
+      model:{ kind:'annotate', mode:'reveal', tools:['event','detail'],
+        title:'Watch the marks go on',
+        prompt:'Circle events. Underline details about each one.',
+        passage:'Kofi [grabbed his skateboard|event|Event: Kofi sets off.] [from the hallway|detail|Detail: where he starts.]. He [raced down|event|Event: the ride begins.] [the steep hill|detail|Detail: the slope makes it fast and risky.], [wind stinging his eyes|detail|Detail: how the ride feels.]. At the bottom, he [skidded to a stop|event|Event: the ride ends.] [beside a crowd of cheering kids|detail|Detail: someone was watching.].'
+      },
+      practise:{ kind:'annotate', mode:'mark', tools:['event','detail'],
+        title:'Your turn at the board',
+        prompt:'Pick a pen, then tap phrases. Circle events, underline details. Check when you’re done.',
+        passage:'Maya [unlocked the garden gate|event] [with a rusty key|detail]. She [stepped onto a path|event] [covered in purple petals|detail]. [A tiny robot|?detail] [rolled out|event] [from behind the fountain|detail] and [beeped twice|event]. Maya [froze|event], [her key still in her hand|detail].'
+      },
+      game:{ kind:'quickfire', title:'Event or detail?', prompt:'Is the highlighted part an event or a detail?',
+        options:['Event','Detail'],
+        items:[
+          {q:'The dog <mark>leapt into the pond</mark>.', a:0, why:'Something happens.'},
+          {q:'The dog leapt into the pond <mark>with a huge splash</mark>.', a:1, why:'Tells you how.'},
+          {q:'A man <mark>in a faded red jumper</mark> waved at us.', a:1, why:'Tells you what he looks like.'},
+          {q:'Halfway to Leeds, our bus <mark>broke down</mark>.', a:0, why:'Something happens that changes the journey.'},
+          {q:'They lived in a flat <mark>at the edge of the city</mark>.', a:1, why:'Tells you where.'},
+          {q:'She <mark>slammed the door</mark> and ran upstairs.', a:0, why:'An action.'},
+          {q:'He opened a letter <mark>that smelled of oranges</mark>.', a:1, why:'Tells you what the letter is like.'},
+          {q:'At eight o’clock, the guests <mark>arrived</mark>.', a:0, why:'Something happens.'},
+          {q:'Grandma climbed the stairs <mark>slowly, one step at a time</mark>.', a:1, why:'Tells you how.'},
+          {q:'Against all odds, Priya <mark>won the race</mark>.', a:0, why:'A big event: it changes everything.'}
+        ]},
+      sheet:{ part:'Part 1: Text marking', task:'Circle at least five events in the story. Underline details about each event.',
+        do:['Read the whole fantasy first.','Circle short event phrases built around a verb.','Underline a detail next to each event.','Look for events in every paragraph, not just the first.'],
+        remember:['Your sheet has a model: circle the action, underline the detail.','Short phrases only.'] }
+    }},
+
+    /* ---------- 2 ---------- */
+    { title:'Why an event matters', short:'Margin notes that explain', stages:{
+      concept:{
+        title:'Every key event changes something.',
+        lead:'After you circle an event, ask: what is different because this happened?',
+        points:[
+          {tone:'teal', h:'Place', t:'The character is somewhere new.'},
+          {tone:'amber', h:'Knowledge', t:'The character, or the reader, learns something.'},
+          {tone:'rose', h:'Feeling', t:'The character’s mood changes.'},
+          {tone:'lav', h:'Problem', t:'A new problem appears, or an old one is solved.'}
+        ],
+        compare:{ phrase:'“unlocked the garden gate”', weak:'She opens the gate.', weakWhy:'Retells the event.', strong:'Event: Maya opens the gate. It matters because it lets her into a new place where the story can happen.', strongWhy:'Names what changes.' }
+      },
+      model:{ kind:'steps', title:'From circle to margin note',
+        prompt:'Same story as before. Now each event gets a note.',
+        passage:'Maya [unlocked the garden gate|e1] with a rusty key. She [stepped onto a path|e2] covered in purple petals. A tiny robot [rolled out|e3] from behind the fountain and [beeped twice|e4]. Maya [froze|e5], her key still in her hand.',
+        steps:[
+          {t:'Take one event: <b>unlocked the garden gate</b>. What changes? Maya can go somewhere she couldn’t before.', hl:['e1'], mk:'event'},
+          {t:'<span class="hand">Event: Maya opens the gate. It matters because it lets her into a new place.</span>'},
+          {t:'A later event: <b>rolled out</b>. What changes? She isn’t alone, and something unexpected has appeared.', hl:['e3'], mk:'event'},
+          {t:'<span class="hand">Event: a robot appears. It matters because it surprises Maya and creates a mystery.</span>'},
+          {t:'Last one: <b>froze</b>. What changes? Her feeling: curiosity becomes shock.', hl:['e5'], mk:'event'},
+          {t:'<span class="hand">Event: Maya freezes. It matters because it shows her shock and makes us want to read on.</span>'}
+        ]},
+      practise:{ kind:'questions', title:'Pick the best margin note',
+        prompt:'Read Ivo’s story. For each event, choose the note that explains why it matters.',
+        passage:'Ivo [missed the last train home|a]. He wandered the empty station until a cleaner [pointed him to a night bus|b]. On board, he [found a wallet stuffed with foreign coins|c]. He handed it to the driver, who [stared at him strangely|d].',
+        items:[
+          {q:'Event: “missed the last train home”', evidence:['a'], options:[
+            {t:'It matters because Ivo is now stranded, which starts his problem.', ok:true, why:'Names what changes: he has a problem.'},
+            {t:'He misses the train.', why:'Retells the event.'},
+            {t:'Trains are important.', why:'About trains in general, not this story.'}]},
+          {q:'Event: “pointed him to a night bus”', evidence:['b'], options:[
+            {t:'A cleaner is in the station.', why:'A detail, not why it matters.'},
+            {t:'It matters because it gives Ivo a way home and puts him where the next event happens.', ok:true, why:'Explains the change and links to what follows.'},
+            {t:'Night buses run late.', why:'General knowledge, not this story.'}]},
+          {q:'Event: “found a wallet stuffed with foreign coins”', evidence:['c'], options:[
+            {t:'The wallet was full.', why:'Repeats the detail.'},
+            {t:'Wallets hold money.', why:'Too general.'},
+            {t:'It matters because it gives Ivo a choice and hints at a mystery: whose wallet is it?', ok:true, why:'Names a new problem and a question for the reader.'}]},
+          {q:'Event: “stared at him strangely”', evidence:['d'], options:[
+            {t:'It matters because it hints that something about Ivo or the wallet isn’t what it seems.', ok:true, why:'Explains how the event builds mystery.'},
+            {t:'The driver looked at Ivo.', why:'Retells it without “strangely”.'},
+            {t:'The driver was rude.', why:'Twisted: “strangely” doesn’t mean rudely.'}]}
+        ]},
+      game:{ kind:'quickfire', title:'Which event changes the story most?', prompt:'Four events. Which one matters most?',
+        items:[
+          {q:'Zoe walked to school, bought a snack, <br>found a note in her locker saying “Don’t trust Ben”, <br>then went to maths.', o:['walked to school','bought a snack','found the note','went to maths'], a:2, why:'The note creates a problem and a mystery.'},
+          {q:'The team warmed up, the captain twisted her ankle, the coach checked the time, the whistle blew.', o:['warmed up','captain twisted her ankle','coach checked the time','whistle blew'], a:1, why:'Losing the captain changes the whole match.'},
+          {q:'Dad parked the car, we unpacked the picnic, a wasp landed on the jam, a storm warning flashed on Dad’s phone.', o:['parked the car','unpacked the picnic','wasp landed on the jam','storm warning flashed'], a:3, why:'The warning threatens the whole day.'},
+          {q:'Omar opened his laptop, answered an email, saw his own face on the news website, made a coffee.', o:['opened his laptop','answered an email','saw his own face on the news','made a coffee'], a:2, why:'Everything changes for Omar after that.'},
+          {q:'The ship left port, the crew ate dinner, the radar went blank, the captain wrote in her log.', o:['left port','ate dinner','radar went blank','wrote in her log'], a:2, why:'A new danger: they can’t see what’s ahead.'}
+        ]},
+      sheet:{ part:'Part 1: Margin notes', task:'Add a margin note explaining why each event matters.',
+        do:['Beside each circled event, draw a line to the margin.','Write “Event:” and who does what.','Add “It matters because…” and name what changes.','Your turn: mark a later event and one detail. Explain how it changes Hallie’s experience.'],
+        remember:['Ask: place, knowledge, feeling or problem?'],
+        frame:'Event: … It matters because …' }
+    }},
+
+    /* ---------- 3 ---------- */
+    { title:'Ruling out wrong answers', short:'Name the trap, prove the answer', stages:{
+      concept:{
+        title:'Wrong answers are wrong for a reason.',
+        lead:'Multiple-choice options are built to catch quick readers. Name the trap, cross it out, then prove the answer that’s left.',
+        points:[
+          {tone:'amber', h:'Too literal', t:'Takes the words at face value. “Why visit the aquarium? It is full of water.”'},
+          {tone:'rose', h:'Not in the text', t:'Sounds sensible, but the story never says it.'},
+          {tone:'lav', h:'Twisted', t:'Uses words from the text but changes what they mean.'},
+          {tone:'teal', h:'Supported', t:'The one answer you can point to in the text.'}
+        ]},
+      model:{ kind:'steps', title:'Crossing out, one by one',
+        prompt:'Why did the ranger suggest the aquarium?',
+        passage:'“[Try the aquarium first|a],” the ranger said. “[The shark keeper is doing a feeding demonstration at noon|b], and [it’s the only one this week|c]. Or you could [queue for the reptile house|d], if you don’t mind snakes.”',
+        steps:[
+          {t:'<b>A.</b> It is full of water. &nbsp;<b>B.</b> It has a gift shop. &nbsp;<b>C.</b> A special feeding demonstration is on. &nbsp;<b>D.</b> The reptile house is closed.'},
+          {t:'<s>A. It is full of water.</s> Too literal: true of every aquarium, and no reason to go first.'},
+          {t:'<s>B. It has a gift shop.</s> Not in the text.'},
+          {t:'<s>D. The reptile house is closed.</s> Twisted: it’s open, there’s just a queue.', hl:['d'], mk:'trap'},
+          {t:'<b>C.</b> Supported: “a feeding demonstration at noon” and “the only one this week”.', hl:['b','c'], mk:'evidence'},
+          {t:'<span class="hand">I chose C because the ranger says “it’s the only one this week”. I ruled out D because the reptile house has a queue, so it is open.</span>'}
+        ]},
+      practise:{ kind:'questions', title:'Cross it out: the concert',
+        prompt:'Tap an option to test it. Wrong answers tell you which trap they are.',
+        passage:'Just as the concert hall doors opened, Mr Hale waved us over. “[Sit near the front on the left|h],” he whispered. “[The pianist is famous for her left hand|s], and [you’ll see every note she plays|s2]. Or you could [squeeze into the balcony|q] with [the noisy school group|n].”',
+        items:[
+          {q:'1. Why did Mr Hale suggest sitting near the front on the left?', evidence:['s','s2'], helped:'“famous for her left hand” and “you’ll see every note she plays”', options:[
+            {t:'The seats are on the left.', tag:'Too literal', why:'This repeats where, not why.'},
+            {t:'The front seats were cheaper.', tag:'Not in the text', why:'Prices are never mentioned.'},
+            {t:'They would see the famous pianist’s left hand clearly.', ok:true, tag:'Supported', why:'He says she is famous for her left hand and you’ll see every note.'},
+            {t:'The balcony was closed.', tag:'Twisted', why:'The balcony is open. It’s just noisy.'}]},
+          {q:'2. What does “squeeze into” suggest about the balcony?', evidence:['q','n'], helped:'You only “squeeze” into a space that is already full, and a school group is there.', options:[
+            {t:'It is spacious.', tag:'Opposite', why:'Squeezing means there’s very little room.'},
+            {t:'It is crowded.', ok:true, tag:'Supported', why:'“Squeeze” plus “the noisy school group”.'},
+            {t:'It is locked.', tag:'Not in the text', why:'Nothing says it is locked.'},
+            {t:'It is quiet.', tag:'Twisted', why:'The group is noisy.'}]},
+          {q:'3. Which quotation best answers “What helped you answer?” for question 1?', options:[
+            {t:'“Just as the concert hall doors opened”', tag:'Not relevant', why:'Tells you when, not why.'},
+            {t:'“he whispered”', tag:'Not relevant', why:'Tells you how he spoke, not why.'},
+            {t:'“the noisy school group”', tag:'Wrong question', why:'This is about the balcony.'},
+            {t:'“you’ll see every note she plays”', ok:true, tag:'Supported', why:'This is the reason he gives.'}]}
+        ]},
+      game:{ kind:'quickfire', title:'Name the trap', prompt:'Read the text and the wrong answer. Which trap is it?',
+        options:['Too literal','Not in the text','Twisted'],
+        items:[
+          {q:'“Take the scenic route,” said Gran. “You’ll pass the waterfall.”<span class="small">Why take the scenic route? Wrong answer: It has scenery.</span>', a:0, why:'Just repeats the name of the route.'},
+          {q:'Dev left early because the buses were on strike.<span class="small">Why did Dev leave early? Wrong answer: He wanted breakfast at school.</span>', a:1, why:'Breakfast is never mentioned.'},
+          {q:'“Don’t sit by the window,” said Ana. “The heater under it is broken.”<span class="small">Why avoid the window? Wrong answer: The window is broken.</span>', a:2, why:'“Broken” is in the text, but it’s the heater.'},
+          {q:'“Visit the Hall of Mirrors,” said the guide. “It will confuse you in the best way.”<span class="small">Why visit? Wrong answer: It is a hall with mirrors in it.</span>', a:0, why:'Takes the name at face value.'},
+          {q:'The coach picked Lou because she never gave up in training.<span class="small">Why was Lou picked? Wrong answer: She was the coach’s favourite.</span>', a:1, why:'The text gives a different reason.'},
+          {q:'Kit hid the cake because his sister was coming, not because it had burnt.<span class="small">Why did Kit hide the cake? Wrong answer: It had burnt.</span>', a:2, why:'Uses the text’s words but flips the meaning.'}
+        ]},
+      sheet:{ part:'Part 2: Question 1', task:'Why did the guide suggest that Hallie visit the Palace of Electricity? What helped you answer?',
+        do:['Find the guide’s words in paragraph 3.','Cross out the too literal, not in the text and twisted options.','Circle the answer you can prove.','Write what helped you, with a short quotation.'],
+        remember:['Every wrong option is wrong for a reason you can name.'],
+        frame:'I chose … because the text says “…”. I ruled out … because …' }
+    }},
+
+    /* ---------- 4 ---------- */
+    { title:'Phrases in context', short:'When words don’t mean exactly what they say', stages:{
+      concept:{
+        title:'Some phrases don’t mean exactly what their words say.',
+        lead:'“Weather the storm” can have nothing to do with weather. Read the situation, then test each meaning in the gap.',
+        points:[
+          {tone:'teal', h:'Read around it', t:'What is the character choosing between, or dealing with?'},
+          {tone:'amber', h:'Swap test', t:'Replace the phrase with each option and reread the sentence.'},
+          {tone:'rose', h:'Check the clues', t:'Keep the meaning that fits the words before and after.'},
+          {tone:'lav', h:'Examples', t:'break the ice: start a conversation. Under the weather: unwell. On thin ice: in a risky position.'}
+        ]},
+      model:{ kind:'steps', title:'The swap test',
+        prompt:'“Stomach the smell” means: A. eat it, B. put up with it, C. clean it, D. enjoy it.',
+        passage:'[The bin lorry was parked right outside the café|c1], but Nan said she could [stomach the smell|p] [if it meant getting the window seat|c2].',
+        steps:[
+          {t:'Read around it: a bin lorry outside, and Nan wants the window seat. She is weighing something unpleasant against something she wants.', hl:['c1','c2'], mk:'evidence'},
+          {t:'Swap test: Nan said she could <s>eat</s> the smell. Makes no sense.'},
+          {t:'Nan said she could <s>enjoy</s> the smell. Clashes with a bin lorry.'},
+          {t:'Nan said she could <s>clean</s> the smell. Doesn’t fit.'},
+          {t:'Nan said she could <b>put up with</b> the smell if it meant getting the window seat. It fits. Answer: <b>B</b>.', hl:['p'], mk:'evidence'}
+        ]},
+      practise:{ kind:'questions', title:'Test each phrase',
+        prompt:'Use the swap test. The feedback shows the clue that helps.',
+        items:[
+          {q:'The storm knocked out the power, but the village <mark>weathered it</mark> together, sharing candles and soup.', options:[
+            {t:'forecast it', why:'Nobody is predicting anything.'},
+            {t:'got through the hard time', ok:true, why:'Sharing candles and soup shows them coping together.'},
+            {t:'avoided it', why:'The storm hit them.'},
+            {t:'ignored it', why:'They are actively coping.'}]},
+          {q:'When the teacher asked who broke the window, Sam <mark>held his tongue</mark>, even though he knew.', options:[
+            {t:'bit his tongue', why:'Too literal.'},
+            {t:'told the truth', why:'“Even though he knew” suggests he didn’t say.'},
+            {t:'stayed silent', ok:true, why:'“Even though he knew” is the clue.'},
+            {t:'shouted', why:'The opposite.'}]},
+          {q:'She had planned to sing solo, but <mark>got cold feet</mark> an hour before the show.', options:[
+            {t:'became nervous and wanted to back out', ok:true, why:'“Had planned… but” shows a change of heart.'},
+            {t:'her feet froze', why:'Too literal.'},
+            {t:'felt excited', why:'“But” signals a problem.'},
+            {t:'fell ill', why:'Not suggested.'}]},
+          {q:'Rather than risk the icy mountain road, the drivers chose to <mark>sit tight</mark> in the café.', options:[
+            {t:'sit very close together', why:'Too literal.'},
+            {t:'leave quickly', why:'The opposite of avoiding the risk.'},
+            {t:'tie themselves to chairs', why:'Too literal.'},
+            {t:'wait patiently where they were', ok:true, why:'“Rather than risk the road” is the clue.'}]},
+          {q:'The new striker <mark>shouldered the blame</mark> for the defeat, though the whole team had played badly.', options:[
+            {t:'carried it on his shoulders', why:'Too literal.'},
+            {t:'accepted responsibility', ok:true, why:'“Though the whole team played badly” shows he took it on himself.'},
+            {t:'blamed the others', why:'The opposite.'},
+            {t:'didn’t care', why:'Not suggested.'}]}
+        ]},
+      game:{ kind:'quickfire', title:'Literal or figurative?', prompt:'Does the highlighted phrase mean exactly what it says?',
+        options:['Literal','Figurative'],
+        items:[
+          {q:'He <mark>broke the ice</mark> with a joke about his shoes.', a:1, why:'He started the conversation. No ice involved.'},
+          {q:'He <mark>broke the ice</mark> to reach the fish below.', a:0, why:'Real ice, really broken.'},
+          {q:'She <mark>carried the team</mark> to victory with four goals.', a:1, why:'She did most of the work.'},
+          {q:'She <mark>carried the box</mark> upstairs.', a:0, why:'A real box.'},
+          {q:'The news <mark>hit me hard</mark>.', a:1, why:'It upset me.'},
+          {q:'The ball <mark>hit me hard</mark>.', a:0, why:'A real ball.'},
+          {q:'Can you <mark>keep an eye on</mark> your little sister?', a:1, why:'Watch over her.'},
+          {q:'The test was <mark>a piece of cake</mark>.', a:1, why:'Very easy.'}
+        ]},
+      sheet:{ part:'Part 2: Question 2', task:'What does it mean to brave the crowds (paragraph 3)? What helped you answer?',
+        do:['Find the phrase in paragraph 3.','Read the choices the guide offers Hallie.','Try each option in the phrase’s place.','Quote the words that helped.'],
+        remember:['A phrase can be figurative even when it uses ordinary words.'] }
+    }},
+
+    /* ---------- 5 ---------- */
+    { title:'Building an inference', short:'Clue + clue + what you know', stages:{
+      concept:{
+        title:'Clue 1 + clue 2 + what you know = an inference.',
+        lead:'An inference is a conclusion the text doesn’t state. It is only as strong as the clues holding it up.',
+        points:[
+          {tone:'teal', h:'Spot the puzzle', t:'A character’s questions and surprised reactions show something doesn’t fit. Ask: what is out of place?'},
+          {tone:'amber', h:'Collect two clues', t:'Short quotations that point the same way.'},
+          {tone:'lav', h:'Add what you know', t:'Real-world knowledge that connects the clues.'},
+          {tone:'rose', h:'Say it', t:'I infer that … because the text says … and …'}
+        ]},
+      model:{ kind:'steps', title:'Building one, step by step',
+        prompt:'Why is everyone staring at Jess?',
+        passage:'Jess stepped off the plane and [pulled off her jumper|c0]. [Palm trees lined the road outside|c1], and [a man in shorts was selling coconuts|c1]. “[Why is everyone staring at my scarf?|q]” she wondered. [Back home, it had been snowing that morning.|c2]',
+        steps:[
+          {t:'<b>Spot the puzzle.</b> Jess asks a question: something doesn’t fit.', hl:['q'], mk:'turn'},
+          {t:'<b>Clue 1:</b> palm trees, shorts, coconuts. It is hot here.', hl:['c1'], mk:'evidence'},
+          {t:'<b>Clue 2:</b> it was snowing at home that morning, and she is wearing a jumper and scarf.', hl:['c2','c0'], mk:'evidence'},
+          {t:'<b>What you know:</b> a plane can take you to a very different climate in a few hours.'},
+          {t:'<span class="hand">I infer that Jess has flown somewhere hot and is still dressed for winter, because the text says “palm trees lined the road” and “back home, it had been snowing that morning”.</span>'}
+        ]},
+      practise:[
+        { kind:'questions', label:'A: Spot the puzzle', title:'What puzzled Kai?',
+          prompt:'Answer, then show what helped.',
+          passage:'[Kai’s phone showed 3:00 pm|k1], but [the sky outside was black|k2]. [The street lamps had flickered on|k3]. “[Why is it dark already?|q]” he asked. His grandmother [tapped the newspaper on the table and smiled|g].',
+          items:[
+            {q:'1. What puzzled Kai?', evidence:['k1','k2','q'], helped:'“3:00 pm” clashes with “the sky outside was black”, and he asks why.', options:[
+              {t:'the time on his phone', why:'The time is normal on its own. The clash with the sky is the puzzle.'},
+              {t:'his grandmother’s smile', why:'That comes after his question.'},
+              {t:'it was dark in the afternoon', ok:true, why:'His question and the time together show it.'},
+              {t:'the newspaper', why:'He hasn’t read it yet.'}]},
+            {q:'2. Which two clues best show the puzzle?', evidence:['k1','k2'], options:[
+              {t:'“3:00 pm” and “the sky outside was black”', ok:true, why:'Daytime plus darkness: they clash.'},
+              {t:'“street lamps” and “newspaper”', why:'The newspaper doesn’t show the puzzle.'},
+              {t:'“grandmother” and “smiled”', why:'These show her reaction, not the puzzle.'}]},
+            {q:'3. What can you infer from the grandmother’s reaction?', evidence:['g'], helped:'She points to the newspaper and smiles: the explanation is there, and it isn’t frightening.', options:[
+              {t:'She is scared.', why:'She smiles.'},
+              {t:'She knows why it is dark.', ok:true, why:'Tapping the newspaper suggests the answer is in it.'},
+              {t:'She wants to read in peace.', why:'Not suggested by tapping and smiling.'},
+              {t:'She hasn’t noticed the dark.', why:'She responds to his question.'}]}
+          ]},
+        { kind:'infer', label:'B: Build it', title:'Build an inference',
+          prompt:'Tap two clues in the text. Pick what you know and your inference. Then check.',
+          passage:'When Noah got home, [the front door was open a crack|door]. [Muddy paw prints|paw] crossed the hallway and led to the kitchen. [The bin lay on its side|bin], and [chicken bones were scattered across the floor|bones]. From under the table came [a guilty whimper|whimper]. [Noah’s new puppy wasn’t in her basket|basket].',
+          know:[
+            {id:'k2', t:'Front doors are usually shut when nobody is home.'},
+            {id:'k1', t:'Dogs are drawn to food smells and hide when they know they are in trouble.'},
+            {id:'k3', t:'Chicken is a popular dinner.'}
+          ],
+          goodKnow:'k1',
+          inferences:[
+            {t:'a burglar broke in and stole the chicken', why:'No clue shows anything was stolen, and burglars don’t leave paw prints.'},
+            {t:'the puppy knocked over the bin and ate the scraps', ok:true, clues:['paw','bin','bones','whimper','basket']},
+            {t:'Noah forgot to take the bin out', why:'Forgetting the bin wouldn’t tip it over or scatter bones.'}
+          ]}
+      ],
+      game:{ kind:'quickfire', title:'Inference relay', prompt:'Two clues. What is the best inference?',
+        items:[
+          {q:'Her umbrella dripped on the mat. Her shoes squelched.', o:['It is raining outside.','She has been swimming.','Her shoes are new.','The mat is wet from cleaning.'], a:0, why:'Dripping umbrella plus soaked shoes.'},
+          {q:'The oven timer beeped. Smoke curled from the oven door.', o:['Dinner is perfect.','Something has burnt.','The oven is new.','Someone is baking bread.'], a:1, why:'Smoke from the oven after the timer.'},
+          {q:'Dan’s hands shook. He read his speech notes for the tenth time.', o:['Dan is cold.','Dan has lost his notes.','Dan is nervous about speaking.','Dan is bored.'], a:2, why:'Shaking hands and rereading notes.'},
+          {q:'The shelves were bare. A sign on the door read “Sorry!”', o:['The shop is brand new.','The shop has sold out.','The shop sells shelves.','The owner is rude.'], a:1, why:'Empty shelves plus an apology.'},
+          {q:'Grass stains covered his knees. He was grinning and holding a trophy.', o:['He fell in the garden.','He bought a trophy.','He played a match and won.','He cleans trophies.'], a:2, why:'Grass stains show he played, the trophy and grin show he won.'},
+          {q:'The lights were off. Everyone shouted “Surprise!” as Mia walked in.', o:['There was a power cut.','Mia was late for school.','It is a surprise party for Mia.','Mia scared everyone.'], a:2, why:'Hiding in the dark and shouting “Surprise!”'}
+        ]},
+      sheet:{ part:'Part 2: Questions 3 and 4', task:'What about the fair puzzled Hallie? Make an inference: what happened to Hallie?',
+        do:['Find Hallie’s questions: they show what puzzles her.','Collect two clues that point the same way.','Add what you know.','Write it with the frame.'],
+        remember:['Read to the very end before you decide.','Check: evidence for your inference.'],
+        frame:'I infer that … because the text says … and …' }
+    }},
+
+    /* ---------- 6 ---------- */
+    { title:'A trail of clues', short:'Show the setting, don’t name it', stages:{
+      concept:{
+        title:'Show the time or place. Don’t name it.',
+        lead:'The extension asks you to plant clues so a partner can work out when or where your story happens. Name it straight away and there is nothing left to infer.',
+        points:[
+          {tone:'amber', h:'Objects', t:'a quill and ink pot, a cassette tape, a hologram key'},
+          {tone:'rose', h:'Clothing', t:'a toga, a spacesuit, a knight’s chainmail'},
+          {tone:'teal', h:'Technology', t:'a steam engine, a flip phone, a delivery drone'},
+          {tone:'lav', h:'Order your clues', t:'Start subtle. Make each clue a little clearer so your partner builds the picture.'}
+        ]},
+      model:{ kind:'steps', title:'Too obvious, then just right',
+        prompt:'Watch the clues do the work.',
+        passage:'Lucia pulled [her woollen tunic|c1] tighter as [a chariot clattered past|c2]. At the market, a trader [weighed olives on bronze scales|c3] and took payment in [silver coins stamped with the emperor’s face|c4].',
+        steps:[
+          {t:'Too obvious: <s>“It was Ancient Rome.”</s> Nothing left to work out.'},
+          {t:'<b>Clothing:</b> a woollen tunic. Old-fashioned, but where?', hl:['c1'], mk:'clue'},
+          {t:'<b>Technology:</b> a chariot, bronze scales. Very long ago.', hl:['c2','c3'], mk:'clue'},
+          {t:'<b>Object:</b> coins with the emperor’s face. Now all the clues point one way: ancient Rome.', hl:['c4'], mk:'clue'}
+        ]},
+      practise:[
+        { kind:'sort', label:'A: Sort the clues', title:'Objects, clothing or technology?',
+          prompt:'These clues come from one secret setting. Sort them, then check to see where they point.',
+          bins:[{id:'obj',label:'Objects'},{id:'cloth',label:'Clothing'},{id:'tech',label:'Technology'}],
+          items:[
+            {t:'a lava lamp glowing on the shelf', bin:'obj', why:'A thing in the room.'},
+            {t:'huge shoulder pads', bin:'cloth', why:'Something worn.'},
+            {t:'a chunky computer loading a game from a tape', bin:'tech', why:'A machine.'},
+            {t:'a Rubik’s cube on the desk', bin:'obj', why:'A thing.'},
+            {t:'fluorescent leg warmers', bin:'cloth', why:'Something worn.'},
+            {t:'a video recorder with its clock flashing', bin:'tech', why:'A machine.'}
+          ],
+          after:'Together, the clues point to the 1980s. Which clue gave it away first?'},
+        { kind:'questions', label:'B: Judge the clues', title:'Is this a useful clue?',
+          prompt:'Good clues point the right way without naming it.',
+          items:[
+            {q:'Your setting is a city in the future. Which clue gives it away too quickly?', options:[
+              {t:'a hover-scooter humming at the kerb', why:'A good clue: futuristic, but not named.'},
+              {t:'a sign reading “Welcome to the year 2300”', ok:true, why:'It names the time. Nothing to infer.'},
+              {t:'silver fabric that changes colour', why:'A good, subtle clue.'}]},
+            {q:'Which clue is too vague to help?', options:[
+              {t:'a delivery drone dropping a parcel', why:'Points clearly to modern or future times.'},
+              {t:'a hologram menu floating above the table', why:'Clearly futuristic.'},
+              {t:'a door', ok:true, why:'Every time and place has doors.'}]},
+            {q:'Which set of three clues works best, from subtle to clear?', options:[
+              {t:'a shirt, a table, a sign saying “2300”', why:'Two vague clues, then one that names it.'},
+              {t:'silver fabric that changes colour, a hover-scooter, a hologram of the mayor giving a speech', ok:true, why:'Each clue is a little clearer, and none names the time.'},
+              {t:'a hologram, a hologram, a hologram', why:'Three clues should add something new each time.'}]}
+          ]}
+      ],
+      game:{ kind:'clues', title:'When or where am I?', prompt:'Reveal one clue at a time. Guess early for more points.',
+        rounds:[
+          {clues:['Candles are the only light.','A servant brings a message sealed with wax.','Knights practise with swords in the courtyard.'], answer:'A medieval castle'},
+          {clues:['Everyone is floating slightly.','Dinner comes in a squeezy pouch.','Through the window, Earth looks blue and small.'], answer:'A space station'},
+          {clues:['A boy rewinds a cassette with a pencil.','Mum’s jacket has huge shoulder pads.','A chunky computer loads a game from a tape, beeping.'], answer:'The 1980s'},
+          {clues:['The air smells of salt and diesel.','Gulls scream overhead.','Cranes swing crates onto a huge ship.'], answer:'A busy port'},
+          {clues:['Sand gets into everything.','A scribe paints symbols onto papyrus.','Workers drag huge stone blocks up a ramp towards a pyramid.'], answer:'Ancient Egypt'},
+          {clues:['Everyone’s eyes are on a small glowing screen.','A drone drops a parcel on a balcony.','A bullet train glides past a neon sign.'], answer:'A present-day city'}
+        ]},
+      sheet:{ part:'Part 3: Extension', task:'Write 120–150 words continuing Hallie’s story. Introduce a new time or place without naming it immediately.',
+        do:['Choose your new time or place in secret.','Plant three clues in objects, clothing or technology.','Order them from subtle to clear.','Circle two key events and underline their supporting details.','Swap with a partner: they infer the setting and point to the evidence.','Label your writing: imagined continuation.'],
+        remember:['Check: five events, supporting details, evidence for your inference.'] }
+    }}
+  ]
+};
+
+const LESSONS = [L10, L11];
+
+/* ================= ENGINE ================= */
+const STAGE_ORDER = ['intro','concept','model','practise','game','sheet'];
+const STAGE_LABEL = {intro:'Overview', concept:'Concept', model:'Model', practise:'Practise', game:'Game', sheet:'On the sheet'};
+const MARKS = {
+  when:{label:'Box: when', shape:'box', color:'--amber-ink'},
+  where:{label:'Circle: where', shape:'circle', color:'--teal-ink'},
+  mood:{label:'Underline: mood', shape:'under', color:'--rose-ink'},
+  event:{label:'Circle: event', shape:'circle', color:'--rose-ink'},
+  detail:{label:'Underline: detail', shape:'under', color:'--teal-ink'}
+};
+const S = { lesson:0, block:0, stage:0, sub:0, scores:{}, rail:true, theme:null };
+
+function h(tag, attrs, ...kids){
+  const el = document.createElement(tag);
+  if (attrs) for (const [k,v] of Object.entries(attrs)){
+    if (v == null || v === false) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'html') el.innerHTML = v;
+    else if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  for (const kid of kids.flat()){
+    if (kid == null || kid === false) continue;
+    el.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+  }
+  return el;
+}
+const btn = (label, fn, cls='') => h('button', {class:'btn '+cls, type:'button', onclick:fn}, label);
+const $ = id => document.getElementById(id);
+function shuffle(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]]; } return b; }
+
+function load(){ try{ const s = JSON.parse(localStorage.getItem('5si-u1w2-iwb') || '{}'); ['lesson','block','stage','rail','theme'].forEach(k=>{ if (s[k] !== undefined) S[k]=s[k]; }); }catch(e){} }
+function save(){ try{ localStorage.setItem('5si-u1w2-iwb', JSON.stringify({lesson:S.lesson,block:S.block,stage:S.stage,rail:S.rail,theme:S.theme})); }catch(e){} }
+
+function head(root, d){
+  if (d.title) root.append(h('h2', {class:'title'}, d.title));
+  if (d.prompt) root.append(h('p', {class:'prompt'}, d.prompt));
+}
+
+function shapeSvg(shape, colorVar){
+  const c = `var(${colorVar})`;
+  if (shape === 'box') return `<svg viewBox="0 0 40 22" aria-hidden="true"><rect x="3" y="4" width="34" height="14" rx="2" fill="none" stroke="${c}" stroke-width="3"/></svg>`;
+  if (shape === 'circle') return `<svg viewBox="0 0 40 22" aria-hidden="true"><ellipse cx="20" cy="11" rx="17" ry="8" fill="none" stroke="${c}" stroke-width="3"/></svg>`;
+  return `<svg viewBox="0 0 40 22" aria-hidden="true"><line x1="3" y1="15" x2="37" y2="15" stroke="${c}" stroke-width="3.5" stroke-linecap="round"/></svg>`;
+}
+
+/* passages: [text|key1/key2|note]  ?key = optional, x = distractor */
+function parsePassage(src){
+  const out=[]; const re=/\[([^\]|]+)\|([^\]|]*)(?:\|([^\]]*))?\]/g; let last=0, m, i=0;
+  while ((m = re.exec(src))){
+    if (m.index > last) out.push({text:src.slice(last, m.index)});
+    const keys = m[2] ? m[2].split('/') : [];
+    out.push({ text:m[1], keys, note:m[3]||'', id:i++,
+      req: keys.filter(k=>k && k[0] !== '?' && k !== 'x'),
+      opt: keys.filter(k=>k[0] === '?').map(k=>k.slice(1)) });
+    last = re.lastIndex;
+  }
+  if (last < src.length) out.push({text:src.slice(last)});
+  return out;
+}
+function buildPassage(src, cls){
+  const tokens = parsePassage(src);
+  const el = h('div', {class:'passage' + (cls ? ' '+cls : '')});
+  let p = h('p'); el.append(p);
+  const chunks = [];
+  tokens.forEach(t=>{
+    if (t.id == null){
+      t.text.split('\n\n').forEach((part, i)=>{ if (i>0){ p = h('p'); el.append(p); } if (part) p.append(document.createTextNode(part)); });
+    } else {
+      t.el = h('span', {class:'chunk', 'data-i':t.id}, t.text);
+      chunks.push(t); p.append(t.el);
+    }
+  });
+  return {el, chunks};
+}
+function setMark(c, key){ c.el.className = 'chunk' + (key ? ' mk mk-'+key : ''); c.el.querySelectorAll('.nb').forEach(n=>n.remove()); }
+
+/* ---------- concept ---------- */
+function rConcept(d, root){
+  root.append(h('h2', {class:'title'}, d.title));
+  if (d.lead) root.append(h('p', {class:'prompt'}, d.lead));
+  const pts = h('div', {class:'points'});
+  (d.points||[]).forEach(p => pts.append(h('div', {class:'point', style:`--tone:var(--${p.tone});--tone-ink:var(--${p.tone}-ink)`}, h('h3', null, p.h), h('p', null, p.t))));
+  root.append(pts);
+  if (d.demo){
+    const P = buildPassage(d.demo, 'small');
+    const notes = h('ol', {class:'notes'});
+    let n = 0;
+    P.chunks.forEach(c=>{ if (c.req[0]){ setMark(c, c.req[0]); if (c.note){ n++; c.el.append(h('span',{class:'nb'}, n)); notes.append(h('li', {class:'k-'+c.req[0]}, h('span',{class:'nb'}, n), c.note)); } } });
+    root.append(h('div', {class:'demo-wrap'}, P.el, notes));
+    if (d.demoNote) root.append(h('p', {class:'demo-note'}, d.demoNote));
+  }
+  if (d.compare){
+    const c = d.compare;
+    root.append(h('div', {class:'compare'},
+      h('div', {class:'weak'}, h('div',{class:'lab'}, 'Weak note'), h('div',{class:'phrase'}, c.phrase), h('div',{class:'hand'}, c.weak), h('div',{class:'demo-note'}, c.weakWhy)),
+      h('div', {class:'strong'}, h('div',{class:'lab'}, 'Strong note'), h('div',{class:'phrase'}, c.phrase), h('div',{class:'hand'}, c.strong), h('div',{class:'demo-note'}, c.strongWhy))));
+  }
+  if (d.moodline){
+    root.append(h('div', {html:`<svg class="moodline" viewBox="0 0 640 200" role="img" aria-label="A mood line: low before the turning point, rising sharply after it">
+      <line x1="40" y1="170" x2="610" y2="170" stroke="var(--line)" stroke-width="2"/>
+      <path d="M40 140 C120 150, 200 135, 290 148 L330 60 C400 45, 520 40, 610 36" fill="none" stroke="var(--rose-ink)" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="310" cy="104" r="11" fill="var(--amber)" stroke="var(--amber-ink)" stroke-width="3"/>
+      <text x="100" y="118" font-family="Figtree, sans-serif" font-size="20" font-weight="700" fill="var(--rose-ink)">Before</text>
+      <text x="330" y="112" font-family="Figtree, sans-serif" font-size="20" font-weight="700" fill="var(--amber-ink)">Turning point</text>
+      <text x="480" y="80" font-family="Figtree, sans-serif" font-size="20" font-weight="700" fill="var(--teal-ink)">After</text>
+      <text x="40" y="194" font-family="Figtree, sans-serif" font-size="15" fill="var(--ink-2)">Same place, same time. Different feeling.</text></svg>`}));
+  }
+}
+
+/* ---------- annotate ---------- */
+function toolbox(tools, current, onPick){
+  const box = h('div', {class:'toolbox', role:'toolbar', 'aria-label':'Pens'});
+  tools.forEach(k=>{
+    const m = MARKS[k];
+    box.append(h('button', {class:'tool', type:'button', 'aria-pressed': String(current()===k), onclick:()=>onPick(k)}, h('span',{html:shapeSvg(m.shape, m.color)}), m.label));
+  });
+  return box;
+}
+function rAnnotate(d, root){
+  head(root, d);
+  if (d.mode === 'reveal'){
+    const legend = h('div', {class:'toolbox'});
+    d.tools.forEach(k=>{ const m=MARKS[k]; legend.append(h('span',{class:'tool', style:'cursor:default'}, h('span',{html:shapeSvg(m.shape,m.color)}), m.label)); });
+    root.append(legend);
+    const P = buildPassage(d.passage);
+    const targets = P.chunks.filter(c=>c.req.length);
+    const notes = h('ol', {class:'notes'});
+    root.append(h('div', {class:'split'}, P.el, h('div', null, notes)));
+    let k = 0;
+    const next = btn('Show next mark', ()=>{ k=Math.min(targets.length,k+1); draw(); }, 'primary');
+    const all = btn('Show all', ()=>{ k=targets.length; draw(); });
+    const reset = btn('Clear', ()=>{ k=0; draw(); }, 'ghost');
+    root.append(h('div', {class:'row'}, next, all, reset));
+    function draw(){
+      notes.innerHTML='';
+      targets.forEach((c,i)=>{
+        setMark(c, i<k ? c.req[0] : null);
+        if (i<k){ c.el.append(h('span',{class:'nb'}, i+1)); notes.append(h('li', {class:'k-'+c.req[0]}, h('span',{class:'nb'}, i+1), c.note || MARKS[c.req[0]].label)); }
+      });
+      if (!k) notes.append(h('li', {class:'notes-empty'}, 'Notes appear here as each mark goes on.'));
+      next.disabled = k>=targets.length;
+    }
+    draw();
+    return;
+  }
+  // mark mode
+  let tool = d.tools[0];
+  const marks = new Map();
+  let checked = false;
+  const tbWrap = h('div');
+  const P = buildPassage(d.passage, 'markable');
+  const side = h('div');
+  root.append(tbWrap, h('div', {class:'split'}, P.el, side));
+  const summary = h('div', {class:'summary', hidden:true});
+  root.append(h('div', {class:'row'},
+    btn('Check', ()=>{ checked=true; draw(); }, 'primary'),
+    btn('Show suggested marks', ()=>{ P.chunks.forEach(c=>{ if (c.req[0]) marks.set(c.id, c.req[0]); else marks.delete(c.id); }); checked=true; draw(); }),
+    btn('Clear', ()=>{ marks.clear(); checked=false; draw(); }, 'ghost')), summary);
+  P.chunks.forEach(c=> c.el.addEventListener('click', ()=>{
+    if (marks.get(c.id) === tool) marks.delete(c.id); else marks.set(c.id, tool);
+    checked=false; draw();
+  }));
+  function draw(){
+    tbWrap.innerHTML=''; tbWrap.append(toolbox(d.tools, ()=>tool, k=>{ tool=k; draw(); }));
+    let found=0, need=0, wrong=0;
+    P.chunks.forEach(c=>{
+      const mk = marks.get(c.id);
+      setMark(c, mk);
+      if (c.req.length) need++;
+      if (!checked) return;
+      const okKeys = c.req.concat(c.opt);
+      if (mk){
+        if (okKeys.includes(mk)){ c.el.classList.add('ck-ok'); if (c.req.length) found++; }
+        else { c.el.classList.add('ck-bad'); wrong++; }
+      } else if (c.req.length){ c.el.classList.add('ck-miss'); }
+    });
+    side.innerHTML='';
+    side.append(h('p', {class:'prompt'}, 'Tap a phrase to mark it with the pen you picked. Tap it again to remove the mark.'));
+    if (checked){
+      summary.hidden=false;
+      summary.textContent = `Found ${found} of ${need}. ` + (wrong ? `${wrong} mark${wrong>1?'s need':' needs'} another look (crossed). ` : '') + (found<need ? 'Dashed outlines show phrases still to mark.' : 'Every key phrase is marked.');
+    } else summary.hidden=true;
+  }
+  draw();
+}
+
+/* ---------- steps ---------- */
+function rSteps(d, root){
+  head(root, d);
+  const P = d.passage ? buildPassage(d.passage) : null;
+  const list = h('ol', {class:'steps'});
+  root.append(P ? h('div', {class:'split'}, P.el, list) : list);
+  let k = 0;
+  const next = btn('Next step', ()=>{ k=Math.min(d.steps.length,k+1); draw(); }, 'primary');
+  root.append(h('div', {class:'row'}, next, btn('Show all', ()=>{ k=d.steps.length; draw(); }), btn('Start again', ()=>{ k=0; draw(); }, 'ghost')));
+  function draw(){
+    list.innerHTML='';
+    if (P) P.chunks.forEach(c=>setMark(c, null));
+    d.steps.forEach((s,i)=>{
+      if (i>=k) return;
+      list.append(h('li', {html:s.t}));
+      if (P && s.hl) P.chunks.forEach(c=>{ if (c.keys.some(x=>s.hl.includes(x))) setMark(c, s.mk || 'evidence'); });
+    });
+    next.disabled = k>=d.steps.length;
+  }
+  draw();
+}
+
+/* ---------- sort ---------- */
+function rSort(d, root){
+  head(root, d);
+  if (d.text) root.append(h('div', {class:'passage small'}, h('p', null, d.text)));
+  const placed = d.items.map(()=>null);
+  let sel = null, checked = false;
+  const pool = h('div', {class:'pool'});
+  const bins = h('div', {class:'bins', style:`--n:${d.bins.length}`});
+  const binBody = {}, binEl = {};
+  d.bins.forEach(b=>{
+    const body = h('div', {class:'bin-body'});
+    const el = h('div', {class:'bin', role:'button', tabindex:'0', 'aria-label':'Place in '+b.label, onclick:()=>drop(b.id), onkeydown:e=>{ if (e.key==='Enter'||e.key===' '){ e.preventDefault(); drop(b.id); } }}, h('div', {class:'bin-label'}, b.label), body);
+    binBody[b.id]=body; binEl[b.id]=el; bins.append(el);
+  });
+  const fb = h('div');
+  root.append(pool, bins, h('div', {class:'row'},
+    btn('Check', ()=>{ checked=true; draw(); }, 'primary'),
+    btn('Show answers', ()=>{ d.items.forEach((it,i)=>placed[i]=it.bin); sel=null; checked=true; draw(); }),
+    btn('Reset', ()=>{ placed.fill(null); sel=null; checked=false; draw(); }, 'ghost')), fb);
+  function drop(id){ if (sel == null) return; placed[sel]=id; sel=null; checked=false; draw(); }
+  function draw(){
+    pool.innerHTML=''; Object.values(binBody).forEach(b=>b.innerHTML='');
+    Object.values(binEl).forEach(b=>b.classList.toggle('ready', sel!=null));
+    d.items.forEach((it,i)=>{
+      let cls = 'chip';
+      if (sel===i) cls+=' sel';
+      if (checked && placed[i]) cls += placed[i]===it.bin ? ' ok' : ' bad';
+      const chip = h('button', {class:cls, type:'button', onclick:e=>{ e.stopPropagation(); if (placed[i]){ placed[i]=null; checked=false; } else sel = sel===i ? null : i; draw(); }}, it.t);
+      (placed[i] ? binBody[placed[i]] : pool).append(chip);
+    });
+    if (!pool.children.length) pool.append(h('span', {class:'pool-empty'}, 'All placed. Press Check.'));
+    fb.innerHTML='';
+    if (checked){
+      const right = d.items.filter((it,i)=>placed[i]===it.bin).length;
+      const box = h('div', {class:'fb '+(right===d.items.length?'ok':'info')}, h('strong', null, `${right} of ${d.items.length} in the right place. `));
+      const whys = h('ul', {class:'whys'});
+      d.items.forEach((it,i)=>{ if (placed[i] && placed[i]!==it.bin) whys.append(h('li', null, `“${it.t}” belongs in ${d.bins.find(b=>b.id===it.bin).label}: ${it.why}`)); });
+      if (right===d.items.length) d.items.forEach(it=> whys.append(h('li', null, `“${it.t}”: ${it.why}`)));
+      box.append(whys);
+      if (right===d.items.length && d.after) box.append(h('p', {class:'hand', style:'margin:.6rem 0 0'}, d.after));
+      fb.append(box);
+    }
+  }
+  draw();
+}
+
+/* ---------- questions ---------- */
+function rQuestions(d, root){
+  head(root, d);
+  const P = d.passage ? buildPassage(d.passage) : null;
+  const panel = h('div', {class:'qpanel'});
+  root.append(P ? h('div', {class:'split'}, P.el, panel) : h('div', {class:'single'}, panel));
+  const st = d.items.map(()=>({picked:new Set(), last:null, help:false}));
+  let qi = 0;
+  const optsFor = it => it.options || d.options.map((t,i)=>({t, ok:i===it.a, why: i===it.a ? it.why : (d.wrong || 'Not this one.')}));
+  function draw(){
+    panel.innerHTML='';
+    const it = d.items[qi], s = st[qi], O = optsFor(it);
+    if (P) P.chunks.forEach(c=>setMark(c, null));
+    const nav = h('div', {class:'qnav'});
+    d.items.forEach((_,i)=>{
+      const solved = optsFor(d.items[i]).some((o,j)=>o.ok && st[i].picked.has(j));
+      nav.append(h('button', {class:'dot'+(solved?' done':''), type:'button', 'aria-current':String(i===qi), 'aria-label':'Question '+(i+1), onclick:()=>{ qi=i; draw(); }}, i+1));
+    });
+    panel.append(nav, h('div', {class:'q', html:it.q}));
+    const list = h('div', {class:'opts'});
+    O.forEach((o,j)=>{
+      const picked = s.picked.has(j);
+      list.append(h('button', {class:'opt'+(picked ? (o.ok?' ok':' bad') : ''), type:'button', onclick:()=>{ s.picked.add(j); s.last=j; draw(); }},
+        h('span', {class:'letter'}, 'ABCDEF'[j]), h('span', {class:'otext', html:o.t})));
+    });
+    panel.append(list);
+    if (s.last != null){
+      const o = O[s.last];
+      panel.append(h('div', {class:'fb '+(o.ok?'ok':'bad')}, h('strong', null, (o.tag ? o.tag : (o.ok ? 'Yes' : 'Not quite')) + '. '), h('span', {html:o.why || ''})));
+    }
+    const row = h('div', {class:'row'});
+    if (it.evidence || it.helped) row.append(btn(s.help ? 'Hide what helped' : 'Show what helped', ()=>{ s.help=!s.help; draw(); }));
+    row.append(btn('Previous', ()=>{ qi=Math.max(0,qi-1); draw(); }, 'ghost'));
+    const nx = btn('Next question', ()=>{ qi=Math.min(d.items.length-1,qi+1); draw(); }, 'primary');
+    nx.disabled = qi>=d.items.length-1;
+    row.append(nx);
+    panel.append(row);
+    if (s.help){
+      if (P && it.evidence) P.chunks.forEach(c=>{ if (c.keys.some(k=>it.evidence.includes(k))) setMark(c, 'evidence'); });
+      if (it.helped) panel.append(h('div', {class:'helped hand'}, it.helped));
+    }
+  }
+  draw();
+}
+
+/* ---------- frame ---------- */
+function rFrame(d, root){
+  head(root, d);
+  const order = d.slots.map(s=>shuffle(s.map((_,j)=>j)));
+  const picks = d.slots.map(()=>null);
+  let active = 0, last = null;
+  const para = h('p', {class:'frame-para'});
+  const chooser = h('div', {class:'chooser'});
+  root.append(para, chooser, h('div', {class:'row'}, btn('Start again', ()=>{ picks.fill(null); active=0; last=null; draw(); }, 'ghost')));
+  function draw(){
+    para.innerHTML='';
+    d.template.split(/(\{\d+\})/).forEach(part=>{
+      const m = part.match(/^\{(\d+)\}$/);
+      if (!m){ if (part) para.append(document.createTextNode(part)); return; }
+      const i = +m[1], o = picks[i]!=null ? d.slots[i][picks[i]] : null;
+      para.append(h('button', {class:'gap'+(i===active?' active':'')+(o?(o.ok?' ok':' bad'):''), type:'button', onclick:()=>{ active=i; draw(); }}, o ? o.t : `gap ${i+1}`));
+    });
+    chooser.innerHTML='';
+    const done = picks.every((p,i)=>p!=null && d.slots[i][p].ok);
+    chooser.append(h('div', {class:'chooser-label'}, `Choose for gap ${active+1}`));
+    const row = h('div', {class:'opts'});
+    const slot = active;
+    order[slot].forEach(j=>{
+      const o = d.slots[slot][j];
+      row.append(h('button', {class:'opt'+(picks[slot]===j?(o.ok?' ok':' bad'):''), type:'button', onclick:()=>{
+        picks[slot]=j; last={i:slot,j};
+        if (o.ok){ const nxt = picks.findIndex((p,i)=>p==null || !d.slots[i][p].ok); if (nxt>=0) active=nxt; }
+        draw();
+      }}, h('span', {class:'otext'}, o.t)));
+    });
+    chooser.append(row);
+    if (last){
+      const o = d.slots[last.i][last.j];
+      chooser.append(h('div', {class:'fb '+(o.ok?'ok':'bad')}, h('strong', null, `Gap ${last.i+1}: ${o.ok?'yes':'not quite'}. `), o.why || ''));
+    }
+    if (done) chooser.append(h('div', {class:'fb ok'}, h('strong', null, 'Complete. '), 'Read it aloud. Does every sentence do one job?'));
+  }
+  draw();
+}
+
+/* ---------- wordswap ---------- */
+function rWordswap(d, root){
+  head(root, d);
+  let mood = d.moods[0].id, senses = false;
+  const bar = h('div', {class:'row', style:'margin-top:0'});
+  const scene = h('p', {class:'scene'});
+  const notes = h('ul', {class:'notes'});
+  root.append(bar, scene, notes);
+  function draw(){
+    bar.innerHTML='';
+    d.moods.forEach(m=> bar.append(h('button', {class:'btn', type:'button', 'aria-pressed':String(mood===m.id), onclick:()=>{ mood=m.id; draw(); }}, m.label)));
+    bar.append(h('button', {class:'btn ghost', type:'button', 'aria-pressed':String(senses), onclick:()=>{ senses=!senses; draw(); }}, senses ? 'Hide senses' : 'Show senses'));
+    scene.innerHTML='';
+    d.template.split(/(\{\d+\})/).forEach(part=>{
+      const m = part.match(/^\{(\d+)\}$/);
+      if (!m){ if (part) scene.append(document.createTextNode(part)); return; }
+      const sl = d.slots[+m[1]];
+      const sp = h('span', {class:'swap'}, sl.v[mood]);
+      if (senses) sp.append(h('span', {class:'tag'}, sl.sense));
+      scene.append(sp);
+    });
+    notes.innerHTML='';
+    d.slots.forEach(sl=> notes.append(h('li', null, `“${sl.v[mood]}”: ${sl.n[mood]}`)));
+  }
+  draw();
+}
+
+/* ---------- infer ---------- */
+function rInfer(d, root){
+  head(root, d);
+  const P = buildPassage(d.passage, 'markable');
+  const panel = h('div', {class:'qpanel'});
+  root.append(h('div', {class:'split'}, P.el, panel));
+  let clues = [], know = null, inf = null, result = null;
+  const textOf = k => (P.chunks.find(c=>c.keys[0]===k) || {}).text || '';
+  P.chunks.forEach(c=> c.el.addEventListener('click', ()=>{
+    const k = c.keys[0];
+    if (clues.includes(k)) clues = clues.filter(x=>x!==k);
+    else { clues.push(k); if (clues.length>2) clues.shift(); }
+    result=null; draw();
+  }));
+  function check(){
+    if (clues.length<2) return {ok:false, t:'Tap two clues in the text first.'};
+    if (know==null || inf==null) return {ok:false, t:'Choose what you know and an inference.'};
+    const I = d.inferences[inf];
+    if (!I.ok) return {ok:false, t:I.why};
+    if (d.know[know].id !== d.goodKnow) return {ok:false, t:'True, but it doesn’t connect these clues to your inference.'};
+    const weak = clues.filter(c=>!I.clues.includes(c));
+    if (weak.length) return {ok:false, t:`“${textOf(weak[0])}” could mean several things. Choose a clue that points only to your inference.`};
+    return {ok:true};
+  }
+  function draw(){
+    P.chunks.forEach(c=> setMark(c, clues.includes(c.keys[0]) ? 'clue' : null));
+    panel.innerHTML='';
+    panel.append(h('div', {class:'slotline'}, h('span', {class:'slabel'}, 'Clues'),
+      [0,1].map(i=> h('span', {class:'pill'+(clues[i]?' on':'')}, clues[i] ? `“${textOf(clues[i])}”` : `Tap clue ${i+1} in the text`))));
+    panel.append(h('div', {class:'slabel'}, 'What you know'));
+    const k = h('div', {class:'opts'});
+    d.know.forEach((o,i)=> k.append(h('button', {class:'opt'+(know===i?' ok':''), type:'button', onclick:()=>{ know=i; result=null; draw(); }}, h('span',{class:'otext'}, o.t))));
+    panel.append(k, h('div', {class:'slabel', style:'margin-top:.8rem'}, 'Inference'));
+    const f = h('div', {class:'opts'});
+    d.inferences.forEach((o,i)=> f.append(h('button', {class:'opt'+(inf===i?' ok':''), type:'button', onclick:()=>{ inf=i; result=null; draw(); }}, h('span',{class:'otext'}, o.t))));
+    panel.append(f, h('div', {class:'row'}, btn('Check', ()=>{ result=check(); draw(); }, 'primary'), btn('Clear', ()=>{ clues=[]; know=null; inf=null; result=null; draw(); }, 'ghost')));
+    if (result){
+      if (result.ok){
+        const kt = d.know[know].t; const kLower = kt.charAt(0).toLowerCase() + kt.slice(1);
+        panel.append(h('div', {class:'fb ok'}, h('strong', null, 'Strong inference. ')),
+          h('p', {class:'hand result'}, `I infer that ${d.inferences[inf].t} because the text says “${textOf(clues[0])}” and “${textOf(clues[1])}”, and I know that ${kLower.replace(/\.$/,'')}.`));
+      } else panel.append(h('div', {class:'fb bad'}, h('strong', null, 'Not yet. '), result.t));
+    }
+  }
+  draw();
+}
+
+/* ---------- games ---------- */
+function scoreboard(){
+  const id = LESSONS[S.lesson].id;
+  const sc = S.scores[id] || (S.scores[id] = [0,0]);
+  const el = h('div', {class:'score'});
+  const draw = ()=>{
+    el.innerHTML='';
+    ['Team A','Team B'].forEach((n,t)=> el.append(h('div', {class:'team t'+t}, n,
+      h('button', {class:'sbtn', type:'button', 'aria-label':'Take a point from '+n, onclick:()=>{ sc[t]=Math.max(0,sc[t]-1); draw(); }}, '−'),
+      h('span', {class:'tscore'}, sc[t]),
+      h('button', {class:'sbtn', type:'button', 'aria-label':'Give a point to '+n, onclick:()=>{ sc[t]++; draw(); }}, '+'))));
+    el.append(btn('Reset scores', ()=>{ sc[0]=0; sc[1]=0; draw(); }, 'ghost'));
+  };
+  draw();
+  el.add = (t, n)=>{ sc[t]+=n; draw(); };
+  el.sc = sc;
+  return el;
+}
+function rQuickfire(d, root){
+  head(root, d);
+  const board = scoreboard();
+  const card = h('div', {class:'qf'});
+  root.append(board, card);
+  let i = 0, picked = null, items = d.items.slice();
+  function draw(){
+    card.innerHTML='';
+    if (i >= items.length){
+      const [a,b] = board.sc;
+      card.append(h('div', {class:'qf-q'}, a===b ? `A draw: ${a} each.` : `${a>b?'Team A':'Team B'} wins, ${Math.max(a,b)} to ${Math.min(a,b)}.`),
+        h('div', {class:'row'}, btn('Play again', ()=>{ i=0; picked=null; draw(); }, 'primary'), btn('Shuffle and play again', ()=>{ items=shuffle(d.items); i=0; picked=null; draw(); })));
+      return;
+    }
+    const it = items[i], O = it.o || d.options;
+    card.append(h('div', {class:'qf-count'}, `Card ${i+1} of ${items.length}`), h('div', {class:'qf-q', html:it.q}));
+    const list = h('div', {class:'opts'});
+    O.forEach((t,j)=>{
+      let cls = 'opt';
+      if (picked!=null){ if (j===it.a) cls+=' ok'; else if (j===picked) cls+=' bad'; }
+      list.append(h('button', {class:cls, type:'button', onclick:()=>{ picked=j; draw(); }}, h('span',{class:'otext'}, t)));
+    });
+    card.append(list);
+    if (picked!=null) card.append(h('div', {class:'fb '+(picked===it.a?'ok':'bad')}, h('strong', null, `${picked===it.a?'Yes':'No'}: ${O[it.a]}. `), it.why || ''));
+    const nx = btn(i===items.length-1 ? 'Finish' : 'Next card', ()=>{ i++; picked=null; draw(); }, 'primary');
+    card.append(h('div', {class:'row'}, picked==null ? btn('Reveal', ()=>{ picked=it.a; draw(); }, 'ghost') : null, nx));
+  }
+  draw();
+}
+function rClues(d, root){
+  head(root, d);
+  const board = scoreboard();
+  const card = h('div', {class:'qf'});
+  root.append(board, card);
+  let r = 0, shown = 1, open = false, awarded = false;
+  function draw(){
+    card.innerHTML='';
+    if (r >= d.rounds.length){
+      const [a,b] = board.sc;
+      card.append(h('div', {class:'qf-q'}, a===b ? `A draw: ${a} each.` : `${a>b?'Team A':'Team B'} wins, ${Math.max(a,b)} to ${Math.min(a,b)}.`), h('div', {class:'row'}, btn('Play again', ()=>{ r=0; shown=1; open=false; awarded=false; draw(); }, 'primary')));
+      return;
+    }
+    const rd = d.rounds[r], worth = rd.clues.length - shown + 1;
+    card.append(h('div', {class:'qf-count'}, `Round ${r+1} of ${d.rounds.length}`, open ? null : h('span', {class:'worth'}, `worth ${worth}`)));
+    const ul = h('ul', {class:'clues'});
+    rd.clues.forEach((c,i)=>{ if (i<shown) ul.append(h('li', null, h('b', null, `Clue ${i+1}`), c)); });
+    card.append(ul);
+    const row = h('div', {class:'row'});
+    if (!open){
+      const more = btn('Next clue', ()=>{ shown=Math.min(rd.clues.length, shown+1); draw(); });
+      more.disabled = shown>=rd.clues.length;
+      row.append(more, btn('Reveal answer', ()=>{ open=true; draw(); }, 'primary'));
+    } else {
+      card.append(h('div', {class:'answer'}, rd.answer));
+      ['Team A','Team B'].forEach((n,t)=>{ const b = btn(`${worth} to ${n}`, ()=>{ board.add(t, worth); awarded=true; draw(); }); b.disabled = awarded; row.append(b); });
+      row.append(btn(r===d.rounds.length-1 ? 'Finish' : 'Next round', ()=>{ r++; shown=1; open=false; awarded=false; draw(); }, 'primary'));
+    }
+    card.append(row);
+  }
+  draw();
+}
+
+/* ---------- sheet & intro ---------- */
+function rSheet(d, root){
+  const L = LESSONS[S.lesson];
+  const card = h('div', {class:'sheet'});
+  card.append(h('h2', {class:'title', style:'font-size:clamp(1.5rem,2.1vw,2.2rem)'}, `Now on your sheet: ${L.sheet}`), h('h3', null, d.part), h('blockquote', null, d.task));
+  const todo = h('ol', {class:'todo'});
+  d.do.forEach(t=>{ const b = h('button', {type:'button', onclick:()=>b.classList.toggle('done')}, t); todo.append(h('li', null, b)); });
+  const rem = h('ul', {class:'remember'});
+  (d.remember||[]).forEach(t=>rem.append(h('li', null, t)));
+  card.append(h('div', {class:'sheet-cols'}, h('div', null, h('h4', null, 'What to do'), todo), h('div', null, h('h4', null, 'Remember'), rem,
+    d.frame ? h('div', {class:'frame-box'}, h('h4', null, 'Sentence frame'), h('div', {class:'hand'}, d.frame)) : null)));
+  root.append(card);
+}
+function rIntro(d, root){
+  const L = LESSONS[S.lesson];
+  root.append(h('h2', {class:'title'}, d.title), h('p', {class:'prompt'}, d.lead));
+  const map = h('div', {class:'map'});
+  d.map.forEach(m=> map.append(h('button', {class:'map-row', type:'button', onclick:()=>go(S.lesson, m.block, 0)}, h('span', null, m.part), h('span', {class:'map-skill'}, m.skill))));
+  root.append(map, h('div', {class:'flow'}, 'Every block runs in the same order:', ['Concept','Model','Practise','Game','On the sheet'].map(t=>h('span', null, t))));
+}
+
+/* ---------- navigation ---------- */
+function stagesOf(b){ return STAGE_ORDER.filter(k=>b.stages[k]); }
+function go(l, b, s){ S.lesson=l; S.block=b; S.stage=s; S.sub=0; render(); }
+function next(){
+  const L = LESSONS[S.lesson], st = stagesOf(L.blocks[S.block]);
+  if (S.stage < st.length-1) go(S.lesson, S.block, S.stage+1);
+  else if (S.block < L.blocks.length-1) go(S.lesson, S.block+1, 0);
+}
+function prev(){
+  const L = LESSONS[S.lesson];
+  if (S.stage > 0) go(S.lesson, S.block, S.stage-1);
+  else if (S.block > 0) go(S.lesson, S.block-1, stagesOf(L.blocks[S.block-1]).length-1);
+}
+function renderActivity(key, d, root){
+  if (key==='intro') return rIntro(d, root);
+  if (key==='concept') return rConcept(d, root);
+  if (key==='sheet') return rSheet(d, root);
+  const R = {annotate:rAnnotate, steps:rSteps, sort:rSort, questions:rQuestions, frame:rFrame, wordswap:rWordswap, infer:rInfer, quickfire:rQuickfire, clues:rClues}[d.kind];
+  if (R) R(d, root); else root.append(h('p', null, 'Unknown activity.'));
+}
+function render(){
+  const L = LESSONS[S.lesson];
+  if (S.block >= L.blocks.length) S.block = 0;
+  const B = L.blocks[S.block], st = stagesOf(B);
+  if (S.stage >= st.length) S.stage = 0;
+  document.body.dataset.lesson = L.id;
+  document.body.classList.toggle('rail-off', !S.rail);
+  if (S.theme) document.documentElement.setAttribute('data-theme', S.theme); else document.documentElement.removeAttribute('data-theme');
+
+  const tabs = $('lessonTabs'); tabs.innerHTML='';
+  LESSONS.forEach((l,i)=> tabs.append(h('button', {type:'button', role:'tab', 'aria-selected':String(i===S.lesson), onclick:()=>go(i,0,0)}, h('small', null, `${l.code}: ${l.sheet}`), h('b', null, l.title))));
+  $('barTitle').textContent = B.intro ? L.title : B.title;
+
+  const rail = $('rail'); rail.innerHTML='';
+  L.blocks.forEach((b,i)=> rail.append(h('li', null, h('button', {type:'button', 'aria-current':String(i===S.block), onclick:()=>go(S.lesson,i,0)},
+    h('span', {class:'num'}, b.intro ? '' : i), h('span', null, h('span', {class:'bt'}, b.title), h('span', {class:'bs'}, b.short))))));
+
+  const stTabs = $('stageTabs'); stTabs.innerHTML='';
+  st.forEach((k,i)=> stTabs.append(h('button', {class:'stage-tab', type:'button', role:'tab', 'aria-current':String(i===S.stage), onclick:()=>go(S.lesson,S.block,i)}, h('span', {class:'n'}, i+1), STAGE_LABEL[k])));
+
+  const root = $('stage'); root.innerHTML='';
+  root.classList.remove('enter'); void root.offsetWidth; root.classList.add('enter');
+  const key = st[S.stage]; const d = B.stages[key];
+  if (Array.isArray(d)){
+    if (S.sub >= d.length) S.sub = 0;
+    const sub = h('div', {class:'subtabs'});
+    d.forEach((a,i)=> sub.append(h('button', {class:'btn', type:'button', 'aria-pressed':String(i===S.sub), onclick:()=>{ S.sub=i; render(); }}, a.label || `Part ${i+1}`)));
+    root.append(sub);
+    renderActivity(key, d[S.sub], root);
+  } else renderActivity(key, d, root);
+
+  const atStart = S.block===0 && S.stage===0;
+  const atEnd = S.block===L.blocks.length-1 && S.stage===st.length-1;
+  $('prevBtn').disabled = atStart;
+  $('nextBtn').disabled = atEnd;
+  let nextLabel = 'Next';
+  if (!atEnd){ nextLabel = S.stage < st.length-1 ? `Next: ${STAGE_LABEL[st[S.stage+1]]}` : `Next: ${L.blocks[S.block+1].title}`; }
+  $('nextBtn').textContent = nextLabel;
+  save();
+}
+
+/* ---------- chrome ---------- */
+let timerId = null, timerEnd = 0;
+function fmt(ms){ const s=Math.max(0,Math.ceil(ms/1000)); return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; }
+function startTimer(min){
+  clearInterval(timerId); const b=$('timerBtn'); b.classList.remove('ring');
+  if (!min){ b.textContent='Timer'; return; }
+  timerEnd = Date.now() + min*60000; b.textContent = fmt(min*60000);
+  timerId = setInterval(()=>{ const left = timerEnd-Date.now(); b.textContent = fmt(left); if (left<=0){ clearInterval(timerId); b.textContent='Time!'; b.classList.add('ring'); } }, 250);
+}
+$('timerBtn').addEventListener('click', e=>{ e.stopPropagation(); $('timerPop').hidden = !$('timerPop').hidden; });
+$('timerPop').addEventListener('click', e=>{ const m = e.target.closest('[data-min]'); if (!m) return; startTimer(+m.dataset.min); $('timerPop').hidden = true; });
+document.addEventListener('click', e=>{ if (!e.target.closest('.tools')) $('timerPop').hidden = true; });
+$('railBtn').addEventListener('click', ()=>{ S.rail=!S.rail; render(); });
+$('themeBtn').addEventListener('click', ()=>{
+  const dark = S.theme ? S.theme==='dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  S.theme = dark ? 'light' : 'dark'; render();
+});
+$('fsBtn').addEventListener('click', ()=>{ try{ if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }catch(e){} });
+$('prevBtn').addEventListener('click', prev);
+$('nextBtn').addEventListener('click', next);
+document.addEventListener('keydown', e=>{
+  if (e.target.closest && e.target.closest('input,textarea')) return;
+  if (e.key==='ArrowRight' || e.key==='PageDown'){ e.preventDefault(); next(); }
+  if (e.key==='ArrowLeft' || e.key==='PageUp'){ e.preventDefault(); prev(); }
+});
+load();
+render();
+</script>
+</body>
+</html>
