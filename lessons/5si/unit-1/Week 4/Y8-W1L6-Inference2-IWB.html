@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Year 8 English: Inference 2, Putting Clues Together</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Figtree:wght@400;600;800&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f1e7; --paper:#fffdf8; --ink:#1d2433; --ink2:#5a6275; --line:#e4dccb;
+  --rose:#f7d9dc; --rose-ink:#9b2f3f; --teal:#d3ece8; --teal-ink:#1d6b62;
+  --amber:#fbe7c0; --amber-ink:#8a5a09; --lav:#e3def5; --lav-ink:#4b3d8f;
+  --acc:#7a2231; --shadow:0 2px 0 rgba(0,0,0,.04),0 8px 24px rgba(40,30,10,.08);
+  --sans:'Figtree',system-ui,sans-serif; --serif:'Literata',Georgia,serif; --hand:'Caveat',cursive;
+}
+[data-theme="dark"]{
+  --bg:#171a22; --paper:#212532; --ink:#eef0f5; --ink2:#a9b0c2; --line:#343a4b;
+  --rose:#4a2830; --rose-ink:#f3a9b5; --teal:#1f3d3a; --teal-ink:#8fdcd0;
+  --amber:#463715; --amber-ink:#f5cf7d; --lav:#2f2a4c; --lav-ink:#c3b8f7;
+  --acc:#f09aa8; --shadow:0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:clamp(16px,1.25vw,22px)}
+button{font:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;align-items:center;padding:.6rem 1.4rem}
+.brand{font-weight:800;color:var(--acc);font-size:.95rem;line-height:1.2}
+.brand small{display:block;color:var(--ink2);font-weight:600}
+nav{display:flex;gap:.4rem;flex:1}
+nav button{border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:.45em 1.2em;font-weight:700}
+nav button.on{background:var(--acc);border-color:var(--acc);color:var(--paper)}
+.tools{display:flex;gap:.4rem;align-items:center}
+.tb{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:.6rem;padding:.35em .7em;font-weight:600}
+.timer{font-variant-numeric:tabular-nums;font-weight:800;min-width:3.4em;text-align:center}
+.timer.flash{animation:fl .6s 6}
+@keyframes fl{50%{background:var(--rose);color:var(--rose-ink)}}
+main{max-width:70rem;margin:0 auto;padding:1.6rem 1.4rem 4rem}
+h1{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.8rem);margin:.2rem 0 .8rem;line-height:1.15}
+.lead{font-size:1.25rem;color:var(--ink2);margin:0 0 1.4rem;max-width:48rem}
+.card{background:var(--paper);border-radius:1.1rem;box-shadow:var(--shadow);padding:1.5rem 1.8rem;margin-bottom:1.2rem}
+.eq{display:flex;flex-wrap:wrap;gap:.6rem;margin:0 0 1.6rem}
+.eq .box{flex:1;min-width:11rem;border-radius:1rem;padding:1rem 1.2rem;text-align:center;font-weight:800;font-size:1.35rem}
+.eq .box span{display:block;font-weight:600;font-size:.85rem;margin-top:.3rem;opacity:.9}
+.b-point{background:var(--amber);color:var(--amber-ink)}
+.b-ev{background:var(--lav);color:var(--lav-ink)}
+.b-ex{background:var(--teal);color:var(--teal-ink)}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.8rem;color:var(--ink2);font-weight:700}
+.level{border-radius:999px;padding:.15em .8em;font-size:.85rem}
+.lv-Easy{background:var(--teal);color:var(--teal-ink)}
+.lv-Medium{background:var(--amber);color:var(--amber-ink)}
+.lv-Hard{background:var(--rose);color:var(--rose-ink)}
+.lv-Fun{background:var(--lav);color:var(--lav-ink)}
+.text{font-family:var(--serif);font-size:clamp(1.5rem,2.4vw,2.2rem);line-height:1.45;margin:0 0 .8rem}
+.q{font-style:italic;font-size:1.3rem;color:var(--acc);margin:0 0 1.2rem;font-weight:600}
+.clue{border-radius:.25em;transition:background .25s,box-shadow .25s}
+.show-clue .clue{background:var(--lav);box-shadow:0 0 0 .12em var(--lav-ink) inset;color:var(--lav-ink)}
+.steps{display:grid;gap:.6rem}
+.step{display:none;border-radius:.9rem;padding:.8rem 1.1rem;font-size:1.2rem;align-items:baseline;gap:.8rem}
+.step.on{display:flex;animation:up .3s ease}
+.step b{flex:0 0 9.5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em}
+@keyframes up{from{opacity:0;transform:translateY(6px)}}
+.s-point{background:var(--amber);color:var(--amber-ink)}
+.s-ev{background:var(--lav);color:var(--lav-ink)}
+.s-ex{background:var(--teal);color:var(--teal-ink)}
+.s-bad{background:var(--rose);color:var(--rose-ink)}
+.s-say{background:var(--rose);color:var(--rose-ink);font-family:var(--hand);font-size:1.6rem}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem;align-items:center}
+.btn{border:none;border-radius:.8rem;padding:.65em 1.3em;font-weight:800;background:var(--line);color:var(--ink)}
+.btn.main{background:var(--acc);color:var(--paper)}
+.btn:disabled{opacity:.35;cursor:default}
+.spacer{flex:1}
+.count{color:var(--ink2);font-weight:700}
+.frame{font-family:var(--hand);font-size:1.5rem;color:var(--rose-ink);background:var(--rose);border-radius:.9rem;padding:.5rem 1.1rem;margin:0 .6rem 1.2rem 0;display:inline-block}
+.parts{display:flex;gap:.4rem;margin:0 0 1rem;flex-wrap:wrap}
+.parts button{border:2px solid var(--line);background:var(--paper);color:var(--ink);border-radius:.8rem;padding:.5em 1.1em;font-weight:800}
+.parts button.on{border-color:var(--acc);color:var(--acc)}
+.phead{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center;margin-bottom:1rem}
+.phead h2{font-family:var(--serif);margin:0;font-size:1.8rem}
+.phead .task{color:var(--ink2);font-weight:600;flex:1;min-width:14rem}
+.item{display:grid;grid-template-columns:3.4rem 1fr;gap:.2rem 1rem;padding:1rem 0;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:none}
+.num{background:var(--teal);color:var(--teal-ink);font-weight:800;border-radius:.6rem;text-align:center;padding:.35em 0;height:max-content}
+.item .t{font-family:var(--serif);font-size:1.3rem;line-height:1.45}
+.item .qq{font-style:italic;color:var(--acc);font-weight:600;margin-top:.3rem}
+.item .reveal{grid-column:2;margin-top:.5rem}
+.sub{grid-column:1/-1;font-weight:800;color:var(--ink2);margin-top:.4rem}
+.ans{display:none;margin-top:.5rem;background:var(--teal);color:var(--teal-ink);border-radius:.8rem;padding:.6rem 1rem;font-size:1.05rem}
+.ans.on{display:block}
+.mini{border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:.6rem;padding:.3em .8em;font-weight:700;font-size:.85rem}
+.big .item .t{font-size:clamp(1.5rem,2.4vw,2.2rem)}
+/* quote golf */
+.holes,.draws{display:grid;gap:1rem}
+.bagitems{list-style:none;padding:0;margin:0 0 1rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(20rem,1fr));gap:.5rem}
+.bagitems li{background:var(--amber);color:var(--amber-ink);border-radius:.7rem;padding:.55rem .9rem;font-size:1.2rem;font-weight:600}
+.draws{grid-template-columns:repeat(auto-fit,minmax(24rem,1fr))}
+.hole{border:2px dashed var(--line);border-radius:1rem;padding:1rem 1.2rem}
+.hole .hh{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:baseline;margin-bottom:.5rem}
+.hole .hn{background:var(--amber);color:var(--amber-ink);font-weight:800;border-radius:999px;padding:.15em .9em}
+.hole .pt{font-weight:800;font-size:1.2rem}
+.hole .par{margin-left:auto;font-weight:800;color:var(--ink2)}
+.hole .sent{font-family:var(--serif);font-size:1.3rem;line-height:1.45}
+.strokes{display:none;margin-top:.6rem;background:var(--lav);color:var(--lav-ink);border-radius:.8rem;padding:.6rem 1rem;font-weight:700}
+.strokes.on{display:block}
+@media (max-width:700px){.step b{flex-basis:6rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Year 8 English · Week 1, Lesson 6<small>Inference 2: Putting Clues Together</small></div>
+  <nav id="nav"></nav>
+  <div class="tools">
+    <button class="tb" data-t="60">1m</button><button class="tb" data-t="60">1m</button><button class="tb" data-t="300">5m</button><button class="tb" data-t="600">10m</button>
+    <span class="tb timer" id="timer">0:00</span>
+    <button class="tb" id="theme" title="Light or dark">◐</button>
+    <button class="tb" id="fs" title="Full screen">⛶</button>
+  </div>
+</header>
+<main id="main"></main>
+
+<script>
+/* ---------- content ---------- */
+const R = {
+  ONE:['s-bad','One clue = a guess'], TWO:['s-ev','Add a second clue'], X:['s-ex','Inference'],
+  THEORY:['s-point','First theory'], NEW:['s-bad','New evidence'], REV:['s-ex','Revised inference'],
+  PICK:['s-ev','The useful clue'], WHY:['s-ex','Why'], SAY:['s-say','Say it']
+};
+
+const SKILL = {
+  text:'There were [muddy pawprints] across the kitchen floor, and [the bin had been knocked over].',
+  q:'What happened here?',
+  rows:[
+    ['ONE','Pawprints on their own prove almost nothing: the dog walks through the kitchen every day.'],
+    ['TWO','Pawprints AND a knocked-over bin. Now the two clues point the same way.'],
+    ['X','I can infer the dog got in and raided the bin, because there are “muddy pawprints” across the floor and “the bin had been knocked over”.'],
+    ['SAY','Today’s rule: one clue is a guess, two clues is an inference.']
+  ]
+};
+
+const TOGETHER = [
+  {lv:'Easy', text:'The car windows were [fogged up] and there was a [blanket on the back seat].',
+   q:'What can you infer?',
+   rows:[['ONE','Fogged windows alone could just mean a cold morning.'],
+     ['TWO','Fogged windows AND a blanket on the back seat.'],
+     ['X','I can infer somebody has been sleeping in the car, because the windows were “fogged up” and there was a “blanket on the back seat”.']]},
+  {lv:'Easy', text:'Her suitcase stood [by the front door] and [the fridge had been emptied].',
+   q:'What can you infer?',
+   rows:[['ONE','A suitcase by the door could be one she has just brought home.'],
+     ['TWO','Suitcase by the door AND an emptied fridge.'],
+     ['X','I can infer she is leaving for a long time, because the suitcase is “by the front door” and “the fridge had been emptied”, which you only do if nobody will be there to eat.']]},
+  {lv:'Medium', text:'Clue 1: the shelves at the front of the shop were bare. Which second clue actually helps? A: [it was raining outside]. B: [the owner had stopped answering the phone]. C: [the door was painted blue].',
+   q:'Which second clue turns the guess into an inference?',
+   rows:[['PICK','B.'],
+     ['WHY','A and C could be true of any shop on any day. B points the same way as the bare shelves: something is going wrong.'],
+     ['X','I can infer the shop is in trouble, because the shelves were “bare” and “the owner had stopped answering the phone”.']]},
+  {lv:'Medium', text:'Clue 1: Tom’s shoes were [caked in mud]. Clue 2: his football kit was [still clean in the wash basket]. Clue 3: the pitch had been [closed all week].',
+   q:'So where has Tom been?',
+   rows:[['THEORY','First guess from clue 1 alone: he has been playing football.'],
+     ['NEW','Clues 2 and 3 kill that theory: clean kit, and the pitch was shut.'],
+     ['X','He has been somewhere else muddy. Two clues do not just prove theories, they destroy them. If the clues disagree, change the theory.']]},
+  {lv:'Medium', text:'Ticket sales at the cinema are [down thirty per cent], and [two of the four screens have closed].',
+   q:'What can you infer?',
+   rows:[['ONE','A drop in sales alone might be one bad month.'],
+     ['TWO','A thirty per cent drop AND half the screens shut.'],
+     ['X','I can infer the cinema is failing, because sales are “down thirty per cent” and “two of the four screens have closed”, which nobody does unless the money has gone.']]},
+  {lv:'Hard', text:'Nobody mentioned the cake. Grandma [cleared the plates before anyone had finished], and someone [turned the radio up].',
+   q:'What is this family avoiding?',
+   rows:[['ONE','Clearing plates early might just be tidiness.'],
+     ['TWO','Plates cleared early AND the radio turned up, with nobody mentioning the cake.'],
+     ['X','I can infer something has happened that nobody will name, because Grandma “cleared the plates before anyone had finished” and someone “turned the radio up”: both fill the silence so the subject cannot come up.']]},
+  {lv:'Hard', text:'The back door was [standing open] and a drawer had been [emptied onto the floor].',
+   q:'Build a theory, then wait.',
+   rows:[['THEORY','A break-in. Open door, drawer emptied.'],
+     ['NEW','New evidence: the dog slept through it, and nothing of value was taken.'],
+     ['REV','I can infer somebody who lives here left in a hurry, because the dog “slept through it” and “nothing of value was taken”: a stranger would have woken the dog, and a thief would have taken something.']]},
+  {lv:'Fun', text:'Cold case warm-up. A classroom, 8 a.m.: [one chair on the desk], [the whiteboard still covered in last night’s writing], [the register missing].',
+   q:'What happened? Then take the new evidence.',
+   rows:[['THEORY','Nobody has been in since yesterday: the cleaner never came, so the room was left as it was.'],
+     ['NEW','New evidence: the writing on the board is a seating plan for a test, dated today.'],
+     ['REV','I can infer the room was set up for a test and abandoned, because the board holds “a seating plan for a test, dated today” and “the register” has gone with whoever left.']]},
+  {lv:'Fun', text:'Cold case warm-up. A park bench, dawn: [a still-warm coffee cup], [a dog lead with no dog], [a single glove on the path].',
+   q:'What happened? Then take the new evidence.',
+   rows:[['THEORY','Somebody was here seconds ago and left in a rush: the coffee is still warm.'],
+     ['NEW','New evidence: wet footprints lead towards the lake, and the glove is a child’s.'],
+     ['REV','I can infer an adult ran towards the lake after a dog or a child, because the footprints “lead towards the lake” and the glove is “a child’s”, which explains why the lead is empty and the coffee abandoned.']]}
+];
+
+const SHEET = {
+  A:{title:'Part A: Do Now', task:'5 min, on your own. One question from each lesson this week.', time:300, items:[
+    {n:'A1', t:'The referee’s whistle went and half the crowd was already walking towards the exits.', q:'What can you infer? Name the clue.',
+     a:'The result was settled long before the end, so the match was one-sided or dull. Clue: the crowd was “already walking towards the exits” before the whistle: nobody leaves early if the game is still in doubt.'},
+    {n:'A2', t:'Point: the flat is neglected. Evidence: “paint peeling from every window frame”.', q:'Write the Explain only: This suggests … because …',
+     a:'This suggests nobody has looked after the building for years, because paint peels off every single frame only after many winters with no repairs.'},
+    {n:'A3', t:'The last bus sighed to a halt and opened its doors.', q:'Name the device and explain its effect.',
+     a:'Personification. It makes the reader picture a tired old bus at the end of its day, because a sigh is the sound of someone worn out and glad to stop.'},
+    {n:'A4', t:'The team lost the final, missed the play-offs and then lost their sponsor. None of it seemed to bother him.', q:'What does “it” refer to?',
+     a:'“lost the final, missed the play-offs and then lost their sponsor”: all three setbacks together.'}
+  ]},
+  B:{title:'Part B: Cold Case', task:'Teams of 3. A kitchen, 7 a.m. Work out what happened. Every conclusion must rest on at least TWO clues. Write your theory and the clues that prove it, then take the new evidence.', time:600, cold:true,
+    facts:['two mugs on the table, one full and stone cold','a chair lying on its side','the back door unlocked and slightly open','a phone on the floor, screen cracked, 14 missed calls','a suitcase by the stairs, half packed','the car keys missing from their hook'],
+    evidence:[
+      {n:'Evidence 1', t:'All 14 missed calls are from the same contact: “Mum”.'},
+      {n:'Evidence 2', t:'The suitcase holds children’s clothes, and the car is still parked outside.'},
+      {n:'Evidence 3', t:'A neighbour saw an ambulance on the street at about 6.40 a.m.'}
+    ],
+    theory:'Strongest theory once all the evidence is in: somebody was taken ill or hurt early this morning and the family left with the ambulance. Two mugs, one untouched and cold, means the morning stopped mid-breakfast. The overturned chair and the dropped, cracked phone show it happened suddenly. The half-packed suitcase of children’s clothes and the keys taken from the hook show somebody grabbed what they could and went, and the car still being outside fits leaving in the ambulance, not driving. The 14 calls from Mum show somebody has been trying to reach the house since.\n\nWhat the clues do NOT prove: a break-in. Nothing is stolen, the door is unlocked rather than forced, and a thief would not pack a child’s suitcase.'},
+  C:{title:'Part C: Drill', task:'Each answer needs two clues.', time:600, items:[
+    {n:'C1', t:'The shelves at the front of the shop were bare. A hand-written sign taped to the till read CASH ONLY, and the owner had stopped answering the phone.', q:'What can you infer about the shop? Use two clues.',
+     a:'The shop is in serious financial trouble and is probably about to close. Clues: the sign says “CASH ONLY”, which suggests the card payments have been cut off, and “the owner had stopped answering the phone”, which suggests he is avoiding people he owes money to. The bare shelves show nothing new is being bought in.'},
+    {n:'C2', t:'The council’s new cycle lane is used by 40% fewer riders than predicted. Local shops report that deliveries now take twice as long, and two of the three bike-hire stands have already been removed.', q:'What can you infer about the scheme? Use two clues.',
+     a:'The scheme has not worked and is being quietly wound back. Clues: riders are “40% fewer than predicted”, and “two of the three bike-hire stands have already been removed”, which nobody does while a scheme is succeeding. Deliveries taking twice as long shows it has also cost local businesses.'},
+    {n:'C3', t:'Marc had learned to check the post before his mother did. He knew the school’s envelopes by their weight, and this one was heavy.', q:'What can you infer about Marc? Use two clues.',
+     a:'Marc is in trouble at school regularly and hides the letters from his mother. Clues: he “had learned to check the post” first, and he knows the envelopes “by their weight”. You only learn both of those by doing it many times, so this is not the first letter.'},
+    {n:'C4', t:'Nobody at the table mentioned the empty seat. Aunt Fen passed the potatoes twice to the same person. When the youngest asked why there were only five plates, the question disappeared into the clatter of cutlery, and someone asked, too brightly, about the weather.', q:'(a) What is this family avoiding? (b) Which two details tell you the most, and why those two?',
+     a:'(a) Somebody is missing, through death or a family split, and the family has agreed without saying so not to talk about it. (b) The strongest two: “Nobody at the table mentioned the empty seat”, because the silence is deliberate when the gap is that obvious, and the child’s question that “disappeared into the clatter of cutlery” with someone changing the subject “too brightly”, because that is the family actively shutting the subject down. Aunt Fen passing the potatoes twice shows she is distracted, but distraction alone could be anything.'}
+  ]},
+  D:{title:'Part D: Exit Ticket', task:'On your own, 2 marks: 1 for the inference, 1 for two clues.', time:300, items:[
+    {n:'D', t:'The training pitch was empty at four o’clock. The kit bags were still stacked by the gate, the coach’s car had not moved all week, and someone had taped a single sheet of paper to the clubhouse door.',
+     q:'What has happened at this club? Support your answer with two clues.',
+     a:'The club has stopped running: training has been cancelled or the club has folded, probably because something has happened to the coach. Clues: “the coach’s car had not moved all week”, which shows he has not been there for days, and the “single sheet of paper” taped to the door, which is how a cancellation or closure notice gets put up in a hurry. The kit bags still stacked by the gate show nobody has trained since the last session.'}
+  ]}
+};
+
+/* ---------- helpers ---------- */
+const $ = s=>document.querySelector(s);
+function el(tag, attrs={}, ...kids){
+  const e=document.createElement(tag);
+  for(const k in attrs){ if(k==='html') e.innerHTML=attrs[k]; else if(k.startsWith('on')) e.addEventListener(k.slice(2),attrs[k]); else e.setAttribute(k,attrs[k]); }
+  kids.flat().forEach(c=>{ if(c!=null) e.append(c); });
+  return e;
+}
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const marked = s => esc(s).replace(/\[([^\]]+)\]/g,'<span class="clue">$1</span>');
+
+const S = {tab:0, card:0, part:'A'};
+const TABS = ['1  The skill','2  Together','3  Worksheet'];
+function nav(){
+  const n=$('#nav'); n.innerHTML='';
+  TABS.forEach((t,i)=>n.append(el('button',{class:i===S.tab?'on':'',onclick:()=>{S.tab=i;render();}},t)));
+}
+
+function stepCard(d, meta){
+  const box=el('div',{class:'card'});
+  if(meta) box.append(meta);
+  const text=el('p',{class:'text',html:marked(d.text)});
+  box.append(text, el('p',{class:'q'},d.q));
+  const steps=el('div',{class:'steps'});
+  const nodes=d.rows.map(([key,t])=>{const [c,h]=R[key]; const s=el('div',{class:'step '+c},el('b',{},h),el('span',{},t)); steps.append(s); return s;});
+  box.append(steps);
+  const labels=d.rows.map(([k])=>R[k][1]);
+  let k=0;
+  const next=el('button',{class:'btn main'},labels[0]);
+  const hide=el('button',{class:'btn'},'Hide all');
+  function upd(){
+    text.classList.toggle('show-clue',k>0);
+    nodes.forEach((s,i)=>s.classList.toggle('on',i<k));
+    next.textContent = k>=labels.length ? 'Done' : labels[k];
+    next.disabled = k>=labels.length;
+  }
+  next.onclick=()=>{k=Math.min(labels.length,k+1);upd();};
+  hide.onclick=()=>{k=0;upd();};
+  box.append(el('div',{class:'row'},next,hide));
+  box._next=()=>{ if(k<labels.length){k++;upd();return true;} return false; };
+  upd();
+  return box;
+}
+
+function render(){
+  nav();
+  const m=$('#main'); m.innerHTML=''; window._active=null;
+  if(S.tab===0){
+    m.append(el('h1',{},'One clue is a guess. Two clues is an inference.'),
+      el('p',{class:'lead'},'Find a second clue that points the same way. If the clues disagree, change the theory, not the clues.'),
+      el('div',{class:'eq'},
+        el('div',{class:'box b-point'},'One clue',el('span',{},'a guess: it could mean anything')),
+        el('div',{class:'box b-ev'},'Two clues',el('span',{},'both point the same way: now you can prove it')),
+        el('div',{class:'box b-ex'},'New evidence',el('span',{},'if it kills your theory, build a better one'))));
+    window._active=stepCard(SKILL);
+    m.append(window._active,
+      el('div',{class:'frame'},'I can infer … because … and …'));
+  }
+  if(S.tab===1){
+    const d=TOGETHER[S.card];
+    m.append(el('h1',{},'Together'),
+      el('div',{class:'frame'},'I can infer … because … and …'),
+      el('div',{class:'frame'},'Two clues, or it is only a guess.'));
+    const meta=el('div',{class:'meta'},el('span',{class:'count'},`${S.card+1} of ${TOGETHER.length}`),
+      el('span',{class:'level lv-'+d.lv},d.lv==='Fun'?'Cold case':d.lv));
+    window._active=stepCard(d,meta);
+    m.append(window._active);
+    const prev=el('button',{class:'btn',onclick:()=>{S.card--;render();}},'← Previous');
+    const nxt=el('button',{class:'btn main',onclick:()=>{S.card++;render();}},'Next example →');
+    prev.disabled=S.card===0; nxt.disabled=S.card===TOGETHER.length-1;
+    m.append(el('div',{class:'row'},prev,el('span',{class:'spacer'}),nxt));
+  }
+  if(S.tab===2){
+    m.append(el('h1',{},'Your turn: the worksheet'), el('p',{class:'lead'},'Write all answers in your book. Number each one.'));
+    const parts=el('div',{class:'parts'});
+    Object.keys(SHEET).forEach(k=>parts.append(el('button',{class:k===S.part?'on':'',onclick:()=>{S.part=k;render();}},SHEET[k].title)));
+    m.append(parts);
+    const P=SHEET[S.part];
+    const card=el('div',{class:'card'+(S.part==='D'?' big':'')});
+    card.append(el('div',{class:'phead'},el('h2',{},P.title),el('span',{class:'task'},P.task),
+      el('button',{class:'mini',onclick:()=>startTimer(P.time)},`Start ${P.time/60} min timer`),
+      el('button',{class:'mini',onclick:()=>{card.querySelectorAll('.ans,.strokes').forEach(a=>a.classList.add('on'));card.querySelectorAll('.bagitems li').forEach(l=>l.classList.add('on'));card.querySelectorAll('.sent').forEach(t=>t.classList.add('show-clue'));}},'Show all answers'),
+      el('button',{class:'mini',onclick:()=>{card.querySelectorAll('.ans,.strokes').forEach(a=>a.classList.remove('on'));card.querySelectorAll('.sent').forEach(t=>t.classList.remove('show-clue'));}},'Hide all')));
+    if(P.cold){
+      const facts=el('ul',{class:'bagitems'});
+      P.facts.forEach(f=>facts.append(el('li',{},f)));
+      card.append(facts);
+      let given=0;
+      const evs=P.evidence.map(e=>{
+        const box=el('div',{class:'strokes'},el('b',{},e.n+': '),e.t);
+        card.append(box); return box;
+      });
+      const th=el('div',{class:'strokes',style:'white-space:pre-line'},P.theory);
+      const release=el('button',{class:'btn main'});
+      const upd=()=>{ evs.forEach((b,i)=>b.classList.toggle('on',i<given));
+        release.textContent = given>=evs.length ? 'All evidence released' : `Release new evidence (${evs.length-given} left)`;
+        release.disabled = given>=evs.length; };
+      release.onclick=()=>{ given++; upd(); };
+      upd();
+      card.append(el('div',{class:'row'},release,
+        el('button',{class:'mini',onclick:()=>th.classList.toggle('on')},'Strongest theory'),
+        el('button',{class:'mini',onclick:()=>{given=0;upd();th.classList.remove('on');}},'Reset the case')),th);
+    }
+    (P.items||[]).forEach(it=>{
+      if(it.sub){ card.append(el('div',{class:'item'},el('div',{class:'sub'},it.sub))); return; }
+      const ans=el('div',{class:'ans'},it.a);
+      card.append(el('div',{class:'item'},
+        el('div',{class:'num'},it.n),
+        el('div',{},el('div',{class:'t'},it.t), it.q?el('div',{class:'qq'},it.q):null,
+          el('div',{class:'reveal'},el('button',{class:'mini',onclick:()=>ans.classList.toggle('on')},'Model answer'),ans))));
+    });
+    m.append(card, el('div',{class:'frame'},'Two clues, every time.'));
+  }
+}
+
+/* ---------- timer ---------- */
+let tLeft=0, tId=null;
+function drawT(){ $('#timer').textContent=`${Math.floor(tLeft/60)}:${String(tLeft%60).padStart(2,'0')}`; }
+function startTimer(s){
+  clearInterval(tId); tLeft=s; drawT(); $('#timer').classList.remove('flash');
+  tId=setInterval(()=>{ tLeft--; drawT(); if(tLeft<=0){ clearInterval(tId); $('#timer').classList.add('flash'); } },1000);
+}
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>startTimer(+b.dataset.t));
+$('#timer').onclick=()=>{ clearInterval(tId); tLeft=0; drawT(); };
+
+/* ---------- theme, full screen, keys ---------- */
+const mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):{matches:false};
+document.documentElement.dataset.theme=mq.matches?'dark':'light';
+$('#theme').onclick=()=>{ const r=document.documentElement; r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'; };
+$('#fs').onclick=()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); else document.exitFullscreen(); };
+document.addEventListener('keydown',e=>{
+  if(e.target.closest&&e.target.closest('input,textarea,button')) return;
+  if(e.key===' '||e.key==='Enter'){ if(window._active&&window._active._next){ e.preventDefault(); window._active._next(); } }
+  if(e.key==='ArrowRight'){ if(S.tab===1&&S.card<TOGETHER.length-1){S.card++;render();} else if(S.tab<2){S.tab++;render();} }
+  if(e.key==='ArrowLeft'){ if(S.tab===1&&S.card>0){S.card--;render();} else if(S.tab>0){S.tab--;render();} }
+});
+render();
+</script>
+</body>
+</html>

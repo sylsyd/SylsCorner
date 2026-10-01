@@ -1,0 +1,895 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Meet Noor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+  :root{
+    color-scheme: light;
+    --paper:#EFF2F1;
+    --card:#FFFFFF;
+    --ink:#0E2E2B;
+    --ink-soft:#4C6A66;
+    --line:#D3DDDA;
+    --accent:#0F766E;
+    --accent-ink:#FFFFFF;
+    --accent-wash:#DCEDEA;
+    --band1:#0F766E;
+    --band2:#B07800;
+    --band3:#BE4A30;
+    --hl-be:#FFE08A;
+    --hl-got:#BBE2FA;
+    --hl-why:#FFC3B4;
+    --hl-time:#D5E8A6;
+    --hl-ink:#14211F;
+    --shadow:0 1px 0 rgba(14,46,43,.06), 0 8px 24px -18px rgba(14,46,43,.5);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --paper:#0B1513;
+      --card:#13201E;
+      --ink:#E9F1EF;
+      --ink-soft:#93ABA7;
+      --line:#263A37;
+      --accent:#48C8BA;
+      --accent-ink:#06211E;
+      --accent-wash:#123330;
+      --band1:#48C8BA;
+      --band2:#E0B44A;
+      --band3:#F08063;
+      --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 26px -18px #000;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --paper:#0B1513;
+    --card:#13201E;
+    --ink:#E9F1EF;
+    --ink-soft:#93ABA7;
+    --line:#263A37;
+    --accent:#48C8BA;
+    --accent-ink:#06211E;
+    --accent-wash:#123330;
+    --band1:#48C8BA;
+    --band2:#E0B44A;
+    --band3:#F08063;
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 26px -18px #000;
+  }
+
+  html, body{ height:100%; }
+  body{
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .app{
+    --scale: 1;
+    min-height:100%;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---------- top bar ---------- */
+  .bar{
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 20;
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+    padding: 10px 16px;
+  }
+  .brand{
+    font-family:"Fraunces", Georgia, serif;
+    font-weight:900;
+    font-size:19px;
+    letter-spacing:-.01em;
+    margin-right:2px;
+    white-space:nowrap;
+  }
+  .brand span{ color: var(--accent); }
+  .tabs{ display:flex; gap:6px; flex-wrap:wrap; }
+  .tab{
+    font:inherit; font-weight:600; font-size:15px;
+    padding:8px 14px; border-radius:999px;
+    border:1px solid var(--line); background:transparent; color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .tab:hover{ color:var(--ink); border-color:var(--ink-soft); }
+  .tab[aria-selected="true"]{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .spacer{ flex:1 1 auto; }
+  .tools{ display:flex; align-items:center; gap:6px; }
+  .icon{
+    font:inherit; font-weight:600; font-size:14px;
+    min-width:36px; height:36px; padding:0 10px;
+    border-radius:9px; border:1px solid var(--line);
+    background:transparent; color:var(--ink-soft); cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  }
+  .icon:hover{ color:var(--ink); border-color:var(--ink-soft); }
+  .icon[aria-pressed="true"]{ background:var(--accent-wash); border-color:var(--accent); color:var(--ink); }
+  button:focus-visible, a:focus-visible{ outline:3px solid var(--accent); outline-offset:2px; }
+
+  /* ---------- shell ---------- */
+  main{ flex:1 1 auto; width:100%; max-width:1180px; margin:0 auto; padding-inline:16px; padding-block: 26px 60px; }
+  .eyebrow{
+    font-size:13px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--ink-soft); margin-bottom:10px;
+  }
+  h1{
+    font-family:"Fraunces", Georgia, serif;
+    font-weight:900;
+    font-size: calc(clamp(30px, 4vw, 46px) * var(--scale));
+    line-height:1.05; letter-spacing:-.02em; text-wrap:balance; margin:0 0 6px;
+  }
+  .sub{ color:var(--ink-soft); font-size: calc(clamp(15px, 1.5vw, 19px) * var(--scale)); margin:0 0 22px; }
+
+  /* ---------- reading text ---------- */
+  .sheet{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    box-shadow:var(--shadow); padding: clamp(18px, 3vw, 34px);
+  }
+  .passage{
+    font-family:"Atkinson Hyperlegible", "Source Sans 3", system-ui, sans-serif;
+    font-size: calc(clamp(20px, 2.35vw, 31px) * var(--scale));
+    line-height:1.62;
+  }
+  .para{ display:grid; grid-template-columns: 2.2em 1fr; gap: .4em; }
+  .para + .para{ margin-top: .85em; }
+  .pnum{
+    font-family:"Source Sans 3", sans-serif; font-weight:700;
+    font-size:.55em; color:var(--ink-soft);
+    padding-top:.55em; font-variant-numeric: tabular-nums;
+  }
+  .passage b{ font-weight:700; }
+  mark{ background:transparent; color:inherit; padding:0 .06em; border-radius:4px; transition: background-color .18s ease, color .18s ease; }
+  .hl-on mark{ color:var(--hl-ink); box-decoration-break:clone; -webkit-box-decoration-break:clone; padding:.06em .18em; }
+  .hl-on mark.be{ background:var(--hl-be); }
+  .hl-on mark.got{ background:var(--hl-got); }
+  .hl-on mark.why{ background:var(--hl-why); }
+  .hl-on mark.time{ background:var(--hl-time); }
+
+  .legend{ display:flex; flex-wrap:wrap; gap:10px 18px; margin-top:20px; padding-top:18px; border-top:1px dashed var(--line); }
+  .key{ display:flex; align-items:center; gap:8px; font-size: calc(15px * var(--scale)); font-weight:600; color:var(--ink-soft); }
+  .swatch{ width:26px; height:16px; border-radius:4px; display:inline-block; }
+
+  /* ---------- questions ---------- */
+  .qhead{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+  .ramp{ display:flex; gap:5px; align-items:flex-end; }
+  .pip{
+    width:14px; border-radius:3px; background:var(--line);
+    border:none; padding:0; cursor:pointer;
+  }
+  .pip[data-band="1"].on{ background:var(--band1); }
+  .pip[data-band="2"].on{ background:var(--band2); }
+  .pip[data-band="3"].on{ background:var(--band3); }
+  .pip.cur{ outline:2px solid var(--ink); outline-offset:2px; }
+  .band{
+    font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    padding:5px 11px; border-radius:999px; border:1px solid currentColor;
+  }
+  .band[data-band="1"]{ color:var(--band1); }
+  .band[data-band="2"]{ color:var(--band2); }
+  .band[data-band="3"]{ color:var(--band3); }
+  .where{ font-size:14px; font-weight:600; color:var(--ink-soft); }
+
+  /* split view: text beside the question */
+  .qlayout{ display:grid; grid-template-columns: minmax(260px, 33%) 1fr; gap:18px; align-items:start; }
+  .qlayout.solo{ grid-template-columns: 1fr; }
+  .sidetext{
+    position: sticky;
+    top: calc(env(safe-area-inset-top, 0px) + 84px);
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    box-shadow:var(--shadow); padding:16px 18px;
+  }
+  .sidetext .sthead{
+    display:flex; align-items:baseline; justify-content:space-between; gap:10px;
+    font-size:12px; font-weight:700; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--ink-soft); margin-bottom:12px;
+  }
+  .sidetext .passage{ font-size: calc(clamp(14px, 1.15vw, 18px) * var(--scale)); line-height:1.5; }
+  .sidetext .para{ grid-template-columns: 1.5em 1fr; }
+  .sidetext .para + .para{ margin-top:.7em; }
+  .sidetext .pnum{ padding-top:.35em; }
+  .para{ transition: opacity .2s ease; }
+  .focus-on .sidetext .para{ opacity:.28; }
+  .focus-on .sidetext .para.spot{ opacity:1; }
+  .focus-on .sidetext .para.spot > div:last-child{
+    box-shadow: -10px 0 0 var(--accent-wash), 10px 0 0 var(--accent-wash);
+    background: var(--accent-wash); border-radius:3px;
+  }
+
+  .qcard{ display:flex; flex-direction:column; gap: clamp(16px, 2.4vw, 26px); min-height: 34vh; justify-content:center; }
+  .qnum{
+    font-family:"Fraunces", Georgia, serif; font-weight:900;
+    font-size: calc(clamp(34px,4vw,52px) * var(--scale)); line-height:1;
+    color:var(--accent);
+  }
+  .qtext{
+    font-family:"Atkinson Hyperlegible", sans-serif;
+    font-size: calc(clamp(24px, 3.1vw, 42px) * var(--scale));
+    line-height:1.32; text-wrap:balance; font-weight:700; margin:0;
+  }
+  .quote{ font-style:italic; font-weight:400; }
+  .starter{
+    background:var(--accent-wash); border:1px solid var(--line); border-radius:12px;
+    padding: clamp(14px, 2vw, 22px);
+    font-family:"Atkinson Hyperlegible", sans-serif;
+    font-size: calc(clamp(18px, 2.1vw, 28px) * var(--scale));
+    line-height:1.55;
+  }
+  .starter .lbl{
+    display:block; font-family:"Source Sans 3", sans-serif; font-size:13px; font-weight:700;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:8px;
+  }
+  .qnav{ display:flex; align-items:center; gap:12px; margin-top:22px; flex-wrap:wrap; }
+  .btn{
+    font:inherit; font-weight:700; font-size:16px;
+    padding:12px 20px; border-radius:10px; cursor:pointer;
+    border:1px solid var(--line); background:var(--card); color:var(--ink);
+  }
+  .btn:hover{ border-color:var(--ink-soft); }
+  .btn.primary{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .btn:disabled{ opacity:.4; cursor:default; }
+  .count{ font-variant-numeric:tabular-nums; font-weight:700; color:var(--ink-soft); }
+
+  .alllist{ display:grid; gap:10px; }
+  .allrow{
+    display:grid; grid-template-columns: 2.4em 1fr; gap:12px; align-items:start;
+    background:var(--card); border:1px solid var(--line); border-left:5px solid var(--line);
+    border-radius:10px; padding:14px 16px;
+    font-family:"Atkinson Hyperlegible", sans-serif;
+    font-size: calc(clamp(16px,1.6vw,21px) * var(--scale)); line-height:1.4;
+  }
+  .allrow[data-band="1"]{ border-left-color:var(--band1); }
+  .allrow[data-band="2"]{ border-left-color:var(--band2); }
+  .allrow[data-band="3"]{ border-left-color:var(--band3); }
+  .allrow .n{ font-weight:700; color:var(--ink-soft); font-variant-numeric:tabular-nums; }
+
+  /* ---------- writing task ---------- */
+  .checklist{ display:grid; gap:8px; margin: 0 0 24px; padding:0; list-style:none; }
+  .checklist li{
+    display:grid; grid-template-columns: 26px 1fr; gap:10px; align-items:baseline;
+    font-family:"Atkinson Hyperlegible", sans-serif;
+    font-size: calc(clamp(17px,1.8vw,24px) * var(--scale)); line-height:1.45;
+  }
+  .checklist .box{
+    width:20px; height:20px; border:2px solid var(--accent); border-radius:5px; display:inline-block;
+    transform: translateY(3px);
+  }
+  .frames{ display:grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap:16px; }
+  .frame{
+    background:var(--card); border:1px solid var(--line); border-top:6px solid var(--accent);
+    border-radius:12px; padding:18px 18px 20px; box-shadow:var(--shadow);
+  }
+  .frame[data-tier="2"]{ border-top-color:var(--band2); }
+  .frame[data-tier="3"]{ border-top-color:var(--band3); }
+  .frame h3{
+    font-family:"Fraunces", Georgia, serif; font-weight:900;
+    font-size: calc(clamp(19px,1.9vw,25px) * var(--scale)); margin:6px 0 4px; line-height:1.15;
+  }
+  .frame .tier{ font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); }
+  .frame ul{ margin:14px 0 0; padding:0; list-style:none; display:grid; gap:9px; }
+  .frame li{
+    font-family:"Atkinson Hyperlegible", sans-serif;
+    font-size: calc(clamp(15px,1.5vw,20px) * var(--scale)); line-height:1.45;
+  }
+  .gap{ border-bottom:2px solid var(--ink-soft); display:inline-block; min-width:5.5em; }
+
+  /* ---------- activities ---------- */
+  .prompt{ margin-bottom:22px; }
+  .pmeta{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+  .badge{
+    font-size:12px; font-weight:700; letter-spacing:.13em; text-transform:uppercase;
+    padding:5px 11px; border-radius:999px; background:var(--accent); color:var(--accent-ink);
+  }
+  .ptitle{
+    font-family:"Fraunces", Georgia, serif; font-weight:900;
+    font-size: calc(clamp(24px,2.8vw,36px) * var(--scale));
+    margin:0 0 14px; line-height:1.1; letter-spacing:-.01em;
+  }
+  .pbig{
+    font-family:"Atkinson Hyperlegible", sans-serif; font-weight:700;
+    font-size: calc(clamp(24px,3.2vw,44px) * var(--scale));
+    line-height:1.3; text-wrap:balance; margin:0 0 10px;
+  }
+  .exit .pbig{ font-weight:400; }
+  .acts{ display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; }
+  .act{
+    background:var(--card); border:1px solid var(--line); border-top:6px solid var(--band2);
+    border-radius:12px; padding:16px 18px 20px; box-shadow:var(--shadow);
+  }
+  .act h3{
+    font-family:"Fraunces", Georgia, serif; font-weight:900;
+    font-size: calc(clamp(20px,2vw,27px) * var(--scale)); margin:10px 0 4px; line-height:1.15;
+  }
+  .act .how{ font-size:14px; font-weight:600; color:var(--ink-soft); margin:0; }
+  .act ul{ margin:14px 0 0; padding:0 0 0 1.1em; display:grid; gap:9px; }
+  .act li{
+    font-family:"Atkinson Hyperlegible", sans-serif;
+    font-size: calc(clamp(15px,1.55vw,21px) * var(--scale)); line-height:1.45;
+  }
+  .act li::marker{ color:var(--ink-soft); }
+
+  /* ---------- timer ---------- */
+  .timer{
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:14px 18px; margin-top:26px;
+  }
+  .clock{
+    font-family:"Fraunces", Georgia, serif; font-weight:900; font-variant-numeric:tabular-nums;
+    font-size: calc(clamp(32px,3.6vw,48px) * var(--scale)); line-height:1; min-width:3.1em;
+  }
+  .clock.done{ color:var(--band3); }
+  .timer .lbl{ font-size:13px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); }
+
+  .hint{ margin-top:26px; font-size:14px; color:var(--ink-soft); }
+  kbd{
+    font-family:"Source Sans 3", sans-serif; font-size:12px; font-weight:700;
+    border:1px solid var(--line); border-bottom-width:2px; border-radius:5px; padding:1px 6px;
+  }
+  @media (max-width: 860px){
+    .qlayout{ grid-template-columns: 1fr; }
+    .sidetext{ position:static; max-height:46vh; }
+  }
+  @media (max-width: 560px){
+    .brand{ font-size:17px; }
+    .tab{ font-size:14px; padding:7px 12px; }
+    .para{ grid-template-columns: 1.6em 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; }
+  }
+</style>
+
+<div class="app" id="app">
+  <header class="bar">
+    <div class="brand">Meet <span>Noor</span></div>
+    <div class="tabs" role="tablist" aria-label="Lesson sections">
+      <button class="tab" role="tab" id="tab-warmup" aria-selected="false" aria-controls="view-warmup">Warm&#8209;up</button>
+      <button class="tab" role="tab" id="tab-text" aria-selected="true" aria-controls="view-text">1. The text</button>
+      <button class="tab" role="tab" id="tab-questions" aria-selected="false" aria-controls="view-questions">2. Questions</button>
+      <button class="tab" role="tab" id="tab-writing" aria-selected="false" aria-controls="view-writing">3. Your turn</button>
+      <button class="tab" role="tab" id="tab-finish" aria-selected="false" aria-controls="view-finish">Finish</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="tools">
+      <button class="icon" id="hl" aria-pressed="false" title="Highlight the key language">Key language</button>
+      <button class="icon" id="smaller" title="Smaller text">A&minus;</button>
+      <button class="icon" id="bigger" title="Bigger text">A+</button>
+      <button class="icon" id="full" title="Fullscreen">Full screen</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ======== 0. WARM-UP ======== -->
+    <section id="view-warmup" role="tabpanel" aria-labelledby="tab-warmup" hidden>
+      <p class="eyebrow">Unit 1 &middot; Me and Us &middot; Warm&#8209;up</p>
+      <h1>Five minutes on your feet</h1>
+      <p class="sub">Pick one. No books open yet.</p>
+
+      <div class="sheet prompt">
+        <div class="pmeta">
+          <span class="badge">Game 1</span>
+          <span class="where">Three minutes &middot; no writing &middot; everybody plays</span>
+        </div>
+        <h2 class="ptitle">Stand up if&hellip;</h2>
+        <p class="pbig" id="standtext">you have got a brother or a sister</p>
+        <div class="qnav">
+          <button class="btn primary" id="standnext">Next &rarr;</button>
+          <button class="btn" id="standshuffle">Shuffle</button>
+          <span class="count"><span id="standcur">1</span> / <span id="standtot">16</span></span>
+          <div class="spacer"></div>
+          <span class="where">Standing? Then give me one full sentence.</span>
+        </div>
+      </div>
+
+      <div class="acts">
+        <div class="act">
+          <span class="badge">Game 2</span>
+          <h3>Two truths and one lie</h3>
+          <p class="how">Five minutes &middot; pairs &middot; three sentences</p>
+          <ul>
+            <li>Write three sentences about you. Two are true. One is a lie.</li>
+            <li>I have got <span class="gap"></span>.</li>
+            <li>I am good at <span class="gap"></span>.</li>
+            <li>I feel <span class="gap"></span> when <span class="gap"></span>.</li>
+            <li>Read them to your partner. Your partner guesses the lie.</li>
+            <li><b>The winner is the best liar in the room.</b></li>
+          </ul>
+        </div>
+        <div class="act">
+          <span class="badge">Game 3</span>
+          <h3>The adjective chain</h3>
+          <p class="how">Four minutes &middot; standing circle &middot; no writing</p>
+          <ul>
+            <li>Say your name and an adjective that starts with the same letter.</li>
+            <li>&ldquo;I am Maya and I am <b>messy</b>.&rdquo;</li>
+            <li>The next person says: &ldquo;She is Maya and she is messy. I am <span class="gap"></span> and I am <span class="gap"></span>.&rdquo;</li>
+            <li>Keep the chain going all the way round.</li>
+            <li>If the chain breaks, start again from that person.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="hint">Press <kbd>&rarr;</kbd> to go to the text.</p>
+    </section>
+
+    <!-- ======== 1. TEXT ======== -->
+    <section id="view-text" role="tabpanel" aria-labelledby="tab-text">
+      <p class="eyebrow">Unit 1 &middot; Me and Us &middot; Reading</p>
+      <h1>Hello, my name is Noor</h1>
+      <p class="sub">Read the text twice. The second time, look for the words that tell you <em>why</em> and <em>when</em>.</p>
+
+      <div class="sheet passage" id="passage">
+        <div class="para" data-p="1">
+          <div class="pnum">1</div>
+          <div>My name is <b>Noor Haddad</b>. I am eleven years old and I am in Year 7. I am from Manchester, in the north of England, but my family is Lebanese. At home we speak Arabic and English.</div>
+        </div>
+        <div class="para" data-p="2">
+          <div class="pnum">2</div>
+          <div>I live in a small flat near the park with my mother, my father and my little brother, Sami. He is six. He <mark class="be">is very noisy</mark>! We <mark class="got">have got a cat</mark>. Her name is Biscuit and she <mark class="be">is orange and lazy</mark>.</div>
+        </div>
+        <div class="para" data-p="3">
+          <div class="pnum">3</div>
+          <div>I <mark class="be">am quite shy</mark> at school, but I am not shy at home. I feel nervous <mark class="why">when the teacher asks me a question</mark> in front of the class, <mark class="why">because my English spelling is bad</mark>. I am good at drawing and I am good at maths.</div>
+        </div>
+        <div class="para" data-p="4">
+          <div class="pnum">4</div>
+          <div><mark class="time">On Mondays and Wednesdays</mark> I play football with my cousins. I don't go swimming <mark class="why">because I don't like cold water</mark>. <mark class="time">Every evening</mark> I draw comics in a black notebook. I <mark class="got">have got forty-two comics</mark> now.</div>
+        </div>
+        <div class="para" data-p="5">
+          <div class="pnum">5</div>
+          <div>My birthday is on the 3rd of March. <mark class="time">This year</mark> I would like a new bike, and I would like to be more brave.</div>
+        </div>
+
+        <div class="legend" id="legend" hidden>
+          <span class="key"><i class="swatch" style="background:var(--hl-be)"></i> be + adjective</span>
+          <span class="key"><i class="swatch" style="background:var(--hl-got)"></i> have got</span>
+          <span class="key"><i class="swatch" style="background:var(--hl-why)"></i> because / when</span>
+          <span class="key"><i class="swatch" style="background:var(--hl-time)"></i> how often / when</span>
+        </div>
+      </div>
+
+      <p class="hint">Press <kbd>&rarr;</kbd> for the questions. Press <kbd>F</kbd> for full screen.</p>
+    </section>
+
+    <!-- ======== 2. QUESTIONS ======== -->
+    <section id="view-questions" role="tabpanel" aria-labelledby="tab-questions" hidden>
+      <p class="eyebrow">Unit 1 &middot; Me and Us &middot; Comprehension</p>
+      <h1>Ten questions</h1>
+      <p class="sub">Answer in full sentences. The text stays on the left, and the paragraph you need lights up.</p>
+
+      <div id="single">
+        <div class="qhead">
+          <div class="ramp" id="ramp" role="tablist" aria-label="Jump to question"></div>
+          <span class="band" id="band" data-band="1">Find it</span>
+          <span class="where" id="where">Paragraph 1</span>
+        </div>
+
+        <div class="qlayout" id="qlayout">
+          <aside class="sidetext" id="sidetext">
+            <div class="sthead"><span>Noor's text</span><span id="spotlabel"></span></div>
+            <div class="passage" id="sidepassage"></div>
+          </aside>
+
+          <div class="sheet qcard">
+            <div class="qnum" id="qnum">1</div>
+            <p class="qtext" id="qtext"></p>
+            <div class="starter" id="starter" hidden>
+              <span class="lbl">Sentence starter</span>
+              <span id="startertext"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="qnav">
+          <button class="btn" id="prev">&larr; Back</button>
+          <button class="btn primary" id="next">Next &rarr;</button>
+          <button class="btn" id="showstarter">Show sentence starter</button>
+          <span class="count"><span id="cur">1</span> / 10</span>
+          <div class="spacer"></div>
+          <button class="icon" id="toggletext" aria-pressed="true">Text beside</button>
+          <button class="icon" id="togglefocus" aria-pressed="true">Spotlight</button>
+          <button class="btn" id="toggleall">See all ten</button>
+        </div>
+      </div>
+
+      <div id="allview" hidden>
+        <div class="alllist" id="alllist"></div>
+        <div class="qnav"><button class="btn primary" id="backtosingle">One at a time</button></div>
+      </div>
+    </section>
+
+    <!-- ======== 3. WRITING ======== -->
+    <section id="view-writing" role="tabpanel" aria-labelledby="tab-writing" hidden>
+      <p class="eyebrow">Unit 1 &middot; Me and Us &middot; Writing</p>
+      <h1>Now write your own introduction</h1>
+      <p class="sub">Eight sentences about you. Noor's text is your model. Choose the column that fits you today.</p>
+
+      <ul class="checklist">
+        <li><i class="box"></i><span>Your name, your age, your class</span></li>
+        <li><i class="box"></i><span>Where you are from, and the languages you speak at home</span></li>
+        <li><i class="box"></i><span>Who you live with</span></li>
+        <li><i class="box"></i><span>One thing you <b>have got</b> (use a number)</span></li>
+        <li><i class="box"></i><span>One sentence with <b>because</b> and one sentence with <b>when</b></span></li>
+        <li><i class="box"></i><span>One thing you are good at, and one thing you would like to change</span></li>
+      </ul>
+
+      <div class="frames">
+        <div class="frame" data-tier="1">
+          <span class="tier">Column A</span>
+          <h3>Copy and complete</h3>
+          <ul>
+            <li>My name is <span class="gap"></span>.</li>
+            <li>I am <span class="gap"></span> years old and I am in <span class="gap"></span>.</li>
+            <li>I am from <span class="gap"></span>.</li>
+            <li>I live with <span class="gap"></span>.</li>
+            <li>I have got <span class="gap"></span>.</li>
+            <li>I am good at <span class="gap"></span>.</li>
+            <li>I feel <span class="gap"></span> when <span class="gap"></span>.</li>
+            <li>I would like <span class="gap"></span>.</li>
+          </ul>
+        </div>
+        <div class="frame" data-tier="2">
+          <span class="tier">Column B</span>
+          <h3>Start like this</h3>
+          <ul>
+            <li>My name is&hellip; and I am&hellip;</li>
+            <li>I am from&hellip; but my family is&hellip;</li>
+            <li>At home we speak&hellip;</li>
+            <li>I live in a&hellip; with&hellip;</li>
+            <li>I have got&hellip;</li>
+            <li>I am quite&hellip; at school, but I am&hellip; at home.</li>
+            <li>I feel&hellip; when&hellip; because&hellip;</li>
+            <li>On Saturdays I&hellip; with&hellip;</li>
+            <li>This year I would like to be more&hellip;</li>
+          </ul>
+        </div>
+        <div class="frame" data-tier="3">
+          <span class="tier">Column C</span>
+          <h3>Challenge</h3>
+          <ul>
+            <li>Ten sentences. No frames. You must use:</li>
+            <li><b>two</b> sentences with <b>because</b></li>
+            <li><b>one</b> sentence with <b>when</b></li>
+            <li><b>have got</b> with a number in it</li>
+            <li>one thing you are good at <b>and</b> one thing you are trying to change</li>
+            <li>one adjective that nobody else in this class will use</li>
+            <li>Finish with a question for the reader.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timer">
+        <span class="lbl">Writing time</span>
+        <span class="clock" id="clock">10:00</span>
+        <button class="btn" data-min="5">5 min</button>
+        <button class="btn" data-min="10">10 min</button>
+        <button class="btn" data-min="15">15 min</button>
+        <button class="btn primary" id="startpause">Start</button>
+        <button class="btn" id="reset">Reset</button>
+      </div>
+    </section>
+
+    <!-- ======== 4. FINISH ======== -->
+    <section id="view-finish" role="tabpanel" aria-labelledby="tab-finish" hidden>
+      <p class="eyebrow">Unit 1 &middot; Me and Us &middot; Finish</p>
+      <h1>Before you go</h1>
+      <p class="sub">Pick one. The first two need the writing you have just done.</p>
+
+      <div class="acts">
+        <div class="act">
+          <span class="badge">Closer 1</span>
+          <h3>Guess who</h3>
+          <p class="how">Five minutes &middot; whole class &middot; use their own writing</p>
+          <ul>
+            <li>Papers to the front. No names read out.</li>
+            <li>I read one introduction. You listen for the clues: the numbers, the pets, the hobbies.</li>
+            <li>Hand up when you know. <b>One guess each.</b></li>
+            <li>If nobody guesses, the writer stands up and reads their best sentence again.</li>
+          </ul>
+        </div>
+        <div class="act">
+          <span class="badge">Closer 2</span>
+          <h3>Three-word portrait</h3>
+          <p class="how">Three minutes &middot; pairs &middot; speaking only</p>
+          <ul>
+            <li>Look at the person on your right.</li>
+            <li>Say three adjectives about them. All three must be kind.</li>
+            <li>&ldquo;He is funny, tall and quiet.&rdquo;</li>
+            <li>Now they say three about you.</li>
+            <li>Stuck? Steal an adjective from Noor's text.</li>
+          </ul>
+        </div>
+        <div class="act">
+          <span class="badge">Closer 3</span>
+          <h3>One question for Noor</h3>
+          <p class="how">Three minutes &middot; written &middot; good after the reading</p>
+          <ul>
+            <li>Write <b>one</b> question you would ask Noor.</li>
+            <li>It must start with a question word: <b>What, Where, Who, When, Why, How</b>.</li>
+            <li>Not a question the text already answers.</li>
+            <li>Read it out. The class decides: is it a good question?</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sheet prompt exit">
+        <div class="pmeta">
+          <span class="badge">Exit ticket</span>
+          <span class="where">Two minutes &middot; one slip of paper &middot; hand it to me at the door</span>
+        </div>
+        <h2 class="ptitle">Finish these two sentences</h2>
+        <p class="pbig">Today I learned <span class="gap"></span>.</p>
+        <p class="pbig">I feel <span class="gap"></span> about my English writing because <span class="gap"></span>.</p>
+      </div>
+
+      <p class="hint">Press <kbd>&larr;</kbd> to go back to the writing task.</p>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  var app = document.getElementById('app');
+
+  /* ---------- tabs ---------- */
+  var views = ['warmup','text','questions','writing','finish'];
+  var idx = 1;
+  function show(name){
+    idx = views.indexOf(name);
+    views.forEach(function(v){
+      document.getElementById('view-' + v).hidden = (v !== name);
+      var t = document.getElementById('tab-' + v);
+      t.setAttribute('aria-selected', String(v === name));
+    });
+    window.scrollTo(0,0);
+  }
+  views.forEach(function(v){
+    document.getElementById('tab-' + v).addEventListener('click', function(){ show(v); });
+  });
+
+  /* ---------- highlight + text size + fullscreen ---------- */
+  var hlBtn = document.getElementById('hl');
+  hlBtn.addEventListener('click', function(){
+    var on = app.classList.toggle('hl-on');
+    hlBtn.setAttribute('aria-pressed', String(on));
+    document.getElementById('legend').hidden = !on;
+  });
+
+  var scale = 1;
+  function setScale(v){
+    scale = Math.min(1.7, Math.max(0.75, Math.round(v*20)/20));
+    app.style.setProperty('--scale', scale);
+  }
+  document.getElementById('bigger').addEventListener('click', function(){ setScale(scale + 0.1); });
+  document.getElementById('smaller').addEventListener('click', function(){ setScale(scale - 0.1); });
+
+  document.getElementById('full').addEventListener('click', function(){
+    try{
+      if(document.fullscreenElement){ document.exitFullscreen(); }
+      else { document.documentElement.requestFullscreen().catch(function(){}); }
+    }catch(e){}
+  });
+
+  /* ---------- questions ---------- */
+  var Q = [
+    {b:1, p:[1], w:'Paragraph 1', t:'What is the girl’s full name?', s:'Her name is …'},
+    {b:1, p:[1], w:'Paragraph 1', t:'How old is she, and what year is she in?', s:'She is … years old. She is in Year …'},
+    {b:1, p:[1], w:'Paragraph 1', t:'Which city does she live in? Which country is her family from?', s:'She lives in … . Her family is from …'},
+    {b:1, p:[2], w:'Paragraph 2', t:'Who lives in the flat with her? Name all three people.', s:'She lives with … , … and …'},
+    {b:2, p:[2], w:'Paragraph 2', t:'She has got a pet. What is it, and what is it like? Use two adjectives.', s:'She has got a … . It is … and …'},
+    {b:2, p:[4], w:'Paragraph 4', t:'What sport does she play, and when does she play it?', s:'She plays … on … and …'},
+    {b:2, p:[4], w:'Paragraph 4', t:'Why does she not go swimming?', s:'She doesn’t go swimming because …'},
+    {b:3, p:[3], w:'Paragraph 3', t:'When does she feel nervous, and why?', s:'She feels nervous when … , because …'},
+    {b:3, p:[2], w:'Paragraph 2', t:'Do you think she loves her little brother? Find words in the text to explain your answer.', s:'I think she … her brother, because the text says …'},
+    {b:3, p:[3,4], w:'Paragraphs 3 and 4', t:'She writes: <span class="quote">“I would like to be more brave.”</span> Find two things in the text that show she is not very brave at the moment.', s:'The text says … and … . This shows that …'}
+  ];
+  var BAND = {1:'Find it', 2:'Put it together', 3:'Think about it'};
+
+  /* mirror the reading text into the question screen */
+  var sidepassage = document.getElementById('sidepassage');
+  Array.prototype.forEach.call(document.querySelectorAll('#passage .para'), function(p){
+    sidepassage.appendChild(p.cloneNode(true));
+  });
+  app.classList.add('focus-on');
+
+  var qi = 0;
+  var ramp = document.getElementById('ramp');
+  Q.forEach(function(q, i){
+    var p = document.createElement('button');
+    p.className = 'pip';
+    p.dataset.band = q.b;
+    p.style.height = (10 + i * 2.2) + 'px';
+    p.setAttribute('aria-label', 'Question ' + (i+1));
+    p.addEventListener('click', function(){ qi = i; renderQ(); });
+    ramp.appendChild(p);
+  });
+
+  function renderQ(){
+    var q = Q[qi];
+    document.getElementById('qnum').textContent = qi + 1;
+    document.getElementById('qtext').innerHTML = q.t;
+    document.getElementById('startertext').textContent = q.s;
+    document.getElementById('starter').hidden = true;
+    document.getElementById('showstarter').textContent = 'Show sentence starter';
+    document.getElementById('cur').textContent = qi + 1;
+    var band = document.getElementById('band');
+    band.textContent = BAND[q.b];
+    band.dataset.band = q.b;
+    document.getElementById('where').textContent = q.w;
+    document.getElementById('spotlabel').textContent = q.w;
+    var first = null;
+    Array.prototype.forEach.call(sidepassage.children, function(para){
+      var on = q.p.indexOf(parseInt(para.dataset.p, 10)) !== -1;
+      para.classList.toggle('spot', on);
+      if(on && !first){ first = para; }
+    });
+    if(first && app.classList.contains('focus-on')){
+      sidepassage.parentNode.scrollTop = Math.max(0, first.offsetTop - sidepassage.offsetTop - 8);
+    }
+    document.getElementById('prev').disabled = (qi === 0);
+    document.getElementById('next').disabled = (qi === Q.length - 1);
+    Array.prototype.forEach.call(ramp.children, function(p, i){
+      p.classList.toggle('on', i <= qi);
+      p.classList.toggle('cur', i === qi);
+    });
+  }
+  document.getElementById('prev').addEventListener('click', function(){ if(qi>0){ qi--; renderQ(); } });
+  document.getElementById('next').addEventListener('click', function(){ if(qi<Q.length-1){ qi++; renderQ(); } });
+  document.getElementById('showstarter').addEventListener('click', function(){
+    var s = document.getElementById('starter');
+    s.hidden = !s.hidden;
+    this.textContent = s.hidden ? 'Show sentence starter' : 'Hide sentence starter';
+  });
+
+  var textBtn = document.getElementById('toggletext');
+  textBtn.addEventListener('click', function(){
+    var solo = document.getElementById('qlayout').classList.toggle('solo');
+    document.getElementById('sidetext').hidden = solo;
+    textBtn.setAttribute('aria-pressed', String(!solo));
+  });
+  var focusBtn = document.getElementById('togglefocus');
+  focusBtn.addEventListener('click', function(){
+    var on = app.classList.toggle('focus-on');
+    focusBtn.setAttribute('aria-pressed', String(on));
+    if(on){ renderQ(); }
+  });
+
+  var all = document.getElementById('alllist');
+  Q.forEach(function(q, i){
+    var row = document.createElement('div');
+    row.className = 'allrow';
+    row.dataset.band = q.b;
+    row.innerHTML = '<span class="n">' + (i+1) + '.</span><span>' + q.t + '</span>';
+    all.appendChild(row);
+  });
+  document.getElementById('toggleall').addEventListener('click', function(){
+    document.getElementById('single').hidden = true;
+    document.getElementById('allview').hidden = false;
+  });
+  document.getElementById('backtosingle').addEventListener('click', function(){
+    document.getElementById('allview').hidden = true;
+    document.getElementById('single').hidden = false;
+  });
+  renderQ();
+
+  /* ---------- stand up if ---------- */
+  var STAND = [
+    'you have got a brother or a sister',
+    'you are good at drawing',
+    'you speak three languages',
+    'you have got a pet',
+    'you play football',
+    'you are wearing something blue',
+    'you feel nervous when you speak English',
+    'you were born in Singapore',
+    'you have got a cousin in another country',
+    'you are quite shy at school',
+    'you are good at maths',
+    'you have got a bike',
+    'you like cold water',
+    'you have got more than ten books at home',
+    'your birthday is in March',
+    'you would like a new phone'
+  ];
+  var order = STAND.slice(), si = 0;
+  var standtext = document.getElementById('standtext');
+  function shuffle(){
+    for(var i = order.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = order[i]; order[i] = order[j]; order[j] = tmp;
+    }
+    si = 0;
+    paintStand();
+  }
+  function paintStand(){
+    standtext.textContent = order[si];
+    document.getElementById('standcur').textContent = si + 1;
+  }
+  document.getElementById('standtot').textContent = STAND.length;
+  document.getElementById('standnext').addEventListener('click', function(){
+    si = (si + 1) % order.length;
+    paintStand();
+  });
+  document.getElementById('standshuffle').addEventListener('click', shuffle);
+  shuffle();
+
+  /* ---------- timer ---------- */
+  var total = 600, left = 600, running = false, tick = null;
+  var clock = document.getElementById('clock');
+  var startpause = document.getElementById('startpause');
+  function paint(){
+    var m = Math.floor(Math.max(0,left) / 60);
+    var s = Math.max(0,left) % 60;
+    clock.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+    clock.classList.toggle('done', left <= 0);
+  }
+  function stop(){
+    running = false;
+    if(tick){ clearInterval(tick); tick = null; }
+    startpause.textContent = 'Start';
+  }
+  startpause.addEventListener('click', function(){
+    if(running){ stop(); return; }
+    if(left <= 0){ left = total; paint(); }
+    running = true;
+    startpause.textContent = 'Pause';
+    tick = setInterval(function(){
+      left--;
+      paint();
+      if(left <= 0){ stop(); }
+    }, 1000);
+  });
+  document.getElementById('reset').addEventListener('click', function(){ stop(); left = total; paint(); });
+  Array.prototype.forEach.call(document.querySelectorAll('.timer [data-min]'), function(b){
+    b.addEventListener('click', function(){
+      stop();
+      total = parseInt(b.dataset.min, 10) * 60;
+      left = total;
+      paint();
+    });
+  });
+  paint();
+
+  /* ---------- keyboard ---------- */
+  document.addEventListener('keydown', function(e){
+    if(e.target && /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+    var k = e.key;
+    if(k === 'ArrowRight'){
+      if(views[idx] === 'questions' && qi < Q.length - 1 && !document.getElementById('single').hidden){ qi++; renderQ(); }
+      else if(idx < views.length - 1){ show(views[idx+1]); }
+      e.preventDefault();
+    } else if(k === 'ArrowLeft'){
+      if(views[idx] === 'questions' && qi > 0 && !document.getElementById('single').hidden){ qi--; renderQ(); }
+      else if(idx > 0){ show(views[idx-1]); }
+      e.preventDefault();
+    } else if(k === 'f' || k === 'F'){
+      document.getElementById('full').click();
+    } else if(k === 'h' || k === 'H'){
+      hlBtn.click();
+    } else if(k === 's' || k === 'S'){
+      if(views[idx] === 'questions'){ document.getElementById('showstarter').click(); }
+    } else if(k === ' '){
+      if(views[idx] === 'warmup'){ document.getElementById('standnext').click(); e.preventDefault(); }
+    } else if(k === 't' || k === 'T'){
+      if(views[idx] === 'questions'){ textBtn.click(); }
+    } else if(k === '+' || k === '='){
+      setScale(scale + 0.1);
+    } else if(k === '-'){
+      setScale(scale - 0.1);
+    }
+  });
+})();
+</script>
+
+</body></html>
