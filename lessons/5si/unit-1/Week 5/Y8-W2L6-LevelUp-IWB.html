@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Year 8 English: Weak-Spot Lesson, Level Up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Figtree:wght@400;600;800&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f1e7; --paper:#fffdf8; --ink:#1d2433; --ink2:#5a6275; --line:#e4dccb;
+  --rose:#f7d9dc; --rose-ink:#9b2f3f; --teal:#d3ece8; --teal-ink:#1d6b62;
+  --amber:#fbe7c0; --amber-ink:#8a5a09; --lav:#e3def5; --lav-ink:#4b3d8f;
+  --acc:#7a2231; --shadow:0 2px 0 rgba(0,0,0,.04),0 8px 24px rgba(40,30,10,.08);
+  --sans:'Figtree',system-ui,sans-serif; --serif:'Literata',Georgia,serif; --hand:'Caveat',cursive;
+}
+[data-theme="dark"]{
+  --bg:#171a22; --paper:#212532; --ink:#eef0f5; --ink2:#a9b0c2; --line:#343a4b;
+  --rose:#4a2830; --rose-ink:#f3a9b5; --teal:#1f3d3a; --teal-ink:#8fdcd0;
+  --amber:#463715; --amber-ink:#f5cf7d; --lav:#2f2a4c; --lav-ink:#c3b8f7;
+  --acc:#f09aa8; --shadow:0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:clamp(16px,1.25vw,22px)}
+button{font:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;align-items:center;padding:.6rem 1.4rem}
+.brand{font-weight:800;color:var(--acc);font-size:.95rem;line-height:1.2}
+.brand small{display:block;color:var(--ink2);font-weight:600}
+nav{display:flex;gap:.4rem;flex:1}
+nav button{border:2px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:.45em 1.2em;font-weight:700}
+nav button.on{background:var(--acc);border-color:var(--acc);color:var(--paper)}
+.tools{display:flex;gap:.4rem;align-items:center}
+.tb{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:.6rem;padding:.35em .7em;font-weight:600}
+.timer{font-variant-numeric:tabular-nums;font-weight:800;min-width:3.4em;text-align:center}
+.timer.flash{animation:fl .6s 6}
+@keyframes fl{50%{background:var(--rose);color:var(--rose-ink)}}
+main{max-width:70rem;margin:0 auto;padding:1.6rem 1.4rem 4rem}
+h1{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.8rem);margin:.2rem 0 .8rem;line-height:1.15}
+.lead{font-size:1.25rem;color:var(--ink2);margin:0 0 1.4rem;max-width:48rem}
+.card{background:var(--paper);border-radius:1.1rem;box-shadow:var(--shadow);padding:1.5rem 1.8rem;margin-bottom:1.2rem}
+.eq{display:flex;flex-wrap:wrap;gap:.6rem;margin:0 0 1.6rem}
+.eq .box{flex:1;min-width:11rem;border-radius:1rem;padding:1rem 1.2rem;text-align:center;font-weight:800;font-size:1.35rem}
+.eq .box span{display:block;font-weight:600;font-size:.85rem;margin-top:.3rem;opacity:.9}
+.b-point{background:var(--amber);color:var(--amber-ink)}
+.b-ev{background:var(--lav);color:var(--lav-ink)}
+.b-ex{background:var(--teal);color:var(--teal-ink)}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.8rem;color:var(--ink2);font-weight:700}
+.level{border-radius:999px;padding:.15em .8em;font-size:.85rem}
+.lv-Easy{background:var(--teal);color:var(--teal-ink)}
+.lv-Medium{background:var(--amber);color:var(--amber-ink)}
+.lv-Hard{background:var(--rose);color:var(--rose-ink)}
+.lv-Fun{background:var(--lav);color:var(--lav-ink)}
+.text{font-family:var(--serif);font-size:clamp(1.5rem,2.4vw,2.2rem);line-height:1.45;margin:0 0 .8rem}
+.q{font-style:italic;font-size:1.3rem;color:var(--acc);margin:0 0 1.2rem;font-weight:600}
+.clue{border-radius:.25em;transition:background .25s,box-shadow .25s}
+.show-clue .clue{background:var(--lav);box-shadow:0 0 0 .12em var(--lav-ink) inset;color:var(--lav-ink)}
+.steps{display:grid;gap:.6rem}
+.step{display:none;border-radius:.9rem;padding:.8rem 1.1rem;font-size:1.2rem;align-items:baseline;gap:.8rem}
+.step.on{display:flex;animation:up .3s ease}
+.step b{flex:0 0 9.5rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em}
+@keyframes up{from{opacity:0;transform:translateY(6px)}}
+.s-point{background:var(--amber);color:var(--amber-ink)}
+.s-ev{background:var(--lav);color:var(--lav-ink)}
+.s-ex{background:var(--teal);color:var(--teal-ink)}
+.s-bad{background:var(--rose);color:var(--rose-ink)}
+.s-say{background:var(--rose);color:var(--rose-ink);font-family:var(--hand);font-size:1.6rem}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem;align-items:center}
+.btn{border:none;border-radius:.8rem;padding:.65em 1.3em;font-weight:800;background:var(--line);color:var(--ink)}
+.btn.main{background:var(--acc);color:var(--paper)}
+.btn:disabled{opacity:.35;cursor:default}
+.spacer{flex:1}
+.count{color:var(--ink2);font-weight:700}
+.frame{font-family:var(--hand);font-size:1.5rem;color:var(--rose-ink);background:var(--rose);border-radius:.9rem;padding:.5rem 1.1rem;margin:0 .6rem 1.2rem 0;display:inline-block}
+.parts{display:flex;gap:.4rem;margin:0 0 1rem;flex-wrap:wrap}
+.parts button{border:2px solid var(--line);background:var(--paper);color:var(--ink);border-radius:.8rem;padding:.5em 1.1em;font-weight:800}
+.parts button.on{border-color:var(--acc);color:var(--acc)}
+.phead{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center;margin-bottom:1rem}
+.phead h2{font-family:var(--serif);margin:0;font-size:1.8rem}
+.phead .task{color:var(--ink2);font-weight:600;flex:1;min-width:14rem}
+.item{display:grid;grid-template-columns:3.4rem 1fr;gap:.2rem 1rem;padding:1rem 0;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:none}
+.num{background:var(--teal);color:var(--teal-ink);font-weight:800;border-radius:.6rem;text-align:center;padding:.35em 0;height:max-content}
+.item .t{font-family:var(--serif);font-size:1.3rem;line-height:1.45}
+.item .qq{font-style:italic;color:var(--acc);font-weight:600;margin-top:.3rem}
+.item .reveal{grid-column:2;margin-top:.5rem}
+.sub{grid-column:1/-1;font-weight:800;color:var(--ink2);margin-top:.4rem}
+.ans{display:none;margin-top:.5rem;background:var(--teal);color:var(--teal-ink);border-radius:.8rem;padding:.6rem 1rem;font-size:1.05rem}
+.ans.on{display:block}
+.mini{border:1px solid var(--line);background:transparent;color:var(--ink2);border-radius:.6rem;padding:.3em .8em;font-weight:700;font-size:.85rem}
+.big .item .t{font-size:clamp(1.5rem,2.4vw,2.2rem)}
+/* quote golf */
+.holes,.draws{display:grid;gap:1rem}
+.quotebox{grid-column:1/-1;font-family:var(--serif);font-size:clamp(1.2rem,1.8vw,1.55rem);line-height:1.55;background:var(--bg);border-left:.35rem solid var(--acc);border-radius:.6rem;padding:.9rem 1.2rem}
+.prose p{font-family:var(--serif);font-size:clamp(1.25rem,1.9vw,1.6rem);line-height:1.55;margin:0 0 1rem;max-width:52rem}
+table.grid{border-collapse:collapse;width:100%;margin-bottom:1rem;font-size:1.05rem}
+table.grid th,table.grid td{border:1px solid var(--line);padding:.5rem .8rem;text-align:left}
+table.grid th{background:var(--teal);color:var(--teal-ink)}
+table.grid tr:last-child td{font-weight:800}
+.bagitems{list-style:none;padding:0;margin:0 0 1rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(20rem,1fr));gap:.5rem}
+.bagitems li{background:var(--amber);color:var(--amber-ink);border-radius:.7rem;padding:.55rem .9rem;font-size:1.2rem;font-weight:600}
+.draws{grid-template-columns:repeat(auto-fit,minmax(24rem,1fr))}
+.hole{border:2px dashed var(--line);border-radius:1rem;padding:1rem 1.2rem}
+.hole .hh{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:baseline;margin-bottom:.5rem}
+.hole .hn{background:var(--amber);color:var(--amber-ink);font-weight:800;border-radius:999px;padding:.15em .9em}
+.hole .pt{font-weight:800;font-size:1.2rem}
+.hole .par{margin-left:auto;font-weight:800;color:var(--ink2)}
+.hole .sent{font-family:var(--serif);font-size:1.3rem;line-height:1.45}
+.strokes{display:none;margin-top:.6rem;background:var(--lav);color:var(--lav-ink);border-radius:.8rem;padding:.6rem 1rem;font-weight:700}
+.strokes.on{display:block}
+@media (max-width:700px){.step b{flex-basis:6rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Year 8 English · Week 2, Lesson 6<small>Weak-Spot Lesson: Level Up</small></div>
+  <nav id="nav"></nav>
+  <div class="tools">
+    <button class="tb" data-t="60">1m</button><button class="tb" data-t="60">1m</button><button class="tb" data-t="300">5m</button><button class="tb" data-t="600">10m</button>
+    <span class="tb timer" id="timer">0:00</span>
+    <button class="tb" id="theme" title="Light or dark">◐</button>
+    <button class="tb" id="fs" title="Full screen">⛶</button>
+  </div>
+</header>
+<main id="main"></main>
+
+<script>
+/* ---------- content ---------- */
+const R = {
+  A:['s-point','Track A: inference'], B:['s-ev','Track B: explaining'], C:['s-ex','Track C: word questions'],
+  LIAR:['s-bad','The liar'], WHY:['s-ex','Why'], GOOD:['s-ev','Both of these earn the mark'],
+  FIX:['s-ex','Fixed'], SAY:['s-say','Rule'], PICK:['s-ev','Answer']
+};
+
+const SKILL = {
+  text:'Your Lesson 7 self-check decides your track. [A] = inference. [B] = explaining. [C] = word questions. Not sure? Do B.',
+  q:'One rule per track. That is all you need to remember today.',
+  rows:[
+    ['A','One clue is a guess. Two clues is an inference. Name both, every time.'],
+    ['B','Say HOW, not just what. “Creates atmosphere” scores nothing.'],
+    ['C','Swap test for words, point test for it / this / they. Strength must match.'],
+    ['SAY','Bronze, Silver, Gold, Boss. Finished your track? Start another one.']
+  ]
+};
+
+const TOGETHER = [
+  {lv:'Easy', text:'“The kitchen light was on at 3 a.m. and the washing was still on the line, soaked.”   (a) Nobody came home last night. (b) The washing got wet. (c) Something stopped them finishing the evening.',
+   q:'Track A. Spot the liar: two of these earn the mark.',
+   rows:[['LIAR','(b).'],
+     ['WHY','It only says again what the text said. Nothing has been worked out.'],
+     ['GOOD','(a) and (c) are both inferences, and both rest on two clues: the light left on and the washing left out.']]},
+  {lv:'Easy', text:'Point: Sam is nervous. Evidence: “he had chewed the end of his pen flat”.   (a) This suggests he has been worrying for a long time, because a pen only gets chewed flat over hours. (b) This shows he chewed his pen until it was flat. (c) The damage suggests the nerves have been building all lesson.',
+   q:'Track B. Spot the liar.',
+   rows:[['LIAR','(b).'],
+     ['WHY','It is the quote again in different words. An explanation has to add something the quote did not already say.'],
+     ['SAY','Test: cross out the quotation. Does your sentence still tell the reader anything?']]},
+  {lv:'Easy', text:'“The exam hall was [silent].”   (a) soundless (b) fairly quiet (c) completely hushed',
+   q:'Track C. Spot the liar.',
+   rows:[['LIAR','(b).'],
+     ['WHY','Code S: wrong strength. Silent means no sound at all; “fairly quiet” leaves room for whispering.'],
+     ['SAY','Right direction is not the same as right strength.']]},
+  {lv:'Medium', text:'“Grandpa fixed the clock, oiled the gate and mended the shed roof. [It] took him a whole Saturday.”   (a) the shed roof (b) fixing the clock, oiling the gate and mending the shed roof (c) the jobs Grandpa did',
+   q:'Track C. Spot the liar.',
+   rows:[['LIAR','(a).'],
+     ['WHY','Code N: the nearest noun. “It” covers the whole day’s work, not the last job in the list.'],
+     ['GOOD','(b) is the safest answer because it quotes the exact words. (c) is accepted but weaker.']]},
+  {lv:'Medium', text:'“The wind clawed at the tent all night.”   (a) Personification: the wind is like an animal trying to get in, so the campers feel hunted. (b) Personification, which creates a scary atmosphere. (c) “Clawed” suggests nails scratching at thin fabric, so the shelter suddenly feels fragile.',
+   q:'Track B. Spot the liar.',
+   rows:[['LIAR','(b).'],
+     ['WHY','“Creates a scary atmosphere” is a label, not an explanation. It never says what the reader pictures or why.'],
+     ['GOOD','(a) and (c) both say what the word makes us picture and what that does to the scene.']]},
+  {lv:'Medium', text:'“Josh ate his lunch alone in the library, and his phone stayed face down on the table all afternoon.”   (a) He is avoiding somebody. (b) He ate in the library, so he must like reading. (c) Something has happened online that he does not want to look at.',
+   q:'Track A. Spot the liar.',
+   rows:[['LIAR','(b).'],
+     ['WHY','It uses one clue and ignores the phone. One clue is a guess, and this guess does not fit the other detail.'],
+     ['GOOD','(a) and (c) each put both clues together: hiding away, and refusing to look at the screen.']]},
+  {lv:'Hard', text:'“Amira handed her grandmother the letter. [She] read it slowly, then folded it into her pocket.”   (a) Amira (b) the grandmother (c) both of them',
+   q:'Track C. Spot the liar, and prove the right answer.',
+   rows:[['LIAR','(a), and (c) as well.'],
+     ['WHY','Amira has just handed the letter over, so the person reading it is the one who received it. The sentence follows the letter.'],
+     ['SAY','When two people could fit, say how you know. The “how you know” is the mark.']]},
+  {lv:'Hard', text:'BOSS questions ask for one more step. “Which two clues matter most, and why those two?”   “Why does the writer repeat it?”   “Who is he, and how do you know?”',
+   q:'What beats a Boss question on each track?',
+   rows:[['A','Pick the clues that show somebody doing something on purpose. A deliberate action is worth more than a background detail.'],
+     ['B','Repetition is a choice. Say what the reader starts to doubt or feel by the third time it happens.'],
+     ['C','Name the person, then quote the words that rule the other one out.']]},
+  {lv:'Fun', text:'Liar sprint. 1: “She tapped her foot through the whole speech.” → (a) her patience is running out (b) she tapped her foot. 2: “spotless” → (a) perfectly clean (b) quite clean. 3: “The club repainted the stands, bought new nets and hired a coach. It cost…” → (a) all three (b) the coach.',
+   q:'Call them.',
+   rows:[['LIAR','1: (b). 2: (b). 3: (b).'],
+     ['WHY','Repeating the evidence, wrong strength, nearest noun. The same three mistakes, all fortnight.'],
+     ['SAY','If you can spot them in someone else’s answer, you can spot them in your own.']]}
+];
+
+const SHEET = {
+  A:{title:'Part A: Do Now', task:'4 min, everyone, whatever your track.', time:240, items:[
+    {n:'A1', t:'The radiator clanked and hissed all night.', q:'Name the device and explain its effect.',
+     a:'Personification (or onomatopoeia in “clanked and hissed”). It makes the reader picture something alive and bad-tempered in the room, because clanking and hissing are the noises of a creature that will not settle, so the night sounds restless rather than quiet.'},
+    {n:'A2', t:'The minister’s answer was evasive.', q:'Give a word that could replace “evasive”.',
+     a:'Dodging, slippery, vague, avoiding the question. Not “dishonest”: evasive means he got around the question, not that he lied.'},
+    {n:'A3', t:'Point: Kim is proud. Evidence: “she pinned the certificate above her bed”.', q:'Write the Explain only.',
+     a:'This suggests she wants it to be the first thing she sees every morning, because you only put something where you sleep if you want to keep being reminded of it.'}
+  ]},
+  B:{title:'Part B: Spot the Liar', task:'Teams, 8 min. Two answers would earn the mark. One is the liar. Find it, and say why.', time:480, claims:true, revealLabel:'The liar, and why', cards:[
+    {n:'Round 1', t:'“The pitch was empty, the goals had no nets, and a SALE sign was tied to the fence.” What can you infer?  (a) The club is selling the ground. (b) There was a SALE sign, so it is for sale. (c) The club has closed and is selling up.',
+     a:'The liar is (b). It repeats the clue instead of working anything out, and it rests on one detail. (a) and (c) both put the empty pitch and the missing nets together with the sign: the ground has been cleared out, not just advertised.'},
+    {n:'Round 2', t:'Point: Ben is worried. Evidence: “he checked the lock four times”.  (a) Checking again and again suggests he can’t trust himself, so worry takes over. (b) This shows that he checked the lock four times. (c) Repeating it shows the fear won’t go away.',
+     a:'The liar is (b). It is the quote in different words, which is the commonest way to lose the second mark. (a) and (c) both say what the repeated action reveals.'},
+    {n:'Round 3', t:'“Her room was pristine.” Which could replace “pristine”?  (a) spotless (b) neat enough (c) immaculate',
+     a:'The liar is (b): code S, wrong strength. Pristine means untouched, not one thing out of place. “Neat enough” describes a room somebody tidied in a hurry.'}
+  ]},
+  C:{title:'Part C: Level Up', task:'Alone, 25 min. Do YOUR track, in order. Finished? Start another track at Bronze.', time:1500, items:[
+    {sub:'Track A: Inference. Two clues, every time.'},
+    {n:'BRONZE', t:'The front door was wide open and the cat’s food bowl had not been touched.', q:'What can you infer? Name two clues.',
+     a:'The cat has got out, and probably some time ago. Clues: the door “wide open” and the bowl “not been touched”, which together show the cat has had the chance to leave and has not come back to eat.'},
+    {n:'SILVER', t:'Ellie read the message twice, put her phone in her bag, and spent the rest of lunch helping stack chairs.', q:'What can you infer about the message? Two clues.',
+     a:'It was bad news, and she did not want to talk about it. Clues: she “read the message twice”, which people do when they hope they have misread something, and she spent lunch “helping stack chairs”, choosing a job that kept her away from her friends.'},
+    {n:'GOLD', t:'Applications to drama club have doubled since the school musical sold out. The club has asked for a second rehearsal room.', q:'What can you infer? Two clues.',
+     a:'The musical’s success has made drama popular, and the club has outgrown its space. Clues: applications “have doubled since the school musical sold out”, which links the two events, and the request for “a second rehearsal room”, which nobody makes unless the first one is full.'},
+    {n:'BOSS', t:'Nobody in the office mentioned Friday. A cake was hidden behind the printer, and Mr Bell’s calendar had been turned to face the wall.', q:'What is going on, and which TWO clues matter most? Why those two?',
+     a:'Something is being kept from Mr Bell on Friday: a surprise party, most likely a leaving do. The two that matter most are the cake “hidden behind the printer” and the calendar “turned to face the wall”, because both are things somebody did on purpose to stop one person seeing them. Nobody mentioning Friday could be an ordinary quiet morning; hiding a cake could not.'},
+    {sub:'Track B: Explaining. Say HOW, not just what.'},
+    {n:'BRONZE', t:'Point: the café is popular. Evidence: “a queue out of the door by seven”.', q:'Write the Explain only: This suggests … because …',
+     a:'This suggests the café has something people will go out of their way for, because nobody stands in the street before work unless what is inside is worth being late for.'},
+    {n:'SILVER', t:'Point: the teacher is angry. Evidence: “slammed the register on the desk”. Explain: “This shows she is angry because she slammed the register.”', q:'What is wrong with the Explain? Rewrite it.',
+     a:'It is circular: it proves the point by repeating the evidence, and adds nothing. Rewrite: “This suggests her temper has got past the point of words, because slamming something down is what people do when they will not say what they are thinking.”'},
+    {n:'GOLD', t:'The fog swallowed the harbour lights one by one.', q:'Name the device and explain its effect. “Creates atmosphere” scores nothing.',
+     a:'Personification, or a metaphor in “swallowed”: the fog is given an appetite. It makes the reader picture the harbour being eaten piece by piece, because “one by one” slows it down so we watch each light go, and swallowing means the lights are inside something now, not simply hidden.'},
+    {n:'BOSS', t:'He said he was fine. He said it three times.', q:'Why does the writer repeat “He said”? Full PEE.',
+     a:'Point: the repetition tells us he is not fine at all. Evidence: “He said it three times.” Explain: This suggests he is trying to convince somebody, probably himself, because one “I’m fine” is an answer and three is an argument, and the flat repetition of “He said” keeps the reader outside, hearing the words without being let near the truth.'},
+    {sub:'Track C: Word questions. Swap test, point test.'},
+    {n:'BRONZE', t:'The puppy was timid around strangers and hid behind the sofa.', q:'Give a word that could replace “timid”.',
+     a:'Shy, nervous, frightened of people. Not “friendly” and not “small”: timid is about how it behaves, and the hiding proves it.'},
+    {n:'SILVER', t:'Her reply was brusque: one word, and she turned away.', q:'Give a word that could replace “brusque”. Is it the same strength?',
+     a:'Abrupt, curt, short. “Blunt” also works. “A bit short” is too weak (code S) and “rude” goes further than brusque does: brusque is about speed and manner, not insult. One word plus turning away is the proof.'},
+    {n:'GOLD', t:'The council fixed the lights, repainted the benches and planted trees along the river. It took two years.', q:'What does “It” refer to?',
+     a:'“fixed the lights, repainted the benches and planted trees along the river”: the whole programme of work. Not the trees, which is the nearest noun (code N), and not one job out of three (code P).'},
+    {n:'BOSS', t:'Leo told his dad that he had broken the window. He wasn’t angry, just disappointed.', q:'Who is “He” in the second sentence? How do you know?',
+     a:'Leo’s dad. The second sentence describes how the news was received, and “wasn’t angry, just disappointed” is a reaction to a confession, not the feeling of the person making it. The sentence follows the dad because Leo has just finished speaking.'}
+  ]},
+  D:{title:'Part D: Teach-Back', task:'Pairs, 6 min. Find someone from another track. 60 seconds each to teach the trick that beat your boss question.', time:360, items:[
+    {n:'How', t:'What a good teach-back sounds like:', a:'“My boss question was X. The trick is: …. Here is where I nearly went wrong.” One rule, one example, one trap. Not a retelling of the question.'},
+    {n:'Track A', t:'If your partner is on Track A, the trick to steal:', a:'Clues that show somebody doing something deliberately beat clues that just describe the scene. A hidden cake is worth more than a quiet room.'},
+    {n:'Track B', t:'If your partner is on Track B:', a:'Cross out the quote. If the explanation still says something, it is a real explanation. If it collapses, it was a repeat.'},
+    {n:'Track C', t:'If your partner is on Track C:', a:'Name the person or the words, then quote the bit that rules out the other option. The “how do you know” is where the second half of the mark lives.'}
+  ]},
+  E:{title:'Part E: Exit Ticket', task:'Your track only, 2 marks.', time:300, items:[
+    {n:'Track A', t:'The bins had not been emptied and the post was piling up behind the door.', q:'What can you infer? Two clues.',
+     a:'Nobody has been in the house for a while: the owners are away, or something has happened to them. Clues: the bins “had not been emptied”, which means at least one collection day has passed, and the post “piling up behind the door”, which takes several days to build up.'},
+    {n:'Track B', t:'The kettle screamed on the stove.', q:'Name the device and explain its effect.',
+     a:'Personification: the kettle “screamed”. It makes the reader feel the sound as something urgent and almost human, because a scream is a cry for help or a cry of pain, so an ordinary kitchen noise is turned into an alarm nobody is answering.'},
+    {n:'Track C', t:'The hikers were jubilant at the top. It had taken them six hours.', q:'Replace “jubilant”, and say what “It” refers to.',
+     a:'Jubilant: overjoyed, triumphant, delighted. Not “happy”, which is too weak (code S): jubilant is celebrating out loud. “It” refers to the climb, the journey to the top, not the six hours and not the mountain.'}
+  ]}
+};
+
+/* ---------- helpers ---------- */
+const $ = s=>document.querySelector(s);
+function el(tag, attrs={}, ...kids){
+  const e=document.createElement(tag);
+  for(const k in attrs){ if(k==='html') e.innerHTML=attrs[k]; else if(k.startsWith('on')) e.addEventListener(k.slice(2),attrs[k]); else e.setAttribute(k,attrs[k]); }
+  kids.flat().forEach(c=>{ if(c!=null) e.append(c); });
+  return e;
+}
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const marked = s => esc(s).replace(/\[([^\]]+)\]/g,'<span class="clue">$1</span>');
+
+const S = {tab:0, card:0, part:'A'};
+const TABS = ['1  The skill','2  Together','3  Worksheet'];
+function nav(){
+  const n=$('#nav'); n.innerHTML='';
+  TABS.forEach((t,i)=>n.append(el('button',{class:i===S.tab?'on':'',onclick:()=>{S.tab=i;render();}},t)));
+}
+
+function stepCard(d, meta){
+  const box=el('div',{class:'card'});
+  if(meta) box.append(meta);
+  const text=el('p',{class:'text',html:marked(d.text)});
+  box.append(text, el('p',{class:'q'},d.q));
+  const steps=el('div',{class:'steps'});
+  const nodes=d.rows.map(([key,t])=>{const [c,h]=R[key]; const s=el('div',{class:'step '+c},el('b',{},h),el('span',{},t)); steps.append(s); return s;});
+  box.append(steps);
+  const labels=d.rows.map(([k])=>R[k][1]);
+  let k=0;
+  const next=el('button',{class:'btn main'},labels[0]);
+  const hide=el('button',{class:'btn'},'Hide all');
+  function upd(){
+    text.classList.toggle('show-clue',k>0);
+    nodes.forEach((s,i)=>s.classList.toggle('on',i<k));
+    next.textContent = k>=labels.length ? 'Done' : labels[k];
+    next.disabled = k>=labels.length;
+  }
+  next.onclick=()=>{k=Math.min(labels.length,k+1);upd();};
+  hide.onclick=()=>{k=0;upd();};
+  box.append(el('div',{class:'row'},next,hide));
+  box._next=()=>{ if(k<labels.length){k++;upd();return true;} return false; };
+  upd();
+  return box;
+}
+
+function render(){
+  nav();
+  const m=$('#main'); m.innerHTML=''; window._active=null;
+  if(S.tab===0){
+    m.append(el('h1',{},'Pick the track you are worst at.'),
+      el('p',{class:'lead'},'Your Lesson 7 self-check decides it. Bronze, Silver, Gold, Boss. Not sure? Do B.'),
+      el('div',{class:'eq'},
+        el('div',{class:'box b-point'},'A: Inference',el('span',{},'two clues, every time')),
+        el('div',{class:'box b-ev'},'B: Explaining',el('span',{},'say HOW, not just what')),
+        el('div',{class:'box b-ex'},'C: Word questions',el('span',{},'swap test, point test'))));
+    window._active=stepCard(SKILL);
+    m.append(window._active,
+      el('div',{class:'frame'},'Finished your track? Start another one at Bronze.'));
+  }
+  if(S.tab===1){
+    const d=TOGETHER[S.card];
+    m.append(el('h1',{},'Together'),
+      el('div',{class:'frame'},'Two of these earn the mark. One is the liar.'),
+      el('div',{class:'frame'},'Say WHY it lies.'));
+    const meta=el('div',{class:'meta'},el('span',{class:'count'},`${S.card+1} of ${TOGETHER.length}`),
+      el('span',{class:'level lv-'+d.lv},d.lv));
+    window._active=stepCard(d,meta);
+    m.append(window._active);
+    const prev=el('button',{class:'btn',onclick:()=>{S.card--;render();}},'← Previous');
+    const nxt=el('button',{class:'btn main',onclick:()=>{S.card++;render();}},'Next example →');
+    prev.disabled=S.card===0; nxt.disabled=S.card===TOGETHER.length-1;
+    m.append(el('div',{class:'row'},prev,el('span',{class:'spacer'}),nxt));
+  }
+  if(S.tab===2){
+    m.append(el('h1',{},'Your turn: the worksheet'), el('p',{class:'lead'},'Choose your track. Your weakest skill decides it.'));
+    const parts=el('div',{class:'parts'});
+    Object.keys(SHEET).forEach(k=>parts.append(el('button',{class:k===S.part?'on':'',onclick:()=>{S.part=k;render();}},SHEET[k].title)));
+    m.append(parts);
+    const P=SHEET[S.part];
+    const card=el('div',{class:'card'});
+    card.append(el('div',{class:'phead'},el('h2',{},P.title),el('span',{class:'task'},P.task),
+      el('button',{class:'mini',onclick:()=>startTimer(P.time)},`Start ${P.time/60} min timer`),
+      el('button',{class:'mini',onclick:()=>{card.querySelectorAll('.ans,.strokes').forEach(a=>a.classList.add('on'));card.querySelectorAll('.bagitems li').forEach(l=>l.classList.add('on'));card.querySelectorAll('.sent').forEach(t=>t.classList.add('show-clue'));}},'Show all answers'),
+      el('button',{class:'mini',onclick:()=>{card.querySelectorAll('.ans,.strokes').forEach(a=>a.classList.remove('on'));card.querySelectorAll('.sent').forEach(t=>t.classList.remove('show-clue'));}},'Hide all')));
+    if(P.claims){
+      const grid=el('div',{class:'draws'});
+      P.cards.forEach(c=>{
+        const ans=el('div',{class:'strokes'},c.a);
+        grid.append(el('div',{class:'hole'},
+          el('div',{class:'hh'},el('span',{class:'hn'},c.n),el('span',{class:'pt'},'“'+c.t+'”')),
+          el('div',{class:'row'},el('button',{class:'mini',onclick:()=>ans.classList.toggle('on')},P.revealLabel||'Want / proves / left out')),
+          ans));
+      });
+      card.append(grid);
+    }
+    if(P.prose){
+      const box=el('div',{class:'prose'});
+      P.prose.forEach(t=>box.append(el('p',{},t)));
+      card.append(box);
+    }
+    if(P.table){
+      const tb=el('table',{class:'grid'});
+      P.table.forEach((r,i)=>{
+        const tr=el('tr',{});
+        r.forEach(c=>tr.append(el(i===0?'th':'td',{},c)));
+        tr.append(el(i===0?'th':'td',{},i===0?'My mark':''));
+        tb.append(tr);
+      });
+      card.append(tb);
+    }
+    (P.items||[]).forEach(it=>{
+      if(it.sub){ card.append(el('div',{class:'item'},el('div',{class:'sub'},it.sub))); return; }
+      if(it.quote){ card.append(el('div',{class:'item'},el('div',{class:'quotebox'},it.quote))); return; }
+      const ans=el('div',{class:'ans'},it.a);
+      card.append(el('div',{class:'item'},
+        el('div',{class:'num'},it.n),
+        el('div',{},el('div',{class:'t'},it.t), it.q?el('div',{class:'qq'},it.q):null,
+          el('div',{class:'reveal'},el('button',{class:'mini',onclick:()=>ans.classList.toggle('on')},'Model answer'),ans))));
+    });
+    m.append(card, el('div',{class:'frame'},'Bronze. Silver. Gold. Boss.'));
+  }
+}
+
+/* ---------- timer ---------- */
+let tLeft=0, tId=null;
+function drawT(){ $('#timer').textContent=`${Math.floor(tLeft/60)}:${String(tLeft%60).padStart(2,'0')}`; }
+function startTimer(s){
+  clearInterval(tId); tLeft=s; drawT(); $('#timer').classList.remove('flash');
+  tId=setInterval(()=>{ tLeft--; drawT(); if(tLeft<=0){ clearInterval(tId); $('#timer').classList.add('flash'); } },1000);
+}
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>startTimer(+b.dataset.t));
+$('#timer').onclick=()=>{ clearInterval(tId); tLeft=0; drawT(); };
+
+/* ---------- theme, full screen, keys ---------- */
+const mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):{matches:false};
+document.documentElement.dataset.theme=mq.matches?'dark':'light';
+$('#theme').onclick=()=>{ const r=document.documentElement; r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'; };
+$('#fs').onclick=()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); else document.exitFullscreen(); };
+document.addEventListener('keydown',e=>{
+  if(e.target.closest&&e.target.closest('input,textarea,button')) return;
+  if(e.key===' '||e.key==='Enter'){ if(window._active&&window._active._next){ e.preventDefault(); window._active._next(); } }
+  if(e.key==='ArrowRight'){ if(S.tab===1&&S.card<TOGETHER.length-1){S.card++;render();} else if(S.tab<2){S.tab++;render();} }
+  if(e.key==='ArrowLeft'){ if(S.tab===1&&S.card>0){S.card--;render();} else if(S.tab>0){S.tab--;render();} }
+});
+render();
+</script>
+</body>
+</html>

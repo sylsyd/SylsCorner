@@ -1,0 +1,1149 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Hobby Hour</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+  :root{
+    color-scheme:light;
+    --scale:1;
+    --bg:#F3F6FB; --card:#FFFFFF; --ink:#16213E; --soft:#586082; --edge:#DAE1EF; --sunk:#EAEFF8;
+    --coral:#C93A25;  --coral-s:#FCE6E1;  --on-coral:#FFFFFF;
+    --violet:#6B4FD8; --violet-s:#ECE7FB; --on-violet:#FFFFFF;
+    --teal:#0B7A6E;   --teal-s:#DAF1ED;   --on-teal:#FFFFFF;
+    --cobalt:#2456D6; --cobalt-s:#E1E9FC; --on-cobalt:#FFFFFF;
+    --amber:#F2A900;  --amber-s:#FFF0C7;  --on-amber:#16213E;
+    --magenta:#B0338A;--magenta-s:#F8E3F0;--on-magenta:#FFFFFF;
+    --navy:#16213E;   --navy-s:#E1E5EF;   --on-navy:#FFFFFF;
+    --good:#1F7A57; --good-s:#DBF0E6; --bad:#B23A2E; --bad-s:#FBE2DE;
+    --shadow:0 1px 0 rgba(22,33,62,.08), 0 10px 24px -16px rgba(22,33,62,.5);
+    --f-display:"Bricolage Grotesque","Trebuchet MS",sans-serif;
+    --f-body:"Atkinson Hyperlegible","Verdana",sans-serif;
+    --f-mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme:dark;
+      --bg:#0E1324; --card:#171E36; --ink:#EDF0FA; --soft:#A3ABC8; --edge:#2A3354; --sunk:#1E2745;
+      --coral:#FF8A73;  --coral-s:#3A2320;  --on-coral:#0E1324;
+      --violet:#B0A3FF; --violet-s:#2A2750; --on-violet:#0E1324;
+      --teal:#4FD5C3;   --teal-s:#10322D;   --on-teal:#0E1324;
+      --cobalt:#86A8FF; --cobalt-s:#1B2A58; --on-cobalt:#0E1324;
+      --amber:#FFC53D;  --amber-s:#3B3010;  --on-amber:#0E1324;
+      --magenta:#F595D4;--magenta-s:#3A1B31;--on-magenta:#0E1324;
+      --navy:#EDF0FA;   --navy-s:#232C4A;   --on-navy:#0E1324;
+      --good:#6FD8A8; --good-s:#16362A; --bad:#FF9C8E; --bad-s:#3A2020;
+      --shadow:0 1px 0 rgba(0,0,0,.4), 0 12px 26px -18px rgba(0,0,0,.9);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#0E1324; --card:#171E36; --ink:#EDF0FA; --soft:#A3ABC8; --edge:#2A3354; --sunk:#1E2745;
+    --coral:#FF8A73;  --coral-s:#3A2320;  --on-coral:#0E1324;
+    --violet:#B0A3FF; --violet-s:#2A2750; --on-violet:#0E1324;
+    --teal:#4FD5C3;   --teal-s:#10322D;   --on-teal:#0E1324;
+    --cobalt:#86A8FF; --cobalt-s:#1B2A58; --on-cobalt:#0E1324;
+    --amber:#FFC53D;  --amber-s:#3B3010;  --on-amber:#0E1324;
+    --magenta:#F595D4;--magenta-s:#3A1B31;--on-magenta:#0E1324;
+    --navy:#EDF0FA;   --navy-s:#232C4A;   --on-navy:#0E1324;
+    --good:#6FD8A8; --good-s:#16362A; --bad:#FF9C8E; --bad-s:#3A2020;
+    --shadow:0 1px 0 rgba(0,0,0,.4), 0 12px 26px -18px rgba(0,0,0,.9);
+  }
+
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html{font-size:calc(clamp(13px, .85vw + 4px, 24px) * var(--scale))}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1rem;line-height:1.42;touch-action:manipulation}
+  button{font:inherit;color:inherit;cursor:pointer}
+  h1,h2,h3,p{margin:0}
+
+  .sk-plan{--c:var(--navy);--cs:var(--navy-s);--on:var(--on-navy)}
+  .sk-fun{--c:var(--amber);--cs:var(--amber-s);--on:var(--on-amber)}
+  .sk-lang{--c:var(--magenta);--cs:var(--magenta-s);--on:var(--on-magenta)}
+  .sk-listen{--c:var(--violet);--cs:var(--violet-s);--on:var(--on-violet)}
+  .sk-speak{--c:var(--coral);--cs:var(--coral-s);--on:var(--on-coral)}
+  .sk-read{--c:var(--teal);--cs:var(--teal-s);--on:var(--on-teal)}
+  .sk-write{--c:var(--cobalt);--cs:var(--cobalt-s);--on:var(--on-cobalt)}
+
+  .shell{max-width:1920px;margin:0 auto;padding-inline:16px;padding-block:0 22px;display:flex;flex-direction:column;gap:.7rem}
+
+  /* header */
+  header.top{
+    position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--bg);
+    border-bottom:2px solid var(--edge);margin-inline:-16px;padding:.55rem 16px;
+    display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;
+  }
+  .brand{display:flex;align-items:baseline;gap:.7rem;margin-right:auto}
+  .brand h1{font-family:var(--f-display);font-weight:800;font-size:1.7rem;letter-spacing:-.02em}
+  .brand .sub{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);font-weight:700}
+  .timer{display:flex;align-items:center;gap:.4rem;background:var(--card);border:2px solid var(--edge);border-radius:999px;padding:.2rem .3rem .2rem .9rem}
+  .tm{font-family:var(--f-mono);font-weight:700;font-size:1.3rem;font-variant-numeric:tabular-nums;min-width:4.4ch;text-align:center}
+  .tm.over{color:var(--bad)}
+  .tm.run{color:var(--good)}
+  .tool{border:2px solid var(--edge);background:var(--card);border-radius:999px;padding:.4rem .85rem;font-weight:700;font-size:.85rem}
+  .tool[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:var(--on-navy)}
+  .tool:hover{border-color:var(--soft)}
+  .tools{display:flex;flex-wrap:wrap;gap:.4rem}
+  :is(button,.opt,.chip,[contenteditable]):focus-visible{outline:3px solid var(--cobalt);outline-offset:2px}
+
+  /* nav */
+  nav.stages{display:grid;grid-template-columns:repeat(8,1fr);gap:.45rem}
+  .navbtn{display:flex;flex-direction:column;align-items:flex-start;gap:.05rem;text-align:left;border:2px solid var(--edge);background:var(--card);border-radius:12px;padding:.4rem .65rem .45rem;border-top:6px solid var(--c);box-shadow:var(--shadow)}
+  .navbtn .t{font-family:var(--f-display);font-weight:700;font-size:1rem;line-height:1.15}
+  .navbtn .m{font-family:var(--f-mono);font-size:.72rem;color:var(--soft);font-weight:700}
+  .navbtn[aria-current="true"]{background:var(--cs);border-color:var(--c)}
+  .navbtn[aria-current="true"] .t{color:var(--ink)}
+
+  /* station frame */
+  .station{background:var(--card);border:2px solid var(--edge);border-left:8px solid var(--c);border-radius:14px;box-shadow:var(--shadow);padding:.9rem 1.1rem 1rem;display:flex;flex-direction:column;gap:.8rem}
+  .sh{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1rem}
+  .pill{background:var(--c);color:var(--on);font-family:var(--f-mono);font-weight:700;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border-radius:8px;padding:.25rem .6rem}
+  .sh h2{font-family:var(--f-display);font-weight:800;font-size:1.75rem;letter-spacing:-.02em;text-wrap:balance}
+  .sh .ins{flex:1 1 22rem;color:var(--soft);font-size:1.02rem}
+  .score{font-family:var(--f-mono);font-weight:700;font-size:.9rem;background:var(--cs);border:2px solid var(--c);border-radius:999px;padding:.2rem .8rem;font-variant-numeric:tabular-nums}
+  .lab{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);font-weight:700}
+  .fr{display:none;font-style:italic;color:var(--soft)}
+  body.show-fr .fr{display:inline}
+  .frb{display:none;font-style:italic;color:var(--soft)}
+  body.show-fr .frb{display:block}
+  .tnote{display:none;font-size:.88rem;color:var(--soft);border-top:2px dashed var(--edge);padding-top:.6rem}
+  body.show-teacher .tnote{display:block}
+  .tnote b{color:var(--ink)}
+  .muted{color:var(--soft)}
+  .row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+
+  .btn{border:2px solid var(--edge);background:var(--sunk);border-radius:12px;padding:.55rem 1.1rem;font-weight:700;min-height:2.6rem}
+  .btn.primary{background:var(--c);border-color:var(--c);color:var(--on)}
+  .btn:hover{border-color:var(--c)}
+  .btn.sm{padding:.3rem .7rem;min-height:0;font-size:.88rem}
+  .say{border:2px solid var(--c);background:var(--cs);border-radius:999px;padding:.2rem .7rem;font-weight:700;font-size:.85rem;min-height:0}
+
+  .opt{border:2px solid var(--edge);background:var(--sunk);border-radius:12px;padding:.55rem .9rem;font-family:var(--f-display);font-weight:700;font-size:1.1rem;text-align:center;transition:transform .08s}
+  .opt:active{transform:scale(.97)}
+  .opt.good{background:var(--good-s);border-color:var(--good);color:var(--good)}
+  .opt.bad{background:var(--bad-s);border-color:var(--bad);color:var(--bad)}
+  .opt:disabled{cursor:default}
+  .fb{min-height:1.6em;font-weight:700}
+  .fb.good{color:var(--good)} .fb.bad{color:var(--bad)}
+
+  .ladder{display:flex;flex-direction:column;gap:.3rem}
+  .fl{display:flex;align-items:center;gap:.6rem}
+  .fl b{font-family:var(--f-display);min-width:6.2rem}
+  .days{display:flex;gap:3px}
+  .days i{width:.85rem;height:.85rem;border-radius:50%;background:var(--sunk);border:2px solid var(--edge)}
+  .days i.on{background:var(--c,var(--cobalt));border-color:var(--c,var(--cobalt))}
+  .ops{display:flex;flex-wrap:wrap;gap:.4rem}
+  .op{border-radius:999px;padding:.25rem .8rem;font-weight:700;border:2px solid;font-size:.95rem}
+  .op.l2{background:var(--good-s);border-color:var(--good);color:var(--good)}
+  .op.l1{background:var(--good-s);border-color:var(--edge);color:var(--ink)}
+  .op.d1{background:var(--bad-s);border-color:var(--edge);color:var(--ink)}
+  .op.d2{background:var(--bad-s);border-color:var(--bad);color:var(--bad)}
+
+  /* 0 overview */
+  .ov{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+  .cando{margin:.4rem 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.55rem;counter-reset:c}
+  .cando li{counter-increment:c;display:flex;gap:.7rem;align-items:flex-start;font-size:1.25rem;font-family:var(--f-display);font-weight:700;line-height:1.25}
+  .cando li::before{content:counter(c);flex:none;width:2rem;height:2rem;border-radius:50%;background:var(--navy);color:var(--on-navy);display:grid;place-items:center;font-family:var(--f-mono);font-size:.95rem}
+  .cando .fr,.cando .frb{font-family:var(--f-body);font-weight:400;font-size:.95rem}
+  .keylang{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.8rem;background:var(--sunk);border-radius:12px;padding:.8rem 1rem}
+  .tl{display:flex;flex-direction:column;gap:.4rem;margin-top:.4rem}
+  .tli{display:grid;grid-template-columns:5.4rem 6.6rem 1fr;align-items:center;gap:.7rem;text-align:left;border:2px solid var(--edge);background:var(--card);border-radius:12px;padding:.45rem .7rem;border-left:8px solid var(--c)}
+  .tli .ttime{font-family:var(--f-mono);font-weight:700;font-size:.9rem;color:var(--soft);white-space:nowrap}
+  .tli .d{font-size:1.02rem}
+  .tli:hover{background:var(--cs)}
+
+  /* 1 starter */
+  .stwrap{display:grid;grid-template-columns:1.1fr 1fr;gap:1.2rem;align-items:center}
+  .pic{background:var(--sunk);border-radius:18px;display:grid;place-items:center;min-height:min(46vh,24rem);overflow:hidden}
+  .emoji{font-size:clamp(7rem,26vh,16rem);line-height:1;transition:filter .7s ease;user-select:none}
+  .dots{display:flex;gap:.4rem}
+  .dots i{width:1rem;height:1rem;border-radius:50%;border:2px solid var(--c);background:transparent}
+  .dots i.on{background:var(--c)}
+  .big{font-family:var(--f-display);font-weight:800;font-size:clamp(1.8rem,3.4vw,3.4rem);line-height:1.1;letter-spacing:-.02em;text-wrap:balance}
+  .hint{font-family:var(--f-mono);font-weight:700;font-size:2rem;letter-spacing:.2em;min-height:2.6rem}
+  .frames{display:flex;flex-wrap:wrap;gap:.5rem}
+  .fchip{background:var(--cs);border:2px solid var(--c);border-radius:10px;padding:.35rem .8rem;font-weight:700}
+
+  /* 2 sort */
+  .sortwrap{display:grid;grid-template-columns:1.15fr 1fr;gap:1.2rem}
+  .rules3{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;align-items:start}
+  .rule{border:2px solid var(--edge);border-top:8px solid var(--c);background:var(--card);border-radius:12px;padding:.7rem .8rem;display:flex;flex-direction:column;gap:.3rem}
+  .rule .v{font-family:var(--f-display);font-weight:800;font-size:2.2rem;line-height:1}
+  .rule .ex{font-size:1.5rem;letter-spacing:.1em}
+  .r-play{--c:var(--coral)} .r-go{--c:var(--teal)} .r-do{--c:var(--cobalt)}
+  .rule .v{color:var(--c)}
+  .game{background:var(--sunk);border-radius:16px;padding:1rem;display:flex;flex-direction:column;align-items:center;gap:.6rem;text-align:center}
+  .game .em{font-size:clamp(4rem,12vh,7rem);line-height:1}
+  .vbtns{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;width:100%}
+  .vb{border:3px solid var(--c);background:var(--card);border-radius:14px;padding:.6rem;font-family:var(--f-display);font-weight:800;font-size:1.9rem;color:var(--c);min-height:3.6rem}
+  .vb.good{background:var(--good-s);border-color:var(--good);color:var(--good)}
+  .vb.bad{background:var(--bad-s);border-color:var(--bad);color:var(--bad)}
+  .phr{min-height:4.6rem;font-size:1.25rem}
+  .phr b{font-family:var(--f-display);font-size:1.4rem}
+
+  /* 3 listening */
+  .lscards{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+  .lcard{border:2px solid var(--edge);border-radius:14px;padding:.8rem;display:flex;flex-direction:column;gap:.6rem;background:var(--card)}
+  .lhead{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+  .av{width:2.8rem;height:2.8rem;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.4rem;background:var(--c);color:var(--on)}
+  .lhead b{font-family:var(--f-display);font-size:1.4rem}
+  .lq{display:flex;flex-direction:column;gap:.3rem}
+  .lq .grp{display:flex;flex-wrap:wrap;gap:.4rem}
+  .lq .grp .opt{flex:1 1 auto;padding:.4rem .7rem;font-size:1rem}
+  .script{background:var(--sunk);border-radius:10px;padding:.5rem .7rem;font-size:.95rem;color:var(--soft)}
+  .a1{--c:var(--coral)} .a2{--c:var(--cobalt)} .a3{--c:var(--teal)}
+  .extbox{border:2px dashed var(--c);background:var(--cs);border-radius:12px;padding:.7rem .9rem;display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;align-items:center}
+  .star{font-family:var(--f-mono);font-weight:700;background:var(--amber);color:var(--on-amber);border-radius:8px;padding:.15rem .55rem;font-size:.8rem;letter-spacing:.08em}
+
+  /* 4 speaking */
+  .spwrap{display:grid;grid-template-columns:minmax(16rem,.8fr) 1.4fr;gap:1.2rem;align-items:start}
+  .wheelcol{display:flex;flex-direction:column;align-items:center;gap:.7rem}
+  .wheelbox{position:relative;width:min(44vh,26rem);aspect-ratio:1;max-width:100%}
+  .wheelbox svg{width:100%;height:100%;display:block}
+  #wheelG{transition:transform 4.2s cubic-bezier(.12,.6,.2,1);transform-origin:200px 200px}
+  .ptr{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:34px solid var(--ink);z-index:2;filter:drop-shadow(0 2px 0 var(--bg))}
+  .result{display:flex;align-items:center;gap:1rem;background:var(--sunk);border-radius:14px;padding:.6rem 1rem;min-height:5rem}
+  .result .em{font-size:3.4rem;line-height:1}
+  .qs{display:flex;flex-direction:column;gap:.5rem}
+  .qrow{display:grid;grid-template-columns:5.6rem 1fr auto;gap:.7rem;align-items:center;border:2px solid var(--edge);border-radius:12px;padding:.5rem .8rem;background:var(--card)}
+  .qrow .lv{font-family:var(--f-mono);font-size:.75rem;font-weight:700;color:var(--c);letter-spacing:.08em;text-transform:uppercase}
+  .qrow .q{font-family:var(--f-display);font-weight:700;font-size:1.35rem}
+  .qrow .an{grid-column:2 / 4;color:var(--soft);font-size:.95rem}
+  .inton{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+  .ito{border:2px solid var(--edge);border-radius:12px;padding:.5rem .7rem;display:flex;align-items:center;gap:.6rem;background:var(--card)}
+  .pitch{width:3.6rem;flex:none}
+  .ito.rise .pitch{color:var(--good)} .ito.fall .pitch{color:var(--coral)}
+  .ito .s{font-family:var(--f-display);font-weight:700;font-size:1.1rem;flex:1}
+  .react{display:flex;flex-wrap:wrap;gap:.4rem}
+  .react span{background:var(--amber-s);border:2px solid var(--amber);border-radius:999px;padding:.15rem .7rem;font-weight:700}
+
+  /* 5 reading */
+  .rdwrap{display:grid;grid-template-columns:1.15fr 1fr;gap:1rem;align-items:start}
+  .textcard{border:2px solid var(--edge);border-radius:14px;padding:.8rem 1rem;background:var(--card);display:flex;flex-direction:column;gap:.6rem}
+  .kai{font-size:1.28rem;line-height:1.75;font-weight:400}
+  .kai .w{border-radius:6px;cursor:pointer}
+  .kai .w:hover{background:var(--sunk)}
+  .kai .w.flash{background:var(--bad-s);color:var(--bad)}
+  .kai[data-mode="f"] .tk[data-c="f"].found,
+  .kai[data-mode="p"] .tk[data-c="p"].found,
+  .kai[data-mode="o"] .tk[data-c="o"].found{background:var(--good-s);color:var(--good);font-weight:700;box-shadow:0 0 0 2px var(--good) inset}
+  .subtabs{display:flex;flex-wrap:wrap;gap:.4rem}
+  .subtab{border:2px solid var(--edge);background:var(--card);border-radius:999px;padding:.3rem .9rem;font-weight:700}
+  .subtab[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:var(--on)}
+  .tfrow{display:grid;grid-template-columns:1fr auto auto;gap:.5rem;align-items:center;border:2px solid var(--edge);border-radius:10px;padding:.35rem .6rem;background:var(--card)}
+  .tfrow.good{border-color:var(--good);background:var(--good-s)}
+  .tfrow .opt{padding:.25rem .8rem;font-size:1rem;min-width:3.2rem}
+  .tfl{display:flex;flex-direction:column;gap:.35rem}
+  .glos{display:none;flex-wrap:wrap;gap:.35rem}
+  body.show-fr .glos{display:flex}
+  .glos span{background:var(--sunk);border-radius:8px;padding:.1rem .55rem;font-size:.9rem}
+  .extlist{margin:0;padding-left:1.3rem;display:flex;flex-direction:column;gap:.35rem;font-size:1.08rem}
+  .ans{display:none;color:var(--good);font-weight:700}
+  .show-ans .ans{display:block}
+  .show-ans span.ans{display:inline}
+  .show-ans li>span.ans{display:block}
+
+  /* 6 writing */
+  .wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem}
+  .wcard{border:2px solid var(--edge);border-radius:12px;padding:.55rem .75rem .65rem;background:var(--card);display:flex;flex-direction:column;gap:.35rem;font-size:.98rem}
+  .wcard h3{font-family:var(--f-display);font-size:1.12rem;display:flex;align-items:center;gap:.5rem}
+  .n{flex:none;width:1.7rem;height:1.7rem;border-radius:50%;background:var(--c);color:var(--on);display:grid;place-items:center;font-family:var(--f-mono);font-size:.85rem;font-weight:700}
+  .wcard ol,.wcard ul{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.2rem}
+  .wcard .ins2{color:var(--soft);font-size:.9rem}
+  .gap{display:inline-block;min-width:4.2em;border-bottom:3px solid var(--edge);text-align:center;line-height:1.1}
+  .gap .ans{display:inline;visibility:hidden;font-family:var(--f-display)}
+  .show-ans .gap .ans{visibility:visible}
+  .facts{display:grid;grid-template-columns:1fr;gap:.2rem}
+  .fact{display:flex;align-items:center;gap:.5rem;background:var(--sunk);border-radius:8px;padding:.15rem .55rem}
+  .fact .e{font-size:1.2rem}
+  .fact .adv{margin-left:auto;font-family:var(--f-mono);font-weight:700;color:var(--cobalt);font-size:.9rem}
+  .tiers{display:flex;gap:.3rem}
+  .tiers .subtab{padding:.05rem .7rem;font-size:.85rem}
+  .tierpane{display:none;flex-direction:column;gap:.15rem}
+  .tierpane.on{display:flex}
+  .wext{border:2px dashed var(--amber);background:var(--amber-s);border-radius:12px;padding:.55rem .8rem;display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:.7rem;align-items:start;font-size:.98rem}
+  .wext h4{margin:0;font-family:var(--f-display);font-size:1.02rem}
+  .wext p{color:var(--ink)}
+  .mini{font-size:.85rem;color:var(--soft)}
+
+  /* 7 finale */
+  .fin{display:grid;grid-template-columns:1.5fr 1fr;gap:1.2rem;align-items:start}
+  .ttcards{display:flex;flex-direction:column;gap:.6rem}
+  .tcard{display:grid;grid-template-columns:2.6rem 1fr auto;gap:.8rem;align-items:center;border:3px solid var(--edge);border-radius:14px;padding:.6rem .9rem;background:var(--card);position:relative}
+  .tcard .no{width:2.4rem;height:2.4rem;border-radius:50%;background:var(--c);color:var(--on);display:grid;place-items:center;font-family:var(--f-mono);font-weight:700}
+  .tcard .txt{font-family:var(--f-display);font-weight:700;font-size:1.7rem;outline:none;border-radius:6px;padding:.1rem .3rem}
+  .tcard .txt:focus{background:var(--sunk)}
+  .tcard.guess{border-color:var(--amber);background:var(--amber-s)}
+  .tcard.istrue{border-color:var(--good);background:var(--good-s)}
+  .tcard.islie{border-color:var(--bad);background:var(--bad-s);animation:shake .5s}
+  .tcard .stamp{display:none;font-family:var(--f-mono);font-weight:800;letter-spacing:.1em}
+  .tcard.istrue .stamp{display:block;color:var(--good)} .tcard.islie .stamp{display:block;color:var(--bad)}
+  .tcard .setlie{display:none}
+  body.show-teacher .tcard .setlie{display:inline-block}
+  .tcard .setlie[aria-pressed="true"]{background:var(--bad);color:var(--card);border-color:var(--bad)}
+  @keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+  .exit{display:flex;flex-direction:column;gap:.5rem}
+  .exrow{display:grid;grid-template-columns:1fr auto;gap:.6rem;align-items:center;border:2px solid var(--edge);border-radius:12px;padding:.4rem .7rem;background:var(--card)}
+  .st{min-width:6rem;border:2px solid var(--edge);border-radius:999px;background:var(--sunk);font-weight:700;padding:.3rem .8rem}
+  .st[data-s="1"]{background:var(--bad-s);border-color:var(--bad);color:var(--bad)}
+  .st[data-s="2"]{background:var(--amber-s);border-color:var(--amber);color:var(--ink)}
+  .st[data-s="3"]{background:var(--good-s);border-color:var(--good);color:var(--good)}
+  .team{display:flex;gap:.7rem}
+  .tmc{flex:1;border:2px solid var(--edge);border-radius:12px;padding:.4rem .6rem;background:var(--card);display:flex;flex-direction:column;align-items:center;gap:.2rem}
+  .tmc .nm{font-family:var(--f-display);font-weight:700;outline:none}
+  .tmc .pt{font-family:var(--f-mono);font-weight:700;font-size:2rem;font-variant-numeric:tabular-nums}
+  .tmc .pm{display:flex;gap:.4rem}
+
+  /* word bank */
+  .bank{position:fixed;top:0;right:0;bottom:0;width:min(30rem,92vw);background:var(--card);border-left:3px solid var(--ink);z-index:50;overflow:auto;padding:1rem 1.1rem 2rem;display:flex;flex-direction:column;gap:.8rem;box-shadow:-16px 0 40px -20px rgba(0,0,0,.5)}
+  .bank h2{font-family:var(--f-display);font-size:1.5rem}
+  .bw{display:inline-block;background:var(--sunk);border-radius:8px;padding:.15rem .6rem;margin:.15rem .2rem .15rem 0;font-weight:700;font-size:.95rem}
+  .bank .grp h3{font-family:var(--f-display);font-size:1.15rem;margin-bottom:.2rem;color:var(--c)}
+
+  footer.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.78rem;color:var(--soft)}
+  kbd{font-family:var(--f-mono);border:1px solid var(--edge);border-bottom-width:2px;border-radius:5px;padding:0 .35rem;background:var(--card)}
+
+  @media (max-width:1100px){
+    nav.stages{grid-template-columns:repeat(4,1fr)}
+    .ov,.stwrap,.sortwrap,.rdwrap,.fin,.spwrap{grid-template-columns:1fr}
+    .lscards,.inton{grid-template-columns:1fr}
+    .wgrid{grid-template-columns:1fr 1fr}
+    .wext{grid-template-columns:1fr}
+  }
+  @media (max-width:700px){
+    nav.stages{grid-template-columns:repeat(2,1fr)}
+    .wgrid,.keylang,.rules3{grid-template-columns:1fr}
+    .tli{grid-template-columns:3.6rem 1fr}
+    .tli .pill{display:none}
+    .qrow{grid-template-columns:1fr}
+    .qrow .an{grid-column:1}
+  }
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="shell">
+  <header class="top">
+    <div class="brand"><h1>Hobby Hour</h1><span class="sub">6<sup>e</sup> LVA &middot; 60 minutes</span></div>
+    <div class="timer" role="group" aria-label="Timer">
+      <span class="tm" id="tm">02:00</span>
+      <button class="tool" id="tPlay" type="button">Start</button>
+      <button class="tool" id="tPlus" type="button">+1 min</button>
+      <button class="tool" id="tReset" type="button">Reset</button>
+    </div>
+    <div class="tools">
+      <button class="tool" id="bankBtn" type="button" aria-pressed="false">Word bank</button>
+      <button class="tool" id="frBtn" type="button" aria-pressed="false">Fran&ccedil;ais</button>
+      <button class="tool" id="teachBtn" type="button" aria-pressed="false">Teacher notes</button>
+      <button class="tool" id="aMinus" type="button" aria-label="Smaller text">A&minus;</button>
+      <button class="tool" id="aPlus" type="button" aria-label="Bigger text">A+</button>
+      <button class="tool" id="fsBtn" type="button">Full screen</button>
+    </div>
+  </header>
+
+  <nav class="stages" id="nav" aria-label="Lesson stages"></nav>
+
+  <!-- 0 PLAN -->
+  <section class="station sk-plan" id="st0">
+    <div class="sh">
+      <span class="pill">Plan</span>
+      <h2>Today: hobbies</h2>
+      <p class="ins">Learning goal: I can talk and write about the things I like to do. <span class="fr">Je sais parler et &eacute;crire de mes loisirs.</span></p>
+    </div>
+    <div class="ov">
+      <div>
+        <h3 class="lab">By the end of the lesson, I can...</h3>
+        <ol class="cando">
+          <li><span>use <b>play</b>, <b>go</b> and <b>do</b> with hobbies<span class="frb">utiliser play, go et do avec les loisirs</span></span></li>
+          <li><span>say how often I do things<span class="frb">dire &agrave; quelle fr&eacute;quence je fais les choses</span></span></li>
+          <li><span>ask and answer questions about hobbies<span class="frb">poser des questions et r&eacute;pondre</span></span></li>
+          <li><span>write about me and about other people: <b>he plays, she goes</b><span class="frb">&eacute;crire sur moi et sur les autres</span></span></li>
+        </ol>
+        <div class="keylang">
+          <div><h3 class="lab">How often? (days a week)</h3><div class="ladder sk-write" id="ovLadder"></div></div>
+          <div><h3 class="lab">How do you feel?</h3>
+            <div class="ops" style="margin-top:.4rem">
+              <span class="op l2">I love</span><span class="op l1">I like</span><span class="op d1">I don't like</span><span class="op d2">I hate</span>
+            </div>
+            <p class="mini" style="margin-top:.6rem">+ noun or <b>-ing</b>: I love <b>badminton</b>. I hate <b>running</b>.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 class="lab">Lesson map (tap to jump)</h3>
+        <div class="tl" id="tl"></div>
+      </div>
+    </div>
+    <div class="tnote"><b>Plan.</b> Read the four goals aloud, then tap the Fran&ccedil;ais button for the beginners. The times are a guide. If you run late, cut the warm-up to 3 minutes and shorten the sort to 10 items. Keep the last 7 minutes for the wrap-up so the exit ticket happens.</div>
+  </section>
+
+  <!-- 1 WARM-UP -->
+  <section class="station sk-fun" id="st1" hidden>
+    <div class="sh">
+      <span class="pill">Fun</span>
+      <h2>Blurry hobby</h2>
+      <p class="ins">Guess the hobby. Tap <b>Clearer</b> to see more. Say: <i>I think it's ...</i> <span class="fr">Devine le loisir. L'image devient plus nette.</span></p>
+      <span class="score" id="stRound">Round 1</span>
+    </div>
+    <div class="stwrap">
+      <div class="pic"><div class="emoji" id="stEmoji" aria-label="Mystery picture"></div></div>
+      <div style="display:flex;flex-direction:column;gap:.9rem">
+        <div class="dots" id="stDots" aria-hidden="true"></div>
+        <div class="hint" id="stHint"></div>
+        <div class="big" id="stAns"></div>
+        <div class="muted" id="stSent"></div>
+        <div class="row">
+          <button class="btn primary" id="stClearer" type="button">Clearer</button>
+          <button class="btn" id="stHintBtn" type="button">Hint</button>
+          <button class="btn" id="stAnsBtn" type="button">Answer</button>
+          <button class="btn" id="stNext" type="button">Next picture &rarr;</button>
+        </div>
+        <div class="frames"><span class="fchip">Is it swimming?</span><span class="fchip">I think it's football.</span><span class="fchip">Yes, it is! / No, it isn't.</span></div>
+      </div>
+    </div>
+    <div class="tnote"><b>Warm-up.</b> Accept single words at first, then push for the full frame: <i>I think it's badminton.</i> Tap Clearer slowly. Ask "Do you do this hobby?" as soon as the answer is revealed. Every picture is a word the students need later.</div>
+  </section>
+
+  <!-- 2 LANGUAGE -->
+  <section class="station sk-lang" id="st2" hidden>
+    <div class="sh">
+      <span class="pill">Language</span>
+      <h2>Play, go or do?</h2>
+      <p class="ins">Say the rule. Then tap the verb that goes with the hobby. <span class="fr">Trie chaque loisir : play, go ou do ?</span></p>
+      <span class="score" id="soScore">0 / 0</span>
+    </div>
+    <div class="sortwrap">
+      <div class="rules3">
+        <div class="rule r-play"><span class="v">play</span><span>a ball, a team, a game, an instrument</span><span class="ex">&#9917;&#127928;&#127918;</span></div>
+        <div class="rule r-go"><span class="v">go</span><span>the word ends in <b>-ing</b></span><span class="ex">&#127946;&#127939;&#128692;</span></div>
+        <div class="rule r-do"><span class="v">do</span><span>no ball: martial arts, exercise, art</span><span class="ex">&#129355;&#129496;&#127912;</span></div>
+      </div>
+      <div class="game">
+        <div class="em" id="soEmoji"></div>
+        <div class="big" id="soNoun"></div>
+        <div class="fr" id="soFr"></div>
+        <div class="vbtns" id="soBtns">
+          <button class="vb r-play" data-v="play" type="button">play</button>
+          <button class="vb r-go" data-v="go" type="button">go</button>
+          <button class="vb r-do" data-v="do" type="button">do</button>
+        </div>
+        <div class="phr" id="soPhr"></div>
+        <button class="btn primary" id="soNext" type="button">Next hobby &rarr;</button>
+      </div>
+    </div>
+    <div class="tnote"><b>Language.</b> Make students say the rule before they tap. After each answer the board shows <i>I play / She plays</i>. Point at the ending: play &rarr; plays, go &rarr; <b>goes</b>, do &rarr; <b>does</b>. This is the third person preview for the reading and writing stages.</div>
+  </section>
+
+  <!-- 3 LISTENING -->
+  <section class="station sk-listen" id="st3" hidden>
+    <div class="sh">
+      <span class="pill">Listening</span>
+      <h2>Three speakers</h2>
+      <p class="ins">Press play. Tap the correct answers. You can listen again. <span class="fr">&Eacute;coute et touche les bonnes r&eacute;ponses.</span></p>
+      <span class="score" id="lsScore">0 / 9</span>
+    </div>
+    <div class="row">
+      <button class="tool" id="lsSlow" type="button" aria-pressed="false">Slow voice</button>
+      <button class="tool" id="lsScripts" type="button" aria-pressed="false">Show scripts</button>
+      <span class="muted" id="lsStatus"></span>
+    </div>
+    <div class="lscards" id="lsCards"></div>
+    <div class="extbox sk-write">
+      <span class="star">Extension</span>
+      <span>Listen again. <b>Who</b> does each person do their hobby with? Write 3 sentences: <i>Priya plays ...</i></span>
+      <button class="btn sm" id="lsWho" type="button">Show answers</button>
+      <span id="lsWhoAns" style="display:none;color:var(--good);font-weight:700"></span>
+    </div>
+    <div class="tnote"><b>Listening.</b> Play each speaker twice. First listen for the favourite hobby only, then for the rest. Use Slow voice for A0 students. The audio is the browser's built-in voice. If it does not play, tap Show scripts and read them aloud yourself.</div>
+  </section>
+
+  <!-- 4 SPEAKING -->
+  <section class="station sk-speak" id="st4" hidden>
+    <div class="sh">
+      <span class="pill">Speaking</span>
+      <h2>Spin and ask</h2>
+      <p class="ins">Spin the wheel. Partner A asks the questions. Partner B answers. Then swap. <span class="fr">Tourne la roue. A pose les questions, B r&eacute;pond. Puis on change.</span></p>
+    </div>
+    <div class="spwrap">
+      <div class="wheelcol">
+        <div class="wheelbox">
+          <div class="ptr"></div>
+          <svg viewBox="0 0 400 400" role="img" aria-label="Hobby wheel"><g id="wheelG"></g><circle cx="200" cy="200" r="26" style="fill:var(--card);stroke:var(--ink);stroke-width:5"/></svg>
+        </div>
+        <div class="row">
+          <button class="btn primary" id="spinBtn" type="button" style="font-size:1.3rem;padding:.6rem 2rem">Spin</button>
+          <button class="btn" id="wheelShuffle" type="button">New wheel</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.7rem">
+        <div class="result" id="spinRes"><span class="muted">Spin the wheel to get a hobby.</span></div>
+        <div class="qs" id="spinQs"></div>
+        <div>
+          <h3 class="lab" style="margin-bottom:.35rem">Voice: up or down?</h3>
+          <div class="inton" id="inton"></div>
+        </div>
+        <div class="row"><span class="lab">Keep talking:</span><div class="react"><span>Me too!</span><span>Me neither.</span><span>Really?</span><span>Why?</span><span>That's cool!</span></div></div>
+      </div>
+    </div>
+    <div class="tnote"><b>Speaking.</b> Level 1 questions for beginners, level 2 for most, level 3 for confident speakers. Yes or no questions go up at the end, question word questions go down. Tap the speaker button to model it, then have students copy the shape. 3 minutes per person, then swap. Their answers feed writing task 5.</div>
+  </section>
+
+  <!-- 5 READING -->
+  <section class="station sk-read" id="st5" hidden>
+    <div class="sh">
+      <span class="pill">Reading</span>
+      <h2>Meet Kai</h2>
+      <p class="ins">Read the text. Tap the words to find. Then check True or False. <span class="fr">Lis le texte. Touche les mots. Puis vrai ou faux.</span></p>
+    </div>
+    <div class="rdwrap">
+      <div style="display:flex;flex-direction:column;gap:.8rem">
+      <div class="textcard">
+        <div class="row">
+          <div class="subtabs" id="tapTabs">
+            <button class="subtab" data-m="f" aria-pressed="true" type="button">Find: how often</button>
+            <button class="subtab" data-m="p" aria-pressed="false" type="button">Find: play / go / do</button>
+            <button class="subtab" data-m="o" aria-pressed="false" type="button">Find: like / hate</button>
+          </div>
+          <span class="score" id="tapScore">0 / 5</span>
+          <button class="say" id="readAloud" type="button">&#128266; Read aloud</button>
+        </div>
+        <div class="kai" id="kai" data-mode="f"></div>
+        <div class="glos" id="glos"></div>
+      </div>
+        <div class="extbox" style="flex-direction:column;align-items:flex-start">
+          <div class="row"><span class="star">Extension</span><b>Answer in your notebook</b><button class="btn sm" id="rdShow" type="button">Model answers</button></div>
+          <ol class="extlist" id="rdExt">
+            <li>Find <b>two</b> pieces of evidence that Kai loves sport.<span class="ans">He plays badminton every Saturday. He goes swimming on Sundays.</span></li>
+            <li>Who is more active, Kai or Mei? Explain why.<span class="ans">Kai is more active. He does sport at the weekend, but Mei usually draws or plays the piano and she hates running.</span></li>
+            <li>Change the sentence to <b>I</b>: <i>He plays badminton every Saturday and he goes swimming on Sundays.</i> Then write 2 more about you.<span class="ans">I play badminton every Saturday and I go swimming on Sundays. (no -s and no -es after I)</span></li>
+          </ol>
+        </div>
+      </div>
+      <div class="tfl">
+        <div class="row"><h3 class="lab">True or false?</h3><span class="score" id="tfScore">0 / 6</span></div>
+        <div class="tfl" id="tf"></div>
+      </div>
+    </div>
+    <div class="tnote"><b>Reading.</b> One silent read (1 minute), then Read aloud while students follow with a finger. The tap tasks recycle the language from stages 2 and 3, and they work for A0 students because they only ask for recognition. The extension asks for evidence, comparison and a change of person, which is enough for the near-native readers.</div>
+  </section>
+
+  <!-- 6 WRITING -->
+  <section class="station sk-write" id="st6" hidden>
+    <div class="sh">
+      <span class="pill">Writing</span>
+      <h2>Notebook time</h2>
+      <p class="ins">Write the date and <b>Hobbies</b>. Do the tasks in order. Write full sentences. <span class="fr">Date et titre, puis les exercices dans l'ordre.</span></p>
+      <button class="tool" id="wrShow" type="button" aria-pressed="false">Model answers</button>
+    </div>
+    <div class="wgrid" id="wgrid">
+      <div class="wcard">
+        <h3><span class="n">1</span>Likes and dislikes</h3>
+        <p class="ins2">Use the hobby wall. Add <b>-ing</b> if you need it.</p>
+        <ol>
+          <li>3 sentences: <b>I love / I like</b> ...</li>
+          <li>2 sentences: <b>I don't like / I hate</b> ...</li>
+        </ol>
+        <p class="mini">I love <b>badminton</b>. I hate <b>running</b>.</p>
+      </div>
+      <div class="wcard">
+        <h3><span class="n">2</span>Play, go or do?</h3>
+        <p class="ins2">Write the full sentences with the correct verb.</p>
+        <ol>
+          <li>I <span class="gap"><span class="ans">play</span></span> chess with my grandpa.</li>
+          <li>She <span class="gap"><span class="ans">goes</span></span> running every morning.</li>
+          <li>My brother <span class="gap"><span class="ans">does</span></span> judo.</li>
+          <li>We <span class="gap"><span class="ans">go</span></span> hiking in the holidays.</li>
+          <li>They <span class="gap"><span class="ans">play</span></span> table tennis after school.</li>
+        </ol>
+      </div>
+      <div class="wcard">
+        <h3><span class="n">3</span>How often?</h3>
+        <p class="ins2">Rewrite with the right word. The number is days a week.</p>
+        <ol>
+          <li>I play video games. <b class="mini">(0)</b><span class="ans">I never play video games.</span></li>
+          <li>She goes swimming. <b class="mini">(7)</b><span class="ans">She always goes swimming.</span></li>
+          <li>We do yoga. <b class="mini">(2)</b><span class="ans">We sometimes do yoga.</span></li>
+          <li>He plays chess. <b class="mini">(5)</b><span class="ans">He usually plays chess.</span></li>
+        </ol>
+        <div id="wLadder" style="display:flex;flex-wrap:wrap;gap:.3rem .6rem"></div>
+      </div>
+      <div class="wcard">
+        <h3><span class="n">4</span>About Sam</h3>
+        <p class="ins2">Write 4 sentences about <b>Sam</b>. Watch the verb: <b>he plays, he goes, he does</b>.</p>
+        <div class="facts">
+          <div class="fact"><span class="e">&#9917;</span>play football<span class="adv">usually</span></div>
+          <div class="fact"><span class="e">&#127946;</span>go swimming<span class="adv">never</span></div>
+          <div class="fact"><span class="e">&#127928;</span>play the guitar<span class="adv">sometimes</span></div>
+          <div class="fact"><span class="e">&#129355;</span>do karate<span class="adv">always</span></div>
+        </div>
+        <div class="ans">Sam usually plays football. Sam never goes swimming. Sam sometimes plays the guitar. Sam always does karate.</div>
+      </div>
+      <div class="wcard">
+        <h3><span class="n">5</span>My partner</h3>
+        <p class="ins2">Use the answers from the spinner. Write 3 sentences about your partner.</p>
+        <ol>
+          <li><b>___ likes / doesn't like</b> ...</li>
+          <li><b>___ (usually) plays / goes / does</b> ... every ...</li>
+          <li><b>___ plays / goes / does</b> ... with ...</li>
+        </ol>
+        <p class="mini">Ali likes swimming. He goes swimming with his mum.</p>
+      </div>
+      <div class="wcard">
+        <h3><span class="n">6</span>My hobby paragraph
+          <span class="tiers" id="tiers" style="margin-left:auto">
+            <button class="subtab" data-t="A" aria-pressed="true" type="button">A</button>
+            <button class="subtab" data-t="B" aria-pressed="false" type="button">B</button>
+            <button class="subtab" data-t="C" aria-pressed="false" type="button">C</button>
+          </span>
+        </h3>
+        <div class="tierpane on" data-t="A">
+          <p class="ins2">Copy and complete.</p>
+          <p>My favourite hobby is <span class="gap"></span>. I <span class="gap"></span> it every <span class="gap"></span>. I like it because it is <span class="gap"></span>. I don't like <span class="gap"></span> because <span class="gap" style="min-width:6em"></span>.</p>
+        </div>
+        <div class="tierpane" data-t="B">
+          <p class="ins2">Finish each beginning.</p>
+          <ul><li>My favourite hobby is ...</li><li>I ... (how often) ...</li><li>I like it because ...</li><li>I don't like ... because ...</li></ul>
+        </div>
+        <div class="tierpane" data-t="C">
+          <p class="ins2">No frames. Write 5 or more sentences.</p>
+          <ul><li>1 play / go / do phrase</li><li>1 how often word</li><li>1 <b>because</b> sentence</li><li>1 hobby you hate</li><li>1 adjective nobody else will use</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="wext">
+      <div><span class="star">Extension</span></div>
+      <div><h4>A. Acrostic: H O B B I E S</h4><p>Write the letters down the page. Each line starts with that letter and says something true about your hobbies.</p></div>
+      <div><h4>B. But and because</h4><p>Write 3 sentences: <i>I like swimming but I don't like running because ...</i></p></div>
+      <div><h4>C. My perfect Saturday</h4><p>Write 5 sentences. Use <b>first, then, after that</b> and 3 how often words.</p></div>
+    </div>
+    <div class="tnote"><b>Writing.</b> Everything is visible at once, so students can work through the tasks in their own order. Tasks 1 to 4 are for everyone. Task 5 reuses the spinner answers, so it is a real communication task. Choose the tier for task 6 from the Week 1 diagnostic: A is gap-fill, B is beginnings, C has no frames. Extension A is the acrostic from Week 5. Tap Model answers to mark tasks 2, 3 and 4.</div>
+  </section>
+
+  <!-- 7 WRAP-UP -->
+  <section class="station sk-fun" id="st7" hidden>
+    <div class="sh">
+      <span class="pill">Fun</span>
+      <h2>Two truths and a lie</h2>
+      <p class="ins">Two sentences are true. One is a lie. Which one? Then write your own. <span class="fr">Deux vraies phrases, une fausse. Laquelle ?</span></p>
+    </div>
+    <div class="fin">
+      <div style="display:flex;flex-direction:column;gap:.7rem">
+        <div class="ttcards" id="tt"></div>
+        <div class="row">
+          <button class="btn primary" id="ttReveal" type="button">Reveal the lie</button>
+          <button class="btn" id="ttReset" type="button">Reset</button>
+          <span class="mini">Tap a sentence to edit it. Tap <b>Guess</b> to vote.</span>
+        </div>
+        <div class="lab">Team points</div>
+        <div class="team" id="team"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.7rem">
+        <h3 class="lab">Exit ticket: I can...</h3>
+        <div class="exit" id="exit"></div>
+        <p class="mini">Optional homework: ask someone at home 3 hobby questions and write 3 sentences.</p>
+      </div>
+    </div>
+    <div class="tnote"><b>Wrap-up.</b> Edit the three sentences to be about you, then tap the lock buttons to choose the lie (they appear when Teacher notes is on). Students guess as a class or in teams. Then pairs write and swap their own set of three. Finish with the exit ticket: tap a button to cycle through Not yet, Nearly and Yes.</div>
+  </section>
+
+  <footer class="foot">
+    <span>Keys: <kbd>&larr;</kbd> <kbd>&rarr;</kbd> stage &middot; <kbd>P</kbd> timer &middot; <kbd>W</kbd> word bank &middot; <kbd>F</kbd> French &middot; <kbd>T</kbd> teacher notes &middot; <kbd>+</kbd> <kbd>&minus;</kbd> text size</span>
+    <span>Audio uses the browser voice. Scripts are available if it does not play.</span>
+  </footer>
+</div>
+
+<aside class="bank" id="bank" hidden aria-label="Word bank">
+  <div class="row"><h2 style="flex:1">Word bank</h2><button class="tool" id="bankClose" type="button">Close</button></div>
+  <div id="bankBody" style="display:flex;flex-direction:column;gap:.8rem"></div>
+</aside>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s,r){ return (r||document).querySelector(s); };
+  var $$ = function(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+  function pad(n){ return (n<10?"0":"")+n; }
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+
+  /* ---------- data ---------- */
+  var H = [
+    {v:"play",n:"football",e:"⚽",l:"football",f:"le football",s:1},
+    {v:"play",n:"basketball",e:"🏀",l:"basketball",f:"le basket",s:1},
+    {v:"play",n:"badminton",e:"🏸",l:"badminton",f:"le badminton",s:1},
+    {v:"play",n:"tennis",e:"🎾",l:"tennis",f:"le tennis"},
+    {v:"play",n:"table tennis",e:"🏓",l:"table tennis",f:"le ping-pong"},
+    {v:"play",n:"the guitar",e:"🎸",l:"playing the guitar",f:"la guitare",s:1},
+    {v:"play",n:"the piano",e:"🎹",l:"playing the piano",f:"le piano"},
+    {v:"play",n:"video games",e:"🎮",l:"playing video games",f:"les jeux vidéo",s:1},
+    {v:"play",n:"chess",e:"♟️",l:"chess",f:"les échecs",s:1},
+    {v:"play",n:"cards",e:"🃏",l:"playing cards",f:"les cartes"},
+    {v:"go",n:"swimming",e:"🏊",l:"swimming",f:"la natation",s:1},
+    {v:"go",n:"running",e:"🏃",l:"running",f:"la course à pied",s:1},
+    {v:"go",n:"cycling",e:"🚴",l:"cycling",f:"le vélo",s:1},
+    {v:"go",n:"fishing",e:"🎣",l:"fishing",f:"la pêche",s:1},
+    {v:"go",n:"hiking",e:"🥾",l:"hiking",f:"la randonnée",s:1},
+    {v:"go",n:"shopping",e:"🛍️",l:"shopping",f:"le shopping",s:1},
+    {v:"go",n:"skating",e:"⛸️",l:"skating",f:"le patinage"},
+    {v:"go",n:"climbing",e:"🧗",l:"climbing",f:"l'escalade"},
+    {v:"do",n:"karate",e:"🥋",l:"karate",f:"le karaté",s:1},
+    {v:"do",n:"yoga",e:"🧘",l:"yoga",f:"le yoga",s:1},
+    {v:"do",n:"gymnastics",e:"🤸",l:"gymnastics",f:"la gymnastique",s:1},
+    {v:"do",n:"puzzles",e:"🧩",l:"puzzles",f:"les puzzles",s:1},
+    {v:"do",n:"art",e:"🎨",l:"art",f:"les arts plastiques",s:1},
+    {v:"do",n:"drama",e:"🎭",l:"drama",f:"le théâtre",s:1}
+  ];
+  var THIRD = {play:"plays", go:"goes", "do":"does"};
+  var FREQ = [["always",7],["usually",5],["often",4],["sometimes",2],["never",0]];
+  function dots(d){ var s=""; for(var i=0;i<7;i++){ s+='<i class="'+(i<d?"on":"")+'"></i>'; } return s; }
+  function ladder(){ return FREQ.map(function(f){ return '<div class="fl"><b>'+f[0]+'</b><span class="days">'+dots(f[1])+'</span></div>'; }).join(""); }
+  function pitch(kind){
+    var d = kind==="rise" ? "M4 32 C 28 32, 46 28, 74 6" : "M4 8 C 30 8, 46 12, 74 32";
+    var cy = kind==="rise" ? 6 : 32;
+    return '<svg class="pitch" viewBox="0 0 84 40" aria-hidden="true"><path d="'+d+'" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="74" cy="'+cy+'" r="5.5" fill="currentColor"/></svg>';
+  }
+
+  /* ---------- speech ---------- */
+  var TTS = ("speechSynthesis" in window) && ("SpeechSynthesisUtterance" in window);
+  var voices = [];
+  function loadVoices(){ if(!TTS) return; try{ voices = speechSynthesis.getVoices() || []; }catch(e){ voices = []; } }
+  loadVoices();
+  if(TTS){ try{ speechSynthesis.onvoiceschanged = loadVoices; }catch(e){} }
+  function enVoices(){
+    var gb = voices.filter(function(v){ return /^en[-_](GB|AU|IE|NZ)/i.test(v.lang); });
+    var other = voices.filter(function(v){ return /^en/i.test(v.lang) && gb.indexOf(v)<0; });
+    return gb.concat(other);
+  }
+  function speak(text, rate, pitchV, vi){
+    if(!TTS) return false;
+    try{
+      speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = "en-GB";
+      var ev = enVoices();
+      if(ev.length){ u.voice = ev[(vi||0) % ev.length]; }
+      u.rate = rate || 0.9; u.pitch = pitchV || 1;
+      speechSynthesis.speak(u);
+      return true;
+    }catch(e){ return false; }
+  }
+  var actx = null;
+  function beep(f,d){
+    try{
+      actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+      var o = actx.createOscillator(), g = actx.createGain();
+      o.frequency.value = f||880; o.type="sine"; g.gain.value=.15;
+      o.connect(g); g.connect(actx.destination); o.start(); o.stop(actx.currentTime+(d||.35));
+    }catch(e){}
+  }
+
+  /* ---------- stages, nav, timer ---------- */
+  var STAGES = [
+    {id:"st0",t:"Plan",sk:"sk-plan",min:2,pill:"Plan",d:"Goals and lesson map"},
+    {id:"st1",t:"Warm-up",sk:"sk-fun",min:5,pill:"Fun",d:"Guess the blurry hobby"},
+    {id:"st2",t:"Language",sk:"sk-lang",min:8,pill:"Language",d:"Sort hobbies: play, go or do"},
+    {id:"st3",t:"Listening",sk:"sk-listen",min:8,pill:"Listening",d:"Three speakers, nine answers"},
+    {id:"st4",t:"Speaking",sk:"sk-speak",min:8,pill:"Speaking",d:"Spin the wheel and ask a partner"},
+    {id:"st5",t:"Reading",sk:"sk-read",min:10,pill:"Reading",d:"Meet Kai, plus extension"},
+    {id:"st6",t:"Writing",sk:"sk-write",min:12,pill:"Writing",d:"Six tasks and an extension"},
+    {id:"st7",t:"Wrap-up",sk:"sk-fun",min:7,pill:"Fun",d:"Two truths and a lie, exit ticket"}
+  ];
+  var cur = 0;
+  var nav = $("#nav");
+  STAGES.forEach(function(s,i){
+    var b = document.createElement("button");
+    b.type="button"; b.className="navbtn "+s.sk;
+    b.innerHTML='<span class="t">'+s.t+'</span><span class="m">'+s.min+' min</span>';
+    b.addEventListener("click", function(){ go(i); });
+    nav.appendChild(b);
+  });
+  // timeline on plan page
+  (function(){
+    var t=0, html="";
+    STAGES.forEach(function(s,i){
+      html+='<button type="button" class="tli '+s.sk+'" data-i="'+i+'"><span class="ttime">'+t+'-'+(t+s.min)+'</span><span class="pill">'+s.pill+'</span><span class="d">'+s.d+'</span></button>';
+      t+=s.min;
+    });
+    $("#tl").innerHTML = html;
+    $$("#tl .tli").forEach(function(b){ b.addEventListener("click", function(){ go(parseInt(b.dataset.i,10)); }); });
+    $("#ovLadder").innerHTML = ladder();
+  })();
+
+  function go(i){
+    cur = (i+STAGES.length)%STAGES.length;
+    STAGES.forEach(function(s,k){
+      $("#"+s.id).hidden = (k!==cur);
+      nav.children[k].setAttribute("aria-current", k===cur ? "true":"false");
+    });
+    tSet(STAGES[cur].min);
+    if(TTS){ try{ speechSynthesis.cancel(); }catch(e){} }
+    window.scrollTo(0,0);
+    try{ location.hash = "s"+cur; }catch(e){}
+  }
+
+  var tSec=0, tInt=null;
+  function tShow(){
+    var a=Math.abs(tSec), el=$("#tm");
+    el.textContent=(tSec<0?"+":"")+pad(Math.floor(a/60))+":"+pad(a%60);
+    el.classList.toggle("over", tSec<=0);
+    el.classList.toggle("run", !!tInt && tSec>0);
+  }
+  function tStop(){ if(tInt){ clearInterval(tInt); tInt=null; } $("#tPlay").textContent = "Start"; }
+  function tSet(min){ tStop(); tSec=min*60; tShow(); }
+  function tToggle(){
+    if(tInt){ tStop(); tShow(); return; }
+    $("#tPlay").textContent="Pause";
+    tInt=setInterval(function(){ tSec--; if(tSec===0){ beep(880,.5); setTimeout(function(){beep(660,.5);},600); } tShow(); },1000);
+    tShow();
+  }
+  $("#tPlay").addEventListener("click", tToggle);
+  $("#tPlus").addEventListener("click", function(){ tSec+=60; tShow(); });
+  $("#tReset").addEventListener("click", function(){ tSet(STAGES[cur].min); });
+
+  /* ---------- header toggles ---------- */
+  function tog(btn, cls){ btn.addEventListener("click", function(){ var on=btn.getAttribute("aria-pressed")==="true"; btn.setAttribute("aria-pressed", on?"false":"true"); document.body.classList.toggle(cls, !on); }); }
+  tog($("#frBtn"),"show-fr"); tog($("#teachBtn"),"show-teacher");
+  var scale = 1;
+  function setScale(x){ scale = Math.max(.8, Math.min(1.5, Math.round(x*10)/10)); document.documentElement.style.setProperty("--scale", scale); }
+  $("#aPlus").addEventListener("click", function(){ setScale(scale+.1); });
+  $("#aMinus").addEventListener("click", function(){ setScale(scale-.1); });
+  $("#fsBtn").addEventListener("click", function(){
+    try{
+      if(document.fullscreenElement){ document.exitFullscreen(); }
+      else{ var p = document.documentElement.requestFullscreen(); if(p && p.catch){ p.catch(function(){}); } }
+    }catch(e){}
+  });
+  function bankToggle(force){
+    var b=$("#bank"); var open = (typeof force==="boolean") ? force : b.hidden;
+    b.hidden = !open; $("#bankBtn").setAttribute("aria-pressed", open?"true":"false");
+  }
+  $("#bankBtn").addEventListener("click", function(){ bankToggle(); });
+  $("#bankClose").addEventListener("click", function(){ bankToggle(false); });
+  document.addEventListener("keydown", function(e){
+    if(/input|textarea/i.test(e.target.tagName) || e.target.isContentEditable) return;
+    var k=e.key;
+    if(k==="ArrowRight") go(cur+1);
+    else if(k==="ArrowLeft") go(cur-1);
+    else if(k==="p"||k==="P") tToggle();
+    else if(k==="w"||k==="W") bankToggle();
+    else if(k==="f"||k==="F") $("#frBtn").click();
+    else if(k==="t"||k==="T") $("#teachBtn").click();
+    else if(k==="+"||k==="=") setScale(scale+.1);
+    else if(k==="-"||k==="_") setScale(scale-.1);
+  });
+
+  /* word bank */
+  (function(){
+    function grp(v,c){
+      var items=H.filter(function(h){return h.v===v;}).map(function(h){ return '<span class="bw">'+h.e+" "+h.n+'<span class="fr"> '+h.f+'</span></span>'; }).join("");
+      return '<div class="grp" style="--c:'+c+'"><h3>'+v+'</h3>'+items+'</div>';
+    }
+    $("#bankBody").innerHTML =
+      grp("play","var(--coral)")+grp("go","var(--teal)")+grp("do","var(--cobalt)")+
+      '<div class="grp" style="--c:var(--magenta)"><h3>other verbs</h3><span class="bw">read</span><span class="bw">draw</span><span class="bw">paint</span><span class="bw">cook</span><span class="bw">bake</span><span class="bw">sing</span><span class="bw">dance</span><span class="bw">watch films</span><span class="bw">take photos</span><span class="bw">listen to music</span></div>'+
+      '<div class="grp" style="--c:var(--cobalt)"><h3>how often</h3><div class="ladder sk-write">'+ladder()+'</div></div>'+
+      '<div class="grp" style="--c:var(--violet)"><h3>sentence frames</h3><span class="bw">I love / like ...</span><span class="bw">I don\'t like / I hate ...</span><span class="bw">I ... every ...</span><span class="bw">He / She plays / goes / does ...</span><span class="bw">because it is ...</span><span class="bw">Do you like ...?</span><span class="bw">How often do you ...?</span><span class="bw">Who do you ... with?</span></div>';
+  })();
+
+  /* ---------- 1 warm-up ---------- */
+  var stItems = shuffle(H), stPos = 0, stStep = 0, stRound = 1;
+  var BLUR = [40,26,14,6,0];
+  function stPaint(){
+    $("#stEmoji").style.filter = "blur("+BLUR[stStep]+"px)";
+    $$("#stDots i").forEach(function(d,i){ d.classList.toggle("on", i<=stStep); });
+  }
+  function stRender(){
+    var h = stItems[stPos]; stStep = 0;
+    $("#stEmoji").textContent = h.e;
+    $("#stAns").textContent = ""; $("#stSent").textContent = ""; $("#stHint").textContent = "";
+    $("#stRound").textContent = "Round "+stRound;
+    if(!$("#stDots").children.length){ $("#stDots").innerHTML = "<i></i><i></i><i></i><i></i><i></i>"; }
+    stPaint();
+  }
+  $("#stClearer").addEventListener("click", function(){ stStep=Math.min(stStep+1,4); stPaint(); });
+  $("#stHintBtn").addEventListener("click", function(){
+    var h=stItems[stPos];
+    $("#stHint").textContent = h.n.split("").map(function(c,i){ return i===0 ? c : (c===" " ? "\u00A0\u00A0" : "_"); }).join(" ");
+  });
+  $("#stAnsBtn").addEventListener("click", function(){
+    var h=stItems[stPos]; stStep=4; stPaint();
+    $("#stAns").textContent = h.v+" "+h.n;
+    $("#stSent").textContent = "I "+h.v+" "+h.n+". / She "+THIRD[h.v]+" "+h.n+".";
+    $("#stHint").textContent = "";
+  });
+  $("#stNext").addEventListener("click", function(){ stPos++; if(stPos>=stItems.length){ stPos=0; stItems=shuffle(H); } stRound++; stRender(); });
+
+  /* ---------- 2 sort ---------- */
+  var soItems = shuffle(H.filter(function(h){return h.s;})), soPos=0, soScore=0, soTot=0, soLock=false;
+  function soRender(){
+    var h=soItems[soPos]; soLock=false;
+    $("#soEmoji").textContent=h.e; $("#soNoun").textContent=h.n; $("#soFr").textContent=h.f;
+    $("#soPhr").innerHTML="";
+    $$("#soBtns .vb").forEach(function(b){ b.classList.remove("good","bad"); });
+  }
+  $$("#soBtns .vb").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(soLock) return; soLock=true; soTot++;
+      var h=soItems[soPos], ok = b.dataset.v===h.v;
+      if(ok){ soScore++; b.classList.add("good"); }
+      else{ b.classList.add("bad"); $$("#soBtns .vb").forEach(function(x){ if(x.dataset.v===h.v) x.classList.add("good"); }); }
+      $("#soScore").textContent = soScore+" / "+soTot;
+      $("#soPhr").innerHTML = '<b>I '+h.v+' '+h.n+'.</b><br>She <b>'+THIRD[h.v]+'</b> '+h.n+'.';
+    });
+  });
+  $("#soNext").addEventListener("click", function(){ soPos++; if(soPos>=soItems.length){ soPos=0; soItems=shuffle(soItems); } soRender(); });
+
+  /* ---------- 3 listening ---------- */
+  var L = [
+    {n:"Priya",cls:"a1",pitch:1.2,vi:0,
+     txt:"Hi! I'm Priya. My favourite hobby is badminton. I play badminton every Saturday with my sister. I don't like swimming. It is boring.",
+     who:"with her sister",
+     qs:[{q:"Favourite hobby",o:["badminton","tennis","table tennis"],a:"badminton"},
+         {q:"Does not like",o:["swimming","running","cycling"],a:"swimming"},
+         {q:"When?",o:["every Saturday","every Sunday","every day"],a:"every Saturday"}]},
+    {n:"Leo",cls:"a2",pitch:.85,vi:1,
+     txt:"Hello, I'm Leo. My favourite hobby is cycling. I go cycling with my dad every Sunday. I never play video games. I hate them!",
+     who:"with his dad",
+     qs:[{q:"Favourite hobby",o:["hiking","skating","cycling"],a:"cycling"},
+         {q:"Does not like",o:["chess","video games","cards"],a:"video games"},
+         {q:"When?",o:["every Saturday","every Sunday","every day"],a:"every Sunday"}]},
+    {n:"Hana",cls:"a3",pitch:1.05,vi:2,
+     txt:"Hi, my name is Hana. I do karate with my friends on Mondays and Wednesdays. It is my favourite hobby. I sometimes play the piano, but I don't like it very much.",
+     who:"with her friends",
+     qs:[{q:"Favourite hobby",o:["yoga","karate","gymnastics"],a:"karate"},
+         {q:"Does not like",o:["the guitar","the piano","the violin"],a:"the piano"},
+         {q:"When?",o:["Mondays and Wednesdays","Tuesdays and Thursdays","every day"],a:"Mondays and Wednesdays"}]}
+  ];
+  var lsScore=0, lsSlow=false;
+  function lsRender(){
+    var html="";
+    L.forEach(function(p,pi){
+      html+='<div class="lcard '+p.cls+'"><div class="lhead"><span class="av">'+p.n.charAt(0)+'</span><b>'+p.n+'</b><button class="say" type="button" data-p="'+pi+'">&#128266; Play</button></div>';
+      p.qs.forEach(function(q,qi){
+        html+='<div class="lq"><span class="lab">'+q.q+'</span><div class="grp" data-p="'+pi+'" data-q="'+qi+'">'+
+          shuffle(q.o).map(function(o){ return '<button class="opt" type="button" data-o="'+esc(o)+'">'+esc(o)+'</button>'; }).join("")+'</div></div>';
+      });
+      html+='<div class="script" hidden>'+esc(p.txt)+'</div></div>';
+    });
+    $("#lsCards").innerHTML = html;
+    lsScore=0; $("#lsScore").textContent="0 / 9";
+    $$("#lsCards .say").forEach(function(b){
+      b.addEventListener("click", function(){
+        var p=L[parseInt(b.dataset.p,10)];
+        if(!speak(p.txt, lsSlow?0.65:0.88, p.pitch, p.vi)){
+          $("#lsStatus").textContent="No audio here. Tap Show scripts and read it aloud.";
+        }
+      });
+    });
+    $$("#lsCards .grp").forEach(function(g){
+      var tries=0, done=false;
+      $$(".opt",g).forEach(function(b){
+        b.addEventListener("click", function(){
+          if(done) return; tries++;
+          var q=L[parseInt(g.dataset.p,10)].qs[parseInt(g.dataset.q,10)];
+          if(b.dataset.o===q.a){
+            done=true; b.classList.add("good");
+            $$(".opt",g).forEach(function(x){ if(x!==b) x.disabled=true; });
+            if(tries===1){ lsScore++; $("#lsScore").textContent=lsScore+" / 9"; }
+          } else { b.classList.add("bad"); b.disabled=true; }
+        });
+      });
+    });
+    applyScripts();
+  }
+  function applyScripts(){
+    var on = $("#lsScripts").getAttribute("aria-pressed")==="true";
+    $$("#lsCards .script").forEach(function(s){ s.hidden=!on; });
+  }
+  $("#lsSlow").addEventListener("click", function(){ lsSlow=!lsSlow; this.setAttribute("aria-pressed", lsSlow?"true":"false"); });
+  $("#lsScripts").addEventListener("click", function(){ var on=this.getAttribute("aria-pressed")==="true"; this.setAttribute("aria-pressed", on?"false":"true"); applyScripts(); });
+  $("#lsWho").addEventListener("click", function(){
+    var el=$("#lsWhoAns"); var show = el.style.display==="none";
+    el.style.display = show ? "inline" : "none";
+    el.textContent = L.map(function(p){ return p.n+": "+p.who; }).join("   |   ");
+    this.textContent = show ? "Hide answers" : "Show answers";
+  });
+  if(!TTS){ $("#lsStatus").textContent="No audio in this browser. Scripts are shown so you can read them aloud."; $("#lsScripts").setAttribute("aria-pressed","true"); }
+
+  /* ---------- 4 speaking ---------- */
+  var wItems = [], wRot = 0, spinning = false, wPicked = null;
+  var WCOL = ["--coral","--violet","--teal","--cobalt","--amber","--magenta","--coral","--teal"];
+  function pol(r,deg){ var a=deg*Math.PI/180; return [200+r*Math.sin(a), 200-r*Math.cos(a)]; }
+  function wheelBuild(){
+    wItems = shuffle(H).slice(0,8); wPicked=null;
+    var g=$("#wheelG"), html="";
+    wItems.forEach(function(h,i){
+      var a0=i*45, a1=(i+1)*45, p0=pol(190,a0), p1=pol(190,a1), pm=pol(128,a0+22.5);
+      html+='<path d="M200 200 L'+p0[0].toFixed(2)+' '+p0[1].toFixed(2)+' A190 190 0 0 1 '+p1[0].toFixed(2)+' '+p1[1].toFixed(2)+' Z" style="fill:var('+WCOL[i]+');stroke:var(--card);stroke-width:4"/>';
+      html+='<text x="'+pm[0].toFixed(2)+'" y="'+(pm[1]+16).toFixed(2)+'" text-anchor="middle" font-size="46">'+h.e+'</text>';
+    });
+    g.style.transition="none"; wRot=0; g.style.transform="rotate(0deg)"; g.innerHTML=html;
+    void g.getBoundingClientRect(); g.style.transition="";
+    $("#spinRes").innerHTML='<span class="muted">Spin the wheel to get a hobby.</span>';
+    $("#spinQs").innerHTML="";
+  }
+  function showPick(h){
+    $("#spinRes").innerHTML='<span class="em">'+h.e+'</span><div><div class="big" style="font-size:2.4rem">'+h.v+' '+h.n+'</div><div class="fr">'+h.f+'</div></div>';
+    var qs=[
+      {lv:"Level 1",q:"Do you like "+h.l+"?",an:"Yes, I do. / No, I don't. / I love it!",kind:"rise",c:"var(--teal)"},
+      {lv:"Level 2",q:"How often do you "+h.v+" "+h.n+"?",an:"I usually ... / I never ... / I ... every ...",kind:"fall",c:"var(--cobalt)"},
+      {lv:"Level 3",q:"Who do you "+h.v+" "+h.n+" with?",an:"I ... with my ... because ...",kind:"fall",c:"var(--magenta)"}
+    ];
+    $("#spinQs").innerHTML = qs.map(function(x,i){
+      return '<div class="qrow" style="--c:'+x.c+'"><span class="lv">'+x.lv+'</span><span class="q">'+esc(x.q)+'</span><button class="say" type="button" data-say="'+esc(x.q)+'">&#128266;</button><span class="an">'+esc(x.an)+'</span></div>';
+    }).join("");
+    $$("#spinQs .say").forEach(bindSay);
+  }
+  function bindSay(b){ b.addEventListener("click", function(){ speak(b.dataset.say, .8, 1, 0); }); }
+  function spin(){
+    if(spinning || !wItems.length) return; spinning=true;
+    $("#spinBtn").disabled=true;
+    wRot += 1440 + Math.floor(Math.random()*360);
+    $("#wheelG").style.transform="rotate("+wRot+"deg)";
+    setTimeout(function(){
+      var a=((360-(wRot%360))%360), idx=Math.floor(a/45)%8;
+      wPicked=wItems[idx]; showPick(wPicked); spinning=false; $("#spinBtn").disabled=false; beep(660,.15);
+    }, 4300);
+  }
+  $("#spinBtn").addEventListener("click", spin);
+  $("#wheelShuffle").addEventListener("click", function(){ if(!spinning) wheelBuild(); });
+  $("#inton").innerHTML = [
+    {s:"Do you like swimming?",k:"rise",t:"yes / no question: up"},
+    {s:"How often do you go cycling?",k:"fall",t:"question word: down"},
+    {s:"Yes, I do.",k:"fall",t:"answer: down"}
+  ].map(function(x){
+    return '<div class="ito '+x.k+'">'+pitch(x.k)+'<div class="s">'+x.s+'<div class="mini">'+x.t+'</div></div><button class="say sk-speak" type="button" data-say="'+x.s+'">&#128266;</button></div>';
+  }).join("");
+  $$("#inton .say").forEach(bindSay);
+
+  /* ---------- 5 reading ---------- */
+  var KAI = "Kai is twelve and he lives in Singapore. He {o:loves} sport. He {p:plays badminton} every Saturday and he {p:goes swimming} on Sundays. He {f:always} {p:does his homework} first, and then he {p:plays video games} with his cousin. He {f:sometimes} reads comics too. Kai {o:doesn't like} cooking because it is messy, and he {f:never} {p:goes shopping}. His sister Mei is different. She {f:usually} draws or {p:plays the piano} at home. She {o:hates} running! On Sunday evenings, the family {f:often} {p:goes cycling} in the park.";
+  function words(str){
+    return str.split(/(\s+)/).map(function(w){ return (w===""||/^\s+$/.test(w)) ? w : '<span class="w">'+esc(w)+'</span>'; }).join("");
+  }
+  (function(){
+    var out=[], re=/\{([fpo]):([^}]+)\}/g, last=0, m;
+    while((m=re.exec(KAI))){
+      out.push(words(KAI.slice(last,m.index)));
+      out.push('<span class="w tk" data-c="'+m[1]+'">'+esc(m[2])+'</span>');
+      last=re.lastIndex;
+    }
+    out.push(words(KAI.slice(last)));
+    $("#kai").innerHTML = out.join("");
+    var G=[["lives","habite"],["cousin","cousin"],["comics","des BD"],["messy","en désordre"],["different","différent"],["hates","déteste"],["evenings","les soirs"]];
+    $("#glos").innerHTML = G.map(function(g){ return '<span><b>'+g[0]+'</b> = '+g[1]+'</span>'; }).join("");
+  })();
+  var tapMode="f", TOT={f:5,p:7,o:3};
+  function tapCount(){
+    var found = $$('#kai .tk[data-c="'+tapMode+'"].found').length;
+    $("#tapScore").textContent = found+" / "+TOT[tapMode];
+  }
+  $("#kai").addEventListener("click", function(e){
+    var w = e.target.closest(".w"); if(!w) return;
+    if(w.classList.contains("tk") && w.dataset.c===tapMode){ w.classList.add("found"); tapCount(); }
+    else{ w.classList.add("flash"); setTimeout(function(){ w.classList.remove("flash"); },500); }
+  });
+  $$("#tapTabs .subtab").forEach(function(b){
+    b.addEventListener("click", function(){
+      $$("#tapTabs .subtab").forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+      b.setAttribute("aria-pressed","true"); tapMode=b.dataset.m; $("#kai").dataset.mode=tapMode; tapCount();
+    });
+  });
+  $("#readAloud").addEventListener("click", function(){
+    var plain = KAI.replace(/\{[fpo]:([^}]+)\}/g,"$1");
+    if(!speak(plain,.85,1,0)){ this.textContent="No audio here"; }
+  });
+  var TF=[["Kai lives in Singapore.",true],["Kai plays badminton on Sundays.",false],["Kai always does his homework first.",true],["Kai likes cooking.",false],["Mei loves running.",false],["The family goes cycling on Sunday evenings.",true]];
+  var tfScore=0;
+  $("#tf").innerHTML = TF.map(function(r,i){
+    return '<div class="tfrow" data-i="'+i+'"><span>'+(i+1)+'. '+esc(r[0])+'</span><button class="opt" data-a="1" type="button">True</button><button class="opt" data-a="0" type="button">False</button></div>';
+  }).join("");
+  $$("#tf .tfrow").forEach(function(row){
+    var tries=0, done=false;
+    $$(".opt",row).forEach(function(b){
+      b.addEventListener("click", function(){
+        if(done) return; tries++;
+        var ok = (b.dataset.a==="1") === TF[parseInt(row.dataset.i,10)][1];
+        if(ok){ done=true; b.classList.add("good"); row.classList.add("good"); if(tries===1){ tfScore++; $("#tfScore").textContent=tfScore+" / 6"; } $$(".opt",row).forEach(function(x){ if(x!==b) x.disabled=true; }); }
+        else{ b.classList.add("bad"); b.disabled=true; }
+      });
+    });
+  });
+  $("#rdShow").addEventListener("click", function(){
+    var box=$("#rdExt"), on=box.classList.toggle("show-ans");
+    this.textContent = on ? "Hide answers" : "Model answers";
+  });
+
+  /* ---------- 6 writing ---------- */
+  $("#wLadder").innerHTML = FREQ.map(function(f){ return '<span class="mini"><b>'+f[0]+'</b> '+f[1]+'</span>'; }).join('<span class="mini">&middot;</span>');
+  $("#wrShow").addEventListener("click", function(){
+    var on=$("#wgrid").classList.toggle("show-ans");
+    this.setAttribute("aria-pressed", on?"true":"false");
+    this.textContent = on ? "Hide answers" : "Model answers";
+  });
+  $$("#tiers .subtab").forEach(function(b){
+    b.addEventListener("click", function(){
+      $$("#tiers .subtab").forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+      b.setAttribute("aria-pressed","true");
+      $$(".tierpane").forEach(function(p){ p.classList.toggle("on", p.dataset.t===b.dataset.t); });
+    });
+  });
+
+  /* ---------- 7 wrap-up ---------- */
+  var TT_DEFAULT = ["I play the guitar every day.","I never go swimming.","I do yoga on Sundays."];
+  var lieIdx = 1, guessIdx = -1, revealed = false;
+  function ttBuild(){
+    var box=$("#tt");
+    var texts = $$("#tt .txt").map(function(t){ return t.textContent; });
+    box.innerHTML=""; guessIdx=-1; revealed=false;
+    for(var i=0;i<3;i++){
+      (function(i){
+        var d=document.createElement("div"); d.className="tcard sk-fun";
+        d.innerHTML='<span class="no">'+(i+1)+'</span><div class="txt" contenteditable="true" spellcheck="false">'+esc(texts[i]||TT_DEFAULT[i])+'</div><div style="display:flex;flex-direction:column;gap:.3rem;align-items:flex-end"><span class="stamp"></span><button class="btn sm guessb" type="button">Guess: lie</button><button class="btn sm setlie" type="button" aria-pressed="false">Lock: is the lie</button></div>';
+        box.appendChild(d);
+        $(".guessb",d).addEventListener("click", function(){
+          if(revealed) return; guessIdx=i;
+          $$("#tt .tcard").forEach(function(x,k){ x.classList.toggle("guess", k===i); });
+        });
+        $(".setlie",d).addEventListener("click", function(){
+          lieIdx=i; $$("#tt .setlie").forEach(function(x,k){ x.setAttribute("aria-pressed", k===i?"true":"false"); });
+        });
+      })(i);
+    }
+    $$("#tt .setlie")[lieIdx].setAttribute("aria-pressed","true");
+  }
+  ttBuild();
+  $("#ttReveal").addEventListener("click", function(){
+    revealed=true;
+    $$("#tt .tcard").forEach(function(d,i){
+      d.classList.remove("guess","istrue","islie");
+      void d.offsetWidth;
+      d.classList.add(i===lieIdx ? "islie":"istrue");
+      $(".stamp",d).textContent = (i===lieIdx) ? "LIE!" : "TRUE";
+    });
+    beep(i2(guessIdx===lieIdx),.4);
+  });
+  function i2(ok){ return ok ? 988 : 220; }
+  $("#ttReset").addEventListener("click", ttBuild);
+
+  var CAN=["use play, go and do","say how often","ask and answer questions","write about other people"];
+  var ST=["?","Not yet","Nearly","Yes!"];
+  $("#exit").innerHTML = CAN.map(function(c,i){ return '<div class="exrow"><span>I can '+c+'.</span><button class="st" data-s="0" type="button">?</button></div>'; }).join("");
+  $$("#exit .st").forEach(function(b){
+    b.addEventListener("click", function(){ var s=(parseInt(b.dataset.s,10)+1)%4; b.dataset.s=s; b.textContent=ST[s]; });
+  });
+
+  $("#team").innerHTML = ["Team A","Team B"].map(function(n){
+    return '<div class="tmc sk-fun"><span class="nm" contenteditable="true" spellcheck="false">'+n+'</span><span class="pt">0</span><span class="pm"><button class="btn sm" data-d="-1" type="button">-1</button><button class="btn sm primary" data-d="1" type="button">+1</button></span></div>';
+  }).join("");
+  $$("#team .tmc").forEach(function(c){
+    var pt=$(".pt",c), n=0;
+    $$(".pm .btn",c).forEach(function(b){ b.addEventListener("click", function(){ n=Math.max(0,n+parseInt(b.dataset.d,10)); pt.textContent=n; }); });
+  });
+
+  /* ---------- boot ---------- */
+  stRender(); soRender(); lsRender(); wheelBuild(); tapCount();
+  var m=/^#s([0-7])$/.exec(location.hash||"");
+  go(m ? parseInt(m[1],10) : 0);
+})();
+</script>
+
+</body></html>
