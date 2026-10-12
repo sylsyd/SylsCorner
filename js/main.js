@@ -3,7 +3,8 @@ const classSummary = { '6LVA': 'Unit 1 and games are ready.', '6SI': 'Week 2 res
 
 const sections = [
   ['01', '≋', 'lessons', 'Lessons', 'Lessons', 'Lesson activities, unit materials and classroom learning in one place.', 'Unit 1 ready'],
-  ['02', '◇', 'resources', 'Resources', 'Resources', 'Extra materials, useful links and class activities.', 'Resources available']
+  ['02', '▱', 'unit-2', 'Unit 2', 'A Monster Calls', 'Enter the world of A Monster Calls.', 'Introduction ready'],
+  ['03', '◇', 'resources', 'Resources', 'Resources', 'Extra materials, useful links and class activities.', 'Resources available']
 ];
 
 const safe = value => value.replace(/[&<>"']/g, character => ({
@@ -14,6 +15,7 @@ const panels = document.getElementById('panels');
 const tabs = [...document.querySelectorAll('.tab')];
 
 function destinationFor(className, slug) {
+  if (slug === 'unit-2') return '/amonstercalls';
   if (slug === 'lessons' && className === '6LVA') return '6lva-unit-1.html';
   if (slug === 'lessons' && className === '6SI') return '6si-unit-1.html';
   if (slug === 'lessons' && className === '5SI') return '5si-unit-1.html';
@@ -21,6 +23,7 @@ function destinationFor(className, slug) {
 }
 
 function actionLabel(slug, isUnit) {
+  if (slug === 'unit-2') return 'Open Unit 2';
   if (isUnit) return 'Open Unit 1';
   return slug === 'lessons' ? 'Open lessons' : 'Open resources';
 }
@@ -29,10 +32,10 @@ panels.innerHTML = classes.map((className, index) => `
   <section class="panel ${index ? '' : 'active'}" id="panel-${className}" role="tabpanel" aria-labelledby="tab-${className}" ${index ? 'hidden' : ''}>
     <div class="class-heading">
       <h2>${safe(className)} <span>— this week</span></h2>
-      <p class="weekly-summary">${classSummary[className]} · two places to go</p>
+      <p class="weekly-summary">${classSummary[className]} · ${className === '5SI' ? 'three' : 'two'} places to go</p>
     </div>
     <div class="grid">
-      ${sections.map((section, sectionIndex) => {
+      ${sections.filter(section => section[2] !== 'unit-2' || className === '5SI').map((section, sectionIndex) => {
         const [number, icon, slug, label, title, defaultDescription, defaultStatus] = section;
         const isUnit = slug === 'lessons' && (className === '6LVA' || className === '6SI' || className === '5SI');
         const hasGames = slug === 'resources' && (className === '6LVA' || className === '5SI');
@@ -50,7 +53,7 @@ panels.innerHTML = classes.map((className, index) => `
         const status = hasGames ? classSummary[className] : isUnit ? classSummary[className] : defaultStatus;
         return `
           <article class="card card-${sectionIndex + 1}">
-            <div class="topline"><span class="card-number">${number}</span><span class="icon" aria-hidden="true">${icon}</span></div>
+            <div class="topline"><span class="card-number">${String(sectionIndex + 1).padStart(2, '0')}</span><span class="icon" aria-hidden="true">${icon}</span></div>
             <div class="card-title"><p class="eyebrow">${label}</p><h3>${title}</h3></div>
             <p class="copy">${description}</p>
             <div class="card-action"><p class="status"><span class="dot"></span>${status}</p><a class="card-link" href="${destinationFor(className, slug)}">${actionLabel(slug, isUnit)} <span aria-hidden="true">→</span></a></div>

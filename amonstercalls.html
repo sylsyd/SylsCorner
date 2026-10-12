@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Unit 2: A Monster Calls.">
+  <title>A Monster Calls | Unit 2</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; background: #000; }
+    main { width: 100%; height: 100vh; height: 100svh; overflow: hidden; }
+    .intro-video { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+  </style>
+</head>
+<body>
+  <main aria-labelledby="unit-title">
+    <h1 class="sr-only" id="unit-title">Unit 2: A Monster Calls</h1>
+    <!-- The introduction is a non-interactive cover for now. -->
+    <video class="intro-video" autoplay muted loop playsinline preload="auto"
+      poster="/assets/amonstercalls/intro-poster.jpg" aria-label="A Monster Calls introduction"
+      disablepictureinpicture disableremoteplayback>
+      <source src="/assets/amonstercalls/intro.mp4" type="video/mp4">
+      Your browser does not support this video.
+    </video>
+  </main>
+</body>
+</html>
