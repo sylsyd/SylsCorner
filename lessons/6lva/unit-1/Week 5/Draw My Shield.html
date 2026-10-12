@@ -1,0 +1,455 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Draw My Shield</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fredoka:wght@500;600;700&display=swap">
+<style>
+/* Layout: one full-height classroom board. Top: stage tabs. Middle: the stage. Bottom: timer and tools.
+   Palette: heraldic tinctures (the same colours the class learned in Lesson 2) used as stage codes. */
+:root{
+  --bg:#F3F5F9; --panel:#FFFFFF; --ink:#101A33; --muted:#4D5877; --line:#CBD3E4; --soft:#E7ECF6;
+  --azure:#1F4FA3; --vert:#1B7A48; --or:#E2A400; --or-ink:#2A1F00; --gules:#C8102E; --purpure:#6A3D9A; --sable:#2B2D3A;
+  --ok:#1B7A48; --warn:#B45309; --onc:#FFFFFF;
+  --display:'Fredoka',system-ui,'Segoe UI',sans-serif;
+  --body:'Atkinson Hyperlegible',system-ui,'Segoe UI',sans-serif;
+  --scale:1;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1426; --panel:#18203A; --ink:#EEF2FC; --muted:#A9B4D2; --line:#34406A; --soft:#222C4E;
+  --azure:#6C95E8; --vert:#4CC186; --or:#F2B705; --gules:#F0566B; --purpure:#B38AE6; --sable:#C9CEE2;
+  --ok:#4CC186; --warn:#F2A64A; --onc:#0E1426; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1426; --panel:#18203A; --ink:#EEF2FC; --muted:#A9B4D2; --line:#34406A; --soft:#222C4E;
+  --azure:#6C95E8; --vert:#4CC186; --or:#F2B705; --gules:#F0566B; --purpure:#B38AE6; --sable:#C9CEE2;
+  --ok:#4CC186; --warn:#F2A64A; --onc:#0E1426; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:calc(18px*var(--scale));line-height:1.45;overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--azure);outline-offset:2px}
+#app{height:100%;display:grid;grid-template-rows:auto 1fr auto;min-width:0}
+
+/* top bar */
+#top{display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--panel);border-bottom:2px solid var(--line);min-width:0}
+#brand{font-family:var(--display);font-weight:700;font-size:1.15em;white-space:nowrap}
+#brand small{display:block;font-family:var(--body);font-weight:400;font-size:.62em;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+#tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px;min-width:0;flex:1;scrollbar-width:thin}
+.tab{flex:0 0 auto;border:2px solid var(--line);background:var(--panel);border-radius:12px;padding:6px 12px;display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;min-width:104px}
+.tab b{font-family:var(--display);font-weight:600;font-size:.95em}
+.tab span{font-size:.72em;color:var(--muted);font-variant-numeric:tabular-nums}
+.tab[aria-current="true"]{background:var(--c);border-color:var(--c);color:var(--onc)}
+.tab[aria-current="true"] span{color:inherit;opacity:.9}
+.tab[data-tone="dark"][aria-current="true"]{color:var(--or-ink)}
+.tab .bar{height:4px;border-radius:2px;background:var(--c);width:100%;margin-top:4px}
+.tab[aria-current="true"] .bar{background:rgba(255,255,255,.55)}
+
+/* stage */
+#stage{overflow:auto;padding:20px clamp(16px,3vw,40px) 24px;min-height:0}
+.wrap{max-width:1500px;margin:0 auto;display:grid;gap:18px;align-content:start}
+.head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.chip{display:inline-block;background:var(--c);color:var(--onc);font-family:var(--display);font-weight:600;border-radius:999px;padding:4px 16px;font-size:.9em}
+.chip.dark{color:var(--or-ink)}
+h1{font-family:var(--display);font-weight:700;font-size:2.1em;line-height:1.1;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:600;font-size:1.3em;margin:0 0 6px}
+.lead{font-size:1.25em;margin:0}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px;align-items:start}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:16px 20px;min-width:0}
+.card.tint{border-color:var(--c)}
+.big{font-size:1.5em;line-height:1.5}
+.frame b,.frame .w{color:var(--c)}
+.blank{display:inline-block;min-width:3.2em;border-bottom:3px solid var(--ink);margin:0 .15em;vertical-align:baseline}
+.goal{display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+.goal:last-child{border-bottom:0}
+.goal i{flex:0 0 auto;width:2.1em;height:2.1em;border-radius:50%;display:grid;place-items:center;background:var(--c);color:var(--onc);font-style:normal;font-family:var(--display);font-weight:700}
+.fr{display:none;color:var(--muted);font-style:italic}
+body.showfr .fr{display:inline}
+body.showfr div.fr,body.showfr p.fr{display:block}
+.tn{display:none;border:2px dashed var(--warn);border-radius:14px;padding:12px 16px;background:var(--panel)}
+.tn h3{margin:0 0 4px;font-family:var(--display);color:var(--warn);font-size:1em;text-transform:uppercase;letter-spacing:.06em}
+body.showtn .tn{display:block}
+.tn p,.tn ul{margin:4px 0}
+.tn ul{padding-left:1.2em}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:2px solid var(--line);background:var(--panel);border-radius:12px;padding:8px 16px;font-weight:700}
+.btn:hover{border-color:var(--ink)}
+.btn.pri{background:var(--c,var(--azure));border-color:var(--c,var(--azure));color:var(--onc)}
+.btn.pri.dark{color:var(--or-ink)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.map{display:grid;gap:8px}
+.mrow{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;border:2px solid var(--line);border-radius:12px;padding:8px 14px;background:var(--panel)}
+.mrow .dot{width:16px;height:16px;border-radius:50%;background:var(--c)}
+.mrow .t{font-variant-numeric:tabular-nums;color:var(--muted)}
+.mats{display:flex;gap:10px;flex-wrap:wrap;margin:0;padding:0;list-style:none}
+.mats li{border:2px solid var(--line);border-radius:999px;padding:4px 14px;background:var(--panel)}
+
+/* shield drawings */
+svg.shield{width:100%;height:auto;max-height:40vh;display:block;margin:0 auto}
+.q{cursor:pointer}
+.q rect{fill:transparent}
+.q:hover rect,.q:focus rect{fill:color-mix(in srgb,var(--c) 18%,transparent)}
+.q.sel rect{fill:color-mix(in srgb,var(--c) 14%,transparent)}
+.qlabel{font-family:var(--display);font-weight:700;font-size:.2px;fill:var(--ink);text-anchor:middle;pointer-events:none}
+.cover{fill:var(--soft);stroke:var(--line)}
+.cover-t{font-family:var(--display);font-weight:700;font-size:.55px;fill:var(--muted);text-anchor:middle;pointer-events:none}
+.said{font-family:var(--display);font-weight:700;font-size:2.4em;text-align:center;min-height:1.2em;color:var(--c)}
+.pillrow{display:flex;gap:10px;flex-wrap:wrap}
+.pill{border:2px solid var(--line);border-radius:999px;padding:4px 14px;background:var(--panel);font-weight:700}
+.pill.on{background:var(--c);color:var(--onc);border-color:var(--c)}
+.pill.on.dark{color:var(--or-ink)}
+.sw{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.sw div{border-radius:12px;padding:8px 12px;font-weight:700;border:2px solid var(--ink);line-height:1.2}
+.sw small{display:block;font-weight:400}
+.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ph{border:3px solid var(--line);border-radius:14px;padding:10px 14px;background:var(--panel);opacity:.7}
+.ph.now{opacity:1;border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--panel))}
+.ph.done{opacity:.55}
+.ph b{font-family:var(--display);font-size:1.05em;display:block}
+.ph span{font-size:.85em;color:var(--muted)}
+.rule{display:flex;gap:12px;align-items:center;font-size:1.2em;padding:6px 0}
+.rule i{flex:0 0 auto;font-style:normal;font-family:var(--display);font-weight:700;background:var(--c);color:var(--onc);border-radius:10px;padding:2px 12px}
+.check{display:grid;gap:8px}
+.check label{display:flex;gap:12px;align-items:center;font-size:1.2em;border:2px solid var(--line);border-radius:12px;padding:8px 14px;background:var(--panel);cursor:pointer}
+.check input{width:1.4em;height:1.4em;accent-color:var(--c)}
+.alert{font-weight:700;color:var(--gules)}
+
+/* bottom bar */
+#bottom{display:flex;align-items:center;gap:12px;padding:8px 16px;background:var(--panel);border-top:2px solid var(--line);flex-wrap:wrap;min-width:0}
+#timerbox{display:flex;align-items:center;gap:10px}
+#clock{font-family:var(--display);font-weight:700;font-size:2.2em;font-variant-numeric:tabular-nums;min-width:3.1em;text-align:center;line-height:1}
+#clock.low{color:var(--gules)}
+#clock.done{animation:pulse 1s steps(2) infinite;color:var(--gules)}
+@keyframes pulse{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){#clock.done{animation:none}}
+#prog{flex:1 1 140px;height:10px;border-radius:5px;background:var(--soft);overflow:hidden;min-width:80px}
+#prog i{display:block;height:100%;width:0;background:var(--c)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.tools .btn{padding:6px 12px}
+#hint{width:100%;font-size:.72em;color:var(--muted)}
+
+/* word bank drawer */
+#drawer{position:fixed;right:0;top:0;bottom:0;width:min(440px,100%);background:var(--panel);border-left:3px solid var(--ink);padding:18px 20px;overflow:auto;transform:translateX(105%);transition:transform .2s;z-index:20}
+#drawer.open{transform:none}
+@media (prefers-reduced-motion:reduce){#drawer{transition:none}}
+#drawer h2{margin-top:14px}
+#drawer .x{float:right}
+@media (max-width:640px){
+  body{overflow-x:hidden;overflow-y:auto}
+  #app{height:auto;min-height:100%}
+  #stage{overflow:visible}
+  h1{font-size:1.6em}
+  .phases{grid-template-columns:1fr}
+}
+</style>
+
+<div id="app">
+  <header id="top">
+    <div id="brand">Draw my shield<small>6LVA · Coat of Arms · Lesson 4</small></div>
+    <nav id="tabs" aria-label="Lesson stages"></nav>
+  </header>
+  <main id="stage" tabindex="-1"></main>
+  <footer id="bottom">
+    <div id="timerbox">
+      <div id="clock" aria-live="off">00:00</div>
+      <button class="btn pri" id="tgo" data-a="toggle">Start</button>
+      <button class="btn" data-a="reset" aria-label="Reset timer">Reset</button>
+      <button class="btn" data-a="plus">+1 min</button>
+    </div>
+    <div id="prog" aria-hidden="true"><i></i></div>
+    <div class="tools">
+      <button class="btn" data-a="prev" aria-label="Previous stage">&larr;</button>
+      <button class="btn" data-a="next" aria-label="Next stage">&rarr;</button>
+      <button class="btn" data-a="fr" id="bfr" aria-pressed="false">Français</button>
+      <button class="btn" data-a="tn" id="btn" aria-pressed="false">Teacher notes</button>
+      <button class="btn" data-a="wb">Word bank</button>
+      <button class="btn" data-a="smaller" aria-label="Smaller text">A-</button>
+      <button class="btn" data-a="bigger" aria-label="Bigger text">A+</button>
+      <button class="btn" data-a="theme" id="bth">Theme</button>
+      <button class="btn" data-a="full">Full screen</button>
+    </div>
+    <div id="hint">Keys: ← → stages · Space timer · F Français · T teacher notes · W word bank · + / − text size</div>
+  </footer>
+</div>
+
+<aside id="drawer" aria-label="Word bank">
+  <button class="btn x" data-a="wb">Close</button>
+  <h2 style="margin-top:0">Word bank</h2>
+  <h2>Positions</h2>
+  <div class="pillrow" id="wbpos"></div>
+  <h2>Pictures</h2>
+  <div class="pillrow" id="wbpic"></div>
+  <h2>Colours and meanings</h2>
+  <div class="sw" id="wbcol"></div>
+  <h2>Sentences</h2>
+  <p>What is in the <b>top left</b>?<br>There is a <b>star</b> in the <b>top left</b>.<br>What <b>colour</b> is it?<br>In the top left, I drew a ____ because ____.<br>I like the ____ in the ____. I think it means ____.</p>
+</aside>
+
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---------- helpers ---------- */
+function fr(t){return '<span class="fr"> ('+t+')</span>'}
+function frb(t){return '<div class="fr">'+t+'</div>'}
+function blank(){return '<span class="blank"></span>'}
+
+/* ---------- shield drawing ---------- */
+var SH='M-1 -1 H1 V-0.1 C1 0.55 0.5 0.95 0 1.25 C-0.5 0.95 -1 0.55 -1 -0.1 Z';
+var QC={tl:[-0.5,-0.58],tr:[0.5,-0.58],bl:[-0.5,0.4],br:[0.5,0.4]};
+var QN={tl:'top left',tr:'top right',bl:'bottom left',br:'bottom right'};
+var QF={tl:'en haut à gauche',tr:'en haut à droite',bl:'en bas à gauche',br:'en bas à droite'};
+var QR={tl:[-1,-1,1,0.85],tr:[0,-1,1,0.85],bl:[-1,-0.15,1,1.5],br:[0,-0.15,1,1.5]};
+function starPts(cx,cy,s){var p=[],i,r,a;for(i=0;i<10;i++){r=i%2===0?s:s*0.42;a=-Math.PI/2+i*Math.PI/5;p.push((cx+r*Math.cos(a)).toFixed(3)+','+(cy+r*Math.sin(a)).toFixed(3))}return p.join(' ')}
+var SHAPE={
+ star:function(x,y,s){return '<polygon points="'+starPts(x,y,s)+'" fill="#F2B705" stroke="#222" stroke-width=".025"/>'},
+ heart:function(x,y,s){return '<path transform="translate('+x+' '+y+') scale('+s/16+')" d="M0 12 C-18 -2 -10 -16 0 -6 C10 -16 18 -2 0 12Z" fill="#E8262D" stroke="#222" stroke-width=".9"/>'},
+ sun:function(x,y,s){var r='',i;for(i=0;i<12;i++){var a=i*Math.PI/6;r+='<line x1="'+(x+s*.75*Math.cos(a)).toFixed(3)+'" y1="'+(y+s*.75*Math.sin(a)).toFixed(3)+'" x2="'+(x+s*1.15*Math.cos(a)).toFixed(3)+'" y2="'+(y+s*1.15*Math.sin(a)).toFixed(3)+'" stroke="#F28C28" stroke-width=".04" stroke-linecap="round"/>'}return r+'<circle cx="'+x+'" cy="'+y+'" r="'+s*.65+'" fill="#F2B705" stroke="#222" stroke-width=".025"/>'},
+ moon:function(x,y,s){return '<circle cx="'+x+'" cy="'+y+'" r="'+s*.95+'" fill="#2B4BA8" stroke="#222" stroke-width=".025"/><circle cx="'+(x+s*.45)+'" cy="'+(y-s*.2)+'" r="'+s*.8+'" fill="#fff"/>'},
+ tree:function(x,y,s){return '<rect x="'+(x-s*.12)+'" y="'+(y+s*.2)+'" width="'+s*.24+'" height="'+s*.7+'" fill="#8B5A2B" stroke="#222" stroke-width=".025"/><polygon points="'+(x-s*.7)+','+(y+s*.2)+' '+(x+s*.7)+','+(y+s*.2)+' '+x+','+(y-s*.95)+'" fill="#2E8B57" stroke="#222" stroke-width=".025"/>'},
+ fish:function(x,y,s){return '<polygon points="'+(x+s*.6)+','+y+' '+(x+s*1.1)+','+(y-s*.45)+' '+(x+s*1.1)+','+(y+s*.45)+'" fill="#F28C28" stroke="#222" stroke-width=".025"/><ellipse cx="'+x+'" cy="'+y+'" rx="'+s*.75+'" ry="'+s*.45+'" fill="#2B8FD6" stroke="#222" stroke-width=".025"/><circle cx="'+(x-s*.4)+'" cy="'+(y-s*.1)+'" r="'+s*.09+'" fill="#111"/>'},
+ house:function(x,y,s){return '<rect x="'+(x-s*.65)+'" y="'+(y-s*.3)+'" width="'+s*1.3+'" height="'+s+'" fill="#E8262D" stroke="#222" stroke-width=".025"/><polygon points="'+(x-s*.8)+','+(y-s*.3)+' '+(x+s*.8)+','+(y-s*.3)+' '+x+','+(y-s)+'" fill="#6A3D9A" stroke="#222" stroke-width=".025"/><rect x="'+(x-s*.15)+'" y="'+(y+s*.15)+'" width="'+s*.3+'" height="'+s*.55+'" fill="#F2B705" stroke="#222" stroke-width=".02"/>'},
+ ball:function(x,y,s){var p=[],i,l='';for(i=0;i<5;i++){var a=-Math.PI/2+i*2*Math.PI/5;p.push((x+s*.32*Math.cos(a)).toFixed(3)+','+(y+s*.32*Math.sin(a)).toFixed(3));l+='<line x1="'+(x+s*.32*Math.cos(a)).toFixed(3)+'" y1="'+(y+s*.32*Math.sin(a)).toFixed(3)+'" x2="'+(x+s*.7*Math.cos(a)).toFixed(3)+'" y2="'+(y+s*.7*Math.sin(a)).toFixed(3)+'" stroke="#111" stroke-width=".03"/>'}return '<circle cx="'+x+'" cy="'+y+'" r="'+s*.85+'" fill="#fff" stroke="#111" stroke-width=".035"/><polygon points="'+p.join(' ')+'" fill="#111"/>'+l},
+ lion:function(x,y,s){return '<circle cx="'+x+'" cy="'+y+'" r="'+s*1.05+'" fill="#C98A00" stroke="#222" stroke-width=".03"/><circle cx="'+x+'" cy="'+y+'" r="'+s*.72+'" fill="#F2B705" stroke="#222" stroke-width=".03"/><circle cx="'+(x-s*.26)+'" cy="'+(y-s*.15)+'" r="'+s*.08+'" fill="#222"/><circle cx="'+(x+s*.26)+'" cy="'+(y-s*.15)+'" r="'+s*.08+'" fill="#222"/><ellipse cx="'+x+'" cy="'+(y+s*.1)+'" rx="'+s*.14+'" ry="'+s*.1+'" fill="#222"/><path d="M'+(x-s*.22)+' '+(y+s*.3)+' Q'+x+' '+(y+s*.5)+' '+(x+s*.22)+' '+(y+s*.3)+'" stroke="#222" stroke-width=".03" fill="none"/>'},
+ happystar:function(x,y,s){return '<polygon points="'+starPts(x,y,s*1.15)+'" fill="#F2B705" stroke="#222" stroke-width=".03"/><circle cx="'+(x-s*.2)+'" cy="'+(y-s*.05)+'" r="'+s*.07+'" fill="#222"/><circle cx="'+(x+s*.2)+'" cy="'+(y-s*.05)+'" r="'+s*.07+'" fill="#222"/><path d="M'+(x-s*.2)+' '+(y+s*.18)+' Q'+x+' '+(y+s*.4)+' '+(x+s*.2)+' '+(y+s*.18)+'" stroke="#222" stroke-width=".03" fill="none"/>'},
+ book:function(x,y,s){return '<polygon points="'+x+','+(y-s*.45)+' '+(x-s*.95)+','+(y-s*.7)+' '+(x-s*.95)+','+(y+s*.5)+' '+x+','+(y+s*.75)+'" fill="#2B4BA8" stroke="#222" stroke-width=".03"/><polygon points="'+x+','+(y-s*.45)+' '+(x+s*.95)+','+(y-s*.7)+' '+(x+s*.95)+','+(y+s*.5)+' '+x+','+(y+s*.75)+'" fill="#6A9BE8" stroke="#222" stroke-width=".03"/>'}
+};
+function shieldSVG(o){
+  o=o||{};var id=o.id||'s'+Math.random().toString(36).slice(2,6);
+  var inner='',k;
+  inner+='<defs><clipPath id="'+id+'c"><path d="'+SH+'"/></clipPath></defs>';
+  inner+='<path d="'+SH+'" fill="#fff" stroke="#222" stroke-width=".05"/>';
+  if(o.items){for(k in o.items){var it=o.items[k],c=QC[k];inner+=SHAPE[it](c[0],c[1],0.3)}}
+  inner+='<g clip-path="url(#'+id+'c)">';
+  if(o.covers){for(k in o.covers){if(o.covers[k]){var r=QR[k];inner+='<rect class="cover" x="'+r[0]+'" y="'+r[1]+'" width="'+r[2]+'" height="'+r[3]+'" stroke-width=".02"/><text class="cover-t" x="'+QC[k][0]+'" y="'+(QC[k][1]+0.2)+'">?</text>'}}}
+  inner+='</g>';
+  inner+='<line x1="0" y1="-1" x2="0" y2="1.25" stroke="#222" stroke-width=".035"/><line x1="-1" y1="-0.15" x2="1" y2="-0.15" stroke="#222" stroke-width=".035"/>';
+  inner+='<path d="'+SH+'" fill="none" stroke="#222" stroke-width=".05"/>';
+  if(o.labels){for(k in QC){inner+='<text class="qlabel" x="'+QC[k][0]+'" y="'+(QC[k][1]+0.06)+'" style="font-size:.2px">'+QN[k].replace(' ',' ')+'</text>'}}
+  if(o.hit){inner+='<g clip-path="url(#'+id+'c)">';for(k in QR){var h=QR[k];inner+='<g class="q" data-q="'+k+'" tabindex="0" role="button" aria-label="'+QN[k]+'"><rect x="'+h[0]+'" y="'+h[1]+'" width="'+h[2]+'" height="'+h[3]+'"/></g>'}inner+='</g>'}
+  return '<svg class="shield" viewBox="-1.12 -1.12 2.24 2.5" role="img" aria-label="'+(o.alt||'shield with four sections')+'" style="--c:'+(o.c||'var(--azure)')+'">'+inner+'</svg>';
+}
+
+/* ---------- data ---------- */
+var STAGES=[
+ {id:'plan',name:'Plan',min:0,c:'var(--ink)',dark:false},
+ {id:'now',name:'Do Now',min:5,c:'var(--azure)',dark:false},
+ {id:'pos',name:'Positions',min:3,c:'var(--vert)',dark:false},
+ {id:'game',name:'Where is it?',min:7,c:'var(--or)',dark:true},
+ {id:'draw',name:'Draw',min:30,c:'var(--gules)',dark:false},
+ {id:'gal',name:'Gallery walk',min:5,c:'var(--purpure)',dark:false},
+ {id:'exit',name:'Exit ticket',min:5,c:'var(--sable)',dark:false}
+];
+var POS=['top left','top right','bottom left','bottom right','in the middle'];
+var POSF=['en haut à gauche','en haut à droite','en bas à gauche','en bas à droite','au milieu'];
+var PICS=['star','heart','sun','moon','tree','fish','house','football','book','lion','crown','guitar','ball','flower','cat','dog'];
+var COLS=[['gold','generous','#F2B705','#2A1F00'],['white','peace','#FFFFFF','#101A33'],['red','strength','#C8102E','#fff'],['blue','truth, loyalty','#1F4FA3','#fff'],['green','hope, joy','#1B7A48','#fff'],['purple','royal','#6A3D9A','#fff']];
+var DEMO={
+ 1:{tl:'star',tr:'heart',bl:'sun',br:'moon',txt:{tl:'star (gold)',tr:'heart (red)',bl:'sun (orange and yellow)',br:'moon (blue)'}},
+ 2:{tl:'tree',tr:'fish',bl:'house',br:'ball',txt:{tl:'tree (green and brown)',tr:'fish (blue and orange)',bl:'house (red, purple roof)',br:'football (black and white)'}}
+};
+
+/* ---------- state ---------- */
+var S={i:0,rem:{},run:false,tick:null,showFr:false,showTn:false,round:1,revealed:{},selPos:null,key:false,checks:{}};
+STAGES.forEach(function(s){S.rem[s.id]=s.min*60});
+function cur(){return STAGES[S.i]}
+
+/* ---------- stage renderers ---------- */
+function head(st,title,sub){return '<div class="head"><span class="chip'+(st.dark?' dark':'')+'" style="--c:'+st.c+'">'+st.name+(st.min?' · '+st.min+' min':'')+'</span><h1>'+title+'</h1></div>'+(sub||'')}
+function tn(html){return '<div class="tn"><h3>Teacher notes</h3>'+html+'</div>'}
+
+var R={};
+R.plan=function(st){
+ var goals=[
+  ['Say where things are: <b>top left, top right, bottom left, bottom right</b>.',frb('Dire où sont les choses.')],
+  ['Ask and answer: <b>What is in the top left? There is a star in the top left.</b>',frb('Poser et répondre à une question.')],
+  ['Draw my shield: <b>4 pictures, no words</b>.',frb('Dessiner mon blason : 4 images, pas de mots.')],
+  ['Talk about a shield: <b>I like the ____ in the ____.</b>',frb('Parler d’un blason.')]];
+ var rows=[['Do Now',5,'var(--azure)'],['Positions',3,'var(--vert)'],['Where is it? (game)',7,'var(--or)'],['Draw my shield',30,'var(--gules)'],['Gallery walk',5,'var(--purpure)'],['Exit ticket',5,'var(--sable)']];
+ var t=0;
+ return head(st,'Draw my shield',fr0('Today I can...','Aujourd’hui, je sais...'))+
+ '<div class="cols"><div class="card" style="--c:var(--azure)">'+goals.map(function(g,i){return '<div class="goal"><i>'+(i+1)+'</i><div class="big" style="font-size:1.25em">'+g[0]+g[1]+'</div></div>'}).join('')+'</div>'+
+ '<div class="card"><h2>Lesson map (55 min)</h2><div class="map">'+rows.map(function(r){t+=r[1];return '<div class="mrow" style="--c:'+r[2]+'"><span class="dot"></span><span>'+r[0]+'</span><span class="t">'+r[1]+' min</span></div>'}).join('')+'</div>'+
+ '<h2 style="margin-top:14px">Get ready'+fr('Préparez-vous')+'</h2><ul class="mats"><li>A3 shield</li><li>pencil</li><li>rubber</li><li>coloured pencils</li><li>my plan from Lesson 3</li></ul></div></div>'+
+ tn('<p>Hand back the Lesson 3 planning sheets and the A3 outlines (L4_A3_Shield_Outline.pdf) as students arrive. Only 4 lessons remain, so the shield must be nearly finished today. Unfinished colouring goes home.</p><p>Tabs at the top jump between stages. The timer for each stage keeps its own time.</p>');
+};
+function fr0(en,f){return '<p class="lead">'+en+fr(f)+'</p>'}
+
+R.now=function(st){
+ var lines=[['top left','tl'],['top right','tr'],['bottom left','bl'],['bottom right','br']];
+ return head(st,'Look at your plan from Lesson 3. Complete.',null)+
+ '<div class="cols"><div class="card tint frame" style="--c:'+st.c+'">'+
+ lines.map(function(l,i){return '<div class="big">'+(i+1)+'. In the <span class="w">'+l[0]+'</span>, I drew a '+blank()+'.</div>'}).join('')+
+ frb('Regardez votre plan de la leçon 3. Complétez.')+
+ '<p class="lead" style="margin-top:12px"><b>Finished?</b> Add: I drew it <b>because</b> '+blank()+'.'+fr('parce que')+'</p></div>'+
+ '<div class="card" style="--c:'+st.c+'">'+shieldSVG({labels:true,id:'now',c:st.c,alt:'shield with the four positions'})+'</div></div>'+
+ tn('<p>5 minutes alone. Accept any real picture word and the correct position. Reject top left for top right. Students use their own Lesson 3 plan, so answers differ.</p><p>Tier A may only write the picture word. Tier C adds because.</p>');
+};
+
+R.pos=function(st){
+ var chosen=S.selPos;
+ return head(st,'Positions',frb('Les positions'))+
+ '<div class="cols"><div class="card" style="--c:'+st.c+'">'+shieldSVG({hit:true,labels:true,id:'pos',c:st.c,alt:'tap a section to hear its position'})+
+ '<div class="said" id="said" style="--c:'+st.c+'">'+(chosen?QN[chosen]:'Tap a section')+'</div>'+
+ '<div id="saidfr" class="fr" style="text-align:center">'+(chosen?QF[chosen]:'')+'</div>'+
+ '<div class="btnrow" style="justify-content:center"><button class="btn pri" style="--c:'+st.c+'" data-a="rand">Random: Point to...</button><button class="btn" data-a="say">Say it again</button></div></div>'+
+ '<div class="card" style="--c:'+st.c+'"><h2>Say it, point, repeat</h2>'+
+ POS.map(function(p,i){return '<div class="rule" style="--c:'+st.c+'"><i>'+(i+1)+'</i><span><b>'+p+'</b>'+fr(POSF[i])+'</span></div>'}).join('')+
+ '<p class="big" style="margin-top:10px">Where is the star? <b>It is in the top left.</b></p></div></div>'+
+ tn('<ul><li>3 minutes. Tap a section, say the position, the class repeats, then points with a finger on their own sheet or desk.</li><li>"Random: Point to..." picks a position at random. Use it as a quick whole class drill, then do it again faster.</li><li>The voice button uses the browser’s built in voice. Try it on the classroom machine first.</li></ul>');
+};
+
+R.game=function(st){
+ var d=DEMO[S.round],sel=S.selPos;
+ var covers={tl:!S.revealed.tl,tr:!S.revealed.tr,bl:!S.revealed.bl,br:!S.revealed.br};
+ var items={tl:d.tl,tr:d.tr,bl:d.bl,br:d.br};
+ var ans=sel&&S.revealed[sel]?'There is a '+d.txt[sel].replace(/ \(.*/,'')+' in the '+QN[sel]+'.':'';
+ var colourAns=sel&&S.revealed[sel]?'It is '+(d.txt[sel].match(/\((.*)\)/)||['',''])[1]+'.':'';
+ var keyBlock=S.key?'<div class="card" style="--c:'+st.c+'"><h2>Pair answer key</h2><p><b>Round 1:</b> top left star (gold), top right heart (red), bottom left sun (orange, yellow), bottom right moon (blue). A sees top left and bottom right. B sees top right and bottom left.</p><p><b>Round 2:</b> top left tree (green, brown), top right fish (blue, orange), bottom left house (red, purple roof), bottom right football (black, white). A sees top right and bottom left. B sees top left and bottom right.</p><p>1 point for each right picture in the right section. 2 per round.</p></div>':'';
+ return head(st,'Where is it?',frb('Où est-ce ?'))+
+ '<div class="cols"><div class="card tint" style="--c:'+st.c+'"><h2>Pairs. Cut page 2 in half. A and B have different pages.</h2>'+
+ ['<b>Ask:</b> What is in the <b>top right</b>?','<b>Answer:</b> There is a <b>heart</b> in the <b>top right</b>.','<b>Ask:</b> What <b>colour</b> is it? <b>Answer:</b> It is <b>red</b>.','<b>Draw</b> it and <b>colour</b> it. Then compare. 1 point for each right picture.'].map(function(t,i){return '<div class="rule" style="--c:var(--or-ink);"><i style="background:var(--or);color:var(--or-ink)">'+(i+1)+'</i><span>'+t+'</span></div>'}).join('')+
+ frb('Posez la question, dessinez, coloriez, puis comparez. Ne regardez pas la feuille de votre partenaire !')+
+ '<p class="alert">Do NOT look at your partner’s page!</p></div>'+
+ '<div class="card" style="--c:'+st.c+'"><h2>Class demo: I know, you ask'+fr('Démonstration')+'</h2>'+
+ '<div class="btnrow" style="margin-bottom:6px"><button class="btn" data-a="round1" aria-pressed="'+(S.round===1)+'">Round 1</button><button class="btn" data-a="round2" aria-pressed="'+(S.round===2)+'">Round 2</button><button class="btn" data-a="hideall">Cover again</button></div>'+
+ '<div class="said" style="font-size:1.4em;min-height:2.6em;color:var(--ink)">'+(sel?'What is in the '+QN[sel]+'?':'Class: ask "What is in the ... ?"')+'<br><span style="color:var(--ink);font-weight:700">'+ans+' '+colourAns+'</span></div>'+
+ shieldSVG({items:items,covers:covers,hit:true,id:'game'+S.round,c:st.c,alt:'covered shield, tap a section to reveal'})+'</div>'+keyBlock+'</div>'+
+ tn('<p>7 minutes. First 2 minutes: demo with the covered shield. A student asks, you tap that section, the class says the answer sentence and the colour. Then pairs play 2 rounds on page 2.</p><div class="btnrow"><button class="btn" data-a="key">'+(S.key?'Hide':'Show')+' pair answer key</button></div><p>Score: 1 point per correct picture in the right section, 2 per round per student. Colour is asked and said but not scored.</p>');
+};
+
+R.draw=function(st){
+ var rem=S.rem.draw,el=st.min*60-rem,ph=el<600?0:(el<1200?1:2);
+ var phases=[['Pencil first','4 pictures in the 4 sections. Big and clear.','0 to 10 min'],['Add detail','Make each picture clear. Check you can say 4 sentences.','10 to 20 min'],['Colour','Use my 2 colours. Keep to my plan.','20 to 30 min']];
+ return head(st,'Draw my shield',frb('Dessinez votre blason'))+
+ '<div class="phases">'+phases.map(function(p,i){return '<div class="ph'+(i===ph?' now':(i<ph?' done':''))+'" style="--c:'+st.c+'"><b>'+(i+1)+'. '+p[0]+'</b><span>'+p[2]+'</span><div>'+p[1]+'</div></div>'}).join('')+'</div>'+
+ '<div class="cols"><div class="card tint" style="--c:'+st.c+'">'+
+ '<div class="rule" style="--c:'+st.c+'"><i>1</i><span>Pictures only. <span class="alert">NO words</span> on the shield.'+fr('Pas de mots')+'</span></div>'+
+ '<div class="rule" style="--c:'+st.c+'"><i>2</i><span>Follow my plan from Lesson 3. Pencil first.'+fr('Au crayon d’abord')+'</span></div>'+
+ '<div class="rule" style="--c:'+st.c+'"><i>3</i><span>Use my 2 colours. Each colour has a meaning.'+fr('Chaque couleur a un sens')+'</span></div>'+
+ '<div class="rule" style="--c:'+st.c+'"><i>4</i><span>I can say: <b>In the top left, I drew a ... because ...</b></span></div>'+
+ '<h2 style="margin-top:12px">Colour meanings</h2><div class="sw">'+COLS.map(function(c){return '<div style="background:'+c[2]+';color:'+c[3]+'">'+c[0]+'<small>'+c[1]+'</small></div>'}).join('')+'</div></div>'+
+ '<div class="card" style="--c:'+st.c+'"><h2>Model shield: Leo'+fr('Exemple')+'</h2>'+shieldSVG({items:{tl:'lion',tr:'ball',bl:'happystar',br:'book'},id:'model',alt:'model shield with a lion, a football, a happy star and a book'})+
+ '<p style="margin:6px 0 0">Top left: a lion, because my name is <b>L</b>eo. Top right: a football, because it is fun. Bottom left: a star, because I feel excited. Bottom right: a book, because I love adventure stories.</p></div></div>'+
+ '<div class="card"><b>Finished early?</b> Add a border pattern in your 2 colours, or write your 4 sentences on the back of your plan.'+fr('Fini ? Ajoutez une bordure ou écrivez vos 4 phrases.')+'</div>'+
+ tn('<p>30 minutes. Checkpoints (lesson minute): 25 = every student has 4 pictures in pencil. 35 = colour starts. 45 = stop. The timer highlights the current phase automatically.</p><p><b>Conference stems (talk to every student at least once):</b></p><ul><li><b>Tier A:</b> What is this? What colour is it? Recast: "It is a red ball."</li><li><b>Tier B:</b> Where is it? Why this picture? (expect "because it is fun")</li><li><b>Tier C:</b> Why this colour? What does it mean? (a Lesson 2 meaning or a personal reason)</li></ul><p>Watch for: beautiful drawing, no talk. Words written on the shield (only the motto ribbon holds words next lesson). Anyone behind at 45 minutes: finish at home, check 4 pictures are sketched first.</p>');
+};
+
+R.gal=function(st){
+ return head(st,'Gallery walk',frb('Visite des blasons'))+
+ '<div class="cols"><div class="card tint" style="--c:'+st.c+'">'+
+ ['Leave your shield on your desk.','Walk quietly. Look at 4 or 5 shields.','Choose one shield you like.','Tell your partner:'].map(function(t,i){return '<div class="rule" style="--c:'+st.c+'"><i>'+(i+1)+'</i><span>'+t+'</span></div>'}).join('')+
+ '<div class="big frame" style="--c:'+st.c+';margin-top:6px">I like the '+blank()+' in the <span class="w">top left</span>.<br>It is '+blank()+' (colour).<br>I think it means '+blank()+'.</div></div>'+
+ '<div class="card" style="--c:'+st.c+'"><h2>Help'+fr('Aide')+'</h2><p class="big" style="font-size:1.25em">Tier A: I like the ball. It is red.<br>Tier B: I like the ball in the top right. It is red.<br>Tier C: I like the ball in the top right because it is fun. I think it means energy.</p>'+
+ '<div class="pillrow">'+POS.slice(0,4).map(function(p){return '<span class="pill on" style="--c:'+st.c+'">'+p+'</span>'}).join('')+'</div></div></div>'+
+ tn('<p>5 minutes. Shields on desks. Students move in pairs. Listen for position words and "because". This is a speaking warm-up for the presentation, so correct gently by recasting.</p><p>No music needed; walking quietly keeps the volume low.</p>');
+};
+
+R.exit=function(st){
+ var ck=[['position','The position is right: top left, top right, bottom left or bottom right.'],['picture','The picture word is real (with a / an).'],['because','The reason after because makes sense.']];
+ return head(st,'Exit ticket',frb('Ticket de sortie'))+
+ '<div class="cols"><div class="card tint frame" style="--c:'+st.c+'"><h2>Write about your own shield. Alone. <span class="fr"> (3 points)</span></h2>'+
+ '<div class="big">In the '+blank()+', I drew a '+blank()+' because '+blank()+'.</div>'+
+ '<p class="lead" style="margin-top:12px">Choose any section of <b>your</b> shield.'+fr('Choisissez une partie de votre blason.')+'</p></div>'+
+ '<div class="card" style="--c:'+st.c+'"><h2>Check my sentence (3 marks)</h2><div class="check">'+ck.map(function(c){return '<label><input type="checkbox" data-ck="'+c[0]+'"'+(S.checks[c[0]]?' checked':'')+'><span>'+c[1]+'</span></label>'}).join('')+'</div></div></div>'+
+ '<div class="card"><b>Hand in</b> your A3 shield and this ticket. <b>Homework:</b> finish colouring. Next lesson: motto and 4 caption sentences.'+fr('Devoir : finir de colorier.')+'</div>'+
+ tn('<p>5 minutes alone. Marks: 1 correct position word, 1 real picture word with a / an, 1 sensible reason after because. Tier A may use the frame word for word. Small spelling slips are fine.</p><p>Collect A3 shields and tickets. Check that everyone has 4 pictures sketched, then colour at home.</p>');
+};
+
+/* ---------- render ---------- */
+function renderTabs(){
+ $('#tabs').innerHTML=STAGES.map(function(s,i){var t=s.min?s.min+' min':'intro';return '<button class="tab" data-go="'+i+'" data-tone="'+(s.dark?'dark':'')+'" style="--c:'+s.c+'" '+(i===S.i?'aria-current="true"':'')+'><b>'+s.name+'</b><span>'+t+'</span><i class="bar"></i></button>'}).join('');
+}
+function render(){
+ var st=cur();
+ document.documentElement.style.setProperty('--c',st.c);
+ $('#stage').innerHTML='<div class="wrap">'+R[st.id](st)+'</div>';
+ renderTabs();updateClock();
+ var tb=$('#timerbox');tb.style.visibility=st.min?'visible':'hidden';$('#prog').style.visibility=st.min?'visible':'hidden';
+ var cl=$('#tabs [aria-current]');if(cl&&cl.scrollIntoView){try{cl.scrollIntoView({block:'nearest',inline:'center'})}catch(e){}}
+}
+function fmt(n){var m=Math.floor(n/60),s=n%60;return (m<10?'0':'')+m+':'+(s<10?'0':'')+s}
+function updateClock(){
+ var st=cur(),rem=S.rem[st.id],c=$('#clock');
+ c.textContent=fmt(Math.max(0,rem));
+ c.className=rem<=0&&st.min?'done':(rem<=60&&st.min?'low':'');
+ var tot=st.min*60;$('#prog i').style.width=tot?(100*(tot-rem)/tot)+'%':'0';
+ var g=$('#tgo');g.textContent=S.run?'Pause':'Start';
+ if(st.id==='draw'){var host=$('.phases');if(host){var el=tot-rem,ph=el<600?0:(el<1200?1:2);$$('.ph',host).forEach(function(n,i){n.className='ph'+(i===ph?' now':(i<ph?' done':''))})}}
+}
+function beep(){
+ try{var A=window.AudioContext||window.webkitAudioContext;if(!A)return;var a=new A(),o=a.createOscillator(),g=a.createGain();o.frequency.value=880;g.gain.value=.15;o.connect(g);g.connect(a.destination);o.start();setTimeout(function(){o.stop();a.close()},700)}catch(e){}
+}
+function stop(){S.run=false;if(S.tick){clearInterval(S.tick);S.tick=null}}
+function start(){
+ var st=cur();if(!st.min)return;
+ if(S.rem[st.id]<=0)S.rem[st.id]=st.min*60;
+ S.run=true;S.tick=setInterval(function(){
+  var s=cur();S.rem[s.id]-=1;if(S.rem[s.id]<=0){S.rem[s.id]=0;stop();beep()}
+  updateClock();
+ },1000);updateClock();
+}
+function go(i){stop();S.i=Math.max(0,Math.min(STAGES.length-1,i));S.selPos=null;render()}
+function say(t){try{var u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.8;window.speechSynthesis.cancel();window.speechSynthesis.speak(u)}catch(e){}}
+
+/* ---------- word bank ---------- */
+$('#wbpos').innerHTML=POS.map(function(p,i){return '<span class="pill">'+p+'<span class="fr"> · '+POSF[i]+'</span></span>'}).join('');
+$('#wbpic').innerHTML=PICS.map(function(p){return '<span class="pill">'+p+'</span>'}).join('');
+$('#wbcol').innerHTML=COLS.map(function(c){return '<div style="background:'+c[2]+';color:'+c[3]+'">'+c[0]+'<small>'+c[1]+'</small></div>'}).join('');
+
+/* ---------- events ---------- */
+function setFr(on){S.showFr=on;document.body.classList.toggle('showfr',on);$('#bfr').setAttribute('aria-pressed',on);store.set('l4fr',on?'1':'0')}
+function setTn(on){S.showTn=on;document.body.classList.toggle('showtn',on);$('#btn').setAttribute('aria-pressed',on)}
+function setScale(d){var v=parseFloat(store.get('l4scale')||'1');v=Math.max(.8,Math.min(1.6,Math.round((v+d)*10)/10));document.documentElement.style.setProperty('--scale',v);store.set('l4scale',String(v))}
+function setTheme(t){if(t==='auto'){document.documentElement.removeAttribute('data-theme')}else{document.documentElement.setAttribute('data-theme',t)}$('#bth').textContent='Theme: '+t;store.set('l4theme',t)}
+function cycleTheme(){var t=store.get('l4theme')||'auto';setTheme(t==='auto'?'light':(t==='light'?'dark':'auto'))}
+function toggleDrawer(){$('#drawer').classList.toggle('open')}
+function rand(){var k=Object.keys(QN)[Math.floor(Math.random()*4)];S.selPos=k;var el=$('#said');if(el){el.textContent='Point to the '+QN[k]+'!';$('#saidfr').textContent='Montrez '+QF[k]+' !'}say('Point to the '+QN[k]);$$('.q').forEach(function(n){n.classList.toggle('sel',n.getAttribute('data-q')===k)})}
+function pickQ(k){
+ var st=cur();
+ if(st.id==='pos'){S.selPos=k;$('#said').textContent=QN[k];$('#saidfr').textContent=QF[k];say(QN[k]);$$('.q').forEach(function(n){n.classList.toggle('sel',n.getAttribute('data-q')===k)})}
+ else if(st.id==='game'){S.selPos=k;S.revealed[k]=true;var p=S.stageScroll=$('#stage').scrollTop;render();$('#stage').scrollTop=p}
+}
+document.addEventListener('click',function(e){
+ var t=e.target.closest('[data-a],[data-go],[data-q]');if(!t)return;
+ if(t.hasAttribute('data-go')){go(+t.getAttribute('data-go'));return}
+ if(t.hasAttribute('data-q')){pickQ(t.getAttribute('data-q'));return}
+ var a=t.getAttribute('data-a');
+ if(a==='toggle'){S.run?stop():start();updateClock()}
+ else if(a==='reset'){stop();var s=cur();S.rem[s.id]=s.min*60;updateClock()}
+ else if(a==='plus'){var s2=cur();if(s2.min){S.rem[s2.id]+=60;updateClock()}}
+ else if(a==='prev')go(S.i-1);else if(a==='next')go(S.i+1);
+ else if(a==='fr')setFr(!S.showFr);else if(a==='tn')setTn(!S.showTn);
+ else if(a==='wb')toggleDrawer();
+ else if(a==='smaller')setScale(-.1);else if(a==='bigger')setScale(.1);
+ else if(a==='theme')cycleTheme();
+ else if(a==='full'){try{var p=document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();if(p&&p.catch)p.catch(function(){})}catch(err){}}
+ else if(a==='rand')rand();
+ else if(a==='say'){if(S.selPos)say(QN[S.selPos])}
+ else if(a==='round1'){S.round=1;S.revealed={};S.selPos=null;render()}
+ else if(a==='round2'){S.round=2;S.revealed={};S.selPos=null;render()}
+ else if(a==='hideall'){S.revealed={};S.selPos=null;render()}
+ else if(a==='key'){S.key=!S.key;render()}
+});
+document.addEventListener('change',function(e){var k=e.target.getAttribute&&e.target.getAttribute('data-ck');if(k)S.checks[k]=e.target.checked});
+document.addEventListener('keydown',function(e){
+ if(e.target.matches&&e.target.matches('input,textarea'))return;
+ if(e.key==='Enter'||e.key===' '){var q=e.target.closest&&e.target.closest('.q');if(q){e.preventDefault();pickQ(q.getAttribute('data-q'));return}}
+ if(e.key==='ArrowRight')go(S.i+1);
+ else if(e.key==='ArrowLeft')go(S.i-1);
+ else if(e.key===' '&&!(e.target.matches&&e.target.matches('button'))){e.preventDefault();S.run?stop():start();updateClock()}
+ else if(e.key==='f'||e.key==='F')setFr(!S.showFr);
+ else if(e.key==='t'||e.key==='T')setTn(!S.showTn);
+ else if(e.key==='w'||e.key==='W')toggleDrawer();
+ else if(e.key==='+'||e.key==='=')setScale(.1);
+ else if(e.key==='-'||e.key==='_')setScale(-.1);
+ else if(e.key==='Escape')$('#drawer').classList.remove('open');
+});
+
+/* ---------- init ---------- */
+(function(){var v=store.get('l4scale');if(v)document.documentElement.style.setProperty('--scale',v);var th=store.get('l4theme')||'auto';setTheme(th);if(store.get('l4fr')==='1')setFr(true)})();
+render();
+})();
+</script>
+
+</body></html>
