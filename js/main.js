@@ -15,7 +15,7 @@ const panels = document.getElementById('panels');
 const tabs = [...document.querySelectorAll('.tab')];
 
 function destinationFor(className, slug) {
-  if (slug === 'unit-2') return '/amonstercalls';
+  if (slug === 'unit-2') return className === '6SI' ? '/holes' : '/amonstercalls';
   if (slug === 'lessons' && className === '6LVA') return '6lva-unit-1.html';
   if (slug === 'lessons' && className === '6SI') return '6si-unit-1.html';
   if (slug === 'lessons' && className === '5SI') return '5si-unit-1.html';
@@ -32,10 +32,10 @@ panels.innerHTML = classes.map((className, index) => `
   <section class="panel ${index ? '' : 'active'}" id="panel-${className}" role="tabpanel" aria-labelledby="tab-${className}" ${index ? 'hidden' : ''}>
     <div class="class-heading">
       <h2>${safe(className)} <span>— this week</span></h2>
-      <p class="weekly-summary">${classSummary[className]} · ${className === '5SI' ? 'three' : 'two'} places to go</p>
+      <p class="weekly-summary">${classSummary[className]} · ${className !== '6LVA' ? 'three' : 'two'} places to go</p>
     </div>
     <div class="grid">
-      ${sections.filter(section => section[2] !== 'unit-2' || className === '5SI').map((section, sectionIndex) => {
+      ${sections.filter(section => section[2] !== 'unit-2' || className !== '6LVA').map((section, sectionIndex) => {
         const [number, icon, slug, label, title, defaultDescription, defaultStatus] = section;
         const isUnit = slug === 'lessons' && (className === '6LVA' || className === '6SI' || className === '5SI');
         const hasGames = slug === 'resources' && (className === '6LVA' || className === '5SI');
@@ -49,12 +49,12 @@ panels.innerHTML = classes.map((className, index) => `
             ? className === '5SI'
               ? 'Find Venus Walk under the Games tab.'
               : 'Find the First Week English Games collection under the Games tab.'
-            : defaultDescription;
+            : slug === 'unit-2' && className === '6SI' ? 'Enter Camp Green Lake. Explore the unit and start Week 1.' : defaultDescription;
         const status = hasGames ? classSummary[className] : isUnit ? classSummary[className] : defaultStatus;
         return `
           <article class="card card-${sectionIndex + 1}">
             <div class="topline"><span class="card-number">${String(sectionIndex + 1).padStart(2, '0')}</span><span class="icon" aria-hidden="true">${icon}</span></div>
-            <div class="card-title"><p class="eyebrow">${label}</p><h3>${title}</h3></div>
+            <div class="card-title"><p class="eyebrow">${label}</p><h3>${slug === 'unit-2' && className === '6SI' ? 'Holes' : title}</h3></div>
             <p class="copy">${description}</p>
             <div class="card-action"><p class="status"><span class="dot"></span>${status}</p><a class="card-link" href="${destinationFor(className, slug)}">${actionLabel(slug, isUnit)} <span aria-hidden="true">→</span></a></div>
           </article>
