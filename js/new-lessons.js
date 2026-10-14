@@ -165,6 +165,14 @@
   lessons["6si-6-materials"] = {"items":[["iwb","Interactive activity","Year 7 &#183; Worth the Risk? &#183; Lesson 1 &#183; Reading the Column","Open the classroom material.","lessons/6si/unit-1/Week%206/Y7_Worth_the_Risk_L1_Reading_the_Column_IWB%20%281%29.html"],["iwb","Interactive activity","Year 7 &#183; Worth the Risk? &#183; Lesson 2 &#183; The Student Council","Open the classroom material.","lessons/6si/unit-1/Week%206/Y7_Worth_the_Risk_L2_Student_Council_IWB%20%281%29.html"]],"title":"Week 6 materials","intro":"Classroom activities and student materials."};
   lessons["6lva-5-materials"] = {"items":[["iwb","Interactive activity","Draw My Shield","Open the classroom material.","lessons/6lva/unit-1/Week%205/Draw%20My%20Shield.html"],["iwb","Interactive activity","Plan My Shield","Open the classroom material.","lessons/6lva/unit-1/Week%205/Plan%20My%20Shield.html"]],"title":"Week 5 materials","intro":"Classroom activities and student materials."};
   lessons["5si-6-materials"].items.push(["iwb", "Interactive activity", "After Twenty Years", "Explore the story through close-reading activities.", "lessons/5si/unit-1/Week%206/AfterTwentyYears_CloseReading_IWB.html"]);
+  lessons["5si-6-materials"].items.push(
+    ["worksheet", "Reading PDF", "After Twenty Years", "Read the story alongside the close-reading activity.", "lessons/5si/unit-1/Week%206/After_Twenty_Years.pdf"],
+    ["iwb", "Interactive activity", "Comparing Two Stories", "Compare The Open Window and After Twenty Years.", "lessons/5si/unit-1/Week%206/Compare_OpenWindow_AfterTwentyYears_IWB%20%281%29.html"]
+  );
+  lessons["6si-6-materials"].items.push(
+    ["iwb", "Interactive activity", "Final Rehearsal: Call to Adventure", "Work through Lesson 1 of the Hero's Journey final rehearsal.", "lessons/6si/unit-1/Week%206/Y7_Hero_Journey_Final_Rehearsal_L1_Call_to_Adventure_IWB%20%282%29.html"],
+    ["iwb", "Interactive activity", "Final Rehearsal: Into the Unknown", "Work through Lesson 2 of the Hero's Journey final rehearsal.", "lessons/6si/unit-1/Week%206/Into-the-Unknown-IWB.html"]
+  );
   const params = new URLSearchParams(location.search);
   const key = `${params.get("class")}-${params.get("week")}-${params.get("lesson")}`;
   const lesson = lessons[key];
