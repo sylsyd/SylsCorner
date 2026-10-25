@@ -1,5 +1,5 @@
 const classes = ['6LVA', '6SI', '5SI'];
-const classSummary = { '6LVA': 'Unit 1 and games are ready.', '6SI': 'Week 2 resources are ready.', '5SI': 'Week 2 resources are ready.' };
+const classSummary = { '6LVA': 'Irish Legends Week 1 is ready.', '6SI': 'Holes Week 1 activities are ready.', '5SI': 'A Monster Calls Week 1 activities are ready.' };
 
 const sections = [
   ['01', '≋', 'lessons', 'Lessons', 'Lessons', 'Lesson activities, unit materials and classroom learning in one place.', 'Unit 1 ready'],
@@ -15,7 +15,7 @@ const panels = document.getElementById('panels');
 const tabs = [...document.querySelectorAll('.tab')];
 
 function destinationFor(className, slug) {
-  if (slug === 'unit-2') return className === '6SI' ? '/holes' : '/amonstercalls';
+  if (slug === 'unit-2') return { '6LVA': 'irishlegends.html', '6SI': '/holes', '5SI': '/amonstercalls' }[className];
   if (slug === 'lessons' && className === '6LVA') return '6lva-unit-1.html';
   if (slug === 'lessons' && className === '6SI') return '6si-unit-1.html';
   if (slug === 'lessons' && className === '5SI') return '5si-unit-1.html';
@@ -32,10 +32,10 @@ panels.innerHTML = classes.map((className, index) => `
   <section class="panel ${index ? '' : 'active'}" id="panel-${className}" role="tabpanel" aria-labelledby="tab-${className}" ${index ? 'hidden' : ''}>
     <div class="class-heading">
       <h2>${safe(className)} <span>— this week</span></h2>
-      <p class="weekly-summary">${classSummary[className]} · ${className !== '6LVA' ? 'three' : 'two'} places to go</p>
+      <p class="weekly-summary">${classSummary[className]} · three places to go</p>
     </div>
     <div class="grid">
-      ${sections.filter(section => section[2] !== 'unit-2' || className !== '6LVA').map((section, sectionIndex) => {
+      ${sections.map((section, sectionIndex) => {
         const [number, icon, slug, label, title, defaultDescription, defaultStatus] = section;
         const isUnit = slug === 'lessons' && (className === '6LVA' || className === '6SI' || className === '5SI');
         const hasGames = slug === 'resources' && (className === '6LVA' || className === '5SI');
@@ -49,12 +49,13 @@ panels.innerHTML = classes.map((className, index) => `
             ? className === '5SI'
               ? 'Find Venus Walk under the Games tab.'
               : 'Find the First Week English Games collection under the Games tab.'
-            : slug === 'unit-2' && className === '6SI' ? 'Enter Camp Green Lake. Explore the unit and start Week 1.' : defaultDescription;
-        const status = hasGames ? classSummary[className] : isUnit ? classSummary[className] : defaultStatus;
+            : slug === 'unit-2' && className === '6SI' ? 'Enter Camp Green Lake. Explore the unit and start Week 1.'
+              : slug === 'unit-2' && className === '6LVA' ? 'Explore Irish Legends, the scope and sequence, and Week 1 activities.' : defaultDescription;
+        const status = slug === 'unit-2' ? 'Week 1 activities ready' : defaultStatus;
         return `
           <article class="card card-${sectionIndex + 1}">
             <div class="topline"><span class="card-number">${String(sectionIndex + 1).padStart(2, '0')}</span><span class="icon" aria-hidden="true">${icon}</span></div>
-            <div class="card-title"><p class="eyebrow">${label}</p><h3>${slug === 'unit-2' && className === '6SI' ? 'Holes' : title}</h3></div>
+            <div class="card-title"><p class="eyebrow">${label}</p><h3>${slug === 'unit-2' ? { '6LVA': 'Irish Legends', '6SI': 'Holes', '5SI': 'A Monster Calls' }[className] : title}</h3></div>
             <p class="copy">${description}</p>
             <div class="card-action"><p class="status"><span class="dot"></span>${status}</p><a class="card-link" href="${destinationFor(className, slug)}">${actionLabel(slug, isUnit)} <span aria-hidden="true">→</span></a></div>
           </article>

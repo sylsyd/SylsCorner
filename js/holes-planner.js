@@ -27,6 +27,17 @@ function openLesson(id) {
   selectedLesson = templates.find(template => template.id === id);
   if (!selectedLesson) return;
   document.getElementById('lesson-body').replaceChildren(selectedLesson.content.cloneNode(true));
+  const classroomNumber = Number(selectedLesson.id.replace('lesson-', '')) + 1;
+  if (selectedLesson.dataset.week === 'w1' && classroomNumber <= 5) {
+    const href = '/holes/week-1/lesson-' + classroomNumber;
+    if (!document.getElementById('lesson-body').querySelector('a[href="' + href + '"]')) {
+      const activity = document.createElement('a');
+      activity.className = 'week-entry';
+      activity.href = href;
+      activity.textContent = 'Open Lesson ' + classroomNumber + ' activity →';
+      document.getElementById('lesson-body').append(activity);
+    }
+  }
   const peers = templates.filter(template => template.dataset.week === selectedLesson.dataset.week);
   const index = peers.indexOf(selectedLesson);
   document.getElementById('previous-lesson').disabled = index === 0;

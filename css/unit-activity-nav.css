@@ -1,0 +1,8 @@
+.unit-return{position:fixed;top:8px;left:10px;z-index:10000;padding:8px 13px;border:1px solid #cdbf9f;border-radius:4px;background:#fffaf2f5;color:#24382f;text-decoration:none;font:600 13px/1.4 system-ui,sans-serif;box-sizing:border-box}
+.unit-return:hover{background:#e9dfc9}
+.unit-return:focus-visible{outline:3px solid #9d2b2d;outline-offset:3px}
+.brand .unit-return{position:static;display:inline-block;margin-right:12px;vertical-align:middle;font-size:14px}
+#brand .unit-return{position:static;display:inline-block;margin-right:16px;vertical-align:middle;font-size:18px;line-height:1.2}
+#notesBtn,#notesbar,#nt,.notes{display:none!important}
+.student-activity .tn,.student-activity #tp,.student-activity [data-a="tn"],.student-activity [data-a="tp"]{display:none!important}
+@media print{.unit-return{display:none}}
