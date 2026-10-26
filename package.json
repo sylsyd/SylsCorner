@@ -4,5 +4,8 @@
   "type": "module",
   "engines": { "node": ">=20.6.0" },
   "dependencies": { "@netlify/blobs": "^10.0.0" },
-  "scripts": { "test": "node --test tests/leaderboard.test.mjs" }
+  "scripts": {
+    "test": "node --test tests/leaderboard.test.mjs",
+    "check:lessons": "node scripts/check-lesson-links.mjs && node --test tests/lesson-structure.test.mjs"
+  }
 }

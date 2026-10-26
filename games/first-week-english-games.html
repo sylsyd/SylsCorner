@@ -49,7 +49,7 @@ body{background:#f7f5ed url("../assets/watercolor-ink-paper.png") center/cover f
   <a class="site-brand" href="../index.html" aria-label="Back to The Learning Deck">
     <img src="../assets/syl-corner-mark.png" alt="">
     <span>The Learning Deck</span>
-  </a><details class="class-switcher"><summary>Switch class</summary><nav class="class-switcher-menu" aria-label="Switch class"><a href="../classroom.html?class=6LVA&amp;section=resources">6LVA <span>Games</span></a><a href="../6si-unit-1.html">6SI <span>Unit 1</span></a><a href="../5si-unit-1.html">5SI <span>Unit 1</span></a></nav></details>
+  </a><details class="class-switcher"><summary>Switch class</summary><nav class="class-switcher-menu" aria-label="Switch class"><a href="../classroom.html?class=6LVA&amp;section=resources">6LVA <span>Games</span></a><a href="/lessons/6si/unit-1/">6SI <span>Unit 1</span></a><a href="/lessons/5si/unit-1/">5SI <span>Unit 1</span></a></nav></details>
   <a class="hub-link" href="../index.html">6LVA classroom <span aria-hidden="true">→</span></a>
 </header>
 <main id="menu"><header class="hero"><div class="eyebrow">6e LVA • START OF YEAR</div><div class="hero-row"><div><h1>First Week<br><em>English Games</em></h1><p>Fifteen no-prep activities for a genuinely mixed-ability room. Choose a game, project it, and start.</p></div><div class="orbit"><b>15</b><small>ACTIVITIES</small></div></div><div class="toolbar"><label class="search">⌕ &nbsp;<input id="search" placeholder="Find an activity..."></label><div class="legend">★ Access &nbsp; ★★ Core &nbsp; ★★★ Stretch</div></div></header><section id="grid" class="grid"></section><footer>FIRST WEEK ENGLISH GAMES • Built for mixed-ability participation, not fixed ability labels.</footer></main>
@@ -84,4 +84,4 @@ function tick(){if(seconds>0){seconds--;$('time').textContent=Math.floor(seconds
 function resetTimer(){clearInterval(interval);running=false;seconds=60;$('time').textContent='1:00';$('timerToggle').textContent='Start'}
 $('timerToggle').onclick=()=>{running=!running;$('timerToggle').textContent=running?'Pause':'Start';clearInterval(interval);if(running)interval=setInterval(tick,1000)};$('search').oninput=e=>drawMenu(e.target.value);drawMenu();
 </script>
-<nav class="footer-class-switcher" aria-label="Switch class"><span>Switch class</span><a href="../classroom.html?class=6LVA&amp;section=resources">6LVA</a><a href="../6si-unit-1.html">6SI</a><a href="../5si-unit-1.html">5SI</a></nav></body></html>
+<nav class="footer-class-switcher" aria-label="Switch class"><span>Switch class</span><a href="../classroom.html?class=6LVA&amp;section=resources">6LVA</a><a href="/lessons/6si/unit-1/">6SI</a><a href="/lessons/5si/unit-1/">5SI</a></nav></body></html>

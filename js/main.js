@@ -15,10 +15,10 @@ const panels = document.getElementById('panels');
 const tabs = [...document.querySelectorAll('.tab')];
 
 function destinationFor(className, slug) {
-  if (slug === 'unit-2') return { '6LVA': 'irishlegends.html', '6SI': '/holes', '5SI': '/amonstercalls' }[className];
-  if (slug === 'lessons' && className === '6LVA') return '6lva-unit-1.html';
-  if (slug === 'lessons' && className === '6SI') return '6si-unit-1.html';
-  if (slug === 'lessons' && className === '5SI') return '5si-unit-1.html';
+  if (slug === 'unit-2') return { '6LVA': "/lessons/6lva/unit-2/", '6SI': "/lessons/6si/unit-2/", '5SI': "/lessons/5si/unit-2/" }[className];
+  if (slug === 'lessons' && className === '6LVA') return "/lessons/6lva/unit-1/";
+  if (slug === 'lessons' && className === '6SI') return "/lessons/6si/unit-1/";
+  if (slug === 'lessons' && className === '5SI') return "/lessons/5si/unit-1/";
   return `classroom.html?class=${encodeURIComponent(className)}&section=${encodeURIComponent(slug)}`;
 }
 

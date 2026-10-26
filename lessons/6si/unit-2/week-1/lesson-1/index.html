@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Holes L1: A Lake With No Water</title>
+<style>
+:root{
+  --bg:#2b211b; --paper:#fffaf2; --sand:#f3e3c9; --sand2:#ead3ae; --ink:#2a2420; --muted:#76695d; --line:#e2d3bd;
+  --rust:#b4532a; --rust-bg:#f8e3d7; --sky:#2f6f8f; --sky-bg:#dceef5; --sage:#4f7a4a; --sage-bg:#e2efdc;
+  --gold:#946600; --gold-bg:#fbefcc; --plum:#7a4f86; --plum-bg:#efe3f3;
+  --serif: Charter,"Bitstream Charter",Georgia,"Times New Roman",serif;
+  --sans: Inter,"Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);overflow:hidden;font-family:var(--sans);color:var(--ink)}
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{width:1600px;height:900px;position:relative;transform-origin:center center;flex:none}
+.slide{position:absolute;inset:0;background:var(--paper);border-radius:18px;padding:52px 64px 70px;display:none;flex-direction:column;overflow:hidden}
+.slide.active{display:flex}
+.kick{font-size:20px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--rust);display:flex;gap:14px;align-items:center}
+.kick .tm{letter-spacing:0;text-transform:none;font-weight:700;color:var(--muted);font-size:20px}
+h1,h2{font-family:var(--serif);margin:6px 0 18px;letter-spacing:-.01em;line-height:1.1}
+h1{font-size:84px}
+h2{font-size:52px}
+p,li{font-size:28px;line-height:1.4}
+.lead{font-size:30px;color:#4a3f37;margin:0 0 18px}
+.muted{color:var(--muted)}
+.row{display:flex;gap:26px}
+.col{flex:1;min-width:0}
+.card{background:#fff;border:2px solid var(--line);border-radius:16px;padding:20px 24px}
+.pill{display:inline-block;font-size:18px;font-weight:800;padding:4px 14px;border-radius:99px;letter-spacing:.04em}
+.say{background:var(--sky-bg);color:var(--sky)} .write{background:var(--rust-bg);color:var(--rust)}
+.think{background:var(--sage-bg);color:var(--sage)} .listen{background:var(--plum-bg);color:var(--plum)}
+.frame{font-family:var(--serif);font-size:28px;background:var(--gold-bg);border-left:8px solid var(--gold);padding:12px 18px;border-radius:8px;margin:10px 0}
+.blank{display:inline-block;min-width:150px;border-bottom:3px solid var(--ink);height:1em;vertical-align:baseline}
+.bank{display:flex;flex-wrap:wrap;gap:10px}
+.bank span{font-size:24px;font-weight:700;background:var(--sand);border:2px solid var(--sand2);border-radius:10px;padding:4px 12px}
+/* reveal + hint */
+button{font-family:var(--sans);cursor:pointer}
+.btn{font-size:20px;font-weight:800;border:2px solid var(--ink);background:#fff;border-radius:10px;padding:6px 14px;margin-top:10px;margin-right:8px}
+.btn.hint{border-color:var(--sage);color:var(--sage)}
+.btn.rv{border-color:var(--rust);color:var(--rust)}
+.btn:hover{filter:brightness(.95)}
+.hidebox{display:none;margin-top:10px;font-size:25px;line-height:1.4;border-radius:10px;padding:10px 16px}
+.hidebox.show{display:block}
+.hidebox.inl.show{display:inline-block}
+.hidebox.h{background:var(--sage-bg)}
+.hidebox.a{background:var(--rust-bg);font-family:var(--serif);font-size:26px}
+/* question sets */
+.qgrid{display:grid;gap:18px;align-content:start;grid-auto-rows:auto}
+.q{background:#fff;border:2px solid var(--line);border-radius:16px;padding:16px 22px;overflow:hidden}
+.q .qh{display:flex;gap:14px;align-items:baseline}
+.q .qn{font-weight:900;font-size:26px;color:#fff;background:var(--rust);border-radius:10px;padding:2px 12px;flex:none}
+.q .qt{font-size:28px;font-weight:700;line-height:1.3}
+.q .frame{font-size:24px;padding:8px 14px;margin:8px 0 0}
+/* footer */
+.foot{position:absolute;left:64px;right:64px;bottom:22px;display:flex;justify-content:space-between;align-items:center;font-size:18px;color:var(--muted)}
+.ext{background:var(--plum-bg);color:var(--plum);border-radius:10px;padding:6px 14px;font-weight:700;font-size:19px;max-width:1150px}
+.ext b{font-weight:900}
+/* timer */
+.timer{margin-left:auto;font-size:22px;font-weight:800;border:2px solid var(--muted);color:var(--ink);background:#fff;border-radius:10px;padding:4px 14px;font-variant-numeric:tabular-nums}
+.timer.run{background:var(--ink);color:#fff;border-color:var(--ink)}
+.timer.done{background:var(--rust);color:#fff;border-color:var(--rust)}
+/* notes */
+.notes{display:none;position:absolute;right:20px;top:20px;width:520px;background:#1f1a16;color:#f4ece0;border-radius:14px;padding:18px 20px;font-size:19px;line-height:1.45;z-index:5;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.notes b{color:#ffc58f}
+body.shownotes .slide.active .notes{display:block}
+/* nav */
+#nav{position:fixed;bottom:10px;right:14px;display:flex;gap:8px;align-items:center;z-index:10;opacity:.35;transition:opacity .2s}
+#nav:hover{opacity:1}
+#nav button{font-size:15px;font-weight:700;background:#fff;border:0;border-radius:8px;padding:6px 10px}
+#count{color:#fff;font-size:14px;font-weight:700;min-width:50px;text-align:center}
+#prog{position:fixed;left:0;top:0;height:5px;background:var(--rust);z-index:10;transition:width .2s}
+/* specific */
+.title{background:linear-gradient(180deg,#f6e2bf 0%,#f3d9ae 55%,#e9c48f 100%)}
+.goals li{font-size:30px;margin:6px 0}
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.skill{background:#fff;border:2px solid var(--line);border-radius:16px;padding:22px 24px;min-height:200px}
+.skill h3{margin:0 0 8px;font-size:34px;font-family:var(--serif);color:var(--rust)}
+.skill .eg{font-size:27px;color:#4a3f37;line-height:1.35}
+.skill .eg i{color:var(--muted);font-style:normal;font-weight:700}
+.match{display:grid;grid-template-columns:1fr 1.6fr;gap:30px}
+.match ol,.match ul{margin:0;padding:0;list-style:none}
+.match li{font-size:30px;margin:0 0 12px;background:#fff;border:2px solid var(--line);border-radius:10px;padding:6px 14px}
+.match li b{display:inline-block;width:34px;color:var(--rust)}
+.nb{display:flex;gap:16px;align-items:stretch}
+.nbpage{flex:1;background:#fff;border:2px solid var(--line);border-radius:12px;padding:16px;font-size:25px;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:8px;min-height:280px;box-shadow:6px 6px 0 var(--sand2)}
+.nbpage b{font-size:30px;font-family:var(--serif);color:var(--rust)}
+.steps li{font-size:30px;margin:0 0 12px}
+.tf{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tf div{background:#fff;border:2px solid var(--line);border-radius:12px;padding:14px 16px;font-size:27px;display:flex;justify-content:space-between;gap:14px;align-items:center}
+.tf .v{font-weight:900;font-size:22px;visibility:hidden;flex:none}
+.tf.show .v{visibility:visible}
+.v.t{color:var(--sage)} .v.f{color:var(--rust)}
+.cf{background:#fff;border:3px dashed var(--rust);border-radius:16px;padding:16px 24px}
+.cf h3{margin:0 0 6px;font-family:var(--serif);font-size:30px}
+.cf p{margin:6px 0;font-size:26px}
+.check li{list-style:none;font-size:32px;margin:12px 0}
+.check li::before{content:"\2610";margin-right:12px;color:var(--rust)}
+.tl{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2px solid var(--ink);border-radius:12px;overflow:hidden}
+.tl div{padding:14px 18px;font-size:27px;border-right:2px solid var(--ink);min-height:120px;background:#fff}
+.tl div:last-child{border-right:0}
+.tl b{display:block;font-size:26px;margin-bottom:6px}
+.passage{font-family:var(--serif);font-size:28px;line-height:1.5;background:#fff;border:2px solid var(--line);border-radius:14px;padding:16px 22px;margin:0}
+.vp{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.vague{background:#f1ece6;border-radius:12px;padding:12px 18px;font-size:25px}
+.precise{background:var(--sage-bg);border-radius:12px;padding:12px 18px;font-size:25px}
+.lc p{font-size:34px}
+.slide[data-title="Read ch 3"] .card p{font-size:32px}
+.tight .q{padding:10px 20px} .tight .btn{margin-top:6px} .tight .hidebox{margin-top:6px}
+.big-q{font-family:var(--serif);font-size:64px;line-height:1.15;margin:10px 0 20px}
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: normal;
+  font-display: swap;
+  src: url("/lessons/6si/unit-2/assets/resources/e029d3b71e5bae38.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: normal;
+  font-display: swap;
+  src: url("/lessons/6si/unit-2/assets/resources/1c54f91b91045425.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: normal;
+  font-display: swap;
+  src: url("/lessons/6si/unit-2/assets/resources/90b7db4460fcd1a5.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/lessons/6si/unit-2/assets/resources/1b08e7fc267a5c7e.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/lessons/6si/unit-2/assets/resources/e7a1aaf7eda9f2fa.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/lessons/6si/unit-2/assets/resources/b37284b5701b6b16.ttf") format('truetype');
+}
+
+
+
+:root{--bg:#152b44;--paper:#fff9ed;--sand:#f1dfba;--sand2:#d6bc88;--ink:#133052;--muted:#72614a;--line:#dccdb1;--rust:#9e382b;--rust-bg:#f5e0d5;--sky:#254e75;--sky-bg:#e3edf6;--sage:#254e75;--sage-bg:#e8eff8;--gold:#a77b17;--gold-bg:#f7ebca;--plum:#775073;--plum-bg:#efe3ed;--serif:Merriweather,Georgia,serif;--sans:Inter,sans-serif}
+html,body{background:var(--bg)}.slide{border-radius:5px;padding:40px 58px 88px;background:var(--paper);isolation:isolate;border-left:7px solid var(--gold)}
+.slide:not(.unit-cover):after{content:'';position:absolute;left:0;right:0;bottom:0;height:130px;z-index:-1;background-image:linear-gradient(180deg,#fff9ed, #fff9edcc 70%, #fff9edc9),url("/lessons/6si/unit-2/assets/resources/561fce82126d1cd5.jpg");background-size:cover;background-position:center 75%;opacity:.6}
+.slide-content{width:1470px;min-height:0;transform-origin:top left;display:flex;flex-direction:column;position:relative}
+.kick{font-size:17px;letter-spacing:.12em;color:var(--rust);margin-bottom:10px}.kick .tm{font-size:18px}.pill{font-size:15px;padding:5px 12px;border-radius:4px;letter-spacing:.06em}
+h1{font-size:72px;line-height:1.12;letter-spacing:-2px;margin:7px 0 22px}h2{font-size:44px;line-height:1.2;letter-spacing:-1.1px;margin:7px 0 24px}
+h2:after{content:'';display:block;width:64px;height:4px;background:var(--gold);margin-top:15px}p,li{font-size:27px;line-height:1.4}.lead{font-size:28px;color:#4f5360}
+.title{background:#f9edcf}.title h1{font-size:76px;max-width:1350px}.title .goals li{font-size:27px;margin:7px 0}.title .lead{color:var(--ink)}
+.lesson-art{width:560px;height:350px;object-fit:cover;border:1px solid #d7bf96;border-radius:5px;box-shadow:0 10px 30px #b8936129;align-self:center}
+.unit-cover{padding:0;border:0;background:#f6e4bf}.unit-wallpaper{display:block;width:1600px;height:900px;object-fit:cover}
+.card,.q,.skill{border:1px solid var(--line);border-radius:6px;background:#fffdf7;box-shadow:0 4px 15px #b7a48410}.card{padding:20px 24px}.q{padding:15px 20px}.skill{padding:19px 22px;min-height:0;border-top:3px solid var(--gold)}
+.skills{gap:15px}.skill h3{font-size:29px;line-height:1.3;color:var(--ink);margin-bottom:9px}.skill .eg{font-size:24px;line-height:1.4;color:#4e5663}
+.frame{font-size:26px;border-left:5px solid var(--gold);border-radius:0 5px 5px 0;padding:11px 17px;margin:10px 0;background:var(--gold-bg)}
+.q .qn{font-size:22px;border-radius:4px;padding:4px 9px}.q .qt{font-size:26px;line-height:1.3}.q .frame{font-size:23px;padding:8px 13px}
+.btn{font-size:17px;font-weight:700;border-width:1px;border-radius:4px;padding:7px 13px;margin-top:9px}.btn.rv{background:#f7e6d3}.btn.hint{background:#e8eff8}
+.hidebox{font-size:23px;border-radius:4px;padding:10px 14px;line-height:1.35}.hidebox.a{font-size:24px}.hidebox.h{background:#e8eff8}
+.nbpage{border-width:1px;border-radius:5px;box-shadow:4px 5px 0 #ddc695;font-size:23px;padding:18px;min-height:265px;background:#fffcf5}.nbpage b{font-size:27px;line-height:1.25;color:var(--ink)}.steps li{font-size:27px;margin-bottom:10px}
+.match{gap:24px}.match li{font-size:26px;border-width:1px;border-radius:4px;padding:8px 14px;margin-bottom:10px}.match li b{width:40px}.bank span{border-width:1px;border-radius:4px;font-size:23px}
+.foot{left:58px;right:58px;bottom:23px;font-size:17px;line-height:1.35;color:var(--muted);z-index:1}.ext{font-size:17px;border-radius:4px;padding:8px 13px;max-width:100%;background:#ede4ee}
+.timer{font-size:19px;border-width:1px;border-color:#a38b63;border-radius:4px;padding:5px 13px;background:#fffdf6}.timer.run{background:var(--ink);border-color:var(--ink);color:white}
+.picture-slot{margin:0 0 14px;font-size:0!important}.reading-art{display:block;width:100%;height:245px;object-fit:cover;border-radius:4px}.lc{padding:18px}.lc p:not(.picture-slot){font-size:29px;margin-bottom:0}.lc{border-top:3px solid var(--gold)}
+.passage{font-size:26px;line-height:1.46;border-width:1px;border-radius:5px;padding:18px 24px;background:#fffcf7}.vague,.precise{border-radius:4px;font-size:24px;line-height:1.45}.precise{background:#e8eff8}
+.big-q{font-size:58px;letter-spacing:-1.3px;margin:8px 0 25px}.cf{border-width:2px;border-radius:5px}.cf h3{font-size:28px}.cf p{font-size:24px}.tf{gap:10px}.tf div{font-size:24px;padding:12px 14px;border-width:1px;border-radius:4px}.tf .v{font-size:19px}
+.tl{border-width:1px;border-color:#bdab89;border-radius:5px}.tl div{font-size:23px;padding:14px;border-width:1px;border-color:#bdab89}.tl b{font-size:23px}.check li{font-size:28px;margin:13px 0}.notes{background:#15304eef;border:1px solid #b39457;border-radius:5px;font-size:18px;max-height:780px;overflow:auto}.notes b{color:#f1cb85}
+#nav{opacity:1;bottom:7px;left:50%;right:auto;transform:translateX(-50%);padding:6px 8px;background:#10243bf2;border:1px solid #d2ad5c55;border-radius:5px;box-shadow:0 5px 20px #0004;gap:7px;white-space:nowrap}
+#nav button,#slide-menu{font-family:var(--sans);font-size:13px;font-weight:600;border:1px solid #dccaa6;border-radius:3px;padding:7px 10px;color:var(--ink);background:#fff7e7;cursor:pointer}
+#slide-menu{width:260px;font-weight:500}#count{color:#e5cc9f;font-size:12px;min-width:52px}#prog{height:4px;background:#d5af59}
+button:focus-visible,select:focus-visible{outline:3px solid #bd8141;outline-offset:3px}
+.slide.compact .kick{margin-bottom:6px}.slide.compact h2{font-size:40px;margin-bottom:18px}.slide.compact .q{padding:10px 15px}.slide.compact .qgrid{gap:11px!important}.slide.compact .qt{font-size:24px}.slide.compact .frame{font-size:22px;line-height:1.3;padding:8px 12px}.slide.compact .hidebox{font-size:21px;padding:8px 12px;line-height:1.3}.slide.compact .btn{font-size:16px;padding:6px 12px;margin-top:6px}.slide.compact p{line-height:1.33}.slide.compact .tf div{font-size:22px;padding:10px 12px}
+@media(max-width:600px){#nav{gap:4px;padding:5px;max-width:98vw}#slide-menu{width:145px;font-size:11px}#nav button{font-size:11px;padding:6px}#count{font-size:10px;min-width:38px}#fs{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+
+/* Full-frame ink-and-watercolour art on every teaching screen. */
+.slide.illustrated:not(.unit-cover){background:#fff8e9;box-shadow:0 18px 65px #05172b55}
+.slide.illustrated:not(.unit-cover):before{content:'';position:absolute;inset:0;z-index:-2;background-image:var(--scene);background-size:cover;background-position:center;opacity:.52;pointer-events:none}
+.slide.illustrated:not(.unit-cover):after{content:'';position:absolute;inset:0;height:auto;z-index:-1;background-image:linear-gradient(90deg,#fff9ed6e 0%,#fff9ed82 25%,#fff9ed73 62%,#fff9ed24 100%);background-size:cover;background-position:center;opacity:1;pointer-events:none}
+.slide.illustrated .kick{color:#8e3025;text-shadow:0 1px 0 #fff9edd9;letter-spacing:.14em}
+.slide.illustrated h1,.slide.illustrated h2,.slide.illustrated .big-q{color:#123052;text-shadow:0 1px 2px #fffaf2a0}
+.slide.illustrated .card,.slide.illustrated .q,.slide.illustrated .skill{background:#fffdf6ed;border-color:#c9af7e;box-shadow:0 6px 19px #9a713619}
+.slide.illustrated .card,.slide.illustrated .skill{border-top:3px solid #b18b36}
+.slide.illustrated .nbpage{background:#fffaf0f2;border-color:#c9af7e;box-shadow:5px 6px 0 #d6b77b99}
+.slide.illustrated .q{border-left:4px solid #bb9650}
+.slide.illustrated .frame{background:#f7ebcfe8;border-left-color:#a97b1a;box-shadow:0 1px 0 #c7a86a40}
+.slide.illustrated .match li,.slide.illustrated .tf div{background:#fffdf6ee;border-color:#c9af7e}
+.slide.illustrated .passage{background:#fffdf6ee;border-color:#c9af7e;box-shadow:0 4px 16px #9a713611}
+.slide.illustrated .vague{background:#efe6d9e8}.slide.illustrated .precise{background:#e5edf7ed}
+.slide.illustrated .bank span{background:#f0dfbfe6;border-color:#d0b079}
+.slide.illustrated .cf{background:#fffdf5f0;border-color:#9e382b}
+.slide.illustrated .tl div{background:#fffdf6ef}.slide.illustrated .tl{border-color:#ac9062;box-shadow:0 4px 16px #9a713611}
+.slide.illustrated .foot{left:58px;right:58px;bottom:23px;padding:8px 12px;background:#fff9edcf;border:1px solid #c6a66b7a;border-radius:4px;color:#604e35;box-shadow:0 2px 15px #7d54120d}
+.slide.illustrated .foot .ext{background:#eee3edd9;box-shadow:none}
+.slide.illustrated .check li::before{color:#9e382b}
+.slide.illustrated .lesson-art{border-color:#b89457;box-shadow:0 10px 28px #6f4b2826}
+.slide.illustrated .picture-slot{box-shadow:0 3px 12px #7d54121a;border-radius:4px}
+
+.slide[data-background-theme="desert"]{--scene:url("/lessons/6si/unit-2/assets/resources/058be76372e29384.jpg")}
+.slide[data-background-theme="study"]{--scene:url("/lessons/6si/unit-2/assets/resources/66b0236d852db0bd.jpg")}
+.slide[data-background-theme="Frostmere"]{--scene:url("/lessons/6si/unit-2/assets/resources/2576a64af8934b52.jpg")}</style>
+<style>.unit-return{position:fixed;top:8px;left:12px;z-index:100;background:#10243be8;color:#fff7e7;padding:7px 12px;border:1px solid #d2ad5c;border-radius:4px;font:12px Inter,sans-serif;text-decoration:none}.unit-return:focus-visible{outline:3px solid #d2ad5c;outline-offset:3px}@media print{.unit-return{display:none}}.slide[data-background-theme="desert"]{--scene:url("/lessons/6si/unit-2/assets/camp-green-lake.webp")}</style></head>
+<body><a class="unit-return" href="/lessons/6si/unit-2/week-1/">← Week 1</a>
+<div id="prog"></div>
+<div id="viewport"><div id="stage"><section class="slide unit-cover" data-title="Holes · Unit 2"><img alt="Mr Magnin - 6SI. Holes. Unit 2 - Novel Study Unit." class="unit-wallpaper" src="/lessons/6si/unit-2/assets/resources/8ea037a755e1ec68.jpg"/><div class="notes">Unit opening screen. Press the right arrow for Lesson 1: A lake with no water.</div></section>
+<!-- 1 TITLE -->
+<section class="slide title illustrated" data-background-theme="desert" data-title="Title"><div class="slide-content">
+<div class="kick">Unit 2 · Holes by Louis Sachar · Lesson 1</div>
+<h1>A lake with no water</h1>
+<div class="row" style="align-items:flex-end;flex:1">
+<div class="col">
+<p class="lead" style="margin-bottom:8px"><b>Today we will:</b></p>
+<ol class="goals">
+<li>find out what the end-of-unit test will ask</li>
+<li>set up our <b>Holes</b> notebook sections</li>
+<li>read chapters 1 to 3</li>
+<li>describe a setting: <b>place + time</b></li>
+<li>start Stanley's <b>Character File</b></li>
+</ol>
+</div>
+<img alt="A dry lakebed covered in dug holes, with a shovel in the foreground" class="lesson-art" src="/lessons/6si/unit-2/assets/camp-green-lake.webp"/>
+</div>
+</div>
+<div class="notes"><b>Keys:</b> arrows / space = move, <b>N</b> = notes, <b>R</b> = reveal all answers on this slide, <b>H</b> = all hints, <b>T</b> = start timer, <b>F</b> = full screen.<br/><br/><b>Timing (55 min):</b> hook 3, test preview 3, notebook 4, key words 4, read ch 1-2 3, Set A 5, setting 9, read ch 3 7, Set B 7, Character File 5, exit 2.</div>
+<div class="foot"><span>Year 7 · 6SI</span><span>Press N for teacher notes</span></div></section>
+<!-- 2 HOOK -->
+<section class="slide illustrated" data-background-theme="desert" data-title="Hook"><div class="slide-content">
+<div class="kick"><span class="pill say">SAY IT</span> Think, pair, share <button class="timer" data-sec="180">3:00</button></div>
+<div class="big-q">The novel is called <i>Holes</i>.<br/>What can a "hole" be?</div>
+<div class="row">
+<div class="col card">
+<p style="margin:0 0 6px"><b>Use a frame:</b></p>
+<div class="frame">A hole can be a ___ in the ___.</div>
+<div class="frame">A hole can also mean ___ , for example ___ .</div>
+<div class="frame">If someone is "in a hole", they are ___ .</div>
+</div>
+<div class="col card">
+<p style="margin:0"><b>Think about:</b> the ground... a sock... a story... a person's life...</p>
+<button class="btn rv">Show ideas</button>
+<div class="hidebox a">
+        • a pit you <b>dig</b> in the ground<br/>
+        • a <b>gap</b> or a missing piece (a hole in a sock, a hole in a story)<br/>
+        • "in a hole" = <b>in trouble</b>, stuck in a bad situation
+      </div>
+</div>
+</div>
+</div>
+<div class="foot"><span class="ext"><b>Keep in mind:</b> the title may mean more than one thing. Watch for it as we read.</span></div>
+<div class="notes">Spoken only, no writing. Take 3 or 4 answers. Push for the idea of a missing piece: the novel is a puzzle where past stories "fill in the holes" (Part Three is called <b>Filling in the Holes</b>, don't reveal yet).</div></section>
+<!-- 3 TEST PREVIEW -->
+<section class="slide illustrated" data-background-theme="study" data-title="Where we're heading"><div class="slide-content">
+<div class="kick"><span class="pill listen">LOOK</span> Where this unit is heading <button class="timer" data-sec="180">3:00</button></div>
+<h2>At the end of the unit, the test will ask you to...</h2>
+<p class="lead" style="font-size:25px">Examples use a story you already know: <b>Cinderella</b>.</p>
+<div class="skills">
+<div class="skill"><h3>1. Remember facts</h3><div class="eg"><i>Q:</i> What time must Cinderella leave the ball?<br/><i>A:</i> Midnight.</div></div>
+<div class="skill"><h3>2. Describe characters</h3><div class="eg"><i>2 details:</i> works for her stepsisters; goes to the ball.<br/><i>1 signature:</i> the glass slipper.</div></div>
+<div class="skill"><h3>3. Explain symbols</h3><div class="eg">The glass slipper is a <b>symbol</b> of who Cinderella really is: it only fits her.</div></div>
+<div class="skill"><h3>4. Explain why</h3><div class="eg">Cinderella runs away at midnight <b>because</b> the magic ends.</div></div>
+<div class="skill"><h3>5. Describe the setting</h3><div class="eg"><i>Place:</i> a big house and a royal palace.<br/><i>Time:</i> long ago, on the night of the ball.</div></div>
+<div class="skill"><h3>6. Summarise</h3><div class="eg">Tell part of the story in about <b>100 words</b>, in order.</div></div>
+</div>
+</div>
+<div class="foot"><span>Today we practise <b>1, 2, 4 and 5</b>.</span></div>
+<div class="notes">Don't show the real test. Point out that the notebook sections we set up next are where the revision for each skill will live. Ask: "Which skill sounds hardest?" (usually the summary).</div></section>
+<!-- 4 NOTEBOOK -->
+<section class="slide illustrated" data-background-theme="study" data-title="Notebook setup"><div class="slide-content">
+<div class="kick"><span class="pill write">WRITE</span> Set up your Holes notebook <button class="timer" data-sec="240">4:00</button></div>
+<h2>Turn to the <u>back</u> of your notebook</h2>
+<div class="nb">
+<div class="nbpage"><b>Character Files</b><span>1 page each:</span><span>Stanley · X-Ray · Zero · Kate Barlow · Mr Pendanski · The Warden · Mr Sir</span><span class="muted">(7 pages)</span></div>
+<div class="nbpage"><b>Symbol Tracker</b><span>a table with 3 columns:</span><span>Symbol | Chapter | What it shows</span><span class="muted">(2 pages)</span></div>
+<div class="nbpage"><b>Three Timelines</b><span>a double page, 3 columns:</span><span>Long ago (?) | 110 years ago (?) | Present: Stanley</span><span class="muted">(2 pages)</span></div>
+<div class="nbpage"><b>Back It Up</b><span>sentence starters we collect</span><span class="muted">(1 page)</span></div>
+</div>
+<ol class="steps" style="margin-top:22px">
+<li>Write each <b>heading</b> at the top of its page. Use a ruler.</li>
+<li>Character Files: write <b>one name</b> at the top of each page.</li>
+<li>Leave the rest empty. We fill these in <b>all unit</b>.</li>
+</ol>
+</div>
+<div class="foot"><span>Today's work goes at the <b>front</b> of your notebook, as usual.</span></div>
+<div class="notes">Walk the room. Students who finish early: add the date and title "Lesson 1: A lake with no water" at the front. The "?" columns in Three Timelines are deliberate: we discover them in ch 7 and ch 23.</div></section>
+<!-- 5 KEY WORDS -->
+<section class="slide illustrated" data-background-theme="desert" data-title="Key words"><div class="slide-content">
+<div class="kick"><span class="pill write">WRITE</span> Key words: match them up <button class="timer" data-sec="240">4:00</button></div>
+<h2>Write the pairs: 1-?, 2-?, 3-? ...</h2>
+<div class="match">
+<ol>
+<li><b>1</b>wasteland</li><li><b>2</b>forbidden</li><li><b>3</b>hovers</li><li><b>4</b>convicted</li>
+<li><b>5</b>curse</li><li><b>6</b>descendants</li><li><b>7</b>palindrome</li><li><b>8</b>perseverance</li>
+</ol>
+<ul>
+<li><b>A</b>not allowed</li>
+<li><b>B</b>found guilty of a crime by a court</li>
+<li><b>C</b>continuing to try, even when it is hard</li>
+<li><b>D</b>land that is empty, dry and useless</li>
+<li><b>E</b>a word spelled the same forwards and backwards (mum, level)</li>
+<li><b>F</b>words believed to bring bad luck to someone</li>
+<li><b>G</b>stays at about the same level</li>
+<li><b>H</b>your children, grandchildren, and everyone after them</li>
+</ul>
+</div>
+</div>
+<div class="foot"><span><button class="btn rv" style="margin:0">Answers</button><span class="hidebox a inl" style="margin-left:10px;padding:6px 14px">1-D   2-A   3-G   4-B   5-F   6-H   7-E   8-C</span></span><span class="ext"><b>Extension:</b> write 3 palindromes of your own.</span></div>
+<div class="notes">Tip: start with the ones you are sure of (palindrome has examples). Self-mark with ticks. All 8 words appear in ch 1-3.</div></section>
+<!-- 6 READ CH 1-2 -->
+<section class="slide illustrated" data-background-theme="desert" data-title="Read ch 1-2"><div class="slide-content">
+<div class="kick"><span class="pill listen">LISTEN</span> Read: chapters 1 and 2 <button class="timer" data-sec="180">3:00</button></div>
+<h2>Listen for 3 things</h2>
+<div class="row">
+<div class="col card lc"><p class="picture-slot"><img alt="The dry desert lakebed at Camp Green Lake" class="reading-art" src="/lessons/6si/unit-2/assets/resources/561fce82126d1cd5.jpg"/></p><p><b>1.</b> Is there a lake at Camp Green Lake?</p></div>
+<div class="col card lc"><p class="picture-slot"><img alt="A rattlesnake and a scorpion on the dry lakebed" class="reading-art" src="/lessons/6si/unit-2/assets/resources/ad9875795dbd3296.jpg"/></p><p><b>2.</b> What animals live out on the lake?</p></div>
+<div class="col card lc"><p class="picture-slot"><img alt="A dark hole and a shovel in the desert" class="reading-art" src="/lessons/6si/unit-2/assets/resources/adfd341448e9069a.jpg"/></p><p><b>3.</b> What is the <b>worst</b> thing that can happen to you?</p></div>
+</div>
+<p class="lead" style="margin-top:24px">Pens down. Eyes on the text. No writing yet.</p>
+</div>
+<div class="foot"><span>Chapter 1: pages 1-2 · Chapter 2: half a page</span></div>
+<div class="notes">Read aloud or play the audiobook (about 3 min). Pause after "Usually." and "Always." in ch 1: ask what the pattern is doing (humour, building to the lizard). Quick oral check of the 3 questions before Set A.</div></section>
+<!-- 7 SET A -->
+<section class="slide illustrated" data-background-theme="desert" data-title="Set A"><div class="slide-content">
+<div class="kick"><span class="pill write">WRITE</span> Set A: chapters 1-2 · full sentences <button class="timer" data-sec="300">5:00</button></div>
+<div class="qgrid" style="grid-template-columns:1fr 1fr;margin-top:10px">
+<div class="q"><div class="qh"><span class="qn">A1</span><span class="qt">What is strange about the name "Camp Green Lake"?</span></div>
+<div class="frame">It is called Camp Green Lake, but ...</div>
+<button class="btn hint">Hint</button><button class="btn rv">Model answer</button>
+<div class="hidebox h">Look at the very first sentence of chapter 1. And the last line of chapter 3.</div>
+<div class="hidebox a">It is called Camp Green Lake, but there is no lake and hardly anything is green. The lake dried up over a hundred years ago.</div></div>
+<div class="q"><div class="qh"><span class="qn">A2</span><span class="qt">Who owns the shade? What does this suggest about this person?</span></div>
+<div class="frame">The ___ owns the shade. This suggests that ___ because ...</div>
+<button class="btn hint">Hint</button><button class="btn rv">Model answer</button>
+<div class="hidebox h">Who is allowed to lie in the hammock? Who is not? How hot is it?</div>
+<div class="hidebox a">The Warden owns the shade. This suggests that the Warden is very powerful and selfish, because the campers are forbidden to rest in the only shade, even though it is ninety-five degrees.</div></div>
+<div class="q"><div class="qh"><span class="qn">A3</span><span class="qt">What is the worst thing that can happen at Camp Green Lake?</span></div>
+<div class="frame">The worst thing is ... because ...</div>
+<button class="btn hint">Hint</button><button class="btn rv">Model answer</button>
+<div class="hidebox h">It is not a rattlesnake or a scorpion. Find the word "Always."</div>
+<div class="hidebox a">The worst thing is being bitten by a yellow-spotted lizard, because you will die "a slow and painful death."</div></div>
+<div class="q"><div class="qh"><span class="qn">A4</span><span class="qt">Why is Stanley going to Camp Green Lake?</span></div>
+<div class="frame">Stanley is going to Camp Green Lake because a judge ...</div>
+<button class="btn hint">Hint</button><button class="btn rv">Model answer</button>
+<div class="hidebox h">Chapter 2: what two choices did the judge give him?</div>
+<div class="hidebox a">Stanley is going to Camp Green Lake because a judge gave him a choice: go to jail or go to Camp Green Lake.</div></div>
+</div>
+</div>
+<div class="foot"><span class="ext"><b>Extension:</b> Chapter 2 says digging holes will "turn a bad boy into a good boy." Do you agree? Why or why not?</span></div>
+<div class="notes">Try first, hint second, model answer last. Reveal hints to the room after 2 min if most are stuck (press H). Self-mark: tick if your answer has the same key idea, not the same words.</div></section>
+<!-- 8 SETTING MODEL -->
+<section class="slide illustrated" data-background-theme="Frostmere" data-title="Setting: model"><div class="slide-content">
+<div class="kick"><span class="pill think">WATCH ME</span> Describing a setting = PLACE + TIME <button class="timer" data-sec="180">3:00</button></div>
+<h2>Vague or precise?</h2>
+<p class="passage">Frostmere was a fishing village on the far north coast of Scotland. Its grey stone cottages huddled together against the wind, and in winter the sea froze along the harbour wall. In 1890, nobody there had a car: people still travelled by horse and cart.</p>
+<div class="vp" style="margin-top:18px">
+<div class="vague"><b>Vague (no marks):</b><br/>"It's a village by the sea. It's in the past."</div>
+<div class="precise"><b>Precise:</b><br/><b>Place:</b> Frostmere, a small fishing village on the far north coast of Scotland, with grey stone cottages and a freezing harbour.<br/><b>Time:</b> winter, in 1890, when people still used horses and carts.</div>
+</div>
+</div>
+<div class="foot"><span><b>Precise =</b> ✓ the name   ✓ where exactly   ✓ 2 details you can see or feel   ✓ when (year / era, season)</span></div>
+<div class="notes">Spoken. Ask: "What makes the second one better?" Collect the 4 checklist points before revealing them at the bottom. This model is invented on purpose so students don't copy a Holes answer.</div></section>
+<!-- 9 SETTING: YOUR TURN -->
+<section class="slide illustrated" data-background-theme="desert" data-title="Setting: your turn"><div class="slide-content">
+<div class="kick"><span class="pill write">WRITE</span> Your turn: Camp Green Lake <button class="timer" data-sec="360">6:00</button></div>
+<div class="row" style="flex:1">
+<div class="col" style="flex:1.45">
+<div class="frame" style="font-size:27px;line-height:1.75">
+<b>Place:</b> Camp Green Lake is in <span class="blank"></span>. It used to be the largest <span class="blank"></span> in Texas, but now it is a dry, <span class="blank"></span> <span class="blank"></span>. The only shade comes from <span class="blank"></span>, where the <span class="blank"></span> has a hammock. Out on the lake, <span class="blank"></span> and <span class="blank"></span> hide in the holes.<br/>
+<b>Time:</b> Stanley's story happens in the <span class="blank"></span>. The lake dried up <span class="blank"></span>. In summer it is about <span class="blank"></span> in the shade.
+      </div>
+<button class="btn rv">Model answer</button>
+<div class="hidebox a" style="font-size:23px">Place: Camp Green Lake is in Texas. It used to be the largest lake in Texas, but now it is a dry, flat wasteland. The only shade comes from two old oak trees, where the Warden has a hammock. Out on the lake, rattlesnakes and scorpions hide in the holes.<br/>Time: Stanley's story happens in the present day. The lake dried up over a hundred years ago. In summer it is about ninety-five degrees in the shade.</div>
+</div>
+<div class="col">
+<p style="margin:0 0 8px"><b>Word bank</b> (2 are extra)</p>
+<div class="bank">
+<span>Texas</span><span>lake</span><span>flat</span><span>wasteland</span><span>two old oak trees</span><span>Warden</span><span>rattlesnakes</span><span>scorpions</span><span>present day</span><span>over a hundred years ago</span><span>ninety-five degrees</span><span>a swimming pool</span><span>green</span>
+</div>
+<div class="card" style="margin-top:18px;background:var(--plum-bg);border-color:#d9c3e0">
+<p style="margin:0;font-size:24px"><b>Challenge:</b> add <b>one more sentence</b> with a detail that is <u>not</u> in the word bank. Use chapter 1 or the end of chapter 3.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="foot"><span>Copy the full paragraph into your notebook. Then copy just the <b>Place</b> line into <b>Three Timelines: Present</b>.</span></div>
+<div class="notes">Strong students can skip the frame and use the checklist from the last slide instead. The two extra words are "a swimming pool" and "green": a quick check that they understood the irony. Reveal only once most have finished.</div></section>
+<!-- 10 READ CH 3 -->
+<section class="slide illustrated" data-background-theme="study" data-title="Read ch 3"><div class="slide-content">
+<div class="kick"><span class="pill listen">LISTEN</span> Read: chapter 3 <button class="timer" data-sec="420">7:00</button></div>
+<h2>Meet Stanley Yelnats. Listen for...</h2>
+<div class="row">
+<div class="col card"><p><b>1.</b> What does Stanley's family <b>blame</b> when things go wrong?</p></div>
+<div class="col card"><p><b>2.</b> What is Stanley's father trying to <b>invent</b>?</p></div>
+<div class="col card"><p><b>3.</b> Who <b>robbed</b> Stanley's great-grandfather?</p></div>
+</div>
+<div class="card" style="margin-top:22px;background:var(--sand)">
+<p style="margin:0"><b>Family tree so far:</b> great-great-grandfather (the pig thief) → great-grandfather, Stanley Yelnats I (robbed) → grandfather (Stanley II) → father (Stanley III, inventor) → <b>Stanley Yelnats IV</b></p>
+</div>
+</div>
+<div class="foot"><span>Pause at: "family joke" · the song · "Kissin' Kate Barlow"</span></div>
+<div class="notes">About 1,100 words (7 min). <b>Sensitive points:</b> (1) Stanley is teased about his weight, and a teacher embarrasses him: keep discussion about how unfair it was, not about his body. (2) The text uses "Gypsy", an outdated and offensive word for Roma people; name this briefly when you reach it. Pause at the song "If only, if only": it comes back at the end of the novel.</div></section>
+<!-- 11 SET B1-3 -->
+<section class="slide illustrated" data-background-theme="study" data-title="Set B (1)"><div class="slide-content">
+<div class="kick"><span class="pill write">WRITE</span> Set B: chapter 3 · part 1 <button class="timer" data-sec="210">3:30</button></div>
+<div class="qgrid" style="margin-top:10px">
+<div class="q"><div class="qh"><span class="qn">B1</span><span class="qt">What does Stanley's family call his great-great-grandfather? (Copy it exactly: it's long!)</span></div>
+<button class="btn hint">Hint</button><button class="btn rv">Model answer</button>
+<div class="hidebox h">It has 8 words joined with hyphens and starts with "no-good...".</div>
+<div class="hidebox a">His "no-good-dirty-rotten-pig-stealing-great-great-grandfather".</div></div>
+<div class="q"><div class="qh"><span class="qn">B2</span><span class="qt">Why does the family blame him for their bad luck?</span></div>
+<div class="frame">They blame him because he supposedly stole a ___ from ___, and she put a ___ on him and all his ___.</div>
+<button class="btn rv">Model answer</button>
+<div class="hidebox a">They blame him because he supposedly stole a pig from a one-legged woman, and she put a curse on him and all his descendants.</div></div>
+<div class="q"><div class="qh"><span class="qn">B3</span><span class="qt">What is special about the name "Stanley Yelnats"?</span></div>
+<button class="btn hint">Hint</button><button class="btn rv">Model answer</button>
+<div class="hidebox h">Look back at today's key words. Write the name backwards.</div>
+<div class="hidebox a">It is a palindrome: it is spelled the same forwards and backwards. That's why every son in the family is called Stanley.</div></div>
+</div>
+</div>
+<div class="foot"><span>B1 matters: it is a real test-style question.</span></div>
+<div class="notes">B1 is almost word for word a test question (Q11). Spelling of the hyphenated name counts: check it.</div></section>
+<!-- 12 SET B4-6 -->
+<section class="slide tight illustrated" data-background-theme="study" data-title="Set B (2)"><div class="slide-content">
+<div class="kick"><span class="pill write">WRITE</span> Set B: chapter 3 · part 2 <button class="timer" data-sec="210">3:30</button></div>
+<div class="qgrid" style="margin-top:6px;gap:12px">
+<div class="q"><div class="qh"><span class="qn">B4</span><span class="qt">What is Stanley's father trying to invent?</span></div>
+<button class="btn hint">Hint</button><button class="btn rv">Model answer</button>
+<div class="hidebox h">Why does their tiny apartment smell of burning rubber and foot odour?</div>
+<div class="hidebox a">He is trying to invent a way to recycle old sneakers.</div></div>
+<div class="q"><div class="qh"><span class="qn">B5</span><span class="qt">Who robbed Stanley's great-grandfather, and what happened to him?</span></div>
+<div class="frame">His great-grandfather was robbed by ___ . She ___ and left him ___ .</div>
+<button class="btn rv">Model answer</button>
+<div class="hidebox a">His great-grandfather was robbed by the outlaw Kissin' Kate Barlow. She robbed his stagecoach, took his fortune and left him stranded in the desert.</div></div>
+<div class="q"><div class="qh"><span class="qn">B6</span><span class="qt">Is Stanley a bad kid? Back it up with words from the text.</span></div>
+<div class="frame">I think Stanley is / is not a bad kid. We know this because the narrator says "___". This shows that ...</div>
+<button class="btn hint">Hint</button><button class="btn rv">Model answer</button>
+<div class="hidebox h">Find the sentence that starts "Stanley was not..."</div>
+<div class="hidebox a">I think Stanley is not a bad kid. We know this because the narrator says he "was innocent of the crime." This shows that he was just in the wrong place at the wrong time.</div></div>
+</div>
+</div>
+<div class="foot"><span class="ext"><b>Back It Up page:</b> copy the B6 frame into your Back It Up section. You will use it all unit.</span></div>
+<div class="notes">B6 is the first "back it up" answer: quotation marks around the exact words. Praise any student who uses a different quotation that works.</div></section>
+<!-- 13 CHARACTER FILE -->
+<section class="slide illustrated" data-background-theme="study" data-title="Character File: Stanley"><div class="slide-content">
+<div class="kick"><span class="pill say">SAY IT</span> then <span class="pill write">WRITE</span> Character File: Stanley <button class="timer" data-sec="300">5:00</button></div>
+<div class="row" style="flex:1">
+<div class="col" style="flex:1.25">
+<p style="margin:0 0 10px"><b>Step 1: True or false?</b> Thumbs up or down.</p>
+<div class="tf" id="tf">
+<div>Stanley has lots of friends at home.<span class="v f">FALSE</span></div>
+<div>Stanley is innocent of the crime.<span class="v t">TRUE</span></div>
+<div>Stanley is an only child.<span class="v t">TRUE</span></div>
+<div>Stanley's family is rich.<span class="v f">FALSE</span></div>
+<div>Stanley believes in the curse.<span class="v f">FALSE</span></div>
+<div>Stanley is teased at school.<span class="v t">TRUE</span></div>
+<div>The Yelnats family stays hopeful.<span class="v t">TRUE</span></div>
+<div>Stanley is going to jail.<span class="v f">FALSE</span></div>
+</div>
+<button class="btn rv" data-tf="tf">Show true / false</button>
+</div>
+<div class="col">
+<p style="margin:0 0 10px"><b>Step 2: In your Character File</b></p>
+<div class="cf">
+<h3>Stanley Yelnats IV</h3>
+<p>Detail 1: <span class="blank" style="min-width:300px"></span> (ch __)</p>
+<p>Detail 2: <span class="blank" style="min-width:300px"></span> (ch __)</p>
+<p>Signature: <span class="blank" style="min-width:280px"></span></p>
+</div>
+<p style="font-size:23px;margin:12px 0 0"><b>Signature</b> = the thing that is "so him": a nickname, a catchphrase, an object, a habit. <span class="muted">(Cinderella: the glass slipper.)</span></p>
+<button class="btn rv">One possible answer</button>
+<div class="hidebox a" style="font-size:22px">Detail 1: He is innocent; he was in the wrong place at the wrong time (ch 3).<br/>Detail 2: He is an only child from a poor family (ch 2-3).<br/>Signature: he blames his "no-good-dirty-rotten-pig-stealing-great-great-grandfather".</div>
+</div>
+</div>
+</div>
+<div class="foot"><span>Choose 2 <b>true</b> details. Try to pick different ones from the model.</span></div>
+<div class="notes">Step 1 spoken (1 min). Then 4 min writing at the back of the notebook. Other good signatures: his palindrome name; the "If only, if only" song. Only reveal the model for students who are stuck, and ask them to change at least one detail.</div></section>
+<!-- 14 EXIT -->
+<section class="slide illustrated" data-background-theme="desert" data-title="Exit"><div class="slide-content">
+<div class="kick"><span class="pill think">CHECK</span> Before you go <button class="timer" data-sec="120">2:00</button></div>
+<div class="row" style="flex:1">
+<div class="col">
+<h2 style="font-size:42px">Success checklist</h2>
+<ul class="check" style="padding:0;margin:0">
+<li>4 notebook sections set up at the back</li>
+<li>Key words matched and marked</li>
+<li>Set A: 4 full sentences</li>
+<li>Setting paragraph with <b>place + time</b></li>
+<li>Set B: B1 copied exactly</li>
+<li>Character File: Stanley (2 details + 1 signature)</li>
+</ul>
+</div>
+<div class="col">
+<h2 style="font-size:42px">Three Timelines</h2>
+<div class="tl">
+<div><b>Long ago (?)</b><span class="muted">a pig, a curse...</span></div>
+<div><b>110 years ago (?)</b><span class="muted">an outlaw called...</span></div>
+<div><b>Present</b>Stanley Yelnats IV is sent to Camp Green Lake.</div>
+</div>
+<p style="font-size:24px;margin-top:14px">Chapter 3 hinted at <b>two older stories</b>. Which clues go in the first two columns? We will find out in chapters 7 and 23.</p>
+</div>
+</div>
+</div>
+<div class="foot"><span class="ext"><b>Extension:</b> Predict: why do you think the boys really have to dig holes? Give 2 ideas, each with "because".</span></div>
+<div class="notes">Quick show of hands for each checklist line. Next lesson (L2): ch 4-5, Mr Sir and Mr Pendanski, Character Files 2 and 3.</div></section>
+</div></div>
+<div id="nav"><select aria-label="Jump to a slide" id="slide-menu"><option value="0">01 · Holes · Unit 2</option><option value="1">02 · Title</option><option value="2">03 · Hook</option><option value="3">04 · Where we're heading</option><option value="4">05 · Notebook setup</option><option value="5">06 · Key words</option><option value="6">07 · Read ch 1-2</option><option value="7">08 · Set A</option><option value="8">09 · Setting: model</option><option value="9">10 · Setting: your turn</option><option value="10">11 · Read ch 3</option><option value="11">12 · Set B (1)</option><option value="12">13 · Set B (2)</option><option value="13">14 · Character File: Stanley</option><option value="14">15 · Exit</option></select><button aria-label="Previous slide" id="prev">←</button><span id="count"></span><button aria-label="Next slide" id="next">→</button><button aria-label="Show teacher notes" id="nt">Notes</button><button aria-label="Full screen" id="fs">Full screen</button></div>
+<script>
+(function(){
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  let contentFitFrame=0;
+  function scheduleContentFit(){cancelAnimationFrame(contentFitFrame);contentFitFrame=requestAnimationFrame(fitContent);}
+  function fitContent(){const s=slides[i],c=s.querySelector('.slide-content');if(!c)return;c.style.zoom='1';s.classList.remove('compact');const footer=s.querySelector('.foot');const area=footer?Math.min(772,footer.offsetTop-48):772;
+    if(c.scrollHeight>area)s.classList.add('compact');
+    const height=Math.max(c.scrollHeight,c.getBoundingClientRect().height/(parseFloat(stage.style.transform.match(/scale\(([^)]+)/)?.[1])||1));
+    if(height>area)c.style.zoom=String(Math.min(1,(area-3)/height));
+  }
+
+  const stage=document.getElementById('stage');
+  function fit(){const s=Math.min((innerWidth-16)/1600,(innerHeight-55)/900)*0.98;stage.style.transform='scale('+s+')';scheduleContentFit();}
+  addEventListener('resize',fit);fit();
+  function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    document.getElementById('count').textContent=(i+1)+' / '+slides.length;document.getElementById('slide-menu').value=String(i);document.getElementById('prev').disabled=i===0;document.getElementById('next').disabled=i===slides.length-1;scheduleContentFit();
+    document.getElementById('prog').style.width=((i+1)/slides.length*100)+'%';
+    try{history.replaceState(null,'','#'+(i+1));}catch(e){}}
+  document.getElementById('slide-menu').onchange=e=>show(+e.target.value);
+  const h=parseInt((location.hash||'#1').slice(1));show(isNaN(h)?0:h-1);
+  document.getElementById('prev').onclick=()=>show(i-1);
+  document.getElementById('next').onclick=()=>show(i+1);
+  document.getElementById('nt').onclick=()=>document.body.classList.toggle('shownotes');
+  function fsToggle(){if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}else{document.exitFullscreen&&document.exitFullscreen();}}
+  document.getElementById('fs').onclick=fsToggle;
+  // hint / reveal buttons: toggle the matching box after the button
+  document.querySelectorAll('.btn').forEach(b=>{
+    b.addEventListener('click',e=>{
+      e.stopPropagation();
+      if(b.dataset.tf){document.getElementById(b.dataset.tf).classList.toggle('show');return;}
+      const want=b.classList.contains('hint')?'h':'a';
+      let el=b.nextElementSibling;
+      while(el&&!(el.classList.contains('hidebox')&&el.classList.contains(want)))el=el.nextElementSibling;
+      if(el){el.classList.toggle('show');if(want==='a'&&el.classList.contains('show')){const q=b.closest('.q');if(q)q.querySelectorAll('.hidebox.h').forEach(x=>x.classList.remove('show'));}}
+    });
+  });
+  function revealAll(cls){const s=slides[i];s.querySelectorAll('.hidebox.'+cls).forEach(x=>x.classList.add('show'));if(cls==='a')s.querySelectorAll('.q .hidebox.h').forEach(x=>x.classList.remove('show'));
+    if(cls==='a')s.querySelectorAll('.tf').forEach(x=>x.classList.add('show'));}
+  new MutationObserver(records=>{if(records.some(r=>r.target.matches('.hidebox,.tf')))scheduleContentFit();}).observe(stage,{attributes:true,subtree:true,attributeFilter:['class']});
+  stage.addEventListener('load',scheduleContentFit,true);document.fonts.ready.then(scheduleContentFit);
+  // timers
+  document.querySelectorAll('.timer').forEach(t=>{
+    const total=+t.dataset.sec;let left=total,iv=null;
+    const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+    t.onclick=e=>{e.stopPropagation();
+      if(iv){clearInterval(iv);iv=null;left=total;t.textContent=fmt(left);t.className='timer';return;}
+      t.className='timer run';
+      iv=setInterval(()=>{left--;t.textContent=fmt(Math.max(left,0));if(left<=0){clearInterval(iv);iv=null;t.className='timer done';t.textContent="Time!";setTimeout(()=>{left=total},0);}},1000);};
+  });
+  addEventListener('keydown',e=>{
+    const k=e.key;
+    if(['SELECT','INPUT','TEXTAREA'].includes(e.target.tagName))return;
+    if(k==='ArrowRight'||k===' '||k==='PageDown'){e.preventDefault();show(i+1);}
+    else if(k==='ArrowLeft'||k==='PageUp'){e.preventDefault();show(i-1);}
+    else if(k==='Home')show(0); else if(k==='End')show(slides.length-1);
+    else if(k==='n'||k==='N')document.body.classList.toggle('shownotes');
+    else if(k==='r'||k==='R')revealAll('a');
+    else if(k==='h'||k==='H')revealAll('h');
+    else if(k==='f'||k==='F')fsToggle();
+    else if(k==='t'||k==='T'){const t=slides[i].querySelector('.timer');if(t)t.click();}
+  });
+})();
+</script>
+</body>
+</html>

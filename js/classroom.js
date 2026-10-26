@@ -16,7 +16,7 @@ const games = {
   ]
 };
 const lessonItems = {
-  '6LVA': [{ title: 'Junior Detective', copy: 'Week 2 · Intro Unit reading resource.', href: 'lessons/6lva/Week%202/Intro%20Unit/juniordetective.pdf', theme: 'junior-detective' }]
+  '6LVA': [{ title: 'Junior Detective', copy: 'Week 2 · Intro Unit reading resource.', href: '/lessons/6lva/unit-1/week-2/intro-unit/juniordetective.pdf', theme: 'junior-detective' }]
 };
 const params = new URLSearchParams(window.location.search);
 const className = validClasses.has(params.get('class')) ? params.get('class') : '6LVA';
