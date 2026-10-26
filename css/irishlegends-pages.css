@@ -1,0 +1,73 @@
+:root{--paper:#f7f6ef;--ink:#233630;--muted:#5d685f;--line:#c9c9b8;--accent:#963b37;--gold:#a47b34}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,sans-serif}
+a{color:inherit}
+a:focus-visible{outline:3px solid var(--accent);outline-offset:5px}
+.legends-wrap{max-width:1280px;margin:auto;padding:26px 28px 30px}
+.legends-nav{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px;font-weight:600;color:var(--muted)}
+.legends-nav a{text-decoration:none;padding:6px 0;color:var(--ink)}
+.legends-nav a:hover{text-decoration:underline}
+.legends-hero{position:relative;isolation:isolate;min-height:460px;overflow:hidden;border:1px solid var(--line);border-radius:5px;background:#f1ead7}
+.legends-hero>img{position:absolute;inset:0;z-index:-1;width:100%;height:100%;object-fit:cover;object-position:center}
+.hero-copy{padding:40px 44px 38px;max-width:510px}
+.legends-kicker{margin:0;font:700 11px/1.5 system-ui,sans-serif;letter-spacing:0;color:var(--accent)}
+.hero-copy h1{font:400 68px/1.03 Georgia,serif;letter-spacing:0;margin:18px 0}
+.hero-copy>p:not(.legends-kicker){font:19px/1.5 Georgia,serif;max-width:330px;margin:0 0 20px}
+.legends-button{display:inline-flex;gap:28px;justify-content:space-between;align-items:center;padding:11px 18px;border:1px solid var(--ink);border-radius:4px;background:var(--ink);color:#fffdf6;text-decoration:none;font-size:13px;font-weight:650}
+.legends-button:hover{background:#3c5448}
+.week-hero{min-height:430px}
+.week-hero .hero-copy{padding-top:52px}
+.week-hero h1{font-size:64px}
+.section-intro{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;margin-bottom:25px}
+.section-intro h2{font:400 34px/1.2 Georgia,serif;letter-spacing:0;margin:9px 0 0}
+.section-intro>p{color:var(--muted);font-size:14px;margin:0}
+.week-journey,.legends-lessons{padding:40px 0 16px}
+.week-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.week-tile{display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:5px;background:#fffef9;text-decoration:none;overflow:hidden}
+.week-tile>img{display:block;aspect-ratio:16/10;width:100%;object-fit:cover}
+.week-tile>div{display:flex;flex:1;flex-direction:column;padding:18px}
+.week-tile h3{font:400 25px/1.15 Georgia,serif;letter-spacing:0;margin:10px 0}
+.week-tile p:not(.legends-kicker){font-size:13px;color:var(--muted);margin:0 0 20px}
+.week-tile strong,.week-status{margin-top:auto;padding-top:13px;border-top:1px solid var(--line);font-size:12px}
+.week-tile strong{display:flex;justify-content:space-between;color:var(--accent)}
+.week-status{color:var(--muted)}
+.week-ready{border-color:var(--gold)}
+.week-ready:hover{border-color:var(--accent);box-shadow:0 5px 18px #23363012}
+.legends-lesson{display:grid;grid-template-columns:minmax(220px,.8fr) 1.5fr;margin-top:25px;border:1px solid var(--line);border-radius:5px;overflow:hidden;background:#fffef9;text-decoration:none}
+.legends-lesson>img{display:block;width:100%;height:100%;max-height:330px;object-fit:cover}
+.legends-lesson>img.portrait{object-position:center 25%}
+.legends-lesson>div{padding:30px 36px}
+.legends-lesson h3{font:400 35px/1.15 Georgia,serif;letter-spacing:0;margin:10px 0 14px}
+.legends-lesson p:not(.legends-kicker){max-width:530px;color:var(--muted);font-size:15px}
+.lesson-meta{display:block;font-size:12px;color:var(--muted);margin:20px 0}
+.legends-lesson strong{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:15px;font-size:13px;color:var(--accent)}
+.legends-lesson:hover{border-color:var(--accent);background:#fffef5}
+.legends-text-link{display:inline-block;margin:15px 0;color:var(--accent);font-size:13px;font-weight:600;text-underline-offset:4px}
+.legends-footer{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-top:30px;padding-top:23px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.legends-footer nav{display:flex;gap:20px}
+.legends-footer a{text-decoration:none;padding:5px 0}
+.legends-footer a:hover{text-decoration:underline}
+@media(max-width:1050px){.week-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){
+  .legends-wrap{padding:15px 15px 28px}
+  .legends-nav{font-size:11px;gap:12px;margin-bottom:16px}
+  .legends-nav>span{order:3;width:100%}
+  .legends-hero,.week-hero{min-height:430px}
+  .legends-hero>img{object-position:left center}
+  .hero-copy,.week-hero .hero-copy{padding:32px 25px;max-width:100%}
+  .hero-copy h1,.week-hero h1{font-size:50px}
+  .hero-copy>p:not(.legends-kicker){font-size:17px;max-width:270px}
+  .section-intro{align-items:flex-start;flex-direction:column;gap:14px}
+  .section-intro h2{font-size:30px}
+  .week-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .week-tile>div{padding:14px}
+  .week-tile h3{font-size:23px}
+  .legends-lesson{grid-template-columns:1fr}
+  .legends-lesson>img{height:220px}
+  .legends-lesson>div{padding:24px}
+  .legends-lesson h3{font-size:29px}
+  .week-journey,.legends-lessons{padding-top:30px}
+}
+@media(max-width:420px){.week-grid{grid-template-columns:1fr}.week-tile{display:grid;grid-template-columns:110px minmax(0,1fr)}.week-tile>img{height:100%;aspect-ratio:auto}.week-tile h3{font-size:22px}.week-tile p:not(.legends-kicker){margin-bottom:13px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+@media print{.legends-nav,.legends-footer,.legends-button{display:none}.legends-wrap{padding:0}.week-tile,.legends-lesson{break-inside:avoid}}

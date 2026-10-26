@@ -28,7 +28,7 @@ function openLesson(id) {
   if (!selectedLesson) return;
   document.getElementById('lesson-body').replaceChildren(selectedLesson.content.cloneNode(true));
   const classroomNumber = Number(selectedLesson.id.replace('lesson-', '')) + 1;
-  if (selectedLesson.dataset.week === 'w1' && classroomNumber <= 5) {
+  if (selectedLesson.dataset.week === 'w1' && classroomNumber <= 6) {
     const href = '/holes/week-1/lesson-' + classroomNumber;
     if (!document.getElementById('lesson-body').querySelector('a[href="' + href + '"]')) {
       const activity = document.createElement('a');
