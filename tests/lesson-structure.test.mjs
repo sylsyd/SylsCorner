@@ -12,6 +12,17 @@ const context = {};
 vm.runInNewContext(code.slice(0, code.indexOf('  const params =')) + 'globalThis.catalog=lessons;})();', context);
 const catalog = context.catalog;
 
+test('Irish Legends lesson 1 uses the revised past-tense lesson without the teacher pack', () => {
+  const html = fs.readFileSync(path.join(root, 'lessons/6lva/unit-2/week-1/lesson-1/index.html'), 'utf8');
+  for (const content of ["name:'Long ago = past'", "name:'Tell the legend'", 'Time machine: tap to go back in time', 'E. Back in time', 'var GROUPS=', 'var FLIP=', 'var DRILL=', 'var GAPE=', 'var TELL=', 'data-pst', 'data-flip']) {
+    assert.ok(html.includes(content), `Missing revised lesson content: ${content}`);
+  }
+  assert.ok(!/My weekend|Teacher notes|Teacher pack|Marking guide|Tier tracker|loadTrk/.test(html));
+  assert.ok(html.includes('class="student-activity"'));
+  assert.ok(html.includes('class="unit-return" href="/lessons/6lva/unit-2/week-1/"'));
+  for (const [, script] of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)) new vm.Script(script);
+});
+
 function render(data, search = '') {
   const nodes = {};
   let redirected;
