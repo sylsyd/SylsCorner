@@ -42,6 +42,8 @@ test('Holes reading players are attached only to Week 1 reading lessons', () => 
     assert.ok(html.includes('amc-chapter-reader.js'));
     const numbers = [...html.matchAll(/<audio\b[^>]*data-chapter="(\d+)"/g)].map(match => Number(match[1]));
     assert.deepEqual(numbers, chapters);
+    const audioSources = [...html.matchAll(/<audio\b[^>]*src="([^"]+)"/g)].map(match => match[1]);
+    assert.deepEqual(audioSources, chapters.map(chapter => `../../audiobook/chapter-${chapter}.mp3?v=loudness-20261102`));
     const ids = [...html.matchAll(/<audio\b[^>]*id="([^"]+)"/g)].map(match => match[1]);
     assert.equal(new Set(ids).size, ids.length);
     for (const [, script] of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)) new vm.Script(script);

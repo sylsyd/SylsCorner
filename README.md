@@ -93,6 +93,10 @@ Week 1 reading slides in lessons 1, 2, 3 and 5 have chapter 1 to 7 audio and
 optional text readers. Lessons 4 and 6 and all later weeks are unchanged.
 Chapter 7 uses the same full recording at each reading section; playback
 position is remembered within the browser tab, including between lessons.
+Published Holes audio is loudness-normalized to -16 LUFS with a -2 dBTP
+processing ceiling for classroom playback. The original source recordings
+remain unchanged outside the website. Keep these levels consistent when
+adding later chapters; browser volume alone cannot amplify a quiet recording.
 Readers use the same paging, font controls and fullscreen layout as A Monster
 Calls, with separate chapter data and font preferences for each book.
 
