@@ -69,6 +69,22 @@ player to the matching chapter-reading slide, not the overview or questions.
 Keep the source WAV files outside the repository. New source files do not
 publish automatically; check this folder during future material updates.
 
+Chapters 1 to 7 also have an optional **Read chapter** view below the audio.
+It has page controls and adjustable text size, and is closed by default. The
+source EPUB is not uploaded. Only the requested chapters are converted to text
+data under `lessons/5si/unit-2/reading/`. These files are public, just like the
+audio; the reading toggle is not access control.
+
+To reimport these seven chapters from the supplied edition, run:
+
+```powershell
+./scripts/import-amc-chapters.ps1 -Epub 'path/to/A Monster Calls.epub'
+npm run test:reader
+```
+
+The importer verifies the EPUB reading order and chapter headings and preserves
+paragraphs, emphasis, and section breaks without importing scripts or styles.
+
 ## Other folders
 
 - `assets/`: shared site artwork and practice thumbnails.
