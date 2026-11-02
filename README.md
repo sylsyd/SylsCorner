@@ -56,6 +56,18 @@ Week-wide files stay directly inside that week folder.
    uploads.
 4. Run `npm run check:lessons` before committing and pushing.
 
+## A Monster Calls audiobook
+
+Original recordings are supplied in `20262027/5SI/Unit 2/Audiobook` outside this
+website. Published, compressed audio lives in
+`lessons/5si/unit-2/audiobook/chapter-N.mp3`. Chapters 1 and 2 are playable on
+their reading slides in `week-1/lesson-1/index.html`.
+
+When adding later recordings, convert them to web-sized MP3 files and add a
+player to the matching chapter-reading slide, not the overview or questions.
+Keep the source WAV files outside the repository. New source files do not
+publish automatically; check this folder during future material updates.
+
 ## Other folders
 
 - `assets/`: shared site artwork and practice thumbnails.
