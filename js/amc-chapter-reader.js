@@ -1,8 +1,10 @@
 (function () {
   'use strict';
   const audioElements = [...document.querySelectorAll('.chapter-audio audio')];
+  const bookId = document.body.dataset.readerBook === 'holes' ? 'holes' : 'amc';
+  const registry = bookId === 'holes' ? 'LearningDeckHolesChapters' : 'LearningDeckChapters';
   const loads = new Map();
-  const fontKey = 'learning-deck:amc-reader-font-size';
+  const fontKey = 'learning-deck:' + bookId + '-reader-font-size';
   let active = null;
   let fontSize = innerWidth <= 600 || innerHeight <= 500 ? 20 : 26;
   try {
@@ -22,13 +24,13 @@
 
   function loadChapter(state) {
     const number = state.number;
-    if (globalThis.LearningDeckChapters?.[number]) return Promise.resolve(globalThis.LearningDeckChapters[number]);
+    if (globalThis[registry]?.[number]) return Promise.resolve(globalThis[registry][number]);
     if (loads.has(number)) return loads.get(number);
     const promise = new Promise((resolve, reject) => {
       const script = document.createElement('script');
       script.src = new URL('../reading/chapter-' + number + '.js', state.audio.src).href;
       script.onload = function () {
-        const data = globalThis.LearningDeckChapters?.[number];
+        const data = globalThis[registry]?.[number];
         if (data?.number === number && Array.isArray(data.paragraphs) && data.paragraphs.length) resolve(data);
         else { loads.delete(number); reject(new Error('Chapter data unavailable')); }
         script.remove();
@@ -56,7 +58,7 @@
       fragment.append(p);
     }
     state.content.replaceChildren(fragment);
-    state.heading.textContent = 'Chapter ' + data.number + ': ' + data.title;
+    state.heading.textContent = 'Chapter ' + data.number + (data.title ? ': ' + data.title : '');
     state.credit.textContent = data.book + ' / ' + data.author;
     state.loaded = true;
   }
@@ -159,6 +161,8 @@
     state.panel.hidden = true;
     state.trigger.setAttribute('aria-expanded', 'false');
     state.slide.classList.remove('chapter-reading-slide');
+    state.audio.closest('.chapter-audio').classList.remove('chapter-reading-audio');
+    state.root.classList.remove('chapter-reading-root');
     document.body.classList.remove('chapter-reading');
     document.body.classList.remove('chapter-reader-fullscreen');
     if (exitFullscreen) document.exitFullscreen().catch(function () {});
@@ -171,6 +175,8 @@
     state.panel.hidden = false;
     state.trigger.setAttribute('aria-expanded', 'true');
     state.slide.classList.add('chapter-reading-slide');
+    state.audio.closest('.chapter-audio').classList.add('chapter-reading-audio');
+    state.root.classList.add('chapter-reading-root');
     document.body.classList.add('chapter-reading');
     setFullscreenView(state, Boolean(document.fullscreenElement));
     state.close.focus({ preventScroll: true });
@@ -200,8 +206,8 @@
 
   for (const audio of audioElements) {
     const match = audio.id.match(/^chapter-([1-7])-audio$/);
-    if (!match) continue;
-    const number = Number(match[1]);
+    const number = Number(audio.dataset.chapter || match?.[1]);
+    if (!Number.isInteger(number) || number < 1 || number > 7) continue;
     const root = document.createElement('div');
     root.className = 'amc-reader';
     root.innerHTML = '<button type="button" class="amc-reader-toggle" aria-expanded="false">Read chapter ' + number + '</button>' +
@@ -219,9 +225,10 @@
       previous: button('Previous page', '\u2190'), next: button('Next page', '\u2192'),
       smaller: button('Smaller text', 'A\u2212'), larger: button('Larger text', 'A+'), fullscreenButton: button('Enter fullscreen', '\u26f6'), close: button('Close chapter', '\u00d7', 'amc-reader-close')
     };
-    state.heading.id = 'amc-reader-title-' + number;
+    const instanceId = bookId === 'holes' ? audio.id : String(number);
+    state.heading.id = 'amc-reader-title-' + instanceId;
     state.heading.textContent = 'Chapter ' + number;
-    state.panel.id = 'amc-reader-panel-' + number;
+    state.panel.id = 'amc-reader-panel-' + instanceId;
     state.panel.setAttribute('aria-labelledby', state.heading.id);
     state.trigger.setAttribute('aria-controls', state.panel.id);
     state.trigger.setAttribute('aria-label', 'Read chapter ' + number);
@@ -256,17 +263,45 @@
       touch = null;
     }, { passive: true });
     audio.closest('.chapter-audio').after(root);
+    if (bookId === 'holes') {
+      const resumeKey = 'learning-deck:holes:audio-' + number;
+      let lastSave = 0;
+      function savePosition() {
+        if (!Number.isFinite(audio.duration)) return;
+        try { sessionStorage.setItem(resumeKey, String(audio.currentTime >= audio.duration - 1 ? 0 : audio.currentTime)); } catch (_) {}
+      }
+      function restorePosition() {
+        try {
+          const saved = Number(sessionStorage.getItem(resumeKey));
+          if (saved > 0 && saved < audio.duration - 1) audio.currentTime = saved;
+        } catch (_) {}
+      }
+      audio.addEventListener('loadedmetadata', restorePosition);
+      audio.addEventListener('play', function () {
+        audioElements.forEach(other => { if (other !== audio) other.pause(); });
+        restorePosition();
+      });
+      audio.addEventListener('pause', savePosition);
+      audio.addEventListener('seeked', savePosition);
+      audio.addEventListener('timeupdate', function () {
+        if (performance.now() - lastSave > 1500) { savePosition(); lastSave = performance.now(); }
+      });
+      audio.addEventListener('ended', savePosition);
+    }
     new ResizeObserver(() => paginate(state)).observe(state.viewport);
   }
 
   document.addEventListener('keydown', function (event) {
-    if (!active) return;
+    if (!active) {
+      if (event.target.closest('.chapter-audio,.amc-reader') && ['ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'Home', 'End', ' ', 'Enter'].includes(event.key)) event.stopPropagation();
+      return;
+    }
     if (event.key === 'Escape') {
       event.preventDefault(); event.stopPropagation();
       if (active.fullscreen) toggleFullscreen(active); else closeReader();
       return;
     }
-    if (!['ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'Home', 'End', ' ', 'n', 'N'].includes(event.key)) return;
+    if (!['ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'Home', 'End', ' ', 'n', 'N', 'r', 'R', 'h', 'H', 't', 'T', 'f', 'F'].includes(event.key)) return;
     event.stopPropagation();
     if (event.ctrlKey || event.altKey || event.metaKey || event.target.closest('audio,button,input,select,textarea')) return;
     event.preventDefault();
@@ -274,6 +309,7 @@
     else if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') turnPage(active, 1);
     else if (event.key === 'Home') { active.page = 0; updatePage(active); }
     else if (event.key === 'End') { active.page = active.pages - 1; updatePage(active); }
+    else if (event.key === 'f' || event.key === 'F') toggleFullscreen(active);
   }, true);
   document.addEventListener('fullscreenchange', function () {
     if (!active) return;
@@ -281,6 +317,8 @@
     setFullscreenView(active, Boolean(document.fullscreenElement));
   });
   new MutationObserver(function () {
+    if (bookId === 'holes') audioElements.forEach(audio => { if (!audio.closest('.slide').classList.contains('active')) audio.pause(); });
     if (active && !active.slide.classList.contains('active')) closeReader(false);
   }).observe(document.getElementById('stage'), { attributes: true, attributeFilter: ['class'], subtree: true });
+  if (bookId === 'holes') window.addEventListener('pagehide', function () { audioElements.forEach(audio => audio.pause()); });
 })();

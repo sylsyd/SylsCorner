@@ -87,6 +87,23 @@ npm run test:reader
 The importer verifies the EPUB reading order and chapter headings and preserves
 paragraphs, emphasis, and section breaks without importing scripts or styles.
 
+## Holes Week 1 audio and reading
+
+Week 1 reading slides in lessons 1, 2, 3 and 5 have chapter 1 to 7 audio and
+optional text readers. Lessons 4 and 6 and all later weeks are unchanged.
+Chapter 7 uses the same full recording at each reading section; playback
+position is remembered within the browser tab, including between lessons.
+Readers use the same paging, font controls and fullscreen layout as A Monster
+Calls, with separate chapter data and font preferences for each book.
+
+Only chapters 1 to 7 are published under `lessons/6si/unit-2/audiobook/` and
+`reading/`. The original EPUB and the later audiobook chapters are not uploaded.
+The text files are public, like the audio; the reading toggle is not protection.
+
+```powershell
+./scripts/import-holes-chapters.ps1 -Epub 'path/to/Holes.epub'
+```
+
 ## Other folders
 
 - `assets/`: shared site artwork and practice thumbnails.
