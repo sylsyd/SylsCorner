@@ -71,6 +71,8 @@ publish automatically; check this folder during future material updates.
 
 Chapters 1 to 7 also have an optional **Read chapter** view below the audio.
 It has page controls and adjustable text size, and is closed by default. The
+fullscreen button expands the reading area, with two columns on wide screens.
+Text can be reduced to 14px, and audio continues during fullscreen reading. The
 source EPUB is not uploaded. Only the requested chapters are converted to text
 data under `lessons/5si/unit-2/reading/`. These files are public, just like the
 audio; the reading toggle is not access control.

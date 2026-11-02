@@ -4,10 +4,10 @@
   const loads = new Map();
   const fontKey = 'learning-deck:amc-reader-font-size';
   let active = null;
-  let fontSize = innerWidth <= 600 ? 20 : 26;
+  let fontSize = innerWidth <= 600 || innerHeight <= 500 ? 20 : 26;
   try {
     const saved = Number(localStorage.getItem(fontKey));
-    if (saved >= 18 && saved <= 36) fontSize = saved;
+    if (saved >= 14 && saved <= 36) fontSize = saved;
   } catch (_) {}
 
   function button(label, symbol, className = '') {
@@ -61,25 +61,51 @@
     state.loaded = true;
   }
 
-  function updatePage(state) {
+  function captureAnchor(state) {
+    const bounds = state.viewport.getBoundingClientRect();
+    const x = bounds.left + 4, y = bounds.top + 10;
+    const caret = document.caretPositionFromPoint?.(x, y);
+    const range = caret ? null : document.caretRangeFromPoint?.(x, y);
+    const node = caret?.offsetNode || range?.startContainer;
+    const offset = caret?.offset ?? range?.startOffset;
+    if (node?.nodeType === Node.TEXT_NODE && node.length && state.content.contains(node)) {
+      state.anchor = { node, offset: Math.min(offset, node.length - 1) };
+    }
+  }
+
+  function updatePage(state, keepAnchor = false) {
     state.page = Math.max(0, Math.min(state.pages - 1, state.page));
-    state.viewport.scrollLeft = state.page * (state.viewport.clientWidth + 48);
+    state.viewport.scrollLeft = state.page * state.stride;
     state.counter.textContent = 'Page ' + (state.page + 1) + ' of ' + state.pages;
     state.previous.disabled = state.page === 0;
     state.next.disabled = state.page === state.pages - 1;
+    if (!keepAnchor || !state.anchor) captureAnchor(state);
   }
 
   function paginate(state) {
     if (active !== state || !state.loaded || !state.viewport.clientWidth) return;
     const progress = state.pages > 1 ? state.page / (state.pages - 1) : 0;
-    state.content.style.setProperty('--amc-page-width', state.viewport.clientWidth + 'px');
+    const width = state.viewport.clientWidth;
+    const gap = state.fullscreen ? 32 : 48;
+    const columns = state.fullscreen && width >= 1080 ? 2 : 1;
+    state.stride = width + gap;
+    state.content.style.setProperty('--amc-page-width', ((width - gap * (columns - 1)) / columns) + 'px');
+    state.content.style.setProperty('--amc-column-count', columns);
+    state.content.style.setProperty('--amc-column-gap', gap + 'px');
     state.content.style.setProperty('--amc-font-size', fontSize + 'px');
     state.viewport.scrollLeft = 0;
-    state.pages = Math.max(1, Math.ceil((state.content.scrollWidth + 47) / (state.viewport.clientWidth + 48)));
-    state.page = Math.round(progress * (state.pages - 1));
-    state.smaller.disabled = fontSize <= 18;
+    state.pages = Math.max(1, Math.ceil((state.content.scrollWidth + gap - 1) / state.stride));
+    // Complete the final spread so an odd last column does not overlap the previous page.
+    state.scrollEnd.style.left = (state.pages * state.stride - gap - 1) + 'px';
+    if (state.anchor && state.content.contains(state.anchor.node)) {
+      const range = document.createRange();
+      range.setStart(state.anchor.node, state.anchor.offset);
+      range.setEnd(state.anchor.node, state.anchor.offset + 1);
+      state.page = Math.floor((range.getBoundingClientRect().left - state.viewport.getBoundingClientRect().left + 1) / state.stride);
+    } else state.page = Math.round(progress * (state.pages - 1));
+    state.smaller.disabled = fontSize <= 14;
     state.larger.disabled = fontSize >= 36;
-    updatePage(state);
+    updatePage(state, true);
   }
 
   function turnPage(state, change) {
@@ -88,14 +114,54 @@
     updatePage(state);
   }
 
+  function setFullscreenView(state, enabled) {
+    state.fullscreen = enabled;
+    document.body.classList.toggle('chapter-reader-fullscreen', enabled);
+    const available = document.fullscreenEnabled && document.documentElement.requestFullscreen;
+    const label = enabled ? (document.fullscreenElement ? 'Exit fullscreen' : 'Exit expanded view') : (available ? 'Enter fullscreen' : 'Expand reading area');
+    state.fullscreenButton.setAttribute('aria-label', label);
+    state.fullscreenButton.title = label;
+    state.fullscreenButton.setAttribute('aria-pressed', String(enabled));
+    paginate(state);
+  }
+
+  async function toggleFullscreen(state) {
+    if (state.fullscreenButton.disabled) return;
+    state.fullscreenButton.disabled = true;
+    try {
+      if (state.fullscreen) {
+        setFullscreenView(state, false);
+        state.ownsFullscreen = false;
+        if (document.fullscreenElement) await document.exitFullscreen();
+      } else {
+        setFullscreenView(state, true);
+        if (!document.fullscreenElement && document.fullscreenEnabled && document.documentElement.requestFullscreen) {
+          await document.documentElement.requestFullscreen();
+          if (active !== state) { await document.exitFullscreen(); return; }
+          state.ownsFullscreen = true;
+        }
+        setFullscreenView(state, true);
+      }
+    } catch (_) {
+      // Keep the expanded layout usable when the browser does not permit native fullscreen.
+      if (active === state) setFullscreenView(state, state.fullscreen);
+    } finally { state.fullscreenButton.disabled = false; }
+  }
+
   function closeReader(restoreFocus = true) {
     if (!active) return;
     const state = active;
     active = null;
+    const exitFullscreen = state.ownsFullscreen && document.fullscreenElement;
+    state.ownsFullscreen = false;
+    state.fullscreen = false;
+    state.fullscreenButton.setAttribute('aria-pressed', 'false');
     state.panel.hidden = true;
     state.trigger.setAttribute('aria-expanded', 'false');
     state.slide.classList.remove('chapter-reading-slide');
     document.body.classList.remove('chapter-reading');
+    document.body.classList.remove('chapter-reader-fullscreen');
+    if (exitFullscreen) document.exitFullscreen().catch(function () {});
     if (restoreFocus && state.slide.classList.contains('active')) state.trigger.focus({ preventScroll: true });
   }
 
@@ -106,6 +172,7 @@
     state.trigger.setAttribute('aria-expanded', 'true');
     state.slide.classList.add('chapter-reading-slide');
     document.body.classList.add('chapter-reading');
+    setFullscreenView(state, Boolean(document.fullscreenElement));
     state.close.focus({ preventScroll: true });
     if (!state.loaded) {
       state.content.hidden = true;
@@ -141,16 +208,16 @@
       '<section class="amc-reader-panel" hidden role="region"><div class="amc-reader-toolbar">' +
       '<div class="amc-reader-heading"><h2></h2><p></p></div><div class="amc-reader-tools"></div></div>' +
       '<div class="amc-reader-viewport" tabindex="0"><div class="amc-reader-content"></div>' +
-      '<p class="amc-reader-message" role="status" hidden></p><button type="button" class="amc-reader-retry" hidden>Retry</button></div>' +
+      '<p class="amc-reader-message" role="status" hidden></p><button type="button" class="amc-reader-retry" hidden>Retry</button><span class="amc-reader-scroll-end" aria-hidden="true"></span></div>' +
       '<div class="amc-reader-pagination"><span class="amc-reader-page" role="status" aria-live="polite"></span></div></section>';
     const get = selector => root.querySelector(selector);
     const state = {
-      number, audio, root, slide: audio.closest('.slide'), loaded: false, page: 0, pages: 1,
+      number, audio, root, slide: audio.closest('.slide'), loaded: false, page: 0, pages: 1, stride: 0, fullscreen: false, ownsFullscreen: false,
       trigger: get('.amc-reader-toggle'), panel: get('.amc-reader-panel'), heading: get('h2'), credit: get('.amc-reader-heading p'),
       viewport: get('.amc-reader-viewport'), content: get('.amc-reader-content'), counter: get('.amc-reader-page'),
-      message: get('.amc-reader-message'), retry: get('.amc-reader-retry'),
+      message: get('.amc-reader-message'), retry: get('.amc-reader-retry'), scrollEnd: get('.amc-reader-scroll-end'),
       previous: button('Previous page', '\u2190'), next: button('Next page', '\u2192'),
-      smaller: button('Smaller text', 'A\u2212'), larger: button('Larger text', 'A+'), close: button('Close chapter', '\u00d7', 'amc-reader-close')
+      smaller: button('Smaller text', 'A\u2212'), larger: button('Larger text', 'A+'), fullscreenButton: button('Enter fullscreen', '\u26f6'), close: button('Close chapter', '\u00d7', 'amc-reader-close')
     };
     state.heading.id = 'amc-reader-title-' + number;
     state.heading.textContent = 'Chapter ' + number;
@@ -159,16 +226,18 @@
     state.trigger.setAttribute('aria-controls', state.panel.id);
     state.trigger.setAttribute('aria-label', 'Read chapter ' + number);
     state.viewport.setAttribute('aria-label', 'Chapter ' + number + ' text');
-    get('.amc-reader-tools').append(state.smaller, state.larger, state.close);
+    state.fullscreenButton.setAttribute('aria-pressed', 'false');
+    get('.amc-reader-tools').append(state.smaller, state.larger, state.fullscreenButton, state.close);
     get('.amc-reader-pagination').prepend(state.previous);
     get('.amc-reader-pagination').append(state.next);
     state.trigger.onclick = () => openReader(state);
     state.retry.onclick = () => openReader(state);
     state.close.onclick = () => closeReader();
+    state.fullscreenButton.onclick = () => toggleFullscreen(state);
     state.previous.onclick = () => turnPage(state, -1);
     state.next.onclick = () => turnPage(state, 1);
     function changeFont(change) {
-      fontSize = Math.max(18, Math.min(36, fontSize + change));
+      fontSize = Math.max(14, Math.min(36, fontSize + change));
       try { localStorage.setItem(fontKey, String(fontSize)); } catch (_) {}
       paginate(state);
     }
@@ -192,7 +261,11 @@
 
   document.addEventListener('keydown', function (event) {
     if (!active) return;
-    if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); closeReader(); return; }
+    if (event.key === 'Escape') {
+      event.preventDefault(); event.stopPropagation();
+      if (active.fullscreen) toggleFullscreen(active); else closeReader();
+      return;
+    }
     if (!['ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'Home', 'End', ' ', 'n', 'N'].includes(event.key)) return;
     event.stopPropagation();
     if (event.ctrlKey || event.altKey || event.metaKey || event.target.closest('audio,button,input,select,textarea')) return;
@@ -202,6 +275,11 @@
     else if (event.key === 'Home') { active.page = 0; updatePage(active); }
     else if (event.key === 'End') { active.page = active.pages - 1; updatePage(active); }
   }, true);
+  document.addEventListener('fullscreenchange', function () {
+    if (!active) return;
+    if (!document.fullscreenElement) active.ownsFullscreen = false;
+    setFullscreenView(active, Boolean(document.fullscreenElement));
+  });
   new MutationObserver(function () {
     if (active && !active.slide.classList.contains('active')) closeReader(false);
   }).observe(document.getElementById('stage'), { attributes: true, attributeFilter: ['class'], subtree: true });
