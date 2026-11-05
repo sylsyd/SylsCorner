@@ -7,6 +7,6 @@
   "scripts": {
     "test": "node --test tests/leaderboard.test.mjs",
     "test:reader": "node --test tests/amc-chapter-reader.test.mjs tests/holes-chapter-reader.test.mjs",
-    "check:lessons": "node scripts/check-lesson-links.mjs && node --test tests/lesson-structure.test.mjs"
+    "check:lessons": "node scripts/check-lesson-links.mjs && node --test tests/lesson-structure.test.mjs tests/unit2-week2.test.mjs"
   }
 }

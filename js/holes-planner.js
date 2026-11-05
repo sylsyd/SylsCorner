@@ -2,6 +2,14 @@ const views = [...document.querySelectorAll('[data-view]')];
 const links = [...document.querySelectorAll('.planner-rail nav a')];
 const dialog = document.getElementById('lesson-dialog');
 const templates = [...document.querySelectorAll('template[data-week]')];
+const weekTwo = document.getElementById('w2');
+if (weekTwo) {
+  const entry = document.createElement('a');
+  entry.className = 'week-entry';
+  entry.href = '/lessons/6si/unit-2/week-2/';
+  entry.textContent = 'Open Week 2 classroom lessons →';
+  weekTwo.querySelector('h1').after(entry);
+}
 let selectedLesson = null;
 function showView(focus = false) {
   const id = location.hash.slice(1) || 'overview';
@@ -28,8 +36,10 @@ function openLesson(id) {
   if (!selectedLesson) return;
   document.getElementById('lesson-body').replaceChildren(selectedLesson.content.cloneNode(true));
   const classroomNumber = Number(selectedLesson.id.replace('lesson-', '')) + 1;
-  if (selectedLesson.dataset.week === 'w1' && classroomNumber <= 7) {
-    const href = '/lessons/6si/unit-2/week-1/lesson-' + classroomNumber + '/';
+  const classroomWeek = selectedLesson.dataset.week === 'w1' && classroomNumber <= 7 ? 1
+    : selectedLesson.dataset.week === 'w2' && classroomNumber >= 8 && classroomNumber <= 9 ? 2 : null;
+  if (classroomWeek) {
+    const href = '/lessons/6si/unit-2/week-' + classroomWeek + '/lesson-' + classroomNumber + '/';
     if (!document.getElementById('lesson-body').querySelector('a[href="' + href + '"]')) {
       const activity = document.createElement('a');
       activity.className = 'week-entry';
