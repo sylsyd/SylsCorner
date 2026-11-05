@@ -69,7 +69,8 @@ player to the matching chapter-reading slide, not the overview or questions.
 Keep the source WAV files outside the repository. New source files do not
 publish automatically; check this folder during future material updates.
 
-Chapters 1 to 7 also have an optional **Read chapter** view below the audio.
+Chapters 1 to 7 have an optional **Read chapter** view below the audio.
+Week 2 lessons 2 and 3 have text-only readers for chapters 8 to 11.
 It has page controls and adjustable text size, and is closed by default. The
 fullscreen button expands the reading area, with two columns on wide screens.
 Text can be reduced to 14px, and audio continues during fullscreen reading. The
@@ -77,20 +78,21 @@ source EPUB is not uploaded. Only the requested chapters are converted to text
 data under `lessons/5si/unit-2/reading/`. These files are public, just like the
 audio; the reading toggle is not access control.
 
-To reimport these seven chapters from the supplied edition, run:
+To reimport the published chapters from the supplied edition, run:
 
 ```powershell
-./scripts/import-amc-chapters.ps1 -Epub 'path/to/A Monster Calls.epub'
+./scripts/import-amc-chapters.ps1 -Epub 'path/to/A Monster Calls.epub' -LastChapter 11
 npm run test:reader
 ```
 
 The importer verifies the EPUB reading order and chapter headings and preserves
 paragraphs, emphasis, and section breaks without importing scripts or styles.
 
-## Holes Week 1 audio and reading
+## Holes audio and reading
 
-Week 1 reading slides in lessons 1, 2, 3 and 5 have chapter 1 to 7 audio and
-optional text readers. Lessons 4 and 6 and all later weeks are unchanged.
+Week 1 reading slides in lessons 1, 2, 3, 5 and 7 have chapters 1 to 10.
+Week 2 reading slides in lessons 8, 9 and 11 have chapters 11 to 18.
+Each reading slide offers the audiobook and an optional text reader.
 Chapter 7 uses the same full recording at each reading section; playback
 position is remembered within the browser tab, including between lessons.
 Published Holes audio is loudness-normalized to -16 LUFS with a -2 dBTP
@@ -100,12 +102,14 @@ adding later chapters; browser volume alone cannot amplify a quiet recording.
 Readers use the same paging, font controls and fullscreen layout as A Monster
 Calls, with separate chapter data and font preferences for each book.
 
-Only chapters 1 to 7 are published under `lessons/6si/unit-2/audiobook/` and
+Only chapters 1 to 18 are published under `lessons/6si/unit-2/audiobook/` and
 `reading/`. The original EPUB and the later audiobook chapters are not uploaded.
 The text files are public, like the audio; the reading toggle is not protection.
 
 ```powershell
-./scripts/import-holes-chapters.ps1 -Epub 'path/to/Holes.epub'
+./scripts/import-holes-chapters.ps1 -Epub 'path/to/Holes.epub' -LastChapter 18
+# Import only missing recordings; the script does not overwrite existing MP3s.
+node scripts/normalize-holes-audio.mjs 'path/to/audiobook folder' 8 18
 ```
 
 ## Other folders

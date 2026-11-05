@@ -1,12 +1,15 @@
 param(
-  [Parameter(Mandatory = $true)][string]$Epub
+  [Parameter(Mandatory = $true)][string]$Epub,
+  [ValidateRange(1,11)][int]$FirstChapter = 1,
+  [ValidateRange(1,11)][int]$LastChapter = 7
 )
 
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $root = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $destination = Join-Path $root 'lessons/5si/unit-2/reading'
-$titles = @('A Monster Calls', 'Breakfast', 'School', 'Life Writing', 'Three Stories', 'Grandma', 'The Wildness of Stories')
+$titles = @('A Monster Calls', 'Breakfast', 'School', 'Life Writing', 'Three Stories', 'Grandma', 'The Wildness of Stories', 'The First Tale', 'The Rest of the First Tale', 'Understanding', 'Little Talk')
+if ($FirstChapter -gt $LastChapter) { throw 'FirstChapter must not exceed LastChapter.' }
 
 function Read-ArchiveXml($Archive, [string]$Name) {
   $entry = $Archive.GetEntry($Name)
@@ -51,7 +54,7 @@ try {
   }
   $spine = @($package.SelectNodes('//*[local-name()="spine"]/*[local-name()="itemref"]') | ForEach-Object { $manifest[$_.GetAttribute('idref')] })
   $chapters = @()
-  for ($chapter = 1; $chapter -le 7; $chapter++) {
+  for ($chapter = $FirstChapter; $chapter -le $LastChapter; $chapter++) {
     $entryName = 'OEBPS/Text/A_Monster_Calls_split_{0:d3}.html' -f ($chapter + 3)
     if ($entryName -notin $spine) { throw "Chapter $chapter is not in the EPUB reading order." }
     $document = Read-ArchiveXml $archive $entryName

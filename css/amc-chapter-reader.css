@@ -4,6 +4,7 @@
 .amc-reader-panel[hidden]{display:none!important}
 body.chapter-reading #stage{width:100%!important;height:100%!important;left:0!important;top:0!important;transform:none!important;background:#fafaf8}
 body.chapter-reading #stage>:not(.chapter-reading-slide){display:none!important}
+body.chapter-reading .unit-return{display:none!important}
 body.chapter-reading .slide.chapter-reading-slide{position:absolute;inset:0;padding:20px 24px;display:flex;flex-direction:column;overflow:hidden;background:#fafaf8}
 body.chapter-reading .chapter-reading-slide::before,body.chapter-reading .chapter-reading-slide::after{display:none}
 body.chapter-reading .chapter-reading-slide>.slide-content{display:contents!important}

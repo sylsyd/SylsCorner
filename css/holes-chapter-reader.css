@@ -6,7 +6,7 @@ body[data-reader-book="holes"] .amc-reader-toggle{font-size:16px;min-height:34px
 body[data-reader-book="holes"].chapter-reading #stage{position:fixed!important;inset:0!important}
 body[data-reader-book="holes"].chapter-reading .chapter-reading-slide{border-radius:0!important}
 body[data-reader-book="holes"].chapter-reading .chapter-reading-slide>.slide-content{zoom:1!important}
-body[data-reader-book="holes"].chapter-reading #nav,body[data-reader-book="holes"].chapter-reading .unit-return{display:none!important}
+body[data-reader-book="holes"].chapter-reading #nav{display:none!important}
 body[data-reader-book="holes"].chapter-reading .chapter-reading-slide>.content,body[data-reader-book="holes"].chapter-reading .chapter-reading-slide>.content>.flow{display:contents!important;zoom:1!important;width:auto!important}
 body[data-reader-book="holes"].chapter-reading .chapter-reading-slide>.content>.flow>:not(.chapter-audio,.amc-reader){display:none!important}
 body[data-reader-book="holes"].chapter-reading .chapter-reading-slide>.content{display:contents!important}

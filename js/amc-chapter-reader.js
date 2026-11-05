@@ -1,6 +1,7 @@
 (function () {
   'use strict';
   const audioElements = [...document.querySelectorAll('.chapter-audio audio')];
+  const sources = document.querySelectorAll('.chapter-audio audio, .chapter-reader-anchor');
   const bookId = document.body.dataset.readerBook === 'holes' ? 'holes' : 'amc';
   const registry = bookId === 'holes' ? 'LearningDeckHolesChapters' : 'LearningDeckChapters';
   const loads = new Map();
@@ -28,7 +29,7 @@
     if (loads.has(number)) return loads.get(number);
     const promise = new Promise((resolve, reject) => {
       const script = document.createElement('script');
-      script.src = new URL('../reading/chapter-' + number + '.js', state.audio.src).href;
+      script.src = state.src;
       script.onload = function () {
         const data = globalThis[registry]?.[number];
         if (data?.number === number && Array.isArray(data.paragraphs) && data.paragraphs.length) resolve(data);
@@ -161,7 +162,7 @@
     state.panel.hidden = true;
     state.trigger.setAttribute('aria-expanded', 'false');
     state.slide.classList.remove('chapter-reading-slide');
-    state.audio.closest('.chapter-audio').classList.remove('chapter-reading-audio');
+    state.audio?.closest('.chapter-audio').classList.remove('chapter-reading-audio');
     state.root.classList.remove('chapter-reading-root');
     document.body.classList.remove('chapter-reading');
     document.body.classList.remove('chapter-reader-fullscreen');
@@ -175,7 +176,7 @@
     state.panel.hidden = false;
     state.trigger.setAttribute('aria-expanded', 'true');
     state.slide.classList.add('chapter-reading-slide');
-    state.audio.closest('.chapter-audio').classList.add('chapter-reading-audio');
+    state.audio?.closest('.chapter-audio').classList.add('chapter-reading-audio');
     state.root.classList.add('chapter-reading-root');
     document.body.classList.add('chapter-reading');
     setFullscreenView(state, Boolean(document.fullscreenElement));
@@ -204,10 +205,15 @@
     document.fonts?.ready.then(function () { paginate(state); });
   }
 
-  for (const audio of audioElements) {
-    const match = audio.id.match(/^chapter-([1-7])-audio$/);
-    const number = Number(audio.dataset.chapter || match?.[1]);
-    if (!Number.isInteger(number) || number < 1 || number > 7) continue;
+  for (const source of sources) {
+    const audio = source.matches('audio') ? source : null;
+    const slide = source.closest('.slide');
+    const match = audio?.id.match(/^chapter-(\d+)-audio$/);
+    const number = Number(source.dataset.chapter || match?.[1]);
+    if (!slide || !Number.isInteger(number) || number < 1 || number > (bookId === 'holes' ? 50 : 32)) continue;
+    if (!audio && !source.dataset.chapterSrc) continue;
+    const src = audio ? new URL('../reading/chapter-' + number + '.js', audio.src).href
+      : new URL(source.dataset.chapterSrc, document.baseURI).href;
     const root = document.createElement('div');
     root.className = 'amc-reader';
     root.innerHTML = '<button type="button" class="amc-reader-toggle" aria-expanded="false">Read chapter ' + number + '</button>' +
@@ -218,14 +224,14 @@
       '<div class="amc-reader-pagination"><span class="amc-reader-page" role="status" aria-live="polite"></span></div></section>';
     const get = selector => root.querySelector(selector);
     const state = {
-      number, audio, root, slide: audio.closest('.slide'), loaded: false, page: 0, pages: 1, stride: 0, fullscreen: false, ownsFullscreen: false,
+      number, audio, src, root, slide, loaded: false, page: 0, pages: 1, stride: 0, fullscreen: false, ownsFullscreen: false,
       trigger: get('.amc-reader-toggle'), panel: get('.amc-reader-panel'), heading: get('h2'), credit: get('.amc-reader-heading p'),
       viewport: get('.amc-reader-viewport'), content: get('.amc-reader-content'), counter: get('.amc-reader-page'),
       message: get('.amc-reader-message'), retry: get('.amc-reader-retry'), scrollEnd: get('.amc-reader-scroll-end'),
       previous: button('Previous page', '\u2190'), next: button('Next page', '\u2192'),
       smaller: button('Smaller text', 'A\u2212'), larger: button('Larger text', 'A+'), fullscreenButton: button('Enter fullscreen', '\u26f6'), close: button('Close chapter', '\u00d7', 'amc-reader-close')
     };
-    const instanceId = bookId === 'holes' ? audio.id : String(number);
+    const instanceId = bookId === 'holes' && audio ? audio.id : String(number);
     state.heading.id = 'amc-reader-title-' + instanceId;
     state.heading.textContent = 'Chapter ' + number;
     state.panel.id = 'amc-reader-panel-' + instanceId;
@@ -262,8 +268,8 @@
       if (Math.abs(dx) > 60 && Math.abs(dy) < 45) turnPage(state, dx < 0 ? 1 : -1);
       touch = null;
     }, { passive: true });
-    audio.closest('.chapter-audio').after(root);
-    if (bookId === 'holes') {
+    (audio?.closest('.chapter-audio') || source).after(root);
+    if (bookId === 'holes' && audio) {
       const resumeKey = 'learning-deck:holes:audio-' + number;
       let lastSave = 0;
       function savePosition() {

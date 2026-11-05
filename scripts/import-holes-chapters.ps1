@@ -1,5 +1,10 @@
-param([Parameter(Mandatory = $true)][string]$Epub)
+param(
+  [Parameter(Mandatory = $true)][string]$Epub,
+  [ValidateRange(1,49)][int]$FirstChapter = 1,
+  [ValidateRange(1,49)][int]$LastChapter = 7
+)
 $ErrorActionPreference = 'Stop'
+if ($FirstChapter -gt $LastChapter) { throw 'FirstChapter must not exceed LastChapter.' }
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $destination = Join-Path $PSScriptRoot '../lessons/6si/unit-2/reading'
 
@@ -62,20 +67,22 @@ try {
       if ($heading) {
         $number = [int]$text
         if ($number -ne $current + 1) { throw "Unexpected chapter order at $number." }
-        if ($number -eq 8) { $complete = $true; break }
+        if ($number -eq ($LastChapter + 1)) { $complete = $true; break }
         $current = $number
-        $chapters[$current] = [pscustomobject]@{ number = $current; title = ''; book = 'Holes'; author = 'Louis Sachar'; paragraphs = [System.Collections.Generic.List[object]]::new() }
+        if ($current -ge $FirstChapter) {
+          $chapters[$current] = [pscustomobject]@{ number = $current; title = ''; book = 'Holes'; author = 'Louis Sachar'; paragraphs = [System.Collections.Generic.List[object]]::new() }
+        }
         continue
       }
-      if ($current -ge 1 -and $current -le 7) {
+      if ($chapters.ContainsKey($current)) {
         $chapters[$current].paragraphs.Add([pscustomobject]@{ runs = @(Read-Runs $p); indent = $chapters[$current].paragraphs.Count -gt 0; gap = 0; center = $p.GetAttribute('class') -eq 'txtcenter' })
       }
     }
     if ($complete) { break }
   }
-  if (!$complete -or $chapters.Count -ne 7) { throw 'Could not verify all seven chapters and the chapter 8 boundary.' }
+  if (!$complete -or $chapters.Count -ne ($LastChapter - $FirstChapter + 1)) { throw 'Could not verify all requested chapters and the next chapter boundary.' }
   New-Item -ItemType Directory -Path $destination -Force | Out-Null
-  foreach ($number in 1..7) {
+  foreach ($number in $FirstChapter..$LastChapter) {
     $chapter = $chapters[$number]
     if (!$chapter.paragraphs.Count) { throw "Chapter $number is empty." }
     $json = (ConvertTo-Json -InputObject $chapter -Depth 10 -Compress).Replace('<', '\u003c').Replace('>', '\u003e')

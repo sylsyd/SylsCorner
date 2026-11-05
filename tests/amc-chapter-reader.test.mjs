@@ -7,16 +7,17 @@ import test from 'node:test';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const unit = path.join(root, 'lessons/5si/unit-2');
-const titles = ['A Monster Calls', 'Breakfast', 'School', 'Life Writing', 'Three Stories', 'Grandma', 'The Wildness of Stories'];
-const paragraphCounts = [60, 58, 44, 46, 79, 55, 54];
+const titles = ['A Monster Calls', 'Breakfast', 'School', 'Life Writing', 'Three Stories', 'Grandma', 'The Wildness of Stories', 'The First Tale', 'The Rest of the First Tale', 'Understanding', 'Little Talk'];
+const paragraphCounts = [60, 58, 44, 46, 79, 55, 54, 50, 48, 67, 54];
 
-test('only the seven requested chapter data files are published', () => {
-  assert.deepEqual(fs.readdirSync(path.join(unit, 'reading')).sort(), titles.map((_, i) => `chapter-${i + 1}.js`));
+test('only chapters 1 to 11 and the original seven recordings are published', () => {
+  assert.deepEqual(fs.readdirSync(path.join(unit, 'reading')).sort(), titles.map((_, i) => `chapter-${i + 1}.js`).sort());
+  assert.deepEqual(fs.readdirSync(path.join(unit, 'audiobook')).sort(), Array.from({ length: 7 }, (_, i) => `chapter-${i + 1}.mp3`));
   assert.ok(!fs.readdirSync(unit).some(file => file.endsWith('.epub')));
 });
 
 test('chapter data preserves complete paragraphs and safe inline emphasis', () => {
-  for (let number = 1; number <= 7; number++) {
+  for (let number = 1; number <= titles.length; number++) {
     const context = {};
     vm.runInNewContext(fs.readFileSync(path.join(unit, `reading/chapter-${number}.js`), 'utf8'), context);
     assert.deepEqual(Object.keys(context.LearningDeckChapters), [String(number)]);
@@ -39,7 +40,17 @@ test('chapter data preserves complete paragraphs and safe inline emphasis', () =
         if (run.italic) italic++;
       }
     }
-    assert.ok(italic > 0, 'The source emphasis must be retained.');
+    if (number <= 7) assert.ok(italic > 0, 'The source emphasis must be retained.');
+  }
+});
+
+test('Week 2 chapter readers do not require audio', () => {
+  for (const [lesson, chapters] of [[2, [8, 9]], [3, [10, 11]]]) {
+    const html = fs.readFileSync(path.join(unit, `week-2/lesson-${lesson}/index.html`), 'utf8');
+    assert.ok(!/<audio\b/.test(html));
+    assert.ok(html.includes('amc-chapter-reader.js'));
+    const sources = [...html.matchAll(/class="chapter-reader-anchor" data-chapter="(\d+)" data-chapter-src="([^"]+)"/g)];
+    assert.deepEqual(sources.map(([, number, src]) => [Number(number), src]), chapters.map(n => [n, `../../reading/chapter-${n}.js`]));
   }
 });
 
