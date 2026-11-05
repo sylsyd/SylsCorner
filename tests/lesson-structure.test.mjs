@@ -12,6 +12,48 @@ const context = {};
 vm.runInNewContext(code.slice(0, code.indexOf('  const params =')) + 'globalThis.catalog=lessons;})();', context);
 const catalog = context.catalog;
 
+test('Holes Lesson 7 is student-facing and accessible from the week menu and aliases', () => {
+  const route = '/lessons/6si/unit-2/week-1/lesson-7/';
+  const html = fs.readFileSync(resolveLocal(route).file, 'utf8');
+  const week = fs.readFileSync(path.join(root, 'lessons/6si/unit-2/week-1/index.html'), 'utf8');
+  assert.ok(week.includes(`href="${route}"`));
+  assert.equal([...week.matchAll(/class="lesson-card"/g)].length, 7);
+  assert.equal([...html.matchAll(/<section\b[^>]*data-title=/g)].length, 11);
+  for (const title of ['Friday Fact Check', 'Lizard fact file', 'Read ch 8', 'Read ch 9', 'Read ch 10', 'The water line']) assert.ok(html.includes(`data-title="${title}"`));
+  const notes = [...html.matchAll(/<div class="notes"([^>]*)>([\s\S]*?)<\/div>/g)];
+  assert.equal(notes.length, 11);
+  for (const [, attributes, content] of notes) {
+    assert.ok(attributes.includes('hidden'));
+    assert.equal(content, '');
+  }
+  assert.ok(!/Press N for teacher notes|Exam conditions:|B3: accept any theory/.test(html));
+  assert.ok(html.includes('Model answer') && html.includes('class="btn hint"'));
+  assert.ok(html.includes('class="unit-return" href="/lessons/6si/unit-2/week-1/"'));
+  for (const [, script] of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)) new vm.Script(script);
+  for (const alias of ['/holes-lesson-7', '/holes-lesson-7.html', '/holes/week-1/lesson-7']) assert.equal(resolveLocal(alias).file, resolveLocal(route).file);
+});
+
+test('Holes planner offers the published Lesson 7 activity', () => {
+  const script = fs.readFileSync(path.join(root, 'js/holes-planner.js'), 'utf8');
+  const activityLinks = [];
+  const template = { id: 'lesson-6', dataset: { week: 'w1' }, content: { cloneNode() { return {}; } } };
+  const dialog = { open: false, showModal() { this.open = true; } };
+  const nodes = {
+    'lesson-dialog': dialog,
+    'lesson-body': { replaceChildren() {}, querySelector() { return null; }, append(link) { activityLinks.push(link); } },
+    'previous-lesson': {}, 'next-lesson': {}, 'close-lesson': { focus() {} }
+  };
+  const document = {
+    querySelectorAll(selector) { return selector === 'template[data-week]' ? [template] : []; },
+    getElementById(id) { return nodes[id]; },
+    createElement() { return {}; }
+  };
+  vm.runInNewContext(script.slice(0, script.indexOf('function moveLesson')) + "openLesson('lesson-6');", { document });
+  assert.equal(activityLinks.length, 1);
+  assert.equal(activityLinks[0].href, '/lessons/6si/unit-2/week-1/lesson-7/');
+  assert.equal(dialog.open, true);
+});
+
 test('Irish Legends lesson 1 uses the revised past-tense lesson without the teacher pack', () => {
   const html = fs.readFileSync(path.join(root, 'lessons/6lva/unit-2/week-1/lesson-1/index.html'), 'utf8');
   for (const content of ["name:'Long ago = past'", "name:'Tell the legend'", 'Time machine: tap to go back in time', 'E. Back in time', 'var GROUPS=', 'var FLIP=', 'var DRILL=', 'var GAPE=', 'var TELL=', 'data-pst', 'data-flip']) {
