@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { privateLessonFiles } from '../js/lesson-releases.js';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -16,10 +17,12 @@ export function resolveLocal(href, from = 'index.html') {
     visited.add(pathname);
     pathname = decodeURIComponent(new URL(rules.get(pathname), url).pathname);
   }
+  const privateFile = privateLessonFiles.has(pathname) ||
+    privateLessonFiles.has(pathname.replace(/\/$/, '') + '/index.html');
   let file = path.join(root, pathname);
   if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
   if (!fs.existsSync(file) && !path.extname(file) && fs.existsSync(file + '.html')) file += '.html';
-  return { exists: fs.existsSync(file) && fs.statSync(file).isFile(), file, pathname };
+  return { exists: privateFile || (fs.existsSync(file) && fs.statSync(file).isFile()), file, pathname };
 }
 
 export function auditLessonLinks() {

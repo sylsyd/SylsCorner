@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import { privateLessonFiles } from '../js/lesson-releases.js';
 import path from 'node:path';
 import vm from 'node:vm';
 import test from 'node:test';
@@ -38,7 +39,10 @@ test('each Week 2 menu links all published lessons', () => {
   for (const classId of ['5si', '6si', '6lva']) {
     const html = fs.readFileSync(path.join(root, `lessons/${classId}/unit-2/week-2/index.html`), 'utf8');
     const hrefs = [...html.matchAll(/href="([^"]*\/week-2\/lesson-\d+\/)"/g)].map(match => match[1]);
-    assert.deepEqual(hrefs, lessons.filter(([id]) => id === classId).map(([, number]) => `/lessons/${classId}/unit-2/week-2/lesson-${number}/`));
+    const existing = lessons.filter(([id]) => id === classId).map(([, number]) => `/lessons/${classId}/unit-2/week-2/lesson-${number}/`);
+    const hosted = [...privateLessonFiles].filter(file => file.startsWith(`/lessons/${classId}/unit-2/week-2/`))
+      .map(file => file.replace(/index\.html$/, ''));
+    assert.deepEqual(hrefs, [...existing, ...hosted]);
   }
   assert.ok(fs.readFileSync(path.join(root, 'lessons/6lva/unit-2/unit.html'), 'utf8').includes('href="/lessons/6lva/unit-2/week-2/"'));
 });
@@ -54,12 +58,12 @@ test('A Monster Calls planner links teaching days, not the Week 2 holiday', () =
   assert.equal(context.link('w2-0'), '');
   assert.ok(context.link('w1-4').includes('/week-1/lesson-5/'));
   assert.ok(context.link('w2-3').includes('/week-2/lesson-3/'));
-  assert.equal(context.link('w2-4'), '');
+  for (const n of [4, 5, 6]) assert.ok(context.link('w2-' + n).includes('/week-2/lesson-' + n + '/'));
 });
 
 test('Holes planner exposes only published Week 2 activities', () => {
   const script = fs.readFileSync(path.join(root, 'js/holes-planner.js'), 'utf8');
-  for (const [number, expected] of [[8, true], [9, true], [10, true], [11, true], [12, false]]) {
+  for (const [number, expected] of [[8, true], [9, true], [10, true], [11, true], [12, true], [13, true], [14, false]]) {
     const links = [];
     const template = { id: `lesson-${number - 1}`, dataset: { week: 'w2' }, content: { cloneNode() { return {}; } } };
     const nodes = {

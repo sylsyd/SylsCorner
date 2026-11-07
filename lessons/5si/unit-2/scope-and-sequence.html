@@ -53,7 +53,7 @@ function searchView(){const matches=allLessons.filter(l=>(l.focus+' '+l.activity
 function openDialog(label,body){$('dialogLabel').textContent=label;$('dialogContent').innerHTML=body;if(!$('dialog').open)$('dialog').showModal();$('dialog').querySelector('.dialog-inner').scrollTop=0;$('closeDialog').focus();}
 function close(){if($('dialog').open)$('dialog').close();}
 function classroomActivityLink(id){
-  const activities={'w1-0':[1,'Meeting the Monster'],'w1-1':[2,'Topic or theme?'],'w1-2':[3,'Chapters 3 to 5'],'w1-3':[4,'Chapters 6 and 7'],'w1-4':[5,'Draw the Monster'],'w1-5':[6,'Your first PEEL paragraph'],'w1-6':[7,'Seven Minutes Past Midnight'],'w2-1':[1,'Choosing evidence',2],'w2-2':[2,'The First Tale: chapters 8 and 9',2],'w2-3':[3,'Understanding and Little Talk',2]};
+  const activities={'w1-0':[1,'Meeting the Monster'],'w1-1':[2,'Topic or theme?'],'w1-2':[3,'Chapters 3 to 5'],'w1-3':[4,'Chapters 6 and 7'],'w1-4':[5,'Draw the Monster'],'w1-5':[6,'Your first PEEL paragraph'],'w1-6':[7,'Seven Minutes Past Midnight'],'w2-1':[1,'Choosing evidence',2],'w2-2':[2,'The First Tale: chapters 8 and 9',2],'w2-3':[3,'Understanding and Little Talk',2],'w2-4':[4,'A Tale with a Twist',2],'w2-5':[5,'PEEL 2: Quoting',2],'w2-6':[6,'The Kingdom Road',2]};
   const activity=activities[id];
   return activity?'<a class="primary open-class-lesson" href="/lessons/5si/unit-2/week-'+(activity[2]||1)+'/lesson-'+activity[0]+'/">Open '+esc(activity[1])+' →</a>':'';
 }

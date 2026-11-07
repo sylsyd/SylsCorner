@@ -91,7 +91,7 @@ paragraphs, emphasis, and section breaks without importing scripts or styles.
 ## Holes audio and reading
 
 Week 1 reading slides in lessons 1, 2, 3, 5 and 7 have chapters 1 to 10.
-Week 2 reading slides in lessons 8, 9 and 11 have chapters 11 to 18.
+Week 2 reading slides in lessons 8, 9, 11 and 13 have chapters 11 to 20.
 Each reading slide offers the audiobook and an optional text reader.
 Chapter 7 uses the same full recording at each reading section; playback
 position is remembered within the browser tab, including between lessons.
@@ -102,15 +102,35 @@ adding later chapters; browser volume alone cannot amplify a quiet recording.
 Readers use the same paging, font controls and fullscreen layout as A Monster
 Calls, with separate chapter data and font preferences for each book.
 
-Only chapters 1 to 18 are published under `lessons/6si/unit-2/audiobook/` and
-`reading/`. The original EPUB and the later audiobook chapters are not uploaded.
-The text files are public, like the audio; the reading toggle is not protection.
+Chapters 1 to 18 are tracked in the repository. Chapters 19 and 20 are served
+from private Netlify storage after the Lesson 13 release. The original EPUB
+and later audiobook chapters stay in the source folders.
 
 ```powershell
 ./scripts/import-holes-chapters.ps1 -Epub 'path/to/Holes.epub' -LastChapter 18
 # Import only missing recordings; the script does not overwrite existing MP3s.
 node scripts/normalize-holes-audio.mjs 'path/to/audiobook folder' 8 18
 ```
+
+## Scheduled lessons
+
+Set dates in `js/lesson-releases.js`. Each entry lists the date, class, unit,
+week, lesson numbers, and any new reading chapters. Dates begin at midnight
+Singapore time. Netlify checks server time on every scheduled lesson or chapter
+request, and week pages show the release date on each upcoming card.
+
+Keep new embargoed HTML and assets out of this public repository. Upload the
+student-facing files to the site's `lesson-releases` Netlify Blobs store, with
+the site-relative file path (without a leading slash) as the key. For example:
+
+```powershell
+npx netlify-cli blobs:set lesson-releases lessons/5si/unit-2/week-2/lesson-4/index.html --input 'path/to/student-lesson.html'
+```
+
+List those paths in `privateLessonFiles`, add the release entry and lesson
+card, then deploy. The same deploy will start serving each lesson at its
+scheduled time. GitHub history and earlier public deploys can still contain
+copies of lessons previously published there.
 
 ## Other folders
 
