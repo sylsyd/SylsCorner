@@ -379,7 +379,7 @@ body[data-stage="plan"] #stage{background:linear-gradient(90deg,#f3eedf80,#f3eed
 body[data-stage="sound"] #stage:before{content:'';position:absolute;right:20px;bottom:0;width:24%;height:35%;background:var(--book)center/contain no-repeat;opacity:.05;pointer-events:none}body[data-stage="line"] .head{margin-bottom:2px}body[data-stage="plan"] #stage{background:linear-gradient(90deg,#f3eedf80,#f3eedfdf),var(--hero)center/cover}
 
 .scard .fr{display:none}body.showfr .scard .fr{display:block}
-</style><link rel="stylesheet" href="/css/unit-activity-nav.css"><style>#app{grid-template-rows:auto minmax(0,1fr) 110px}</style></head><body class="student-activity"><div id="boot" role="status" aria-live="polite"><span class="boot-kicker">6LVA · Irish Legends · Lesson 6</span><h1>Regular Verbs: -ed</h1><p>Opening the lesson…</p></div><div id="app">
+</style><link rel="stylesheet" href="/css/unit-activity-nav.css"><style>#app{grid-template-rows:auto minmax(0,1fr) 110px}</style><script src="/js/deck-navigation.js" defer></script></head><body class="student-activity"><div id="boot" role="status" aria-live="polite"><span class="boot-kicker">6LVA · Irish Legends · Lesson 6</span><h1>Regular Verbs: -ed</h1><p>Opening the lesson…</p></div><div id="app">
   <header id="top">
     <div id="brand"><a class="unit-return" href="/lessons/6lva/unit-2/week-2/">← Week 2</a>L6 · Regular Verbs: -ed<small>6LVA · Unit 2 Irish Legends · Week 2 · Lesson 6</small></div>
     <nav id="tabs" aria-label="Lesson stages"></nav>
@@ -685,7 +685,7 @@ render();
 'use strict';
 var pending=false;
 function fitContent(){var st=document.getElementById('stage'),w=st.querySelector('.wrap');if(!w)return;var room=st.clientHeight-44;w.style.transform='none';w.style.width='100%';var lo=.35,hi=1,s=1;if(w.scrollHeight>room){for(var n=0;n<12;n++){var m=(lo+hi)/2;w.style.width=(100/m)+'%';if(w.scrollHeight*m<=room)lo=m;else hi=m;}s=lo;}w.style.width=(100/s)+'%';w.style.transform='scale('+s+')';}
-function fitApp(){var app=document.getElementById('app'),s=Math.min(innerWidth/1600,innerHeight/1000);app.style.transform='scale('+s+')';app.style.left=(innerWidth-1600*s)/2+'px';app.style.top=(innerHeight-1000*s)/2+'px';fitContent();}
+function fitApp(){var app=document.getElementById('app'),s=Math.min(innerWidth/1600,(innerHeight-44)/1000);app.style.transform='scale('+s+')';app.style.left=(innerWidth-1600*s)/2+'px';app.style.top=(44+(innerHeight-44-1000*s)/2)+'px';fitContent();}
 function queueFit(){if(pending)return;pending=true;requestAnimationFrame(function(){pending=false;fitContent();});}
 new MutationObserver(queueFit).observe(document.getElementById('stage'),{childList:true,subtree:true});window.addEventListener('resize',fitApp);document.addEventListener('click',queueFit);document.addEventListener('load',queueFit,true);
 fitApp();

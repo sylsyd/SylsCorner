@@ -1,11 +1,12 @@
+@import url("/css/learning-deck.css");
 body {
   margin: 0;
   padding: clamp(1.5rem, 8vw, 6rem);
-  background: #f8f4ec;
-  color: #0b2436;
-  font: 1.1rem/1.6 system-ui, sans-serif;
+  background: var(--deck-paper);
+  color: var(--deck-ink);
+  font: 1rem/1.6 var(--deck-sans);
 }
 
 main { max-width: 38rem; }
-h1 { font: 2.6rem/1.1 Georgia, serif; }
+h1 { font: 700 clamp(1.8rem, 5vw, 2.6rem)/1.3 var(--deck-serif); }
 a { color: #0b5f69; }

@@ -141,7 +141,7 @@ html,body{background:#17191d}body{font-family:var(--sans)}#stage{background:var(
 .chapter-audio audio{display:block;flex:1;min-width:0;height:54px}
 .chapter-audio audio:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:8px}
 @media print{.chapter-audio{display:none}}
-</style><link rel="stylesheet" href="/css/unit-activity-nav.css"></head>
+</style><link rel="stylesheet" href="/css/unit-activity-nav.css"><script src="/js/deck-navigation.js" defer></script></head>
 <body class="student-activity">
 <div id="wrap"><div id="stage">
 <header>
@@ -370,7 +370,7 @@ html,body{background:#17191d}body{font-family:var(--sans)}#stage{background:var(
 <script>
 (function(){
   var stage=document.getElementById('stage');
-  function fit(){var W=innerWidth,H=innerHeight,s=Math.min(W/1600,H/900);stage.style.width='1600px';stage.style.height='900px';stage.style.left=((W-1600*s)/2)+'px';stage.style.top=((H-900*s)/2)+'px';stage.style.transform='scale('+s+')';}
+  function fit(){var W=innerWidth,H=innerHeight-44,s=Math.min(W/1600,H/900);stage.style.width='1600px';stage.style.height='900px';stage.style.left=((W-1600*s)/2)+'px';stage.style.top=(44+(H-900*s)/2)+'px';stage.style.transform='scale('+s+')';}
   window.addEventListener('resize',fit);fit();
 
   var slides=[].slice.call(document.querySelectorAll('.slide'));

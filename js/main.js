@@ -1,89 +1,64 @@
 const classes = ['6LVA', '6SI', '5SI'];
-const classSummary = { '6LVA': 'Irish Legends Week 1 is ready.', '6SI': 'Holes Week 1 activities are ready.', '5SI': 'A Monster Calls Week 1 activities are ready.' };
-
-const sections = [
-  ['01', '≋', 'lessons', 'Lessons', 'Lessons', 'Lesson activities, unit materials and classroom learning in one place.', 'Unit 1 ready'],
-  ['02', '▱', 'unit-2', 'Unit 2', 'A Monster Calls', 'Enter the world of A Monster Calls.', 'Introduction ready'],
-  ['03', '◇', 'resources', 'Resources', 'Resources', 'Extra materials, useful links and class activities.', 'Resources available']
-];
-
-const safe = value => value.replace(/[&<>"']/g, character => ({
-  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-}[character]));
-
+const classUnits = {
+  '6LVA': {
+    theme: 'legends', title: 'Irish Legends', subtitle: 'Ireland, its stories, and the making of a hero.',
+    image: '/lessons/6lva/unit-2/assets/week-2.webp', previous: 'English foundations'
+  },
+  '6SI': {
+    theme: 'holes', title: 'Holes', subtitle: 'Secrets, unlikely friendships, and the story beneath the surface.',
+    image: '/lessons/6si/unit-2/assets/camp-green-lake.webp', previous: 'In Search of Adventure'
+  },
+  '5SI': {
+    theme: 'amc', title: 'A Monster Calls', subtitle: 'Three stories, one truth, and a monster at the window.',
+    image: '/lessons/5si/unit-2/assets/resources/0a6912665f9149b7.webp', previous: 'Short Stories'
+  }
+};
 const panels = document.getElementById('panels');
 const tabs = [...document.querySelectorAll('.tab')];
 
-function destinationFor(className, slug) {
-  if (slug === 'unit-2') return { '6LVA': "/lessons/6lva/unit-2/", '6SI': "/lessons/6si/unit-2/", '5SI': "/lessons/5si/unit-2/" }[className];
-  if (slug === 'lessons' && className === '6LVA') return "/lessons/6lva/unit-1/";
-  if (slug === 'lessons' && className === '6SI') return "/lessons/6si/unit-1/";
-  if (slug === 'lessons' && className === '5SI') return "/lessons/5si/unit-1/";
-  return `classroom.html?class=${encodeURIComponent(className)}&section=${encodeURIComponent(slug)}`;
-}
-
-function actionLabel(slug, isUnit) {
-  if (slug === 'unit-2') return 'Open Unit 2';
-  if (isUnit) return 'Open Unit 1';
-  return slug === 'lessons' ? 'Open lessons' : 'Open resources';
-}
-
-panels.innerHTML = classes.map((className, index) => `
-  <section class="panel ${index ? '' : 'active'}" id="panel-${className}" role="tabpanel" aria-labelledby="tab-${className}" ${index ? 'hidden' : ''}>
-    <div class="class-heading">
-      <h2>${safe(className)} <span>— this week</span></h2>
-      <p class="weekly-summary">${classSummary[className]} · three places to go</p>
+panels.innerHTML = classes.map((className, index) => {
+  const unit = classUnits[className];
+  const base = '/lessons/' + className.toLowerCase() + '/';
+  return `
+  <section class="panel" id="panel-${className}" role="tabpanel" aria-labelledby="tab-${className}" ${index ? 'hidden' : ''}>
+    <div class="class-heading"><h1>${className} classroom</h1></div>
+    <div class="hub-destinations">
+      <a class="unit-cover" href="${base}unit-2/">
+        <img src="${unit.image}" alt="" fetchpriority="high">
+        <div class="unit-cover-copy"><p class="hub-eyebrow">Current unit · Unit 2</p><h2>${unit.title}</h2>
+          <p>${unit.subtitle}</p><span class="hub-action">Explore the unit <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+      <div class="hub-secondary">
+        <a class="hub-destination" href="${base}unit-1/">
+          <p class="hub-eyebrow">Unit 1</p><h2>${unit.previous}</h2><p>Earlier lessons and student materials.</p>
+          <span class="hub-action">Browse lessons <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="hub-destination" href="/classroom.html?class=${className}&amp;section=resources">
+          <p class="hub-eyebrow">Resources</p><h2>Games &amp; practice</h2><p>Revisit ideas and try a new challenge.</p>
+          <span class="hub-action">Open resources <span aria-hidden="true">→</span></span>
+        </a>
+      </div>
     </div>
-    <div class="grid">
-      ${sections.map((section, sectionIndex) => {
-        const [number, icon, slug, label, title, defaultDescription, defaultStatus] = section;
-        const isUnit = slug === 'lessons' && (className === '6LVA' || className === '6SI' || className === '5SI');
-        const hasGames = slug === 'resources' && (className === '6LVA' || className === '5SI');
-        const description = isUnit
-          ? className === '6LVA'
-            ? 'Unit 1 notebooks, lesson activities and student worksheets are ready to open.'
-            : className === '6SI'
-              ? 'Unit 1: In Search of Adventure. Week 1 and Week 2 resources are ready to open.'
-              : 'Unit 1: Short Stories. Week 1 and Week 2 resources are ready to open.'
-          : hasGames
-            ? className === '5SI'
-              ? 'Find Venus Walk under the Games tab.'
-              : 'Find the First Week English Games collection under the Games tab.'
-            : slug === 'unit-2' && className === '6SI' ? 'Enter Camp Green Lake. Explore the unit and start Week 1.'
-              : slug === 'unit-2' && className === '6LVA' ? 'Explore Irish Legends, the scope and sequence, and Week 1 activities.' : defaultDescription;
-        const status = slug === 'unit-2' ? 'Week 1 activities ready' : defaultStatus;
-        return `
-          <article class="card card-${sectionIndex + 1}">
-            <div class="topline"><span class="card-number">${String(sectionIndex + 1).padStart(2, '0')}</span><span class="icon" aria-hidden="true">${icon}</span></div>
-            <div class="card-title"><p class="eyebrow">${label}</p><h3>${slug === 'unit-2' ? { '6LVA': 'Irish Legends', '6SI': 'Holes', '5SI': 'A Monster Calls' }[className] : title}</h3></div>
-            <p class="copy">${description}</p>
-            <div class="card-action"><p class="status"><span class="dot"></span>${status}</p><a class="card-link" href="${destinationFor(className, slug)}">${actionLabel(slug, isUnit)} <span aria-hidden="true">→</span></a></div>
-          </article>
-        `;
-      }).join('')}
-    </div>
-  </section>
-`).join('');
-
-function updateMobileTabOrder(selectedTab) {
-  let order = 1;
-  tabs.forEach(tab => {
-    tab.style.setProperty('--mobile-order', tab === selectedTab ? '0' : String(order++));
-  });
-}
+  </section>`;
+}).join('');
 
 function select(tab, persist = true) {
   tabs.forEach(item => {
-    const isSelected = item === tab;
-    const panel = document.getElementById(`panel-${item.dataset.class}`);
-    item.setAttribute('aria-selected', isSelected);
-    item.tabIndex = isSelected ? 0 : -1;
-    panel.hidden = !isSelected;
-    panel.classList.toggle('active', isSelected);
+    const selected = item === tab;
+    const panel = document.getElementById('panel-' + item.dataset.class);
+    item.setAttribute('aria-selected', selected);
+    item.tabIndex = selected ? 0 : -1;
+    panel.hidden = !selected;
   });
-  updateMobileTabOrder(tab);
+  document.body.dataset.deckTheme = classUnits[tab.dataset.class].theme;
   if (persist) {
-    try { localStorage.setItem('syls-corner-class', tab.dataset.class); } catch { /* Browser storage is optional. */ }
+    try {
+      localStorage.setItem('syls-corner-class', tab.dataset.class);
+      const url = new URL(location.href);
+      url.searchParams.set('class', tab.dataset.class);
+      history.replaceState(null, '', url);
+    } catch {}
   }
 }
 
@@ -92,17 +67,17 @@ tabs.forEach((tab, index) => {
   tab.addEventListener('keydown', event => {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
     event.preventDefault();
-    const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : event.key === 'ArrowRight' ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
-    select(tabs[nextIndex]);
-    tabs[nextIndex].focus();
+    const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1
+      : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+    select(tabs[next]);
+    tabs[next].focus();
   });
 });
 
-try {
-  const savedClass = localStorage.getItem('syls-corner-class');
-  const migrations = { '6ABCD': '6LVA', '6H': '6SI', '5EFG': '5SI' };
-  const savedTab = tabs.find(tab => tab.dataset.class === (migrations[savedClass] || savedClass));
-  select(savedTab || tabs[0], false);
-} catch { select(tabs[0], false); }
-
+const requested = new URLSearchParams(location.search).get('class');
+let saved;
+try { saved = localStorage.getItem('syls-corner-class'); } catch {}
+const migrations = { '6ABCD': '6LVA', '6H': '6SI', '5EFG': '5SI' };
+const initial = requested || migrations[saved] || saved;
+select(tabs.find(tab => tab.dataset.class === initial) || tabs[0], false);
 document.getElementById('year').textContent = new Date().getFullYear();

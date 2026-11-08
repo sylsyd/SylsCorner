@@ -1,3 +1,4 @@
+@import url("/css/learning-deck.css");
 :root { --ink: #071d35; --red: #b52942; --gold: #d7af62; --sea: #17636c; --blue: #385d82; --paper: #f5f1e8; --muted: #607182; --line: #d9d0c0; }
 * { box-sizing: border-box; }
 body { background: linear-gradient(rgba(253,252,247,.18),rgba(253,252,247,.26)),url("../assets/watercolor-ink-paper.png") center/cover fixed; color: var(--ink); font-family: Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; margin: 0; }
@@ -70,3 +71,9 @@ a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 .footer-class-switcher a { background: rgba(255,253,248,.10); border: 1px solid rgba(255,255,255,.26); border-radius: 5px; color: #fffdf8; font: 400 18px/1 Georgia,serif; padding: 8px 15px; }
 .footer-class-switcher a:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
 @media (max-width: 620px) { .footer-class-switcher { gap: 7px; padding: 17px 12px; }.footer-class-switcher > span { flex-basis: 100%; margin: 0 0 2px; text-align: center; }.footer-class-switcher a { font-size: 16px; padding: 8px 13px; } }
+
+body { font-family: var(--deck-sans); }
+.brand, .section-heading h2, .resource-card h3, .tools-hero h1, .tool-head h2 {
+  font-family: var(--deck-serif);
+}
+.back, .eyebrow, .action { letter-spacing: .04em; }

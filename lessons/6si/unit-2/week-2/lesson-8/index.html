@@ -226,7 +226,7 @@ h1{font-size:72px;line-height:1.13;letter-spacing:-2.6px}h2{font-size:46px;line-
 .slide{--scene:var(--xray)}.slide[data-scene=circle]{--scene:var(--circle)}.slide[data-scene=tube]{--scene:var(--tube)}
 
 </style>
-<link rel="stylesheet" href="/css/unit-activity-nav.css"><style>@media(max-width:800px){body.student-activity .slide{padding-top:64px}}</style><link rel="stylesheet" href="../../../../../css/amc-chapter-reader.css"><link rel="stylesheet" href="../../../../../css/holes-chapter-reader.css"><script src="../../../../../js/amc-chapter-reader.js?v=20261105" defer></script></head>
+<link rel="stylesheet" href="/css/unit-activity-nav.css"><style>@media(max-width:800px){body.student-activity .slide{padding-top:64px}}</style><link rel="stylesheet" href="../../../../../css/amc-chapter-reader.css"><link rel="stylesheet" href="../../../../../css/holes-chapter-reader.css"><script src="../../../../../js/amc-chapter-reader.js?v=20261105" defer></script><script src="/js/deck-navigation.js" defer></script></head>
 <body class="student-activity" data-reader-book="holes"><a class="unit-return" href="/lessons/6si/unit-2/week-2/">← Week 2</a>
 <div id="prog" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100"></div>
 <div id="viewport"><div id="stage">
@@ -501,7 +501,7 @@ document.querySelectorAll('.allbtn').forEach(function(b){
   const slides=[...document.querySelectorAll('.slide')];
   let i=0;
   const stage=document.getElementById('stage');
-  function fit(){const s=Math.min(innerWidth/1600,(innerHeight-64)/900)*0.99;stage.style.transform='scale('+s+')';}
+  function fit(){const s=Math.min(innerWidth/1600,(innerHeight-108)/900)*0.99;stage.style.transform='scale('+s+')';}
   addEventListener('resize',fit);fit();
   function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>s.classList.toggle('active',k===i));
     document.getElementById('count').textContent=(i+1)+' / '+slides.length;

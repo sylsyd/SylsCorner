@@ -237,7 +237,7 @@ h1{font-size:72px;line-height:1.13;letter-spacing:-2.6px}h2{font-size:46px;line-
 .slide{--scene:var(--tent)}.slide[data-scene=desk]{--scene:var(--desk)}.slide[data-scene=camp]{--scene:var(--camp)}
 
 </style>
-<link rel="stylesheet" href="/css/unit-activity-nav.css"></head>
+<link rel="stylesheet" href="/css/unit-activity-nav.css"><script src="/js/deck-navigation.js" defer></script></head>
 <body class="student-activity"><a class="unit-return" href="/lessons/6si/unit-2/week-1/">← Week 1</a>
 <div id="prog" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100"></div>
 <div id="viewport"><div id="stage">
@@ -445,7 +445,7 @@ h1{font-size:72px;line-height:1.13;letter-spacing:-2.6px}h2{font-size:46px;line-
   const slides=[...document.querySelectorAll('.slide')];
   let i=0;
   const stage=document.getElementById('stage');
-  function fit(){const s=Math.min(innerWidth/1600,(innerHeight-64)/900)*0.99;stage.style.transform='scale('+s+')';}
+  function fit(){const s=Math.min(innerWidth/1600,(innerHeight-108)/900)*0.99;stage.style.transform='scale('+s+')';}
   addEventListener('resize',fit);fit();
   function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>s.classList.toggle('active',k===i));
     document.getElementById('count').textContent=(i+1)+' / '+slides.length;

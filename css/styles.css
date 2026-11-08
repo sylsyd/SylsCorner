@@ -1,3 +1,4 @@
+@import url("/css/learning-deck.css");
 :root { --ink: #071d35; --ink-2: #123451; --sea: #17636c; --red: #b52942; --gold: #d7af62; --paper: #f5f1e8; --white: #fffdf8; --muted: #607182; --line: rgba(7,29,53,.18); }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -136,4 +137,16 @@ body.subpage header { background: var(--ink); position: static; }
   .tab-detail { font-size: 11.5px; line-height: 1.25; margin-top: 5px; }
   /* the old bar hid this on unselected tabs to save room; the cards have space for it */
   .tab[aria-selected="false"] .tab-detail { display: block; }
+}
+
+body.cover header nav a, body.cover .hero-actions a {
+  font-family: var(--deck-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  text-transform: none;
+}
+body.cover .hero-actions a { border-radius: 6px; }
+@media (max-width: 620px) {
+  body.cover header nav a, body.cover .hero-actions a { font-size: 12px; }
 }

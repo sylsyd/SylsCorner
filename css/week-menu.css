@@ -1,0 +1,69 @@
+body.deck-week {
+  background: var(--deck-paper);
+  color: var(--deck-ink);
+  font: 400 15px/1.6 var(--deck-sans);
+}
+.deck-week .unit-wrap, .deck-week .legends-wrap { max-width: 1220px; padding: 0 24px 30px; }
+.deck-week .deck-nav { min-height: 76px; padding: 14px 0; border-bottom: 1px solid var(--deck-line); margin-bottom: 26px; }
+.deck-nav .deck-wordmark { color: var(--deck-ink); font: 700 16px/1.3 var(--deck-serif); }
+.deck-nav .deck-context { margin-left: auto; font-size: 12px; }
+.deck-nav > a:last-child { color: var(--deck-accent); text-decoration: none; }
+.deck-week .week-hero { min-height: 250px; border: 1px solid var(--deck-line); border-radius: 10px; }
+.deck-week .week-hero::before { background: linear-gradient(90deg, var(--deck-paper) 5%, transparent 95%); }
+.deck-week .week-heading, .deck-week .week-hero .hero-copy { padding: 30px 32px; max-width: 65%; }
+.deck-week .week-heading h1, .deck-week .week-hero h1 { font: 700 clamp(29px, 3.6vw, 44px)/1.2 var(--deck-serif); letter-spacing: -1.2px; margin: 15px 0; text-wrap: balance; }
+.deck-week .week-heading > p:last-child, .deck-week .week-hero .hero-copy > p:last-child { font: 400 13px/1.5 var(--deck-sans); }
+.deck-week .unit-kicker, .deck-week .legends-kicker { font: 600 11px/1.5 var(--deck-sans); letter-spacing: .04em; color: var(--deck-accent); margin: 0; }
+.deck-week .lesson-section, .deck-week .legends-lessons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 28px 0 12px; }
+.deck-week .lesson-section > div, .deck-week .section-intro { grid-column: 1 / -1; margin: 0 0 4px; }
+.deck-week .lesson-section h2, .deck-week .section-intro h2 { margin: 6px 0; font: 700 24px/1.4 var(--deck-serif); letter-spacing: -.5px; }
+.deck-week .lesson-section > div > p:last-child, .deck-week .section-intro > p { font: 400 13px/1.5 var(--deck-sans); color: var(--deck-muted); margin: 5px 0; }
+.deck-week .lesson-card, .deck-week .legends-lesson {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  margin: 0;
+  border: 1px solid var(--deck-line);
+  border-radius: 9px;
+  background: var(--deck-surface);
+  color: var(--deck-ink);
+  box-shadow: none;
+  text-decoration: none;
+  min-width: 0;
+  transition: border-color .18s, box-shadow .18s;
+}
+.deck-week .lesson-card:hover, .deck-week .legends-lesson:hover { border-color: var(--deck-accent); background: var(--deck-surface); box-shadow: 0 5px 18px #1623320b; }
+.deck-week .lesson-card > img, .deck-week .legends-lesson > img { width: 100%; height: 100%; min-height: 190px; max-height: none; object-fit: cover; filter: none; }
+.deck-week[data-deck-theme="amc"] .lesson-card > img { filter: grayscale(1); }
+.deck-week .lesson-card > div, .deck-week .legends-lesson > div { padding: 18px 20px; display: flex; flex-direction: column; min-width: 0; }
+.deck-week .lesson-card h3, .deck-week .legends-lesson h3 { font: 700 19px/1.4 var(--deck-serif); letter-spacing: -.4px; margin: 5px 0 9px; }
+.deck-week .lesson-card p:not(.unit-kicker), .deck-week .legends-lesson p:not(.legends-kicker) { color: var(--deck-muted); font-size: 12px; line-height: 1.6; margin: 0 0 12px; }
+.deck-week .lesson-meta { color: var(--deck-muted); font-size: 11px; margin: auto 0 9px; }
+.deck-week .lesson-card strong, .deck-week .legends-lesson strong { display: flex; gap: 10px; align-items: center; justify-content: space-between; border-color: var(--deck-line); color: var(--deck-accent); font: 600 12px/1.5 var(--deck-sans); margin-top: auto; padding-top: 10px; }
+.deck-week .lesson-availability { color: var(--deck-muted); font: 400 11px/1.4 var(--deck-sans); margin: 0 0 9px; }
+.deck-week a[data-release-state="locked"] .lesson-availability { color: var(--deck-accent); }
+.deck-week .overview-back, .deck-week .legends-text-link { color: var(--deck-accent); font: 600 12px/1.5 var(--deck-sans); margin-right: 18px; text-decoration: none; }
+.deck-week .unit-footer, .deck-week .legends-footer { margin-top: 20px; padding-top: 22px; border-color: var(--deck-line); color: var(--deck-muted); letter-spacing: 0; font: 400 12px/1.5 var(--deck-sans); }
+.deck-week .deck-footer-links { margin-top: 15px; }
+@media (max-width: 900px) {
+  .deck-nav .deck-wordmark span { display: none; }
+  .deck-week .lesson-card, .deck-week .legends-lesson { grid-template-columns: 110px minmax(0, 1fr); }
+  .deck-week .lesson-card > div, .deck-week .legends-lesson > div { padding: 15px; }
+}
+@media (max-width: 620px) {
+  .deck-week .unit-wrap, .deck-week .legends-wrap { padding-inline: 16px; }
+  .deck-week .deck-nav { flex-wrap: wrap; min-height: 68px; gap: 10px; margin-bottom: 16px; }
+  .deck-nav .deck-context { order: 0; margin: 0 auto 0 0; width: auto; font-size: 11px; }
+  .deck-nav .deck-class-label { font-size: 0; }
+  .deck-nav > a:last-child { display: none; }
+  .deck-week .week-hero { min-height: 220px; }
+  .deck-week .week-heading, .deck-week .week-hero .hero-copy { padding: 23px; max-width: 90%; }
+  .deck-week .week-hero::before { background: linear-gradient(90deg, var(--deck-paper), transparent 140%); }
+  .deck-week .week-hero > img { object-position: center; }
+  .deck-week .week-heading h1, .deck-week .week-hero h1 { font-size: 31px; }
+  .deck-week .lesson-section, .deck-week .legends-lessons { grid-template-columns: 1fr; gap: 12px; padding-top: 22px; }
+  .deck-week .lesson-card, .deck-week .legends-lesson { grid-template-columns: 100px minmax(0, 1fr); }
+  .deck-week .lesson-card h3, .deck-week .legends-lesson h3 { font-size: 18px; }
+  .deck-week .lesson-card > img, .deck-week .legends-lesson > img { min-height: 170px; }
+  .deck-week .section-intro { gap: 5px; }
+}
+@media (prefers-reduced-motion: reduce) { .deck-week .lesson-card, .deck-week .legends-lesson { transition: none; } }

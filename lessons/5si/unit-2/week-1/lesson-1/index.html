@@ -245,8 +245,8 @@ body.shownotes #notesbar{display:block;visibility:visible}#notesbar:before{conte
 .slide[data-s='8'] .hint{line-height:1.3;margin-top:4px;padding:6px 10px}
 
 </style>
-<style>.unit-return{display:inline-block;color:inherit;text-decoration:none;border:1px solid #888;padding:5px 10px;margin-right:20px;font-size:17px}.unit-return:hover{background:#e6e6e6;color:#20201e}.unit-return:focus-visible{outline:3px solid #bbb;outline-offset:4px}@media print{.unit-return{display:none}}</style></head>
-<body>
+<style>.unit-return{display:inline-block;color:inherit;text-decoration:none;border:1px solid #888;padding:5px 10px;margin-right:20px;font-size:17px}.unit-return:hover{background:#e6e6e6;color:#20201e}.unit-return:focus-visible{outline:3px solid #bbb;outline-offset:4px}@media print{.unit-return{display:none}}</style><link rel="stylesheet" href="/css/unit-activity-nav.css"><script src="/js/deck-navigation.js" defer></script></head>
+<body class="student-activity">
 <div id="wrap"><div id="stage">
 
 <header>
@@ -575,7 +575,7 @@ body.shownotes #notesbar{display:block;visibility:visible}#notesbar:before{conte
 <script>
 (function(){
   var stage=document.getElementById('stage');
-  function fit(){var W=window.innerWidth,H=window.innerHeight,s=Math.min(W/1600,H/900);stage.style.width='1600px';stage.style.height='900px';stage.style.left=((W-1600*s)/2)+'px';stage.style.top=((H-900*s)/2)+'px';stage.style.transform='scale('+s+')';}
+  function fit(){var W=window.innerWidth,H=window.innerHeight-44,s=Math.min(W/1600,H/900);stage.style.width='1600px';stage.style.height='900px';stage.style.left=((W-1600*s)/2)+'px';stage.style.top=(44+(H-900*s)/2)+'px';stage.style.transform='scale('+s+')';}
   window.addEventListener('resize',fit);fit();
 
   var slides=[].slice.call(document.querySelectorAll('.slide'));

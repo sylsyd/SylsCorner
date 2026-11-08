@@ -405,7 +405,7 @@ body[data-stage="plan"] #stage{background:linear-gradient(90deg,#f3eedf92,#f3eed
 body[data-stage="plan"] .card{background:#fcf8eeed}
 body[data-stage="check"] #stage:before{content:'';position:absolute;right:30px;bottom:0;width:35%;height:56%;background:var(--book) center/contain no-repeat;opacity:.065;pointer-events:none}
 body[data-stage="write"] #stage:before{display:none}
-</style><link rel="stylesheet" href="/css/unit-activity-nav.css"><style>#app{grid-template-rows:auto minmax(0,1fr) 110px}</style></head><body class="student-activity"><div id="boot" role="status"><span class="boot-kicker">6LVA · Irish Legends · Lesson 7</span><h1>Describe a Hero</h1><p>Opening the lesson…</p></div><div id="app">
+</style><link rel="stylesheet" href="/css/unit-activity-nav.css"><style>#app{grid-template-rows:auto minmax(0,1fr) 110px}</style><script src="/js/deck-navigation.js" defer></script></head><body class="student-activity"><div id="boot" role="status"><span class="boot-kicker">6LVA · Irish Legends · Lesson 7</span><h1>Describe a Hero</h1><p>Opening the lesson…</p></div><div id="app">
   <header id="top">
     <div id="brand"><a class="unit-return" href="/lessons/6lva/unit-2/week-2/">← Week 2</a>L7 · Describe a Hero<small>6LVA · Unit 2 Irish Legends · Week 2 · Lesson 7</small></div>
     <nav id="tabs" aria-label="Lesson stages"></nav>
@@ -706,7 +706,7 @@ render();
 'use strict';
 var pending=false;
 function fitContent(){var st=document.getElementById('stage'),w=st.querySelector('.wrap');if(!w)return;var room=st.clientHeight-44;w.style.transform='none';w.style.width='100%';var lo=.35,hi=1,s=1;if(w.scrollHeight>room){for(var n=0;n<12;n++){var m=(lo+hi)/2;w.style.width=(100/m)+'%';if(w.scrollHeight*m<=room)lo=m;else hi=m;}s=lo;}w.style.width=(100/s)+'%';w.style.transform='scale('+s+')';}
-function fitApp(){var app=document.getElementById('app'),s=Math.min(innerWidth/1600,innerHeight/1000);app.style.transform='scale('+s+')';app.style.left=(innerWidth-1600*s)/2+'px';app.style.top=(innerHeight-1000*s)/2+'px';fitContent();}
+function fitApp(){var app=document.getElementById('app'),s=Math.min(innerWidth/1600,(innerHeight-44)/1000);app.style.transform='scale('+s+')';app.style.left=(innerWidth-1600*s)/2+'px';app.style.top=(44+(innerHeight-44-1000*s)/2)+'px';fitContent();}
 function queueFit(){if(pending)return;pending=true;requestAnimationFrame(function(){pending=false;fitContent();});}
 new MutationObserver(queueFit).observe(document.getElementById('stage'),{childList:true,subtree:true});window.addEventListener('resize',fitApp);document.addEventListener('click',queueFit);document.addEventListener('load',queueFit,true);
 fitApp();
