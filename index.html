@@ -6,9 +6,9 @@
   <meta name="description" content="Lesson materials and classroom resources for Syl's middle school classes.">
   <title>The Learning Deck | Middle School English</title>
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/home.css?v=20261108b">
   <script src="tools/dice.js" defer></script>
-  <script src="js/home.js" defer></script>
+  <script src="js/home.js?v=20261108b" defer></script>
 </head>
 <body class="cover home">
   <a class="skip-link" href="#showcase">Skip to interactive showcase</a>
@@ -45,13 +45,12 @@
         <div class="showcase-heading"><h2 id="showcase-title">A little of what’s on deck</h2><span aria-hidden="true">↙</span></div>
         <div class="field-stack">
           <div class="showcase-tabs" role="tablist" aria-label="Try a learning experience">
-            <button type="button" role="tab" id="tab-discover" aria-controls="demo-discover" aria-selected="true" data-course="classes">Discover</button>
-            <button type="button" role="tab" id="tab-practise" aria-controls="demo-practise" aria-selected="false" tabindex="-1" data-course="practice">Practise</button>
-            <button type="button" role="tab" id="tab-play" aria-controls="demo-play" aria-selected="false" tabindex="-1" data-course="tools">Play</button>
+            <button type="button" role="tab" id="tab-discover" aria-controls="demo-discover" aria-selected="true" data-course="classes"><span class="tab-symbol" aria-hidden="true">✧</span>Discover</button>
+            <button type="button" role="tab" id="tab-practise" aria-controls="demo-practise" aria-selected="false" tabindex="-1" data-course="practice"><span class="tab-symbol" aria-hidden="true">✎</span>Practise</button>
+            <button type="button" role="tab" id="tab-play" aria-controls="demo-play" aria-selected="false" tabindex="-1" data-course="tools"><span class="tab-symbol" aria-hidden="true">⚄</span>Play</button>
           </div>
           <div class="field-card" id="demo-discover" role="tabpanel" aria-labelledby="tab-discover">
-            <div class="field-meta"><span>01 / Read between the lines</span><span aria-hidden="true">✧</span></div>
-            <h3>A hint, not a request.</h3>
+            <div class="field-scene"><div class="field-meta"><span>01 / Read between the lines</span><span aria-hidden="true">✧</span></div><h3>A hint, not a request.</h3></div>
             <blockquote>Mia rubbed her arms and looked at the open window. “It’s freezing in here,” she said to the person sitting beside it.</blockquote>
             <fieldset class="demo-question"><legend>What does Mia probably want?</legend>
               <button type="button" data-answer="correct">For someone to close the window <span aria-hidden="true">↗</span></button>
@@ -61,8 +60,7 @@
             <a class="field-link" href="games/between-the-lines.html">Explore Between the Lines <span aria-hidden="true">↗</span></a>
           </div>
           <div class="field-card" id="demo-practise" role="tabpanel" aria-labelledby="tab-practise" hidden>
-            <div class="field-meta"><span>02 / Close reading</span><span aria-hidden="true">✧</span></div>
-            <h3>Make the words speak.</h3>
+            <div class="field-scene"><div class="field-meta"><span>02 / Close reading</span><span aria-hidden="true">✧</span></div><h3>Make the words speak.</h3></div>
             <p class="passage-source">From <cite>The Last Ferry</cite></p>
             <p class="annotation-passage">The ferry terminal emptied <button type="button" data-phrase="correct">the way a lung empties</button>: slowly, then all at once. By nine o’clock <button type="button" data-phrase="retry">only Mei was left</button> on the bench by Gate 4.</p>
             <p class="annotation-prompt">Tap the phrase that makes the building seem alive.</p>
@@ -70,8 +68,7 @@
             <a class="field-link" href="practice.html?text=last-ferry">Continue close reading <span aria-hidden="true">↗</span></a>
           </div>
           <div class="field-card" id="demo-play" role="tabpanel" aria-labelledby="tab-play" hidden>
-            <div class="field-meta"><span>03 / Classroom tools</span><span aria-hidden="true">✧</span></div>
-            <h3>Leave a little to chance.</h3>
+            <div class="field-scene"><div class="field-meta"><span>03 / Classroom tools</span><span aria-hidden="true">✧</span></div><h3>Leave a little to chance.</h3></div>
             <p class="dice-intro">A quick decision. A new possibility.</p>
             <div id="showcase-dice"><p>Open the classroom tools to roll the dice.</p></div>
             <a class="field-link" href="tools.html#card-dice">Open classroom tools <span aria-hidden="true">↗</span></a>

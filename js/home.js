@@ -41,6 +41,7 @@
       const success = button.dataset[key] === 'correct';
       button.dataset.state = success ? 'correct' : 'retry';
       feedback.textContent = success ? correct : retry;
+      feedback.dataset.state = success ? 'correct' : 'retry';
     }));
     buttons.forEach(button => button.setAttribute('aria-pressed', 'false'));
   }
