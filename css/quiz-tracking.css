@@ -1,0 +1,8 @@
+.deck-quiz-account{border:1px solid #46584e;border-radius:12px;background:#18251f;padding:14px 18px;margin:12px 0 18px;color:#eee9dc;font:inherit}
+.deck-quiz-account strong{font-size:16px;color:#dfc38d}
+.deck-quiz-account p{margin:6px 0;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+.deck-quiz-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.deck-quiz-controls:has(>div:empty):has(>button[hidden]){margin-top:0}
+.deck-quiz-controls button{font-size:13px;min-height:40px}
+.deck-quiz-account[hidden],.deck-quiz-controls [hidden]{display:none!important}
+@media(max-width:520px){.deck-quiz-account{padding:12px}.deck-quiz-controls{align-items:stretch}.deck-quiz-controls>div{max-width:100%}}

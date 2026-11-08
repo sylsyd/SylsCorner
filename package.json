@@ -2,10 +2,16 @@
   "name": "annotator-online-leaderboard",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=20.6.0" },
-  "dependencies": { "@netlify/blobs": "^10.0.0" },
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^10.0.0",
+    "google-auth-library": "^11.3.3"
+  },
   "scripts": {
     "test": "node --test tests/leaderboard.test.mjs",
+    "test:quiz": "node --test tests/quiz-results.test.mjs",
     "test:reader": "node --test tests/amc-chapter-reader.test.mjs tests/holes-chapter-reader.test.mjs",
     "check:lessons": "node scripts/check-lesson-links.mjs && node --test tests/lesson-structure.test.mjs tests/unit2-week2.test.mjs tests/lesson-releases.test.mjs"
   }
