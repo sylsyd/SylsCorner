@@ -6,29 +6,101 @@
   <meta name="description" content="Lesson materials and classroom resources for Syl's middle school classes.">
   <title>The Learning Deck | Middle School English</title>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/home.css">
+  <script src="tools/dice.js" defer></script>
+  <script src="js/home.js" defer></script>
 </head>
-<body class="cover">
+<body class="cover home">
+  <a class="skip-link" href="#showcase">Skip to interactive showcase</a>
   <header>
     <a class="wordmark" href="index.html" aria-label="The Learning Deck home">
-      <img class="mark" src="assets/syl-corner-mark.png" alt="">
+      <img class="mark" src="assets/syl-corner-mark.png" alt="" width="44" height="44">
     </a>
-    <nav aria-label="Main navigation"><a href="classes.html">Classes</a><a href="practice.html">Practice</a><a href="tools.html">Tools</a></nav>
+    <nav aria-label="Main navigation"><a href="classes.html" data-course="classes">Classes</a><a href="practice.html" data-course="practice">Practice</a><a href="tools.html" data-course="tools">Tools</a></nav>
   </header>
 
   <main>
-    <section class="hero" id="top" aria-label="The Learning Deck">
+    <section class="hero" id="top" aria-labelledby="home-title">
+      <h1 class="sr-only" id="home-title">The Learning Deck</h1>
       <div class="hero-visual" aria-hidden="true">
         <picture>
-          <source media="(max-width: 650px), (max-aspect-ratio: 1/1)" srcset="assets/learning-deck-hero-mobile-refined.png">
-          <img src="assets/learning-deck-hero-refined.png" alt="">
+          <source media="(max-width: 1000px)" srcset="assets/learning-deck-hero-mobile-refined.png">
+          <img src="assets/learning-deck-hero-refined.png" alt="" fetchpriority="high">
         </picture>
       </div>
+      <svg class="chart-course" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
+        <path class="course-shadow" d="M760 720 C820 720 830 675 865 650 C895 627 850 755 1100 745 S1435 720 1410 300 S1230 160 1150 112"/>
+        <path class="course-line" pathLength="1" d="M760 720 C820 720 830 675 865 650 C895 627 850 755 1100 745 S1435 720 1410 300 S1230 160 1150 112"/>
+        <g class="course-point" data-point="classes" transform="translate(865 650)"><circle r="13"/><circle r="4"/></g>
+        <g class="course-point" data-point="practice" transform="translate(1410 300)"><circle r="13"/><circle r="4"/></g>
+        <g class="course-point" data-point="tools" transform="translate(1150 112)"><circle r="13"/><path d="M0 -18 4 -4 18 0 4 4 0 18 -4 4 -18 0 -4 -4Z"/></g>
+      </svg>
       <nav class="hero-actions" aria-label="Main sections">
-        <a class="hero-btn hero-btn-primary" href="classes.html">Classes</a>
-        <a class="hero-btn" href="practice.html">Practice</a>
-        <a class="hero-btn" href="tools.html">Tools</a>
+        <a class="hero-btn hero-btn-primary" href="classes.html" data-course="classes">Classes</a>
+        <a class="hero-btn" href="practice.html" data-course="practice">Practice</a>
+        <a class="hero-btn" href="tools.html" data-course="tools">Tools</a>
       </nav>
+
+      <section class="showcase" id="showcase" aria-labelledby="showcase-title" tabindex="-1">
+        <div class="showcase-heading"><h2 id="showcase-title">A little of what’s on deck</h2><span aria-hidden="true">↙</span></div>
+        <div class="field-stack">
+          <div class="showcase-tabs" role="tablist" aria-label="Try a learning experience">
+            <button type="button" role="tab" id="tab-discover" aria-controls="demo-discover" aria-selected="true" data-course="classes">Discover</button>
+            <button type="button" role="tab" id="tab-practise" aria-controls="demo-practise" aria-selected="false" tabindex="-1" data-course="practice">Practise</button>
+            <button type="button" role="tab" id="tab-play" aria-controls="demo-play" aria-selected="false" tabindex="-1" data-course="tools">Play</button>
+          </div>
+          <div class="field-card" id="demo-discover" role="tabpanel" aria-labelledby="tab-discover">
+            <div class="field-meta"><span>01 / Read between the lines</span><span aria-hidden="true">✧</span></div>
+            <h3>A hint, not a request.</h3>
+            <blockquote>Mia rubbed her arms and looked at the open window. “It’s freezing in here,” she said to the person sitting beside it.</blockquote>
+            <fieldset class="demo-question"><legend>What does Mia probably want?</legend>
+              <button type="button" data-answer="correct">For someone to close the window <span aria-hidden="true">↗</span></button>
+              <button type="button" data-answer="retry">For someone to buy her a coat <span aria-hidden="true">↗</span></button>
+            </fieldset>
+            <p class="demo-feedback" role="status">Choose an answer. Follow the clues.</p>
+            <a class="field-link" href="games/between-the-lines.html">Explore Between the Lines <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="field-card" id="demo-practise" role="tabpanel" aria-labelledby="tab-practise" hidden>
+            <div class="field-meta"><span>02 / Close reading</span><span aria-hidden="true">✧</span></div>
+            <h3>Make the words speak.</h3>
+            <p class="passage-source">From <cite>The Last Ferry</cite></p>
+            <p class="annotation-passage">The ferry terminal emptied <button type="button" data-phrase="correct">the way a lung empties</button>: slowly, then all at once. By nine o’clock <button type="button" data-phrase="retry">only Mei was left</button> on the bench by Gate 4.</p>
+            <p class="annotation-prompt">Tap the phrase that makes the building seem alive.</p>
+            <p class="demo-feedback" role="status">Look for a comparison to something living.</p>
+            <a class="field-link" href="practice.html?text=last-ferry">Continue close reading <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="field-card" id="demo-play" role="tabpanel" aria-labelledby="tab-play" hidden>
+            <div class="field-meta"><span>03 / Classroom tools</span><span aria-hidden="true">✧</span></div>
+            <h3>Leave a little to chance.</h3>
+            <p class="dice-intro">A quick decision. A new possibility.</p>
+            <div id="showcase-dice"><p>Open the classroom tools to roll the dice.</p></div>
+            <a class="field-link" href="tools.html#card-dice">Open classroom tools <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <noscript><p class="no-script">Enable JavaScript to try the cards here, or follow the links to explore.</p></noscript>
+      </section>
+      <a class="work-cue" href="#selected-work"><span>Selected work</span><span aria-hidden="true">↓</span></a>
+    </section>
+
+    <section class="selected-work" id="selected-work" aria-labelledby="work-title">
+      <div class="work-heading"><div><p class="section-eyebrow">Explore the deck</p><h2 id="work-title">Selected work</h2></div><span class="work-count">Three ways in <span aria-hidden="true">↗</span></span></div>
+      <div class="work-grid">
+        <svg class="work-route" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M0 40 Q200 0 400 40 T800 40 T1200 40"/></svg>
+        <a class="work-item" href="games/between-the-lines.html" data-course="classes">
+          <div class="work-art art-inference"><img src="assets/home-between-lines.webp" alt="" loading="lazy" width="640" height="420"><span class="art-note">The writer hints.<br><em>The reader discovers.</em></span><span class="preview-tag">Interactive game</span></div>
+          <div class="work-caption"><span class="work-number">01</span><div><h3>Between the Lines</h3><p>Illustrated scenes turn explicit information, implied meaning and inference into a game.</p><span class="work-open">Enter the story <span aria-hidden="true">↗</span></span></div></div>
+        </a>
+        <a class="work-item" href="practice.html?text=last-ferry" data-course="practice">
+          <div class="work-art art-reading"><img src="assets/practice/last-ferry.jpg" alt="" loading="lazy" width="640" height="420"><span class="reading-note">“the sea <mark>chewed</mark><br>at the pilings”<small>One word. A whole atmosphere.</small></span><span class="preview-tag">Close reading</span></div>
+          <div class="work-caption"><span class="work-number">02</span><div><h3>A closer look</h3><p>Find the language, follow the evidence, and discover how a writer creates meaning.</p><span class="work-open">Try close reading <span aria-hidden="true">↗</span></span></div></div>
+        </a>
+        <a class="work-item" href="tools.html" data-course="tools">
+          <div class="work-art art-tools"><div class="timer-preview" aria-hidden="true"><span>Time to think</span><strong>05<span>:</span>00</strong><div class="timer-track"></div><div class="mini-controls"><span>Start</span><span>Reset</span></div></div><span class="preview-tag">Classroom tools</span></div>
+          <div class="work-caption"><span class="work-number">03</span><div><h3>Room to focus</h3><p>Timers, a stopwatch, dice and a name randomiser, with space to fill the classroom screen.</p><span class="work-open">Explore the tools <span aria-hidden="true">↗</span></span></div></div>
+        </a>
+      </div>
     </section>
   </main>
+  <footer class="home-footer"><span>The Learning Deck</span><a href="#top">Back to the top <span aria-hidden="true">↑</span></a></footer>
 </body>
 </html>
