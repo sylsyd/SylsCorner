@@ -12,7 +12,7 @@ body.home main { height: auto; }
 .home .mark { transition: transform .45s ease; }
 .home:has([data-course="practice"]:is(:hover, :focus-visible)) .mark { transform: rotate(18deg); }
 .home:has([data-course="tools"]:is(:hover, :focus-visible)) .mark { transform: rotate(36deg); }
-body.home .hero { height: clamp(650px, 88svh, 980px); min-height: 650px; overflow: hidden; }
+body.home .hero { height: clamp(650px, min(88svh, 65vw), 980px); min-height: 650px; overflow: hidden; }
 .home .hero::after { height: 3px; width: 27%; }
 .home .hero-visual::after { background: linear-gradient(90deg, transparent 52%, rgba(3,19,33,.1)); }
 body.home .hero-actions { top: 63%; right: auto; max-width: 51%; }
