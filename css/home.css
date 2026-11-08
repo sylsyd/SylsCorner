@@ -225,3 +225,36 @@ body.home .hero-actions { top: 63%; right: auto; max-width: 51%; }
   .field-card .field-link { padding-block: 8px; }
 }
 @media (min-width: 1001px) and (max-width: 1190px) { .annotation-passage { font-size: 17px; line-height: 1.5; } .annotation-prompt { margin-top: 12px; } }
+
+/* Compact current-unit previews. */
+.home .showcase { width: min(28%, 360px); }
+.home .field-card { --card-pad: 16px; min-height: 0; padding: var(--card-pad); }
+.home .field-scene { min-height: 92px; margin-bottom: 12px; padding-top: 13px; padding-bottom: 14px; }
+.home .field-card .field-scene h3 { font-size: 25px; margin-top: 12px; max-width: 100%; }
+.home #demo-discover .field-scene::before { background: linear-gradient(90deg,#342f25e8,#3f382777),url('../lessons/6si/unit-2/assets/camp-green-lake.webp') center/cover; }
+.home #demo-practise .field-scene::before { background: linear-gradient(90deg,#152d47e8,#1f3b5577),url('../lessons/5si/unit-2/assets/resources/0a6912665f9149b7.webp') center/cover; }
+.unit-teaser { font: 400 14px/1.45 Georgia,serif; color: #47616a; margin: 0 0 13px; }
+.home .demo-question legend { font-size: 11px; margin-bottom: 7px; }
+.home .demo-question button { font-size: 11px; min-height: 40px; padding-block: 8px; }
+.home .demo-feedback { font-size: 10px; min-height: 30px; margin: 8px 0 11px; }
+.home .field-card .field-link { font-size: 10px; min-height: 38px; padding-block: 7px; }
+.home .dice-intro { font-size: 13px; }
+.home #showcase-dice { padding: 10px 0 15px; }
+.home #showcase-dice .dice-face { width: 60px; height: 60px; font-size: 36px; }
+.home #showcase-dice .dice-message { margin: 12px 0 8px; font-size: 11px; }
+.home #showcase-dice button { min-height: 38px; padding: 8px 21px; }
+.home .work-heading, .home .work-grid { max-width: 1120px; }
+.home .selected-work { padding-block: 32px 42px; }
+.home .work-heading { margin-bottom: 25px; }
+.home .work-heading h2 { font-size: clamp(30px,3vw,40px); }
+.home .work-art { height: 185px; }
+.home .art-note { font-size: 24px; bottom: 16px; left: 17px; }
+.home .work-caption { padding-top: 15px; }
+.home .work-caption h3 { font-size: 23px; }
+.home .work-caption p { font-size: 12px; margin: 9px 0 13px; }
+.home .timer-preview { padding: 10px 17px; }
+.home .timer-preview strong { font-size: 43px; }
+.home .timer-track { margin-bottom: 10px; }
+@media (min-width: 1001px) and (max-width: 1190px) { .home .showcase { width: 31%; } }
+@media (max-width: 1000px) { .home .showcase { width: 100%; max-width: 360px; } body.home .hero { padding-bottom: 75px; } }
+@media (max-width: 650px) { .home .work-art { height: 180px; } .home .work-grid { gap: 27px; } }

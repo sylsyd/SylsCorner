@@ -28,7 +28,7 @@
     });
   });
 
-  // Short, playable excerpts from Between the Lines and The Last Ferry.
+  // Short theme questions introducing the current novel units.
   // Keep feedback local: preview answers never enter classroom results.
   function wireQuestion(panel, selector, key, correct, retry) {
     const buttons = [...panel.querySelectorAll(selector)];
@@ -46,11 +46,11 @@
     buttons.forEach(button => button.setAttribute('aria-pressed', 'false'));
   }
   wireQuestion(document.getElementById('demo-discover'), '[data-answer]', 'answer',
-    'Exactly. Her cold arms, glance and comment suggest a request to close the window. You made an inference.',
-    'A coat might help, but there is no hint of a shopping trip. Look at the window. Try again.');
+    'Exactly. The inviting name contrasts with the harsh camp. In Holes, there is more beneath the surface.',
+    'The name sounds inviting, but the dry lake and harsh camp tell another story. Try again.');
   wireQuestion(document.getElementById('demo-practise'), '[data-phrase]', 'phrase',
-    'Yes. The simile compares the emptying terminal to a lung breathing out, making the building feel alive.',
-    'That detail tells us Mei is alone. Find the phrase that compares the terminal to a living body.');
+    'Yes. Conor’s struggle connects fear, storytelling and the courage to face difficult truths.',
+    'Look at what Conor finds hard to say. This question is about his inner struggle. Try again.');
   window.SylCornerTools?.createDice(document.getElementById('showcase-dice'));
 
   const points = [...document.querySelectorAll('[data-point]')];

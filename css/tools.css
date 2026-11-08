@@ -173,3 +173,16 @@ body.tool-is-focused { overflow: hidden; }
 }
 
 .focus-slot .tool-head { display: none; }
+
+/* Compact dashboard cards; expanded tools retain their classroom scale. */
+.tools-grid { width: 100%; max-width: 1000px; margin-inline: auto; gap: 13px; }
+.tools-grid > .tool-card { min-height: 230px; padding: 13px 16px; }
+.tools-grid .tool-head { margin-bottom: 6px; }
+.tools-grid .tool-head h2 { font-size: 20px; }
+.tools-grid .tool-ui { min-height: 165px; gap: 6px; }
+.tools-grid .tool-value { font-size: 43px; }
+.tools-grid .dice-face { width: 62px; height: 62px; font-size: 44px; }
+.tools-grid .name-roller { min-height: 47px; padding: 8px 12px; }
+.tools-grid .roller-name { font-size: 23px; }
+.tools-grid .tool-card::after { width: 75px; height: 75px; top: 50px; right: 13px; }
+@media (max-width: 620px) { .tools-grid > .tool-card { min-height: 220px; } }
