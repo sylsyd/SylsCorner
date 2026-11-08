@@ -2,21 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Classroom timer, stopwatch and dice for The Learning Deck.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Classroom timer, stopwatch, dice and name randomiser for The Learning Deck.">
   <title>Classroom tools | The Learning Deck</title>
-  <link rel="stylesheet" href="css/tools.css">
-  <script src="tools/timer.js" defer></script><script src="tools/stopwatch.js" defer></script><script src="tools/dice.js" defer></script><script src="tools/name-randomiser.js" defer></script><script src="js/tools.js" defer></script>
-<script defer src="js/contact.js"></script></head>
+  <link rel="stylesheet" href="/css/tools.css">
+  <script src="/tools/timer.js" defer></script>
+  <script src="/tools/stopwatch.js" defer></script>
+  <script src="/tools/dice.js" defer></script>
+  <script src="/tools/name-randomiser.js" defer></script>
+  <script src="/js/tools.js" defer></script>
+  <script src="/js/contact.js" defer></script>
+</head>
 <body>
-  <header class="site-header"><a class="brand" href="index.html" aria-label="The Learning Deck home"><img src="assets/syl-corner-mark.png" alt=""><span>The Learning Deck</span></a><details class="class-switcher"><summary>Switch class</summary><nav class="class-switcher-menu" aria-label="Switch class"><a href="classroom.html?class=6LVA&amp;section=resources">6LVA <span>Games</span></a><a href="/lessons/6si/unit-1/">6SI <span>Unit 1</span></a><a href="/lessons/5si/unit-1/">5SI <span>Unit 1</span></a></nav></details><a class="back" href="classes.html">All classes <span aria-hidden="true">←</span></a></header>
-  <main>
-    <section class="tools-hero"><p>Classroom tools</p><a class="back" href="markbook.html">Teacher's markbook <span aria-hidden="true">→</span></a></section>
+  <header class="deck-site-header">
+    <a class="deck-wordmark" href="/" aria-label="The Learning Deck home"><img src="/assets/syl-corner-mark.png" alt=""><span>The Learning Deck</span></a>
+    <nav class="deck-header-links" aria-label="Main navigation"><a href="/classes.html">Classes</a><a href="/practice.html">Practice</a><a href="/tools.html" aria-current="page">Tools</a></nav>
+    <a class="tools-markbook" href="/markbook.html">Teacher’s markbook <span aria-hidden="true">↗</span></a>
+  </header>
+  <main class="tools-main">
+    <div class="tools-heading"><h1>Classroom tools</h1></div>
     <section class="tools-grid" aria-label="Classroom tools">
-      <article class="tool-card timer-card"><div class="tool-head"><p>01 · pace</p><h2>Timer</h2></div><div id="timer-tool" class="tool-ui"></div></article>
-      <article class="tool-card stopwatch-card"><div class="tool-head"><p>02 · measure</p><h2>Stopwatch</h2></div><div id="stopwatch-tool" class="tool-ui"></div></article>
-      <article class="tool-card dice-card"><div class="tool-head"><p>03 · choose</p><h2>Dice</h2></div><div id="dice-tool" class="tool-ui"></div></article><article class="tool-card names-card"><div class="tool-head"><p>04 · call on</p><h2>Name randomiser</h2></div><div id="name-randomiser-tool" class="tool-ui"></div></article>
+      <article class="tool-card timer-card" id="card-timer" aria-labelledby="heading-timer">
+        <div class="tool-head"><h2 id="heading-timer">Timer</h2><button class="tool-expand" type="button" data-expand-tool aria-label="Expand timer"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8V3h5m4 0h5v5M3 12v5h5m4 0h5v-5"/></svg><span>Expand</span></button></div>
+        <div id="timer-tool" class="tool-ui"></div>
+      </article>
+      <article class="tool-card stopwatch-card" id="card-stopwatch" aria-labelledby="heading-stopwatch">
+        <div class="tool-head"><h2 id="heading-stopwatch">Stopwatch</h2><button class="tool-expand" type="button" data-expand-tool aria-label="Expand stopwatch"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8V3h5m4 0h5v5M3 12v5h5m4 0h5v-5"/></svg><span>Expand</span></button></div>
+        <div id="stopwatch-tool" class="tool-ui"></div>
+      </article>
+      <article class="tool-card dice-card" id="card-dice" aria-labelledby="heading-dice">
+        <div class="tool-head"><h2 id="heading-dice">Dice</h2><button class="tool-expand" type="button" data-expand-tool aria-label="Expand dice"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8V3h5m4 0h5v5M3 12v5h5m4 0h5v-5"/></svg><span>Expand</span></button></div>
+        <div id="dice-tool" class="tool-ui"></div>
+      </article>
+      <article class="tool-card names-card" id="card-names" aria-labelledby="heading-names">
+        <div class="tool-head"><h2 id="heading-names">Name randomiser</h2><button class="tool-expand" type="button" data-expand-tool aria-label="Expand name randomiser"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8V3h5m4 0h5v5M3 12v5h5m4 0h5v-5"/></svg><span>Expand</span></button></div>
+        <div id="name-randomiser-tool" class="tool-ui"></div>
+      </article>
     </section>
   </main>
-<nav class="footer-class-switcher" aria-label="Switch class"><span>Switch class</span><a href="classroom.html?class=6LVA&amp;section=resources">6LVA</a><a href="/lessons/6si/unit-1/">6SI</a><a href="/lessons/5si/unit-1/">5SI</a></nav></body>
+  <footer class="tools-footer"><a href="/classes.html">← All classes</a><nav class="deck-footer-links" aria-label="Switch class"><a href="/classes.html?class=6LVA">6LVA</a><a href="/classes.html?class=6SI">6SI</a><a href="/classes.html?class=5SI">5SI</a></nav></footer>
+  <dialog class="tool-focus" aria-labelledby="focus-title">
+    <div class="focus-controls"><h2 id="focus-title"></h2><button class="focus-close" type="button">Close view <span aria-hidden="true">×</span></button></div>
+    <div class="focus-slot"></div>
+  </dialog>
+</body>
 </html>

@@ -150,3 +150,29 @@ body.cover .hero-actions a { border-radius: 6px; }
 @media (max-width: 620px) {
   body.cover header nav a, body.cover .hero-actions a { font-size: 12px; }
 }
+
+
+/* The cover title and buttons form a single, quieter composition. */
+body.cover .mark { width: 44px; height: 44px; }
+body.cover > header nav a:first-child::after { display: none; }
+body.cover .hero-actions { top: 62%; bottom: auto; }
+body.cover .hero-actions .hero-btn {
+  font-size: 14px;
+  padding: 15px 26px;
+  min-height: 48px;
+  border-color: #e9d8b6a8;
+  background: #071d3573;
+  transition: background .18s, color .18s, transform .18s;
+}
+body.cover .hero-actions .hero-btn-primary { color: #172d3d; background: #f5ead4; border-color: #f5ead4; }
+body.cover .hero-actions .hero-btn:hover { background: #f5ead4; border-color: #f5ead4; color: #172d3d; transform: translateY(-2px); }
+body.cover .hero-actions .hero-btn:focus-visible { outline: 3px solid #fff5e1; outline-offset: 5px; }
+@media (max-width: 650px), (max-aspect-ratio: 1/1) {
+  body.cover .hero-actions { top: 68%; left: 16px; right: 16px; }
+  body.cover .hero-actions .hero-btn { flex: 1 1 0; font-size: 13px; padding: 13px 6px; }
+  body.cover .mark { width: 36px; height: 36px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.cover .hero-actions .hero-btn { transition: none; }
+  body.cover .hero-actions .hero-btn:hover { transform: none; }
+}

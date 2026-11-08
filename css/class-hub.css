@@ -120,3 +120,40 @@ main { flex: 1; }
   .deck-site-header { gap: 12px; }
   .hub-secondary { grid-template-columns: 1fr; }
 }
+
+
+/* Artwork stays in the margins while the cards carry the content. */
+body {
+  background-image: var(--deck-atmosphere);
+  background-position: center top;
+  background-size: cover;
+  background-attachment: fixed;
+}
+.hub-destination { position: relative; isolation: isolate; overflow: hidden; background: color-mix(in srgb, var(--deck-surface) 91%, transparent); }
+.hub-destination::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--deck-atmosphere);
+  background-size: 800px auto;
+  background-position: right bottom;
+  opacity: .4;
+}
+.hub-destination::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 70px;
+  height: 70px;
+  background: url("/assets/ink/pages.svg") center / contain no-repeat;
+  opacity: .18;
+  pointer-events: none;
+}
+.hub-destination:last-child::after { background-image: url("/assets/ink/dice.svg"); }
+.hub-destination .hub-eyebrow { padding-right: 50px; }
+@media (max-width: 620px) {
+  body { background-attachment: scroll; }
+  .hub-destination::after { width: 48px; height: 48px; right: 5px; top: 5px; }
+}

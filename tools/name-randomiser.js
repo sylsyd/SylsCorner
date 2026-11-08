@@ -27,7 +27,7 @@ window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root)
     </div>
     <p class="mode-help"></p>
     <div class="name-roller" aria-live="polite"><span class="roller-name">Choose a class</span></div>
-    <button class="primary randomise-button" type="button" disabled>Roll a name</button>
+    <button class="primary randomise-button" type="button" disabled>Draw a name</button>
     <p class="roster-status">Choose a class to begin.</p>`;
 
   const roller = root.querySelector('.name-roller');
@@ -43,6 +43,7 @@ window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root)
   function updateMode() {
     root.querySelectorAll('.mode-option').forEach(button => {
       button.classList.toggle('selected', button.dataset.mode === mode);
+      button.setAttribute('aria-pressed', button.dataset.mode === mode);
     });
     modeHelp.textContent = mode === 'remove'
       ? 'Drawn names are removed for this session.'
@@ -64,7 +65,10 @@ window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root)
   function chooseClass(className, button) {
     if (rolling) return;
     selectedClass = className;
-    root.querySelectorAll('.class-option').forEach(option => option.classList.toggle('selected', option === button));
+    root.querySelectorAll('.class-option').forEach(option => {
+      option.classList.toggle('selected', option === button);
+      option.setAttribute('aria-pressed', option === button);
+    });
     rollerName.textContent = rosters[className].length ? `${className} is ready` : 'No names added yet';
     updateStatus();
   }
@@ -109,7 +113,7 @@ window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root)
       }
 
       rolling = false;
-      spin.textContent = 'Roll again';
+      spin.textContent = 'Draw again';
       spin.disabled = !names.length;
     }, 1450);
   }

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "amc",
+    "prompt": "Edit this website background. Remove every flower, blossom, berry, bud, leafy plant and floral decoration completely. Keep the fine paper grain, the quiet white centre, and the restrained mist-grey and blue-grey watercolour pooling around the margins. Keep only a few extremely fine bare charcoal twigs at the far upper-right edge. An austere literary atmosphere, minimalist and sophisticated. Sparse mist and ink. No flowers or ornamental foliage anywhere. No text. Preserve landscape framing.",
+    "generator": "Built-in image_gen",
+    "output": "assets/atmosphere/amc-paper.png"
+  },
+  {
+    "name": "holes",
+    "prompt": "Edit this website background. Remove all flowers, blossoms, berries, buds, plants and leaves from all corners. Preserve fine warm ivory paper with pale blue and ochre watercolour pooling at the outermost margins and very sparse thin rusty desert ridge contours at the far lower-right and far left. The central 80 percent should be very light quiet paper. Elegant minimalist desert-inspired illustration texture, no floral design or scenery objects. No text. Preserve landscape framing.",
+    "generator": "Built-in image_gen",
+    "output": "assets/atmosphere/holes-paper.png"
+  },
+  {
+    "name": "legends",
+    "prompt": "Edit this website background. Simplify it significantly. Remove all flowers, buds and berries and reduce the leafy upper-left branch to just three very thin ink leaves at the far outer edge. Preserve the gentle coastal contour at the lower-right, but make the landscape shallower and more abstract. Keep warm ivory paper, sage watercolour at the far margins, and a tiny burgundy watercolour bloom in the top-right. Centre 80 percent quiet light paper. Beautiful sparse minimalist maritime ink and watercolour texture. No text, boats, compasses or objects. Preserve landscape framing.",
+    "generator": "Built-in image_gen",
+    "output": "assets/atmosphere/legends-paper.png"
+  },
+  {
+    "name": "home-desktop",
+    "prompt": "Edit this existing website cover with minimal change. Preserve its deep navy ink-watercolour paper, pale blue coastline and fine gold map contours, its understated elegant nautical character, and exact serif typography. Make the cream title 'The Learning Deck' about 12 percent smaller and move it up so its visual centre sits around 45 percent of the canvas height. Keep it on ONE line, left aligned with its current starting margin. The title must remain clearly readable and the only text in the image. Leave the lower-left quarter quiet for website buttons added later. No UI, extra words, icons, books, boats, compass objects, or pens. Preserve a wide landscape aspect ratio.",
+    "generator": "Built-in image_gen",
+    "output": "assets/learning-deck-hero-refined.png"
+  },
+  {
+    "name": "home-mobile",
+    "prompt": "Edit this portrait website cover. Keep the deep navy paper, elegant watercolour and subtle fine gold coastal contours. Remove the compass rose, the red X marks and the decorative dotted treasure-route trail. Preserve the exact cream serif wording 'The Learning Deck', on two balanced lines as 'The Learning' then 'Deck', fully readable with generous side margins. Make the title about 10 percent smaller and position it with its visual centre at around 44 percent of the canvas height. Keep the top 20 percent and bottom 20 percent quiet for real website navigation controls that will be added later. No extra text, UI, boats, books, compass objects or pens. Preserve the very tall portrait aspect ratio and enough navy padding to crop safely on phone screens.",
+    "generator": "Built-in image_gen",
+    "output": "assets/learning-deck-hero-mobile-refined.png"
+  }
+]

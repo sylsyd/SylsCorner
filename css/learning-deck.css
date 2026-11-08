@@ -115,3 +115,7 @@
   .deck-wordmark img { width: 25px; height: 25px; }
   .deck-header-links { gap: 15px; font-size: 12px; }
 }
+
+[data-deck-theme="amc"] { --deck-atmosphere: url("/assets/atmosphere/amc-paper.png"); }
+[data-deck-theme="holes"] { --deck-atmosphere: url("/assets/atmosphere/holes-paper.png"); }
+[data-deck-theme="legends"] { --deck-atmosphere: url("/assets/atmosphere/legends-paper.png"); }
