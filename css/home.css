@@ -25,6 +25,43 @@ body.home .hero-actions { top: 63%; right: auto; max-width: 51%; }
 .course-point.is-active { color: #fff0c8; filter: drop-shadow(0 0 7px #dfb866); }
 .course-point.is-active circle:first-child { stroke-opacity: 1; }
 @keyframes chart-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+.chart-stars { position: absolute; inset: 0; pointer-events: none; }
+.chart-star {
+  position: absolute; left: var(--x); top: var(--y); width: var(--size); aspect-ratio: 1;
+  color: #f6d693; filter: drop-shadow(0 0 4px #f6d697b3);
+  opacity: .3; animation: chart-twinkle 8s ease-in-out var(--delay) infinite;
+}
+.chart-star::before {
+  content: ''; position: absolute; inset: 0; background: currentColor;
+  clip-path: polygon(50% 0, 59% 40%, 100% 50%, 59% 60%, 50% 100%, 41% 60%, 0 50%, 41% 40%);
+}
+.course-glint {
+  fill: none; stroke: #ffe4a6; stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: .08 1;
+  opacity: 0; animation: chart-glint 14s linear 3s infinite;
+}
+.course-point .course-beacon {
+  fill: none; stroke: currentColor; stroke-width: 1; opacity: 0;
+  transform-box: fill-box; transform-origin: center; animation: chart-beacon 6s ease-out infinite;
+}
+.course-point[data-point="practice"] .course-beacon { animation-delay: -2s; }
+.course-point[data-point="tools"] .course-beacon { animation-delay: -4s; }
+body.home:not([data-motion="playing"]) .ambient-motion { animation-play-state: paused; }
+@keyframes chart-twinkle {
+  0%, 100% { opacity: .25; transform: scale(.76); }
+  44% { opacity: .94; transform: scale(1.18); }
+  71% { opacity: .43; transform: scale(.92); }
+}
+@keyframes chart-glint {
+  0% { opacity: 0; stroke-dashoffset: .1; }
+  12%, 78% { opacity: .8; }
+  94%, 100% { opacity: 0; stroke-dashoffset: -1; }
+}
+@keyframes chart-beacon {
+  0%, 8% { opacity: 0; transform: scale(.85); }
+  17% { opacity: .63; }
+  60%, 100% { opacity: 0; transform: scale(2.3); }
+}
 .home .showcase { position: absolute; width: min(31%, 450px); right: 6%; top: 50%; transform: translateY(-44%); z-index: 2; outline: none; }
 .showcase-heading { display: flex; align-items: center; justify-content: space-between; color: #eee2c8; margin: 0 4px 20px; }
 .showcase-heading h2 { font: 400 13px/1.5 var(--deck-sans); letter-spacing: .05em; margin: 0; }
@@ -75,6 +112,12 @@ body.home .hero-actions { top: 63%; right: auto; max-width: 51%; }
 .work-cue { display: flex; align-items: center; gap: 22px; position: absolute; left: 5%; bottom: 32px; font: 400 11px var(--deck-sans); letter-spacing: .08em; color: #eee2c8; }
 .work-cue > span:last-child { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid #c3a56480; border-radius: 50%; transition: transform .2s; }
 .work-cue:hover > span:last-child { transform: translateY(3px); }
+.motion-toggle {
+  position: absolute; right: 5%; bottom: 32px; min-height: 36px; padding: 6px 11px;
+  border: 1px solid #c3a56480; border-radius: 5px; background: #071d35d9;
+  color: #eee2c8; cursor: pointer; font: 400 11px var(--deck-sans);
+}
+.motion-toggle:hover { background: #16334a; }
 .selected-work { background: #f5f1e8 url('../assets/watercolor-ink-paper.png') center/cover; padding: 45px 5% 65px; scroll-margin-top: 24px; }
 .work-heading { display: flex; justify-content: space-between; align-items: end; gap: 20px; max-width: 1500px; margin: 0 auto 34px; }
 .section-eyebrow { font: 600 10px/1.5 var(--deck-sans); text-transform: uppercase; letter-spacing: .18em; color: #65726b; margin: 0 0 10px; }
@@ -123,6 +166,7 @@ body.home .hero-actions { top: 63%; right: auto; max-width: 51%; }
   .home .hero-visual img { object-fit: cover; object-position: center 49%; }
   .home .hero-visual::after { background: linear-gradient(transparent 65%,#071d35); }
   .home .chart-course { height: 600px; opacity: .6; }
+  .chart-stars { height: 530px; bottom: auto; }
   body.home .hero-actions { top: 430px; left: 24px; right: 24px; max-width: 440px; margin-inline: auto; justify-content: center; gap: 10px; }
   body.home .hero-actions .hero-btn { flex: 1; padding: 13px 16px; font-size: 13px; }
   .home .showcase { position: relative; top: auto; right: auto; transform: none; width: 100%; max-width: 440px; margin: 0 auto; }
@@ -130,6 +174,7 @@ body.home .hero-actions { top: 63%; right: auto; max-width: 51%; }
   .field-card { min-height: 425px; padding: 25px; }
   .field-card h3 { font-size: 29px; }
   .work-cue { bottom: 22px; left: 24px; }
+  .motion-toggle { bottom: 19px; right: 24px; }
   .work-grid { gap: 18px; }
   .work-art { height: 230px; }
   .work-caption { grid-template-columns: 1fr; gap: 9px; }
@@ -147,6 +192,7 @@ body.home .hero-actions { top: 63%; right: auto; max-width: 51%; }
   .home > header nav a::after { bottom: 15px; }
   body.home .hero { padding: 440px 21px 83px; }
   .home .hero-visual { height: 555px; }
+  .chart-stars { height: 440px; }
   body.home .hero-actions { top: 350px; left: 21px; right: 21px; }
   .showcase-heading h2 { font-size: 12px; }
   .field-card { min-height: 440px; padding: 22px; }
@@ -171,6 +217,7 @@ body.home .hero-actions { top: 63%; right: auto; max-width: 51%; }
   .home *, .home *::before, .home *::after { animation: none !important; transition: none !important; }
   .home .course-line, .home .work-route path { stroke-dashoffset: 0; }
   .home .work-item:hover .work-art, .home .work-item:hover .work-art > img, .home .mark { transform: none !important; }
+  .home .motion-toggle { display: none; }
 }
 
 

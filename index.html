@@ -6,9 +6,9 @@
   <meta name="description" content="Lesson materials and classroom resources for Syl's middle school classes.">
   <title>The Learning Deck / Mr Magnin's Homepage</title>
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/home.css?v=20261108c">
+  <link rel="stylesheet" href="css/home.css?v=20261110">
   <script src="tools/dice.js" defer></script>
-  <script src="js/home.js?v=20261108c" defer></script>
+  <script src="js/home.js?v=20261110" defer></script>
 </head>
 <body class="cover home">
   <a class="skip-link" href="#showcase">Skip to interactive showcase</a>
@@ -28,12 +28,24 @@
           <img src="assets/learning-deck-hero-refined.png" alt="" fetchpriority="high">
         </picture>
       </div>
+      <div class="chart-stars" aria-hidden="true">
+        <span class="chart-star ambient-motion" style="--x:8%;--y:22%;--size:10px;--delay:-1s"></span>
+        <span class="chart-star ambient-motion" style="--x:21%;--y:12%;--size:7px;--delay:-5s"></span>
+        <span class="chart-star ambient-motion" style="--x:38%;--y:19%;--size:13px;--delay:-3s"></span>
+        <span class="chart-star ambient-motion" style="--x:51%;--y:8%;--size:7px;--delay:-7s"></span>
+        <span class="chart-star ambient-motion" style="--x:64%;--y:15%;--size:10px;--delay:-2s"></span>
+        <span class="chart-star ambient-motion" style="--x:88%;--y:18%;--size:8px;--delay:-6s"></span>
+        <span class="chart-star ambient-motion" style="--x:31%;--y:78%;--size:9px;--delay:-4s"></span>
+        <span class="chart-star ambient-motion" style="--x:48%;--y:88%;--size:12px;--delay:-6.5s"></span>
+      </div>
       <svg class="chart-course" viewBox="0 0 1440 800" preserveAspectRatio="none" aria-hidden="true">
-        <path class="course-shadow" d="M760 720 C820 720 830 675 865 650 C895 627 850 755 1100 745 S1435 720 1410 300 S1230 160 1150 112"/>
-        <path class="course-line" pathLength="1" d="M760 720 C820 720 830 675 865 650 C895 627 850 755 1100 745 S1435 720 1410 300 S1230 160 1150 112"/>
-        <g class="course-point" data-point="classes" transform="translate(865 650)"><circle r="13"/><circle r="4"/></g>
-        <g class="course-point" data-point="practice" transform="translate(1410 300)"><circle r="13"/><circle r="4"/></g>
-        <g class="course-point" data-point="tools" transform="translate(1150 112)"><circle r="13"/><path d="M0 -18 4 -4 18 0 4 4 0 18 -4 4 -18 0 -4 -4Z"/></g>
+        <defs><path id="home-chart-route" pathLength="1" d="M760 720 C820 720 830 675 865 650 C895 627 850 755 1100 745 S1435 720 1410 300 S1230 160 1150 112"/></defs>
+        <use class="course-shadow" href="#home-chart-route"/>
+        <use class="course-line" href="#home-chart-route"/>
+        <use class="course-glint ambient-motion" href="#home-chart-route"/>
+        <g class="course-point" data-point="classes" transform="translate(865 650)"><circle r="13"/><circle r="4"/><circle class="course-beacon ambient-motion" r="13"/></g>
+        <g class="course-point" data-point="practice" transform="translate(1410 300)"><circle r="13"/><circle r="4"/><circle class="course-beacon ambient-motion" r="13"/></g>
+        <g class="course-point" data-point="tools" transform="translate(1150 112)"><circle r="13"/><path d="M0 -18 4 -4 18 0 4 4 0 18 -4 4 -18 0 -4 -4Z"/><circle class="course-beacon ambient-motion" r="13"/></g>
       </svg>
       <nav class="hero-actions" aria-label="Main sections">
         <a class="hero-btn hero-btn-primary" href="classes.html" data-course="classes">Classes</a>
@@ -78,6 +90,7 @@
         <noscript><p class="no-script">Enable JavaScript to try the cards here, or follow the links to explore.</p></noscript>
       </section>
       <a class="work-cue" href="#selected-work"><span>Selected work</span><span aria-hidden="true">↓</span></a>
+      <button class="motion-toggle" type="button" hidden>Pause animation</button>
     </section>
 
     <section class="selected-work" id="selected-work" aria-labelledby="work-title">

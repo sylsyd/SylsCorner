@@ -2,6 +2,25 @@
   'use strict';
   const showcase = document.querySelector('.showcase');
   if (!showcase) return;
+  const motionToggle = document.querySelector('.motion-toggle');
+  if (motionToggle) {
+    const preference = 'learning-deck:homepage-motion';
+    let paused = false;
+    try { paused = localStorage.getItem(preference) === 'paused'; } catch (_) {}
+
+    function updateMotion() {
+      document.body.dataset.motion = paused ? 'paused' : 'playing';
+      motionToggle.textContent = paused ? 'Resume animation' : 'Pause animation';
+    }
+
+    motionToggle.addEventListener('click', () => {
+      paused = !paused;
+      updateMotion();
+      try { localStorage.setItem(preference, document.body.dataset.motion); } catch (_) {}
+    });
+    updateMotion();
+    motionToggle.hidden = false;
+  }
   const tabs = [...showcase.querySelectorAll('[role="tab"]')];
   const panels = [...showcase.querySelectorAll('[role="tabpanel"]')];
 
