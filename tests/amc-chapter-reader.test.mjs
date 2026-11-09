@@ -4,15 +4,19 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
+import { lessonReleases, privateLessonFiles } from '../js/lesson-releases.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const unit = path.join(root, 'lessons/5si/unit-2');
 const titles = ['A Monster Calls', 'Breakfast', 'School', 'Life Writing', 'Three Stories', 'Grandma', 'The Wildness of Stories', 'The First Tale', 'The Rest of the First Tale', 'Understanding', 'Little Talk'];
 const paragraphCounts = [60, 58, 44, 46, 79, 55, 54, 50, 48, 67, 54];
 
-test('only chapters 1 to 11 and the original seven recordings are published', () => {
+test('only chapters 1 to 11 are available, with Week 2 audio kept in private storage', () => {
   assert.deepEqual(fs.readdirSync(path.join(unit, 'reading')).sort(), titles.map((_, i) => `chapter-${i + 1}.js`).sort());
   assert.deepEqual(fs.readdirSync(path.join(unit, 'audiobook')).sort(), Array.from({ length: 7 }, (_, i) => `chapter-${i + 1}.mp3`));
+  const prefix = '/lessons/5si/unit-2/audiobook/';
+  assert.deepEqual([...privateLessonFiles].filter(file => file.startsWith(prefix)).sort(),
+    [8, 9, 10, 11].map(n => prefix + `chapter-${n}.mp3`).sort());
   assert.ok(!fs.readdirSync(unit).some(file => file.endsWith('.epub')));
 });
 
@@ -44,13 +48,18 @@ test('chapter data preserves complete paragraphs and safe inline emphasis', () =
   }
 });
 
-test('Week 2 chapter readers do not require audio', () => {
+test('Week 2 reading slides use the matching recordings on their lesson release dates', () => {
   for (const [lesson, chapters] of [[2, [8, 9]], [3, [10, 11]]]) {
     const html = fs.readFileSync(path.join(unit, `week-2/lesson-${lesson}/index.html`), 'utf8');
-    assert.ok(!/<audio\b/.test(html));
     assert.ok(html.includes('amc-chapter-reader.js'));
-    const sources = [...html.matchAll(/class="chapter-reader-anchor" data-chapter="(\d+)" data-chapter-src="([^"]+)"/g)];
-    assert.deepEqual(sources.map(([, number, src]) => [Number(number), src]), chapters.map(n => [n, `../../reading/chapter-${n}.js`]));
+    const sources = [...html.matchAll(/<audio id="chapter-(\d+)-audio"[^>]*controls preload="none" src="([^"]+)"/g)];
+    assert.deepEqual(sources.map(([, number, src]) => [Number(number), src]), chapters.map(n => [n, `../../audiobook/chapter-${n}.mp3`]));
+    for (const number of chapters) {
+      const base = '/lessons/5si/unit-2';
+      const date = lessonReleases.get(`${base}/week-2/lesson-${lesson}`);
+      assert.ok(date);
+      assert.equal(lessonReleases.get(`${base}/audiobook/chapter-${number}.mp3`), date);
+    }
   }
 });
 

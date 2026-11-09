@@ -269,6 +269,9 @@
       touch = null;
     }, { passive: true });
     (audio?.closest('.chapter-audio') || source).after(root);
+    audio?.addEventListener('play', function () {
+      audioElements.forEach(other => { if (other !== audio && !other.paused) other.pause(); });
+    });
     if (bookId === 'holes' && audio) {
       const resumeKey = 'learning-deck:holes:audio-' + number;
       let lastSave = 0;
@@ -283,10 +286,7 @@
         } catch (_) {}
       }
       audio.addEventListener('loadedmetadata', restorePosition);
-      audio.addEventListener('play', function () {
-        audioElements.forEach(other => { if (other !== audio) other.pause(); });
-        restorePosition();
-      });
+      audio.addEventListener('play', restorePosition);
       audio.addEventListener('pause', savePosition);
       audio.addEventListener('seeked', savePosition);
       audio.addEventListener('timeupdate', function () {
@@ -323,8 +323,12 @@
     setFullscreenView(active, Boolean(document.fullscreenElement));
   });
   new MutationObserver(function () {
-    if (bookId === 'holes') audioElements.forEach(audio => { if (!audio.closest('.slide').classList.contains('active')) audio.pause(); });
+    audioElements.forEach(audio => {
+      if (!audio.paused && !audio.closest('.slide').classList.contains('active')) audio.pause();
+    });
     if (active && !active.slide.classList.contains('active')) closeReader(false);
   }).observe(document.getElementById('stage'), { attributes: true, attributeFilter: ['class'], subtree: true });
-  if (bookId === 'holes') window.addEventListener('pagehide', function () { audioElements.forEach(audio => audio.pause()); });
+  window.addEventListener('pagehide', function () {
+    audioElements.forEach(audio => { if (!audio.paused) audio.pause(); });
+  });
 })();

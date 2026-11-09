@@ -39,6 +39,29 @@ body.student-activity .deck-activity-bar .unit-return {
 .deck-activity-context { color: var(--deck-muted); font: 400 12px var(--deck-sans); }
 .deck-activity-bar .deck-class-select { margin-left: auto; min-height: 30px; padding-block: 4px; font-size: 12px; }
 .deck-all-classes { color: var(--deck-accent); text-decoration: none; white-space: nowrap; }
+.deck-pick-name, .deck-name-dialog button {
+  border: 1px solid var(--deck-line); border-radius: 5px; background: var(--deck-surface);
+  color: var(--deck-ink); padding: 6px 9px; cursor: pointer; font: 600 12px/1.3 var(--deck-sans);
+}
+.deck-pick-name { margin-left: auto; white-space: nowrap; }
+.deck-pick-name + .deck-class-select { margin-left: 0; }
+.deck-name-dialog {
+  box-sizing: border-box; width: min(440px, calc(100vw - 24px)); max-height: calc(100dvh - 24px);
+  margin: auto; padding: 20px; border: 1px solid var(--deck-line); border-radius: 12px;
+  background: var(--deck-surface); color: var(--deck-ink); font: 400 15px/1.4 var(--deck-sans);
+}
+.deck-name-dialog::backdrop { background: #101b2960; }
+.deck-name-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.deck-name-heading h2 { margin: 0; color: inherit; font: 700 21px/1.3 var(--deck-serif); }
+.deck-name-controls { display: grid; justify-items: center; gap: 12px; margin-top: 18px; text-align: center; }
+.deck-name-controls .class-picker[hidden] { display: none; }
+.deck-name-controls .mode-picker { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.deck-name-controls p { margin: 0; color: var(--deck-muted); font: inherit; }
+.deck-name-controls .name-roller { width: 100%; font: 700 clamp(24px, 6vw, 40px)/1.2 var(--deck-serif); overflow-wrap: anywhere; }
+.deck-name-dialog button[aria-pressed="true"], .deck-name-dialog .primary {
+  background: var(--deck-ink); color: var(--deck-surface);
+}
+.deck-name-dialog button:disabled { opacity: .45; cursor: default; }
 body.deck-game-activity { padding-top: 44px; box-sizing: border-box; }
 body.deck-navigation-ready #viewport { top: 44px; }
 @media (max-width: 900px) {
@@ -49,7 +72,7 @@ body.deck-navigation-ready #viewport { top: 44px; }
   .deck-activity-context { font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .deck-all-classes { display: none; }
 }
-@media print { .deck-activity-bar { display: none; } }
+@media print { .deck-activity-bar, .deck-name-dialog { display: none; } }
 
 body.chapter-reading .deck-activity-bar { display: none; }
 body.chapter-reading #viewport { top: 0; margin-top: 0; }

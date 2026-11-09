@@ -1,5 +1,5 @@
 window.SylCornerTools = window.SylCornerTools || {};
-window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root) {
+window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root, { className } = {}) {
   const initialRosters = {
     '6LVA': [],
     '6SI': ['Matteo', 'Amine', 'Leo', 'Henry', 'Eva', 'Elise', 'Julie', 'Valentine', 'Charlotte', 'Theodore', 'Elyana', 'Andreas', 'Sidonie', 'Noemie', 'Sarah', 'Elanor', 'Alex', 'Milan', 'Hugo', 'Louenn', 'Emma', 'Lea', 'Giuila', 'Xavier'],
@@ -56,7 +56,9 @@ window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root)
     if (!selectedClass) {
       status.textContent = 'Choose a class to begin.';
     } else if (!names.length) {
-      status.textContent = `No names remain in ${selectedClass}. Refresh the page to start over.`;
+      status.textContent = initialRosters[selectedClass].length
+        ? `No names remain in ${selectedClass}. Refresh the page to start over.`
+        : `No names have been added for ${selectedClass} yet.`;
     } else {
       status.textContent = `${names.length} name${names.length === 1 ? '' : 's'} available in ${selectedClass}.`;
     }
@@ -122,5 +124,11 @@ window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root)
   root.querySelectorAll('.mode-option').forEach(button => button.addEventListener('click', () => chooseMode(button.dataset.mode, button)));
   spin.addEventListener('click', rollName);
   updateMode();
+  if (className && Object.hasOwn(rosters, className)) {
+    const classPicker = root.querySelector('.class-picker');
+    chooseClass(className, classPicker.querySelector('[data-class="' + className + '"]'));
+    classPicker.hidden = true;
+  }
   updateStatus();
+  return rollName;
 };

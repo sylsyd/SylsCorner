@@ -40,6 +40,42 @@ if (path && back) {
   all.textContent = 'All classes';
   nav.append(back, label, select, all);
   document.body.prepend(nav);
+  if (document.querySelector('.slide') && typeof window.HTMLDialogElement?.prototype.showModal === 'function') {
+    const pick = document.createElement('button');
+    pick.type = 'button';
+    pick.className = 'deck-pick-name';
+    pick.textContent = 'Pick a name';
+    pick.setAttribute('aria-haspopup', 'dialog');
+    select.before(pick);
+    pick.addEventListener('keydown', event => event.stopPropagation());
+    let dialog, rollName;
+    pick.addEventListener('click', async () => {
+      if (!dialog) {
+        dialog = document.createElement('dialog');
+        dialog.className = 'deck-name-dialog';
+        dialog.setAttribute('aria-labelledby', 'deck-name-title');
+        dialog.innerHTML = '<div class="deck-name-heading"><h2 id="deck-name-title"></h2><button type="button" autofocus>Close</button></div><div class="deck-name-controls"></div>';
+        dialog.querySelector('h2').textContent = 'Pick a name · ' + classId.toUpperCase();
+        dialog.querySelector('button').addEventListener('click', () => dialog.close());
+        dialog.addEventListener('keydown', event => event.stopPropagation());
+        document.body.append(dialog);
+      }
+      if (dialog.open) return;
+      dialog.showModal();
+      if (!rollName) {
+        const controls = dialog.querySelector('.deck-name-controls');
+        controls.textContent = 'Loading name randomiser…';
+        try {
+          await import('/tools/name-randomiser.js');
+          rollName ||= window.SylCornerTools.createNameRandomiser(controls, { className: classId.toUpperCase() });
+        } catch (_) {
+          controls.textContent = 'The name randomiser could not load. Close and try again.';
+          return;
+        }
+      }
+      if (dialog.open) rollName();
+    });
+  }
   if (!document.getElementById('stage') && !document.getElementById('app')) {
     document.body.classList.add('deck-game-activity');
   }

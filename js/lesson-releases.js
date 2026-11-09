@@ -19,11 +19,15 @@ for (const [date, classId, unitNumber, weekNumber, lessons, chapters] of schedul
   for (const number of lessons) lessonReleases.set(unit + 'week-' + weekNumber + '/lesson-' + number, release);
   for (const number of chapters) {
     lessonReleases.set(unit + 'reading/chapter-' + number + '.js', release);
-    if (classId === '6si') lessonReleases.set(unit + 'audiobook/chapter-' + number + '.mp3', release);
+    if (classId === '6si' || classId === '5si') lessonReleases.set(unit + 'audiobook/chapter-' + number + '.mp3', release);
   }
 }
 
 export const privateLessonFiles = new Set([
+  '/lessons/5si/unit-2/audiobook/chapter-8.mp3',
+  '/lessons/5si/unit-2/audiobook/chapter-9.mp3',
+  '/lessons/5si/unit-2/audiobook/chapter-10.mp3',
+  '/lessons/5si/unit-2/audiobook/chapter-11.mp3',
   '/lessons/5si/unit-2/week-2/lesson-4/index.html',
   '/lessons/5si/unit-2/week-2/lesson-5/index.html',
   '/lessons/5si/unit-2/week-2/lesson-6/index.html',
