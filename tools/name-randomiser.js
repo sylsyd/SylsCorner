@@ -46,7 +46,7 @@ window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root,
       button.setAttribute('aria-pressed', button.dataset.mode === mode);
     });
     modeHelp.textContent = mode === 'remove'
-      ? 'Drawn names are removed for this session.'
+      ? 'Each name is drawn once per round. The roster refills automatically.'
       : 'Drawn names stay available for the next roll.';
   }
 
@@ -56,9 +56,7 @@ window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root,
     if (!selectedClass) {
       status.textContent = 'Choose a class to begin.';
     } else if (!names.length) {
-      status.textContent = initialRosters[selectedClass].length
-        ? `No names remain in ${selectedClass}. Refresh the page to start over.`
-        : `No names have been added for ${selectedClass} yet.`;
+      status.textContent = `No names have been added for ${selectedClass} yet.`;
     } else {
       status.textContent = `${names.length} name${names.length === 1 ? '' : 's'} available in ${selectedClass}.`;
     }
@@ -109,7 +107,12 @@ window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root,
 
       if (mode === 'remove') {
         names.splice(chosenIndex, 1);
-        status.textContent = `${chosenName} selected and removed from this session.`;
+        if (names.length) {
+          status.textContent = `${chosenName} selected. ${names.length} left in this round.`;
+        } else {
+          names.push(...initialRosters[selectedClass]);
+          status.textContent = 'Everyone has had a turn. A new round is ready.';
+        }
       } else {
         status.textContent = `${chosenName} selected. They stay in the draw.`;
       }
