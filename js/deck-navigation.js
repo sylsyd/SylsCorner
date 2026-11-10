@@ -40,7 +40,8 @@ if (path && back) {
   all.textContent = 'All classes';
   nav.append(back, label, select, all);
   document.body.prepend(nav);
-  if (document.querySelector('.slide') && typeof window.HTMLDialogElement?.prototype.showModal === 'function') {
+  const hasSlides = document.querySelector('.slide') || (classId === '6lva' && document.querySelector('main#stage'));
+  if (hasSlides && typeof window.HTMLDialogElement?.prototype.showModal === 'function') {
     const pick = document.createElement('button');
     pick.type = 'button';
     pick.className = 'deck-pick-name';

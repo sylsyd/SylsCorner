@@ -1,7 +1,7 @@
 window.SylCornerTools = window.SylCornerTools || {};
 window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root, { className } = {}) {
   const initialRosters = {
-    '6LVA': [],
+    '6LVA': ['Arielle', 'Mathys', 'Ferdinand', 'Victor', 'Hugo', 'Louise', 'Siara Nais', 'Kerry', 'Alma', 'Philppine', 'Charlotte'],
     '6SI': ['Matteo', 'Amine', 'Leo', 'Henry', 'Eva', 'Elise', 'Julie', 'Valentine', 'Charlotte', 'Theodore', 'Elyana', 'Andreas', 'Sidonie', 'Noemie', 'Sarah', 'Elanor', 'Alex', 'Milan', 'Hugo', 'Louenn', 'Emma', 'Lea', 'Giuila', 'Xavier'],
     '5SI': ['Karl', 'Selene', 'Rayhane', 'Valentina', 'Elliott', 'Ayumi', 'Jeanne', 'Adelie', 'Louise', 'Halvyse', 'Alicia', 'Manon', 'Leina', 'Christian', 'Keo', 'Arsene', 'Deesha', 'Amelia', 'Alexis', 'Leo', 'Octave', 'Victoria', 'Jade', 'Mengxi']
   };
