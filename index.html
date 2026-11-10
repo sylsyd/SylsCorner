@@ -6,7 +6,7 @@
   <meta name="description" content="Lesson materials and classroom resources for Syl's middle school classes.">
   <title>The Learning Deck / Mr Magnin's Homepage</title>
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/home.css?v=20261110">
+  <link rel="stylesheet" href="css/home.css?v=20261110b">
   <script src="tools/dice.js" defer></script>
   <script src="js/home.js?v=20261110" defer></script>
 </head>
@@ -29,6 +29,18 @@
         </picture>
       </div>
       <div class="chart-stars" aria-hidden="true">
+        <svg class="chart-threads" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+          <defs>
+            <path id="star-thread-upper" pathLength="1" vector-effect="non-scaling-stroke" d="M50 340 C85 338 105 272 150 270 S238 327 280 300 S339 188 380 190 S400 274 440 270 S534 195 590 250 S623 158 640 150"/>
+            <path id="star-thread-lower" pathLength="1" vector-effect="non-scaling-stroke" d="M100 740 C144 736 152 883 190 890 S265 780 310 780 S360 692 400 700 S445 883 480 880 S528 745 560 750 S596 569 610 480"/>
+          </defs>
+          <use class="chart-thread-line" href="#star-thread-upper"/>
+          <use class="course-glint ambient-motion" href="#star-thread-upper"/>
+          <g class="chart-thread-lower">
+            <use class="chart-thread-line" href="#star-thread-lower"/>
+            <use class="course-glint ambient-motion" href="#star-thread-lower"/>
+          </g>
+        </svg>
         <span class="chart-star ambient-motion" style="--x:8%;--y:22%;--size:10px;--delay:-1s"></span>
         <span class="chart-star ambient-motion" style="--x:21%;--y:12%;--size:7px;--delay:-5s"></span>
         <span class="chart-star ambient-motion" style="--x:38%;--y:19%;--size:13px;--delay:-3s"></span>
