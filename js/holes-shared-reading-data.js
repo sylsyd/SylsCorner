@@ -26,3 +26,31 @@ export const chapter14Reading = {
     }
   ]
 };
+
+// Chapter 15 uses the 262-second recording, with slightly longer student turns.
+export const chapter15Reading = {
+  duration: 262,
+  turns: [
+    {
+      pauseAt: 39.10,
+      resumeAt: 82.55,
+      paragraphs: [6, 8],
+      begin: 'Armpit and Squid, you will keep digging where you have been,',
+      end: "We don't want any dirt piles to get in the way."
+    },
+    {
+      pauseAt: 127.75,
+      resumeAt: 167.65,
+      paragraphs: [13, 15],
+      begin: "The Warden couldn't keep still.",
+      end: 'The main thing is not to miss anything.'
+    },
+    {
+      pauseAt: 191.20,
+      resumeAt: 213.05,
+      paragraphs: [19, 22],
+      begin: 'I wonder how she knew all our names,',
+      end: 'He wondered if Zigzag was just being paranoid.'
+    }
+  ]
+};

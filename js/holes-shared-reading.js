@@ -1,9 +1,11 @@
-import { chapter14Reading } from './holes-shared-reading-data.js';
+import { chapter14Reading, chapter15Reading } from './holes-shared-reading-data.js?v=20261111b';
 
-const audio = document.getElementById('holes-chapter-14-audio');
-if (audio) setupSharedReading(audio);
+for (const [chapter, reading] of [[14, chapter14Reading], [15, chapter15Reading]]) {
+  const audio = document.getElementById('holes-chapter-' + chapter + '-audio');
+  if (audio) setupSharedReading(audio, chapter, reading);
+}
 
-function setupSharedReading(audio) {
+function setupSharedReading(audio, chapter, reading) {
   const slide = audio.closest('.slide');
   const container = audio.closest('.chapter-audio');
   const toggle = document.createElement('button');
@@ -23,7 +25,7 @@ function setupSharedReading(audio) {
   let internalSeek = false;
   let frame = 0;
   const completed = new Set();
-  const turns = chapter14Reading.turns;
+  const turns = reading.turns;
 
   function updateStatus() {
     if (!enabled) {
@@ -51,7 +53,7 @@ function setupSharedReading(audio) {
     content.className = 'shared-reading-handover';
     const heading = document.createElement('p');
     heading.className = 'shared-reading-turn';
-    heading.textContent = 'Holes · Chapter 14 · Student turn ' + (index + 1) + ' of ' + turns.length;
+    heading.textContent = 'Holes · Chapter ' + chapter + ' · Student turn ' + (index + 1) + ' of ' + turns.length;
     const instruction = document.createElement('p');
     instruction.textContent = 'Read aloud from your own copy of the book.';
     const cues = document.createElement('dl');
@@ -155,7 +157,7 @@ function setupSharedReading(audio) {
     updateStatus();
   });
   audio.addEventListener('loadedmetadata', () => {
-    if (Math.abs(audio.duration - chapter14Reading.duration) > 1) {
+    if (Math.abs(audio.duration - reading.duration) > 1) {
       enabled = false;
       toggle.disabled = true;
       updateStatus();
