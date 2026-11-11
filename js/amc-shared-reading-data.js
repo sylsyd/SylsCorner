@@ -53,3 +53,57 @@ export const chapter9Reading = {
     }
   ]
 };
+
+export const chapter10Reading = {
+  duration: 594.53,
+  turns: [
+    {
+      pauseAt: 139.68,
+      resumeAt: 181.03,
+      paragraphs: [19, 19],
+      begin: 'It was just over a year ago that Lily had told a few of her friends about Conor’s mum,',
+      end: 'Even teachers would get a different look on their faces when he put up his hand in lessons.'
+    },
+    {
+      pauseAt: 376.86,
+      resumeAt: 427.77,
+      paragraphs: [40, 45],
+      begin: 'Harry cocked his head slightly,',
+      end: 'That’s what I thought.'
+    },
+    {
+      pauseAt: 519.05,
+      resumeAt: 567.72,
+      paragraphs: [56, 62],
+      begin: 'Conor said nothing, and the silence took on a particular quality,',
+      end: 'I’m not going through anything.'
+    }
+  ]
+};
+
+export const chapter11Reading = {
+  duration: 390.88,
+  turns: [
+    {
+      pauseAt: 35.29,
+      resumeAt: 80.45,
+      paragraphs: [4, 8],
+      begin: 'Your mother has to go back to the hospital,',
+      end: 'It’s not working.'
+    },
+    {
+      pauseAt: 169.65,
+      resumeAt: 204.83,
+      paragraphs: [26, 29],
+      begin: 'Hey, darling,',
+      end: 'What’s wrong?'
+    },
+    {
+      pauseAt: 289.15,
+      resumeAt: 342.81,
+      paragraphs: [39, 47],
+      begin: 'They sat in silence for a moment.',
+      end: 'Because you could tell me, you know.'
+    }
+  ]
+};
