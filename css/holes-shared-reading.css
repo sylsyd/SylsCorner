@@ -26,8 +26,8 @@
 .deck-name-actions:empty, .deck-name-context:empty { display: none; }
 .deck-name-dialog .shared-reading-resume { width: 100%; min-height: 44px; padding: 10px 16px; background: var(--deck-ink); color: var(--deck-surface); font-size: 15px; }
 @media(max-width:600px) {
-  body[data-reader-book="holes"] .chapter-audio:has(.shared-reading-toggle) { flex-wrap: wrap; gap: 8px; }
-  body[data-reader-book="holes"] .chapter-audio:has(.shared-reading-toggle) audio { flex-basis: 100%; order: 2; }
+  .chapter-audio:has(.shared-reading-toggle) { flex-wrap: wrap; gap: 8px; }
+  .chapter-audio:has(.shared-reading-toggle) audio { flex-basis: 100%; order: 2; }
   .shared-reading-toggle { margin-left: auto; font-size: 12px; }
   .deck-name-dialog.deck-name-reading { padding: 14px; }
   .shared-reading-handover dd { font-size: 16px; }
