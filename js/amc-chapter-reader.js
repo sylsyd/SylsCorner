@@ -298,6 +298,7 @@
   }
 
   document.addEventListener('keydown', function (event) {
+    if (event.target.closest('.deck-name-dialog')) return;
     if (!active) {
       if (event.target.closest('.chapter-audio,.amc-reader') && ['ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'Home', 'End', ' ', 'Enter'].includes(event.key)) event.stopPropagation();
       return;

@@ -52,33 +52,47 @@ if (path && back) {
     pick.setAttribute('aria-haspopup', 'dialog');
     select.before(pick);
     pick.addEventListener('keydown', event => event.stopPropagation());
-    let dialog, rollName;
-    pick.addEventListener('click', async () => {
+    let dialog, rollName, currentRequest;
+    async function openPicker(request = {}) {
       if (!dialog) {
         dialog = document.createElement('dialog');
         dialog.className = 'deck-name-dialog';
         dialog.setAttribute('aria-labelledby', 'deck-name-title');
-        dialog.innerHTML = '<div class="deck-name-heading"><h2 id="deck-name-title"></h2><button type="button" autofocus>Close</button></div><div class="deck-name-controls"></div>';
+        dialog.innerHTML = '<div class="deck-name-heading"><h2 id="deck-name-title"></h2><button type="button" autofocus>Close</button></div><div class="deck-name-context"></div><div class="deck-name-controls"></div><div class="deck-name-actions"></div>';
         dialog.querySelector('h2').textContent = 'Pick a name · ' + classId.toUpperCase();
         dialog.querySelector('button').addEventListener('click', () => dialog.close());
         dialog.addEventListener('keydown', event => event.stopPropagation());
         document.body.append(dialog);
       }
-      if (dialog.open) return;
-      dialog.showModal();
+      if (dialog.open && !request.content) return;
+      currentRequest = request;
+      dialog.querySelector('.deck-name-context').replaceChildren(...(request.content ? [request.content] : []));
+      dialog.querySelector('.deck-name-actions').replaceChildren(...(request.actions ? [request.actions] : []));
+      dialog.classList.toggle('deck-name-reading', Boolean(request.content));
+      if (!dialog.open) dialog.showModal();
       if (!rollName) {
         const controls = dialog.querySelector('.deck-name-controls');
         controls.textContent = 'Loading name randomiser…';
         try {
           await import('/tools/name-randomiser.js');
-          rollName ||= window.SylCornerTools.createNameRandomiser(controls, { className: classId.toUpperCase() });
+          rollName ||= window.SylCornerTools.createNameRandomiser(controls, {
+            className: classId.toUpperCase(),
+            onSelect: name => { if (dialog.open) currentRequest?.onSelect?.(name); }
+          });
         } catch (_) {
           controls.textContent = 'The name randomiser could not load. Close and try again.';
           return;
         }
       }
       if (dialog.open) rollName();
-    });
+    }
+    pick.addEventListener('click', () => openPicker());
+    window.DeckNamePicker = {
+      open: openPicker,
+      close(content) {
+        if (dialog?.open && (!content || currentRequest?.content === content)) dialog.close();
+      }
+    };
   }
   if (!document.getElementById('stage') && !document.getElementById('app')) {
     document.body.classList.add('deck-game-activity');

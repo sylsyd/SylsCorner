@@ -1,5 +1,5 @@
 window.SylCornerTools = window.SylCornerTools || {};
-window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root, { className } = {}) {
+window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root, { className, onSelect } = {}) {
   const initialRosters = {
     '6LVA': ['Arielle', 'Mathys', 'Ferdinand', 'Victor', 'Hugo', 'Louise', 'Siara Nais', 'Kerry', 'Alma', 'Philppine', 'Charlotte'],
     '6SI': ['Matteo', 'Amine', 'Leo', 'Henry', 'Eva', 'Elise', 'Julie', 'Valentine', 'Charlotte', 'Theodore', 'Elyana', 'Andreas', 'Sidonie', 'Noemie', 'Sarah', 'Elanor', 'Alex', 'Milan', 'Hugo', 'Louenn', 'Emma', 'Lea', 'Giuila', 'Xavier'],
@@ -120,6 +120,7 @@ window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root,
       rolling = false;
       spin.textContent = 'Draw again';
       spin.disabled = !names.length;
+      onSelect?.(chosenName);
     }, 1450);
   }
 
