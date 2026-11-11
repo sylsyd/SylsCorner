@@ -54,3 +54,85 @@ export const chapter15Reading = {
     }
   ]
 };
+
+// Chapters 16–18 use the same three-turn handover format and published recordings.
+export const chapter16Reading = {
+  duration: 357,
+  turns: [
+    {
+      pauseAt: 82.58,
+      resumeAt: 128.44,
+      paragraphs: [11, 12],
+      begin: 'Stanley spent more time pushing the wheelbarrow than digging,',
+      end: "Besides, it didn't really look like the top of a pen."
+    },
+    {
+      pauseAt: 197.62,
+      resumeAt: 248.06,
+      paragraphs: [18, 31],
+      begin: 'Mr. Pendanski entered the Wreck Room.',
+      end: 'Stanley smiled.'
+    },
+    {
+      pauseAt: 308.01,
+      resumeAt: 348.80,
+      paragraphs: [44, 53],
+      begin: 'Well, see my dad is trying to invent a way to recycle old sneakers.',
+      end: 'Zero stared blankly.'
+    }
+  ]
+};
+
+export const chapter17Reading = {
+  duration: 178,
+  turns: [
+    {
+      pauseAt: 23.36,
+      resumeAt: 64.89,
+      paragraphs: [1, 8],
+      begin: 'As the days wore on, the Warden became less and less patient.',
+      end: 'I had to . . . you know . . . go.'
+    },
+    {
+      pauseAt: 82.33,
+      resumeAt: 107.77,
+      paragraphs: [11, 13],
+      begin: 'They continued to dig until late afternoon,',
+      end: 'He collapsed.'
+    },
+    {
+      pauseAt: 124.20,
+      resumeAt: 158.92,
+      paragraphs: [16, 19],
+      begin: 'Stanley brought his fingers up the side of his neck.',
+      end: "It's covering up my dirt."
+    }
+  ]
+};
+
+export const chapter18Reading = {
+  duration: 223,
+  turns: [
+    {
+      pauseAt: 28.14,
+      resumeAt: 77.49,
+      paragraphs: [1, 3],
+      begin: 'He dug his shovel into the dirt,',
+      end: 'Stanley spat into his hole.'
+    },
+    {
+      pauseAt: 91.51,
+      resumeAt: 132.70,
+      paragraphs: [5, 11],
+      begin: 'Dear Mom and Dad,',
+      end: 'Zero said nothing.'
+    },
+    {
+      pauseAt: 166.22,
+      resumeAt: 200.95,
+      paragraphs: [21, 24],
+      begin: 'Stanley let out a short laugh.',
+      end: '"Sorry," Stanley said again.'
+    }
+  ]
+};
