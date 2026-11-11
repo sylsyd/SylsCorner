@@ -67,6 +67,14 @@
   --deck-muted: #6b705f;
   --deck-line: #d8d4c1;
 }
+[data-deck-theme="esl"] {
+  --deck-ink: #23364b;
+  --deck-paper: #f7f3e8;
+  --deck-surface: #fffaf0;
+  --deck-accent: #375d80;
+  --deck-muted: #656a75;
+  --deck-line: #d2d5d8;
+}
 .deck-site-header, .deck-nav {
   display: flex;
   align-items: center;

@@ -21,7 +21,8 @@ main { flex: 1; }
 .classes { padding: 28px 24px 38px; }
 .tabs { max-width: 1220px; margin: auto; }
 .chooser-label { margin: 0 0 12px; font-size: 13px; color: var(--deck-muted); }
-.tab-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.tab-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.tab[data-class="ESL"] { flex-direction: column; align-items: flex-start; gap: 5px; }
 .tab {
   display: flex;
   align-items: center;
@@ -96,7 +97,7 @@ main { flex: 1; }
 @media (max-width: 620px) {
   .deck-site-header { padding: 12px 16px; min-height: 64px; }
   .classes { padding: 21px 16px 28px; }
-  .tab-list { gap: 8px; }
+  .tab-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .tab { border-radius: 8px; padding: 12px 10px; }
   .tab-name { font-size: 20px; }
   .tab-detail { font-size: 11px; line-height: 1.4; }

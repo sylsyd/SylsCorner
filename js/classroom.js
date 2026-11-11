@@ -1,4 +1,4 @@
-const validClasses = new Set(['6LVA', '6SI', '5SI']);
+const validClasses = new Set(['6LVA', '6SI', '5SI', 'ESL']);
 const destinations = {
   lessons: { label: 'Lessons', symbol: '≋', description: 'Lesson activities and learning materials will appear here.', emptyTitle: 'Lessons are on their way.', emptyCopy: 'This class does not have lesson materials posted yet.' },
   resources: { label: 'Resources', symbol: '◇', description: 'Extra materials, useful links and class activities.', emptyTitle: 'Resources are on their way.', emptyCopy: 'This class does not have extra resources posted yet.' }
@@ -16,6 +16,7 @@ const games = {
   ]
 };
 const lessonItems = {
+  'ESL': [{ title: "Let's Talk", copy: 'Week 1 · First speaking-support lesson.', href: '/lessons/esl-support/unit-1/week-1/lesson-1/', theme: 'first-week' }],
   '6LVA': [{ title: 'Junior Detective', copy: 'Week 2 · Intro Unit reading resource.', href: '/lessons/6lva/unit-1/week-2/intro-unit/juniordetective.pdf', theme: 'junior-detective' }]
 };
 const params = new URLSearchParams(window.location.search);

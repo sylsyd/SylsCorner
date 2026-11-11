@@ -7,6 +7,13 @@
   }
 
   ready(function () {
+    document.querySelectorAll('.class-switcher-menu, .footer-class-switcher, .deck-footer-links[aria-label="Switch class"]').forEach(function (nav) {
+      if (nav.querySelector('a[href*="class=ESL"], a[href*="/esl-support/"]')) return;
+      var esl = document.createElement('a');
+      esl.href = '/classes.html?class=ESL';
+      esl.textContent = 'ESL Support';
+      nav.appendChild(esl);
+    });
     var user = "smagnin";
     var domain = "ifs.edu.sg";
 
