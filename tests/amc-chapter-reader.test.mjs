@@ -11,12 +11,15 @@ const unit = path.join(root, 'lessons/5si/unit-2');
 const titles = ['A Monster Calls', 'Breakfast', 'School', 'Life Writing', 'Three Stories', 'Grandma', 'The Wildness of Stories', 'The First Tale', 'The Rest of the First Tale', 'Understanding', 'Little Talk'];
 const paragraphCounts = [60, 58, 44, 46, 79, 55, 54, 50, 48, 67, 54];
 
-test('only chapters 1 to 11 are available, with Week 2 audio kept in private storage', () => {
+test('Week 2 audio and Week 3 chapter text and audio are kept in private storage', () => {
   assert.deepEqual(fs.readdirSync(path.join(unit, 'reading')).sort(), titles.map((_, i) => `chapter-${i + 1}.js`).sort());
   assert.deepEqual(fs.readdirSync(path.join(unit, 'audiobook')).sort(), Array.from({ length: 7 }, (_, i) => `chapter-${i + 1}.mp3`));
   const prefix = '/lessons/5si/unit-2/audiobook/';
   assert.deepEqual([...privateLessonFiles].filter(file => file.startsWith(prefix)).sort(),
-    [8, 9, 10, 11].map(n => prefix + `chapter-${n}.mp3`).sort());
+    Array.from({ length: 13 }, (_, i) => i + 8).map(n => prefix + `chapter-${n}.mp3`).sort());
+  for (let chapter = 12; chapter <= 20; chapter++) {
+    assert.ok(privateLessonFiles.has('/lessons/5si/unit-2/reading/chapter-' + chapter + '.js'));
+  }
   assert.ok(!fs.readdirSync(unit).some(file => file.endsWith('.epub')));
 });
 
