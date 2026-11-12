@@ -54,8 +54,7 @@ export const privateLessonFiles = new Set([
   '/lessons/6si/unit-2/reading/chapter-19.js',
   '/lessons/6si/unit-2/reading/chapter-20.js',
   '/lessons/6si/unit-2/audiobook/chapter-19.mp3',
-  '/lessons/6si/unit-2/audiobook/chapter-20.mp3',
-  '/lessons/5si/unit-2/week-3/lesson-3/parsonage.html'
+  '/lessons/6si/unit-2/audiobook/chapter-20.mp3'
 ]);
 
 // Week 3 material lives in the private release store until its teaching day.
@@ -66,8 +65,6 @@ for (const [route] of lessonReleases) {
     privateLessonFiles.add(route);
   }
 }
-const parsonage = '/lessons/5si/unit-2/week-3/lesson-3/parsonage.html';
-lessonReleases.set(parsonage, lessonReleases.get('/lessons/5si/unit-2/week-3/lesson-3'));
 
 export function formatLessonDate(release) {
   return new Intl.DateTimeFormat('en-SG', {
