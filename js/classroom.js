@@ -16,7 +16,7 @@ const games = {
   ]
 };
 const lessonItems = {
-  'ESL': [{ title: "Let's Talk", copy: 'Week 1 · First speaking-support lesson.', href: '/lessons/esl-support/unit-1/week-1/lesson-1/', theme: 'first-week' }],
+  'ESL': [{ title: "Let's Talk", copy: 'Unit 1 · First speaking-support lesson.', href: '/lessons/esl-support/unit-1/lesson-1/', theme: 'first-week' }],
   '6LVA': [{ title: 'Junior Detective', copy: 'Week 2 · Intro Unit reading resource.', href: '/lessons/6lva/unit-1/week-2/intro-unit/juniordetective.pdf', theme: 'junior-detective' }]
 };
 const params = new URLSearchParams(window.location.search);

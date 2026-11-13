@@ -5,9 +5,9 @@ for (const select of document.querySelectorAll('[data-deck-switch]')) {
   });
 }
 
-const path = location.pathname.match(/\/lessons\/(5si|6si|6lva|esl-support)\/unit-(\d+)\/week-(\d+)\/lesson-\d+/);
+const path = location.pathname.match(/\/lessons\/(5si|6si|6lva|esl-support)\/unit-(\d+)(?:\/week-(\d+))?\/lesson-\d+/);
 const back = document.querySelector('body.student-activity .unit-return');
-if (path && back) {
+if (path && back && (path[3] || path[1] === 'esl-support')) {
   const [, classId, unit, week] = path;
   const units = {
     '5si': { title: 'A Monster Calls', theme: 'amc' },
@@ -25,7 +25,7 @@ if (path && back) {
   const label = document.createElement('span');
   label.className = 'deck-activity-context';
   label.textContent = (active.label || classId.toUpperCase()) + ' · ' + (unit === '2' ? active.title : 'Unit ' + unit);
-  back.textContent = '← Week ' + week;
+  back.textContent = week ? '← Week ' + week : '← Unit ' + unit;
   const select = document.createElement('select');
   select.className = 'deck-class-select';
   select.setAttribute('aria-label', 'Switch class');
