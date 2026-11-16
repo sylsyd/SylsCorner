@@ -45,7 +45,8 @@ function openLesson(id) {
   document.getElementById('lesson-body').replaceChildren(selectedLesson.content.cloneNode(true));
   const classroomNumber = Number(selectedLesson.id.replace('lesson-', '')) + 1;
   const classroomWeek = selectedLesson.dataset.week === 'w1' && classroomNumber <= 7 ? 1
-    : selectedLesson.dataset.week === 'w2' && classroomNumber >= 8 && classroomNumber <= 13 ? 2 : null;
+    : selectedLesson.dataset.week === 'w2' && classroomNumber >= 8 && classroomNumber <= 13 ? 2
+    : selectedLesson.dataset.week === 'w3' && classroomNumber >= 14 && classroomNumber <= 20 ? 3 : null;
   if (classroomWeek) {
     const href = '/lessons/6si/unit-2/week-' + classroomWeek + '/lesson-' + classroomNumber + '/';
     if (!document.getElementById('lesson-body').querySelector('a[href="' + href + '"]')) {
