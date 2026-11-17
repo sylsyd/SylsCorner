@@ -55,7 +55,7 @@ for (const [date, classId, unitNumber, weekNumber, lessons, chapters] of schedul
   for (const number of lessons) lessonReleases.set(unit + 'week-' + weekNumber + '/lesson-' + number, release);
   for (const number of chapters) {
     lessonReleases.set(unit + 'reading/chapter-' + number + '.js', release);
-    if (classId === '6si' || (classId === '5si' && weekNumber < 4)) lessonReleases.set(unit + 'audiobook/chapter-' + number + '.mp3', release);
+    if (classId === '6si' || classId === '5si') lessonReleases.set(unit + 'audiobook/chapter-' + number + '.mp3', release);
   }
 }
 
