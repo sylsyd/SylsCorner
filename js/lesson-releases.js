@@ -27,7 +27,25 @@ const schedule = [
   ['2026-11-16', '6lva', 2, 3, [8], []],
   ['2026-11-17', '6lva', 2, 3, [9], []],
   ['2026-11-19', '6lva', 2, 3, [10], []],
-  ['2026-11-20', '6lva', 2, 3, [11], []]
+  ['2026-11-20', '6lva', 2, 3, [11], []],
+  ['2026-11-23', '5si', 2, 4, [1], [21, 22, 23, 24]],
+  ['2026-11-24', '5si', 2, 4, [2], []],
+  ['2026-11-25', '5si', 2, 4, [3], [25, 26, 27]],
+  ['2026-11-26', '5si', 2, 4, [4], [28, 29, 30]],
+  ['2026-11-26', '5si', 2, 4, [5], []],
+  ['2026-11-27', '5si', 2, 4, [6], []],
+  ['2026-11-27', '5si', 2, 4, [7], []],
+  ['2026-11-23', '6si', 2, 4, [21], [29]],
+  ['2026-11-24', '6si', 2, 4, [22], [30]],
+  ['2026-11-25', '6si', 2, 4, [23], [31, 32]],
+  ['2026-11-25', '6si', 2, 4, [24], []],
+  ['2026-11-26', '6si', 2, 4, [25], [33, 34, 35]],
+  ['2026-11-26', '6si', 2, 4, [26], []],
+  ['2026-11-27', '6si', 2, 4, [27], [36, 37]],
+  ['2026-11-23', '6lva', 2, 4, [12], []],
+  ['2026-11-24', '6lva', 2, 4, [13], []],
+  ['2026-11-26', '6lva', 2, 4, [14], []],
+  ['2026-11-27', '6lva', 2, 4, [15], []]
 ];
 
 export const lessonReleases = new Map();
@@ -37,7 +55,7 @@ for (const [date, classId, unitNumber, weekNumber, lessons, chapters] of schedul
   for (const number of lessons) lessonReleases.set(unit + 'week-' + weekNumber + '/lesson-' + number, release);
   for (const number of chapters) {
     lessonReleases.set(unit + 'reading/chapter-' + number + '.js', release);
-    if (classId === '6si' || classId === '5si') lessonReleases.set(unit + 'audiobook/chapter-' + number + '.mp3', release);
+    if (classId === '6si' || (classId === '5si' && weekNumber < 4)) lessonReleases.set(unit + 'audiobook/chapter-' + number + '.mp3', release);
   }
 }
 
@@ -57,11 +75,11 @@ export const privateLessonFiles = new Set([
   '/lessons/6si/unit-2/audiobook/chapter-20.mp3'
 ]);
 
-// Week 3 material lives in the private release store until its teaching day.
+// Week 3 and 4 material lives in the private release store until its teaching day.
 for (const [route] of lessonReleases) {
-  if (route.includes('/week-3/lesson-')) privateLessonFiles.add(route + '/index.html');
-  if (/^\/lessons\/5si\/unit-2\/(?:reading|audiobook)\/chapter-(?:1[2-9]|20)\./.test(route) ||
-      /^\/lessons\/6si\/unit-2\/(?:reading|audiobook)\/chapter-2[1-8]\./.test(route)) {
+  if (/\/week-[34]\/lesson-/.test(route)) privateLessonFiles.add(route + '/index.html');
+  if (/^\/lessons\/5si\/unit-2\/(?:reading|audiobook)\/chapter-(?:1[2-9]|2[0-9]|30)\./.test(route) ||
+      /^\/lessons\/6si\/unit-2\/(?:reading|audiobook)\/chapter-(?:2[1-9]|3[0-7])\./.test(route)) {
     privateLessonFiles.add(route);
   }
 }

@@ -6,7 +6,7 @@ export function setupSharedReading(audio, book, chapter, reading) {
   toggle.className = 'shared-reading-toggle';
   toggle.textContent = 'Shared reading';
   toggle.setAttribute('aria-pressed', 'false');
-  toggle.title = 'Three planned student turns, reading from your own books';
+  toggle.title = 'Planned student turns, reading from your own books';
   const status = document.createElement('span');
   status.className = 'shared-reading-status';
   status.setAttribute('role', 'status');
@@ -30,8 +30,8 @@ export function setupSharedReading(audio, book, chapter, reading) {
     } else {
       toggle.textContent = 'Shared reading on';
       status.textContent = completed.size === turns.length
-        ? 'All three student turns are complete. The narrator will finish the chapter.'
-        : 'Three planned student turns. The audio pauses automatically.';
+        ? 'All student turns are complete. Continue with the narrator.'
+        : `${turns.length} planned student ${turns.length === 1 ? 'turn' : 'turns'}. The audio pauses automatically.`;
     }
     toggle.setAttribute('aria-pressed', String(enabled));
   }
