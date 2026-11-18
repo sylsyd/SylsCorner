@@ -396,7 +396,20 @@ var STAGES=[
    {n:'W4',q:'I like chocolate. <b>(too)</b>',a:'I like chocolate <b>too</b>.'},
    {n:'W5',q:'My mum works at home. <b>(sometimes)</b>',a:'My mum <b>sometimes</b> works at home.'},
    {n:'W6',q:'They go to the cinema on Saturdays. <b>(usually)</b>',a:'They <b>usually</b> go to the cinema on Saturdays.'}]))+
-   tn('')}}
+   tn('')}},
+ {id:'detective',name:'Extra: Sentence detective',min:5,c:'#7b5ea7',mode:'write',html:function(){return h1('Sentence detective'+fr('Détective des phrases'))+
+   card('Each sentence has one mistake. Rewrite it correctly, then tell a partner what you changed.')+
+   nb('Fix four mistakes',qset([
+   {n:'1',q:'Maya usually walk to school.',a:'Maya usually <b>walks</b> to school. Add <b>-s</b> with <b>she</b>.'},
+   {n:'2',q:'My brother doesn\'t plays tennis.',a:'My brother doesn\'t <b>play</b> tennis. Use the base verb after <b>doesn\'t</b>.'},
+   {n:'3',q:'Does your friend likes basketball?',a:'Does your friend <b>like</b> basketball? Use the base verb after <b>does</b>.'},
+   {n:'4',q:'I go never to the library on Fridays.',a:'I <b>never go</b> to the library on Fridays. Put <b>never</b> before the main verb.'}]))}},
+ {id:'interview',name:'Extra: Interview and report',min:5,c:'#2e6f8e',mode:'mix',html:function(){return h1('Interview and report'+fr('Pose des questions et présente ton partenaire'))+
+   card('Ask your partner two questions. Swap roles, then write two sentences about your partner.')+
+   '<div class="grid2">'+
+   card('<b>Ask</b>'+frame('What do you usually do after school?')+frame('Do you play a sport at the weekend?'))+
+   nb('Report',frame('My partner usually ___ after school.')+frame('At the weekend, my partner plays ___ / doesn\'t play a sport.'))+'</div>'+
+   card(qset([{n:'Model',q:'I usually draw after school. I don\'t play a sport at the weekend.',a:'My partner usually <b>draws</b> after school. At the weekend, my partner <b>doesn\'t play</b> a sport.'}]))}}
 ];
 var PACK='';
 /* ===== ENGINE ===== */
