@@ -3,7 +3,8 @@ window.SylCornerTools.createNameRandomiser = function createNameRandomiser(root,
   const initialRosters = {
     '6LVA': ['Arielle', 'Mathys', 'Ferdinand', 'Victor', 'Hugo', 'Louise', 'Siara Nais', 'Kerry', 'Alma', 'Philippine', 'Charlotte'],
     '6SI': ['Matteo', 'Amine', 'Leo', 'Henry', 'Eva', 'Elise', 'Julie', 'Valentine', 'Charlotte', 'Theodore', 'Elyana', 'Andreas', 'Sidonie', 'Noemie', 'Sarah', 'Elanor', 'Alex', 'Milan', 'Hugo', 'Louenn', 'Emma', 'Lea', 'Giuila', 'Xavier'],
-    '5SI': ['Karl', 'Selene', 'Rayhane', 'Valentina', 'Elliott', 'Ayumi', 'Jeanne', 'Adelie', 'Louise', 'Halvyse', 'Manon', 'Leina', 'Christian', 'Keo', 'Arsene', 'Deesha', 'Amelia', 'Alexis', 'Leo', 'Octave', 'Victoria', 'Jade', 'Mengxi']
+    '5SI': ['Karl', 'Selene', 'Rayhane', 'Valentina', 'Elliott', 'Ayumi', 'Jeanne', 'Adelie', 'Louise', 'Halvyse', 'Manon', 'Leina', 'Christian', 'Keo', 'Arsene', 'Deesha', 'Amelia', 'Alexis', 'Leo', 'Octave', 'Victoria', 'Jade', 'Mengxi'],
+    'ESL': ['Come', 'Elia', 'Emilien', 'Emma']
   };
   const modeStorageKey = 'syls-corner-name-randomiser-mode';
   const rosters = Object.fromEntries(Object.entries(initialRosters).map(([className, names]) => [className, [...names]]));

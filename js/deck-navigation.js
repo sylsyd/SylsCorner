@@ -43,7 +43,7 @@ if (path && back && (path[3] || path[1] === 'esl-support')) {
   all.textContent = 'All classes';
   nav.append(back, label, select, all);
   document.body.prepend(nav);
-  const hasSlides = document.querySelector('.slide') || (classId === '6lva' && document.querySelector('main#stage'));
+  const hasSlides = document.querySelector('.slide') || (['6lva', 'esl-support'].includes(classId) && document.querySelector('main#stage'));
   if (hasSlides && typeof window.HTMLDialogElement?.prototype.showModal === 'function') {
     const pick = document.createElement('button');
     pick.type = 'button';
@@ -59,7 +59,7 @@ if (path && back && (path[3] || path[1] === 'esl-support')) {
         dialog.className = 'deck-name-dialog';
         dialog.setAttribute('aria-labelledby', 'deck-name-title');
         dialog.innerHTML = '<div class="deck-name-heading"><h2 id="deck-name-title"></h2><button type="button" autofocus>Close</button></div><div class="deck-name-context"></div><div class="deck-name-controls"></div><div class="deck-name-actions"></div>';
-        dialog.querySelector('h2').textContent = 'Pick a name · ' + classId.toUpperCase();
+        dialog.querySelector('h2').textContent = 'Pick a name · ' + (active.label || classKey);
         dialog.querySelector('button').addEventListener('click', () => dialog.close());
         dialog.addEventListener('keydown', event => event.stopPropagation());
         document.body.append(dialog);
@@ -76,7 +76,7 @@ if (path && back && (path[3] || path[1] === 'esl-support')) {
         try {
           await import('/tools/name-randomiser.js');
           rollName ||= window.SylCornerTools.createNameRandomiser(controls, {
-            className: classId.toUpperCase(),
+            className: classKey,
             onSelect: name => { if (dialog.open) currentRequest?.onSelect?.(name); }
           });
         } catch (_) {
