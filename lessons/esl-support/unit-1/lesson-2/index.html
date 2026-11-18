@@ -409,7 +409,17 @@ var STAGES=[
    '<div class="grid2">'+
    card('<b>Ask</b>'+frame('What do you usually do after school?')+frame('Do you play a sport at the weekend?'))+
    nb('Report',frame('My partner usually ___ after school.')+frame('At the weekend, my partner plays ___ / doesn\'t play a sport.'))+'</div>'+
-   card(qset([{n:'Model',q:'I usually draw after school. I don\'t play a sport at the weekend.',a:'My partner usually <b>draws</b> after school. At the weekend, my partner <b>doesn\'t play</b> a sport.'}]))}}
+   card(qset([{n:'Model',q:'I usually draw after school. I don\'t play a sport at the weekend.',a:'My partner usually <b>draws</b> after school. At the weekend, my partner <b>doesn\'t play</b> a sport.'}]))}},
+ {id:'edit-paragraph',name:'Extension: Edit the paragraph',min:6,c:'#7b5ea7',mode:'write',html:function(){return h1('Edit the paragraph'+fr('Corrige le paragraphe'))+
+   card('Rewrite the paragraph. Find five mistakes, then explain two of your corrections to a partner.')+
+   nb('Five mistakes',qset([
+   {n:'1',q:'On Mondays, Leo usually walk to school. His sister doesn\'t takes the bus. She meets always Leo at the corner. Does Leo brings his lunch? He also carry a water bottle.',a:'On Mondays, Leo usually <b>walks</b> to school. His sister doesn\'t <b>take</b> the bus. She <b>always meets</b> Leo at the corner. Does Leo <b>bring</b> his lunch? He also <b>carries</b> a water bottle.'}]))}},
+ {id:'compare-routines',name:'Extension: Compare your routines',min:7,c:'#2e6f8e',mode:'mix',html:function(){return h1('Compare your routines'+fr('Comparez vos habitudes'))+
+   card('Interview a partner. Ask one follow-up question based on their answer, then swap roles.')+
+   '<div class="grid2">'+
+   card('<b>Ask</b>'+frame('What do you usually do after school?')+frame('Do you do that every day?')+frame('Follow up: When do you ___? / Where do you ___?'))+
+   nb('Write three sentences',frame('My partner usually ___ after school.')+frame('My partner ___, but I ___.')+frame('We both ___ / We never ___.'))+'</div>'+
+   card(qset([{n:'Model',q:'Reveal a model after you write.',a:'My partner usually reads after school. She reads at home, but I read on the bus. We both read on Fridays.'}]))}}
 ];
 var PACK='';
 /* ===== ENGINE ===== */
