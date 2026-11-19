@@ -45,7 +45,24 @@ const schedule = [
   ['2026-11-23', '6lva', 2, 4, [12], []],
   ['2026-11-24', '6lva', 2, 4, [13], []],
   ['2026-11-26', '6lva', 2, 4, [14], []],
-  ['2026-11-27', '6lva', 2, 4, [15], []]
+  ['2026-11-27', '6lva', 2, 4, [15], []],
+  ['2026-11-30', '5si', 2, 5, [1], [31, 32]],
+  ['2026-12-01', '5si', 2, 5, [2], []],
+  ['2026-12-02', '5si', 2, 5, [3], []],
+  ['2026-12-03', '5si', 2, 5, [4], []],
+  ['2026-12-03', '5si', 2, 5, [5], []],
+  ['2026-12-04', '5si', 2, 5, [6], []],
+  ['2026-11-30', '6si', 2, 5, [28], [38, 39, 40]],
+  ['2026-12-01', '6si', 2, 5, [29], [41, 42]],
+  ['2026-12-02', '6si', 2, 5, [30], [43]],
+  ['2026-12-02', '6si', 2, 5, [31], []],
+  ['2026-12-03', '6si', 2, 5, [32], [44, 45]],
+  ['2026-12-03', '6si', 2, 5, [33], []],
+  ['2026-12-04', '6si', 2, 5, [34], [46, 47, 48]],
+  ['2026-11-30', '6lva', 2, 5, [16], []],
+  ['2026-12-01', '6lva', 2, 5, [17], []],
+  ['2026-12-03', '6lva', 2, 5, [18], []],
+  ['2026-12-04', '6lva', 2, 5, [19], []]
 ];
 
 export const lessonReleases = new Map();
@@ -75,11 +92,11 @@ export const privateLessonFiles = new Set([
   '/lessons/6si/unit-2/audiobook/chapter-20.mp3'
 ]);
 
-// Week 3 and 4 material lives in the private release store until its teaching day.
+// Week 3 to 5 material lives in the private release store until its teaching day.
 for (const [route] of lessonReleases) {
-  if (/\/week-[34]\/lesson-/.test(route)) privateLessonFiles.add(route + '/index.html');
-  if (/^\/lessons\/5si\/unit-2\/(?:reading|audiobook)\/chapter-(?:1[2-9]|2[0-9]|30)\./.test(route) ||
-      /^\/lessons\/6si\/unit-2\/(?:reading|audiobook)\/chapter-(?:2[1-9]|3[0-7])\./.test(route)) {
+  if (/\/week-[345]\/lesson-/.test(route)) privateLessonFiles.add(route + '/index.html');
+  if (/^\/lessons\/5si\/unit-2\/(?:reading|audiobook)\/chapter-(?:1[2-9]|2[0-9]|3[0-2])\./.test(route) ||
+      /^\/lessons\/6si\/unit-2\/(?:reading|audiobook)\/chapter-(?:2[1-9]|3[0-9]|4[0-8])\./.test(route)) {
     privateLessonFiles.add(route);
   }
 }

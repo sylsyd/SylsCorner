@@ -61,13 +61,14 @@ test('A Monster Calls planner links teaching days, not the Week 2 holiday', () =
   for (const n of [4, 5, 6]) assert.ok(context.link('w2-' + n).includes('/week-2/lesson-' + n + '/'));
 });
 
-test('Holes planner links classroom activities for Weeks 2 to 4 within their lesson ranges', () => {
+test('Holes planner links classroom activities for Weeks 2 to 5 within their lesson ranges', () => {
   const script = fs.readFileSync(path.join(root, 'js/holes-planner.js'), 'utf8');
   for (const [week, number, expected] of [
     ...[8, 9, 10, 11, 12, 13].map(number => [2, number, true]),
     ...[14, 15, 16, 17, 18, 19, 20].map(number => [3, number, true]),
     ...[21, 22, 23, 24, 25, 26, 27].map(number => [4, number, true]),
-    [2, 14, false], [3, 13, false], [3, 21, false], [4, 20, false], [4, 28, false]
+    ...[28, 29, 30, 31, 32, 33, 34].map(number => [5, number, true]),
+    [2, 14, false], [3, 13, false], [3, 21, false], [4, 20, false], [4, 28, false], [5, 27, false], [5, 35, false]
   ]) {
     const links = [];
     const template = { id: `lesson-${number - 1}`, dataset: { week: `w${week}` }, content: { cloneNode() { return {}; } } };

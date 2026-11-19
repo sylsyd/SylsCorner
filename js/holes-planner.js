@@ -26,6 +26,14 @@ if (weekFour) {
   entry.textContent = 'Open Week 4 classroom lessons →';
   weekFour.querySelector('h1').after(entry);
 }
+const weekFive = document.getElementById('w5');
+if (weekFive) {
+  const entry = document.createElement('a');
+  entry.className = 'week-entry';
+  entry.href = '/lessons/6si/unit-2/week-5/';
+  entry.textContent = 'Open Week 5 classroom lessons →';
+  weekFive.querySelector('h1').after(entry);
+}
 let selectedLesson = null;
 function showView(focus = false) {
   const id = location.hash.slice(1) || 'overview';
@@ -55,7 +63,8 @@ function openLesson(id) {
   const classroomWeek = selectedLesson.dataset.week === 'w1' && classroomNumber <= 7 ? 1
     : selectedLesson.dataset.week === 'w2' && classroomNumber >= 8 && classroomNumber <= 13 ? 2
     : selectedLesson.dataset.week === 'w3' && classroomNumber >= 14 && classroomNumber <= 20 ? 3
-    : selectedLesson.dataset.week === 'w4' && classroomNumber >= 21 && classroomNumber <= 27 ? 4 : null;
+    : selectedLesson.dataset.week === 'w4' && classroomNumber >= 21 && classroomNumber <= 27 ? 4
+    : selectedLesson.dataset.week === 'w5' && classroomNumber >= 28 && classroomNumber <= 34 ? 5 : null;
   if (classroomWeek) {
     const href = '/lessons/6si/unit-2/week-' + classroomWeek + '/lesson-' + classroomNumber + '/';
     if (!document.getElementById('lesson-body').querySelector('a[href="' + href + '"]')) {

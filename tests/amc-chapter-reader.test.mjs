@@ -16,8 +16,8 @@ test('Scheduled A Monster Calls text and audio are kept in private storage', () 
   assert.deepEqual(fs.readdirSync(path.join(unit, 'audiobook')).sort(), Array.from({ length: 7 }, (_, i) => `chapter-${i + 1}.mp3`));
   const prefix = '/lessons/5si/unit-2/audiobook/';
   assert.deepEqual([...privateLessonFiles].filter(file => file.startsWith(prefix)).sort(),
-    Array.from({ length: 23 }, (_, i) => i + 8).map(n => prefix + `chapter-${n}.mp3`).sort());
-  for (let chapter = 12; chapter <= 30; chapter++) {
+    Array.from({ length: 25 }, (_, i) => i + 8).map(n => prefix + `chapter-${n}.mp3`).sort());
+  for (let chapter = 12; chapter <= 32; chapter++) {
     assert.ok(privateLessonFiles.has('/lessons/5si/unit-2/reading/chapter-' + chapter + '.js'));
   }
   for (const [lesson, chapters] of [[1, [21, 22, 23, 24]], [3, [25, 26, 27]], [4, [28, 29, 30]]]) {
