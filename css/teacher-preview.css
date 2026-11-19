@@ -1,0 +1,15 @@
+main {max-width:58rem}
+form {display:flex;align-items:center;flex-wrap:wrap;gap:.8rem;margin:1.5rem 0}
+label {font-weight:700}
+input,button {font:inherit;border:1px solid #a99b84;border-radius:5px;padding:.65rem .9rem}
+input {min-width:0;max-width:100%;background:#fffdf7;color:#17354f}
+button {background:#17354f;color:#fff9ec;cursor:pointer}
+input:focus-visible,button:focus-visible,a:focus-visible {outline:3px solid #b88832;outline-offset:3px}
+section {margin-top:2rem;border-top:1px solid #cfc3b0}
+h2 {font:700 1.5rem var(--deck-serif)}
+ul {display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;list-style:none;padding:0}
+li {padding:.8rem;border:1px solid #cfc3b0;border-radius:5px}
+li a {font-weight:700}
+small {display:block}
+.preview-help {color:#615b50}
+[role=alert] {color:#8b3027}

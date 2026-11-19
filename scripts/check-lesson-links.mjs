@@ -22,7 +22,8 @@ export function resolveLocal(href, from = 'index.html') {
   let file = path.join(root, pathname);
   if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
   if (!fs.existsSync(file) && !path.extname(file) && fs.existsSync(file + '.html')) file += '.html';
-  return { exists: privateFile || (fs.existsSync(file) && fs.statSync(file).isFile()), file, pathname };
+  const edgeRoute = ['/teacher-preview', '/teacher-preview/', '/teacher-preview/logout'].includes(pathname);
+  return { exists: edgeRoute || privateFile || (fs.existsSync(file) && fs.statSync(file).isFile()), file, pathname };
 }
 
 export function auditLessonLinks() {

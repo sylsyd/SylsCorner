@@ -41,7 +41,7 @@ function sendFile(request, file, blob) {
   return new Response(null, { status: 416, headers: { 'Content-Range': 'bytes */' + blob.size } });
 }
 
-export async function handleLessonRelease(request, now, loadFile) {
+export async function handleLessonRelease(request, now, loadFile, preview = false) {
   const url = new URL(request.url);
   const path = canonicalPath(url.pathname);
   const lesson = path.match(/^\/lessons\/[^/]+\/unit-\d+\/week-\d+\/lesson-\d+(?=\/|$)/)?.[0];
@@ -49,13 +49,13 @@ export async function handleLessonRelease(request, now, loadFile) {
   if (!release) return;
 
   const head = request.method === 'HEAD';
-  if (now < release) {
+  if (now < release && !preview) {
     const date = formatLessonDate(release);
     const back = lesson ? lesson.slice(0, lesson.lastIndexOf('/') + 1) : '/classes.html';
     const body = '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
       '<title>Lesson opens ' + date + '</title><link rel="stylesheet" href="/css/lesson-release.css">' +
       '<main><h1>Available ' + date + '</h1><p>This material opens at midnight Singapore time.</p>' +
-      '<a href="' + back + '">← Back to lessons</a></main></html>';
+      '<a href="' + back + '">← Back to lessons</a><p><a href="/teacher-preview?next=' + encodeURIComponent(lesson ? lesson + '/' : '/classes.html') + '">Teacher preview</a></p></main></html>';
     return new Response(head ? null : body, {
       status: 403,
       headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' }
@@ -72,6 +72,9 @@ export async function handleLessonRelease(request, now, loadFile) {
     return Response.redirect(url, 302);
   }
   const blob = await loadFile(file.slice(1));
-  return blob ? sendFile(request, file, blob)
-    : new Response(head ? null : 'Lesson temporarily unavailable.', { status: 503 });
+  if (!blob) return new Response(head ? null : 'Lesson temporarily unavailable.', { status: 503, headers: { 'Cache-Control': 'no-store' } });
+  const response = sendFile(request, file, blob);
+  response.headers.set('Cache-Control', 'private, no-store');
+  if (preview) response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+  return response;
 }
