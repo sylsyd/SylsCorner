@@ -17,15 +17,16 @@ const request = (path, secret = password, headers = {}) => new Request(origin + 
   method: 'POST', headers: { origin, ...headers }, body: new URLSearchParams({ password: secret })
 });
 
-test('password login creates a signed, expiring HttpOnly cookie and limits return locations', async () => {
+test('password login creates a signed HttpOnly session cookie and limits return locations', async () => {
   const result = await handleTeacherPreview(request('/teacher-preview?next=/lessons/5si/unit-2/week-4/lesson-1/'), now, load);
   assert.equal(result.status, 303);
   assert.equal(result.headers.get('location'), '/lessons/5si/unit-2/week-4/lesson-1/');
   const cookie = result.headers.get('set-cookie');
-  assert.match(cookie, /Secure; HttpOnly; SameSite=Strict; Max-Age=28800/);
+  assert.match(cookie, /Secure; HttpOnly; SameSite=Strict/);
+  assert.doesNotMatch(cookie, /Max-Age|Expires/);
   const authenticated = new Request(origin, { headers: { Cookie: cookie.split(';')[0] } });
   assert.equal(await teacherSession(authenticated, now, settings), true);
-  assert.equal(await teacherSession(authenticated, now + 28800000, settings), false);
+  assert.equal(await teacherSession(authenticated, now + 365 * 86400000, settings), true);
   const tampered = new Request(origin, { headers: { Cookie: cookie.split(';')[0].replace(/\.[a-f0-9]/, '.z') } });
   assert.equal(await teacherSession(tampered, now, settings), false);
   const external = await handleTeacherPreview(request('/teacher-preview?next=//evil.example'), now, load);

@@ -3,7 +3,6 @@ import { lessonReleases, formatLessonDate } from '../js/lesson-releases.js';
 export const previewSettingsKey = '_teacher-preview/settings.json';
 const cookieName = '__Host-deck-teacher';
 const encoder = new TextEncoder();
-const sessionLength = 8 * 60 * 60 * 1000;
 
 function hex(bytes) {
   return Array.from(new Uint8Array(bytes), byte => byte.toString(16).padStart(2, '0')).join('');
@@ -27,15 +26,13 @@ export async function teacherSession(request, now, settings) {
   if (!settings) return false;
   const value = request.headers.get('cookie')?.split(';').map(part => part.trim())
     .find(part => part.startsWith(cookieName + '='))?.slice(cookieName.length + 1);
-  const match = value?.match(/^(\d{13})\.([a-f0-9]{64})$/);
+  const match = value?.match(/^([a-f0-9]{32}|\d{13})\.([a-f0-9]{64})$/);
   if (!match) return false;
-  const expiry = Number(match[1]);
-  if (expiry <= now || expiry > now + sessionLength) return false;
   return crypto.subtle.verify('HMAC', await signingKey(settings), unhex(match[2]), encoder.encode(match[1]));
 }
 
-function cookie(value, age) {
-  return cookieName + '=' + value + '; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=' + age;
+function cookie(value, clear = false) {
+  return cookieName + '=' + value + '; Path=/; Secure; HttpOnly; SameSite=Strict' + (clear ? '; Max-Age=0' : '');
 }
 
 function redirect(path, sessionCookie) {
@@ -78,7 +75,7 @@ export async function handleTeacherPreview(request, now, loadSettings) {
     return page('<p>Please sign in from this website.</p>', 403);
   }
   if (url.pathname === '/teacher-preview/logout') {
-    return request.method === 'POST' ? redirect('/teacher-preview', cookie('', 0))
+    return request.method === 'POST' ? redirect('/teacher-preview', cookie('', true))
       : redirect('/teacher-preview');
   }
   const settings = await loadSettings();
@@ -96,9 +93,9 @@ export async function handleTeacherPreview(request, now, loadSettings) {
     let difference = actual.length ^ expected.length;
     for (let i = 0; i < actual.length; i++) difference |= actual[i] ^ expected[i];
     if (password && difference === 0) {
-      const expiry = String(now + sessionLength);
-      const signature = hex(await crypto.subtle.sign('HMAC', await signingKey(settings), encoder.encode(expiry)));
-      return redirect(next, cookie(expiry + '.' + signature, sessionLength / 1000));
+      const token = hex(crypto.getRandomValues(new Uint8Array(16)));
+      const signature = hex(await crypto.subtle.sign('HMAC', await signingKey(settings), encoder.encode(token)));
+      return redirect(next, cookie(token + '.' + signature));
     }
     error = '<p role="alert">Password not recognised. Please try again.</p>';
   } else if (await teacherSession(request, now, settings)) {
@@ -114,7 +111,7 @@ export async function handleTeacherPreview(request, now, loadSettings) {
       groups.get(title).push('<li><a href="' + route + '/">Lesson ' + lesson +
         '</a><small>' + (release > now ? 'Students can open ' : 'Released ') + escape(formatLessonDate(release)) + '</small></li>');
     }
-    return page('<p>You can open scheduled lessons, reading chapters and audio for eight hours on this browser.</p>' +
+    return page('<p>You can open scheduled lessons, reading chapters and audio while signed in.</p>' +
       '<form action="/teacher-preview/logout" method="post"><button>Sign out of preview</button></form>' +
       Array.from(groups, ([title, links]) => '<section><h2>' + escape(title) + '</h2><ul>' + links.join('') + '</ul></section>').join(''));
   }
@@ -122,5 +119,5 @@ export async function handleTeacherPreview(request, now, loadSettings) {
     '<form action="/teacher-preview?next=' + encodeURIComponent(next) + '" method="post">' +
     '<label for="password">Teacher password</label><input id="password" name="password" type="password" autocomplete="current-password" required autofocus>' +
     '<button type="submit">Open teacher preview</button></form>' +
-    '<p class="preview-help">Preview access lasts eight hours on this browser. Sign out when you finish on a shared computer.</p>', error ? 401 : 200);
+    '<p class="preview-help">You stay signed in until you sign out or your browser clears the session. Sign out when you finish on a shared computer.</p>', error ? 401 : 200);
 }
