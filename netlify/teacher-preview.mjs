@@ -66,7 +66,9 @@ function page(content, status = 200) {
 
 export async function handleTeacherPreview(request, now, loadSettings) {
   const url = new URL(request.url);
-  if (!['/teacher-preview', '/teacher-preview/', '/teacher-preview/logout'].includes(url.pathname)) return;
+  const gameUnlock = url.pathname === '/teacher-preview/game-unlock';
+  if (!gameUnlock && !['/teacher-preview', '/teacher-preview/', '/teacher-preview/logout'].includes(url.pathname)) return;
+  if (gameUnlock && request.method !== 'POST') return new Response(null, { status: 405, headers: { Allow: 'POST', 'Cache-Control': 'no-store' } });
   if (!['GET', 'POST', 'HEAD'].includes(request.method)) {
     return new Response(null, { status: 405, headers: { Allow: 'GET, HEAD, POST', 'Cache-Control': 'no-store' } });
   }
@@ -93,6 +95,11 @@ export async function handleTeacherPreview(request, now, loadSettings) {
     let difference = actual.length ^ expected.length;
     for (let i = 0; i < actual.length; i++) difference |= actual[i] ^ expected[i];
     if (password && difference === 0) {
+      if (gameUnlock) {
+        return new Response(JSON.stringify({ unlocked: true }), {
+          headers: { 'Content-Type': 'application/json', 'Cache-Control': 'private, no-store', 'X-Content-Type-Options': 'nosniff' }
+        });
+      }
       const token = hex(crypto.getRandomValues(new Uint8Array(16)));
       const signature = hex(await crypto.subtle.sign('HMAC', await signingKey(settings), encoder.encode(token)));
       return redirect(next, cookie(token + '.' + signature));

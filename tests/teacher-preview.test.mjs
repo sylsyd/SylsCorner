@@ -66,3 +66,19 @@ test('authenticated preview supports lesson HTML, chapter text, audio byte range
   assert.equal(await teacherSession(new Request(origin, { headers }), now, rotated), false);
 });
 
+
+test('game password override validates the password without starting a preview session', async () => {
+  const correct = await handleTeacherPreview(request('/teacher-preview/game-unlock'), now, load);
+  assert.equal(correct.status, 200);
+  assert.deepEqual(await correct.json(), { unlocked: true });
+  assert.equal(correct.headers.get('set-cookie'), null);
+  assert.match(correct.headers.get('cache-control'), /no-store/);
+  const wrong = await handleTeacherPreview(request('/teacher-preview/game-unlock', 'incorrect'), now, load);
+  assert.equal(wrong.status, 401);
+  assert.equal(wrong.headers.get('set-cookie'), null);
+  const crossSite = await handleTeacherPreview(request('/teacher-preview/game-unlock', password, { origin: 'https://evil.example' }), now, load);
+  assert.equal(crossSite.status, 403);
+  const get = await handleTeacherPreview(new Request(origin + '/teacher-preview/game-unlock'), now, load);
+  assert.equal(get.status, 405);
+});
+
