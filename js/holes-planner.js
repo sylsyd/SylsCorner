@@ -34,6 +34,16 @@ if (weekFive) {
   entry.textContent = 'Open Week 5 classroom lessons →';
   weekFive.querySelector('h1').after(entry);
 }
+for (const n of [6, 7]) {
+  const week = document.getElementById('w' + n);
+  if (week) {
+    const entry = document.createElement('a');
+    entry.className = 'week-entry';
+    entry.href = '/lessons/6si/unit-2/week-' + n + '/';
+    entry.textContent = 'Open Week ' + n + ' classroom page →';
+    week.querySelector('h1').after(entry);
+  }
+}
 let selectedLesson = null;
 function showView(focus = false) {
   const id = location.hash.slice(1) || 'overview';
