@@ -297,6 +297,18 @@ body:has([data-tab="7"][aria-current=true]) {--chapter-photo:var(--spare-photo);
   .vt {grid-template-columns:repeat(3,minmax(0,1fr))}
   .vt .tile {overflow-wrap:anywhere}
 }
+
+/* Longer tasks stay in the reading flow; controls and text remain usable on small screens. */
+#tabs {display:flex;overflow-x:auto;scrollbar-width:thin}
+#tabs .tab {flex:0 0 auto;min-width:115px;max-width:190px}
+#stage .wrap {min-width:0}
+#stage p {max-width:85ch}
+#stage audio {display:block;width:100%;margin:10px 0}
+#stage summary {cursor:pointer;padding:4px 0}
+#stage details > p {line-height:1.5}
+#stage .grid2 > * {min-width:0}
+@media(max-width:580px){#stage .nb{padding-left:20px;background-image:none}#stage .nb .tag{margin-left:0}}
+
 </style><link rel="stylesheet" href="/css/unit-activity-nav.css"><script src="/js/deck-navigation.js?v=esl-unit-1" defer></script></head><body class="student-activity"><a class="unit-return" href="/lessons/esl-support/unit-1/">← Unit 1</a>
 <div id="app">
   <header><div id="brand">What Did You Do?<small>3ème Speaking Support · Unit 1 · Lesson 3 of 6</small></div><nav id="tabs"></nav></header>
@@ -331,75 +343,89 @@ var ICONS={
  tv:ico('<rect x="6" y="12" width="52" height="34" rx="4" fill="#333"/><rect x="11" y="17" width="42" height="24" fill="#7cc0e0"/><path d="M24 54 L32 46 L40 54" stroke="#333" stroke-width="4" fill="none"/>')};
 function pcard(icon,parts){return '<div class="pcard">'+ICONS[icon]+'<div>'+parts.map(function(p,i){return '<span class="chip '+['who','does','what','where','when'][i]+'">'+p+'</span>'}).join(' ')+'</div></div>'}
 function tl(icon,when,verb,rest){return '<div class="pcard">'+ICONS[icon]+'<div><span class="chip when">'+when+'</span> <span class="chip who">Sam</span> <span class="chip does">'+verb+'</span> <span class="chip what">'+rest+'</span></div></div>'}
+
+// Keep listening audio from continuing behind another activity.
+document.addEventListener('click',function(e){
+ if(e.target.closest('[data-tab],[data-a="next"],[data-a="prev"]')){
+  document.querySelectorAll('#stage audio').forEach(function(audio){audio.pause()});
+ }
+},true);
+document.addEventListener('keydown',function(e){
+ if(e.target.closest('audio')){e.stopPropagation();return}
+ if((e.key==='ArrowLeft'||e.key==='ArrowRight')&&!e.target.closest('input,textarea')){
+  document.querySelectorAll('#stage audio').forEach(function(audio){audio.pause()});
+ }
+},true);
+
 var STAGES=[
- {id:'fix',name:'Fix the errors',min:5,c:'#5a6275',mode:'mix',html:function(){return h1('Fix the errors'+fr('Corrige les erreurs'))+
-   card('Say the correct sentence. Then write it in your notebook.')+nb('Write the correct sentences',qset([
-   {n:'E1',q:'I play always video games.',a:'I <b>always play</b> video games.'},
-   {n:'E2',q:'He doesn\'t plays football.',a:'He doesn\'t <b>play</b> football.'},
-   {n:'E3',q:'You like pizza?',a:'<b>Do</b> you like pizza?'},
-   {n:'E4',q:'I go on Saturdays to the cinema.',a:'I go to the cinema <b>on Saturdays</b>.'}]))+
-   card('<b>Quick check:</b> say one sentence with <b>never</b> and one with <b>usually</b>.')+
-   tn('')}},
- {id:'rule',name:'Yesterday: -ed',min:8,c:'#2e6f8e',mode:'say',html:function(){return h1('Talking about the past: -ed'+fr('Parler du passé'))+
-   '<div class="grid2">'+card(stepped({text:'Every Saturday I play football. Last Saturday I played football.',q:'What changes when we talk about the past?',
-   steps:[['Find the time','<b>Last Saturday</b>: it is finished, it is the past'],['Find the verb','play'],['Add -ed','play + ed = <b>played</b>. Same for I, you, he, she, we, they: no -s!'],['Say it','Last Saturday I played football. / I played football last Saturday.']]}))+
-   '<div>'+card('<h3>Same for everyone</h3>'+train(['I','played','','',''])+'<div class="train">'+car('who','She')+car('does','played')+car('what','tennis')+'</div><p style="margin:6px 0 0">Not: <s>She playeds</s>'+fr('pas de -s au passé')+'</p>')+
-   card('<h3>was / were</h3><b>I, he, she, it</b> + was &nbsp;·&nbsp; <b>you, we, they</b> + were<br>It <b>was</b> fun. I <b>was</b> tired. We <b>were</b> at home.<br><span class="muted">How was your weekend? It was great / OK / boring.</span>')+
-   card('<h3>Spelling</h3>study → stud<b>ied</b> &nbsp;·&nbsp; stop → sto<b>pped</b> &nbsp;·&nbsp; dance → danc<b>ed</b>')+'</div></div>'+
-   tn('')}},
- {id:'drill',name:'Sam\'s weekend',min:10,c:'#7a2231',mode:'say',html:function(){return h1('What did Sam do last weekend?'+fr('Qu\'est-ce que Sam a fait ?'))+
-   '<div class="split"><div class="card src"><div class="pgrid">'+
-   tl('ball','Saturday morning','play','football')+tl('book','Saturday afternoon','study','for a test')+tl('pizza','Saturday evening','cook','pizza')+
-   tl('bus','Sunday morning','visit','his cousin')+tl('game','Sunday afternoon','play','video games')+tl('tv','Sunday evening','watch','a film')+'</div></div>'+
-   card('<p style="margin-top:0"><b>1.</b> Say what Sam did. <b>2.</b> Say what <u>you</u> did (true or not!).</p>'+qset([
-   {n:'D1',q:'Saturday morning',a:'Sam played football on Saturday morning.'},
-   {n:'D2',q:'Saturday afternoon',a:'He studied for a test on Saturday afternoon.'},
-   {n:'D3',q:'Saturday evening',a:'He cooked pizza on Saturday evening. It was delicious.'},
-   {n:'D4',q:'Sunday morning',a:'He visited his cousin on Sunday morning.'},
-   {n:'D5',q:'Sunday afternoon',a:'He played video games on Sunday afternoon.'},
-   {n:'D6',q:'Sunday evening. How was it?',a:'He watched a film on Sunday evening. It was boring / great.'},
-   {n:'D7',q:'And you? Say two things you did last weekend.',a:'I stayed at home on Saturday. On Sunday I visited my grandma. It was nice.'}]))+'</div>'+
-   tn('')}},
- {id:'game',name:'-ed sound sort',min:10,c:'#2e7d4f',mode:'say',html:function(){return h1('Three sounds of -ed'+fr('Trois sons pour -ed'))+
-   '<div class="grid3">'+card('<b>1 finger: /t/</b><br>watch<b>ed</b>, walk<b>ed</b>')+card('<b>2 fingers: /d/</b><br>play<b>ed</b>, listen<b>ed</b>')+card('<b>3 fingers: /ɪd/</b> extra syllable<br>want<b>ed</b>, start<b>ed</b><br><span class="muted">only after t or d</span>')+'</div>'+
-   card('I say the verb. Show 1, 2 or 3 fingers. Then say a sentence with it.')+card(qset([
-   {n:'G1',q:'cooked',a:'1: /t/. I cooked pasta yesterday.'},
-   {n:'G2',q:'visited',a:'3: /ɪd/. We visited Malaysia last year.'},
-   {n:'G3',q:'stayed',a:'2: /d/. I stayed at home last night.'},
-   {n:'G4',q:'talked',a:'1: /t/. She talked to her friend.'},
-   {n:'G5',q:'needed',a:'3: /ɪd/. I needed help.'},
-   {n:'G6',q:'cleaned',a:'2: /d/. They cleaned the kitchen.'},
-   {n:'G7',q:'started',a:'3: /ɪd/. The film started at eight.'},
-   {n:'G8',q:'washed',a:'1: /t/. He washed the car.'},
-   {n:'G9',q:'opened',a:'2: /d/. I opened the window.'}]))+
-   tn('')}},
- {id:'talk',name:'Talk for 60 seconds',min:10,c:'#b5432b',mode:'say',html:function(){return h1('Last weekend: talk for 60 seconds'+fr('Le week-end dernier'))+
-   '<div class="tiers">'+
-   tier('a','A','Use the frames','<div class="frame">On Saturday I ___ed ___.</div><div class="frame">Then I ___ed ___.</div><div class="frame">On Sunday I ___ed ___.</div><div class="frame">It was ___.</div>')+
-   tier('b','B','Use the starters','<div class="frame">First, I...</div><div class="frame">Then...</div><div class="frame">After that...</div><div class="frame">It was... because...</div>')+
-   tier('c','C','No frames','Talk for <b>60 seconds</b>. Use at least <b>five -ed verbs</b>, <b>first, then, after that</b>, and <b>was</b> or <b>were</b>.')+'</div>'+
-   card('<b>Verb help:</b> played · watched · walked · talked · stayed · listened · studied · visited · cooked · cleaned · <b>Listeners:</b> ask "How was it?"')+
-   card(qset([{n:'T1',q:'Model talk (Tier B)',a:'Last weekend was quite good. First, on Saturday morning, I stayed in bed until ten. Then I played basketball with my friends in the park. After that we walked to a café. On Sunday I studied for my maths test and I cleaned my room. In the evening I watched a film with my family. It was funny.'}]))+
-   tn('')}},
- {id:'nb',name:'Notebook',min:7,c:'#8a5a09',mode:'write',html:function(){return h1('Copy into your notebook'+fr('Copie dans ton cahier'))+'<div class="grid2">'+
-   nb('Grammar: the past with -ed','<div>Every Saturday I <b>play</b>. Last Saturday I <b>played</b>.</div><div>Same for everyone: I / she / they <b>played</b>. No -s.</div><div><b>was:</b> I, he, she, it &nbsp;·&nbsp; <b>were:</b> you, we, they</div><div>3 sounds: watch<b>ed</b> /t/ · play<b>ed</b> /d/ · want<b>ed</b> /ɪd/</div><div>10 verbs: played, watched, walked, talked, stayed, listened, studied, visited, wanted, started</div>')+
-   nb('Little words (back page)','<div><b>yesterday</b>: I walked to school yesterday.</div><div><b>last</b>: last night, last week, last weekend</div><div><b>ago</b>: two days ago, a week ago</div><div><b>first</b>: First, I cooked dinner.</div><div><b>then</b>: Then I watched TV.</div><div><b>after that</b>: After that, I talked to my friend.</div>')+'</div>'+
-   tn('')}},
- {id:'exit',name:'Exit ticket',min:5,c:'#2e6f8e',mode:'write',html:function(){return h1('Exit ticket')+nb('Write three things you did yesterday, in order',qset([
-   {n:'X1',q:'First, I ___.',a:'First, I walked to school.'},
-   {n:'X2',q:'Then I ___.',a:'Then I talked to my friends at lunch.'},
-   {n:'X3',q:'After that, I ___. It was ___.',a:'After that, I watched a film. It was great.'}]))+
-   card('<b>Early finishers:</b> write one sentence with <b>ago</b> and one with <b>last</b>.')+
-   tn('')}},
- {id:'spare',name:'Spare: Every day or yesterday?',min:5,c:'#7b5ea7',mode:'say',html:function(){return h1('Spare game: every day or yesterday?'+fr('Présent ou passé ?'))+
-   card('Fix the verb so it matches the time word.')+card(qset([
-   {n:'W1',q:'Yesterday I watch TV.',a:'Yesterday I <b>watched</b> TV.'},
-   {n:'W2',q:'Every day she walked to school.',a:'Every day she <b>walks</b> to school.'},
-   {n:'W3',q:'Last night we stay at home.',a:'Last night we <b>stayed</b> at home.'},
-   {n:'W4',q:'Two days ago he cleans his room.',a:'Two days ago he <b>cleaned</b> his room.'},
-   {n:'W5',q:'I usually played football on Mondays.',a:'I usually <b>play</b> football on Mondays.'},
-   {n:'W6',q:'Last weekend it is fun.',a:'Last weekend it <b>was</b> fun.'}]))+
-   tn('')}}
+{"id": "fix", "name": "Repair the paragraph", "min": 5, "c": "#7a2231", "mode": "mix","html":function(){return h1('Repair a message, then explain your choices')+
+card('Work with a partner. Correct the <b>six marked verb phrases</b>. Read the complete message aloud, then explain two corrections. Keep the writer’s meaning.')+
+nb('A message from Alex','<p>Hi Jo! I <b>play always</b> basketball after school. My brother <b>don’t like</b> sport, so he <b>watch</b> videos at home. Last Saturday, I <b>play</b> in a match. We <b>was</b> nervous, but the match <b>finish</b> well. Do you want to join us next week?</p>')+
+nb('Check after discussing',qset([{"n": "1", "q": "Reveal the repaired message.", "a": "Hi Jo! I <b>always play</b> basketball after school. My brother <b>doesn’t like</b> sport, so he <b>watches</b> videos at home. Last Saturday, I <b>played</b> in a match. We <b>were</b> nervous, but the match <b>finished</b> well. Do you want to join us next week?"}, {"n": "2", "q": "Why are some verbs present and others past?", "a": "The opening describes usual routines. <b>Last Saturday</b> introduces a finished event, so those verbs change to the past."}]))+
+card('<b>Extension:</b> add a two-sentence reply that asks Alex about the match and suggests a plan.');}},
+{"id": "rule", "name": "Build a past story", "min": 5, "c": "#7a2231", "mode": "mix","html":function(){return h1('Build a connected account, not a list')+
+'<div class="grid2">'+
+nb('Read and notice','<p>On Saturday, Leo <b>planned</b> a picnic. It <b>rained</b>, so his friends <b>stayed</b> at his house. First, they <b>prepared</b> lunch. Then they <b>played</b> a board game. Leo <b>was</b> disappointed at first, but his friends <b>were</b> cheerful. In the end, he <b>enjoyed</b> the afternoon <b>because</b> everyone helped.</p>')+
+card('<h3>Explain the story’s shape</h3><ol><li>What was the plan?</li><li>What changed it?</li><li>How did they respond?</li><li>How did Leo’s feelings change?</li></ol><p>Explain what <b>so</b>, <b>but</b> and <b>because</b> each add.</p>')+
+'</div>'+
+card('<b>Grammar to use:</b> finished time + past verb. Regular verbs: plan → planned; study → studied; dance → danced. <b>was:</b> I/he/she/it. <b>were:</b> you/we/they. Negatives: <b>didn’t + base verb</b>. Questions: <b>What did you do? Why did you…?</b>')+
+card('<b>Try it:</b> replace the picnic with a cancelled cinema trip. Retell a changed version in four or five connected sentences.');}},
+{"id": "drill", "name": "Sam’s whole weekend", "min": 6, "c": "#7a2231", "mode": "mix","html":function(){return h1('Tell the whole weekend, then change the story')+
+'<div class="grid2">'+
+card('<h3>Sam’s notes</h3><ul><li>Saturday morning: play football with cousins</li><li>Saturday afternoon: study for a test at home</li><li>Saturday evening: cook pizza with Dad</li><li>Sunday morning: visit a cousin by bus</li><li>Sunday afternoon: play video games together</li><li>Sunday evening: watch a film with family</li></ul>')+
+card('<h3>Build a story together</h3><ol><li>Take turns telling <b>three linked events</b> each, using past verbs.</li><li>Add a place, a reason and a feeling. Invent sensible details.</li><li>Retell the whole weekend for <b>60–90 seconds</b> without reading every note.</li></ol><p><b>Now change it:</b> the bus was late OR the pizza burned. Explain how the problem changed the rest of the day.</p>')+
+'</div>'+
+nb('Write the turning point','Write <b>four connected sentences</b> about the changed plan. Include the problem, a response, a reason and the result. Use <b>so</b> or <b>because</b> and <b>but</b>.')+
+nb('Possible version - reveal after trying',qset([{"n": "1", "q": "A missed bus changes the plan.", "a": "On Sunday, Sam planned to visit his cousin by bus, but the bus was late. He waited for half an hour, so he texted his cousin. His cousin visited Sam instead because they still wanted to spend time together. They played video games at Sam’s house, and the afternoon was fun."}]));}},
+{"id": "listen", "name": "Listen: a changed plan", "min": 10, "c": "#7a2231", "mode": "mix","html":function(){return h1('Listening: Maya’s unexpected weekend')+
+card('<b>First listen:</b> keep your notebook closed. Which summary fits best?<br><b>A</b> Everything happened exactly as planned. <b>B</b> A change of plan led to something worthwhile. <b>C</b> Maya spent the whole weekend alone. Explain your choice to a partner.')+
+'<div class="card listening-player"><label for="maya-audio"><b>Play Maya’s account</b></label><audio id="maya-audio" controls preload="metadata" src="audio/mayas-weekend.mp3" aria-label="Listen to Maya’s unexpected weekend"></audio><p class="muted">Listen twice. Use the timeline to replay a section. Keep the transcript closed until you have compared answers.</p></div>'+
+'<div class="grid2">'+
+nb('Second listen: make notes','<ol><li>Saturday: original plan → problem → new activity.</li><li>What went wrong with lunch, and who helped?</li><li>Sunday: place, companion and <b>three jobs</b>.</li><li>What changed Maya’s attitude to the work?</li><li>What did Maya arrange for next month?</li></ol>')+
+card('<h3>After listening: interpret and retell</h3><p>With your partner, give a <b>60-second account</b> of the weekend. Add the details your partner missed.</p><p>Then explain: <b>Why did Maya feel proud rather than disappointed?</b> Support your answer with <b>two details</b> from different parts of the recording.</p><p><b>Challenge:</b> what does Maya’s final plan suggest about how she changed? Separate a detail you heard from an inference you made.</p>')+
+'</div>'+
+nb('Check only after comparing your notes',qset([{"n": "1", "q": "Gist and Saturday details", "a": "<b>B.</b> Rain cancelled football with her cousins. They cooked lunch at Maya’s house. They talked so much that the toast burned; her dad opened the window and helped them start again."}, {"n": "2", "q": "Sunday details and change of attitude", "a": "She visited a community garden with Nora. They carried water, planted seeds and cleaned tools. She first felt tired and bored; learning that local families needed the vegetables made the work feel important. They stayed another hour."}, {"n": "3", "q": "Future plan and an inference", "a": "She and her cousins decided to help at the garden next month. <b>Inference:</b> she now values helping others, rather than only her usual leisure activities. The family’s need, the extra hour and the return plan support this."}]))+
+'<details class="card listening-transcript"><summary><b>Transcript / teacher read-aloud fallback</b> - open after listening</summary><p>Usually my weekends are quiet. I normally play football in the park and watch a film at home. Last weekend was different.</p><p>On Saturday morning, I planned to play football with my cousins. It rained all morning, so we cancelled the match. Instead, we cooked lunch at my house. I prepared tomato soup, and my cousin toasted some bread. We talked so much that the bread burned. My dad opened the kitchen window and helped us start again. Lunch was late, but we laughed about the black toast.</p><p>On Sunday, I visited a community garden with my friend Nora. We carried water, planted seeds and cleaned the tools. At first, I was tired and the work seemed boring. Then a gardener explained that local families needed the vegetables. After that, the work felt important. We stayed for another hour.</p><p>That evening, I texted my cousins about the garden. We decided to help there together next month. It was not the weekend I planned, but I was proud of what we finished.</p></details>';}},
+{"id": "game", "name": "Make the endings heard", "min": 4, "c": "#2e6f8e", "mode": "say","html":function(){return h1('Pronunciation that helps a listener follow')+
+'<div class="grid3">'+
+card('<b>/t/</b><p>watched · cooked · talked</p>')+
+card('<b>/d/</b><p>played · cleaned · stayed</p>')+
+card('<b>/ɪd/</b><p>wanted · visited · started</p>')+
+'</div>'+
+card('<b>In pairs:</b> prepare a four-sentence mini-story about a busy afternoon. Include <b>two verbs from each sound group</b>. Tell it aloud; your partner notes the six verbs they actually hear. Compare and repeat any unclear endings.')+
+nb('Check your pronunciation',qset([{"n": "1", "q": "Which endings add an extra syllable?", "a": "Only <b>/ɪd/</b> adds an extra syllable here: want-ed, visit-ed, start-ed. Do not add a full extra syllable to <i>cooked</i>, <i>played</i> or <i>watched</i>."}]))+
+card('<b>Extension:</b> tell the same mini-story as a routine, then as a finished event. Your listener explains how the verbs changed.');}},
+{"id": "talk", "name": "Interview and report", "min": 8, "c": "#7a2231", "mode": "mix","html":function(){return h1('Interview, follow up, then report')+
+'<div class="grid2">'+
+card('<h3>Speaker: a weekend that changed</h3><p>Tell a true or invented account for <b>90 seconds</b>. Include a plan, a problem, a response, a result and a change of feeling.</p><p>Use notes, not a written script. Use at least <b>six past verbs</b> and three different linking words.</p><p><b>Support:</b> I planned to… / However… / Instead… / At first… / In the end…</p>')+
+card('<h3>Interviewer: keep it going</h3><p>Ask <b>three follow-up questions</b> based on what you actually hear. Ask for a reason, a detail and a feeling.</p><p>What did you do when…? / Why did you…? / Who helped? / How did you feel after…?</p><p>Make notes under <b>Plan | Problem | Response | Result</b>. Swap roles after three minutes.</p>')+
+'</div>'+
+nb('Report your partner’s account','Give a <b>45-second report</b> using he/she/they and past verbs. Include one detail from a follow-up answer. Your partner corrects a missing or inaccurate detail.')+
+card('<b>Stretch:</b> compare both accounts. Explain one similarity and one important difference using <b>both</b> and <b>whereas</b>.');}},
+{"id": "nb", "name": "Write two paragraphs", "min": 12, "c": "#7a2231", "mode": "write","html":function(){return h1('A weekend that did not go to plan')+
+nb('Write 100–140 words in two paragraphs','<p>Write a true or invented account for someone who was not there.</p><p><b>Paragraph 1:</b> explain the original plan, who was involved, where and when it happened, and the problem.</p><p><b>Paragraph 2:</b> explain your response, the result, your feelings and why the experience mattered.</p>')+
+'<div class="grid2">'+
+card('<h3>Success checklist</h3><ul><li>At least <b>eight past-tense verbs</b>.</li><li>Accurate <b>was/were</b>.</li><li>Sequence with first, then, after that or finally.</li><li>Explain with <b>because</b> or <b>so</b>; show contrast with <b>but</b> or <b>however</b>.</li><li>Include one thing that <b>did not happen</b>.</li><li>Give precise details rather than repeating “It was good”.</li></ul>')+
+card('<h3>Support or stretch</h3><p><b>Support:</b> plan five bullet points first. Use the speaking starters and a verb list.</p><p><b>Stretch:</b> write <b>140–180 words</b>. Contrast your usual weekend with this one, include a short line of dialogue, and end with a reflection rather than a list of events.</p><p><b>Last two minutes:</b> underline three past verbs and circle your linking words. Repair one unclear sentence.</p>')+
+'</div>'+
+'<details class="card"><summary><b>Model response</b> - read after drafting</summary><p>Last Saturday, I planned to play tennis with my friend at the sports centre. We usually practise there in the morning. However, heavy rain started just before our match. We were disappointed because we wanted to prepare for a school competition. We didn’t play outside, so we waited in the café and discussed another plan.</p><p>After that, we visited my aunt, who lives nearby. She needed help preparing lunch for some neighbours. First, we chopped vegetables. Then we cooked pasta and carried the plates to the table. At first, I missed tennis, but everyone thanked us for helping. In the end, I enjoyed the afternoon because we worked together and helped someone else.</p></details>';}},
+{"id": "exit", "name": "Read, respond, improve", "min": 5, "c": "#7a2231", "mode": "mix","html":function(){return h1('Make the account clearer for a reader')+
+card('Swap writing. Read the whole account before commenting. <b>Retell its main events</b> in your own words to check that you understood.')+
+nb('Give useful feedback','<ol><li>Point to one detail that helped you picture the event.</li><li>Ask a genuine question about something unclear or missing.</li><li>Check three past-tense verbs and one was/were form.</li><li>Check that the ending explains a feeling or a reason.</li></ol>')+
+card('<b>Writer:</b> answer your partner’s question by adding or rewriting <b>two or three connected sentences</b>. Then read the improved section aloud. Explain one change you made.')+
+card('<b>Exit reflection:</b> name one thing you can now do beyond writing a single past-tense sentence.');}},
+{"id": "spare", "name": "Extra: rewrite the account (optional)", "min": 8, "c": "#7a2231", "mode": "write","html":function(){return h1('Extension: turn notes into a real account')+
+nb('The notes','<p>Sunday / charity sports day / school field / plan: outdoor games / rain / move indoors / organise team quiz / younger pupils nervous / explain rules / teams laugh / collect donations / exhausted but pleased</p>')+
+card('Write <b>120–160 words in two paragraphs</b> for the school newsletter. Supply believable details, explain the change of plan and show how the organisers helped the younger pupils. Include a clear opening and an ending that explains why the day mattered.')+
+card('<b>Challenge:</b> write the final four sentences from a younger pupil’s point of view. Change the information and feelings, not just the pronouns.');}},
+{"id": "gap", "name": "Extra: find the differences (optional)", "min": 8, "c": "#7a2231", "mode": "mix","html":function(){return h1('Extension: two witnesses, one confusing evening')+
+'<div class="grid2">'+
+card('<h3>Witness A</h3><p>The club meeting was on Friday at six. We prepared posters in the library. A power cut interrupted the work, so we moved to a bright classroom. We finished at seven. Everyone helped tidy up.</p>')+
+card('<h3>Witness B</h3><p>The club meeting was on Thursday at six. We prepared posters in the art room. Heavy rain came through an open window, so we moved to a bright classroom. We finished at eight. Two people helped tidy up.</p>')+
+'</div>'+
+card('Choose different accounts and keep your own notes covered. Ask and answer questions to find <b>five disagreements</b>: day, first room, problem, finish time and who tidied. Do not simply read your paragraph aloud.')+
+nb('Write a joint report','Write <b>80–100 words</b>. Explain what the witnesses agree on and what is uncertain. Use <b>both accounts</b>, <b>according to</b> and <b>however</b>. Do not invent a solution to the disagreements.')+
+card('<b>Stretch:</b> decide which two follow-up questions would best establish what happened. Explain why those questions would help.');}}
 ];
 var PACK='';
 /* ===== ENGINE ===== */
