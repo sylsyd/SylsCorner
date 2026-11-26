@@ -1,0 +1,80 @@
+{
+  "note": "Original character artwork and television images. Rights remain with their respective owners.",
+  "images": {
+    "homer": {
+      "page": "https://en.wikipedia.org/wiki/Homer_Simpson",
+      "image": "https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/homer.png"
+    },
+    "marge": {
+      "page": "https://en.wikipedia.org/wiki/File:Marge_Simpson.png",
+      "image": "https://thumb.wikimedia.org/wikipedia/en/thumb/0/0b/Marge_Simpson.png/330px-Marge_Simpson.png",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/marge.png"
+    },
+    "bart": {
+      "page": "https://en.wikipedia.org/wiki/Bart_Simpson",
+      "image": "https://upload.wikimedia.org/wikipedia/en/a/aa/Bart_Simpson_200px.png",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/bart.png"
+    },
+    "lisa": {
+      "page": "https://en.wikipedia.org/wiki/Lisa_Simpson",
+      "image": "https://upload.wikimedia.org/wikipedia/en/e/ec/Lisa_Simpson.png",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/lisa.png"
+    },
+    "maggie": {
+      "page": "https://en.wikipedia.org/wiki/Maggie_Simpson",
+      "image": "https://upload.wikimedia.org/wikipedia/en/9/9d/Maggie_Simpson.png",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/maggie.png"
+    },
+    "abe": {
+      "page": "https://en.wikipedia.org/wiki/Grampa_Simpson",
+      "image": "https://upload.wikimedia.org/wikipedia/en/3/3e/Abe_Simpson.png",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/abe.png"
+    },
+    "patty-selma": {
+      "page": "https://en.wikipedia.org/wiki/Patty_and_Selma",
+      "image": "https://upload.wikimedia.org/wikipedia/en/f/f8/Patty_Bouvier.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/patty-selma.png"
+    },
+    "gomez": {
+      "page": "https://en.wikipedia.org/wiki/Gomez_Addams",
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Addams-family-john-astin-gomez-press-1.jpg/330px-Addams-family-john-astin-gomez-press-1.jpg",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/gomez.jpg"
+    },
+    "morticia": {
+      "page": "https://en.wikipedia.org/wiki/Morticia_Addams",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Morticia_Addams.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/morticia.jpg"
+    },
+    "wednesday": {
+      "page": "https://en.wikipedia.org/wiki/Wednesday_Addams",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/6/61/Wednesday_Addams_1964.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/wednesday.jpg"
+    },
+    "pugsley": {
+      "page": "https://en.wikipedia.org/wiki/Pugsley_Addams",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/6/6b/Pugsley_Addams_1964.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/pugsley.jpg"
+    },
+    "fester": {
+      "page": "https://en.wikipedia.org/wiki/Uncle_Fester",
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Jackie_Coogan_as_Uncle_Fester_%28The_Addams_Family%2C_1966%29.jpg/330px-Jackie_Coogan_as_Uncle_Fester_%28The_Addams_Family%2C_1966%29.jpg",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/fester.jpg"
+    },
+    "grandmama": {
+      "page": "https://www.distractify.com/p/what-are-the-addams-family-supposed-to-be",
+      "image": "https://media.distractify.com/brand-img/y073ARVp5/2160x1131/grandmamaaddamsfamily-1668613992753.jpg",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/grandmama.jpg"
+    },
+    "thing": {
+      "page": "https://en.wikipedia.org/wiki/Thing_(The_Addams_Family)",
+      "image": "https://thumb.wikimedia.org/wikipedia/en/thumb/d/d0/Thing_%28The_Addams_Family%29.gif/330px-Thing_%28The_Addams_Family%29.gif",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/thing.gif"
+    },
+    "selma": {
+      "page": "https://en.wikipedia.org/wiki/Patty_and_Selma",
+      "image": "https://upload.wikimedia.org/wikipedia/en/b/ba/Selma_Bouvier.png",
+      "file": "/lessons/6lva/unit-2/assets/tv-families/selma.png"
+    }
+  }
+}
